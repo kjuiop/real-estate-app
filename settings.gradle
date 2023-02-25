@@ -1,2 +1,3 @@
 rootProject.name = 'real-estate-contributor-app'
+include 'real-estate-admin-web'
 
