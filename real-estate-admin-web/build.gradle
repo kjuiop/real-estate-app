@@ -16,6 +16,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    /* security */
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     /* thymeleaf */
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
