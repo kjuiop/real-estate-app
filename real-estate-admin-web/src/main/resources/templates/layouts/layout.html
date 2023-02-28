@@ -30,8 +30,8 @@
 </head>
 <body>
 <div class="wrapper">
-    <div th:replace="layout/top.html :: header"></div>
-    <div th:replace="layout/left.html :: left"></div>
+    <div th:replace="layouts/top.html :: header"></div>
+    <div th:replace="layouts/left.html :: left"></div>
     <div class="content-wrapper">
         <div layout:fragment="content" th:remove="tag"></div>
     </div>
