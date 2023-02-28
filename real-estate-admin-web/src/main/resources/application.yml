@@ -10,8 +10,13 @@ spring:
     active: local
   main:
     allow-bean-definition-overriding: true
-
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true
