@@ -44,6 +44,9 @@ subprojects {
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+        /* security */
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+
         /** lombok **/
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'

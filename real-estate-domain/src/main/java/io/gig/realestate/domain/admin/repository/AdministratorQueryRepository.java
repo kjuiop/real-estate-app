@@ -1,5 +1,6 @@
-package io.gig.realestate.domain.admin;
+package io.gig.realestate.domain.admin.repository;
 
+import io.gig.realestate.domain.admin.Administrator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

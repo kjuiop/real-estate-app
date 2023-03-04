@@ -5,6 +5,7 @@ import io.gig.realestate.domain.exception.AlreadyEntity;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class InitUtils {
 
     private final RoleService roleService;
     private final AdministratorService administratorService;
+    private final PasswordEncoder passwordEncoder;
 
     public void initData() {
         validateAlreadyEntity();
@@ -31,6 +33,12 @@ public class InitUtils {
 
         Role superAdminRole = roleService.findByRoleName("ROLE_SUPER_ADMIN");
         Role adminRole = roleService.findByRoleName("ROLE_ADMIN");
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(superAdminRole);
+        roles.add(adminRole);
+
+        administratorService.initAdmin("admin@citylight.io", passwordEncoder.encode("citylight123$"), "초기관리자", roles);
 
     }
 
