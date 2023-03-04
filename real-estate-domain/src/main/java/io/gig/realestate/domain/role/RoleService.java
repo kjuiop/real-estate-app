@@ -9,4 +9,6 @@ public interface RoleService {
     long getCountRoleData();
 
     void initRole(String name, String description, int sortOrder);
+
+    Role findByRoleName(String roleName);
 }

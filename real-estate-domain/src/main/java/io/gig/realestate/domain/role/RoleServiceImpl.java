@@ -17,8 +17,15 @@ public class RoleServiceImpl implements RoleService {
     private final RoleReader roleReader;
 
     @Override
+    @Transactional(readOnly = true)
     public long getCountRoleData() {
         return roleReader.getCountRoleData();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Role findByRoleName(String roleName) {
+        return roleReader.findByRoleName(roleName);
     }
 
     @Override

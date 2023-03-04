@@ -8,5 +8,7 @@ public interface RoleReader {
 
     long getCountRoleData();
 
+    Role findByRoleName(String roleName);
+
     boolean existsByName(String roleName);
 }

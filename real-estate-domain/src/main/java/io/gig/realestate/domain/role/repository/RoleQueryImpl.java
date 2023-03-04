@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.role.repository;
 
+import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,11 @@ public class RoleQueryImpl implements RoleReader {
     @Override
     public long getCountRoleData() {
         return queryRepository.count();
+    }
+
+    @Override
+    public Role findByRoleName(String roleName) {
+        return queryRepository.findByName(roleName);
     }
 
     @Override
