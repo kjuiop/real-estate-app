@@ -18,9 +18,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final AdministratorReader administratorReader;
     private final AdministratorStore administratorStore;
 
+
+
     @Override
-    public Administrator getAdminFindByUsername(String username) {
-        return administratorReader.getAdminFindByUsername(username);
+    public Administrator getAdminByUsernameAndRoles(String username) {
+        return administratorReader.getAdminByUsernameAndRoles(username);
     }
 
     @Override
@@ -38,5 +40,10 @@ public class AdministratorServiceImpl implements AdministratorService {
             initAdministrator.addRole(newRole);
         }
         administratorStore.store(initAdministrator);
+    }
+
+    @Override
+    public Administrator getAdminFindByUsername(String username) {
+        return administratorReader.getAdminFindByUsername(username);
     }
 }

@@ -22,16 +22,22 @@ public class AdministratorQueryImpl implements AdministratorReader {
     private final AdministratorQueryRepository queryRepository;
 
     @Override
+    public Administrator getAdminByUsernameAndRoles(String username) {
+        return null;
+    }
+
+    @Override
     public Administrator getAdminFindByUsername(String username) {
-        Optional<Administrator> findAdmin = queryRepository.findByUsername(username);
-        if (findAdmin.isEmpty()) {
-            throw new UsernameNotFoundException("가입되어 있지 않은 이메일 주소입니다.");
-        }
-        return findAdmin.get();
+//        Optional<Administrator> findAdmin = queryRepository.findByUsername(username);
+//        if (findAdmin.isEmpty()) {
+//            throw new UsernameNotFoundException("가입되어 있지 않은 이메일 주소입니다.");
+//        }
+//        return findAdmin.get();
+        return null;
     }
 
     @Override
     public long getCountAdministratorData() {
-        return queryRepository.count();
+        return queryRepository.getCountAdministrators();
     }
 }

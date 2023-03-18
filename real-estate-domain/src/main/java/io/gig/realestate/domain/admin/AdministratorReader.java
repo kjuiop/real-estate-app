@@ -9,4 +9,6 @@ public interface AdministratorReader {
     long getCountAdministratorData();
 
     Administrator getAdminFindByUsername(String username);
+
+    Administrator getAdminByUsernameAndRoles(String username);
 }

@@ -15,4 +15,6 @@ public interface AdministratorService {
     void initAdmin(String username, String password, String name, Set<Role> roles);
 
     Administrator getAdminFindByUsername(String username);
+
+    Administrator getAdminByUsernameAndRoles(String username);
 }
