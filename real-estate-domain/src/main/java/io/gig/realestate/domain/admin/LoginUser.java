@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,13 +20,13 @@ public class LoginUser extends User implements Serializable {
 
     private Long id;
 
-    private Administrator loginUser;
+    private AdministratorDetailDto loginUser;
     @Setter
     private Map<String, Object> attributes;
     @Setter
     private boolean needsModified = false;
 
-    public LoginUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, Administrator loginUser) {
+    public LoginUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, AdministratorDetailDto loginUser) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.loginUser = loginUser;
     }

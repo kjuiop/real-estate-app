@@ -1,10 +1,16 @@
 package io.gig.realestate.domain.admin.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
 
 /**
@@ -18,6 +24,17 @@ public class AdministratorQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    public Optional<AdministratorDetailDto> getAdminByUsername(String username) {
+        Optional<AdministratorDetailDto> fetch = Optional.ofNullable(this.queryFactory
+                .select(Projections.constructor(AdministratorDetailDto.class, administrator))
+                .from(administrator)
+                        .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(administrator.username.eq(username))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
 
     public Long getCountAdministrators() {
         return this.queryFactory

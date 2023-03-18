@@ -61,7 +61,7 @@ public class Administrator extends BaseTimeEntity {
     private Administrator updatedBy;
 
     @Builder.Default
-    @OneToMany(mappedBy = "administrator", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "administrator", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<AdministratorRole> administratorRoles = new HashSet<>();
 
     public void addRole(AdministratorRole role) {

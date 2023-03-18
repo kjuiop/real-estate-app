@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,6 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     private final AdministratorReader administratorReader;
     private final AdministratorStore administratorStore;
-
-
-
-    @Override
-    public Administrator getAdminByUsernameAndRoles(String username) {
-        return administratorReader.getAdminByUsernameAndRoles(username);
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -43,7 +37,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public Administrator getAdminFindByUsername(String username) {
+    @Transactional(readOnly = true)
+    public AdministratorDetailDto getAdminFindByUsername(String username) {
         return administratorReader.getAdminFindByUsername(username);
     }
 }

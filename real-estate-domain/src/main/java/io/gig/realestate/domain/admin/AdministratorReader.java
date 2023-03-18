@@ -1,5 +1,7 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
+
 /**
  * @author : JAKE
  * @date : 2023/03/04
@@ -8,7 +10,5 @@ public interface AdministratorReader {
 
     long getCountAdministratorData();
 
-    Administrator getAdminFindByUsername(String username);
-
-    Administrator getAdminByUsernameAndRoles(String username);
+    AdministratorDetailDto getAdminFindByUsername(String username);
 }
