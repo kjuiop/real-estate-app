@@ -61,7 +61,7 @@ public class Administrator extends BaseTimeEntity {
     private Administrator updatedBy;
 
     @Builder.Default
-    @OneToMany(mappedBy = "administrator", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "administrator", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<AdministratorRole> administratorRoles = new HashSet<>();
 
     public void addRole(AdministratorRole role) {
@@ -81,5 +81,17 @@ public class Administrator extends BaseTimeEntity {
                 .emailValidatedAt(LocalDateTime.now())
                 .status(AdminStatus.NORMAL)
                 .build();
+    }
+
+    public boolean isNormal() {
+        return this.status == AdminStatus.NORMAL;
+    }
+
+    public boolean isValidEmailAuth() {
+        if (this.emailValidatedAt == null) {
+            return false;
+        }
+
+        return true;
     }
 }

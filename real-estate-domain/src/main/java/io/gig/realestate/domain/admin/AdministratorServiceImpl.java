@@ -19,6 +19,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final AdministratorStore administratorStore;
 
     @Override
+    public Administrator getAdminFindByUsername(String username) {
+        return administratorReader.getAdminFindByUsername(username);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public long getCountAdministratorData() {
         return administratorReader.getCountAdministratorData();

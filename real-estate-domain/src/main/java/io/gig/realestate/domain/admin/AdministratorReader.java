@@ -5,5 +5,8 @@ package io.gig.realestate.domain.admin;
  * @date : 2023/03/04
  */
 public interface AdministratorReader {
+
     long getCountAdministratorData();
+
+    Administrator getAdminFindByUsername(String username);
 }
