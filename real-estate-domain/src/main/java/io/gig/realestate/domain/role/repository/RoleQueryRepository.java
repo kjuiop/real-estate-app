@@ -1,0 +1,17 @@
+package io.gig.realestate.domain.role.repository;
+
+import io.gig.realestate.domain.role.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author : JAKE
+ * @date : 2023/03/01
+ */
+@Repository
+public interface RoleQueryRepository extends JpaRepository<Role, Long> {
+
+    boolean existsByName(String name);
+
+    Role findByName(String name);
+}
