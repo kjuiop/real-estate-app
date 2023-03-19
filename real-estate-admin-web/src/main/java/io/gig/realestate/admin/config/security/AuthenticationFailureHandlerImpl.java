@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * @author : JAKE
@@ -22,7 +24,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
 
-    private static final String DEFAULT_URL = "/login?error=500";
     private final AdministratorService administratorService;
 
     @Override
@@ -38,8 +39,9 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
         }
 
 
-        request.setAttribute("authError", errorMessage);
-        request.getRequestDispatcher(DEFAULT_URL).forward(request, response);
+        HttpSession session = request.getSession();
+        session.setAttribute("exceptionMessage", errorMessage);
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 
 }
