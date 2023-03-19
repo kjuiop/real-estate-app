@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.role.Role;
 
 import java.util.Set;
@@ -14,5 +15,9 @@ public interface AdministratorService {
 
     void initAdmin(String username, String password, String name, Set<Role> roles);
 
-    Administrator getAdminFindByUsername(String username);
+    AdministratorDetailDto getAdminFindByUsername(String username);
+
+    void increasePasswordFailureCount(String username);
+
+    void loginSuccess(String username);
 }

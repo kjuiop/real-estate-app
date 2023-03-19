@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,6 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final AdministratorStore administratorStore;
 
     @Override
-    public Administrator getAdminFindByUsername(String username) {
-        return administratorReader.getAdminFindByUsername(username);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public long getCountAdministratorData() {
         return administratorReader.getCountAdministratorData();
@@ -38,5 +34,25 @@ public class AdministratorServiceImpl implements AdministratorService {
             initAdministrator.addRole(newRole);
         }
         administratorStore.store(initAdministrator);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AdministratorDetailDto getAdminFindByUsername(String username) {
+        return administratorReader.getAdminFindByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public void loginSuccess(String username) {
+        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
+        findAdministrator.loginSuccess();
+    }
+
+    @Override
+    @Transactional
+    public void increasePasswordFailureCount(String username) {
+        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
+        findAdministrator.increasePasswordFailureCount();
     }
 }

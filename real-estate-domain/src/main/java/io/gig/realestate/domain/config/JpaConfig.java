@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class JpaConfig {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     @Bean
     public JPAQueryFactory queryFactory() {
