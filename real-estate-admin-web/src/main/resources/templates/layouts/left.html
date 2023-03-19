@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div th:fragment="left">
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" th:with="URL = ${#httpServletRequest.requestURI}">
+        <!-- Brand Logo -->
+        <a href="/" class="brand-link logo-switch">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Small" class="brand-image-xl logo-xs">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Large" class="brand-image-xs logo-xl" style="left: 20px">
+            <span style="position : absolute; left: 62px;">도시의 빛</span>
+        </a>
+
+
+        <!-- Sidebar -->
+        <div class="sidebar" th:with="UrlArray = ${#strings.arraySplit(URL, '/')}">
+
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
+                    <th:block>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    홈
+                                </p>
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block>
+                        <li class="nav-item">
+                            <a href="/campaign" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    회원 관리
+                                </p>
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-gear"></i>
+                                <p>
+                                    설정
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/settings/admin" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>관리자 관리</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/settings/category" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>카테고리 관리</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+</div>
+</body>
+</html>

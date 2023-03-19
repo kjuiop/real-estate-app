@@ -4,3 +4,7 @@
 #idea
 .idea
 
+# build
+build
+node_modules
+yarn.lock
