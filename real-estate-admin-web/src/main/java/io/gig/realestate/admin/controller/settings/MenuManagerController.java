@@ -1,11 +1,13 @@
 package io.gig.realestate.admin.controller.settings;
 
+import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.menu.MenuService;
 import io.gig.realestate.domain.menu.dto.MenuDto;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,9 +42,9 @@ public class MenuManagerController {
     }
 
     @GetMapping("menu/{id}")
-    public ResponseEntity<MenuDto> getAjaxMenu(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ApiResponse> getAjaxMenu(@PathVariable(name = "id") Long id) {
         MenuDto dto = menuService.getMenuDtoIncludeParent(id);
-        return ResponseEntity.ok(dto);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
 }

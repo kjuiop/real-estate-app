@@ -92,7 +92,12 @@ let menuDataSet = function(e) {
     let menuId = $(this).attr("menuId");
 
     $.get("/settings/menu-manager/menu/" + menuId, function (resp) {
-        let body = resp;
+
+        if (resp.status !== 'OK') {
+            return;
+        }
+
+        let body = resp.data;
         console.log("body", body);
 
         $('#id').val(body.id);
