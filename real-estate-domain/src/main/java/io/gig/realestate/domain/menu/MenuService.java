@@ -20,4 +20,6 @@ public interface MenuService {
     long getCountMenuData();
 
     List<MenuDto> getMenuHierarchyByRoles(MenuType adminConsole, Set<Role> roles);
+
+    List<MenuDto> getAllMenuHierarchy(MenuType adminConsole);
 }

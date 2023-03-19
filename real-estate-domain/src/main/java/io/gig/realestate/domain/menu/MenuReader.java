@@ -15,4 +15,6 @@ public interface MenuReader {
     long getCountMenuData();
 
     List<Menu> getMenuHierarchyByRoles(MenuType menuType, Set<Role> roles);
+
+    List<Menu> getAllMenuHierarchy(MenuType menuType);
 }

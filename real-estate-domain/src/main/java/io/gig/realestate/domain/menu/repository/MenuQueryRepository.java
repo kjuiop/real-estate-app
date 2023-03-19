@@ -41,6 +41,17 @@ public class MenuQueryRepository {
                 .fetch();
     }
 
+    public List<Menu> getAllMenuHierarchy(MenuType menuType) {
+        return queryFactory.selectDistinct(menu)
+                .from(menu)
+                .join(menu.roles, role).fetchJoin()
+                .where(defaultCondition())
+                .where(menu.parent.isNull())
+                .where(menu.menuType.eq(menuType))
+                .orderBy(menu.sortOrder.asc(), menu.id.asc())
+                .fetch();
+    }
+
     public Long getCountMenuData() {
         return this.queryFactory
                 .select(menu.count())
@@ -51,4 +62,5 @@ public class MenuQueryRepository {
     private BooleanExpression defaultCondition() {
         return menu.deleteYn.eq(YnType.N);
     }
+
 }

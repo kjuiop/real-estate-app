@@ -23,6 +23,11 @@ public class MenuQueryImpl implements MenuReader {
     private final MenuQueryRepository queryRepository;
 
     @Override
+    public List<Menu> getAllMenuHierarchy(MenuType menuType) {
+        return queryRepository.getAllMenuHierarchy(menuType);
+    }
+
+    @Override
     public List<Menu> getMenuHierarchyByRoles(MenuType menuType, Set<Role> roles) {
         return queryRepository.getMenuHierarchyByRoles(menuType, roles);
     }

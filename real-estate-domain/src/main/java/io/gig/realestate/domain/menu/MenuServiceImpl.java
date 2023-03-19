@@ -34,6 +34,17 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<MenuDto> getAllMenuHierarchy(MenuType menuType) {
+        List<Menu> topMenus = menuReader.getAllMenuHierarchy(menuType);
+        List<MenuDto> hierarchy = new ArrayList<>();
+        for (Menu m : topMenus) {
+            hierarchy.add(new MenuDto(m, true));
+        }
+        return hierarchy;
+    }
+
+    @Override
     @Transactional
     public Menu initMenu(String name, String url, String iconClass, int sortOrder, Set<Role> roles) {
         Menu newMenu = Menu.initMenu(name, url, iconClass, sortOrder, roles);
