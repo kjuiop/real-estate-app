@@ -32,6 +32,16 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public Administrator getAdministratorEntityByUsername(String username) {
+        Optional<Administrator> findAdministrator = queryRepository.getAdministratorEntityByUsername(username);
+        if (findAdministrator.isEmpty()) {
+            throw new UsernameNotFoundException(username + " 계정은 가입되어 있지 않습니다.");
+        }
+
+        return findAdministrator.get();
+    }
+
+    @Override
     public long getCountAdministratorData() {
         return queryRepository.getCountAdministrators();
     }

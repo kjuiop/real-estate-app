@@ -42,4 +42,12 @@ public class AdministratorQueryRepository {
                 .from(administrator)
                 .fetchOne();
     }
+
+    public Optional<Administrator> getAdministratorEntityByUsername(String username) {
+        return Optional.ofNullable(
+                this.queryFactory
+                        .selectFrom(administrator)
+                        .where(administrator.username.eq(username))
+                        .fetchOne());
+    }
 }

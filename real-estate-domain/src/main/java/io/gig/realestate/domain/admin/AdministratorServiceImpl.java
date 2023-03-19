@@ -41,4 +41,10 @@ public class AdministratorServiceImpl implements AdministratorService {
     public AdministratorDetailDto getAdminFindByUsername(String username) {
         return administratorReader.getAdminFindByUsername(username);
     }
+
+    @Override
+    public void increasePasswordFailureCount(String username) {
+        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
+        findAdministrator.increasePasswordFailureCount();
+    }
 }

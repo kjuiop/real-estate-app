@@ -87,6 +87,14 @@ public class Administrator extends BaseTimeEntity {
         return this.status == AdminStatus.NORMAL;
     }
 
+    public void increasePasswordFailureCount() {
+        this.passwordFailureCount += 1;
+
+        if (this.passwordFailureCount >= 5) {
+            this.status = AdminStatus.INACTIVE;
+        }
+    }
+
     public boolean isValidEmailAuth() {
         if (this.emailValidatedAt == null) {
             return false;

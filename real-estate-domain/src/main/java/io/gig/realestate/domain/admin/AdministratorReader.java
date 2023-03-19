@@ -11,4 +11,6 @@ public interface AdministratorReader {
     long getCountAdministratorData();
 
     AdministratorDetailDto getAdminFindByUsername(String username);
+
+    Administrator getAdministratorEntityByUsername(String username);
 }

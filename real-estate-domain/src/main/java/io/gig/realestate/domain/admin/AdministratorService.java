@@ -17,4 +17,5 @@ public interface AdministratorService {
 
     AdministratorDetailDto getAdminFindByUsername(String username);
 
+    void increasePasswordFailureCount(String username);
 }
