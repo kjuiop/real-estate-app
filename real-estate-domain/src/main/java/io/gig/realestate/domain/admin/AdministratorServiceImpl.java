@@ -43,6 +43,14 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional
+    public void loginSuccess(String username) {
+        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
+        findAdministrator.loginSuccess();
+    }
+
+    @Override
+    @Transactional
     public void increasePasswordFailureCount(String username) {
         Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
         findAdministrator.increasePasswordFailureCount();

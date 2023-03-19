@@ -87,6 +87,11 @@ public class Administrator extends BaseTimeEntity {
         return this.status == AdminStatus.NORMAL;
     }
 
+    public void loginSuccess() {
+        this.lastLoginAt = LocalDateTime.now();
+        this.passwordFailureCount = 0;
+    }
+
     public void increasePasswordFailureCount() {
         this.passwordFailureCount += 1;
 
