@@ -108,4 +108,14 @@ public class Menu extends BaseTimeEntity {
         parent.getChildren().add(this);
         parent.antMatcherType = AntMatcherType.Single;
     }
+
+    public boolean isUsed() {
+        return this.activeYn == YnType.Y &&
+                this.deleteYn == YnType.N &&
+                this.displayYn == YnType.Y;
+    }
+
+    public boolean existParent() {
+        return this.parent != null;
+    }
 }

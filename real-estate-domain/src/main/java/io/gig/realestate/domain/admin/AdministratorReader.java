@@ -13,4 +13,6 @@ public interface AdministratorReader {
     AdministratorDetailDto getAdminFindByUsername(String username);
 
     Administrator getAdministratorEntityByUsername(String username);
+
+    Administrator getAdminEntityByUsername(String username);
 }

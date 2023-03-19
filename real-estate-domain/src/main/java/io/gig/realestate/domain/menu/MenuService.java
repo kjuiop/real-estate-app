@@ -1,7 +1,10 @@
 package io.gig.realestate.domain.menu;
 
+import io.gig.realestate.domain.menu.dto.MenuDto;
+import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,4 +18,6 @@ public interface MenuService {
     void initChildMenu(String name, String url, String iconClass, int sortOrder, Set<Role> roles, Menu parentMenu);
 
     long getCountMenuData();
+
+    List<MenuDto> getMenuHierarchyByRoles(MenuType adminConsole, Set<Role> roles);
 }

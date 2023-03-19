@@ -50,4 +50,15 @@ public class AdministratorQueryRepository {
                         .where(administrator.username.eq(username))
                         .fetchOne());
     }
+
+    public Optional<Administrator> getAdminEntityByUsername(String username) {
+        Optional<Administrator> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(administrator.username.eq(username))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
 }
