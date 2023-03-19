@@ -90,4 +90,22 @@ public class Menu extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    public static Menu initMenu(String name, String url, String iconClass, int sortOrder, Set<Role> roles) {
+        return Menu.builder()
+                .menuType(MenuType.AdminConsole)
+                .name(name)
+                .url(url)
+                .iconClass(iconClass)
+                .sortOrder(sortOrder)
+                .roles(roles)
+                .build();
+    }
+
+    public void addParent(Menu parent) {
+        this.parent = parent;
+        this.menuType = parent.getMenuType();
+        this.antMatcherType = AntMatcherType.All;
+        parent.getChildren().add(this);
+        parent.antMatcherType = AntMatcherType.Single;
+    }
 }
