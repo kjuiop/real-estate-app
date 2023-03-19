@@ -26,6 +26,15 @@ public class MenuQueryImpl implements MenuReader {
     private final MenuQueryRepository queryRepository;
 
     @Override
+    public Menu findById(Long id) {
+        Optional<Menu> optMenu = queryRepository.findById(id);
+        if (optMenu.isEmpty())
+            throw new NotFoundException(">>> Menu not found");
+
+        return optMenu.get();
+    }
+
+    @Override
     public MenuDto getMenuDtoIncludeParent(Long id) {
         Optional<Menu> optMenu = queryRepository.findById(id);
         if (optMenu.isEmpty())

@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.menu;
 
+import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.dto.MenuDto;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
@@ -24,4 +25,6 @@ public interface MenuService {
     List<MenuDto> getAllMenuHierarchy(MenuType adminConsole);
 
     MenuDto getMenuDtoIncludeParent(Long id);
+
+    Long create(MenuCreateForm createForm);
 }

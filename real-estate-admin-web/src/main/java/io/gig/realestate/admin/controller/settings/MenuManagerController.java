@@ -2,6 +2,7 @@ package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.menu.MenuService;
+import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.dto.MenuDto;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.RoleService;
@@ -11,10 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -45,6 +47,20 @@ public class MenuManagerController {
     public ResponseEntity<ApiResponse> getAjaxMenu(@PathVariable(name = "id") Long id) {
         MenuDto dto = menuService.getMenuDtoIncludeParent(id);
         return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity save(@Valid @RequestBody MenuCreateForm createForm,
+                               Errors errors,
+                               RedirectAttributes redirectAttributes) {
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
+        }
+
+        Long menuId = menuService.create(createForm);
+        return ResponseEntity.ok().body(menuId);
     }
 
 }

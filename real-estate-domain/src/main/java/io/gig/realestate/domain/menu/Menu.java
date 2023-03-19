@@ -3,6 +3,7 @@ package io.gig.realestate.domain.menu;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.types.AntMatcherType;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
@@ -89,6 +90,18 @@ public class Menu extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    public static Menu create(MenuCreateForm form) {
+        return Menu.builder()
+                .name(form.getName())
+                .url(form.getUrl())
+                .iconClass(form.getIconClass())
+                .menuType(form.getMenuType())
+                .activeYn(form.getActiveYn())
+                .displayYn(form.getDisplayYn())
+                .sortOrder(form.getSortOrder())
+                .build();
+    }
 
     public static Menu initMenu(String name, String url, String iconClass, int sortOrder, Set<Role> roles) {
         return Menu.builder()

@@ -16,4 +16,6 @@ public interface RoleReader {
     boolean existsByName(String roleName);
 
     List<Role> findAllByOrderBySortOrderAsc();
+
+    List<Role> findByRoleNamesIn(List<String> roleNames);
 }

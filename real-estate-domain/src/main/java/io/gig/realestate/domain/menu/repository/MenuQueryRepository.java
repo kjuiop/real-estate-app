@@ -60,15 +60,16 @@ public class MenuQueryRepository {
                 .fetchOne();
     }
 
-    private BooleanExpression defaultCondition() {
-        return menu.deleteYn.eq(YnType.N);
-    }
-
     public Optional<Menu> findById(Long id) {
         return Optional.ofNullable(
                 this.queryFactory
                         .selectFrom(menu)
                         .where(menu.id.eq(id))
+                        .where(defaultCondition())
                         .fetchOne());
+    }
+
+    private BooleanExpression defaultCondition() {
+        return menu.deleteYn.eq(YnType.N);
     }
 }

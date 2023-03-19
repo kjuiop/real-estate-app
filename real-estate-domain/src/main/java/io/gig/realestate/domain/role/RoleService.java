@@ -17,4 +17,6 @@ public interface RoleService {
     Role findByRoleName(String roleName);
 
     List<RoleDto> getAllRoles();
+
+    List<Role> findByRoleNamesIn(List<String> roleNames);
 }

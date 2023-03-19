@@ -20,6 +20,11 @@ public class RoleQueryImpl implements RoleReader {
     private final RoleQueryRepository queryRepository;
 
     @Override
+    public List<Role> findByRoleNamesIn(List<String> roleNames) {
+        return queryRepository.findByNameIn(roleNames);
+    }
+
+    @Override
     public List<Role> findAllByOrderBySortOrderAsc() {
         return queryRepository.findAllByOrderBySortOrderAsc();
     }

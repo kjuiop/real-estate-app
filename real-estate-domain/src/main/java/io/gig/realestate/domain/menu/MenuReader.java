@@ -5,6 +5,7 @@ import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -20,4 +21,6 @@ public interface MenuReader {
     List<Menu> getAllMenuHierarchy(MenuType menuType);
 
     MenuDto getMenuDtoIncludeParent(Long id);
+
+    Menu findById(Long id);
 }

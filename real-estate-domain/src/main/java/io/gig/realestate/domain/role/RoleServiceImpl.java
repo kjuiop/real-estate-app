@@ -27,6 +27,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> findByRoleNamesIn(List<String> roleNames) {
+        return roleReader.findByRoleNamesIn(roleNames);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<RoleDto> getAllRoles() {
         return roleReader.findAllByOrderBySortOrderAsc().stream().map(RoleDto::new).collect(Collectors.toList());
