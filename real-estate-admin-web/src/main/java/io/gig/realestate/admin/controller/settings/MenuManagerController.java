@@ -6,9 +6,11 @@ import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -35,6 +37,12 @@ public class MenuManagerController {
         model.addAttribute("roles", roles);
 
         return "settings/menu/menu-manager";
+    }
+
+    @GetMapping("menu/{id}")
+    public ResponseEntity<MenuDto> getAjaxMenu(@PathVariable(name = "id") Long id) {
+        MenuDto dto = menuService.getMenuDtoIncludeParent(id);
+        return ResponseEntity.ok(dto);
     }
 
 }

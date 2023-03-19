@@ -22,4 +22,6 @@ public interface MenuService {
     List<MenuDto> getMenuHierarchyByRoles(MenuType adminConsole, Set<Role> roles);
 
     List<MenuDto> getAllMenuHierarchy(MenuType adminConsole);
+
+    MenuDto getMenuDtoIncludeParent(Long id);
 }

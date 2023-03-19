@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.menu;
 
+import io.gig.realestate.domain.menu.dto.MenuDto;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
 
@@ -17,4 +18,6 @@ public interface MenuReader {
     List<Menu> getMenuHierarchyByRoles(MenuType menuType, Set<Role> roles);
 
     List<Menu> getAllMenuHierarchy(MenuType menuType);
+
+    MenuDto getMenuDtoIncludeParent(Long id);
 }

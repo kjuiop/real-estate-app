@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static io.gig.realestate.domain.menu.QMenu.menu;
@@ -63,4 +64,11 @@ public class MenuQueryRepository {
         return menu.deleteYn.eq(YnType.N);
     }
 
+    public Optional<Menu> findById(Long id) {
+        return Optional.ofNullable(
+                this.queryFactory
+                        .selectFrom(menu)
+                        .where(menu.id.eq(id))
+                        .fetchOne());
+    }
 }

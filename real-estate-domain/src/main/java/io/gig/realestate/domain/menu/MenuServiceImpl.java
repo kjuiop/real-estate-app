@@ -24,6 +24,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional(readOnly = true)
+    public MenuDto getMenuDtoIncludeParent(Long id) {
+        return menuReader.getMenuDtoIncludeParent(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<MenuDto> getMenuHierarchyByRoles(MenuType menuType, Set<Role> roles) {
         List<Menu> topMenus = menuReader.getMenuHierarchyByRoles(menuType, roles);
         List<MenuDto> hierarchy = new ArrayList<>();
