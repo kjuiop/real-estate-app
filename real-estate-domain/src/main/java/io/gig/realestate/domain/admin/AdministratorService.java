@@ -20,4 +20,6 @@ public interface AdministratorService {
     void increasePasswordFailureCount(String username);
 
     void loginSuccess(String username);
+
+    Administrator getAdminEntityByUsername(String username);
 }

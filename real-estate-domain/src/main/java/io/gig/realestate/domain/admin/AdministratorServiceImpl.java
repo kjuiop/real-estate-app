@@ -43,6 +43,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Administrator getAdminEntityByUsername(String username) {
+        return administratorReader.getAdminEntityByUsername(username);
+    }
+
+    @Override
     @Transactional
     public void loginSuccess(String username) {
         Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);

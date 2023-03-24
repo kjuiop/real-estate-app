@@ -1,9 +1,13 @@
 package io.gig.realestate.domain.role;
 
 import io.gig.realestate.domain.exception.AlreadyEntity;
+import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -20,6 +24,17 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(readOnly = true)
     public long getCountRoleData() {
         return roleReader.getCountRoleData();
+    }
+
+    @Override
+    public List<Role> findByRoleNamesIn(List<String> roleNames) {
+        return roleReader.findByRoleNamesIn(roleNames);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoleDto> getAllRoles() {
+        return roleReader.findAllByOrderBySortOrderAsc().stream().map(RoleDto::new).collect(Collectors.toList());
     }
 
     @Override
