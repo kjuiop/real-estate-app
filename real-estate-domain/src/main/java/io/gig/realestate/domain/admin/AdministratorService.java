@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.role.Role;
 
@@ -22,4 +23,6 @@ public interface AdministratorService {
     void loginSuccess(String username);
 
     Administrator getAdminEntityByUsername(String username);
+
+    Object getAdminPageListBySearch(AdminSearchDto searchDto);
 }

@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.role.Role;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final AdministratorReader administratorReader;
     private final AdministratorStore administratorStore;
 
+
+
     @Override
     @Transactional(readOnly = true)
-    public long getCountAdministratorData() {
-        return administratorReader.getCountAdministratorData();
+    public Object getAdminPageListBySearch(AdminSearchDto searchDto) {
+        return administratorReader.getAdminPageListBySearch(searchDto);
     }
 
     @Override
@@ -60,5 +63,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void increasePasswordFailureCount(String username) {
         Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
         findAdministrator.increasePasswordFailureCount();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long getCountAdministratorData() {
+        return administratorReader.getCountAdministratorData();
     }
 }

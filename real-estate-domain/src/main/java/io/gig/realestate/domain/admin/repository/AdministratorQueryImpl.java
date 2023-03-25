@@ -2,8 +2,11 @@ package io.gig.realestate.domain.admin.repository;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorReader;
+import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
+import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,10 @@ public class AdministratorQueryImpl implements AdministratorReader {
 
     private final AdministratorQueryRepository queryRepository;
 
+    @Override
+    public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {
+        return queryRepository.getAdminPageListBySearch(searchDto);
+    }
 
     @Override
     public AdministratorDetailDto getAdminFindByUsername(String username) {
