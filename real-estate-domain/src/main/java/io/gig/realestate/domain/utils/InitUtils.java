@@ -43,7 +43,7 @@ public class InitUtils {
 
         administratorService.initAdmin("admin@citylight.io", passwordEncoder.encode("citylight123$"), "초기관리자", roles);
         menuService.initMenu("Home", "/", "fa fa-home", 0, roles);
-        menuService.initMenu("관리자관리", "/admin-manager", "fa fa-users", 0, roles);
+        menuService.initMenu("관리자관리", "/administrators", "fa fa-users", 0, roles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, roles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, roles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, roles, settingMenu);
