@@ -93,4 +93,13 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
+    public boolean existByUsername(String username) {
+        Integer fetchOne = queryFactory
+                .selectOne()
+                .from(administrator)
+                .where(administrator.username.eq(username))
+                .fetchFirst();
+
+        return fetchOne != null;
+    }
 }

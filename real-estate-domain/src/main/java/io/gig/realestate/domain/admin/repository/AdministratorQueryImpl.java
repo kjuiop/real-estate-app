@@ -58,6 +58,11 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public boolean existUsername(String username) {
+        return queryRepository.existByUsername(username);
+    }
+
+    @Override
     public long getCountAdministratorData() {
         return queryRepository.getCountAdministrators();
     }

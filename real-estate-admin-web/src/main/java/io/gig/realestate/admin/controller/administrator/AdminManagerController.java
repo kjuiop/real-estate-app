@@ -55,4 +55,13 @@ public class AdminManagerController {
         Long adminId = administratorService.create(createForm);
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
     }
+
+    @GetMapping("check-duplicate/username/{value}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkDuplicateData(
+            @PathVariable(value = "value") String value) {
+
+        boolean isDuplicate = administratorService.existsUsername(value);
+        return new ResponseEntity<>(ApiResponse.OK(isDuplicate), HttpStatus.OK);
+    }
 }

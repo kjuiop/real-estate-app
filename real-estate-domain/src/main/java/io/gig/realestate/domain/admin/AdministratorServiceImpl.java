@@ -87,4 +87,10 @@ public class AdministratorServiceImpl implements AdministratorService {
     public long getCountAdministratorData() {
         return administratorReader.getCountAdministratorData();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsUsername(String value) {
+        return administratorReader.existUsername(value);
+    }
 }

@@ -20,4 +20,6 @@ public interface AdministratorReader {
     Administrator getAdminEntityByUsername(String username);
 
     Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto);
+
+    boolean existUsername(String value);
 }

@@ -30,4 +30,6 @@ public interface AdministratorService {
     Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto);
 
     Long create(AdministratorCreateForm createForm);
+
+    boolean existsUsername(String value);
 }
