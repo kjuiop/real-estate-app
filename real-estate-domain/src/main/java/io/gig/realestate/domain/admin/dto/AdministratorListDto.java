@@ -8,7 +8,7 @@ import io.gig.realestate.domain.admin.Administrator;
  */
 public class AdministratorListDto extends AdministratorDto {
 
-    private String createdByUsername;
+    public String createdByUsername;
 
     public AdministratorListDto(Administrator a) {
         super(a);

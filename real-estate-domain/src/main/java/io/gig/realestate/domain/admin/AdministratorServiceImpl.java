@@ -2,8 +2,10 @@ package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
+import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.role.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional(readOnly = true)
-    public Object getAdminPageListBySearch(AdminSearchDto searchDto) {
+    public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {
         return administratorReader.getAdminPageListBySearch(searchDto);
     }
 

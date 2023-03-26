@@ -52,6 +52,9 @@ subprojects {
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+        /* jpa */
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
         /* security */
         implementation 'org.springframework.boot:spring-boot-starter-security'
 
