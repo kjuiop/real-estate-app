@@ -83,6 +83,40 @@ function singleDateRangePickerWithTimeInit(options) {
     });
 }
 
+let selectedChkAll = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    let childenClass = $this.data('children');
+    let checked = $this.prop('checked');
+    if (checked) {
+        $(':checkbox[name=' + childenClass + ']').iCheck('check');
+    } else {
+        $(':checkbox[name=' + childenClass + ']').iCheck('uncheck');
+    }
+
+};
+
+let selectedChkBox = function(e) {
+    e.preventDefault();
+
+    if($(this).attr('class') === 'chkAll') return;
+
+    let $chkAll;
+    let childrenName = $(this).attr('name');
+
+    $(".chkAll").each(function() {
+        if(childrenName === $(this).data("children")) $chkAll = $(this);
+    });
+
+    if ($(':checkbox[name=' + childrenName + ']').length === $(':checkbox[name=' + childrenName + ']:checked').length) {
+        $chkAll.prop('checked', 'checked');
+    } else {
+        $chkAll.prop('checked', false);
+    }
+    $chkAll.iCheck('update');
+};
+
 const isModify = function($form, id) {
     if ($form.find('input[name=' + id + ']').val() === null || $form.find('input[name=' + id + ']').val() === '') return false;
     return true;
