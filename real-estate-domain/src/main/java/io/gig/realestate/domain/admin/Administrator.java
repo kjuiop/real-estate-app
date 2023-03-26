@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.role.Role;
@@ -9,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,6 +74,21 @@ public class Administrator extends BaseTimeEntity {
         return administratorRoles.stream().map(AdministratorRole::getRole).collect(Collectors.toSet());
     }
 
+
+    public static Administrator create(AdministratorCreateForm createForm, String encodedPassword) {
+        return Administrator.builder()
+                .username(createForm.getUsername())
+                .name(createForm.getName())
+                .password(encodedPassword)
+                .passwordFailureCount(0)
+                .status(createForm.getStatus())
+                .build();
+    }
+
+    public void createAdministratorRoles(List<Role> roles) {
+        roles.stream().map(role -> AdministratorRole.addAdministratorRole(this, role))
+                .forEach(administratorRole -> this.getAdministratorRoles().add(administratorRole));
+    }
 
     public static Administrator initAdministrator(String username, String password, String name) {
         return Administrator.builder()

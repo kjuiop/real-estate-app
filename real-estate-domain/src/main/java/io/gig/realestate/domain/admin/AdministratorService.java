@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
+import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.role.Role;
@@ -27,4 +28,6 @@ public interface AdministratorService {
     Administrator getAdminEntityByUsername(String username);
 
     Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto);
+
+    Long create(AdministratorCreateForm createForm);
 }

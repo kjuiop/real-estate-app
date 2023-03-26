@@ -51,16 +51,9 @@ public class MenuManagerController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity save(@Valid @RequestBody MenuCreateForm createForm,
-                               Errors errors,
-                               RedirectAttributes redirectAttributes) {
-
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors.getAllErrors());
-        }
-
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody MenuCreateForm createForm) {
         Long menuId = menuService.create(createForm);
-        return ResponseEntity.ok().body(menuId);
+        return new ResponseEntity<>(ApiResponse.OK(menuId), HttpStatus.OK);
     }
 
 }

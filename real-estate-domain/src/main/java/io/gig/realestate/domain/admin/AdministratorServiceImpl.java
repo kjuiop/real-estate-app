@@ -1,14 +1,19 @@
 package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
+import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.role.Role;
+import io.gig.realestate.domain.role.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,13 +26,23 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     private final AdministratorReader administratorReader;
     private final AdministratorStore administratorStore;
-
-
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
     public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {
         return administratorReader.getAdminPageListBySearch(searchDto);
+    }
+
+    @Override
+    @Transactional
+    public Long create(@NotNull AdministratorCreateForm createForm) {
+        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()));
+        List<Role> roles = roleService.findByRoleNamesIn(createForm.getRoleNames());
+        newAdmin.createAdministratorRoles(roles);
+        Administrator savedAdmin = administratorStore.store(newAdmin);
+        return savedAdmin.getId();
     }
 
     @Override
