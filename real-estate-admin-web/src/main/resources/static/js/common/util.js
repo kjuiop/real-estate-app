@@ -164,6 +164,46 @@ const ajaxErrorFieldByText = function (response) {
     });
 };
 
+var onlyNumberKeyEvent = function (options) {
+    if (typeof (options) !== 'object') return false;
+
+    var option = {};
+    option.className = "only-number";
+    option.formId = "";
+
+    $.extend(options, option);
+
+    var target = "";
+    if (option.formId === "") {
+        target = $("." + option.className);
+    } else {
+        target = $("." + option.className, $("#" + option.formId));
+    }
+
+    target.each(function () {
+        $(this).unbind("keydown").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter, and, -, .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 189, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    target.keyup(function (e) {
+        var inputValue = $(this).val();
+        if (e.keyCode == 8) return;
+        $(this).val(onlyNumber(inputValue));
+    });
+};
+
 const drawErrorMessage = function($field, errorMsg) {
     $field.after('<small class="error-message text-small text-danger">' + errorMsg + '</small>');
 }
