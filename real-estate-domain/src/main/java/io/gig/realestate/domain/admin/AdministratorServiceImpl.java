@@ -1,9 +1,6 @@
 package io.gig.realestate.domain.admin;
 
-import io.gig.realestate.domain.admin.dto.AdminSearchDto;
-import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
-import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
-import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -49,6 +47,18 @@ public class AdministratorServiceImpl implements AdministratorService {
         newAdmin.createAdministratorRoles(roles);
         Administrator savedAdmin = administratorStore.store(newAdmin);
         return savedAdmin.getId();
+    }
+
+    @Override
+    public Long update(AdministratorUpdateForm updateForm) {
+        Administrator administrator = getAdminEntityByUsername(updateForm.getUsername());
+        if (!StringUtils.hasText(updateForm.getPassword())) {
+            validPassword(administrator, updateForm.getPassword());
+        }
+        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()));
+        List<Role> roles = roleService.findByRoleNamesIn(updateForm.getRoleNames());
+        administrator.updateAdministratorRoles(roles);
+        return administratorStore.store(administrator).getId();
     }
 
     @Override
@@ -98,5 +108,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Transactional(readOnly = true)
     public boolean existsUsername(String value) {
         return administratorReader.existUsername(value);
+    }
+
+    private void validPassword(Administrator administrator, String password) {
+        if (administrator.passwordValid(password)) {
+            throw new IllegalArgumentException("이전에 사용했던 비밀번호입니다.");
+        }
     }
 }

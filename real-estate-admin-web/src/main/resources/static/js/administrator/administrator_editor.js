@@ -171,9 +171,10 @@ let save = function() {
         contentType: "application/json",
         data: JSON.stringify(param),
         success: function (result) {
+            console.log("result : ", result);
             let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
-                location.href = '/administrators/' + result + '/edit';
+                location.href = '/administrators/' + result.data + '/edit';
             });
         },
         error:function(error){

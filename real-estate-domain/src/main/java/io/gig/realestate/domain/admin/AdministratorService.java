@@ -1,9 +1,6 @@
 package io.gig.realestate.domain.admin;
 
-import io.gig.realestate.domain.admin.dto.AdminSearchDto;
-import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
-import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
-import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
 import org.springframework.data.domain.Page;
 
@@ -34,4 +31,6 @@ public interface AdministratorService {
     boolean existsUsername(String value);
 
     AdministratorDetailDto getDetail(Long adminId);
+
+    Long update(AdministratorUpdateForm updateForm);
 }
