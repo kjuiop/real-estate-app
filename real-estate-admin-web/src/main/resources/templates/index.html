@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" th:with="YNType = ${T(io.gig.realestate.domain.common.YnType)}">
     <div class="content">
         <div class="container-fluid">
         </div>

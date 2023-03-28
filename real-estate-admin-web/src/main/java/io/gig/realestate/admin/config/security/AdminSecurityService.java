@@ -7,6 +7,7 @@ import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,12 +30,12 @@ public class AdminSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        AdministratorDetailDto administrator = administratorService.getAdminFindByUsername(username);
+        Administrator administrator = administratorService.getAdminEntityByUsername(username);
 
         // Role
         Set<GrantedAuthority> authorities = administrator.getRoles()
                 .stream()
-                .map(r -> new SimpleGrantedAuthority(r))
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
                 .collect(Collectors.toSet());
 
         boolean loginEnabled = true;
@@ -55,5 +56,23 @@ public class AdminSecurityService implements UserDetailsService {
         }
 
         return new LoginUser(administrator.getUsername(), administrator.getPassword(), loginEnabled, accountNonExpired, credentialNonExpired, accountNonLocked, authorities, administrator);
+    }
+
+    public Administrator getLoginUser() {
+        if (SecurityContextHolder.getContext() == null) {
+            return null;
+        }
+
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            return null;
+        }
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof LoginUser) {
+            return (Administrator) ((LoginUser) principal).getLoginUser();
+        }
+        else {
+            return null;
+        }
     }
 }

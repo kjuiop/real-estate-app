@@ -1,13 +1,21 @@
 package io.gig.realestate.domain.admin.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
+import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
@@ -23,6 +31,30 @@ import static io.gig.realestate.domain.admin.QAdministrator.administrator;
 public class AdministratorQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {
+
+        BooleanBuilder where = new BooleanBuilder();
+
+        JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(AdministratorListDto.class,
+                            administrator
+                        ))
+                .from(administrator)
+                .where(where)
+                .limit(searchDto.getPageableWithSort().getPageSize())
+                .offset(searchDto.getPageableWithSort().getOffset());
+
+        JPAQuery<Long> countQuery = this.queryFactory.select(administrator.id)
+                .from(administrator)
+                .where(where);
+
+        List<AdministratorListDto> content = contentQuery.fetch();
+        long total = content.size();
+
+        return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
+    }
+
 
     public Optional<AdministratorDetailDto> getAdminByUsername(String username) {
         Optional<AdministratorDetailDto> fetch = Optional.ofNullable(this.queryFactory
@@ -50,4 +82,44 @@ public class AdministratorQueryRepository {
                         .where(administrator.username.eq(username))
                         .fetchOne());
     }
+
+    public Optional<Administrator> getAdminEntityByUsername(String username) {
+        Optional<Administrator> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(administrator.username.eq(username))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    public boolean existByUsername(String username) {
+        Integer fetchOne = queryFactory
+                .selectOne()
+                .from(administrator)
+                .where(administrator.username.eq(username))
+                .fetchFirst();
+
+        return fetchOne != null;
+    }
+
+    public Optional<AdministratorDetailDto> getDetailDto(Long adminId) {
+
+        Optional<AdministratorDetailDto> fetch = Optional.ofNullable(this.queryFactory
+                .select(Projections.constructor(AdministratorDetailDto.class,
+                        administrator))
+                .from(administrator)
+                .where(eqAdminId(adminId))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    private BooleanExpression eqAdminId(Long adminId) {
+        return adminId != null ? administrator.id.eq(adminId) : null;
+    }
+
+
 }
