@@ -1,4 +1,4 @@
-var onReady = function() {
+let onReady = function() {
     let $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
     loadRole();
@@ -20,21 +20,21 @@ let createValidate = function($frm) {
     });
 
     $.validator.addMethod("isEmailDuplicateCheck", function(value, element){
-        var isDuplication = $('#emailCheckYn').val();
+        let isDuplication = $('#emailCheckYn').val();
 
         console.log("duplication", isDuplication);
         return isDuplication;
     });
 
     $.validator.addMethod("isPwValidCheckYn", function(value, element){
-        var isValid = $('#pwValidCheckYn').val();
+        let isValid = $('#pwValidCheckYn').val();
 
         console.log("isValid", isValid);
         return isValid;
     });
 
     $.validator.addMethod("isPwEqualCheckYn", function(value, element){
-        var isValid = $('#pwEqualCheckYn').val();
+        let isValid = $('#pwEqualCheckYn').val();
 
         console.log("isValid", isValid);
         return isValid;
@@ -79,7 +79,7 @@ let createValidate = function($frm) {
     });
 }
 
-var updateValidate = function($frm) {
+let updateValidate = function($frm) {
 
     $.validator.setDefaults({
         onkeyup:false,
@@ -93,7 +93,7 @@ var updateValidate = function($frm) {
     });
 
     $.validator.addMethod("isEmailDuplicateCheck", function(value, element){
-        var isDuplication = $('#emailCheckYn').val();
+        let isDuplication = $('#emailCheckYn').val();
 
         console.log("duplication", isDuplication);
         return isDuplication;
@@ -126,7 +126,7 @@ var updateValidate = function($frm) {
     });
 }
 
-var loadRole = function($frm) {
+let loadRole = function($frm) {
 
     if (!checkNullOrEmptyValue(dto)) {
         return;
@@ -140,10 +140,10 @@ var loadRole = function($frm) {
     }
 }
 
-var addRole = function(e) {
+let addRole = function(e) {
     e.preventDefault();
 
-    var role = $('#exclude-role option:checked').val();
+    let role = $('#exclude-role option:checked').val();
     $('#exclude-role option[value="' + role + '"]').hide();
     $('#include-role option[value="' + role + '"]').show();
 }
@@ -173,7 +173,7 @@ let save = function() {
         success: function (result) {
             let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
-                location.href = '/settings/admin-manager/' + result + '/edit';
+                location.href = '/administrators/' + result + '/edit';
             });
         },
         error:function(error){
@@ -189,8 +189,8 @@ let checkDuplicateData = function(e) {
         return false;
     }
 
-    var $field = $(this);
-    var value = $field.val();
+    let $field = $(this),
+        value = $field.val();
 
     if (!checkEmailValidCheck(value)) {
         return;
@@ -257,10 +257,10 @@ const checkValidPassword = function() {
 };
 
 let getRoleNames = function() {
-    var roleNames = [];
+    let roleNames = [];
 
     if ($('#include-role').length > 0) {
-        var isEmptyRole = true;
+        let isEmptyRole = true;
 
         $('#include-role option').filter(function () {
             return $(this).css('display') === 'block';
