@@ -1,5 +1,7 @@
 package io.gig.realestate.domain.admin;
 
+import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
+import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.role.Role;
@@ -9,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -73,6 +76,21 @@ public class Administrator extends BaseTimeEntity {
     }
 
 
+    public static Administrator create(AdministratorCreateForm createForm, String encodedPassword) {
+        return Administrator.builder()
+                .username(createForm.getUsername())
+                .name(createForm.getName())
+                .password(encodedPassword)
+                .passwordFailureCount(0)
+                .status(createForm.getStatus())
+                .build();
+    }
+
+    public void createAdministratorRoles(List<Role> roles) {
+        roles.stream().map(role -> AdministratorRole.addAdministratorRole(this, role))
+                .forEach(administratorRole -> this.getAdministratorRoles().add(administratorRole));
+    }
+
     public static Administrator initAdministrator(String username, String password, String name) {
         return Administrator.builder()
                 .username(username)
@@ -106,5 +124,20 @@ public class Administrator extends BaseTimeEntity {
         }
 
         return true;
+    }
+
+    public void update(AdministratorUpdateForm form, String encodedPassword) {
+        this.password = encodedPassword;
+        this.status = form.getStatus();
+    }
+
+    public void updateAdministratorRoles(List<Role> roles) {
+        this.administratorRoles.clear();
+        roles.stream().map(role -> AdministratorRole.addAdministratorRole(this, role))
+                .forEach(administratorRole -> this.getAdministratorRoles().add(administratorRole));
+    }
+
+    public boolean passwordValid(String inputPassword) {
+        return this.getPassword().equals(inputPassword);
     }
 }

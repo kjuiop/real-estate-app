@@ -83,8 +83,42 @@ function singleDateRangePickerWithTimeInit(options) {
     });
 }
 
+let selectedChkAll = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    let childenClass = $this.data('children');
+    let checked = $this.prop('checked');
+    if (checked) {
+        $(':checkbox[name=' + childenClass + ']').iCheck('check');
+    } else {
+        $(':checkbox[name=' + childenClass + ']').iCheck('uncheck');
+    }
+
+};
+
+let selectedChkBox = function(e) {
+    e.preventDefault();
+
+    if($(this).attr('class') === 'chkAll') return;
+
+    let $chkAll;
+    let childrenName = $(this).attr('name');
+
+    $(".chkAll").each(function() {
+        if(childrenName === $(this).data("children")) $chkAll = $(this);
+    });
+
+    if ($(':checkbox[name=' + childrenName + ']').length === $(':checkbox[name=' + childrenName + ']:checked').length) {
+        $chkAll.prop('checked', 'checked');
+    } else {
+        $chkAll.prop('checked', false);
+    }
+    $chkAll.iCheck('update');
+};
+
 const isModify = function($form, id) {
-    if ($form.find('input[name=' + id + ']').val() === null || $form.find('input[name=' + id + ']').val() === '') return false;
+    if ($form.find('input[name="' + id + '"]').val() === null || $form.find('input[name="' + id + '"]').val() === '') return false;
     return true;
 };
 
@@ -128,6 +162,51 @@ const ajaxErrorFieldByText = function (response) {
             drawErrorMessage($field, error.defaultMessage);
         }
     });
+};
+
+var onlyNumberKeyEvent = function (options) {
+    if (typeof (options) !== 'object') return false;
+
+    var option = {};
+    option.className = "only-number";
+    option.formId = "";
+
+    $.extend(options, option);
+
+    var target = "";
+    if (option.formId === "") {
+        target = $("." + option.className);
+    } else {
+        target = $("." + option.className, $("#" + option.formId));
+    }
+
+    target.each(function () {
+        $(this).unbind("keydown").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter, and, -, .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 189, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    target.keyup(function (e) {
+        var inputValue = $(this).val();
+        if (e.keyCode == 8) return;
+        $(this).val(onlyNumber(inputValue));
+    });
+};
+
+var checkEmailValidCheck = function (email) {
+    var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    return reg.test(email)
 };
 
 const drawErrorMessage = function($field, errorMsg) {
