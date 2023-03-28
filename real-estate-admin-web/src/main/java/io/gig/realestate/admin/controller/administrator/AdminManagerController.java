@@ -47,6 +47,17 @@ public class AdminManagerController {
         return "administrator/editor";
     }
 
+    @GetMapping("{adminId}/edit")
+    public String editForm(@PathVariable(name = "adminId") Long adminId, Model model) {
+        List<RoleDto> roles = roleService.getAllRoles();
+        AdministratorDetailDto dto = administratorService.getDetail(adminId);
+
+        model.addAttribute("roles", roles);
+        model.addAttribute("dto", dto);
+
+        return "administrator/editor";
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody AdministratorCreateForm createForm) {

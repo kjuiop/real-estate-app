@@ -36,6 +36,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public AdministratorDetailDto getDetail(Long adminId) {
+        return administratorReader.getAdminDetail(adminId);
+    }
+
+    @Override
     @Transactional
     public Long create(@NotNull AdministratorCreateForm createForm) {
         Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()));

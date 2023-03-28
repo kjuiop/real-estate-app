@@ -30,6 +30,17 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public AdministratorDetailDto getAdminDetail(Long adminId) {
+
+        Optional<AdministratorDetailDto> findDetail = queryRepository.getDetailDto(adminId);
+        if (findDetail.isEmpty()) {{
+            throw new UsernameNotFoundException(adminId + " 계정은 가입되어 있지 않습니다.");
+        }}
+
+        return findDetail.get();
+    }
+
+    @Override
     public AdministratorDetailDto getAdminFindByUsername(String username) {
         Optional<AdministratorDetailDto> findAdministrator = queryRepository.getAdminByUsername(username);
         if (findAdministrator.isEmpty()) {

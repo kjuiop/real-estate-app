@@ -2,6 +2,7 @@ package io.gig.realestate.domain.admin.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
@@ -102,4 +103,23 @@ public class AdministratorQueryRepository {
 
         return fetchOne != null;
     }
+
+    public Optional<AdministratorDetailDto> getDetailDto(Long adminId) {
+
+        Optional<AdministratorDetailDto> fetch = Optional.ofNullable(this.queryFactory
+                .select(Projections.constructor(AdministratorDetailDto.class,
+                        administrator))
+                .from(administrator)
+                .where(eqAdminId(adminId))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    private BooleanExpression eqAdminId(Long adminId) {
+        return adminId != null ? administrator.id.eq(adminId) : null;
+    }
+
+
 }

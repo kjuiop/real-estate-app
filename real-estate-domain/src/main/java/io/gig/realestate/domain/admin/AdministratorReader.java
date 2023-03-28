@@ -22,4 +22,6 @@ public interface AdministratorReader {
     Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto);
 
     boolean existUsername(String value);
+
+    AdministratorDetailDto getAdminDetail(Long adminId);
 }

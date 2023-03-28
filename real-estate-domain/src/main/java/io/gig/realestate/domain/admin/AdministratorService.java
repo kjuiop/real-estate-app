@@ -32,4 +32,6 @@ public interface AdministratorService {
     Long create(AdministratorCreateForm createForm);
 
     boolean existsUsername(String value);
+
+    AdministratorDetailDto getDetail(Long adminId);
 }
