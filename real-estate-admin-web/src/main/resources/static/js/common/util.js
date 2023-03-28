@@ -118,7 +118,7 @@ let selectedChkBox = function(e) {
 };
 
 const isModify = function($form, id) {
-    if ($form.find('input[name=' + id + ']').val() === null || $form.find('input[name=' + id + ']').val() === '') return false;
+    if ($form.find('input[name="' + id + '"]').val() === null || $form.find('input[name="' + id + '"]').val() === '') return false;
     return true;
 };
 
@@ -202,6 +202,11 @@ var onlyNumberKeyEvent = function (options) {
         if (e.keyCode == 8) return;
         $(this).val(onlyNumber(inputValue));
     });
+};
+
+var checkEmailValidCheck = function (email) {
+    var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    return reg.test(email)
 };
 
 const drawErrorMessage = function($field, errorMsg) {

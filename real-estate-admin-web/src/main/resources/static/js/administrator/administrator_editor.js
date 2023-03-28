@@ -1,12 +1,12 @@
 var onReady = function() {
-    var $frm = $('form[name="frmRegister"]');
+    let $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
     loadRole();
     onlyNumberKeyEvent({className: "only-number"});
     isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
-var createValidate = function($frm) {
+let createValidate = function($frm) {
 
     $.validator.setDefaults({
         onkeyup:false,
@@ -73,8 +73,8 @@ var createValidate = function($frm) {
                 required: '비밀번호를 입력해주세요.',
             }
         },
-        submitHandler: function($frm) {
-            save($frm);
+        submitHandler: function() {
+            save();
         }
     });
 }
@@ -120,8 +120,8 @@ var updateValidate = function($frm) {
                 required: '이름을 입력해주세요.'
             }
         },
-        submitHandler: function($frm) {
-            save($frm);
+        submitHandler: function() {
+            save();
         }
     });
 }
@@ -148,29 +148,30 @@ var addRole = function(e) {
     $('#include-role option[value="' + role + '"]').show();
 }
 
-var removeRole = function(e) {
+let removeRole = function(e) {
     e.preventDefault();
 
-    var role = $('#include-role option:checked').val();
+    let role = $('#include-role option:checked').val();
     $('#exclude-role option[value="' + role + '"]').show();
     $('#include-role option[value="' + role + '"]').hide();
 };
 
-var save = function($frm) {
+let save = function() {
 
-    var formMethod = isModify($frm, 'adminId') ? 'put' : 'post';
-    var param = serializeObject({form:$frm[0]}).json();
+    let $frm = $('form[name="frmRegister"]'),
+    formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
+    param = serializeObject({form:$frm[0]}).json();
     param['roleNames'] = getRoleNames();
     console.log("params", param);
 
     $.ajax({
-        url: "/settings/admin-manager",
+        url: "/administrators",
         method: formMethod,
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(param),
         success: function (result) {
-            var message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
+            let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
                 location.href = '/settings/admin-manager/' + result + '/edit';
             });
@@ -181,7 +182,7 @@ var save = function($frm) {
     });
 }
 
-var checkDuplicateData = function(e) {
+let checkDuplicateData = function(e) {
     e.preventDefault();
 
     if (dto.adminId != null) {
@@ -197,13 +198,13 @@ var checkDuplicateData = function(e) {
 
     if (checkNullOrEmptyValue(value)) {
         $.ajax({
-            url: "/settings/admin-manager/check-duplicate/username/" + value,
+            url: "/administrators/check-duplicate/username/" + value,
             method: "get",
             type: "json",
             contentType: "application/json",
             success: function(result) {
 
-                var isDuplicate = result;
+                let isDuplicate = result.data;
 
                 console.log("isDuplicate", isDuplicate);
 
@@ -226,11 +227,10 @@ var checkDuplicateData = function(e) {
 const checkValidPassword = function() {
 
     const $frm = $('form[name=frmRegister]');
-    var $password = $frm.find('input[name="password"]');
-    var $field = $('input[name="confirmPassword"]');
-
-    var password = $frm.find('input[name="password"]').val();
-    var repeat = $frm.find('input[name="confirmPassword"]').val();
+    let $password = $frm.find('input[name="password"]'),
+        $field = $('input[name="confirmPassword"]'),
+        password = $frm.find('input[name="password"]').val(),
+        repeat = $frm.find('input[name="confirmPassword"]').val();
 
     if (!checkNullOrEmptyValue(password)) {
         return false;
@@ -256,7 +256,7 @@ const checkValidPassword = function() {
 
 };
 
-var getRoleNames = function() {
+let getRoleNames = function() {
     var roleNames = [];
 
     if ($('#include-role').length > 0) {
