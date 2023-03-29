@@ -43,4 +43,11 @@ public class CategoryManagerController {
         return new ResponseEntity<>(ApiResponse.OK(categories), HttpStatus.OK);
     }
 
+    @GetMapping("children-categories")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getChildrenCategories(@RequestParam(name = "parentId") Long parentId) {
+        List<CategoryDto> categories = categoryService.getChildrenCategoryDtos(parentId);
+        return new ResponseEntity<>(ApiResponse.OK(categories), HttpStatus.OK);
+    }
+
 }

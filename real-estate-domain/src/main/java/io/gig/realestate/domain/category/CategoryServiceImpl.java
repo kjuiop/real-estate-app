@@ -40,6 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryReader.getParentCategoryDtos();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CategoryDto> getChildrenCategoryDtos(Long parentId) {
+        return categoryReader.getChildrenCategoryDtos(parentId);
+    }
+
     public Category getCategoryById(Long id) {
         Optional<Category> foundCategory = categoryReader.findById(id);
         if (foundCategory.isEmpty()) {

@@ -14,4 +14,6 @@ public interface CategoryService {
     Long create(CategoryCreateForm createForm);
 
     List<CategoryDto> getParentCategoryDtos();
+
+    List<CategoryDto> getChildrenCategoryDtos(Long parentId);
 }

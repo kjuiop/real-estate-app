@@ -27,6 +27,11 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public List<CategoryDto> getChildrenCategoryDtos(Long parentId) {
+        return  queryRepository.getChildrenCategoryDtos(parentId);
+    }
+
+    @Override
     public Optional<Category> findById(Long id) {
         return queryRepository.findById(id);
     }

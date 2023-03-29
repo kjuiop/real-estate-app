@@ -13,4 +13,6 @@ public interface CategoryReader {
     Optional<Category> findById(Long id);
 
     List<CategoryDto> getParentCategoryDtos();
+
+    List<CategoryDto> getChildrenCategoryDtos(Long parentId);
 }

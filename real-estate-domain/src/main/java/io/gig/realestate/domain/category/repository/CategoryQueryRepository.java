@@ -35,6 +35,16 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
+    public List<CategoryDto> getChildrenCategoryDtos(Long parentId) {
+        List<CategoryDto> fetch = this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(category.parent.id.eq(parentId))
+                .orderBy(category.sortOrder.asc())
+                .fetch();
+
+        return fetch;
+    }
+
     public Optional<Category> findById(Long categoryId) {
         return Optional.ofNullable(
                 this.queryFactory
@@ -46,4 +56,5 @@ public class CategoryQueryRepository {
     private BooleanExpression parentIsNull() {
         return category.parent.isNull();
     }
+
 }
