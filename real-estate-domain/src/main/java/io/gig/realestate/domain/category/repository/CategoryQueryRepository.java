@@ -1,11 +1,15 @@
 package io.gig.realestate.domain.category.repository;
 
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.category.QCategory.category;
@@ -21,6 +25,16 @@ public class CategoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    public List<CategoryDto> getParentCategoryDtos() {
+        List<CategoryDto> fetch = this.queryFactory
+                .selectDistinct(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(parentIsNull())
+                .orderBy(category.sortOrder.asc())
+                .fetch();
+        return fetch;
+    }
+
     public Optional<Category> findById(Long categoryId) {
         return Optional.ofNullable(
                 this.queryFactory
@@ -29,4 +43,7 @@ public class CategoryQueryRepository {
                         .fetchOne());
     }
 
+    private BooleanExpression parentIsNull() {
+        return category.parent.isNull();
+    }
 }

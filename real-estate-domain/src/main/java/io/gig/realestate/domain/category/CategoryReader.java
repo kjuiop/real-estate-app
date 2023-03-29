@@ -1,5 +1,8 @@
 package io.gig.realestate.domain.category;
 
+import io.gig.realestate.domain.category.dto.CategoryDto;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -8,4 +11,6 @@ import java.util.Optional;
  */
 public interface CategoryReader {
     Optional<Category> findById(Long id);
+
+    List<CategoryDto> getParentCategoryDtos();
 }

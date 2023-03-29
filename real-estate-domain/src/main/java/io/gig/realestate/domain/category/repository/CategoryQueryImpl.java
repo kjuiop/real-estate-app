@@ -2,10 +2,12 @@ package io.gig.realestate.domain.category.repository;
 
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryReader;
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,6 +20,11 @@ import java.util.Optional;
 public class CategoryQueryImpl implements CategoryReader {
 
     private final CategoryQueryRepository queryRepository;
+
+    @Override
+    public List<CategoryDto> getParentCategoryDtos() {
+        return queryRepository.getParentCategoryDtos();
+    }
 
     @Override
     public Optional<Category> findById(Long id) {

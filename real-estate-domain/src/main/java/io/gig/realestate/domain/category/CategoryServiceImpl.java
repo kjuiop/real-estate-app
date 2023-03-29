@@ -1,12 +1,14 @@
 package io.gig.realestate.domain.category;
 
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,6 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryStore.store(newCategory).getId();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CategoryDto> getParentCategoryDtos() {
+        return categoryReader.getParentCategoryDtos();
+    }
 
     public Category getCategoryById(Long id) {
         Optional<Category> foundCategory = categoryReader.findById(id);

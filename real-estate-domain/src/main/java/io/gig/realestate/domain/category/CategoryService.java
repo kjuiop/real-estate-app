@@ -1,6 +1,9 @@
 package io.gig.realestate.domain.category;
 
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
+import io.gig.realestate.domain.category.dto.CategoryDto;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -10,4 +13,5 @@ public interface CategoryService {
 
     Long create(CategoryCreateForm createForm);
 
+    List<CategoryDto> getParentCategoryDtos();
 }

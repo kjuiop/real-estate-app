@@ -51,11 +51,11 @@ var getChildrenCategory = function(e) {
  * @param parentId
  * @param level
  */
-var getCategories = function (parentId, level) {
+let getCategories = function (parentId, level) {
     $('#category-lv' + level).empty();
     $('#btn-add-lv' + level).attr('disabled', false);
 
-    var ajaxUrl = '/settings/category-manager/parent-categories';
+    let ajaxUrl = '/settings/category-manager/parent-categories';
     if (checkNullOrEmptyValue(parentId)) {
         ajaxUrl = '/settings/category-manager/children-categories?parentId=' + parentId;
     }
@@ -66,12 +66,13 @@ var getCategories = function (parentId, level) {
     }
 
     $.get(ajaxUrl, function (resp) {
+        let data = resp.data;
         console.log("categories", resp);
-        if (checkNullOrEmptyValue(resp) && resp.length > 0) {
-            $(resp).each(function (idx, c) {
-                var clsInactive = c.activeYn === 'N' ? 'inactive' : '';
-                var categoryUi = '';
-                var colorCode = checkNullOrEmptyValue(c.colorCode) ? c.colorCode : 'white';
+        if (checkNullOrEmptyValue(data) && data.length > 0) {
+            $(data).each(function (idx, c) {
+                let clsInactive = c.activeYn === 'N' ? 'inactive' : '';
+                let categoryUi = '';
+                let colorCode = checkNullOrEmptyValue(c.colorCode) ? c.colorCode : 'white';
 
                 categoryUi += '<li class="display-flex-row col-12 category-unit" style="color: grey;">';
                 categoryUi += '<span class="col-1" style="padding-top: 3px;"><input type="radio" name="lv' + level + '" value="' + c.id + '" class="category-data" colorCode="' + colorCode + '"></span>';
