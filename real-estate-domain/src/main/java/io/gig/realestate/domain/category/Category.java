@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.category;
 
+import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -48,5 +49,22 @@ public class Category {
     @Builder.Default
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Category> child = new ArrayList<>();
+
+    public static Category create(CategoryCreateForm form) {
+        return Category.builder()
+                .name(form.getName())
+                .colorCode(form.getColorCode())
+                .activeYn(form.getActiveYn())
+                .sortOrder(form.getSortOrder())
+                .build();
+    }
+
+    public void addParent(Category parent) {
+        this.parent = parent;
+        this.level = 2;
+        this.colorCode = parent.getColorCode();
+        parent.getChild().add(this);
+    }
+
 
 }

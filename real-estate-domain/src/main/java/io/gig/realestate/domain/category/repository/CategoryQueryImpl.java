@@ -1,0 +1,28 @@
+package io.gig.realestate.domain.category.repository;
+
+import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.CategoryReader;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+/**
+ * @author : JAKE
+ * @date : 2023/03/29
+ */
+@Component
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class CategoryQueryImpl implements CategoryReader {
+
+    private final CategoryQueryRepository queryRepository;
+
+    @Override
+    public Optional<Category> findById(Long id) {
+        return queryRepository.findById(id);
+    }
+
+
+}
