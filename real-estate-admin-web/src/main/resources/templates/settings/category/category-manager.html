@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko"
+<html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layouts/layout}">
+      layout:decorate="~{layouts/layout}">
 <head>
     <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:replace="layout/utilFragments::navigator('/settings/category-manager', '카테고리', '카테고리 관리')"></div>
+    <div th:replace="layouts/utilFragments::navigator('/settings/category-manager', '카테고리', '카테고리 관리')"></div>
     <section class="content">
         <div class="row">
             <div class="col-md-5 ml-3">
