@@ -22,7 +22,7 @@
 
                             <!-- Sidebar Menu -->
                             <nav class="mt-2">
-                                <ul class="nav nav-pills nav-sidebar flex-column menu-tree-panel" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
+                                <ul id="side-menu" class="nav nav-pills nav-sidebar flex-column treeview" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
                                     <th:block th:if="${not #lists.isEmpty(menus)}" th:each="side: ${menus}"
                                               th:with="classValue = ${path == side.url ? 'active' : ''}">
                                         <input type="hidden" th:value="${side.url}" />
