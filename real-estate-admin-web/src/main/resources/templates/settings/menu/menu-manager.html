@@ -26,7 +26,7 @@
                                     <th:block th:if="${not #lists.isEmpty(menus)}" th:each="side: ${menus}"
                                               th:with="classValue = ${path == side.url ? 'active' : ''}">
                                         <input type="hidden" th:value="${side.url}" />
-                                        <li class="nav-item menu-open" th:classappend="${not #lists.isEmpty(side.children) ? classValue + ' has-treeview' : classValue}">
+                                        <li class="nav-item menu-open menu-tree-panel" th:classappend="${not #lists.isEmpty(side.children) ? classValue + ' has-treeview' : classValue}">
                                             <ul class="nav nav-treeview">
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="#" th:menuId="${side.id}">
