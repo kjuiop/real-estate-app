@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.realestate;
 
 import io.gig.realestate.domain.realestate.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,17 @@ public class RealEstateController {
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        return "real-estate/list";
+        model.addAttribute("pages", null);
+        model.addAttribute("condition", searchDto);
+        return "realestate/list";
+    }
+
+    @GetMapping("new")
+    public String register(Model model) {
+
+        RealEstateDetailDto dto = RealEstateDetailDto.emptyDto();
+        model.addAttribute("dto", dto);
+
+        return "real-estate/editor";
     }
 }
