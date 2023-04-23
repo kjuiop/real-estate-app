@@ -30,6 +30,6 @@ public class RealEstateController {
         RealEstateDetailDto dto = RealEstateDetailDto.emptyDto();
         model.addAttribute("dto", dto);
 
-        return "real-estate/editor";
+        return "realestate/editor";
     }
 }

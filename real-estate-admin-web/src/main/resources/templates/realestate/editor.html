@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<body>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
+                        <input type="hidden" id="realEstateId" name="realEstateId" th:field="*{realEstateId}" />
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                <h3 class="card-title">매물정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label>매물종류</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="display-flex-row">
+                                            <div class="col-9">
+                                                <select id="inputStatus" class="form-control valid-ignore custom-select col-4 margin-right-4">
+                                                    <option>건물-빌딩/건물</option>
+                                                    <option>빌딩</option>
+                                                </select>
+                                                <button type="button" class="btn btn-sm btn-success" style="color: #ffffff; margin-right: 5px;"> 빠른등록</button>
+                                                <button type="button" class="btn btn-sm btn-warning" style="color: #ffffff; margin-right: 5px;"> 빠른등록/편집</button>
+                                                <input type="checkbox" id="autoAdd" class="checkElement">
+                                                <label for="autoAdd" style="font-weight: normal;">빠른등록 단지/지역으로 자동추가</label>
+                                            </div>
+                                            <div class="col-3"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="margin-top-5" style="font-weight: normal;">매물등록 이후에는 매물종류 수정이 불가능하오니, 정확히 확인해주세요.</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/real-estate" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/administrator/administrator_editor.js" th:src="@{/js/administrator/administrator_editor.js}"></script>
+</section>
+</body>
+</html>
