@@ -37,16 +37,23 @@ public class InitUtils {
         roleService.initRole("ROLE_ANONYMOUS", "익명사용자", 3);
 
         Role superAdminRole = roleService.findByRoleName("ROLE_SUPER_ADMIN");
+        Role adminRole = roleService.findByRoleName("ROLE_ADMIN");
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(superAdminRole);
+        Set<Role> superAdminRoles = new HashSet<>();
+        superAdminRoles.add(superAdminRole);
 
-        administratorService.initAdmin("admin@citylight.io", passwordEncoder.encode("citylight123$"), "초기관리자", roles);
-        menuService.initMenu("Home", "/", "fa fa-home", 0, roles);
-        menuService.initMenu("관리자관리", "/administrators", "fa fa-users", 0, roles);
-        Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, roles);
-        menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, roles, settingMenu);
-        menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, roles, settingMenu);
+        Set<Role> adminRoles = new HashSet<>();
+        adminRoles.add(superAdminRole);
+        adminRoles.add(adminRole);
+
+
+        administratorService.initAdmin("admin@citylight.io", passwordEncoder.encode("citylight123$"), "초기관리자", superAdminRoles);
+        menuService.initMenu("Home", "/", "fa fa-home", 0, superAdminRoles);
+        menuService.initMenu("관리자관리", "/administrators", "fa fa-users", 0, superAdminRoles);
+        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 0, adminRoles);
+        Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminRoles);
+        menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
+        menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
     }
 
 
