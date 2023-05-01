@@ -128,6 +128,54 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>건물명</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control col-4" name="name" />
+                                            <label class="margin-left-5 margin-top-5">
+                                                <span class="text-color-red">등본상의 건물명만 입력 / 이외 상관없는 문구 입력시 실패</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>건물종류</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="display-flex-row">
+                                            <select class="form-control valid-ignore custom-select col-2 margin-right-4">
+                                                <option>선택</option>
+                                                <option>건물</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>지도위치표시</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="display-flex-row">
+                                            <label class="margin-right-10" for="AdminStatus_All" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_All" value="">&nbsp;&nbsp;&nbsp;표시함</label> &nbsp;
+                                            <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL">&nbsp;&nbsp;&nbsp;표시안함</label>
+                                            <label class="margin-left-5 text-normal">
+                                                * 현장확인매물일 경우 지도 표시안함을 체크하세요. 기본으로 네이버부동산에 지도 제공합니다.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>위치지정</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <div id="map" style="width:800px;height:400px;"></div>
+                                    </div>
+                                </div>
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
                                     <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
                                     <a href="/real-estate" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
@@ -149,7 +197,9 @@
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script src="/static/js/administrator/administrator_editor.js" th:src="@{/js/administrator/administrator_editor.js}"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702"></script>
+    <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
+    <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
 </section>
 </body>
 </html>
