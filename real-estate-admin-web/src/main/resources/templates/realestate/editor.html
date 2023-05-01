@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-12 display-flex-row checkDuplicate">
+                                <div class="form-group col-12 display-flex-row line">
                                     <div class="col-2">
                                         <label>매물종류</label>
                                     </div>
@@ -42,6 +42,89 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="margin-top-5" style="font-weight: normal;">매물등록 이후에는 매물종류 수정이 불가능하오니, 정확히 확인해주세요.</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>소재지</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="display-flex-row">
+                                            <div class="col-12">
+                                                <select class="form-control valid-ignore custom-select col-2 margin-right-4">
+                                                    <option>서울특별시</option>
+                                                </select>
+                                                <select class="form-control valid-ignore custom-select col-2 margin-right-4">
+                                                    <option>강남구</option>
+                                                </select>
+                                                <select class="form-control valid-ignore custom-select col-2 margin-right-4">
+                                                    <option>역삼동</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row line">
+                                    <div class="col-2">
+                                        <label>건축물용도</label>
+                                    </div>
+                                    <div class="col-10 display-flex-column">
+                                        <div class="padding-left-10 sub-line">
+                                            <div class="display-flex-row">
+                                                <select class="form-control valid-ignore custom-select col-2 margin-right-4">
+                                                    <option>선택</option>
+                                                </select>
+                                                <label class="margin-top-5" style="font-weight: normal;">네이버 부동산에서는 자체 기준으로 노출되며, 입력하신 값은 선방부동산 서비스에서 적용됩니다.</label>
+                                            </div>
+                                        </div>
+                                        <div class="padding-left-10 sub-line display-flex-row">
+                                            <label class="margin-right-10 margin-top-5" for="AdminStatus_Withdraw" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Withdraw" value="WITHDRAW">&nbsp;&nbsp;&nbsp;일반</label>
+                                            <label class="margin-right-10 margin-top-5" for="AdminStatus_Rejected" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Rejected" value="INACTIVE">&nbsp;&nbsp;&nbsp;산</label> &nbsp;
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control col-2" name="name" />
+                                                &nbsp;<span style="margin-top: 3px;">-</span>&nbsp;
+                                                <input type="text" class="form-control col-2" name="name" />
+                                                <span class="margin-left-5 margin-top-5">번지</span>
+                                            </div>
+                                        </div>
+                                        <div class="sub-line display-flex-row">
+                                            <div class="display-flex-column col-1">
+                                                <span class="margin-left-5 margin-right-10 margin-top-5">상세주소</span>
+                                            </div>
+                                            <div class="display-flex-column col-11">
+                                                <div class="display-flex-row">
+                                                    <input type="text" class="form-control col-5" name="name" />
+                                                    <button type="button" class="btn btn-primary margin-left-5" style="color: #ffffff; margin-right: 5px;"> 검색</button>
+                                                </div>
+                                                <div>
+                                                    * 상세주소란에는 동, 춘, 수에 대한 정보만 기재
+                                                </div>
+                                                <div>
+                                                    * 집합건물의 등기일 경우 동, 층, 호수 미입력으로 등록실패시 쿠폰 반환 불가
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sub-line display-flex-row">
+                                            <div class="display-flex-column col-1">
+                                                <span class="margin-left-5 margin-right-10 margin-top-5">기타정보</span>
+                                            </div>
+                                            <div class="display-flex-row col-11">
+                                                <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal"><input type="checkbox" class="checkElement">&nbsp;&nbsp;&nbsp;미등기</label> &nbsp;
+                                                <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal"><input type="checkbox" class="checkElement">&nbsp;&nbsp;&nbsp;일부</label> &nbsp;
+                                                <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal"><input type="checkbox" class="checkElement">&nbsp;&nbsp;&nbsp;건축물대장 면적확인 요청</label> &nbsp;
+                                                <span class="margin-top-5">(건축물대장의 면적으로 검수가 필요한 경우 선택)</span>
+                                            </div>
+                                        </div>
+                                        <div class="sub-line display-flex-row">
+                                            <div class="display-flex-column col-1">
+                                                <span class="margin-left-5 margin-right-10 margin-top-5">직접 입력</span>
+                                            </div>
+                                            <div class="display-flex-column col-11">
+                                                <input type="text" class="form-control col-5" name="name" />
+                                                <span class="margin-top-5">위 내용 중 해당하는 항목에만 체크해주세요. </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
