@@ -32,4 +32,13 @@ public class RealEstateController {
 
         return "realestate/editor";
     }
+
+    @GetMapping("sample")
+    public String sample(Model model) {
+
+        RealEstateDetailDto dto = RealEstateDetailDto.emptyDto();
+        model.addAttribute("dto", dto);
+
+        return "realestate/sample";
+    }
 }
