@@ -16,6 +16,10 @@
     padding-left: 0;
 }
 
+.no-right-padding {
+    padding-right: 0;
+}
+
 .line {
     margin-bottom: 30px;
 }
@@ -135,4 +139,12 @@
 
 .text-color-red {
     color: red;
+}
+
+.text-label {
+    font-size: 14px;
+}
+
+.center-text {
+    text-align: center;
 }
