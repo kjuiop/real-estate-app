@@ -148,3 +148,12 @@
 .center-text {
     text-align: center;
 }
+
+.horizontal-scroll {
+    overflow-x: auto;
+    white-space: nowrap; /* 요소 안에서 줄 바꿈 방지 */
+}
+
+.customer-info {
+    border : 1px solid #eee
+}
