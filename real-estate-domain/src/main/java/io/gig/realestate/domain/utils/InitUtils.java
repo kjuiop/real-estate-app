@@ -47,13 +47,13 @@ public class InitUtils {
         adminRoles.add(adminRole);
 
 
-        administratorService.initAdmin("admin@citylight.io", passwordEncoder.encode("citylight123$"), "초기관리자", superAdminRoles);
+        administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
         menuService.initMenu("Home", "/", "fa fa-home", 0, superAdminRoles);
-        menuService.initMenu("관리자관리", "/administrators", "fa fa-users", 0, superAdminRoles);
         menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 0, adminRoles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
+        menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
     }
 
 
