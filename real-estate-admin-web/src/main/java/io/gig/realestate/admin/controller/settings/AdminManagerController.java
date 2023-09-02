@@ -1,4 +1,4 @@
-package io.gig.realestate.admin.controller.administrator;
+package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date : 2023/03/25
  */
 @Controller
-@RequestMapping("administrators")
+@RequestMapping("settings/administrators")
 @RequiredArgsConstructor
 public class AdminManagerController {
 
