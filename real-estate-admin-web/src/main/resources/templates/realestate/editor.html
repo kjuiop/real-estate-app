@@ -383,9 +383,9 @@
                                         <label class="text-label">주차(기계식)</label>
                                     </div>
                                     <div class="display-flex-row">
-                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <input type="text" class="form-control form-control-sm col-md-4 input-height-36"/>
                                         <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
-                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <input type="text" class="form-control form-control-sm col-md-4 input-height-36"/>
                                         <button type="button" class="btn btn-xs btn-default col-md-2" disabled> &nbsp;대&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
@@ -414,7 +414,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
-                            <h3 class="card-title">고객정보</h3>
+                            <h3 class="card-title margin-right-4">고객정보</h3>
+                            <button type="button" class="btn btn-xs btn-default margin-right-5 margin-left-5"> 추가</button>
+                            <label class="text-label">총 <span>1</span>명</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fa fa-minus"></i></button>
@@ -422,17 +424,30 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">
-                                <div class="row display-flex-row">
-                                    <div class="col-md-4">
+                                <div class="row display-flex-row margin-bottom-5">
+                                    <div class="col-md-6">
                                         <label class="text-label">고객명</label>
-                                        <input type="text" class="form-control form-control-sm" />
+                                        <input type="text" class="form-control form-control-sm input-height-36" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="text-label">성별</label>보
+                                        <select class="form-control form-control-sm valid-ignore custom-select">
+                                            <option>남</option>
+                                            <option>여</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="text-label">생년월일</label>
+                                        <input type="text" class="form-control form-control-sm input-height-36" />
+                                    </div>
+                                </div>
+                                <div class="row display-flex-row">
+                                    <div class="col-md-6">
+                                        <label class="text-label">휴대전화</label>
                                         <input type="text" class="form-control form-control-sm" />
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="text-label">휴대전화</label>
+                                    <div class="col-md-6">
+                                        <label class="text-label">기타전화</label>
                                         <input type="text" class="form-control form-control-sm" />
                                     </div>
                                 </div>
