@@ -105,6 +105,10 @@
     margin-right: 4px;
 }
 
+.margin-right-8 {
+    margin-right: 8px;
+}
+
 .margin-right-10 {
     margin-right: 10px;
 }
@@ -127,6 +131,10 @@
 
 .text-normal {
     font-weight: normal;
+}
+
+.right-align {
+    text-align: right;
 }
 
 .padding-left-20 {
@@ -156,4 +164,8 @@
 
 .customer-info {
     border : 1px solid #eee
+}
+
+.bg-gray {
+    background-color: #eeeee;
 }
