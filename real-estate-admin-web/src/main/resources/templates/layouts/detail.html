@@ -30,9 +30,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/images/site.webmanifest">
 </head>
-<body>
+<body class="sidebar-collapse">
 <div class="wrapper">
-    <div th:replace="layouts/top.html :: header"></div>
+    <div th:replace="layouts/detail-top.html :: header"></div>
     <div class="content-wrapper">
         <div layout:fragment="content" th:remove="tag"></div>
     </div>
