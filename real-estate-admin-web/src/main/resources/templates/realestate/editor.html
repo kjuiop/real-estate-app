@@ -120,7 +120,7 @@
                             <div class="form-group col-md-12 display-flex-column line">
                                 <label class="text-label">동+지번(주소)</label>
                                 <div class="display-flex-row col-md-12 no-left-padding">
-                                    <input type="text" class="form-control form-control-sm col-md-6 margin-right-4" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm col-md-9 margin-right-8" style="height: 36px;"/>
                                     <button type="button" class="btn btn-xs btn-primary col-md-2"> 토지 검색</button>
                                 </div>
                             </div>
@@ -300,76 +300,97 @@
                     <!-- /.card -->
                     <div class="card" style="margin-top: 5px;">
                         <div class="card-header">
-                            <h3 class="card-title">기본정보</h3>
+                            <h3 class="card-title">건축물 대장 정보</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fa fa-minus"></i></button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">진행구분</label>
+                            <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
+                                <div class="col-md-6 no-left-padding">
+                                    <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
+                                        <input type="checkbox" class="checkElement" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;위반건축물여부
+                                    </label> &nbsp;
                                 </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 준비</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 작업중</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 완료</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 보류</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 매각 전</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 매각</button>
+                                <div class="col-md-6 right-align">
+                                    <button type="button" class="btn btn-xs btn-danger" style="margin-right: 5px;"> 초기화</button>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row line">
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">담당자 선택</label>
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <option>김선엽</option>
-                                    </select>
+                                <div class="col-md-6 display-flex-column no-left-padding">
+                                    <div class="display-flex-row">
+                                        <label class="text-label">주용도</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <select class="form-control form-control-sm valid-ignore custom-select">
+                                            <option>단독주택</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">건물명</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
-                                </div>
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">대분류</label>
-                                </div>
-                                <div class="col-md-5 col-sm-6 display-flex-row">
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <option>용도변경-별실가능</option>
-                                    </select>
-                                    <!--                                        <input type="text" class="form-control form-control-sm" />-->
+                                <div class="col-md-6 display-flex-column">
+                                    <div class="display-flex-row">
+                                        <label class="text-label">규모</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled> &nbsp;층&nbsp;&nbsp;</button>
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2" disabled> &nbsp;층&nbsp;&nbsp;</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">소분류</label>
+                            <div class="form-group col-md-12 display-flex-row line">
+                                <div class="col-md-6 display-flex-column no-left-padding">
+                                    <div class="display-flex-row">
+                                        <label class="text-label">주차(자주식)</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 무자본</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 사옥용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 거주용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 임대수익용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 신축-리모델링용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 모텔/호텔</button>
+                                <div class="col-md-6 display-flex-column">
+                                    <div class="display-flex-row">
+                                        <label class="text-label">엘레베이터</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12">
-                                    <label class="text-label">주소</label>
+                            <div class="form-group col-md-12 display-flex-row line">
+                                <div class="col-md-6 display-flex-column no-left-padding">
+                                    <div class="display-flex-row">
+                                        <label class="text-label">주차(기계식)</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                        <input type="text" class="form-control form-control-sm col-md-4" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default col-md-2" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <input type="text" class="form-control form-control-sm col-sm-9" />
-                                    <button type="button" class="btn btn-sm btn-default col-sm-2" style="margin-left: 5px;"> 주소검색</button>
-                                </div>
-                                <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" />
+                                <div class="col-md-6 display-flex-row">
+                                    <div class="display-flex-column no-left-padding margin-right-4">
+                                        <label class="text-label">건폐율</label>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm col-md-8" style="height: 36px;"/>
+                                            <button type="button" class="btn btn-xs btn-default col-md-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                        </div>
+                                    </div>
+                                    <div class="display-flex-column">
+                                        <label class="text-label">용적률</label>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm col-md-8" style="height: 36px;"/>
+                                            <button type="button" class="btn btn-xs btn-default col-md-4" disabled> &nbsp;대&nbsp;&nbsp;</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
