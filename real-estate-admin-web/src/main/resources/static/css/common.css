@@ -97,12 +97,24 @@
     margin-bottom: 0;
 }
 
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
 
 .margin-right-4 {
     margin-right: 4px;
+}
+
+.margin-right-5 {
+    margin-right: 5px;
+}
+
+.margin-right-8 {
+    margin-right: 8px;
 }
 
 .margin-right-10 {
@@ -127,6 +139,10 @@
 
 .text-normal {
     font-weight: normal;
+}
+
+.right-align {
+    text-align: right;
 }
 
 .padding-left-20 {
@@ -156,4 +172,12 @@
 
 .customer-info {
     border : 1px solid #eee
+}
+
+.bg-gray {
+    background-color: #eeeee;
+}
+
+.input-height-36 {
+    height: 36px;
 }
