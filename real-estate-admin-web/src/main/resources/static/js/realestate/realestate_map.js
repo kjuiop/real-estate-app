@@ -1,32 +1,53 @@
-let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
+
+let loadKakaoMap = function(searchAddress) {
+
+    if (typeof kakao === undefined) {
+        console.error('Kakao Maps API가 로드되지 않았습니다.');
+        return
+    }
+
+    if (!checkNullOrEmptyValue(searchAddress)) {
+        console.error('검색하고자 하는 주소가 올바르지 않습니다.', searchAddress);
+        return
+    }
+    $("#map").removeClass("hidden");
+
+    let mapContainer = document.getElementById('map'); // 지도를 표시할 div
+    let mapOption = {
         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 
-let map = new kakao.maps.Map(mapContainer, mapOption);
-
-let ps = new kakao.maps.services.Places();
-
-let mapInputKeyword = '누리꿈스퀘어';
-
-ps.keywordSearch(mapInputKeyword, placesSearchCB);
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+    let geocoder = new kakao.maps.services.Geocoder();
 
 
-// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-function placesSearchCB (data, status, pagination) {
-    if (status === kakao.maps.services.Status.OK) {
+    geocoder.addressSearch(searchAddress, function(result, status) {
 
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        let bounds = new kakao.maps.LatLngBounds();
-
-        for (let i=0; i<data.length; i++) {
-            // displayMarker(data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        // 정상적으로 검색이 완료됐으면
+        if (status !== kakao.maps.services.Status.OK) {
+            return
         }
 
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds);
-    }
+        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        let marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        /**
+         *
+         * @type {kakao.maps.InfoWindow}
+         */
+        let infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">매물위치</div>'
+        });
+        // infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    });
+
 }
