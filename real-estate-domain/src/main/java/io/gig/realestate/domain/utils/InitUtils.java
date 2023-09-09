@@ -34,7 +34,11 @@ public class InitUtils {
     @Transactional(rollbackFor = {AlreadyEntity.class})
     public void initData() {
         validateAlreadyEntity();
+        initAdminRoleAndMenuData();
+        initCategoryData();
+    }
 
+    private void initAdminRoleAndMenuData() {
         roleService.initRole("ROLE_SUPER_ADMIN", "슈퍼관리자", 0);
         roleService.initRole("ROLE_ADMIN", "관리자", 1);
         roleService.initRole("ROLE_USER", "사용자", 2);
@@ -59,7 +63,19 @@ public class InitUtils {
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
 
-        Category usageType = categoryService.initCategory("매물용도", YnType.Y, 1, 1);
+    }
+
+    private void initCategoryData() {
+
+        Category processStep = categoryService.initCategory("진행구분", YnType.Y, 1, 1);
+        categoryService.initChildCategory("준비", YnType.Y, 2, 1, processStep);
+        categoryService.initChildCategory("작업중", YnType.Y, 2, 2, processStep);
+        categoryService.initChildCategory("완료", YnType.Y, 2, 3, processStep);
+        categoryService.initChildCategory("보류", YnType.Y, 2, 4, processStep);
+        categoryService.initChildCategory("매각 전", YnType.Y, 2, 5, processStep);
+        categoryService.initChildCategory("매각", YnType.Y, 2, 6, processStep);
+
+        Category usageType = categoryService.initCategory("매물용도", YnType.Y, 1, 2);
         Category usageChange = categoryService.initChildCategory("용도변경-별실가능", YnType.Y, 2, 1, usageType);
         categoryService.initChildCategory("투자용", YnType.Y, 3, 1, usageChange);
         categoryService.initChildCategory("사옥용", YnType.Y, 3, 2, usageChange);

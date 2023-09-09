@@ -11,12 +11,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
-                        <input type="hidden" id="adminId" name="adminId" th:field="*{adminId}" />
-                        <input type="hidden" id="emailCheckYn" />
-                        <input type="hidden" id="pwValidCheckYn" />
-                        <input type="hidden" id="pwEqualCheckYn" />
-                        <div class="card" style="margin-top: 10px;">
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
+                            <input type="hidden" id="adminId" name="adminId" th:field="*{adminId}" />
+                            <input type="hidden" id="emailCheckYn" />
+                            <input type="hidden" id="pwValidCheckYn" />
+                            <input type="hidden" id="pwEqualCheckYn" />
+
                             <div class="card-header">
                                 <h3 class="card-title">관리자정보</h3>
                                 <div class="card-tools">
@@ -132,11 +133,11 @@
                                     <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
                                     <a href="/administrators" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
+                        </form>
                         </div>
-                        <!-- /.card -->
-                    </form>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
                 </div>
             </div>
         </div>
