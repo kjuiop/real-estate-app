@@ -32,9 +32,13 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public Optional<CategoryDto> getCategoryDtoById(Long id) {
+        return queryRepository.getCategoryDtoById(id);
+    }
+
+    @Override
     public Optional<Category> findById(Long id) {
         return queryRepository.findById(id);
     }
-
 
 }

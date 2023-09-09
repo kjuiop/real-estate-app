@@ -4,6 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,6 @@ public class CategoryManagerController {
         return "settings/category/category-manager";
     }
 
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody CategoryCreateForm createForm) {
-        Long categoryId = categoryService.create(createForm);
-        return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
-    }
-
     @GetMapping("parent-categories")
     @ResponseBody
     public ResponseEntity<ApiResponse> getParentCategories() {
@@ -48,6 +42,34 @@ public class CategoryManagerController {
     public ResponseEntity<ApiResponse> getChildrenCategories(@RequestParam(name = "parentId") Long parentId) {
         List<CategoryDto> categories = categoryService.getChildrenCategoryDtos(parentId);
         return new ResponseEntity<>(ApiResponse.OK(categories), HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getCategory(@PathVariable(name = "id") Long id) {
+        CategoryDto dto = categoryService.getCategoryDtoById(id);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody CategoryCreateForm createForm) {
+        Long categoryId = categoryService.create(createForm);
+        return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody CategoryUpdateForm updateForm) {
+        Long categoryId = categoryService.update(updateForm);
+        return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> delete(@PathVariable(name = "id") Long id) {
+        Long categoryId = categoryService.delete(id);
+        return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
     }
 
 }
