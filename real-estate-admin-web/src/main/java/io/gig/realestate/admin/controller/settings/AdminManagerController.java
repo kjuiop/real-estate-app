@@ -36,7 +36,7 @@ public class AdminManagerController {
     public String index(AdminSearchDto searchDto, Model model) {
         model.addAttribute("pages", administratorService.getAdminPageListBySearch(searchDto));
         model.addAttribute("condition", searchDto);
-        return "administrator/list";
+        return "settings/administrator/list";
     }
 
     @GetMapping("new")
@@ -47,7 +47,7 @@ public class AdminManagerController {
         model.addAttribute("roles", roles);
         model.addAttribute("dto", dto);
 
-        return "administrator/editor";
+        return "settings/administrator/editor";
     }
 
     @GetMapping("{adminId}/edit")
@@ -58,7 +58,7 @@ public class AdminManagerController {
         model.addAttribute("roles", roles);
         model.addAttribute("dto", dto);
 
-        return "administrator/editor";
+        return "settings/administrator/editor";
     }
 
     @PostMapping
