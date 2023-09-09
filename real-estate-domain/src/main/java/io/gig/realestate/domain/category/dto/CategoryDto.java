@@ -22,6 +22,8 @@ public class CategoryDto {
 
     private Long id;
 
+    private Long parentId;
+
     private String name;
 
     private String colorCode;
@@ -37,10 +39,13 @@ public class CategoryDto {
     public CategoryDto(Category c) {
         this.id = c.getId();
         this.name = c.getName();
-        this.colorCode = c.getColorCode();
         this.activeYn = c.getActiveYn();
         this.sortOrder = c.getSortOrder();
         this.level = c.getLevel();
+
+        if (c.getParent() != null) {
+            this.parentId = c.getParent().getId();
+        }
     }
 
     public CategoryDto(Category c, boolean needsChild) {

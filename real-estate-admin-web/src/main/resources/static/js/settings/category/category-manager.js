@@ -78,9 +78,13 @@ let getCategories = function (parentId, level) {
                 let colorCode = checkNullOrEmptyValue(c.colorCode) ? c.colorCode : 'white';
 
                 categoryUi += '<li class="display-flex-row col-12 category-unit" style="color: grey;">';
-                categoryUi += '<span class="col-1" style="padding-top: 3px;"><input type="radio" name="lv' + level + '" value="' + c.id + '" class="category-data" colorCode="' + colorCode + '"></span>';
-                categoryUi += '<span class="col-8 category-name text-break ' + clsInactive + '" style="padding-top: 5px;">' + c.name + '<i class="fa fa-bookmark ml-3" style="color: ' + colorCode + '"></i></span>';
-                categoryUi += '<span class="col-3" style="padding-top: 5px;"><button class="btn btn-default btn-sm pull-right" onclick="editCode(' + c.id + ',' + level + ')">수정</button></span>';
+                categoryUi += '<span class="col-md-1" style="padding-top: 3px;"><input type="radio" name="lv' + level + '" value="' + c.id + '" class="category-data" colorCode="' + colorCode + '"></span>';
+                // categoryUi += '<span class="col-8 category-name text-break ' + clsInactive + '" style="padding-top: 5px;">' + c.name + '<i class="fa fa-bookmark ml-3" style="color: ' + colorCode + '"></i></span>';
+                categoryUi += '<span class="col-md-8 category-name text-break ' + clsInactive + '" style="padding-top: 5px;">' + c.name + '</span>';
+                categoryUi += '<span class="col-md-3" style="padding-top: 5px;">';
+                categoryUi += '<button class="btn btn-danger btn-sm pull-right" onclick="removeCode(' + c.id + ',' + level + ')" style="margin-left: 3px;"><i class="fa fa-trash"></i></button>';
+                categoryUi += '<button class="btn btn-warning btn-sm pull-right" onclick="editCode(' + c.id + ',' + level + ')"><i class="fa fa-pencil"></i></button>';
+                categoryUi += '</span>';
                 categoryUi += '</li>';
                 $('#category-lv' + level).append(categoryUi);
             });
@@ -128,22 +132,23 @@ let showParentCategoryName = function (level) {
 let editCode = function (codeId, level) {
     $.get('/settings/category-manager/' + codeId, function (resp) {
         console.log("detail", resp);
-        if (checkNullOrEmptyValue(resp)) {
-            $('#parentId').val(resp.parentId);
-            $('#name').val(resp.name);
-            $('#colorCode').val(resp.colorCode);
+        let data = resp.data;
+        if (checkNullOrEmptyValue(data)) {
+            $('#parentId').val(data.parentId);
+            $('#name').val(data.name);
+            $('#colorCode').val(data.colorCode);
             $('#lv').val(level);
             $('#saveType').val("modify");
-            $('#sortOrder').val(resp.sortOrder);
-            $('#id').val(resp.id);
+            $('#sortOrder').val(data.sortOrder);
+            $('#id').val(data.id);
 
-            if (resp.activeYn === "Y") {
+            if (data.activeYn === "Y") {
                 $("#category-active").iCheck('check');
             } else {
                 $("#category-inactive").iCheck('check');
             }
 
-            showParentCategoryName(resp.level);
+            showParentCategoryName(data.level);
 
             $('.modal-title').text('카테고리 수정');
             $('.btnSave').text('수정');
@@ -151,6 +156,10 @@ let editCode = function (codeId, level) {
         }
     });
 };
+
+let removeCode = function(codeId) {
+
+}
 
 let categorySave = function(e) {
     e.preventDefault();
@@ -164,7 +173,6 @@ let categorySave = function(e) {
         "카테고리가 수정되었습니다.";
 
     let params = serializeObject({form:$frm[0]}).json();
-
     if (!checkNullOrEmptyValue(params.name)) {
         twoBtnModal("카테고리명은 필수입니다.");
         return false;
@@ -194,7 +202,7 @@ let categorySave = function(e) {
             ajaxErrorFieldByModal(error);
         }
     });
-};
+}
 
 let minicolors = function() {
     $('.color-code').minicolors({

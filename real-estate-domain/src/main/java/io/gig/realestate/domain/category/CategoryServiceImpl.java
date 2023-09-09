@@ -2,6 +2,7 @@ package io.gig.realestate.domain.category;
 
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,18 +22,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryReader categoryReader;
     private final CategoryStore categoryStore;
-
-    @Override
-    @Transactional
-    public Long create(@NotNull CategoryCreateForm dto) {
-        Category newCategory = Category.create(dto);
-        if (dto.existParentId()) {
-            Category parent = getCategoryById(dto.getParentId());
-            newCategory.addParent(parent);
-        }
-
-        return categoryStore.store(newCategory).getId();
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -56,6 +45,25 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return foundCategory.get();
+    }
+
+    @Override
+    @Transactional
+    public Long create(@NotNull CategoryCreateForm dto) {
+        Category newCategory = Category.create(dto);
+        if (dto.existParentId()) {
+            Category parent = getCategoryById(dto.getParentId());
+            newCategory.addParent(parent);
+        }
+
+        return categoryStore.store(newCategory).getId();
+    }
+
+    @Override
+    public Long update(CategoryUpdateForm updateForm) {
+        Category foundCategory = getCategoryById(updateForm.getId());
+        foundCategory.update(updateForm);
+        return categoryStore.store(foundCategory).getId();
     }
 
     public Category getCategoryById(Long id) {

@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.category;
 
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
+import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -32,8 +33,6 @@ public class Category {
     @Setter(AccessLevel.PRIVATE)
     private int level = 1;
 
-    private String colorCode;
-
     @Builder.Default
     private int sortOrder = 0;
 
@@ -53,16 +52,20 @@ public class Category {
     public static Category create(CategoryCreateForm form) {
         return Category.builder()
                 .name(form.getName())
-                .colorCode(form.getColorCode())
                 .activeYn(form.getActiveYn())
                 .sortOrder(form.getSortOrder())
                 .build();
     }
 
+    public void update(CategoryUpdateForm form) {
+        this.name = form.getName();
+        this.sortOrder = form.getSortOrder();
+        this.activeYn = form.getActiveYn();
+    }
+
     public void addParent(Category parent) {
         this.parent = parent;
         this.level = 2;
-        this.colorCode = parent.getColorCode();
         parent.getChild().add(this);
     }
 
