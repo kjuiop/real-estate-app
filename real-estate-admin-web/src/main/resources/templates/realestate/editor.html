@@ -11,6 +11,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
+                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
@@ -61,7 +62,7 @@
                                 <div class="col-md-12 display-flex-row">
                                     <label class="text-label">대분류</label>
                                 </div>
-                                <div class="col-md-5 col-sm-6 display-flex-row">
+                                <div class="col-md-7 col-sm-8 display-flex-row">
                                     <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
                                         <option>용도변경-별실가능</option>
                                     </select>
@@ -86,19 +87,20 @@
                                     <label class="text-label">주소</label>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <input type="text" class="form-control form-control-sm col-sm-9" />
-                                    <button type="button" class="btn btn-sm btn-default col-sm-2" style="margin-left: 5px;"> 주소검색</button>
+                                    <input type="text" class="form-control form-control-sm col-sm-9" name="address" readonly />
+                                    <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" />
+                                    <input type="text" class="form-control form-control-sm col-sm-12" name="address_detail" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
-                                    <div id="map" class="col-md-12" style="height:180px;"></div>
+                                    <div id="map" class="col-md-12 hidden" style="height:180px;"></div>
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
+                    </form>
                     <!-- /.card -->
                     <div class="card" style="margin-top: 5px;">
                         <div class="card-header">
@@ -129,7 +131,7 @@
                                 <label class="text-label">동+지번(주소)</label>
                                 <div class="display-flex-row col-md-12 no-left-padding">
                                     <input type="text" class="form-control form-control-sm col-md-9 margin-right-8" style="height: 36px;"/>
-                                    <button type="button" class="btn btn-sm btn-primary col-md-2"> 토지 검색</button>
+                                    <button type="button" class="btn btn-sm btn-primary col-md-2"> 토지검색</button>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row margin-bottom-5">
@@ -607,7 +609,8 @@
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702"></script>
+    <script th:replace="layouts/fragments :: postcode"></script>
+    <script th:replace="layouts/fragments :: kakaoMaps"></script>
     <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
     <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
 </section>
