@@ -60,9 +60,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Long update(CategoryUpdateForm updateForm) {
         Category foundCategory = getCategoryById(updateForm.getId());
         foundCategory.update(updateForm);
+        return categoryStore.store(foundCategory).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long delete(Long id) {
+        Category foundCategory = getCategoryById(id);
+        foundCategory.delete();
         return categoryStore.store(foundCategory).getId();
     }
 

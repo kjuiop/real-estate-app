@@ -41,6 +41,11 @@ public class Category {
     @Column(length = 2)
     private YnType activeYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    private YnType deleteYn = YnType.N;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
@@ -61,6 +66,10 @@ public class Category {
         this.name = form.getName();
         this.sortOrder = form.getSortOrder();
         this.activeYn = form.getActiveYn();
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
     }
 
     public void addParent(Category parent) {

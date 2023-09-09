@@ -65,4 +65,11 @@ public class CategoryManagerController {
         return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
     }
 
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> delete(@PathVariable(name = "id") Long id) {
+        Long categoryId = categoryService.delete(id);
+        return new ResponseEntity<>(ApiResponse.OK(categoryId), HttpStatus.OK);
+    }
+
 }

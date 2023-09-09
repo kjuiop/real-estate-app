@@ -75,11 +75,8 @@ let getCategories = function (parentId, level) {
             $(data).each(function (idx, c) {
                 let clsInactive = c.activeYn === 'N' ? 'inactive' : '';
                 let categoryUi = '';
-                let colorCode = checkNullOrEmptyValue(c.colorCode) ? c.colorCode : 'white';
-
                 categoryUi += '<li class="display-flex-row col-12 category-unit" style="color: grey;">';
-                categoryUi += '<span class="col-md-1" style="padding-top: 3px;"><input type="radio" name="lv' + level + '" value="' + c.id + '" class="category-data" colorCode="' + colorCode + '"></span>';
-                // categoryUi += '<span class="col-8 category-name text-break ' + clsInactive + '" style="padding-top: 5px;">' + c.name + '<i class="fa fa-bookmark ml-3" style="color: ' + colorCode + '"></i></span>';
+                categoryUi += '<span class="col-md-1" style="padding-top: 3px;"><input type="radio" name="lv' + level + '" value="' + c.id + '" class="category-data"></span>';
                 categoryUi += '<span class="col-md-8 category-name text-break ' + clsInactive + '" style="padding-top: 5px;">' + c.name + '</span>';
                 categoryUi += '<span class="col-md-3" style="padding-top: 5px;">';
                 categoryUi += '<button class="btn btn-danger btn-sm pull-right" onclick="removeCode(' + c.id + ',' + level + ')" style="margin-left: 3px;"><i class="fa fa-trash"></i></button>';
@@ -159,6 +156,27 @@ let editCode = function (codeId, level) {
 
 let removeCode = function(codeId) {
 
+    if (!checkNullOrEmptyValue(codeId)) {
+        console.error("is empty codeId : ", codeId)
+        return;
+    }
+
+    oneBtnModal("카테고리를 삭제하시겠습니까?", function() {
+        $.ajax({
+            url: "/settings/category-manager/" + codeId,
+            method: "delete",
+            type: "json",
+            contentType: "application/json",
+            success: function (result) {
+                twoBtnModal("카테고리가 삭제되었습니다.", function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByModal(error);
+            }
+        });
+    });
 }
 
 let categorySave = function(e) {
