@@ -73,6 +73,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional
+    public List<AdministratorListDto> getNotTeamAdmins() {
+        return null;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public AdministratorDetailDto getAdminFindByUsername(String username) {
         return administratorReader.getAdminFindByUsername(username);

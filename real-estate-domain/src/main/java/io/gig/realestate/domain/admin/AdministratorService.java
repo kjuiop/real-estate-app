@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,4 +34,6 @@ public interface AdministratorService {
     AdministratorDetailDto getDetail(Long adminId);
 
     Long update(AdministratorUpdateForm updateForm);
+
+    List<AdministratorListDto> getNotTeamAdmins();
 }
