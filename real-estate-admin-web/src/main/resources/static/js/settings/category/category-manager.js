@@ -98,14 +98,22 @@ let getCategories = function (parentId, level) {
  * @param level
  */
 let showParentCategoryName = function (level) {
-    level -= 1;
+
+    console.log("level : ", level);
+
     $('#category-panel-lv1').hide();
+    $('#category-panel-lv2').hide();
     $('#colorCode').attr('disabled', false);
-    if (level > 0) {
-        $('#category-panel-lv' + level).show();
+
+    if (level <= 1) {
+        return
+    }
+
+    for (let i = level-1; i>0; i--) {
+        $('#category-panel-lv' + i).show();
         $('#colorCode').attr('disabled', true);
         $('#colorCode').val($('#parentColorCode').val());
-        $('#category-name-lv' + level).text($('input[name="lv' + level + '"]:checked').parents('.category-unit').find('.category-name').text());
+        $('#category-name-lv' + i).text($('input[name="lv' + i + '"]:checked').parents('.category-unit').find('.category-name').text());
     }
 };
 
