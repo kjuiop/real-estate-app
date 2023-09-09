@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}">
+      layout:decorate="~{layouts/detail}">
 <head>
     <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
 </head>
@@ -11,51 +11,76 @@
 <div layout:fragment="content">
     <div th:replace="layouts/utilFragments::navigator('/settings/category-manager', '카테고리', '카테고리 관리')"></div>
     <section class="content">
-        <div class="row">
-            <div class="col-md-5 ml-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fa fa-cog"></i>
-                            &nbsp;&nbsp;1차 카테고리
-                        </h3>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fa fa-cog"></i>
+                                &nbsp;&nbsp;1차 카테고리
+                            </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body" style="padding-left: 5px; padding-right: 5px;">
+                            <input type="hidden" id="parentId-lv1">
+                            <ul id="category-lv1" class="list-unstyled">
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer text-center">
+                            <button class="btn btn-default btnAdd" style="background-color: #17a2b8; color: white;" data-lv="1">추가</button>
+                        </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body" style="padding-left: 5px; padding-right: 5px;">
-                        <input type="hidden" id="parentId-lv1">
-                        <ul id="category-lv1" class="list-unstyled">
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer text-center">
-                        <button class="btn btn-default btnAdd" style="background-color: #17a2b8; color: white;" data-lv="1">추가</button>
-                    </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
-            </div>
-            <!-- ./col -->
-            <div class="col-md-5 ml-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fa fa-cog"></i>
-                            &nbsp;&nbsp;2차 카테고리
-                        </h3>
+                <!-- ./col -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fa fa-cog"></i>
+                                &nbsp;&nbsp;2차 카테고리
+                            </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body" style="padding-left: 5px; padding-right: 5px;">
+                            <input type="hidden" id="parentId-lv2">
+                            <ul id="category-lv2" class="list-unstyled">
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer text-center">
+                            <button class="btn btn-default btnAdd" style="background-color: #17a2b8; color: white;" data-lv="2">추가</button>
+                        </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body" style="padding-left: 5px; padding-right: 5px;">
-                        <input type="hidden" id="parentId-lv2">
-                        <ul id="category-lv2" class="list-unstyled">
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer text-center">
-                        <button class="btn btn-default btnAdd" style="background-color: #17a2b8; color: white;" data-lv="2">추가</button>
-                    </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
+                <!-- ./col -->
+                <!-- ./col -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fa fa-cog"></i>
+                                &nbsp;&nbsp;3차 카테고리
+                            </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body" style="padding-left: 5px; padding-right: 5px;">
+                            <input type="hidden" id="parentId-lv3">
+                            <ul id="category-lv3" class="list-unstyled">
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer text-center">
+                            <button class="btn btn-default btnAdd" style="background-color: #17a2b8; color: white;" data-lv="3">추가</button>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- ./col -->
             </div>
-            <!-- ./col -->
         </div>
     </section>
     <div class="modal fade" tabindex="-1" role="dialog" id="category-editor">
