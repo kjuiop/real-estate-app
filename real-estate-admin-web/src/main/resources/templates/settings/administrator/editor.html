@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form class="form-horizontal" name="frmRegister" method="post">
+                        <form class="form-horizontal" name="frmTeamRegister" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">팀 정보</h3>
                                 <div class="card-tools">
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="card" style="margin-top: 10px;">
-                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
+                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
                             <input type="hidden" id="adminId" name="adminId" th:field="*{adminId}" />
                             <input type="hidden" id="emailCheckYn" />
                             <input type="hidden" id="pwValidCheckYn" />

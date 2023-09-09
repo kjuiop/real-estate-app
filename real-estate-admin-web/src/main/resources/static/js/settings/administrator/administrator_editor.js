@@ -1,8 +1,10 @@
 let onReady = function() {
-    let $frm = $('form[name="frmRegister"]');
+
     console.log("dto", dto);
     loadRole();
     onlyNumberKeyEvent({className: "only-number"});
+
+    let $frm = $('form[name="frmAdminRegister"]');
     isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
@@ -126,6 +128,14 @@ let updateValidate = function($frm) {
     });
 }
 
+let createTeam = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmTeamRegister"]');
+
+
+}
+
 let loadRole = function($frm) {
 
     if (!checkNullOrEmptyValue(dto)) {
@@ -162,7 +172,7 @@ let removeData = function(e) {
 
 let save = function() {
 
-    let $frm = $('form[name="frmRegister"]'),
+    let $frm = $('form[name="frmAdminRegister"]'),
     formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
     param = serializeObject({form:$frm[0]}).json();
     param['roleNames'] = getRoleNames();
