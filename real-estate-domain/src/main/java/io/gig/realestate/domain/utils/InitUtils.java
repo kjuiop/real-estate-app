@@ -1,6 +1,9 @@
 package io.gig.realestate.domain.utils;
 
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.exception.AlreadyEntity;
 import io.gig.realestate.domain.menu.Menu;
 import io.gig.realestate.domain.menu.MenuService;
@@ -25,6 +28,7 @@ public class InitUtils {
     private final MenuService menuService;
     private final RoleService roleService;
     private final AdministratorService administratorService;
+    private final CategoryService categoryService;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(rollbackFor = {AlreadyEntity.class})
@@ -54,6 +58,14 @@ public class InitUtils {
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
+
+        Category usageType = categoryService.initCategory("매물용도", YnType.Y, 1, 1);
+        categoryService.initChildCategory("투자용", YnType.Y, 2, 1, usageType);
+        categoryService.initChildCategory("사옥용", YnType.Y, 2, 2, usageType);
+        categoryService.initChildCategory("거주용", YnType.Y, 2, 3, usageType);
+        categoryService.initChildCategory("임대수익용", YnType.Y, 2, 4, usageType);
+        categoryService.initChildCategory("신축-리모델링용", YnType.Y, 2, 5, usageType);
+        categoryService.initChildCategory("모텔/호텔", YnType.Y, 2, 6, usageType);
     }
 
 
@@ -69,6 +81,10 @@ public class InitUtils {
 
         if (menuService.getCountMenuData() > 0) {
             throw new AlreadyEntity("이미 메뉴 데이터가 존재합니다.");
+        }
+
+        if (categoryService.getCountCategoryData() > 0) {
+            throw new AlreadyEntity("이미 카테고리 데이터가 존재합니다.");
         }
     }
 }

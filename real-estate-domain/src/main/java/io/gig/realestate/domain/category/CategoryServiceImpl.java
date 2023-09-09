@@ -3,6 +3,7 @@ package io.gig.realestate.domain.category;
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,25 @@ public class CategoryServiceImpl implements CategoryService {
         Category foundCategory = getCategoryById(id);
         foundCategory.delete();
         return categoryStore.store(foundCategory).getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long getCountCategoryData() {
+        return categoryReader.getCountCategoryData();
+    }
+
+    @Override
+    public Category initCategory(String name, YnType activeYn, int level, int sortOrder) {
+        Category newCategory = Category.initCategory(name, activeYn, level, sortOrder);
+        return categoryStore.store(newCategory);
+    }
+
+    @Override
+    public void initChildCategory(String name, YnType activeYn, int level, int sortOrder, Category parentCategory) {
+        Category newCategory = Category.initCategory(name, activeYn, level, sortOrder);
+        newCategory.addParent(parentCategory);
+        categoryStore.store(newCategory);
     }
 
     public Category getCategoryById(Long id) {
