@@ -57,4 +57,14 @@ public class CategoryQueryRepository {
         return category.parent.isNull();
     }
 
+    public Optional<CategoryDto> getCategoryDtoById(Long id) {
+        Optional<CategoryDto> fetch = Optional.ofNullable(this.queryFactory
+                .select(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(category.id.eq(id))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
 }

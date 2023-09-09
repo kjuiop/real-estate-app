@@ -50,4 +50,11 @@ public class CategoryManagerController {
         return new ResponseEntity<>(ApiResponse.OK(categories), HttpStatus.OK);
     }
 
+    @GetMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getCategory(@PathVariable(name = "id") Long id) {
+        CategoryDto dto = categoryService.getCategoryDtoById(id);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
 }

@@ -16,4 +16,6 @@ public interface CategoryService {
     List<CategoryDto> getParentCategoryDtos();
 
     List<CategoryDto> getChildrenCategoryDtos(Long parentId);
+
+    CategoryDto getCategoryDtoById(Long id);
 }

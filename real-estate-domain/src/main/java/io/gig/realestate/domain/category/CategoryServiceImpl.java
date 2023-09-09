@@ -46,6 +46,18 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryReader.getChildrenCategoryDtos(parentId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public CategoryDto getCategoryDtoById(Long id) {
+
+        Optional<CategoryDto> foundCategory = categoryReader.getCategoryDtoById(id);
+        if (foundCategory.isEmpty()) {
+            throw new NotFoundException(">>> Category Not Found");
+        }
+
+        return foundCategory.get();
+    }
+
     public Category getCategoryById(Long id) {
         Optional<Category> foundCategory = categoryReader.findById(id);
         if (foundCategory.isEmpty()) {
