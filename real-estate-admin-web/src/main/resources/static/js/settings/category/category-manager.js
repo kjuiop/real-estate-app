@@ -34,9 +34,12 @@ let getChildrenCategory = function(e) {
         checked = $this.prop('checked');
 
     if (checked) {
+
         let parentId = $(this).val();
         let level = parseInt($(this).attr('name').replace("lv", "")) + 1;
         let colorCode= $(this).attr('colorCode');
+
+        console.log("level : ", level);
 
         $('#parentId-lv' + level).val(parentId);
         $('#parentColorCode').val(colorCode);
@@ -168,21 +171,21 @@ let categorySave = function(e) {
 
     console.log("params", params);
 
-    $.ajax({
-        url: "/settings/category-manager",
-        method: formMethod,
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            twoBtnModal(message, function() {
-                location.reload();
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByModal(error);
-        }
-    });
+    // $.ajax({
+    //     url: "/settings/category-manager",
+    //     method: formMethod,
+    //     type: "json",
+    //     contentType: "application/json",
+    //     data: JSON.stringify(params),
+    //     success: function (result) {
+    //         twoBtnModal(message, function() {
+    //             location.reload();
+    //         });
+    //     },
+    //     error:function(error){
+    //         ajaxErrorFieldByModal(error);
+    //     }
+    // });
 };
 
 let minicolors = function() {
@@ -216,4 +219,4 @@ $(document).ready(onReady)
             radioClass: 'iradio_flat-blue'
         });
     }).trigger('icheck')
-    .on('ifToggled', '#category-lv1 .category-data', getChildrenCategory);
+    .on('ifToggled', '.category-list .category-data', getChildrenCategory);
