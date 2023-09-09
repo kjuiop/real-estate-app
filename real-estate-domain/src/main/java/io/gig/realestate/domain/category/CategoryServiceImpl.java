@@ -89,10 +89,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void initChildCategory(String name, YnType activeYn, int level, int sortOrder, Category parentCategory) {
+    public Category initChildCategory(String name, YnType activeYn, int level, int sortOrder, Category parentCategory) {
         Category newCategory = Category.initCategory(name, activeYn, level, sortOrder);
         newCategory.addParent(parentCategory);
-        categoryStore.store(newCategory);
+        return categoryStore.store(newCategory);
     }
 
     public Category getCategoryById(Long id) {

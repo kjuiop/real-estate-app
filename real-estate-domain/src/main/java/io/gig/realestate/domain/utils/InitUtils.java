@@ -60,12 +60,13 @@ public class InitUtils {
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
 
         Category usageType = categoryService.initCategory("매물용도", YnType.Y, 1, 1);
-        categoryService.initChildCategory("투자용", YnType.Y, 2, 1, usageType);
-        categoryService.initChildCategory("사옥용", YnType.Y, 2, 2, usageType);
-        categoryService.initChildCategory("거주용", YnType.Y, 2, 3, usageType);
-        categoryService.initChildCategory("임대수익용", YnType.Y, 2, 4, usageType);
-        categoryService.initChildCategory("신축-리모델링용", YnType.Y, 2, 5, usageType);
-        categoryService.initChildCategory("모텔/호텔", YnType.Y, 2, 6, usageType);
+        Category usageChange = categoryService.initChildCategory("용도변경-별실가능", YnType.Y, 2, 1, usageType);
+        categoryService.initChildCategory("투자용", YnType.Y, 3, 1, usageChange);
+        categoryService.initChildCategory("사옥용", YnType.Y, 3, 2, usageChange);
+        categoryService.initChildCategory("거주용", YnType.Y, 3, 3, usageChange);
+        categoryService.initChildCategory("임대수익용", YnType.Y, 3, 4, usageChange);
+        categoryService.initChildCategory("신축-리모델링용", YnType.Y, 3, 5, usageChange);
+        categoryService.initChildCategory("모텔/호텔", YnType.Y, 3, 6, usageChange);
     }
 
 
