@@ -1,4 +1,4 @@
-var onReady = function() {
+let onReady = function() {
     console.log("categories", categories);
 
 
@@ -7,11 +7,11 @@ var onReady = function() {
     minicolors();
 };
 
-var showCategoryAddModal = function(e) {
+let showCategoryAddModal = function(e) {
     e.preventDefault();
 
-    var lv = parseInt($(this).data('lv'));
-    var parentId = $('#parentId-lv' + lv).val();
+    let lv = parseInt($(this).data('lv'));
+    let parentId = $('#parentId-lv' + lv).val();
 
     $('#parentId').val(parentId);
     $('#lv').val(lv);
@@ -27,16 +27,19 @@ var showCategoryAddModal = function(e) {
     $('#category-editor').modal('show');
 };
 
-var getChildrenCategory = function(e) {
+let getChildrenCategory = function(e) {
     e.preventDefault();
 
-    var $this = $(this),
+    let $this = $(this),
         checked = $this.prop('checked');
 
     if (checked) {
-        var parentId = $(this).val();
-        var level = parseInt($(this).attr('name').replace("lv", "")) + 1;
-        var colorCode= $(this).attr('colorCode');
+
+        let parentId = $(this).val();
+        let level = parseInt($(this).attr('name').replace("lv", "")) + 1;
+        let colorCode = $(this).attr('colorCode');
+
+        console.log("level : ", level);
 
         $('#parentId-lv' + level).val(parentId);
         $('#parentColorCode').val(colorCode);
@@ -97,15 +100,23 @@ let getCategories = function (parentId, level) {
  * modal codename show
  * @param level
  */
-var showParentCategoryName = function (level) {
-    level -= 1;
+let showParentCategoryName = function (level) {
+
+    console.log("level : ", level);
+
     $('#category-panel-lv1').hide();
+    $('#category-panel-lv2').hide();
     $('#colorCode').attr('disabled', false);
-    if (level > 0) {
-        $('#category-panel-lv' + level).show();
+
+    if (level <= 1) {
+        return
+    }
+
+    for (let i = level-1; i>0; i--) {
+        $('#category-panel-lv' + i).show();
         $('#colorCode').attr('disabled', true);
         $('#colorCode').val($('#parentColorCode').val());
-        $('#category-name-lv' + level).text($('input[name="lv' + level + '"]:checked').parents('.category-unit').find('.category-name').text());
+        $('#category-name-lv' + i).text($('input[name="lv' + i + '"]:checked').parents('.category-unit').find('.category-name').text());
     }
 };
 
@@ -114,7 +125,7 @@ var showParentCategoryName = function (level) {
  * @param codeId
  * @param level
  */
-var editCode = function (codeId, level) {
+let editCode = function (codeId, level) {
     $.get('/settings/category-manager/' + codeId, function (resp) {
         console.log("detail", resp);
         if (checkNullOrEmptyValue(resp)) {
@@ -141,17 +152,18 @@ var editCode = function (codeId, level) {
     });
 };
 
-var categorySave = function(e) {
+let categorySave = function(e) {
     e.preventDefault();
 
-    var $frm = $('form[name="frmRegister"]');
-    var saveType = $('#saveType').val();
+    let $frm = $('form[name="frmRegister"]'),
+        saveType = $('#saveType').val(),
+        lv = parseInt($(`#lv`).val());
 
-    var formMethod = saveType === "new" ? "post" : "put";
-    var message = saveType === "new" ? "카테고리가 추가되었습니다." :
+    let formMethod = saveType === "new" ? "post" : "put",
+        message = saveType === "new" ? "카테고리가 추가되었습니다." :
         "카테고리가 수정되었습니다.";
 
-    var params = serializeObject({form:$frm[0]}).json();
+    let params = serializeObject({form:$frm[0]}).json();
 
     if (!checkNullOrEmptyValue(params.name)) {
         twoBtnModal("카테고리명은 필수입니다.");
@@ -159,6 +171,7 @@ var categorySave = function(e) {
     }
 
     console.log("params", params);
+    console.log("lv", lv);
 
     $.ajax({
         url: "/settings/category-manager",
@@ -168,7 +181,13 @@ var categorySave = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             twoBtnModal(message, function() {
-                location.reload();
+                if (lv === 1) {
+                    location.reload();
+                    return
+                }
+                console.log("level : ", lv)
+                $(`.btnModalClose`).trigger(`click`);
+                getCategories(params.parentId, lv)
             });
         },
         error:function(error){
@@ -177,7 +196,7 @@ var categorySave = function(e) {
     });
 };
 
-var minicolors = function() {
+let minicolors = function() {
     $('.color-code').minicolors({
         control: $(this).attr('data-control') || 'hue',
         defaultValue: $(this).attr('data-defaultValue') || '',
@@ -208,4 +227,4 @@ $(document).ready(onReady)
             radioClass: 'iradio_flat-blue'
         });
     }).trigger('icheck')
-    .on('ifToggled', '#category-lv1 .category-data', getChildrenCategory);
+    .on('ifToggled', '.category-list .category-data', getChildrenCategory);

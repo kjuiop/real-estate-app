@@ -164,16 +164,16 @@ const ajaxErrorFieldByText = function (response) {
     });
 };
 
-var onlyNumberKeyEvent = function (options) {
+let onlyNumberKeyEvent = function (options) {
     if (typeof (options) !== 'object') return false;
 
-    var option = {};
+    let option = {};
     option.className = "only-number";
     option.formId = "";
 
     $.extend(options, option);
 
-    var target = "";
+    let target = "";
     if (option.formId === "") {
         target = $("." + option.className);
     } else {
@@ -198,9 +198,23 @@ var onlyNumberKeyEvent = function (options) {
     });
 
     target.keyup(function (e) {
-        var inputValue = $(this).val();
+        let inputValue = $(this).val();
         if (e.keyCode == 8) return;
         $(this).val(onlyNumber(inputValue));
+    });
+};
+
+let ajaxErrorFieldByModal = function (response) {
+    const errorFields = response.responseJSON;
+
+    let $field, error;
+    $.each(errorFields, function(idx, error){
+        $field = $('#'+ error['field']);
+
+        if ($field && $field.length > 0){
+            $field.siblings('.error-message').remove();
+            oneBtnModal(error.defaultMessage);
+        }
     });
 };
 
