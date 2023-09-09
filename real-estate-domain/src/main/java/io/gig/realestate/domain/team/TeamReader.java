@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.team;
 
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
@@ -12,9 +11,6 @@ import java.util.List;
  * @author : JAKE
  * @date : 2023/09/09
  */
-public interface TeamService {
-
-    Long create(TeamCreateForm createForm);
-
+public interface TeamReader {
     Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto);
 }

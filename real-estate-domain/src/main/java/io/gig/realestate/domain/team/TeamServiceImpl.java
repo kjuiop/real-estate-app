@@ -1,9 +1,15 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
+import io.gig.realestate.domain.team.dto.TeamDto;
+import io.gig.realestate.domain.team.dto.TeamListDto;
+import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -13,7 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
+    private final TeamReader teamReader;
     private final TeamStore teamStore;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto) {
+        return teamReader.getTeamPageListBySearch(searchDto);
+    }
 
     @Override
     @Transactional
