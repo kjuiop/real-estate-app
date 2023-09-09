@@ -37,7 +37,7 @@ let getChildrenCategory = function(e) {
 
         let parentId = $(this).val();
         let level = parseInt($(this).attr('name').replace("lv", "")) + 1;
-        let colorCode= $(this).attr('colorCode');
+        let colorCode = $(this).attr('colorCode');
 
         console.log("level : ", level);
 
@@ -155,11 +155,12 @@ let editCode = function (codeId, level) {
 let categorySave = function(e) {
     e.preventDefault();
 
-    let $frm = $('form[name="frmRegister"]');
-    let saveType = $('#saveType').val();
+    let $frm = $('form[name="frmRegister"]'),
+        saveType = $('#saveType').val(),
+        lv = parseInt($(`#lv`).val());
 
-    let formMethod = saveType === "new" ? "post" : "put";
-    let message = saveType === "new" ? "카테고리가 추가되었습니다." :
+    let formMethod = saveType === "new" ? "post" : "put",
+        message = saveType === "new" ? "카테고리가 추가되었습니다." :
         "카테고리가 수정되었습니다.";
 
     let params = serializeObject({form:$frm[0]}).json();
@@ -170,22 +171,29 @@ let categorySave = function(e) {
     }
 
     console.log("params", params);
+    console.log("lv", lv);
 
-    // $.ajax({
-    //     url: "/settings/category-manager",
-    //     method: formMethod,
-    //     type: "json",
-    //     contentType: "application/json",
-    //     data: JSON.stringify(params),
-    //     success: function (result) {
-    //         twoBtnModal(message, function() {
-    //             location.reload();
-    //         });
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByModal(error);
-    //     }
-    // });
+    $.ajax({
+        url: "/settings/category-manager",
+        method: formMethod,
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            twoBtnModal(message, function() {
+                if (lv === 1) {
+                    location.reload();
+                    return
+                }
+                console.log("level : ", lv)
+                $(`.btnModalClose`).trigger(`click`);
+                getCategories(params.parentId, lv)
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByModal(error);
+        }
+    });
 };
 
 let minicolors = function() {
