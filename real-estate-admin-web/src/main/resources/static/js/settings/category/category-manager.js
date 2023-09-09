@@ -1,4 +1,4 @@
-var onReady = function() {
+let onReady = function() {
     console.log("categories", categories);
 
 
@@ -7,11 +7,11 @@ var onReady = function() {
     minicolors();
 };
 
-var showCategoryAddModal = function(e) {
+let showCategoryAddModal = function(e) {
     e.preventDefault();
 
-    var lv = parseInt($(this).data('lv'));
-    var parentId = $('#parentId-lv' + lv).val();
+    let lv = parseInt($(this).data('lv'));
+    let parentId = $('#parentId-lv' + lv).val();
 
     $('#parentId').val(parentId);
     $('#lv').val(lv);
@@ -27,16 +27,16 @@ var showCategoryAddModal = function(e) {
     $('#category-editor').modal('show');
 };
 
-var getChildrenCategory = function(e) {
+let getChildrenCategory = function(e) {
     e.preventDefault();
 
-    var $this = $(this),
+    let $this = $(this),
         checked = $this.prop('checked');
 
     if (checked) {
-        var parentId = $(this).val();
-        var level = parseInt($(this).attr('name').replace("lv", "")) + 1;
-        var colorCode= $(this).attr('colorCode');
+        let parentId = $(this).val();
+        let level = parseInt($(this).attr('name').replace("lv", "")) + 1;
+        let colorCode= $(this).attr('colorCode');
 
         $('#parentId-lv' + level).val(parentId);
         $('#parentColorCode').val(colorCode);
@@ -97,7 +97,7 @@ let getCategories = function (parentId, level) {
  * modal codename show
  * @param level
  */
-var showParentCategoryName = function (level) {
+let showParentCategoryName = function (level) {
     level -= 1;
     $('#category-panel-lv1').hide();
     $('#colorCode').attr('disabled', false);
@@ -114,7 +114,7 @@ var showParentCategoryName = function (level) {
  * @param codeId
  * @param level
  */
-var editCode = function (codeId, level) {
+let editCode = function (codeId, level) {
     $.get('/settings/category-manager/' + codeId, function (resp) {
         console.log("detail", resp);
         if (checkNullOrEmptyValue(resp)) {
@@ -141,17 +141,17 @@ var editCode = function (codeId, level) {
     });
 };
 
-var categorySave = function(e) {
+let categorySave = function(e) {
     e.preventDefault();
 
-    var $frm = $('form[name="frmRegister"]');
-    var saveType = $('#saveType').val();
+    let $frm = $('form[name="frmRegister"]');
+    let saveType = $('#saveType').val();
 
-    var formMethod = saveType === "new" ? "post" : "put";
-    var message = saveType === "new" ? "카테고리가 추가되었습니다." :
+    let formMethod = saveType === "new" ? "post" : "put";
+    let message = saveType === "new" ? "카테고리가 추가되었습니다." :
         "카테고리가 수정되었습니다.";
 
-    var params = serializeObject({form:$frm[0]}).json();
+    let params = serializeObject({form:$frm[0]}).json();
 
     if (!checkNullOrEmptyValue(params.name)) {
         twoBtnModal("카테고리명은 필수입니다.");
@@ -177,7 +177,7 @@ var categorySave = function(e) {
     });
 };
 
-var minicolors = function() {
+let minicolors = function() {
     $('.color-code').minicolors({
         control: $(this).attr('data-control') || 'hue',
         defaultValue: $(this).attr('data-defaultValue') || '',
