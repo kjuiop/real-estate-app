@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<body>
+<div layout:fragment="content" th:with="AdminStatus = ${T(io.gig.realestate.domain.admin.types.AdminStatus)}">
+    <section class="content" th:with="isModify = ${dto.adminId != null}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form class="form-horizontal" name="frmTeamRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">팀 정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <input type="hidden" id="teamId" name="teamId" />
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>팀 이름</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control valid-fields" name="name" placeholder="팀 이름을 입력해주세요."
+                                               autocomplete="off" required>
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/administrators" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
+                            <div class="card-header">
+                                <h3 class="card-title">팀 구성원 정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group display-flex-column roleSection" sec:authorize="hasRole('SUPER_ADMIN')">
+                                    <div class="col-12 display-flex-row">
+                                        <label class="col-2 control-label">구성원 목록</label>
+                                        <div class="col-3">
+                                            <label class="text-center" style="width: 100%">관리자 목록</label>
+                                            <select multiple="" class="form-control valid-ignore excludeData" style="height: 200px;">
+                                                <option th:value="${r.name}" th:each="r: ${roles}">
+                                                    <span>무소속</span> &nbsp;&nbsp;<span style="color: #eeeeee">|</span>&nbsp;&nbsp;&nbsp;<span>[[${r.description}]]</span>
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <div style="display:flex;align-items: center;justify-content: center;height: 120px">
+                                                <div class="btn-group-vertical align-middle">
+                                                    <button type="button" class="btn btn-info btnIncludeData"><i
+                                                            class="fa fa-caret-right"></i></button>
+                                                    <button type="button" class="btn btn-danger btnExcludeData"><i
+                                                            class="fa fa-caret-left"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="text-center" style="width: 100%">팀 구성원 목록</label>
+                                            <select multiple="" class="form-control valid-ignore includeData" style="height: 200px;">
+                                                <option th:value="${r.name}" th:each="r, status : ${roles}" style="display: none">
+                                                    무소속 || [[${r.description}]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="display-flex-row col-12">
+                                        <div class="col-2"></div>
+                                        <div class="col-10">
+                                            <span id="roleNames"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/administrators" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/settings/administrator/administrator_editor.js" th:src="@{/js/settings/administrator/administrator_editor.js}"></script>
+</section>
+</body>
+</html>

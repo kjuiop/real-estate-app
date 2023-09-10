@@ -2,6 +2,10 @@ package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
+import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
+import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.role.RoleService;
+import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
@@ -13,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -24,12 +29,25 @@ import javax.validation.Valid;
 public class TeamManagerController {
 
     private final TeamService teamService;
+    private final RoleService roleService;
 
     @GetMapping
     public String index(TeamSearchDto searchDto, Model model) {
         model.addAttribute("pages", teamService.getTeamPageListBySearch(searchDto));
         model.addAttribute("condition", searchDto);
         return "settings/team/list";
+    }
+
+    @GetMapping("new")
+    public String register(Model model) {
+
+        List<RoleDto> roles = roleService.getAllRoles();
+        AdministratorDetailDto dto = AdministratorDetailDto.emptyDto();
+
+        model.addAttribute("roles", roles);
+        model.addAttribute("dto", dto);
+
+        return "settings/team/editor";
     }
 
     @PostMapping
