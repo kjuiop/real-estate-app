@@ -3,10 +3,8 @@ package io.gig.realestate.domain.team;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import io.gig.realestate.domain.team.types.TeamStatus;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -27,6 +25,15 @@ public class Team extends BaseTimeEntity {
     private Long id;
 
     private String name;
+
+    @Builder.Default
+    @Column(length = 50, columnDefinition = "char(1) default 'N'")
+    @Enumerated(EnumType.STRING)
+    private TeamStatus status = TeamStatus.ACTIVE;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_manager_id")
+    private Administrator teamManager;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")

@@ -8,6 +8,7 @@ import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
+import io.gig.realestate.domain.team.dto.TeamDetailDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,6 @@ import java.util.List;
 public class TeamManagerController {
 
     private final TeamService teamService;
-    private final RoleService roleService;
 
     @GetMapping
     public String index(TeamSearchDto searchDto, Model model) {
@@ -41,10 +41,7 @@ public class TeamManagerController {
     @GetMapping("new")
     public String register(Model model) {
 
-        List<RoleDto> roles = roleService.getAllRoles();
-        AdministratorDetailDto dto = AdministratorDetailDto.emptyDto();
-
-        model.addAttribute("roles", roles);
+        TeamDetailDto dto = TeamDetailDto.emptyDto();
         model.addAttribute("dto", dto);
 
         return "settings/team/editor";
