@@ -5,8 +5,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <body>
-<div layout:fragment="content" th:with="AdminStatus = ${T(io.gig.realestate.domain.admin.types.AdminStatus)}">
-    <div th:replace="layouts/utilFragments::navigator('/team', '관리자 관리', '관리자 목록')"></div>
+<div layout:fragment="content" th:with="TeamStatus = ${T(io.gig.realestate.domain.team.types.TeamStatus)}">
+    <div th:replace="layouts/utilFragments::navigator('/team', '팀 관리', '팀 목록')"></div>
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -73,7 +73,7 @@
                                     <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <td>
                                             <label class="margin-bottom-0">
-                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.adminId}">
+                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.teamId}">
                                             </label>
                                         </td>
                                         <td>
