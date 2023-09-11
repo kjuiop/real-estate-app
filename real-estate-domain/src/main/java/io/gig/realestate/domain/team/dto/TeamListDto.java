@@ -9,11 +9,17 @@ import io.gig.realestate.domain.team.Team;
 public class TeamListDto extends TeamDto {
 
     public String createdByUsername;
+    public String managerUsername;
+    public String managerName;
 
     public TeamListDto(Team t) {
         super(t);
         if (t.getCreatedBy() != null) {
             this.createdByUsername = t.getCreatedBy().getUsername();
+        }
+        if (t.getManager() != null) {
+            this.managerUsername = t.getManager().getUsername();
+            this.managerName = t.getManager().getName();
         }
     }
 }

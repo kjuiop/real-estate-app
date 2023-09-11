@@ -64,8 +64,10 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>이름</th>
-                                        <th>등록자</th>
+                                        <th style="width: 11%;">팀명</th>
+                                        <th style="width: 11%;">팀장 아이디</th>
+                                        <th style="width: 11%;">팀장 이름</th>
+                                        <th style="width: 11%;">등록자</th>
                                         <th style="width: 13%;">등록일</th>
                                     </tr>
                                     </thead>
@@ -79,6 +81,8 @@
                                         <td>
                                             <a th:href="|/team/${item.teamId}/edit|" th:text="${item.name}"></a>
                                         </td>
+                                        <td th:text="${not #strings.isEmpty(item.managerUsername)} ? ${item.managerUsername} : '-'"></td>
+                                        <td th:text="${not #strings.isEmpty(item.managerName)} ? ${item.managerName} : '-'"></td>
                                         <td th:text="${not #strings.isEmpty(item.createdByUsername)} ? ${item.createdByUsername} : 'SYSTEM'"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
