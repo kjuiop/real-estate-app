@@ -34,8 +34,13 @@ public class SampleController {
         return "sample/realestate/sample2";
     }
 
-    @GetMapping("partner/sample")
-    public String sample3(Model model) {
+    @GetMapping("partner/editor")
+    public String partnerEditor(Model model) {
         return "sample/partner/editor";
+    }
+
+    @GetMapping("partner/info")
+    public String partnerList(Model model) {
+        return "sample/partner/info";
     }
 }
