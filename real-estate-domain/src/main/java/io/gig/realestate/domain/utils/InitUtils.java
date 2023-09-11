@@ -57,7 +57,8 @@ public class InitUtils {
 
         administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
         menuService.initMenu("Home", "/", "fa fa-home", 0, superAdminRoles);
-        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 0, adminRoles);
+        menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, superAdminRoles);
+        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, adminRoles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);

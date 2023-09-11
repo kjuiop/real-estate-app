@@ -25,7 +25,7 @@ import java.util.List;
  * @date : 2023/09/09
  */
 @Controller
-@RequestMapping("settings/team")
+@RequestMapping("team")
 @RequiredArgsConstructor
 public class TeamManagerController {
 
@@ -35,7 +35,7 @@ public class TeamManagerController {
     public String index(TeamSearchDto searchDto, Model model) {
         model.addAttribute("pages", teamService.getTeamPageListBySearch(searchDto));
         model.addAttribute("condition", searchDto);
-        return "settings/team/list";
+        return "team/list";
     }
 
     @GetMapping("new")
@@ -44,7 +44,7 @@ public class TeamManagerController {
         TeamDetailDto dto = TeamDetailDto.emptyDto();
         model.addAttribute("dto", dto);
 
-        return "settings/team/editor";
+        return "team/editor";
     }
 
     @PostMapping
