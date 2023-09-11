@@ -27,13 +27,13 @@ public class Team extends BaseTimeEntity {
     private String name;
 
     @Builder.Default
-    @Column(length = 50, columnDefinition = "char(1) default 'N'")
+    @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private TeamStatus status = TeamStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_manager_id")
-    private Administrator teamManager;
+    @JoinColumn(name = "manager_id")
+    private Administrator manager;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -46,6 +46,16 @@ public class Team extends BaseTimeEntity {
     public static Team create(TeamCreateForm createForm) {
         return Team.builder()
                 .name(createForm.getName())
+                .build();
+    }
+
+    public static Team initTeam(String name, TeamStatus status, Administrator manager) {
+        return Team.builder()
+                .name(name)
+                .status(status)
+                .manager(manager)
+                .createdBy(manager)
+                .updatedBy(manager)
                 .build();
     }
 }

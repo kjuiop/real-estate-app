@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.utils;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
@@ -9,6 +10,9 @@ import io.gig.realestate.domain.menu.Menu;
 import io.gig.realestate.domain.menu.MenuService;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
+import io.gig.realestate.domain.team.Team;
+import io.gig.realestate.domain.team.TeamService;
+import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -29,6 +33,7 @@ public class InitUtils {
     private final RoleService roleService;
     private final AdministratorService administratorService;
     private final CategoryService categoryService;
+    private final TeamService teamService;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(rollbackFor = {AlreadyEntity.class})
@@ -55,7 +60,7 @@ public class InitUtils {
         adminRoles.add(adminRole);
 
 
-        administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
+        Administrator administrator = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
         menuService.initMenu("Home", "/", "fa fa-home", 0, superAdminRoles);
         menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, superAdminRoles);
         menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, adminRoles);
@@ -64,6 +69,7 @@ public class InitUtils {
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
 
+        teamService.initTeam("본부", TeamStatus.ACTIVE, administrator);
     }
 
     private void initCategoryData() {
@@ -85,7 +91,6 @@ public class InitUtils {
         categoryService.initChildCategory("신축-리모델링용", YnType.Y, 3, 5, usageChange);
         categoryService.initChildCategory("모텔/호텔", YnType.Y, 3, 6, usageChange);
     }
-
 
     private void validateAlreadyEntity() {
 

@@ -63,13 +63,13 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional
-    public void initAdmin(String username, String password, String name, Set<Role> roles) {
+    public Administrator initAdmin(String username, String password, String name, Set<Role> roles) {
         Administrator initAdministrator = Administrator.initAdministrator(username, password, name);
         for (Role role : roles) {
             AdministratorRole newRole = AdministratorRole.addAdministratorRole(initAdministrator, role);
             initAdministrator.addRole(newRole);
         }
-        administratorStore.store(initAdministrator);
+        return administratorStore.store(initAdministrator);
     }
 
     @Override

@@ -1,9 +1,11 @@
 package io.gig.realestate.domain.team;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
+import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,12 @@ public class TeamServiceImpl implements TeamService {
     public Long create(TeamCreateForm createForm) {
         Team newTeam = Team.create(createForm);
         return teamStore.store(newTeam).getId();
+    }
+
+    @Override
+    @Transactional
+    public void initTeam(String name, TeamStatus status, Administrator manager) {
+        Team team = Team.initTeam(name, status, manager);
+        teamStore.store(team);
     }
 }
