@@ -45,31 +45,29 @@ public class InitUtils {
 
     private void initAdminRoleAndMenuData() {
         roleService.initRole("ROLE_SUPER_ADMIN", "슈퍼관리자", 0);
-        roleService.initRole("ROLE_ADMIN", "관리자", 1);
-        roleService.initRole("ROLE_USER", "사용자", 2);
-        roleService.initRole("ROLE_ANONYMOUS", "익명사용자", 3);
+        roleService.initRole("ROLE_MANAGER", "팀장", 1);
+        roleService.initRole("ROLE_MEMBER", "팀원", 2);
 
         Role superAdminRole = roleService.findByRoleName("ROLE_SUPER_ADMIN");
-        Role adminRole = roleService.findByRoleName("ROLE_ADMIN");
+        Role memberRole = roleService.findByRoleName("ROLE_MANAGER");
 
         Set<Role> superAdminRoles = new HashSet<>();
         superAdminRoles.add(superAdminRole);
 
-        Set<Role> adminRoles = new HashSet<>();
-        adminRoles.add(superAdminRole);
-        adminRoles.add(adminRole);
+        Set<Role> memberRoles = new HashSet<>();
+        memberRoles.add(superAdminRole);
+        memberRoles.add(memberRole);
 
-
-        Administrator administrator = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
-        menuService.initMenu("Home", "/", "fa fa-home", 0, superAdminRoles);
-        menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, superAdminRoles);
-        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, adminRoles);
+        Administrator superAdmin = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
+        menuService.initMenu("Home", "/", "fa fa-home", 0, memberRoles);
+        menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, memberRoles);
+        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, memberRoles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
 
-        teamService.initTeam("본부", TeamStatus.ACTIVE, administrator);
+        teamService.initTeam("본부", TeamStatus.ACTIVE, superAdmin);
     }
 
     private void initCategoryData() {
