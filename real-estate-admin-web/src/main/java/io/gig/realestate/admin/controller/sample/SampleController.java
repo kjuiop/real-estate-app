@@ -33,4 +33,9 @@ public class SampleController {
 
         return "sample/realestate/sample2";
     }
+
+    @GetMapping("partner/sample")
+    public String sample3(Model model) {
+        return "sample/partner/editor";
+    }
 }
