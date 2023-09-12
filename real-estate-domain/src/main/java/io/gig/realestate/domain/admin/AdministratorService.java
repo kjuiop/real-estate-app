@@ -36,4 +36,6 @@ public interface AdministratorService {
     Long update(AdministratorUpdateForm updateForm);
 
     Page<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
+
+    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
 }

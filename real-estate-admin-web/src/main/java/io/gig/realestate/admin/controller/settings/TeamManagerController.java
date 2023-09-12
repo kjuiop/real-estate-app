@@ -45,11 +45,13 @@ public class TeamManagerController {
     public String register(AdminSearchDto searchDto, Model model) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        Page<AdministratorListDto> candidates = administratorService.getCandidateManagers(searchDto);
+        Page<AdministratorListDto> managerCandidates = administratorService.getCandidateManagers(searchDto);
+        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto);
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
-        model.addAttribute("candidates", candidates);
+        model.addAttribute("managerCandidates", managerCandidates);
+        model.addAttribute("memberCandidates", memberCandidates);
 
         return "team/editor";
     }

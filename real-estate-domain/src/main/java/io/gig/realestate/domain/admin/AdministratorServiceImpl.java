@@ -79,6 +79,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
+        return administratorReader.getCandidateMembers(searchDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public AdministratorDetailDto getAdminFindByUsername(String username) {
         return administratorReader.getAdminFindByUsername(username);
