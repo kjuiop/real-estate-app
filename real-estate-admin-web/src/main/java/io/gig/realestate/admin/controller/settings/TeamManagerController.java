@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
@@ -11,6 +12,7 @@ import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDetailDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ import java.util.List;
 public class TeamManagerController {
 
     private final TeamService teamService;
+    private final AdministratorService administratorService;
 
     @GetMapping
     public String index(TeamSearchDto searchDto, Model model) {
@@ -39,10 +42,14 @@ public class TeamManagerController {
     }
 
     @GetMapping("new")
-    public String register(Model model) {
+    public String register(AdminSearchDto searchDto, Model model) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
+        Page<AdministratorListDto> candidates = administratorService.getCandidateManagers(searchDto);
+
         model.addAttribute("dto", dto);
+        model.addAttribute("searchDto", searchDto);
+        model.addAttribute("candidates", candidates);
 
         return "team/editor";
     }

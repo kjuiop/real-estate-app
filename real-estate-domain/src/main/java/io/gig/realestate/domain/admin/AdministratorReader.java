@@ -5,6 +5,8 @@ import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/03/04
@@ -24,4 +26,6 @@ public interface AdministratorReader {
     boolean existUsername(String value);
 
     AdministratorDetailDto getAdminDetail(Long adminId);
+
+    Page<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
 }

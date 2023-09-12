@@ -23,7 +23,7 @@ public class TeamDetailDto extends TeamDto {
     static {
         EMPTY = TeamDetailDto.builder()
                 .empty(true)
-                .status(TeamStatus.INACTIVE)
+                .status(TeamStatus.ACTIVE)
                 .build();
     }
 

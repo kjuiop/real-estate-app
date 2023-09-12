@@ -2,6 +2,7 @@ package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.*;
@@ -30,6 +31,11 @@ public class Team extends BaseTimeEntity {
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private TeamStatus status = TeamStatus.ACTIVE;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")

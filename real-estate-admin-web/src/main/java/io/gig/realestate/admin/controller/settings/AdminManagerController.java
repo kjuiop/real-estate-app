@@ -40,7 +40,6 @@ public class AdminManagerController {
     public String register(Model model) {
 
         List<RoleDto> roles = roleService.getAllRoles();
-        List<AdministratorListDto> notTeamAdmins = administratorService.getNotTeamAdmins();
         AdministratorDetailDto dto = AdministratorDetailDto.emptyDto();
 
         model.addAttribute("roles", roles);

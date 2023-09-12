@@ -35,5 +35,5 @@ public interface AdministratorService {
 
     Long update(AdministratorUpdateForm updateForm);
 
-    List<AdministratorListDto> getNotTeamAdmins();
+    Page<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
 }
