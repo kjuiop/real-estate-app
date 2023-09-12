@@ -119,7 +119,7 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
-    public Page<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
 
         BooleanBuilder where = new BooleanBuilder();
 
@@ -134,10 +134,7 @@ public class AdministratorQueryRepository {
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
-        List<AdministratorListDto> content = contentQuery.fetch();
-        long total = content.size();
-
-        return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
+        return contentQuery.fetch();
     }
 
     private BooleanExpression eqAdminId(Long adminId) {
