@@ -29,7 +29,6 @@
     <div class="login-logo">
         <a href="/"><b>JD REALTY</b>&nbsp;&nbsp;Admin</a>
     </div>
-    <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Enter admin account and password</p>
@@ -52,12 +51,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <!-- /.col -->
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #17a2b8;">Sign In</button>
+                <div class="row margin-bottom-20">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #17a2b8;">로그인</button>
                     </div>
-                    <!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-md-12 center-align">
+                        제이디 중개법인 부동산
+                        <a id="btnPartnerModal"
+                           style="color: #17a2b8; text-decoration: underline; cursor: pointer;">
+                            회원 가입하기
+                        </a>
+                    </div>
                 </div>
             </form>
             <p th:text="${exceptionMessage}"></p>
