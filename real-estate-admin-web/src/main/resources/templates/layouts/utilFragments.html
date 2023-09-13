@@ -100,5 +100,135 @@
     </div>
 </div>
 
+<div th:fragment="partnerEditor">
+    <div class="modal fade" tabindex="-1" role="dialog" id="partner-editor-modal">
+        <form name="frmRegister" method="post" action="/attachment/upload">
+            <div class="modal-dialog" role="document" style="border : 2px solid darkorange;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title control-label" style="font-weight: bold;">파트너 계정 가입</h4>
+                    </div>
+                    <div class="modal-body modal-dialog-scrollable" style="max-height: 630px; height: 100%; overflow: auto;">
+                        <div class="form-horizontal">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="no-padding" colspan="12"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="col-md-12" colspan="12">
+                                        <div class="display-flex-column">
+                                            <label class="normal-label">인마이백은 공식 브랜드사만 파트너 가입을 하실 수 있습니다.</label>
+                                            <label class="normal-label">아래 정보를 정확하게 입력해주세요.</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="companyName" name="companyName" maxlength="50" placeholder="법인명*">
+                                    </td>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="companyNo" name="companyNo" maxlength="10" placeholder="사업자등록번호*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="owner" name="owner" maxlength="50" placeholder="대표이사*">
+                                    </td>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="mailSaleNo" name="mailSaleNo" maxlength="50" placeholder="통신판매업신고번호*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4" colspan="4">
+                                        <select class="form-control" name="document" id="document">
+                                            <option>선택</option>
+                                        </select>
+                                    </td>
+                                    <td class="col-md-2" colspan="2">
+                                        <button type="button" class="btn btn-primary btn-sm btnUpload"><i class="fa fa-plus"></i> 첨부파일</button>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="col-md-12" colspan="12">
+                                        <div class="display-flex-column filePutIn">
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-12" colspan="12">
+                                        <input type="text" class="form-control" id="brandName" name="brandName" maxlength="50" placeholder="소유 브랜드를 입력 후 엔터를 눌러주세요.">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-12" colspan="12">
+                                        <div class="display-flex-column brandKeyIn">
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="managerEmail" name="email" maxlength="50" placeholder="담당자 이메일*">
+                                        <div id="appSignUpMsg" class="text-red" style="display: none; padding-top: 5px; font-size: 11px;"></div>
+                                    </td>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="name" name="name" maxlength="50" placeholder="담당자 성함*">
+                                    </td>
+                                </tr>
+                                <!--								<tr>-->
+                                <!--									<td class="col-md-6" colspan="6">-->
+                                <!--										<input type="password" class="form-control" id="password" name="password" maxlength="50" autocomplete="off" placeholder="비밀번호*">-->
+                                <!--									</td>-->
+                                <!--									<td class="col-md-6" colspan="6">-->
+                                <!--										<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" maxlength="50" autocomplete="off" placeholder="비밀번호 확인*">-->
+                                <!--									</td>-->
+                                <!--								</tr>-->
+                                <tr>
+                                    <td class="col-md-6" colspan="6">
+                                        <input type="text" class="form-control" id="phone" name="phone" maxlength="11" placeholder="연락처*">
+                                    </td>
+                                    <td class="col-md-6" colspan="6">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-12" colspan="12" style="padding-bottom: 0px;">
+                                        <label class="control-label" style="padding-right: 15px;">
+                                            <input type="checkbox" class="checkElement" name="approveStatus" id="privacyAgreeStatus">
+                                            <label style="padding-left: 10px;">개인정보 수집 및 이용에 동의합니다. <a href="javascript:void(0);" id="btnPrivacyPolicy" style="font-size:11px;color:gray;text-decoration:none;">(내용보기)</a></label>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-12" colspan="12" style="padding-top: 0px;">
+                                        <label class="control-label" style="padding-right: 15px;">
+                                            <input type="checkbox" class="checkElement" name="approveStatus" id="agreeStatus">
+                                            <label style="padding-left: 10px;">인마이백 판매회원 약관에 동의합니다. <a href="javascript:void(0);" id="btnCallPolicy" style="font-size:11px;color:gray;text-decoration:none;">(약관보기)</a></label>
+                                        </label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td class="col-md-12" colspan="12" style="text-align: center; padding-top: 20px;">
+                                        <button type="button" id="btnPartnerComplete" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 가입요청</button>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
+</div>
+
 </body>
 </html>

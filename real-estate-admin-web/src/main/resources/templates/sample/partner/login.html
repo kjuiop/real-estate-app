@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JD REALTY</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/node_modules/icheck-bootstrap/icheck-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/@yaireo/tagify/dist/tagify.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/admin-lte/dist/css/adminlte.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/icheck/skins/all.css">
+
+
+    <link rel="stylesheet" href="/css/common.css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/images/site.webmanifest">
+</head>
+<body class="login-page" cz-shortcut-listen="true" style="height: 70vh;">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/"><b>JD REALTY</b>&nbsp;&nbsp;Admin</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Enter admin account and password</p>
+
+            <form method="post" name="loginForm">
+                <input type="hidden" name="authentication">
+                <input type="hidden" name="code" id="code"/>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control keydown" id="username" name="username" placeholder="Email"
+                           style="border-color:#8663ff;border-radius:4px;height:inherit;padding:10px 12px;">
+                    <span class="glyphicon glyphicon-user form-control-feedback" style="top:3px;"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control keydown" name="password" placeholder="Password" autocomplete="off"
+                           style="border-color:#8663ff;border-radius:4px;height:inherit;padding:10px 12px;">
+                    <span class="glyphicon glyphicon-lock form-control-feedback" style="top:3px;"></span>
+                </div>
+                <div class="row msg-block" style="display: none;">
+                    <p class="col-xs-12 text-red" id="loginMsg" style="margin: 0;"></p>
+                </div>
+                <div class="form-group has-feedback" style="font-size: 12px; text-align: right;">
+                    <a href="javascript:;" id="searchPassword" style="color:#555555;text-decoration:underline;">비밀번호 초기화</a>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button type="button" id="btnLogin" class="btn btn-block btn-flat"
+                                style="background-color:#8663ff;color:#ffffff;border-radius:4px;min-height:45px;">로그인
+                        </button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-xs-6">
+                        <a id="btnPartnerModal"
+                           style="color: #555555; text-decoration: underline; cursor: pointer;">
+                            파트너 계정 가입
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a class="pull-right" id="btnInquiryModal"
+                           style="color: #555555; text-decoration: underline; cursor: pointer;">
+                            입점/제휴 문의
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-xs-6">
+                        <a href="http://inmybag.io/inmybag_partner_manual_ver2.0.pdf"
+                           target="_blank"
+                           style="color: #555555; text-decoration: underline; cursor: pointer;">
+                            파트너 메뉴얼 받기
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a href="https://inmybag.io/policy/privacy.html"
+                           class="pull-right"
+                           target="_blank"
+                           style="color: #555555; text-decoration: underline; cursor: pointer;">
+                            개인정보처리방침
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <div style="font-size: 12px;letter-spacing:-0.02em;">
+                    <ul style="padding:0 0 0 20px;">
+                        <li>비즈니스 파트너 가입 또는 계정 분실, 생성 관련 문의는 service@inmybag.io 로 문의해주세요.</li>
+                    </ul>
+                </div>
+            </form>
+
+            <div class="box box-warning" id="commonModal" style="width: 40%; display: none;">
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="commonModalTitle">Alert</h3>
+                    <!--<div class="box-tools">
+                        <button type="button" class="btn btn-warning pull-right commonModalClose">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </div>-->
+                </div>
+                <div class="box-body">
+                    <div id="commonModalContent"></div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-left commonModalClose">Close</button>
+                    <button type="button" class="btn btn-primary pull-right" id="commonModalConfirm">Save</button>
+                </div>
+            </div>
+
+            <div th:replace="/layouts/utilFragments::partnerEditor"></div>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/js-sha512/src/sha512.js"></script>
+<script src="/custom-modules/bpopup/jquery.bpopup.js"></script>
+
+<script src="/js/common/spin.js"></script>
+<script src="/js/common/attachment.js"></script>
+<script src="/js/common/modal.js"></script>
+<script src="/js/common/validate-common.js"></script>
+<script src="/js/common/util.js"></script>
+<script>
+
+    /**
+     $(function () {
+        var $form = $("form[name='loginForm']");
+        $form.submit(function () {
+            document.loginForm.password.value = sha512(document.loginForm.password.value);
+        });
+    });
+
+     */
+
+
+    let onReady = function () {
+        let $form = $("form[name='loginForm']");
+
+    };
+
+    let editModalInit = function () {
+        let modal = $("#partner-editor-modal");
+        $(modal).find("form[name='frmRegister']")[0].reset();
+    };
+
+    let save = function (e) {
+        e.preventDefault();
+
+        // var isValid = false;
+
+        let companyName = $('#companyName').val();
+        if (!checkNullOrEmptyValue(companyName)) {
+            oneBtnModal('법인명을 입력해주세요.');
+            return;
+        }
+        let companyNo = $('#companyNo').val();
+        if (!checkNullOrEmptyValue(companyNo)) {
+            oneBtnModal('사업자번호를 입력해주세요.');
+            return;
+        } else {
+            if (companyNo.length != 10) {
+                oneBtnModal('사업자번호를 숫자 10자리로 입력해주세요.');
+                return;
+            }
+        }
+        let owner = $('#owner').val();
+        if (!checkNullOrEmptyValue(owner)) {
+            oneBtnModal('대표이사를 입력해주세요.');
+            return;
+        }
+        let mailSaleNo = $('#mailSaleNo').val();
+        if (!checkNullOrEmptyValue(mailSaleNo)) {
+            oneBtnModal('통신판매업신고번호를 입력해주세요.');
+            return;
+        }
+
+        let email = $('#managerEmail').val();
+        if (!checkNullOrEmptyValue(email)) {
+            oneBtnModal('담당자 이메일을 입력해주세요.');
+            return;
+        }
+        if (!checkEmailValidCheck(email)) {
+            oneBtnModal('올바른 이메일 형식이 아닙니다.')
+            return;
+        }
+
+        let name = $('#name').val();
+        if (!checkNullOrEmptyValue(name)) {
+            oneBtnModal('담당자 성함을 입력해주세요.');
+            return;
+        }
+
+        let phone = $('#phone').val();
+        if (phone === "") {
+            oneBtnModal('연락처를 입력해주세요.');
+            return;
+        } else {
+            if (phone.length < 10 || phone.length > 11) {
+                oneBtnModal('연락처를 숫자 10자리 또는 11자리로 입력해주세요.');
+                return;
+            }
+        }
+
+        let checked = $('#privacyAgreeStatus').prop('checked');
+        if (!checked) {
+            // isValid = true;
+            oneBtnModal("약관에 동의해주세요.");
+            return;
+        }
+
+        // if(isValid) {
+        let $frm = $("form[name=frmRegister]");
+
+        let files = [];
+        let brandNames = [];
+
+        $('.filePutIn').find('.fileBlock').each(function (data) {
+            let fileData = $(this).find('.fileInfo').data("fileData");
+            let fileInfo = {
+                documentCodeId: $(this).find('.fileInfo').attr("codeId"),
+                description: $(this).find('.fileInfo').attr("codeName"),
+                fileType: fileData.fileType,
+                orgFilename: fileData.orgFilename,
+                savedFilename: fileData.savedFilename,
+                fullPath: fileData.fullPath,
+                thumbnailPath: fileData.fullPath
+            }
+            files.push(fileInfo);
+        });
+
+        $('.brandKeyIn').find('.brand').each(function (idx) {
+            brandNames.push($(this).find('.brandInfo').attr("brandName"));
+        });
+
+        if (files.length < 1) {
+            oneBtnModal("사업자등록증은 필수서류 입니다.");
+            return;
+        }
+
+        if (brandNames.length < 1) {
+            oneBtnModal("하나 이상의 브랜드를 입력해주세요.");
+            return;
+        }
+
+        let params = {
+            attachments: files,
+            brandNames: brandNames,
+            companyName: $frm.find("input[name=companyName]").val(),
+            companyNo: $frm.find("input[name=companyNo]").val(),
+            owner: $frm.find('input[name=owner]').val(),
+            mailSaleNo: $frm.find('input[name=mailSaleNo]').val(),
+            email: $frm.find('input[name=email]').val(),
+            name: $frm.find('input[name=name]').val(),
+            // password: $frm.find('input[name=password]').val(),
+            phone: $frm.find('input[name=phone]').val()
+        };
+
+        $.ajax({
+            url: "/user/partner/ajax/save",
+            method: "post",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                // alert(result.message);
+                if (result.data) {
+                    if (result.message == null) {
+                        $('#partner-editor-modal').modal('hide');
+                        editModalInit();
+                        $('#partner-complete-modal').modal('show');
+                    } else {
+                        $('#appSignUpMsg').text(result.message);
+                        $('#appSignUpMsg').show();
+                    }
+                } else {
+                    $('#partner-editor-modal').modal('hide');
+                    editModalInit();
+                    $('#partner-complete-modal').modal('show');
+                }
+            },
+            error: function () {
+                oneBtnModal("다시 시도해주세요.");
+            }
+        });
+        // }
+    }
+
+    let partnerEditorModal = function (e) {
+        e.preventDefault();
+
+        $('#partner-editor-modal').modal('show');
+    };
+
+    $(document).ready(onReady)
+        .on('click', '#btnPartnerComplete', save)
+        .on('click', '#btnPartnerModal', partnerEditorModal)
+</script>
+</body>
+</html>

@@ -40,7 +40,12 @@ public class SampleController {
     }
 
     @GetMapping("partner/info")
-    public String partnerList(Model model) {
+    public String partnerInfo(Model model) {
         return "sample/partner/info";
+    }
+
+    @GetMapping("partner/login")
+    public String partnerLogin(Model model) {
+        return "sample/partner/login";
     }
 }
