@@ -34,6 +34,11 @@ public class SampleController {
         return "sample/realestate/sample2";
     }
 
+    @GetMapping("modal")
+    public String modal() {
+        return "sample/modal/modal";
+    }
+
     @GetMapping("partner/editor")
     public String partnerEditor(Model model) {
         return "sample/partner/editor";
