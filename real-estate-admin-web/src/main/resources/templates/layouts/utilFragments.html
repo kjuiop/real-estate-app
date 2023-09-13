@@ -100,6 +100,30 @@
     </div>
 </div>
 
+<div th:fragment="commonModal">
+    <div class="modal fade show" id="commonModal" aria-modal="true" style="padding-right: 17px; display: none; margin-top: 450px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="commonModalTitle" class="modal-title">Alert</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="commonModalContent"></div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default commonModalClose" data-dismiss="modal">Close</button>
+                    <button type="button" id="commonModalConfirm" class="btn btn-primary float-right">Save</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
 <div th:fragment="signUpModal">
     <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="sign-up-modal">
         <div class="modal-dialog" role="document" style="border : 2px solid darkorange;">
@@ -163,7 +187,7 @@
                             <tr>
                                 <td class="col-md-12" colspan="12" style="padding-bottom: 0px;">
                                     <label class="control-label" style="padding-right: 15px;">
-                                        <input type="checkbox" class="checkElement" name="approveStatus" id="privacyAgreeStatus">
+                                        <input type="checkbox" class="checkElement" name="approveStatus" id="privacyAgree">
                                         <label style="padding-left: 10px;">개인정보 수집 및 이용에 동의합니다. <a href="javascript:void(0);" id="btnPrivacyPolicy" style="font-size:11px;color:gray;text-decoration:none;">(내용보기)</a></label>
                                     </label>
                                 </td>
@@ -171,7 +195,7 @@
                             <tr>
                                 <td class="col-md-12" colspan="12" style="padding-top: 0px;">
                                     <label class="control-label" style="padding-right: 15px;">
-                                        <input type="checkbox" class="checkElement" name="approveStatus" id="agreeStatus">
+                                        <input type="checkbox" class="checkElement" name="approveStatus" id="policyAgree">
                                         <label style="padding-left: 10px;">사이트 이용 약관에 동의합니다. <a href="javascript:void(0);" id="btnCallPolicy" style="font-size:11px;color:gray;text-decoration:none;">(약관보기)</a></label>
                                     </label>
                                 </td>
@@ -180,7 +204,7 @@
                             <tfoot>
                             <tr>
                                 <td class="col-md-12" colspan="12" style="text-align: center; padding-top: 20px;">
-                                    <button type="button" id="btnSignUpComplete" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 가입요청</button>
+                                    <button type="button" id="btnSignUpSubmit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 가입요청</button>
                                 </td>
                             </tr>
                             </tfoot>
