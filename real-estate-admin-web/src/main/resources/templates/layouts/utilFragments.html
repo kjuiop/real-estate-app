@@ -134,58 +134,55 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body modal-dialog-scrollable" style="max-height: 1030px; height: 100%; overflow: auto;">
-                    <div class="form-horizontal">
-                        <table class="table">
+                    <div class="form-horizontal col-md-12">
+                        <table class="table table-borderless">
                             <tbody>
                             <tr>
-                                <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="companyName" name="companyName" maxlength="50" placeholder="법인명*">
+                                <td class="col-md-9" colspan="9">
+                                    <input type="text" class="form-control" name="username" maxlength="50" placeholder="이메일*">
                                 </td>
-                                <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="companyNo" name="companyNo" maxlength="10" placeholder="사업자등록번호*">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="owner" name="owner" maxlength="50" placeholder="대표이사*">
-                                </td>
-                                <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="mailSaleNo" name="mailSaleNo" maxlength="50" placeholder="통신판매업신고번호*">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-6" colspan="6">
-                                    <select class="form-control" name="document" id="document">
-                                        <option>선택</option>
-                                    </select>
-                                </td>
-                                <td class="col-md-6" colspan="6">
-                                    <button type="button" class="btn btn-primary btn-sm btnUpload"><i class="fa fa-plus"></i> 첨부파일</button>
+                                <td class="col-md-3 no-left-padding" colspan="3">
+                                    <button type="button" class="btn btn-primary btnCheckDuplicate"> 중복확인</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="col-md-12" colspan="12">
-                                    <input type="text" class="form-control" id="brandName" name="brandName" maxlength="50" placeholder="소유 브랜드를 입력 후 엔터를 눌러주세요.">
+                                    <input type="password" class="form-control" name="password" maxlength="50" placeholder="비밀번호*">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-12" colspan="12">
+                                    <input type="password" class="form-control" name="passwordRepeat" maxlength="50" placeholder="비밀번호확인*">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-12" colspan="12">
+                                    <input type="text" class="form-control" name="name" maxlength="50" placeholder="이름*">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-12" colspan="12">
+                                    <input type="text" class="form-control" name="phone" maxlength="50" placeholder="전화번호*">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="managerEmail" name="email" maxlength="50" placeholder="담당자 이메일*">
-                                    <div id="appSignUpMsg" class="text-red" style="display: none; padding-top: 5px; font-size: 11px;"></div>
+                                    <select class="form-control" name="document">
+                                        <option>--소속--</option>
+                                        <option>본부</option>
+                                        <option>개발팀</option>
+                                    </select>
                                 </td>
                                 <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="name" name="name" maxlength="50" placeholder="담당자 성함*">
+                                    <select class="form-control" name="document">
+                                        <option>--구분--</option>
+                                        <option>팀장</option>
+                                        <option>팀원</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="col-md-6" colspan="6">
-                                    <input type="text" class="form-control" id="phone" name="phone" maxlength="11" placeholder="연락처*">
-                                </td>
-                                <td class="col-md-6" colspan="6">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-12" colspan="12" style="padding-bottom: 0px;">
+                                <td class="col-md-12" colspan="12" style="padding-bottom: 0;">
                                     <label class="control-label" style="padding-right: 15px;">
                                         <input type="checkbox" class="checkElement" name="approveStatus" id="privacyAgree">
                                         <label style="padding-left: 10px;">개인정보 수집 및 이용에 동의합니다. <a href="javascript:void(0);" id="btnPrivacyPolicy" style="font-size:11px;color:gray;text-decoration:none;">(내용보기)</a></label>
@@ -193,7 +190,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="col-md-12" colspan="12" style="padding-top: 0px;">
+                                <td class="col-md-12" colspan="12" style="padding-top: 0;">
                                     <label class="control-label" style="padding-right: 15px;">
                                         <input type="checkbox" class="checkElement" name="approveStatus" id="policyAgree">
                                         <label style="padding-left: 10px;">사이트 이용 약관에 동의합니다. <a href="javascript:void(0);" id="btnCallPolicy" style="font-size:11px;color:gray;text-decoration:none;">(약관보기)</a></label>
@@ -203,8 +200,8 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td class="col-md-12" colspan="12" style="text-align: center; padding-top: 20px;">
-                                    <button type="button" id="btnSignUpSubmit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 가입요청</button>
+                                <td class="col-md-12" colspan="12">
+                                    <button type="button" id="btnSignUp" class="btn btn-primary col-md-12">가입 요청</button>
                                 </td>
                             </tr>
                             </tfoot>
