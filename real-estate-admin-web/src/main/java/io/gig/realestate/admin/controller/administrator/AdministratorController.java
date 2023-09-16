@@ -2,7 +2,7 @@ package io.gig.realestate.admin.controller.administrator;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
-import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
+import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +33,8 @@ public class AdministratorController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody AdministratorCreateForm createForm) {
-        Long adminId = administratorService.create(createForm);
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody AdministratorSignUpForm signUpForm) {
+        Long adminId = administratorService.signUp(signUpForm);
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
     }
 

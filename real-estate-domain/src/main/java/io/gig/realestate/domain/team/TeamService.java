@@ -18,6 +18,8 @@ public interface TeamService {
 
     Long create(TeamCreateForm createForm);
 
+    Team getTeamById(Long teamId);
+
     Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto);
 
     void initTeam(String name, TeamStatus status, Administrator manager);

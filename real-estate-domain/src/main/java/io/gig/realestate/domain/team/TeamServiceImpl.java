@@ -37,6 +37,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Team getTeamById(Long teamId) {
+        return teamReader.getTeamById(teamId);
+    }
+
+    @Override
     @Transactional
     public Long create(TeamCreateForm createForm) {
         Team newTeam = Team.create(createForm);

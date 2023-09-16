@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.team.Team;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.gig.realestate.domain.team.QTeam.team;
 
@@ -55,6 +57,15 @@ public class TeamQueryRepository {
                 .where(defaultCondition())
                 .orderBy(team.id.asc())
                 .fetch();
+    }
+
+    public Optional<Team> getTeamById(Long teamId) {
+        return Optional.ofNullable(
+                this.queryFactory
+                        .selectFrom(team)
+                        .where(defaultCondition())
+                        .where(team.id.eq(teamId))
+                        .fetchOne());
     }
 
     private BooleanExpression defaultCondition() {
