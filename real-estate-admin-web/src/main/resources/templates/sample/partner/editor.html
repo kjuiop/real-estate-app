@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/css/table-style.css" th:href="@{/css/table-style.css}">
+</head>
+<body>
+<div layout:fragment="content">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body">
+            <div class="table-responsive">
+              <form name="frmPartnerRegister" id="frmPartnerRegister" class="form-horizontal">
+                <input type="hidden" name="partnerId">
+                <table class="table" style="border-bottom: 1px solid #f4f4f4;">
+                  <thead>
+                  <tr>
+                    <th class="no-padding" colspan="12"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">
+                        거래처 코드
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4" style="padding-top: 10px;">
+                      <span></span>
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >
+                        기본수수료
+                      </label>
+                    </th>
+                    <td class="col-md-3 form-horizontal" colspan="3">
+                      <input type="text" class="form-control" name="fee" maxlength="10">
+                    </td>
+                    <td class="col-md-1" colspan="1" style="padding-top: 15px;">
+                      <span style="font-size: 15px;">%</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">
+                        거래처 코드
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4" style="padding-top: 10px;">
+                      <span></span>
+                    </td>
+                    <th class="col-md-2" scope="row" colspan="2"></th>
+                    <td class="col-md-3" colspan="3"></td>
+                    <td class="col-md-1" colspan="1"></td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">
+                        ERP 고객코드 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" maxlength="10" name="erpSupplyCompanyCode">
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">
+                        OliveOne 협력사코드 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" maxlength="10" name="oliveOneCompanyCode">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">거래처명 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="companyName" maxlength="50">
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >사업자등록번호 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="companyNo" maxlength="12">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">통신판매업신고번호
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="mailSaleNo" maxlength="50">
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >대표이사 이름 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="owner" maxlength="50">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">이메일 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="companyEmail">
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">연락처 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-4" colspan="4" >
+                      <input type="text" class="form-control only-number" name="companyMobile">
+                    </td>
+                  </tr>
+                  <tr id="companyAddr">
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">영업소재지 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="display-flex-column col-md-8 no-left-padding">
+                        <div class="col-md-12 button-section display-flex-row no-left-padding" style="padding-top: 5px;">
+                          <div class="col-md-6 no-left-padding" style="padding-right: 10px;">
+                            <input type="hidden" name="zipcode">
+                            <input type="text" id="daum_address" class="form-control" name="addr1" maxlength="300">
+                          </div>
+                          <button type="button" class="btn btn-default btn-sm searchAddr" data-addr_type="companyAddr">주소검색</button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label"></label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="display-flex-column col-md-8 no-left-padding">
+                        <div class="col-md-12 button-section display-flex-row no-left-padding" style="padding-top: 5px;">
+                          <div class="col-md-10 no-left-padding" style="padding-right: 10px;">
+                            <input type="text" class="form-control" name="addr2" maxlength="300">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">
+                        정산대금 입금계좌
+                      </label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-3" style="padding-left: 0px;">
+                        <select id="bankCodeSelect" class="form-control" name="bankCodeId">
+                          <option value="">은행</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3 no-left-padding">
+                        <input type="text" class="form-control only-number" name="bankAccount" maxlength="50" placeholder="계좌번호">
+                      </div>
+                      <div class="col-md-3 no-left-padding">
+                        <input type="text" class="form-control" name="bankAccountOwner" maxlength="50" placeholder="입금자명">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" for="applyType_active">상태</label>
+                    </th>
+                    <td class="col-md-3" colspan="3">
+                      <label for="applyType_active" class="radio_label" style="font-weight: normal;">
+                        <input type="radio" id="applyType_active" name="applyStatus" style="padding-left: 10px;">&nbsp;&nbsp;
+                      </label>
+                      <label for="applyType_modify" class="radio_label" style="font-weight: normal;">
+                        <input type="radio" id="applyType_modify" name="applyStatus" style="padding-left: 10px;">&nbsp;&nbsp;
+                      </label>
+                    </td>
+                    <td class="col-md-7" colspan="7">
+                      <div class="display-flex-row">
+                        <label class="control-label" style="padding-right: 15px;">
+                          <input type="checkbox" class="checkElement" name="consignmentYn">
+                          <label style="padding-left: 10px; font-weight: normal"></label>
+                        </label>
+                        <label class="normal-label" style="padding-top: 8px;"></label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">신청상태</label>
+                    </th>
+                    <td class="col-md-10 display-flex-row" colspan="10">
+                      <label for="activeStatus_active" class="radio_label" style="font-weight: normal;">
+                        <input type="radio" id="activeStatus_active" name="activeStatus" style="padding-left: 10px;">&nbsp;&nbsp;
+                      </label>
+                      <label for="activeStatus_disable" class="radio_label" style="font-weight: normal;">
+                        <input type="radio" id="activeStatus_disable" name="activeStatus" style="padding-left: 10px;">&nbsp;&nbsp;
+                      </label>
+                      <label for="activeStatus_infoRequest" class="radio_label" style="font-weight: normal;">
+                        <input type="radio" id="activeStatus_infoRequest" name="activeStatus" style="padding-left: 10px;">&nbsp;&nbsp;
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >첨부파일 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="display-flex-column fileSite">
+                        <div class="display-flex-row">
+                          <div class="col-md-4" style="padding-left: 0px;">
+                            <select id="fileDocument" class="form-control" name="bankCodeId">
+                              <option value="">선택</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                            <button type="button" class="btn btn-default btn-sm btnUpload">파일 업로드</button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >브랜드 관리권한 <i class="fa fa-certificate text-red" aria-hidden="true"></i>
+                      </label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="display-flex-column brandSite">
+                        <div class="display-flex-row col-md-12 no-left-padding line">
+                          <div class="col-md-4 no-left-padding">
+                            <input type="text" id="brandInput" class="form-control">
+                          </div>
+                          <div class="col-md-2">
+                            <button type="button" id="btnBrandAdd" class="btn btn-default btn-sm">추가</button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr id="releaseAddrTr">
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">출고지 주소</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-4 no-left-padding">
+                        <input type="hidden" name="releaseZipcode">
+                        <input type="text" class="form-control" id="releaseAddr" name="releaseAddr1" />
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn btn-default btn-sm searchAddr" data-addr_type="releaseAddr">주소검색</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label"></label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-8 no-left-padding">
+                        <input type="text" class="form-control" name="releaseAddr2" />
+                      </div>
+                      <div class="col-md-2">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr id="returnAddrTr">
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">반품/교환지 주소</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-4 no-left-padding">
+                        <input type="hidden" name="returnZipcode">
+                        <input type="text" class="form-control" name="returnAddr1" />
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn btn-default btn-sm searchAddr" data-addr_type="returnAddr">주소검색</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label"></label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-8 no-left-padding">
+                        <input type="text" class="form-control" name="returnAddr2" />
+                      </div>
+                      <div class="col-md-2">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">배송비 조건</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="display-flex-column">
+                        <div class="display-flex-row line">
+                          <label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">기본배송비 </label><input type="text" class="form-control only-number" name="shippingFee" maxlength="6" style="width: 200px;"><label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">&nbsp;&nbsp;&nbsp;원,</label>
+                          <label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">상품판매가 합계 </label><input type="text" class="form-control only-number" name="overPriceShipping" maxlength="6" style="width: 200px;"><label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">&nbsp;&nbsp;&nbsp;원 이상 무료</label>
+                        </div>
+                        <div class="display-flex-row">
+                          <label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">도서/산간지역 </label><input type="text" class="form-control only-number" name="addShippingFee1" maxlength="6" style="width: 200px;"><label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">&nbsp;&nbsp;&nbsp;원, 제주도 </label><input type="text" class="form-control only-number" name="addShippingFee2" maxlength="6" style="width: 200px;"><label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">&nbsp;&nbsp;&nbsp;원,</label>
+                          <label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">제주도(도서/산간) </label><input type="text" class="form-control only-number" name="addShippingFee3" maxlength="6" style="width: 200px;"><label style="padding-top: 8px; margin-right: 8px; font-weight: normal;">&nbsp;&nbsp;&nbsp;원 </label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">출고 설정</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-2 no-left-padding">
+                        <select class="form-control" name="releaseHour">
+                          <option value="">선택</option>
+                        </select>
+                      </div>
+                      <div class="col-md-10 radio">
+                        이후 주문 익일출고 (설정 시간 이전 주문 당일 출고)
+                      </div>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table> <!-- /.table table-hover table-striped -->
+              </form>
+              <div class="pull-right">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSave"><i class="fa fa-plus"></i> 저장</button>
+                <a href="/setting/partner-manager" class="btn btn-default btn-sm"><i class="fa fa-list"></i> 목록</a>
+              </div>
+            </div> <!-- ./table-responsive mailbox-messages -->
+          </div>
+
+          <h4 style="padding-left: 10px; font-weight: bold;">파트너 사용자 계정</h4>
+          <div class="box-body">
+            <div class="table-responsive">
+              <form name="frmAdminRegister" id="frmAdminRegister" class="form-horizontal">
+                <input type="hidden" name="adminId">
+                <table class="table" style="border-bottom: 1px solid #f4f4f4;">
+                  <thead>
+                  <tr>
+                    <th class="no-padding" colspan="12"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" >담당자이메일</label>
+                    </th>
+                    <td class="col-md-4 display-flex-column" colspan="4">
+                      <input type="text" class="form-control" name="username" maxlength="50">
+                      <div class="invalid-feedback hidden" style="color: #dc3545; font-size: 80%; padding-left: 10px; padding-top: 10px;">
+                        사용할 수 없는 이메일 입니다.
+                      </div>
+                      <div class="valid-feedback hidden" style="color: #28a745; font-size: 80%; padding-left: 10px; padding-top: 10px;">
+                        사용할 수 있는 이메일 입니다.
+                      </div>
+                    </td>
+                    <td class="col-md-2" colspan="2">
+                      <input type="hidden" id="isDuplication">
+                      <button type="button" class="btn btn-default btn-sm btn-reg-status" id="btnEmailChk">중복확인</button>
+                    </td>
+                    <td class="col-md-4" colspan="4"></td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">담당자이름</label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="name" maxlength="50">
+                    </td>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">담당자 연락처</label>
+                    </th>
+                    <td class="col-md-4" colspan="4">
+                      <input type="text" class="form-control" name="mobile" maxlength="50" style="padding-right: 10px;">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label id="menuPrivilege" class="control-label">메뉴 권한</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-10 display-flex-row" style="padding-left: 0px;">
+                        <label class="control-label" style="padding-right: 15px;">
+                          <input type="checkbox" class="checkElement" name="partnerRoles">
+                          <label style="padding-left: 10px; font-weight: normal"></label>
+                        </label>
+                        <label style="padding-right: 15px;">
+                          <input type="checkbox" class="checkElement" name="partnerRoles">
+                          <label style="padding-left: 10px; font-weight: normal"></label>
+                        </label>
+                        <label class="control-label" style="padding-right: 15px;">
+                          <input type="checkbox" class="checkElement" name="partnerRoles">
+                          <label style="padding-left: 10px; font-weight: normal"></label>
+                        </label>
+                        <label class="control-label" style="padding-right: 15px;">
+                          <input type="checkbox" class="checkElement" name="partnerRoles">
+                          <label style="padding-left: 10px; font-weight: normal"></label>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">주계정</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <label class="control-label" style="padding-right: 15px;">
+                        <input type="checkbox" class="checkElement" name="mainYn">
+                        <label style="padding-left: 10px; font-weight: normal"></label>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label" id="brandPrivilege">브랜드 권한</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-12 no-left-padding">
+                        <div style="display: inline-block;">
+                          <label class="control-label" style="padding-right: 15px;">
+                            <input type="checkbox" class="checkElement" name="brandAdminId">
+                            <label style="padding-left: 10px; font-weight: normal"></label>
+                          </label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-2 th_color" scope="row" colspan="2">
+                      <label class="control-label">상태</label>
+                    </th>
+                    <td class="col-md-10" colspan="10">
+                      <div class="col-md-10 display-flex-row" style="padding-left: 0px;">
+                        <label class="radio_label" style="font-weight: normal; padding-right: 15px;">
+                          <input type="radio" id="activeYn_Y" name="activeYn" style="padding-left: 10px;">&nbsp;&nbsp;
+                        </label>
+                        <label class="radio_label" style="font-weight: normal; padding-right: 15px;">
+                          <input type="radio" id="activeYn_N" name="activeYn" style="padding-left: 10px;">&nbsp;&nbsp;
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table> <!-- /.table table-hover table-striped -->
+              </form>
+            </div> <!-- ./table-responsive mailbox-messages -->
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary btn-sm" id="btnAdminSave"><i class="fa fa-plus"></i> 추가/수정</button>
+            </div>
+          </div>
+          <h4 style="padding-left: 10px; font-weight: bold;">등록된 계정</h4>
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table" id="partnerUserTable4" style="border-bottom: 1px solid #f4f4f4;">
+                <thead>
+                <tr>
+                  <!--                                        <th class="no-padding" colspan="12"></th>-->
+                  <th class="th_color">
+                    <label class="control-label" >이메일</label>
+                  </th>
+                  <th class="th_color">
+                    <label class="control-label" >담당자명</label>
+                  </th>
+                  <th class="th_color">
+                    <label class="control-label" >담당자연락처</label>
+                  </th>
+                  <th class="th_color">
+                    <label class="control-label" >브랜드권한</label>
+                  </th>
+                  <th class="th_color">
+                    <label class="control-label" >메뉴 권한</label>
+                  </th>
+                  <th class="th_color">
+                    <label class="control-label" >상태</label>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>
+                    <button>
+                    </button>
+                    <span style="padding-left: 10px;"></span></td>
+                  <td><a class="btnAdminInfo" style="cursor: pointer"></a></td>
+                  <td></td>
+                  <td>
+                    <div class="display-flex-column">
+                      <span></span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="display-flex-column">
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td colspan="6" style="text-align: center;">등록된 계정이 없습니다.</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td colspan="6" style="text-align: center;">등록된 계정이 없습니다.</td>
+                </tr>
+                </tfoot>
+              </table> <!-- /.table table-hover table-striped -->
+            </div> <!-- ./table-responsive mailbox-messages -->
+          </div>
+
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table" style="border-bottom: 1px solid #f4f4f4;">
+                <tr>
+                  <th class="col-md-2 th_color" scope="row" colspan="2">
+                    <label class="control-label">최종수정자</label>
+                  </th>
+                  <td class="col-md-4" colspan="4">
+                  </td>
+                  <th class="col-md-2 th_color" scope="row" colspan="2">
+                    <label class="control-label" >최종수정일</label>
+                  </th>
+                  <td class="col-md-4" colspan="4">
+                  </td>
+                </tr>
+                <tr>
+                  <th class="col-md-2 th_color" scope="row" colspan="2">
+                    <label class="control-label">최초작성자</label>
+                  </th>
+                  <td class="col-md-4" colspan="4">
+                  </td>
+                  <th class="col-md-2 th_color" scope="row" colspan="2">
+                    <label class="control-label" >최초작성일</label>
+                  </th>
+                  <td class="col-md-4" colspan="4">
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<section layout:fragment="script">
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</section>
+</body>
+</html>

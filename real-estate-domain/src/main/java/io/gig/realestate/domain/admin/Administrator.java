@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
 import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.role.Role;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -42,6 +43,11 @@ public class Administrator extends BaseTimeEntity {
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private AdminStatus status = AdminStatus.PENDING;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
 
     private String emailValidCode;
 

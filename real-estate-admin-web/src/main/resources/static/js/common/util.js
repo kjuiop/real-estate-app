@@ -218,15 +218,15 @@ let ajaxErrorFieldByModal = function (response) {
     });
 };
 
-var checkEmailValidCheck = function (email) {
-    var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+let checkEmailValidCheck = function (email) {
+    let reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     return reg.test(email)
 };
 
 const drawErrorMessage = function($field, errorMsg) {
-    $field.after('<small class="error-message text-small text-danger">' + errorMsg + '</small>');
+    $field.html('<small class="error-message text-small text-danger">' + errorMsg + '</small>');
 }
 
 const drawSuccessMessage = function($field, errorMsg) {
-    $field.after('<small class="error-message text-small text-blue">' + errorMsg + '</small>');
+    $field.html('<small class="error-message text-small text-blue">' + errorMsg + '</small>');
 }

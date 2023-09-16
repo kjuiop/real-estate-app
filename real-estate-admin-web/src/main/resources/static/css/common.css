@@ -105,6 +105,14 @@
     margin-bottom: 10px;
 }
 
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+
 .margin-right-4 {
     margin-right: 4px;
 }
@@ -133,6 +141,14 @@
     margin-top: 5px;
 }
 
+.margin-top-8 {
+    margin-top: 8px;
+}
+
+.margin-top-200 {
+    margin-top: 200px;
+}
+
 .hidden {
     display: none!important
 }
@@ -143,6 +159,10 @@
 
 .right-align {
     text-align: right;
+}
+
+.center-align {
+    text-align: center;
 }
 
 .padding-left-20 {
@@ -180,4 +200,12 @@
 
 .input-height-36 {
     height: 36px;
+}
+
+.modal-centered {
+    /*position: absolute;*/
+    /*top: 20%;*/
+    /*left: 15%;*/
+    /*width: 1000px;*/
+    /*height: 1000px;*/
 }

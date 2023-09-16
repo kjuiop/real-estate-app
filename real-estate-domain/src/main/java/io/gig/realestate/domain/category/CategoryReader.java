@@ -17,4 +17,6 @@ public interface CategoryReader {
     List<CategoryDto> getChildrenCategoryDtos(Long parentId);
 
     Optional<CategoryDto> getCategoryDtoById(Long id);
+
+    long getCountCategoryData();
 }

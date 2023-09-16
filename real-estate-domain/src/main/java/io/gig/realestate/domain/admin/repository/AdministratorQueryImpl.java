@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,6 +24,16 @@ import java.util.Optional;
 public class AdministratorQueryImpl implements AdministratorReader {
 
     private final AdministratorQueryRepository queryRepository;
+
+    @Override
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
+        return queryRepository.getCandidateManagers(searchDto);
+    }
+
+    @Override
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
+        return queryRepository.getCandidateMembers(searchDto);
+    }
 
     @Override
     public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {

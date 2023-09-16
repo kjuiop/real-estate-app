@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<body>
+<div layout:fragment="content" th:with="TeamStatus = ${T(io.gig.realestate.domain.team.types.TeamStatus)}">
+    <div th:replace="layouts/utilFragments::navigator('/team-manager', '팀 관리', '팀 목록')"></div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="callout callout-info">
+                        <form name="frmSearch">
+                            <input type="hidden" name="page" th:value="${condition.page}" />
+                            <input type="hidden" name="size" th:value="${condition.size}" />
+                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 팀 관리</h5></div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
+                                    <label>이름</label>
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" class="form-control" id="name" name="name" th:value="${condition.name}" placeholder="이름을 입력하세요." />
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <div class="col-12">
+                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
+                                            초기화
+                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-default float-right" style="margin-right: 5px;">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card" style="border-left: 5px solid #117a8b;">
+                        <div class="card-header">
+                            <h4 class="card-title">총</h4>(&nbsp;<span>[[${pages.totalElements}]]</span>개&nbsp;)
+                            <div class="card-tools float-right">
+                                <select class="form-control" id="limit">
+                                    <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
+                                    <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
+                                    <option value="30" th:selected="${condition.size} == 30 ? selected ">30개</option>
+                                    <option value="50" th:selected="${condition.size} == 50 ? selected ">50개</option>
+                                    <option value="100" th:selected="${condition.size} == 100 ? selected ">100개</option>
+                                    <option value="300" th:selected="${condition.size} == 300 ? selected ">300개</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table table-striped projects">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 5%;">
+                                            <label class="margin-bottom-0">
+                                                <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
+                                            </label>
+                                        </th>
+                                        <th style="width: 11%;">팀명</th>
+                                        <th style="width: 11%;">팀장 아이디</th>
+                                        <th style="width: 11%;">팀장 이름</th>
+                                        <th style="width: 11%;">등록자</th>
+                                        <th style="width: 13%;">등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <td>
+                                            <label class="margin-bottom-0">
+                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.teamId}">
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <a th:href="|/settings/team-list/${item.teamId}/edit|" th:text="${item.name}"></a>
+                                        </td>
+                                        <td th:text="${not #strings.isEmpty(item.managerUsername)} ? ${item.managerUsername} : '-'"></td>
+                                        <td th:text="${not #strings.isEmpty(item.managerName)} ? ${item.managerName} : '-'"></td>
+                                        <td th:text="${not #strings.isEmpty(item.createdByUsername)} ? ${item.createdByUsername} : 'SYSTEM'"></td>
+                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                    <tr th:unless="${not #lists.isEmpty(pages.content)}">
+                                        <td class="text-center" colspan="7">등록된 팀이 없습니다.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-12" style="padding: 10px; margin-top: 10px;">
+                            <a href="/settings/team-manager/new" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규 팀 등록</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <!-- 페이징 -->
+                                    <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+    <script src="/static/js/team/team_list.js" th:src="@{/js/team/team_list.js}"></script>
+</section>
+</body>
+</html>

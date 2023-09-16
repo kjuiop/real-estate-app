@@ -1,8 +1,10 @@
 let onReady = function() {
-    let $frm = $('form[name="frmRegister"]');
+
     console.log("dto", dto);
     loadRole();
     onlyNumberKeyEvent({className: "only-number"});
+
+    let $frm = $('form[name="frmAdminRegister"]');
     isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
@@ -126,6 +128,14 @@ let updateValidate = function($frm) {
     });
 }
 
+let createTeam = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmTeamRegister"]');
+
+
+}
+
 let loadRole = function($frm) {
 
     if (!checkNullOrEmptyValue(dto)) {
@@ -134,38 +144,42 @@ let loadRole = function($frm) {
 
     if (dto) {
         $.each(dto.roles, function (idx, role) {
-            $('#exclude-role option[value="' + role + '"]').hide();
-            $('#include-role option[value="' + role + '"]').show();
+            $('#excludeRole option[value="' + role + '"]').hide();
+            $('#includeRole option[value="' + role + '"]').show();
         });
     }
 }
 
-let addRole = function(e) {
+let addData = function(e) {
     e.preventDefault();
 
-    let role = $('#exclude-role option:checked').val();
-    $('#exclude-role option[value="' + role + '"]').hide();
-    $('#include-role option[value="' + role + '"]').show();
+    let $section = $(this).parents(`.roleSection`),
+        role = $section.find('.excludeData option:checked').val();
+
+    $section.find('.excludeData option[value="' + role + '"]').hide();
+    $section.find('.includeData option[value="' + role + '"]').show();
 }
 
-let removeRole = function(e) {
+let removeData = function(e) {
     e.preventDefault();
 
-    let role = $('#include-role option:checked').val();
-    $('#exclude-role option[value="' + role + '"]').show();
-    $('#include-role option[value="' + role + '"]').hide();
-};
+    let $section = $(this).parents(`.roleSection`),
+        role = $section.find('.includeData option:checked').val();
+
+    $section.find('.excludeData option[value="' + role + '"]').show();
+    $section.find('.includeData option[value="' + role + '"]').hide();
+}
 
 let save = function() {
 
-    let $frm = $('form[name="frmRegister"]'),
+    let $frm = $('form[name="frmAdminRegister"]'),
     formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
     param = serializeObject({form:$frm[0]}).json();
     param['roleNames'] = getRoleNames();
     console.log("params", param);
 
     $.ajax({
-        url: "/administrators",
+        url: "/settings/administrators",
         method: formMethod,
         type: "json",
         contentType: "application/json",
@@ -199,7 +213,7 @@ let checkDuplicateData = function(e) {
 
     if (checkNullOrEmptyValue(value)) {
         $.ajax({
-            url: "/administrators/check-duplicate/username/" + value,
+            url: "/settings/administrators/check-duplicate/username/" + value,
             method: "get",
             type: "json",
             contentType: "application/json",
@@ -277,6 +291,6 @@ let getRoleNames = function() {
 
 $(document).ready(onReady)
     .on('blur', 'input[name=username]', checkDuplicateData)
-    .on('click', '#btn-include-role', addRole)
-    .on('click', '#btn-exclude-role', removeRole)
-    .on('blur', 'input[name=confirmPassword]', checkValidPassword);
+    .on('click', '.btnIncludeData', addData)
+    .on('click', '.btnExcludeData', removeData)
+    .on('blur', 'input[name="confirmPassword"]', checkValidPassword);

@@ -101,7 +101,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <a th:href="|/administrators/${item.adminId}/edit|" th:text="${item.username}"></a>
+                                            <a th:href="|/settings/administrators/${item.adminId}/edit|" th:text="${item.username}"></a>
                                         </td>
                                         <td th:text="${item.name}"></td>
                                         <td th:text="${item.status.description}"></td>
@@ -136,7 +136,7 @@
 <section layout:fragment="script">
     <script th:inline="javascript">
     </script>
-    <script src="/static/js/administrator/administrator_list.js" th:src="@{/js/administrator/realestate_list.js}"></script>
+    <script src="/static/js/settings/administrator/administrator_list.js" th:src="@{/js/settings/administrator/administrator_list.js}"></script>
 </section>
 </body>
 </html>

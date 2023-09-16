@@ -62,6 +62,15 @@ public class Category {
                 .build();
     }
 
+    public static Category initCategory(String name, YnType activeYn, int level, int sortOrder) {
+        return Category.builder()
+                .name(name)
+                .activeYn(activeYn)
+                .level(level)
+                .sortOrder(sortOrder)
+                .build();
+    }
+
     public void update(CategoryUpdateForm form) {
         this.name = form.getName();
         this.sortOrder = form.getSortOrder();
@@ -74,7 +83,7 @@ public class Category {
 
     public void addParent(Category parent) {
         this.parent = parent;
-        this.level = 2;
+        this.level = parent.getLevel() + 1;
         parent.getChild().add(this);
     }
 

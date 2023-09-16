@@ -76,4 +76,11 @@ public class CategoryQueryRepository {
     private BooleanExpression defaultCondition() {
         return category.deleteYn.eq(YnType.N);
     }
+
+    public Long getCountCategoryData() {
+        return this.queryFactory
+                .select(category.count())
+                .from(category)
+                .fetchOne();
+    }
 }
