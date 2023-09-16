@@ -1,5 +1,29 @@
 let onReady = function() {
     initICheck();
+    settingExceptionMsg();
+}
+
+let settingExceptionMsg = function() {
+
+    if (exceptionMessage == null) {
+        return;
+    }
+
+    console.log(exceptionMessage);
+    console.log(exception);
+
+    if (exception === 'CredentialsExpiredException') {
+        oneBtnModal(exceptionMessage, function () {
+            //비밀번호 변경하기 페이지 이동
+        });
+    } else if (exception === 'InternalAuthenticationServiceException') { //임시비밀번호 발급된 계정
+        // oneBtnModal("임시비밀번호가 부여된 계정입니다. 비밀번호 변경 페이지로 이동합니다.", function () {
+        //     //비밀번호 변경하기 페이지 이동
+        //     $form.attr("action", "/admin/reset-password/chage-password");
+        //     $form.attr("method", "post");
+        //     $form.submit();
+        // });
+    }
 }
 
 let checkDuplicateData  = function(e) {

@@ -53,9 +53,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row margin-bottom-20">
-                    <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12" th:classappend="${exceptionMessage == null ? 'margin-bottom-20' : ''}">
                         <button type="submit" class="btn btn-primary btn-block" style="background-color: #17a2b8;">로그인</button>
+                    </div>
+                </div>
+                <div class="row margin-bottom-20" th:if="${exceptionMessage}">
+                    <div class="col-md-12">
+                        <label class="text-label" th:text="${exceptionMessage}" style="color: red; font-weight: normal;"></label>
                     </div>
                 </div>
                 <div class="row">
@@ -68,8 +73,6 @@
                     </div>
                 </div>
             </form>
-            <p th:text="${exceptionMessage}"></p>
-            <p></p>
         </div>
         <!-- /.login-card-body -->
     </div>
@@ -97,7 +100,12 @@
 <script src="/js/common/modal.js"></script>
 <script src="/js/common/validate-common.js"></script>
 <script src="/js/common/util.js"></script>
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var exception = /*[[${exception}]]*/'';
+    var exceptionMessage = /*[[${exceptionMessage}]]*/'';
+    /*]]>*/
+</script>
 <script>
     const csrfToken = $("meta[name='_csrf']").attr("content");
     const csrfHeader = $("meta[name='_csrf_header']").attr("content");
