@@ -1,0 +1,176 @@
+let onReady = function() {
+    initICheck();
+}
+
+let checkDuplicateData  = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmRegister"]'),
+        username = $frm.find('input[name="username"]').val();
+
+    console.log("username", username);
+
+    if (!checkNullOrEmptyValue(username)) {
+        oneBtnModal('이메일을 입력해주세요.');
+        return;
+    }
+
+    $.ajax({
+        url: "/administrators/check-duplicate/username/" + username,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+
+            let isDuplicate = result.data;
+            if (isDuplicate) {
+                oneBtnModal('이미 존재하는 이메일 입니다.');
+                $frm.find('#emailCheckYn').val(false);
+            } else {
+                oneBtnModal('사용가능한 이메일 입니다.');
+                $frm.find('#emailCheckYn').val(true);
+            }
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    })
+}
+
+let checkValidPassword = function() {
+
+    const $frm = $('form[name=frmRegister]');
+    let $field = $frm.find('.passwordMsg'),
+        password = $frm.find('input[name="password"]').val(),
+        repeat = $frm.find('#confirmPassword').val();
+
+    if (!checkNullOrEmptyValue(password)) {
+        drawErrorMessage($field, '비밀번호를 입력해주세요.');
+        return false;
+    }
+
+    if (password.length < 6) {
+        $('#pwValidCheckYn').val(false);
+        drawErrorMessage($field, '6자리 이상의 미빌번호를 입력해주세요.');
+        return false;
+    } else {
+        $('#pwValidCheckYn').val(true);
+    }
+
+    if (password !== repeat) {
+        $('#pwEqualCheckYn').val(false);
+        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
+        return false;
+    } else {
+        $('#pwEqualCheckYn').val(true);
+        drawSuccessMessage($field, '비밀번호가 동일합니다.');
+        return false;
+    }
+
+};
+
+let signUpModal = function(e) {
+    e.preventDefault();
+
+    $('#sign-up-modal').modal('show');
+}
+
+let initICheck = function() {
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_flat-blue'
+    });
+};
+
+let signUp = function(e) {
+    e.preventDefault();
+
+    const $frm = $('form[name=frmRegister]');
+    let params = serializeObject({form:$frm[0]}).json();
+
+    let emailCheckYn = $frm.find("#emailCheckYn").val();
+    if (emailCheckYn === "false") {
+        oneBtnModal('이메일 중복확인을 해주세요.');
+        return;
+    }
+
+    let confirmPassword = $('#confirmPassword').val();
+    if (!checkNullOrEmptyValue(confirmPassword)) {
+        oneBtnModal('비밀번호 확인란에 비밀번호를 입력해주세요.');
+        return;
+    }
+
+    let pwValidCheckYn = $('#pwValidCheckYn').val();
+    if (pwValidCheckYn === "false") {
+        oneBtnModal('비밀번호를 올바르게 입력해주세요.');
+        return;
+    }
+
+    let pwEqualCheckYn = $('#pwEqualCheckYn').val();
+    if (pwEqualCheckYn === "false") {
+        oneBtnModal('동일한 비밀번호가 아닙니다.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.name)) {
+        oneBtnModal('이름을 입력해주세요.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.phone)) {
+        oneBtnModal('전화번호를 입력해주세요.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.teamId)) {
+        oneBtnModal('관리자의 팀을 선택해주세요.');
+        return;
+    }
+
+    let roleNames = [];
+    roleNames.push(params.roleName);
+    params.roleNames = roleNames;
+    if (params.roleNames.length <= 0) {
+        oneBtnModal('관리자의 권한을 선택해주세요.');
+        return;
+    }
+
+    let isPrivacyAgree = $('#privacyAgree').prop('checked');
+    if (!isPrivacyAgree) {
+        oneBtnModal('개인 정보 수집 및 이용에 동의해주세요.');
+        return;
+    }
+
+    let isPolicyAgree = $('#policyAgree').prop('checked');
+    if (!isPolicyAgree) {
+        oneBtnModal('이용약관에 동의해주세요.');
+        return;
+    }
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/administrators",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = "회원가입 요청이 완료되었습니다."
+            twoBtnModal(message, function() {
+                location.href = '/login';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
+$(document).ready(onReady)
+    .on('click', '#btnSignUpModal', signUpModal)
+    .on('click', '#btnSignUp', signUp)
+    .on('click', '#sign-up-modal .btnCheckDuplicate', checkDuplicateData)
+    .on('blur', '#confirmPassword', checkValidPassword);

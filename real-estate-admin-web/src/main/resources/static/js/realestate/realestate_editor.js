@@ -275,8 +275,22 @@ let getRoleNames = function() {
     return roleNames;
 }
 
+let searchAddress = function(e) {
+    e.preventDefault();
+
+    let $frm = $(this).parents(`form[name="frmRegister"]`);
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+            $frm.find(`input[name="address"]`).val(data.address);
+            $frm.find(`input[name="address_detail"]`).focus();
+            loadKakaoMap(data.address)
+        }
+    }).open();
+}
+
 $(document).ready(onReady)
     .on('blur', 'input[name=username]', checkDuplicateData)
     .on('click', '#btn-include-role', addRole)
     .on('click', '#btn-exclude-role', removeRole)
-    .on('blur', 'input[name=confirmPassword]', checkValidPassword);
+    .on('blur', 'input[name=confirmPassword]', checkValidPassword)
+    .on('click', '.btnAddress', searchAddress);

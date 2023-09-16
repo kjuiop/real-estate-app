@@ -31,6 +31,10 @@ public class AdministratorCreateForm {
 
     private AdminStatus status;
 
+    private Long teamId;
+
+    private String role;
+
     @NotEmpty(message = "역할을 활성화해주세요.")
     private List<String> roleNames;
 }

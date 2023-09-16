@@ -2,6 +2,8 @@ package io.gig.realestate.domain.category;
 
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,30 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryStore categoryStore;
 
     @Override
+    @Transactional(readOnly = true)
+    public List<CategoryDto> getParentCategoryDtos() {
+        return categoryReader.getParentCategoryDtos();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CategoryDto> getChildrenCategoryDtos(Long parentId) {
+        return categoryReader.getChildrenCategoryDtos(parentId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CategoryDto getCategoryDtoById(Long id) {
+
+        Optional<CategoryDto> foundCategory = categoryReader.getCategoryDtoById(id);
+        if (foundCategory.isEmpty()) {
+            throw new NotFoundException(">>> Category Not Found");
+        }
+
+        return foundCategory.get();
+    }
+
+    @Override
     @Transactional
     public Long create(@NotNull CategoryCreateForm dto) {
         Category newCategory = Category.create(dto);
@@ -35,15 +61,38 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<CategoryDto> getParentCategoryDtos() {
-        return categoryReader.getParentCategoryDtos();
+    @Transactional
+    public Long update(CategoryUpdateForm updateForm) {
+        Category foundCategory = getCategoryById(updateForm.getId());
+        foundCategory.update(updateForm);
+        return categoryStore.store(foundCategory).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long delete(Long id) {
+        Category foundCategory = getCategoryById(id);
+        foundCategory.delete();
+        return categoryStore.store(foundCategory).getId();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CategoryDto> getChildrenCategoryDtos(Long parentId) {
-        return categoryReader.getChildrenCategoryDtos(parentId);
+    public long getCountCategoryData() {
+        return categoryReader.getCountCategoryData();
+    }
+
+    @Override
+    public Category initCategory(String name, YnType activeYn, int level, int sortOrder) {
+        Category newCategory = Category.initCategory(name, activeYn, level, sortOrder);
+        return categoryStore.store(newCategory);
+    }
+
+    @Override
+    public Category initChildCategory(String name, YnType activeYn, int level, int sortOrder, Category parentCategory) {
+        Category newCategory = Category.initCategory(name, activeYn, level, sortOrder);
+        newCategory.addParent(parentCategory);
+        return categoryStore.store(newCategory);
     }
 
     public Category getCategoryById(Long id) {

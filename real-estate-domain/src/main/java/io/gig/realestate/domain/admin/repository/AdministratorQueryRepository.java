@@ -9,6 +9,7 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
+import static io.gig.realestate.domain.category.QCategory.category;
 
 /**
  * @author : JAKE
@@ -117,9 +119,49 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
+
+        BooleanBuilder where = new BooleanBuilder();
+
+        JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(where)
+                .where(defaultCondition())
+                .where(administratorRole.role.name.eq("ROLE_MANAGER"))
+                .limit(searchDto.getPageableWithSort().getPageSize())
+                .offset(searchDto.getPageableWithSort().getOffset());
+
+        return contentQuery.fetch();
+    }
+
     private BooleanExpression eqAdminId(Long adminId) {
         return adminId != null ? administrator.id.eq(adminId) : null;
     }
 
+    private BooleanExpression defaultCondition() {
+        return administrator.deleteYn.eq(YnType.N);
+    }
 
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
+        BooleanBuilder where = new BooleanBuilder();
+
+        JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(where)
+                .where(defaultCondition())
+                .where(administratorRole.role.name.eq("ROLE_MEMBER"))
+                .limit(searchDto.getPageableWithSort().getPageSize())
+                .offset(searchDto.getPageableWithSort().getOffset());
+
+        List<AdministratorListDto> content = contentQuery.fetch();
+        long total = content.size();
+
+        return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
+    }
 }

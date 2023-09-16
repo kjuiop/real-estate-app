@@ -1,10 +1,13 @@
 package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
+import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
 import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.role.Role;
+import io.gig.realestate.domain.team.Team;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -43,6 +46,11 @@ public class Administrator extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AdminStatus status = AdminStatus.PENDING;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
+
     private String emailValidCode;
 
     private LocalDateTime emailValidatedAt;
@@ -54,6 +62,10 @@ public class Administrator extends BaseTimeEntity {
     @Builder.Default
     @Column(columnDefinition = "integer default 0")
     private Integer passwordFailureCount = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -83,6 +95,16 @@ public class Administrator extends BaseTimeEntity {
                 .password(encodedPassword)
                 .passwordFailureCount(0)
                 .status(createForm.getStatus())
+                .build();
+    }
+
+    public static Administrator signUp(AdministratorSignUpForm signUpForm, String encodedPassword, Team team) {
+        return Administrator.builder()
+                .username(signUpForm.getUsername())
+                .name(signUpForm.getName())
+                .password(encodedPassword)
+                .passwordFailureCount(0)
+                .team(team)
                 .build();
     }
 
