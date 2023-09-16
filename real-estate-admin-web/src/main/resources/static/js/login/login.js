@@ -39,6 +39,43 @@ let checkDuplicateData  = function(e) {
     })
 }
 
+let checkValidPassword = function() {
+
+    const $frm = $('form[name=frmRegister]');
+    let $password = $frm.find('input[name="password"]'),
+        $field = $frm.find('.passwordMsg'),
+        password = $frm.find('input[name="password"]').val(),
+        repeat = $frm.find('input[name="confirmPassword"]').val();
+
+    console.log("passowrd", $password)
+    console.log("field", $field)
+    console.log("password", password)
+
+    if (!checkNullOrEmptyValue(password)) {
+        drawErrorMessage($field, '비밀번호를 입력해주세요.');
+        return false;
+    }
+
+    if (password.length < 6) {
+        $('#pwValidCheckYn').val(false);
+        drawErrorMessage($field, '6자리 이상의 미빌번호를 입력해주세요.');
+        return false;
+    } else {
+        $('#pwValidCheckYn').val(true);
+    }
+
+    if (password !== repeat) {
+        $('#pwEqualCheckYn').val(false);
+        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
+        return false;
+    } else {
+        $('#pwEqualCheckYn').val(true);
+        drawSuccessMessage($field, '비밀번호가 동일합니다.');
+        return false;
+    }
+
+};
+
 let signUpModal = function(e) {
     e.preventDefault();
 
@@ -73,4 +110,5 @@ let signUp = function(e) {
 $(document).ready(onReady)
     .on('click', '#btnSignUpModal', signUpModal)
     .on('click', '#btnSignUp', signUp)
-    .on('click', '#sign-up-modal .btnCheckDuplicate', checkDuplicateData);
+    .on('click', '#sign-up-modal .btnCheckDuplicate', checkDuplicateData)
+    .on('blur', 'input[name="confirmPassword"]', checkValidPassword);
