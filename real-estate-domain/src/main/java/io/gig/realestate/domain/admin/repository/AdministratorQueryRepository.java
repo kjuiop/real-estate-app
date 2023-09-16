@@ -110,6 +110,7 @@ public class AdministratorQueryRepository {
                 .select(Projections.constructor(AdministratorDetailDto.class,
                         administrator))
                 .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(eqAdminId(adminId))
                 .limit(1)
                 .fetchFirst());

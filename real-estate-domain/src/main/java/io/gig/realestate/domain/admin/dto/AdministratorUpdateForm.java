@@ -17,6 +17,7 @@ public class AdministratorUpdateForm {
 
     private Long adminId;
 
+    @NotEmpty(message = "이메일을 입력해주세요.")
     private String username;
 
     private String password;
