@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
@@ -37,6 +38,8 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
             administratorService.increasePasswordFailureCount(request.getParameter("username"));
         } else  if (exception instanceof LockedException) {
             errorMessage = "패스워드 5회 이상 틀려 계정이 잠겼습니다.";
+        } else if (exception instanceof DisabledException) {
+            errorMessage = "관리자의 승인이 필요한 계정입니다.";
         } else {
             errorMessage = "알 수 없는 문제가 발생하였습니다.";
         }
