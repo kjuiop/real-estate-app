@@ -41,8 +41,9 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
             errorMessage = "알 수 없는 문제가 발생하였습니다.";
         }
 
-        request.setAttribute("exception", exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", ""));
-        request.setAttribute("exceptionMessage", errorMessage);
+        HttpSession session = request.getSession();
+        session.setAttribute("exception", exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", ""));
+        session.setAttribute("exceptionMessage", errorMessage);
 
         log.error("Authentication fail username: {}, message: {}", username, exception);
 //        request.getRequestDispatcher("/login?error=500").forward(request, response);
