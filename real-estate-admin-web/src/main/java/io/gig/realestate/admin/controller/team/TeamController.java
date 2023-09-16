@@ -1,47 +1,32 @@
-package io.gig.realestate.admin.controller.settings;
+package io.gig.realestate.admin.controller.team;
 
-import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
-import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
-import io.gig.realestate.domain.role.RoleService;
-import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDetailDto;
-import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
  * @author : JAKE
- * @date : 2023/09/09
+ * @date : 2023/09/14
  */
 @Controller
-@RequestMapping("/settings/team-manager")
+@RequestMapping("team")
 @RequiredArgsConstructor
-public class TeamManagerController {
+public class TeamController {
 
     private final TeamService teamService;
     private final AdministratorService administratorService;
 
     @GetMapping
-    public String index(TeamSearchDto searchDto, Model model) {
-        model.addAttribute("pages", teamService.getTeamPageListBySearch(searchDto));
-        model.addAttribute("condition", searchDto);
-        return "/settings/team/list";
-    }
-
-    @GetMapping("new")
     public String register(AdminSearchDto searchDto, Model model) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
@@ -53,14 +38,6 @@ public class TeamManagerController {
         model.addAttribute("managerCandidates", managerCandidates);
         model.addAttribute("memberCandidates", memberCandidates);
 
-        return "/settings/team/editor";
+        return "team/editor";
     }
-
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm) {
-        Long teamId = teamService.create(createForm);
-        return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
-    }
-
 }

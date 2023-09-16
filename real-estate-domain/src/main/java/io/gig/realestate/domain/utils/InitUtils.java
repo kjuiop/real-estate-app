@@ -65,7 +65,8 @@ public class InitUtils {
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminRoles, settingMenu);
-        menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 0, superAdminRoles, settingMenu);
+        menuService.initChildMenu("전체 팀 관리", "/settings/team-manager", "fa fa-circle-o", 3, superAdminRoles, settingMenu);
+        menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 4, superAdminRoles, settingMenu);
 
         teamService.initTeam("본부", TeamStatus.ACTIVE, superAdmin);
     }

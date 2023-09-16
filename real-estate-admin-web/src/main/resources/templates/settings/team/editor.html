@@ -65,6 +65,24 @@
                                     <div class="col-5"></div>
                                 </div>
 
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
+                            <div class="card-header">
+                                <h3 class="card-title">팀 구성원 정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
                                 <div class="form-group display-flex-column">
                                     <table class="table table-striped projects">
                                         <thead>
@@ -89,12 +107,11 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
                                     <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
                                     <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
                                 </div>
-                        </div>
+                            </div>
                         </form>
                     </div>
                 </div>
