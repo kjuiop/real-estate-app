@@ -177,15 +177,16 @@
                                     <td class="col-md-6" colspan="6">
                                         <select class="form-control" name="document">
                                             <option>--소속--</option>
-                                            <option>본부</option>
-                                            <option>개발팀</option>
+                                            <th:block th:each="team : ${teams}">
+                                                <option th:value="${team.teamId}" th:text="${team.name}"></option>
+                                            </th:block>
                                         </select>
                                     </td>
                                     <td class="col-md-6" colspan="6">
                                         <select class="form-control" name="document">
                                             <option>--구분--</option>
-                                            <option>팀장</option>
-                                            <option>팀원</option>
+                                            <option value="manager">팀장</option>
+                                            <option value="member">팀원</option>
                                         </select>
                                     </td>
                                 </tr>

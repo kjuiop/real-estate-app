@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/09/09
@@ -18,6 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TeamQueryImpl implements TeamReader {
 
     private final TeamQueryRepository teamQueryRepository;
+
+    @Override
+    public List<TeamListDto> getTeamList() {
+        return teamQueryRepository.getTeamList();
+    }
 
     @Override
     public Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto) {

@@ -21,4 +21,6 @@ public interface TeamService {
     Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto);
 
     void initTeam(String name, TeamStatus status, Administrator manager);
+
+    List<TeamListDto> getTeamList();
 }

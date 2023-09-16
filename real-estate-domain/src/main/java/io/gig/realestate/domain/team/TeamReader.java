@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface TeamReader {
     Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto);
+
+    List<TeamListDto> getTeamList();
 }
