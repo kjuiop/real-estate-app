@@ -48,7 +48,8 @@ public class SecurityConfig {
 
         return httpSecurity
                 .authorizeRequests()
-                .antMatchers("/login", "/init-data").permitAll()
+                .antMatchers("/login", "/init-data", "/administrators/**"
+                        ).permitAll()
                 .anyRequest().authenticated()
 
                 .and()
