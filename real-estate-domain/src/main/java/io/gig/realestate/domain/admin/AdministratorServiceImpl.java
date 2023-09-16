@@ -3,6 +3,8 @@ package io.gig.realestate.domain.admin;
 import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
+import io.gig.realestate.domain.team.Team;
+import io.gig.realestate.domain.team.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     private final AdministratorReader administratorReader;
     private final AdministratorStore administratorStore;
+    private final TeamService teamService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
@@ -41,12 +44,21 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional
+    public Long signUp(AdministratorSignUpForm signUpForm) {
+        Team team = teamService.getTeamById(signUpForm.getTeamId());
+        Administrator newAdmin = Administrator.signUp(signUpForm, passwordEncoder.encode(signUpForm.getPassword()), team);
+        List<Role> roles = roleService.findByRoleNamesIn(signUpForm.getRoleNames());
+        newAdmin.createAdministratorRoles(roles);
+        return administratorStore.store(newAdmin).getId();
+    }
+
+    @Override
+    @Transactional
     public Long create(@NotNull AdministratorCreateForm createForm) {
         Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()));
         List<Role> roles = roleService.findByRoleNamesIn(createForm.getRoleNames());
         newAdmin.createAdministratorRoles(roles);
-        Administrator savedAdmin = administratorStore.store(newAdmin);
-        return savedAdmin.getId();
+        return administratorStore.store(newAdmin).getId();
     }
 
     @Override

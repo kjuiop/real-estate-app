@@ -224,9 +224,9 @@ let checkEmailValidCheck = function (email) {
 };
 
 const drawErrorMessage = function($field, errorMsg) {
-    $field.html('<small class="error-message text-small text-danger">' + errorMsg + '</small>');
+    $field.html('<small class="error-message text-small text-danger margin-left-3">' + errorMsg + '</small>');
 }
 
 const drawSuccessMessage = function($field, errorMsg) {
-    $field.html('<small class="error-message text-small text-blue">' + errorMsg + '</small>');
+    $field.html('<small class="error-message text-small text-blue margin-left-3">' + errorMsg + '</small>');
 }

@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class AdministratorCreateForm {
+public class AdministratorSignUpForm {
 
     @Email(message = "올바른 Email을 입력해주세요.")
     @NotEmpty(message = "이메일을 입력해주세요.")
@@ -29,11 +29,7 @@ public class AdministratorCreateForm {
     @NotEmpty(message = "패스워드를 확인해주세요.")
     private String confirmPassword;
 
-    private AdminStatus status;
-
     private Long teamId;
-
-    private String role;
 
     @NotEmpty(message = "역할을 활성화해주세요.")
     private List<String> roleNames;

@@ -26,8 +26,20 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<TeamListDto> getTeamList() {
+        return teamReader.getTeamList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto) {
         return teamReader.getTeamPageListBySearch(searchDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Team getTeamById(Long teamId) {
+        return teamReader.getTeamById(teamId);
     }
 
     @Override
