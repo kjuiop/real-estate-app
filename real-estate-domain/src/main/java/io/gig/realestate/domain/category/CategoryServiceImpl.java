@@ -38,6 +38,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
+        return categoryReader.getChildrenCategoryDtosByName(name);
+    }
+
+    @Override
+    public CategoryDto getCategoryDtoWithChildrenByName(String name) {
+        CategoryDto categoryDto = categoryReader.getCategoryDtoByName(name);
+        List<CategoryDto> children = categoryReader.getChildrenCategoryDtos(categoryDto.getId());
+        categoryDto.addChildren(children);
+        return categoryDto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public CategoryDto getCategoryDtoById(Long id) {
 
         Optional<CategoryDto> foundCategory = categoryReader.getCategoryDtoById(id);

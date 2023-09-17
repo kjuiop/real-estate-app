@@ -57,6 +57,10 @@ public class CategoryDto {
         }
     }
 
+    public void addChildren(List<CategoryDto> children) {
+        this.child = children;
+    }
+
 }
 
 

@@ -30,4 +30,8 @@ public interface CategoryService {
     Category initCategory(String name, YnType activeYn, int level, int sortOrder);
 
     Category initChildCategory(String name, YnType activeYn, int level, int sortOrder, Category parentCategory);
+
+    List<CategoryDto> getChildrenCategoryDtosByName(String name);
+
+    CategoryDto getCategoryDtoWithChildrenByName(String name);
 }
