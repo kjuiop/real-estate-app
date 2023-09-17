@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
-                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
+                    <form id="frmRegister" class="form-horizontal" name="frmBasicRegister" method="post">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
@@ -60,8 +60,8 @@
                                     <label class="text-label">대분류</label>
                                 </div>
                                 <div class="col-md-7 col-sm-8 display-flex-row">
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <th:block th:each="code : ${usageCds}">
+                                    <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                        <th:block th:each="code : ${usageCds.child}">
                                             <option th:value="${code.id}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
@@ -71,14 +71,7 @@
                                 <div class="col-md-12 display-flex-row">
                                     <label class="text-label">소분류</label>
                                 </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 투자용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 사옥용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 거주용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 임대수익용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 신축-리모델링용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 모텔/호텔</button>
-                                </div>
+                                <div class="col-md-12 display-flex-row usageCdsSection"></div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12">

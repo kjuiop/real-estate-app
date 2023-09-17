@@ -1,9 +1,40 @@
 let onReady = function() {
     let $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
-    loadRole();
+    loadBasicInfo();
     onlyNumberKeyEvent({className: "only-number"});
     isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
+}
+
+let loadBasicInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let $frm = $('form[name="frmBasicRegister"]'),
+        usageCodeId = $frm.find('.usageCode').val();
+
+    $.ajax({
+        url: "/settings/category-manager/children-categories?parentId=" + usageCodeId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let categories = result.data;
+
+            let tags = "";
+            $.each(categories, function (idx, item) {
+                tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" codeId="' + item.id + '" style="margin-right: 5px;"> ' + item.name + '</button>';
+            });
+            $('.usageCdsSection').html(tags);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    })
+
 }
 
 let createValidate = function($frm) {
@@ -124,20 +155,6 @@ let updateValidate = function($frm) {
             save();
         }
     });
-}
-
-let loadRole = function($frm) {
-
-    if (!checkNullOrEmptyValue(dto)) {
-        return;
-    }
-
-    if (dto) {
-        $.each(dto.roles, function (idx, role) {
-            $('#exclude-role option[value="' + role + '"]').hide();
-            $('#include-role option[value="' + role + '"]').show();
-        });
-    }
 }
 
 let addRole = function(e) {
@@ -278,7 +295,7 @@ let getRoleNames = function() {
 let searchAddress = function(e) {
     e.preventDefault();
 
-    let $frm = $(this).parents(`form[name="frmRegister"]`);
+    let $frm = $(this).parents(`form[name="frmBasicRegister"]`);
     new daum.Postcode({
         oncomplete: function(data) { //선택시 입력값 세팅
             $frm.find(`input[name="address"]`).val(data.address);
