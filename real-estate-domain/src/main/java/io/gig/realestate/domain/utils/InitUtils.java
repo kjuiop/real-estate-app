@@ -50,6 +50,7 @@ public class InitUtils {
 
         Role superAdminRole = roleService.findByRoleName("ROLE_SUPER_ADMIN");
         Role managerRole = roleService.findByRoleName("ROLE_MANAGER");
+        Role memberRole = roleService.findByRoleName("ROLE_MEMBER");
 
         Set<Role> superAdminRoles = new HashSet<>();
         superAdminRoles.add(superAdminRole);
@@ -62,9 +63,13 @@ public class InitUtils {
         Set<Role> managerMenuRoles = new HashSet<>();
         managerMenuRoles.add(managerRole);
 
-        menuService.initMenu("Home", "/", "fa fa-home", 0, managerMenuRoles);
+        Set<Role> memberMenuRoles = new HashSet<>();
+        memberMenuRoles.add(memberRole);
+        memberMenuRoles.add(managerRole);
+
+        menuService.initMenu("Home", "/", "fa fa-home", 0, memberMenuRoles);
         menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, managerMenuRoles);
-        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, managerMenuRoles);
+        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 2, memberMenuRoles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminMenuRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminMenuRoles, settingMenu);

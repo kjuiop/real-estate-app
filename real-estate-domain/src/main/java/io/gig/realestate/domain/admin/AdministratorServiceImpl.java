@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,6 +63,7 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    @Transactional
     public Long update(AdministratorUpdateForm updateForm) {
         Administrator administrator = getAdminEntityByUsername(updateForm.getUsername());
         if (!StringUtils.hasText(updateForm.getPassword())) {
@@ -71,6 +73,17 @@ public class AdministratorServiceImpl implements AdministratorService {
         List<Role> roles = roleService.findByRoleNamesIn(updateForm.getRoleNames());
         administrator.updateAdministratorRoles(roles);
         return administratorStore.store(administrator).getId();
+    }
+
+    @Override
+    @Transactional
+    public void statusUpdate(List<AdminStatusUpdateForm> updateForm) {
+
+        for (AdminStatusUpdateForm dto : updateForm) {
+            Administrator administrator = getAdminEntityById(dto.getAdminId());
+            administrator.updateStatus(dto.getStatus());
+            administratorStore.store(administrator);
+        }
     }
 
     @Override
@@ -106,6 +119,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Transactional(readOnly = true)
     public Administrator getAdminEntityByUsername(String username) {
         return administratorReader.getAdminEntityByUsername(username);
+    }
+
+    @Transactional(readOnly = true)
+    public Administrator getAdminEntityById(Long adminId) {
+        return administratorReader.getAdminEntityById(adminId);
     }
 
     @Override

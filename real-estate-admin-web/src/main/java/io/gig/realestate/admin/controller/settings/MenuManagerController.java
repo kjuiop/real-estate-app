@@ -4,6 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.menu.MenuService;
 import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.dto.MenuDto;
+import io.gig.realestate.domain.menu.dto.MenuUpdateForm;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
@@ -53,6 +54,13 @@ public class MenuManagerController {
     @ResponseBody
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody MenuCreateForm createForm) {
         Long menuId = menuService.create(createForm);
+        return new ResponseEntity<>(ApiResponse.OK(menuId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody MenuUpdateForm updateForm) {
+        Long menuId = menuService.update(updateForm);
         return new ResponseEntity<>(ApiResponse.OK(menuId), HttpStatus.OK);
     }
 

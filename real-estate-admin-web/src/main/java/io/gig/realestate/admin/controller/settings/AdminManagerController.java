@@ -73,6 +73,13 @@ public class AdminManagerController {
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
     }
 
+    @PutMapping("status")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> statusUpdate(@Valid @RequestBody List<AdminStatusUpdateForm> updateForm) {
+        administratorService.statusUpdate(updateForm);
+        return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
+    }
+
     @GetMapping("check-duplicate/username/{value}")
     @ResponseBody
     public ResponseEntity<ApiResponse> checkDuplicateData(
