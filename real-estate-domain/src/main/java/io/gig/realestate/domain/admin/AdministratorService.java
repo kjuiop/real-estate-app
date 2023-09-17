@@ -40,4 +40,6 @@ public interface AdministratorService {
     Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
 
     Long signUp(AdministratorSignUpForm signUpForm);
+
+    void statusUpdate(List<AdminStatusUpdateForm> updateForm);
 }

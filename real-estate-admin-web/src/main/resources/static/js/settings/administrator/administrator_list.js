@@ -19,9 +19,51 @@ let reset = function(e) {
     $frm.submit();
 };
 
+let changeAdminStatus = function(e) {
+    e.preventDefault();
+
+    let params = [];
+    let status = $('#statusType').val();
+
+    $("input[name='numbers']:checked").each(function (idx, item) {
+        let param = {
+            adminId : $(item).val(),
+            status : status
+        };
+        params.push(param);
+    });
+
+    if (params.length <= 0) {
+        oneBtnModal('상태를 변경할 관리자를 선택해주세요.');
+        return;
+    }
+
+    twoBtnModal("선택한 관리자의의 상태를 변경하시겠습니까?", function () {
+        $.ajax({
+            url: "/settings/administrators/status",
+            method : "put",
+            type: "json",
+            contentType : "application/json",
+            data: JSON.stringify(params),
+            success: function (response) {
+                console.log(response);
+                if (response.status === "OK") {
+                    oneBtnModal("상태 변경이 완료되었습니다.", function () {
+                        location.reload();
+                    });
+                }
+            },
+            error : function (response) {
+                oneBtnModal("변경 중 오류가 발생하였습니다.", function(){});
+            }
+        });
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
     .on('change', '#limit', search)
     .on('ifToggled', '.chkAll', selectedChkAll)
-    .on('ifToggled', 'input[name=numbers]', selectedChkBox);
+    .on('ifToggled', 'input[name=numbers]', selectedChkBox)
+    .on('click', '.btnChangeStatus', changeAdminStatus);

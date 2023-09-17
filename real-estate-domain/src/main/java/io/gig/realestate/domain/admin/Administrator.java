@@ -153,6 +153,10 @@ public class Administrator extends BaseTimeEntity {
         this.status = form.getStatus();
     }
 
+    public void updateStatus(AdminStatus status) {
+        this.status = status;
+    }
+
     public void updateAdministratorRoles(List<Role> roles) {
         this.administratorRoles.clear();
         roles.stream().map(role -> AdministratorRole.addAdministratorRole(this, role))
