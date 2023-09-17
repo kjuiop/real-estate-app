@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.menu.dto.MenuCreateForm;
+import io.gig.realestate.domain.menu.dto.MenuUpdateForm;
 import io.gig.realestate.domain.menu.types.AntMatcherType;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
@@ -130,5 +131,15 @@ public class Menu extends BaseTimeEntity {
 
     public boolean existParent() {
         return this.parent != null;
+    }
+
+    public void update(MenuUpdateForm form) {
+        this.name = form.getName();
+        this.url = form.getUrl();
+        this.iconClass = form.getIconClass();
+        this.menuType = form.getMenuType();
+        this.activeYn = form.getActiveYn();
+        this.displayYn = form.getDisplayYn();
+        this.sortOrder = form.getSortOrder();
     }
 }

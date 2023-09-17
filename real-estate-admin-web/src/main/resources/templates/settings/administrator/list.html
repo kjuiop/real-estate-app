@@ -116,8 +116,23 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12" style="padding: 10px; margin-top: 10px;">
-                            <a href="/settings/administrators/new" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규관리자등록</a>
+                        <div class="col-md-12 box-footer">
+                            <div class="pull-left margin-left-20">
+                                <label for="statusType">
+                                    <select class="form-control" id="statusType">
+                                        <option value="NORMAL">정상</option>
+                                        <option value="PENDING">대기</option>
+                                        <option value="WITHDRAW">탈퇴</option>
+                                        <option value="INACTIVE">비활성화</option>
+                                    </select>
+                                </label>
+                                <button class="btn btn-default btnChangeStatus margin-left-5" style="margin-bottom: 5px;">관리자 상태변경</button>
+                            </div>
+                            <div class="pull-right">
+                                <a href="/settings/administrators/new" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규관리자등록</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
                         </div>
                         <div class="row">
                             <div class="col-12">

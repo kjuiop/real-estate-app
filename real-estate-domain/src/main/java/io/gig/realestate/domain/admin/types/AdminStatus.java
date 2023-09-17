@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum AdminStatus {
 
-    PENDING("Pending", "보류"),
+    PENDING("Pending", "대기"),
 
     NORMAL("Normal", "정상"),
 

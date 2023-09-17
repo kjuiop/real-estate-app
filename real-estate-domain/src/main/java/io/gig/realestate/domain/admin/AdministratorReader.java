@@ -30,4 +30,6 @@ public interface AdministratorReader {
     List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
 
     Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
+
+    Administrator getAdminEntityById(Long adminId);
 }

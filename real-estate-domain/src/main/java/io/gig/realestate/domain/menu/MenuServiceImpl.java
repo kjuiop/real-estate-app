@@ -3,6 +3,7 @@ package io.gig.realestate.domain.menu;
 import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.dto.MenuDto;
+import io.gig.realestate.domain.menu.dto.MenuUpdateForm;
 import io.gig.realestate.domain.menu.types.MenuType;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
@@ -68,6 +69,15 @@ public class MenuServiceImpl implements MenuService {
 
         setMenuRole(newMenu, dto.getRoleNames());
         return menuStore.store(newMenu).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long update(MenuUpdateForm updateForm) {
+        Menu foundMenu = getMenu(updateForm.getId());
+        foundMenu.update(updateForm);
+        setMenuRole(foundMenu, updateForm.getRoleNames());
+        return menuStore.store(foundMenu).getId();
     }
 
     @Transactional(readOnly = true)

@@ -136,7 +136,7 @@ let createTeam = function(e) {
 
 }
 
-let loadRole = function($frm) {
+let loadRole = function() {
 
     if (!checkNullOrEmptyValue(dto)) {
         return;
@@ -144,8 +144,8 @@ let loadRole = function($frm) {
 
     if (dto) {
         $.each(dto.roles, function (idx, role) {
-            $('#excludeRole option[value="' + role + '"]').hide();
-            $('#includeRole option[value="' + role + '"]').show();
+            $('.excludeData option[value="' + role + '"]').hide();
+            $('.includeData option[value="' + role + '"]').show();
         });
     }
 }
@@ -188,7 +188,7 @@ let save = function() {
             console.log("result : ", result);
             let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
-                location.href = '/administrators/' + result.data + '/edit';
+                location.href = '/settings/administrators/' + result.data + '/edit';
             });
         },
         error:function(error){
@@ -274,10 +274,10 @@ const checkValidPassword = function() {
 let getRoleNames = function() {
     let roleNames = [];
 
-    if ($('#include-role').length > 0) {
+    if ($('.includeData').length > 0) {
         let isEmptyRole = true;
 
-        $('#include-role option').filter(function () {
+        $('.includeData option').filter(function () {
             return $(this).css('display') === 'block';
         }).each(function (idx, role) {
             roleNames.push($(role).val());

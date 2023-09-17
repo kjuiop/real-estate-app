@@ -110,6 +110,7 @@ public class AdministratorQueryRepository {
                 .select(Projections.constructor(AdministratorDetailDto.class,
                         administrator))
                 .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(eqAdminId(adminId))
                 .limit(1)
                 .fetchFirst());
@@ -133,6 +134,17 @@ public class AdministratorQueryRepository {
                 .offset(searchDto.getPageableWithSort().getOffset());
 
         return contentQuery.fetch();
+    }
+
+    public Optional<Administrator> getAdminById(Long adminId) {
+
+        return Optional.ofNullable(this.queryFactory
+                .selectFrom(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(defaultCondition())
+                .where(administrator.id.eq(adminId))
+                .limit(1)
+                .fetchFirst());
     }
 
     private BooleanExpression eqAdminId(Long adminId) {
