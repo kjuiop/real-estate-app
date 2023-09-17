@@ -43,7 +43,10 @@
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">담당자 선택</label>
                                     <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <option>김선엽</option>
+                                        <option>선택</option>
+                                        <th:block th:each="admin : ${admins}">
+                                            <option th:value="${admin.adminId}">[[${admin.name}]]</option>
+                                        </th:block>
                                     </select>
                                 </div>
                                 <div class="col-md-4 display-flex-column">

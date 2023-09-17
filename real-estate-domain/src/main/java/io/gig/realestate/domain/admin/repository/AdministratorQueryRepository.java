@@ -181,10 +181,9 @@ public class AdministratorQueryRepository {
 
     public List<AdministratorListDto> getAllAdministrators() {
         return this.queryFactory
-                .select(Projections.constructor(AdministratorListDto.class,
+                .selectDistinct(Projections.constructor(AdministratorListDto.class,
                         administrator))
                 .from(administrator)
-                .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(defaultCondition())
                 .where(administrator.status.eq(AdminStatus.NORMAL))
                 .where(administrator.team.isNotNull())
@@ -194,10 +193,9 @@ public class AdministratorQueryRepository {
 
     public List<AdministratorListDto> getAdministratorsByTeam(Team team) {
         return this.queryFactory
-                .select(Projections.constructor(AdministratorListDto.class,
+                .selectDistinct(Projections.constructor(AdministratorListDto.class,
                         administrator))
                 .from(administrator)
-                .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(defaultCondition())
                 .where(administrator.status.eq(AdminStatus.NORMAL))
                 .where(administrator.team.eq(team))
