@@ -53,6 +53,7 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public void initTeam(String name, TeamStatus status, Administrator manager) {
         Team team = Team.initTeam(name, status, manager);
+        manager.addTeam(team);
         teamStore.store(team);
     }
 }
