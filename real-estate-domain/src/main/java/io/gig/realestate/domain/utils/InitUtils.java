@@ -82,7 +82,7 @@ public class InitUtils {
         Set<Role> managerRoles = new HashSet<>();
         managerRoles.add(managerRole);
         Administrator devAdmin = administratorService.initAdmin("dev@jdrealty.io", passwordEncoder.encode("dev123$"), "개발팀", managerRoles);
-        teamService.initTeam("개발팀", TeamStatus.ACTIVE, devAdmin);
+        teamService.initTeam("김정인", TeamStatus.ACTIVE, devAdmin);
     }
 
     private void initCategoryData() {
