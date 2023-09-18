@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -23,6 +24,18 @@ public class RealEstate extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String buildingName;
+
+    private String etcInfo;
+
+    private String usageType;
+
+    private String processType;
+
+    private String address;
+
+    private String addressDetail;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -34,10 +47,28 @@ public class RealEstate extends BaseTimeEntity {
     private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator manager;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
+        return RealEstate.builder()
+                .buildingName(createForm.getBuildingName())
+                .etcInfo(createForm.getEtcInfo())
+                .usageType(createForm.getUsageType())
+                .address(createForm.getAddress())
+                .addressDetail(createForm.getAddressDetail())
+                .ownYn(createForm.getOwnYn())
+                .manager(manager)
+                .createdBy(createdBy)
+                .updatedBy(createdBy)
+                .build();
+    }
 }

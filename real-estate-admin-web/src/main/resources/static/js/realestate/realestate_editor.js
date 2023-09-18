@@ -1,9 +1,7 @@
 let onReady = function() {
-    let $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
     loadBasicInfo();
     onlyNumberKeyEvent({className: "only-number"});
-    isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
 let loadBasicInfo = function() {
@@ -24,11 +22,8 @@ let loadBasicInfo = function() {
             console.log("result", result);
             let categories = result.data;
 
-            let tags = "";
-            $.each(categories, function (idx, item) {
-                tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" codeId="' + item.id + '" style="margin-right: 5px;"> ' + item.name + '</button>';
-            });
-            $('.usageCdsSection').html(tags);
+            let tags = drawBtnUsageCode(categories);
+            $frm.find('.usageCdsSection').html(tags);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -37,125 +32,76 @@ let loadBasicInfo = function() {
 
 }
 
+let drawBtnUsageCode = function(categories) {
+
+    let tags = "";
+    $.each(categories, function (idx, item) {
+        tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageType="' + item.name + '" name="usageType" style="margin-right: 5px;"> ' + item.name + '</button>';
+    });
+
+    return tags;
+}
+
+let selectUsageCode = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $(this).parents('.usageCdsSection');
+
+    $section.find('.btnUsageCode').each(function() {
+        $(this).removeClass("btn-primary");
+        $(this).removeClass("selected");
+        $(this).addClass("btn-default");
+    });
+
+    $this.removeClass("btn-default");
+    $this.addClass("btn-primary");
+    $this.addClass("selected");
+}
 
 
 let basicInfoSave = function(e) {
 
     e.preventDefault();
-    let $frm = $('form[name="frmRegister"]'),
-    param = serializeObject({form:$frm[0]}).json();
+    let $frm = $('form[name="frmBasicRegister"]'),
+    params = serializeObject({form:$frm[0]}).json();
+    params["usageType"] = $frm.find('.btnUsageCode.selected').attr("usageType");
 
-    console.log("params", param);
-
-    // $.ajax({
-    //     url: "/administrators",
-    //     method: formMethod,
-    //     type: "json",
-    //     contentType: "application/json",
-    //     data: JSON.stringify(param),
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
-    //         twoBtnModal(message, function() {
-    //             location.href = '/administrators/' + result.data + '/edit';
-    //         });
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
-}
-
-let checkDuplicateData = function(e) {
-    e.preventDefault();
-
-    if (dto.adminId != null) {
-        return false;
-    }
-
-    let $field = $(this),
-        value = $field.val();
-
-    if (!checkEmailValidCheck(value)) {
+    if (!checkNullOrEmptyValue(params.managerUsername)) {
+        twoBtnModal('담당자를 선택해주세요.');
         return;
     }
 
-    if (checkNullOrEmptyValue(value)) {
-        $.ajax({
-            url: "/administrators/check-duplicate/username/" + value,
-            method: "get",
-            type: "json",
-            contentType: "application/json",
-            success: function(result) {
-
-                let isDuplicate = result.data;
-
-                console.log("isDuplicate", isDuplicate);
-
-                $field.siblings('.error-message').remove();
-                if (isDuplicate) {
-                    drawErrorMessage($field, '이미 존재하는 이메일 입니다.');
-                    $('#emailCheckYn').val(false);
-                } else {
-                    drawSuccessMessage($field, '사용가능한 이메일 입니다.');
-                    $('#emailCheckYn').val(true);
-                }
-            },
-            error: function(error){
-                ajaxErrorFieldByText(error);
-            }
-        })
-    }
-};
-
-const checkValidPassword = function() {
-
-    const $frm = $('form[name=frmRegister]');
-    let $password = $frm.find('input[name="password"]'),
-        $field = $('input[name="confirmPassword"]'),
-        password = $frm.find('input[name="password"]').val(),
-        repeat = $frm.find('input[name="confirmPassword"]').val();
-
-    if (!checkNullOrEmptyValue(password)) {
-        return false;
+    if (!checkNullOrEmptyValue(params.buildingName)) {
+        twoBtnModal('건물명을 입력해주세요.');
+        return;
     }
 
-    if (password.length < 6) {
-        $('#pwValidCheckYn').val(false);
-        drawErrorMessage($password, '6자리 이상의 미빌번호를 입력해주세요.');
-        return false;
-    } else {
-        $('#pwValidCheckYn').val(true);
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal('주소를 입력해주세요.');
+        return;
     }
 
-    if (password !== repeat) {
-        $('#pwEqualCheckYn').val(false);
-        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
-        return false;
-    } else {
-        $('#pwEqualCheckYn').val(true);
-        drawSuccessMessage($field, '비밀번호가 동일합니다.');
-        return false;
-    }
+    console.log("params", params);
 
-};
-
-let getRoleNames = function() {
-    let roleNames = [];
-
-    if ($('#include-role').length > 0) {
-        let isEmptyRole = true;
-
-        $('#include-role option').filter(function () {
-            return $(this).css('display') === 'block';
-        }).each(function (idx, role) {
-            roleNames.push($(role).val());
-            isEmptyRole = false;
-        });
-
-    }
-
-    return roleNames;
+    $.ajax({
+        url: "/real-estate/basic",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.reload();
+                // location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
 
 let searchAddress = function(e) {
@@ -165,14 +111,13 @@ let searchAddress = function(e) {
     new daum.Postcode({
         oncomplete: function(data) { //선택시 입력값 세팅
             $frm.find(`input[name="address"]`).val(data.address);
-            $frm.find(`input[name="address_detail"]`).focus();
+            $frm.find(`input[name="addressDetail"]`).focus();
             loadKakaoMap(data.address)
         }
     }).open();
 }
 
 $(document).ready(onReady)
-    .on('blur', 'input[name=username]', checkDuplicateData)
-    .on('blur', 'input[name=confirmPassword]', checkValidPassword)
     .on('click', '.btnAddress', searchAddress)
+    .on('click', '.btnUsageCode', selectUsageCode)
     .on('click', '.btnBasicSave', basicInfoSave);

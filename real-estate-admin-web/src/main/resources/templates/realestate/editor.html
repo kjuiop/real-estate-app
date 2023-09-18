@@ -6,7 +6,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/realestate/detail}">
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -26,36 +26,36 @@
                                     <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="radio" name="ownYn" value="Y" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;제이디부동산 전속
+                                            <input type="radio" name="ownYn" value="Y" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;제이디부동산 전속
                                         </label> &nbsp;
                                         <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="radio" name="ownYn" value="N" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;타부동산 전속
+                                            <input type="radio" name="ownYn" value="N" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.N}">&nbsp;&nbsp;&nbsp;타부동산 전속
                                         </label> &nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
                                     <th:block th:each="code : ${processCds}">
-                                        <button type="button" class="btn btn-xs btn-default" th:categoryId="${code.id}" style="margin-right: 5px;"> [[${code.name}]]</button>
+                                        <button type="button" class="btn btn-xs btn-default" disabled th:categoryId="${code.id}" style="margin-right: 5px;"> [[${code.name}]]</button>
                                     </th:block>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row line">
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">담당자 선택</label>
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
+                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
                                         <option>선택</option>
                                         <th:block th:each="admin : ${admins}">
-                                            <option th:value="${admin.adminId}">[[${admin.name}]]</option>
+                                            <option th:value="${admin.username}">[[${admin.name}]]</option>
                                         </th:block>
                                     </select>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">건물명</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="buildingName" style="height: 36px;"/>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="etcInfo" style="height: 36px;"/>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
@@ -85,7 +85,7 @@
                                     <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" name="address_detail" />
+                                    <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
                                     <div id="map" class="col-md-12 hidden" style="height:180px;"></div>

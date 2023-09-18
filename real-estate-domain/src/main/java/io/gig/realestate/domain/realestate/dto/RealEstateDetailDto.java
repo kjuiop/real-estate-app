@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.RealEstate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     static {
         EMPTY = RealEstateDetailDto.builder()
+                .ownYn(YnType.Y)
                 .empty(true)
                 .build();
     }
