@@ -24,6 +24,8 @@ public class CategoryDto {
 
     private Long parentId;
 
+    private String code;
+
     private String name;
 
     private String colorCode;
@@ -38,6 +40,7 @@ public class CategoryDto {
 
     public CategoryDto(Category c) {
         this.id = c.getId();
+        this.code = c.getCode();
         this.name = c.getName();
         this.activeYn = c.getActiveYn();
         this.sortOrder = c.getSortOrder();

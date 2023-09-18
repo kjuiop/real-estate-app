@@ -87,22 +87,22 @@ public class InitUtils {
 
     private void initCategoryData() {
 
-        Category processStep = categoryService.initCategory("진행구분", YnType.Y, 1, 1);
-        categoryService.initChildCategory("준비", YnType.Y, 2, 1, processStep);
-        categoryService.initChildCategory("작업중", YnType.Y, 2, 2, processStep);
-        categoryService.initChildCategory("완료", YnType.Y, 2, 3, processStep);
-        categoryService.initChildCategory("보류", YnType.Y, 2, 4, processStep);
-        categoryService.initChildCategory("매각 전", YnType.Y, 2, 5, processStep);
-        categoryService.initChildCategory("매각", YnType.Y, 2, 6, processStep);
+        Category processStep = categoryService.initCategory("CD_PROCESS", "진행구분", YnType.Y, 1, 1);
+        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "준비", YnType.Y, 2, 1, processStep);
+        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "작업중", YnType.Y, 2, 2, processStep);
+        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "완료", YnType.Y, 2, 3, processStep);
+        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "보류", YnType.Y, 2, 4, processStep);
+        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "매각 전", YnType.Y, 2, 5, processStep);
+        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "매각", YnType.Y, 2, 6, processStep);
 
-        Category usageType = categoryService.initCategory("매물용도", YnType.Y, 1, 2);
-        Category usageChange = categoryService.initChildCategory("용도변경-별실가능", YnType.Y, 2, 1, usageType);
-        categoryService.initChildCategory("투자용", YnType.Y, 3, 1, usageChange);
-        categoryService.initChildCategory("사옥용", YnType.Y, 3, 2, usageChange);
-        categoryService.initChildCategory("거주용", YnType.Y, 3, 3, usageChange);
-        categoryService.initChildCategory("임대수익용", YnType.Y, 3, 4, usageChange);
-        categoryService.initChildCategory("신축-리모델링용", YnType.Y, 3, 5, usageChange);
-        categoryService.initChildCategory("모텔/호텔", YnType.Y, 3, 6, usageChange);
+        Category usageType = categoryService.initCategory("CD_USAGE","매물용도", YnType.Y, 1, 2);
+        Category usageChange = categoryService.initChildCategory("CD_USAGE_01", "CD_USAGE", "용도변경-별실가능", YnType.Y, 2, 1, usageType);
+        categoryService.initChildCategory("CD_USAGE_01_01", "CD_USAGE_01", "투자용", YnType.Y, 3, 1, usageChange);
+        categoryService.initChildCategory("CD_USAGE_01_02", "CD_USAGE_01", "사옥용", YnType.Y, 3, 2, usageChange);
+        categoryService.initChildCategory("CD_USAGE_01_03", "CD_USAGE_01", "거주용", YnType.Y, 3, 3, usageChange);
+        categoryService.initChildCategory("CD_USAGE_01_04", "CD_USAGE_01", "임대수익용", YnType.Y, 3, 4, usageChange);
+        categoryService.initChildCategory("CD_USAGE_01_05", "CD_USAGE_01", "신축-리모델링용", YnType.Y, 3, 5, usageChange);
+        categoryService.initChildCategory("CD_USAGE_01_06", "CD_USAGE_01", "모텔/호텔", YnType.Y, 3, 6, usageChange);
     }
 
     private void validateAlreadyEntity() {
