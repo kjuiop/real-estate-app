@@ -38,7 +38,7 @@ public class RealEstateController {
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        model.addAttribute("pages", null);
+        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
         model.addAttribute("condition", searchDto);
         return "realestate/list";
     }

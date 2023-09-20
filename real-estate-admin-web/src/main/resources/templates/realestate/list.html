@@ -80,16 +80,30 @@
                                         </th>
                                         <th>진행구분</th>
                                         <th>건물명</th>
-                                        <th>상태</th>
                                         <th>용도</th>
                                         <th>담당자</th>
                                         <th>주소</th>
-                                        <th style="width: 13%;">등록일</th>
+                                        <th>등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
+                                    <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <td>
+                                            <label class="margin-bottom-0">
+                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
+                                            </label>
+                                        </td>
+                                        <td th:text="${item.processType}"></td>
+                                        <td>
+                                            <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName}"></a>
+                                        </td>
+                                        <td th:text="${item.usageType}"></td>
+                                        <td th:text="${item.managerName}"></td>
+                                        <td th:text="${item.address + ' ' + item.addressDetail}"></td>
+                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                    <tr th:unless="${not #lists.isEmpty(pages.content)}">
+                                        <td class="text-center" colspan="7">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
