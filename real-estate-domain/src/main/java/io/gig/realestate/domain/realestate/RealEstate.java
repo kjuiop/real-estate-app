@@ -1,16 +1,14 @@
 package io.gig.realestate.domain.realestate;
 
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author : JAKE
@@ -26,4 +24,56 @@ public class RealEstate extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String buildingName;
+
+    private String etcInfo;
+
+    private String address;
+
+    private String addressDetail;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType ownYn = YnType.Y;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "process_type_id")
+    private Category processType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usage_type_id")
+    private Category usageType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator manager;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id")
+    private Administrator createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by_id")
+    private Administrator updatedBy;
+
+    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
+        return RealEstate.builder()
+                .buildingName(createForm.getBuildingName())
+                .etcInfo(createForm.getEtcInfo())
+                .address(createForm.getAddress())
+                .addressDetail(createForm.getAddressDetail())
+                .ownYn(createForm.getOwnYn())
+                .usageType(usageType)
+                .manager(manager)
+                .createdBy(createdBy)
+                .updatedBy(createdBy)
+                .build();
+    }
 }

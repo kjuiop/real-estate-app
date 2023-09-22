@@ -148,6 +148,10 @@ public class Administrator extends BaseTimeEntity {
         return true;
     }
 
+    public void addTeam(Team team) {
+        this.team = team;
+    }
+
     public void update(AdministratorUpdateForm form, String encodedPassword) {
         this.password = encodedPassword;
         this.status = form.getStatus();

@@ -26,6 +26,14 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
+    private String code;
+
+    /**
+     * 부모 코드경로 (lv1/lv2/lv3 형태)
+     */
+    @Setter(AccessLevel.PRIVATE)
+    private String parentCodePath;
+
     @Column(nullable = false)
     private String name;
 
@@ -62,8 +70,20 @@ public class Category {
                 .build();
     }
 
-    public static Category initCategory(String name, YnType activeYn, int level, int sortOrder) {
+    public static Category initCategory(String code, String name, YnType activeYn, int level, int sortOrder) {
         return Category.builder()
+                .code(code)
+                .name(name)
+                .activeYn(activeYn)
+                .level(level)
+                .sortOrder(sortOrder)
+                .build();
+    }
+
+    public static Category initChildCategory(String code, String parentCodePath, String name, YnType activeYn, int level, int sortOrder) {
+        return Category.builder()
+                .code(code)
+                .parentCodePath(parentCodePath)
                 .name(name)
                 .activeYn(activeYn)
                 .level(level)

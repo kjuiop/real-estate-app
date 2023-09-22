@@ -42,4 +42,6 @@ public interface AdministratorService {
     Long signUp(AdministratorSignUpForm signUpForm);
 
     void statusUpdate(List<AdminStatusUpdateForm> updateForm);
+
+    List<AdministratorListDto> getAdminListMyMembers(LoginUser loginUser);
 }

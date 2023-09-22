@@ -6,12 +6,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/realestate/detail}">
 <body>
-<div layout:fragment="content">
-    <section class="content">
+<div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
+    <section class="content" th:with="isModify = ${dto.realEstateId != null}">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
-                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
+                    <form class="form-horizontal" name="frmBasicRegister" method="post">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
@@ -26,36 +26,36 @@
                                     <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;제이디부동산 전속
+                                            <input type="radio" name="ownYn" value="Y" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;제이디부동산 전속
                                         </label> &nbsp;
                                         <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;타부동산 전속
+                                            <input type="radio" name="ownYn" value="N" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.N}">&nbsp;&nbsp;&nbsp;타부동산 전속
                                         </label> &nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 준비</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 작업중</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 완료</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 보류</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 매각 전</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 매각</button>
+                                    <th:block th:each="code : ${processCds}">
+                                        <button type="button" class="btn btn-xs btn-default" disabled th:categoryId="${code.id}" style="margin-right: 5px;"> [[${code.name}]]</button>
+                                    </th:block>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row line">
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">담당자 선택</label>
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <option>김선엽</option>
+                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
+                                        <option>선택</option>
+                                        <th:block th:each="admin : ${admins}">
+                                            <option th:value="${admin.username}" th:selected="${admin.adminId eq dto.managerId}">[[${admin.name}]]</option>
+                                        </th:block>
                                     </select>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">건물명</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" style="height: 36px;"/>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="etcInfo" th:value="${dto.etcInfo}" style="height: 36px;"/>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
@@ -63,38 +63,37 @@
                                     <label class="text-label">대분류</label>
                                 </div>
                                 <div class="col-md-7 col-sm-8 display-flex-row">
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4">
-                                        <option>용도변경-별실가능</option>
+                                    <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                        <th:block th:each="code : ${usageCds.child}">
+                                            <option th:value="${code.id}" th:selected="${dto.usageType.parentId eq code.id}">[[${code.name}]]</option>
+                                        </th:block>
                                     </select>
-                                    <!--                                        <input type="text" class="form-control form-control-sm" />-->
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 display-flex-row">
                                     <label class="text-label">소분류</label>
                                 </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 투자용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 사옥용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 거주용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 임대수익용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 신축-리모델링용</button>
-                                    <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 모텔/호텔</button>
-                                </div>
+                                <div class="col-md-12 display-flex-row usageCdsSection"></div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
+                            <div class="form-group col-md-12 display-flex-column">
                                 <div class="col-md-12">
                                     <label class="text-label">주소</label>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <input type="text" class="form-control form-control-sm col-sm-9" name="address" readonly />
+                                    <input type="text" class="form-control form-control-sm col-sm-9" name="address" th:value="${dto.address}" readonly />
                                     <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" name="address_detail" />
+                                    <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
                                     <div id="map" class="col-md-12 hidden" style="height:180px;"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 display-flex-column">
+                                <div class="col-md-12 display-flex-row" style="justify-content: flex-end;">
+                                    <button type="button" class="btn btn-sm btn-primary btnBasicSave"> 저장</button>
                                 </div>
                             </div>
                         </div>

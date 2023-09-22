@@ -48,6 +48,17 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
+    public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
+        List<CategoryDto> fetch = this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(defaultCondition())
+                .where(category.parent.name.eq(name))
+                .orderBy(category.sortOrder.asc())
+                .fetch();
+
+        return fetch;
+    }
+
     public Optional<Category> findById(Long categoryId) {
         return Optional.ofNullable(
                 this.queryFactory
@@ -67,6 +78,18 @@ public class CategoryQueryRepository {
                 .from(category)
                 .where(defaultCondition())
                 .where(category.id.eq(id))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    public Optional<CategoryDto> getCategoryDtoByName(String name) {
+        Optional<CategoryDto> fetch = Optional.ofNullable(this.queryFactory
+                .select(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(defaultCondition())
+                .where(category.name.eq(name))
                 .limit(1)
                 .fetchFirst());
 

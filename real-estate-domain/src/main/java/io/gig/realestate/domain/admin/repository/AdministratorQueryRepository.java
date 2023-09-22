@@ -9,7 +9,9 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +24,7 @@ import java.util.Optional;
 import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
 import static io.gig.realestate.domain.category.QCategory.category;
+import static io.gig.realestate.domain.team.QTeam.team;
 
 /**
  * @author : JAKE
@@ -87,6 +90,7 @@ public class AdministratorQueryRepository {
         Optional<Administrator> fetch = Optional.ofNullable(this.queryFactory
                 .selectFrom(administrator)
                 .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .join(administrator.team, team).fetchJoin()
                 .where(administrator.username.eq(username))
                 .limit(1)
                 .fetchFirst());
@@ -173,5 +177,29 @@ public class AdministratorQueryRepository {
         long total = content.size();
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
+    }
+
+    public List<AdministratorListDto> getAllAdministrators() {
+        return this.queryFactory
+                .selectDistinct(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .where(defaultCondition())
+                .where(administrator.status.eq(AdminStatus.NORMAL))
+                .where(administrator.team.isNotNull())
+                .orderBy(administrator.id.desc())
+                .fetch();
+    }
+
+    public List<AdministratorListDto> getAdministratorsByTeam(Team team) {
+        return this.queryFactory
+                .selectDistinct(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .where(defaultCondition())
+                .where(administrator.status.eq(AdminStatus.NORMAL))
+                .where(administrator.team.eq(team))
+                .orderBy(administrator.id.desc())
+                .fetch();
     }
 }

@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.RealEstate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +19,11 @@ import lombok.experimental.SuperBuilder;
 public class RealEstateDetailDto extends RealEstateDto {
 
     private static final RealEstateDetailDto EMPTY;
+    private Long managerId;
 
     static {
         EMPTY = RealEstateDetailDto.builder()
+                .ownYn(YnType.Y)
                 .empty(true)
                 .build();
     }
@@ -34,5 +37,8 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     public RealEstateDetailDto(RealEstate r) {
         super(r);
+        if (r.getManager() != null) {
+            this.managerId = r.getManager().getId();
+        }
     }
 }

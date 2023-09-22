@@ -18,32 +18,25 @@
                             <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 매물관리</h5></div>
                             <div class="col-12 display-flex-row line">
                                 <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
-                                    <label>이메일</label>
+                                    <label>담당자 명</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="이메일을 입력하세요." />
-                                </div>
-                                <div class="col-3"></div>
-                            </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
-                                    <label>이름</label>
-                                </div>
-                                <div class="col-7">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요." />
+                                    <input type="text" class="form-control" id="name" name="name" th:value="${condition.name}" placeholder="이름을 입력하세요." />
                                 </div>
                                 <div class="col-3"></div>
                             </div>
                             <div class="col-12 display-flex-row line">
                                 <div class="col-2" style="padding-left: 30px;">
-                                    <label for="AdminStatus_All" class="control-label">상태</label>
+                                    <label for="processType_All" class="control-label">상태</label>
                                 </div>
                                 <div class="col-10">
-                                    <label class="margin-right-10" for="AdminStatus_All" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_All" value="">&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
-                                    <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL">&nbsp;&nbsp;&nbsp;정상</label>
-                                    <label class="margin-right-10" for="AdminStatus_Pending" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Pending" value="PENDING">&nbsp;&nbsp;&nbsp;보류</label>
-                                    <label class="margin-right-10" for="AdminStatus_Withdraw" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Withdraw" value="WITHDRAW">&nbsp;&nbsp;&nbsp;탈퇴</label>
-                                    <label class="margin-right-10" for="AdminStatus_Rejected" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Rejected" value="INACTIVE">&nbsp;&nbsp;&nbsp;비활성화</label> &nbsp;
+                                    <label class="margin-right-10" for="processType_All" style="font-weight: normal;"><input type="radio" name="processType" id="processType_All" value="" checked>&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
+                                    <label class="margin-right-10" for="processType_prepare" style="font-weight: normal;"><input type="radio" name="processType" id="processType_prepare" value="NORMAL">&nbsp;&nbsp;&nbsp;준비</label>
+                                    <label class="margin-right-10" for="processType_working" style="font-weight: normal;"><input type="radio" name="processType" id="processType_working" value="PENDING">&nbsp;&nbsp;&nbsp;작업중</label>
+                                    <label class="margin-right-10" for="processType_complete" style="font-weight: normal;"><input type="radio" name="processType" id="processType_complete" value="WITHDRAW">&nbsp;&nbsp;&nbsp;완료</label>
+                                    <label class="margin-right-10" for="processType_pending" style="font-weight: normal;"><input type="radio" name="processType" id="processType_pending" value="WITHDRAW">&nbsp;&nbsp;&nbsp;보류</label>
+                                    <label class="margin-right-10" for="processType_beforeSell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_beforeSell" value="WITHDRAW">&nbsp;&nbsp;&nbsp;매각 전</label>
+                                    <label class="margin-right-10" for="processType_sell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_sell" value="INACTIVE">&nbsp;&nbsp;&nbsp;매각</label> &nbsp;
                                 </div>
                             </div>
                             <div class="col-12 display-flex-row line">
@@ -85,16 +78,31 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>이메일</th>
-                                        <th>이름</th>
-                                        <th>상태</th>
-                                        <th style="width: 13%;">최종로그인</th>
-                                        <th>등록자</th>
-                                        <th style="width: 13%;">등록일</th>
+                                        <th>진행구분</th>
+                                        <th>건물명</th>
+                                        <th>용도</th>
+                                        <th>담당자</th>
+                                        <th>주소</th>
+                                        <th>등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <td>
+                                            <label class="margin-bottom-0">
+                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
+                                            </label>
+                                        </td>
+                                        <td th:text="${'-'}"></td>
+                                        <td>
+                                            <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName}"></a>
+                                        </td>
+                                        <td th:text="${item.usageType.name}"></td>
+                                        <td th:text="${item.managerName}"></td>
+                                        <td th:text="${item.address + ' ' + item.addressDetail}"></td>
+                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                    <tr th:unless="${not #lists.isEmpty(pages.content)}">
                                         <td class="text-center" colspan="7">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>

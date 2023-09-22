@@ -5,6 +5,7 @@ import io.gig.realestate.domain.admin.AdministratorReader;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -87,6 +88,16 @@ public class AdministratorQueryImpl implements AdministratorReader {
             throw new UsernameNotFoundException(username + " 계정은 가입되어 있지 않습니다.");
         }
         return findAdministrator.get();
+    }
+
+    @Override
+    public List<AdministratorListDto> getAllAdministrators() {
+        return queryRepository.getAllAdministrators();
+    }
+
+    @Override
+    public List<AdministratorListDto> getAdministratorsByTeam(Team team) {
+        return queryRepository.getAdministratorsByTeam(team);
     }
 
     @Override
