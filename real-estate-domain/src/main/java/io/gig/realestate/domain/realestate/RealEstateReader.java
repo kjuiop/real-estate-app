@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate;
 
+import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.dto.RealEstateListDto;
 import org.springframework.data.domain.Page;
 
@@ -11,4 +12,5 @@ public interface RealEstateReader {
 
     Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto);
 
+    RealEstateDetailDto getRealEstateDetail(Long realEstateId);
 }

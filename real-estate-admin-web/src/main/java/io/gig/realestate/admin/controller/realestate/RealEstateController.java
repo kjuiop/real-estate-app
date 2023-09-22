@@ -59,6 +59,22 @@ public class RealEstateController {
         return "realestate/editor";
     }
 
+    @GetMapping("{realEstateId}/edit")
+    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
+
+        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
+        RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
+        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
+        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("admins", admins);
+        model.addAttribute("processCds", processCds);
+        model.addAttribute("usageCds", usageCds);
+
+        return "realestate/editor";
+    }
+
     @PostMapping("basic")
     @ResponseBody
     public ResponseEntity<ApiResponse> basicSave(@Valid @RequestBody RealEstateCreateForm createForm,

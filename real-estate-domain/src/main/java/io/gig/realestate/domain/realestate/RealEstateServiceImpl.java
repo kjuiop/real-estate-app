@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.dto.RealEstateListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,12 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional(readOnly = true)
     public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
         return realEstateReader.getRealEstatePageListBySearch(searchDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RealEstateDetailDto getDetail(Long realEstateId) {
+        return realEstateReader.getRealEstateDetail(realEstateId);
     }
 
     @Override
