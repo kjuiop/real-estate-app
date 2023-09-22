@@ -7,7 +7,7 @@
       layout:decorate="~{layouts/realestate/detail}">
 <body>
 <div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
-    <section class="content">
+    <section class="content" th:with="isModify = ${dto.realEstateId != null}">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
@@ -45,17 +45,17 @@
                                     <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
                                         <option>선택</option>
                                         <th:block th:each="admin : ${admins}">
-                                            <option th:value="${admin.username}">[[${admin.name}]]</option>
+                                            <option th:value="${admin.username}" th:selected="${admin.adminId eq dto.managerId}">[[${admin.name}]]</option>
                                         </th:block>
                                     </select>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">건물명</label>
-                                    <input type="text" class="form-control form-control-sm" name="buildingName" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" style="height: 36px;"/>
                                 </div>
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" name="etcInfo" style="height: 36px;"/>
+                                    <input type="text" class="form-control form-control-sm" name="etcInfo" th:value="${dto.etcInfo}" style="height: 36px;"/>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
@@ -65,7 +65,7 @@
                                 <div class="col-md-7 col-sm-8 display-flex-row">
                                     <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
                                         <th:block th:each="code : ${usageCds.child}">
-                                            <option th:value="${code.id}">[[${code.name}]]</option>
+                                            <option th:value="${code.id}" th:selected="${dto.usageType.parentId eq code.id}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -81,11 +81,11 @@
                                     <label class="text-label">주소</label>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <input type="text" class="form-control form-control-sm col-sm-9" name="address" readonly />
+                                    <input type="text" class="form-control form-control-sm col-sm-9" name="address" th:value="${dto.address}" readonly />
                                     <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" />
+                                    <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
                                     <div id="map" class="col-md-12 hidden" style="height:180px;"></div>

@@ -36,7 +36,12 @@ let drawBtnUsageCode = function(categories) {
 
     let tags = "";
     $.each(categories, function (idx, item) {
-        tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageType="' + item.name + '" name="usageType" style="margin-right: 5px;"> ' + item.name + '</button>';
+        if (dto != null && dto.usageType != null && dto.usageType.id === item.id) {
+            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+        } else {
+            tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+        }
+
     });
 
     return tags;
@@ -65,7 +70,7 @@ let basicInfoSave = function(e) {
     e.preventDefault();
     let $frm = $('form[name="frmBasicRegister"]'),
     params = serializeObject({form:$frm[0]}).json();
-    params["usageType"] = $frm.find('.btnUsageCode.selected').attr("usageType");
+    params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal('담당자를 선택해주세요.');

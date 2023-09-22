@@ -93,11 +93,11 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
                                             </label>
                                         </td>
-                                        <td th:text="${not #strings.isEmpty(item.processType) ? item.processType : '-'}"></td>
+                                        <td th:text="${'-'}"></td>
                                         <td>
                                             <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName}"></a>
                                         </td>
-                                        <td th:text="${item.usageType}"></td>
+                                        <td th:text="${item.usageType.name}"></td>
                                         <td th:text="${item.managerName}"></td>
                                         <td th:text="${item.address + ' ' + item.addressDetail}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>

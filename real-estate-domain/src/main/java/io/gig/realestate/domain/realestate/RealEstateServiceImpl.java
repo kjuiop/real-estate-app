@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.dto.RealEstateListDto;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RealEstateServiceImpl implements RealEstateService {
 
     private final AdministratorService administratorService;
+    private final CategoryService categoryService;
 
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
@@ -39,8 +42,9 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
+        Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
         Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
-        RealEstate newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+        RealEstate newRealEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
         return realEstateStore.store(newRealEstate).getId();
     }
 }

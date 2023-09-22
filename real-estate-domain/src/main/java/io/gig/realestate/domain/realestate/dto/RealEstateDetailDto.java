@@ -19,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 public class RealEstateDetailDto extends RealEstateDto {
 
     private static final RealEstateDetailDto EMPTY;
+    private Long managerId;
 
     static {
         EMPTY = RealEstateDetailDto.builder()
@@ -36,5 +37,8 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     public RealEstateDetailDto(RealEstate r) {
         super(r);
+        if (r.getManager() != null) {
+            this.managerId = r.getManager().getId();
+        }
     }
 }

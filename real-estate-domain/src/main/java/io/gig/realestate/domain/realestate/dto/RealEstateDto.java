@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.dto;
 
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.RealEstate;
 import lombok.Getter;
@@ -23,9 +24,7 @@ public class RealEstateDto {
 
     private String etcInfo;
 
-    private String usageType;
-
-    private String processType;
+    private CategoryDto usageType;
 
     private String address;
 
@@ -41,8 +40,7 @@ public class RealEstateDto {
         this.realEstateId = r.getId();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
-        this.processType = r.getProcessType();
-        this.usageType = r.getUsageType();
+        this.usageType = new CategoryDto(r.getUsageType());
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();
         this.ownYn = r.getOwnYn();

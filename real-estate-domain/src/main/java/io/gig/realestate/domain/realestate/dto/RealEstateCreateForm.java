@@ -18,7 +18,7 @@ public class RealEstateCreateForm {
 
     private String etcInfo;
 
-    private String usageType;
+    private Long usageTypeId;
 
     private String address;
 

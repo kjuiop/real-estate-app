@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
@@ -28,10 +29,6 @@ public class RealEstate extends BaseTimeEntity {
 
     private String etcInfo;
 
-    private String usageType;
-
-    private String processType;
-
     private String address;
 
     private String addressDetail;
@@ -47,6 +44,14 @@ public class RealEstate extends BaseTimeEntity {
     private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "process_type_id")
+    private Category processType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usage_type_id")
+    private Category usageType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_by_id")
     private Administrator manager;
 
@@ -58,14 +63,14 @@ public class RealEstate extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
+    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
-                .usageType(createForm.getUsageType())
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
                 .ownYn(createForm.getOwnYn())
+                .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
