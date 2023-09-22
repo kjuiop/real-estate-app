@@ -26,7 +26,6 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
-    @Column(nullable = false)
     private String code;
 
     /**
