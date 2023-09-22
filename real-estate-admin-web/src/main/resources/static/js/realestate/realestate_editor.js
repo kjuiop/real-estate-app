@@ -99,8 +99,7 @@ let basicInfoSave = function(e) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
-                location.reload();
-                // location.href = '/real-estate/' + result.data + '/edit';
+                location.href = '/real-estate/' + result.data + '/edit';
             });
         },
         error:function(error){
