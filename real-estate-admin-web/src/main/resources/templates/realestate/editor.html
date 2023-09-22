@@ -65,7 +65,7 @@
                                 <div class="col-md-7 col-sm-8 display-flex-row">
                                     <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
                                         <th:block th:each="code : ${usageCds.child}">
-                                            <option th:value="${code.id}" th:selected="${dto.usageType.parentId eq code.id}">[[${code.name}]]</option>
+                                            <option th:value="${code.id}" th:selected="${isModify && dto.usageType.parentId eq code.id}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
                                 </div>
