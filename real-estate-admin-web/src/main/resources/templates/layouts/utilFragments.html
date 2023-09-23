@@ -223,5 +223,83 @@
     </div><!-- /.modal -->
 </div>
 
+<div th:fragment="realEstateModal">
+    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="realEstateModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;">매물 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; height: 100%; overflow: auto;">
+                    <div class="form-horizontal col-md-12 no-left-padding display-flex-row">
+                        <div class="col-md-8 no-left-padding">
+                            <form class="form-horizontal" name="frmRegister" method="get">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-md-6" colspan="6">
+                                            <label class="text-label no-left-padding">매물종류</label>
+                                            <select class="form-control" name="teamId">
+                                                <option value="">선택</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-md-6" colspan="6">
+                                            <label class="text-label no-left-padding">거래종류</label>
+                                            <select class="form-control" name="roleName">
+                                                <option value="">선택</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-12 no-left-padding" colspan="12">
+                                            <div class="col-md-12">
+                                                <label class="text-label">주소</label>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding">
+                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
+                                                    <option value="">시도선택</option>
+                                                </select>
+                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
+                                                    <option value="">구군 선택</option>
+                                                </select>
+                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
+                                                    <option value="">동 선택</option>
+                                                </select>
+                                                <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
+                                                <select class="form-control col-md-4 margin-right-4" name="landType">
+                                                    <option value="1">일반</option>
+                                                    <option value="2">산</option>
+                                                </select>
+                                                <input type="text" class="form-control col-md-4 margin-right-4" placeholder="번" />
+                                                <input type="text" class="form-control col-md-4" placeholder="지" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="map" class="col-md-4 text-alien-center" style="background-color: #eeeeee; border-radius: 20px; padding: 80px 20px 20px;">
+                            <span class="margin-bottom-10">지도</span>
+                            <p style="font-size: 12px; margin-top: 20px; color: #7987a1;">
+                                검색버튼을 클릭해서
+                                <br />
+                                주소를 입력해주세요.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-horizontal margin-top-20">
+                        <button type="button" id="btnRegister" class="btn btn-primary pull-right">계속 등록</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 </html>

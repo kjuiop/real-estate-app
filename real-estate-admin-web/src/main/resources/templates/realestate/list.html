@@ -56,7 +56,7 @@
                     </div>
                     <div class="card" style="border-left: 5px solid #117a8b;">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span></span>개&nbsp;)
+                            <h4 class="card-title">총</h4>(&nbsp;<span>0</span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="col-12" style="padding: 10px; margin-top: 10px;">
-                            <a href="/real-estate/new" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</a>
+                            <button id="btnRealEstateModal" class="btn btn-sm btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -124,10 +124,14 @@
             </div>
         </div>
     </section>
+    <div th:replace="/layouts/utilFragments::realEstateModal"></div>
 </div>
 <section layout:fragment="script">
     <script th:inline="javascript">
     </script>
+    <script th:replace="layouts/fragments :: postcode"></script>
+    <script th:replace="layouts/fragments :: kakaoMaps"></script>
+    <script src="/static/js/realestate/realestate_list.js" th:src="@{/js/realestate/realestate_list.js}"></script>
 </section>
 </body>
 </html>
