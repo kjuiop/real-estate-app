@@ -41,4 +41,12 @@ public class RealEstateDetailDto extends RealEstateDto {
             this.managerId = r.getManager().getId();
         }
     }
+
+    public static RealEstateDetailDto initDetailDto(String address, String bCode, String hCode) {
+        return RealEstateDetailDto.builder()
+                .address(address)
+                .bCode(bCode)
+                .hCode(hCode)
+                .build();
+    }
 }

@@ -29,6 +29,10 @@ public class RealEstate extends BaseTimeEntity {
 
     private String etcInfo;
 
+    private String bCode;
+
+    private String hCode;
+
     private String address;
 
     private String addressDetail;

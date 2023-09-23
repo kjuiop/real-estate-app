@@ -4,7 +4,6 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
-import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.RealEstateSearchDto;
@@ -13,7 +12,6 @@ import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,11 +41,16 @@ public class RealEstateController {
         return "realestate/list";
     }
 
-    @PostMapping("new")
-    public String register(Model model, @CurrentUser LoginUser loginUser) {
+    @GetMapping("new")
+    public String register(
+            @RequestParam(name = "address", required = false) String address,
+            @RequestParam(name = "bCode", required = false) String bCode,
+            @RequestParam(name = "hCode", required = false) String hCode,
+            Model model,
+            @CurrentUser LoginUser loginUser) {
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        RealEstateDetailDto dto = RealEstateDetailDto.emptyDto();
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, bCode, hCode);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 

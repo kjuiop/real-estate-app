@@ -31,24 +31,12 @@ let moveRegister = function(e) {
     let $frm = $('form[name="frmMoveRegister"]'),
         params = serializeObject({form:$frm[0]}).json();
 
-    console.log("params", params)
-    // $.ajax({
-    //     url: "/real-estate/basic",
-    //     method: "post",
-    //     type: "json",
-    //     contentType: "application/json",
-    //     data: JSON.stringify(params),
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         let message = '정상적으로 저장되었습니다.';
-    //         twoBtnModal(message, function() {
-    //             location.href = '/real-estate/' + result.data + '/edit';
-    //         });
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
+    console.log("params : ", params);
+
+    location.href = '/real-estate/new?bCode='
+        + params.bCode + "&hCode="
+        + params.hCode
+        + "&address=" + encodeURIComponent(params.address);
 
 }
 

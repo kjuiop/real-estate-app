@@ -32,6 +32,10 @@ public class RealEstateDto {
 
     private YnType ownYn;
 
+    private String bCode;
+
+    private String hCode;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
