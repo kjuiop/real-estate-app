@@ -69,6 +69,8 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
+                .bCode(createForm.getBCode())
+                .hCode(createForm.getHCode())
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
                 .address(createForm.getAddress())

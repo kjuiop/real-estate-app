@@ -14,6 +14,10 @@ public class RealEstateCreateForm {
 
     public YnType ownYn;
 
+    public String bCode;
+
+    public String hCode;
+
     private String buildingName;
 
     private String etcInfo;
