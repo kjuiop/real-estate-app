@@ -10,6 +10,14 @@ repositories {
 }
 
 dependencies {
+
+    /** excel **/
+    implementation 'org.apache.poi:poi:3.7'
+    implementation 'org.apache.poi:poi-ooxml:3.7'
+
+    /** common-io **/
+    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
