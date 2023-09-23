@@ -32,9 +32,7 @@ public class RealEstateDto {
 
     private YnType ownYn;
 
-    private String bCode;
-
-    private String hCode;
+    private String pnu;
 
     private LocalDateTime createdAt;
 
@@ -42,6 +40,7 @@ public class RealEstateDto {
 
     public RealEstateDto(RealEstate r) {
         this.realEstateId = r.getId();
+        this.pnu = r.getPnu();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
         this.usageType = new CategoryDto(r.getUsageType());

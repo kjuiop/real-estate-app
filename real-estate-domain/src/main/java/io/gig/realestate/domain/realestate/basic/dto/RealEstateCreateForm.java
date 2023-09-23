@@ -16,9 +16,7 @@ public class RealEstateCreateForm {
 
     private YnType ownYn;
 
-    public String bCode;
-
-    public String hCode;
+    private String pnu;
 
     private String buildingName;
 

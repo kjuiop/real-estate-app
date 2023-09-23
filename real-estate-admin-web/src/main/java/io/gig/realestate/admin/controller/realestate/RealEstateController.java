@@ -10,6 +10,8 @@ import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,7 @@ public class RealEstateController {
     private final CategoryService categoryService;
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
+    private final LandService landService;
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
@@ -43,21 +46,23 @@ public class RealEstateController {
 
     @GetMapping("new")
     public String register(
-            @RequestParam(name = "address", required = false) String address,
-            @RequestParam(name = "bCode", required = false) String bCode,
-            @RequestParam(name = "hCode", required = false) String hCode,
+            @RequestParam(name = "pnu") String pnu,
+            @RequestParam(name = "address") String address,
             Model model,
             @CurrentUser LoginUser loginUser) {
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, bCode, hCode);
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, pnu);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
+        List<LandDto> landList = landService.getLandListInfoByPnu(pnu);
+
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
+        model.addAttribute("landList", landList);
 
         return "realestate/editor";
     }
