@@ -71,6 +71,11 @@ let loadKakaoMap = function(searchAddress) {
     geocoder.addressSearch(searchAddress, function(result, status) {
 
         console.log("data", result);
+        if (result.length > 0 && checkNullOrEmptyValue(result[0].address)) {
+            let address = result[0].address;
+            $('input[name="bun"]').val(address.main_address_no);
+            $('input[name="ji"]').val(address.sub_address_no);
+        }
 
         // 정상적으로 검색이 완료됐으면
         if (status !== kakao.maps.services.Status.OK) {
