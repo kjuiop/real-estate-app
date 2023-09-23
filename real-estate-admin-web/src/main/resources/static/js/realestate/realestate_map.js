@@ -10,8 +10,6 @@ let loadKakaoMap = function(searchAddress) {
         console.error('검색하고자 하는 주소가 올바르지 않습니다.', searchAddress);
         return
     }
-    $("#map").removeClass("hidden");
-
     let mapContainer = document.getElementById('map'); // 지도를 표시할 div
     let mapOption = {
         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표

@@ -47,6 +47,7 @@ public class RealEstateDetailDto extends RealEstateDto {
                 .address(address)
                 .bCode(bCode)
                 .hCode(hCode)
+                .ownYn(YnType.Y)
                 .build();
     }
 }
