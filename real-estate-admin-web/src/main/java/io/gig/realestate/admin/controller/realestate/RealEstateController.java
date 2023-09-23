@@ -54,8 +54,6 @@ public class RealEstateController {
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
-
-
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static io.gig.realestate.domain.realestate.QRealEstate.realEstate;
+import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 
 /**
  * @author : JAKE
