@@ -6,10 +6,10 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
-import io.gig.realestate.domain.realestate.RealEstateSearchDto;
-import io.gig.realestate.domain.realestate.RealEstateService;
-import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
-import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.RealEstateService;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,6 +53,8 @@ public class RealEstateController {
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, bCode, hCode);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
+
+
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);

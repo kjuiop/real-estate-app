@@ -1,10 +1,10 @@
-package io.gig.realestate.domain.realestate;
+package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

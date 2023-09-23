@@ -1,7 +1,7 @@
-package io.gig.realestate.domain.realestate.repository;
+package io.gig.realestate.domain.realestate.basic.repository;
 
-import io.gig.realestate.domain.realestate.RealEstate;
-import io.gig.realestate.domain.realestate.RealEstateStore;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

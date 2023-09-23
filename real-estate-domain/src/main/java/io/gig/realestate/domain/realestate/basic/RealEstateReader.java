@@ -1,7 +1,7 @@
-package io.gig.realestate.domain.realestate;
+package io.gig.realestate.domain.realestate.basic;
 
-import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import org.springframework.data.domain.Page;
 
 /**
