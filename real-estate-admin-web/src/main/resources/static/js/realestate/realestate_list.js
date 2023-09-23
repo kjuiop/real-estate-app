@@ -28,8 +28,27 @@ let realEstateModal = function(e) {
 let moveRegister = function(e) {
     e.preventDefault();
 
-    let $frm = $("form[name='frmRegister']");
+    let $frm = $('form[name="frmMoveRegister"]'),
+        params = serializeObject({form:$frm[0]}).json();
 
+    console.log("params", params)
+    // $.ajax({
+    //     url: "/real-estate/basic",
+    //     method: "post",
+    //     type: "json",
+    //     contentType: "application/json",
+    //     data: JSON.stringify(params),
+    //     success: function (result) {
+    //         console.log("result : ", result);
+    //         let message = '정상적으로 저장되었습니다.';
+    //         twoBtnModal(message, function() {
+    //             location.href = '/real-estate/' + result.data + '/edit';
+    //         });
+    //     },
+    //     error:function(error){
+    //         ajaxErrorFieldByText(error);
+    //     }
+    // });
 
 }
 
@@ -73,8 +92,11 @@ let loadKakaoMap = function(searchAddress) {
         console.log("data", result);
         if (result.length > 0 && checkNullOrEmptyValue(result[0].address)) {
             let address = result[0].address;
+            $('input[name="address"]').val(address.address_name)
             $('input[name="bun"]').val(address.main_address_no);
             $('input[name="ji"]').val(address.sub_address_no);
+            $('input[name="bCode"]').val(address.b_code);
+            $('input[name="hCode"]').val(address.h_code);
         }
 
         // 정상적으로 검색이 완료됐으면
@@ -111,7 +133,7 @@ $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
     .on('change', '#limit', search)
-    .on('click', '#btnRegister', moveRegister)
+    .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal);

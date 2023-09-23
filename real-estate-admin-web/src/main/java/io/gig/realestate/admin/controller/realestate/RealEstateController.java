@@ -43,7 +43,7 @@ public class RealEstateController {
         return "realestate/list";
     }
 
-    @GetMapping("new")
+    @PostMapping("new")
     public String register(Model model, @CurrentUser LoginUser loginUser) {
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
