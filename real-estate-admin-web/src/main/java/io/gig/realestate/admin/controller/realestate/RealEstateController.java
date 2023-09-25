@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class RealEstateController {
             @RequestParam(name = "pnu") String pnu,
             @RequestParam(name = "address") String address,
             Model model,
-            @CurrentUser LoginUser loginUser) {
+            @CurrentUser LoginUser loginUser) throws IOException {
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, pnu);
