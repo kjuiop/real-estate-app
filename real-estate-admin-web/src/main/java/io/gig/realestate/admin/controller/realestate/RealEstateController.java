@@ -64,6 +64,7 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
+        model.addAttribute("landInfo", landList.get(0));
         model.addAttribute("landList", landList);
 
         return "realestate/editor";
