@@ -11,7 +11,9 @@ import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
+import io.gig.realestate.domain.realestate.land.dto.LandFrlDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,8 +58,7 @@ public class RealEstateController {
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, pnu);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
-        List<LandDto> landList = landService.getLandListInfoByPnu(pnu);
-
+        List<LandFrlDto> landList = landService.getLandListInfoByPnu(pnu);
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);

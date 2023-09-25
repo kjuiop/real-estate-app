@@ -1,10 +1,9 @@
 package io.gig.realestate.domain.realestate.land;
 
-import io.gig.realestate.domain.realestate.land.dto.LandDto;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandFrlDto;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -12,5 +11,5 @@ import java.util.List;
  * @date : 2023/09/23
  */
 public interface LandService {
-    List<LandDto> getLandListInfoByPnu(String pnu) throws IOException;
+    List<LandFrlDto> getLandListInfoByPnu(String pnu) throws IOException;
 }
