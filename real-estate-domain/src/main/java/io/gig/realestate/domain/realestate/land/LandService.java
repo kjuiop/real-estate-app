@@ -11,5 +11,5 @@ import java.util.List;
  * @date : 2023/09/23
  */
 public interface LandService {
-    List<LandFrlDto> getLandListInfoByPnu(String pnu) throws IOException;
+    List<LandDataApiDto> getLandListInfoByPnu(String pnu) throws IOException;
 }

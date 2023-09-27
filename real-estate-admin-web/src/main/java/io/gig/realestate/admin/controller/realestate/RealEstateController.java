@@ -58,7 +58,7 @@ public class RealEstateController {
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, pnu);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
-        List<LandFrlDto> landList = landService.getLandListInfoByPnu(pnu);
+        List<LandDataApiDto> landList = landService.getLandListInfoByPnu(pnu);
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);

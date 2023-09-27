@@ -1,12 +1,7 @@
 package io.gig.realestate.domain.realestate.land;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandDto;
-import io.gig.realestate.domain.realestate.land.dto.LandFrlDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandDataProperties;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,13 +33,10 @@ public class LandServiceImpl implements LandService {
 
     @Override
     @Transactional
-    public List<LandFrlDto> getLandListInfoByPnu(String pnu) throws IOException {
-        String apiPath = landProperties.getUrl();
-        StringBuilder urlBuilder = new StringBuilder(apiPath); /*URL*/
+    public List<LandDataApiDto> getLandListInfoByPnu(String pnu) throws IOException {
+        StringBuilder urlBuilder = new StringBuilder(landProperties.getUrl()); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landProperties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(pnu, "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*검색건수*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -67,29 +59,40 @@ public class LandServiceImpl implements LandService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        List<LandFrlDto> landDataApiDtoList = parseJsonData(convertResult);
+        List<LandDataApiDto> landDataApiDtoList = parseJsonData(convertResult);
 
         return landDataApiDtoList;
     }
 
-    private List<LandFrlDto> parseJsonData(JSONObject data) throws JsonProcessingException {
-        JSONObject fields = data.getJSONObject("fields");
+    private List<LandDataApiDto> parseJsonData(JSONObject data) throws JsonProcessingException {
+        JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
 
-        JSONArray jsonArray = new JSONArray();
-        Object object  = fields.getJSONObject("ladfrlVOList");
-        if (object instanceof JSONObject) {
-            jsonArray = new JSONArray();
-            jsonArray.put(object);
-        } else if (object instanceof JSONArray) {
-            jsonArray = fields.getJSONArray("ladfrlVOList");
-        } else {
+        Object object = wfs.get("gml:featureMember");
+        if (object == null) {
             return null;
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<LandFrlDto> landDataApiList = objectMapper.readValue(jsonArray.toString(), new TypeReference<List<LandFrlDto>>() {
-        });
+        List<LandDataApiDto> result = new ArrayList<>();
 
-        return landDataApiList;
+        if (object instanceof JSONObject) {
+            JSONObject gml = (JSONObject) object;
+            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
+            LandDataApiDto dataApiDto = LandDataApiDto.convertData(nsdi);
+            result.add(dataApiDto);
+            return result;
+        }
+
+        if (object instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray) object;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject gml = jsonArray.getJSONObject(i);
+                JSONObject nsdi = gml.getJSONObject("NSDI:F251");
+                LandDataApiDto dataApiDto = LandDataApiDto.convertData(nsdi);
+                result.add(dataApiDto);
+            }
+            return result;
+        }
+
+        return null;
     }
 }
