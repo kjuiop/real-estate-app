@@ -87,7 +87,7 @@ public class LandDataApiDto {
                 .lndcgrCodeNm(nsdi.getString("NSDI:LNDCGR_CODE_NM"))
                 .prposArea1Nm(nsdi.getString("NSDI:PRPOS_AREA_1_NM"))
                 .ladUseSittnNm(nsdi.getString("NSDI:LAD_USE_SITTN_NM"))
-                .tpgrphFrmCodeNm(nsdi.getString("NSDI:TPGRPH_HG_CODE_NM"))
+                .tpgrphHgCodeNm(nsdi.getString("NSDI:TPGRPH_HG_CODE_NM"))
                 .tpgrphFrmCodeNm(nsdi.getString("NSDI:TPGRPH_FRM_CODE_NM"))
                 .roadSideCodeNm(nsdi.getString("NSDI:ROAD_SIDE_CODE_NM"))
                 .pblntfPclnd(nsdi.getInt("NSDI:PBLNTF_PCLND"))
