@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * @author : JAKE
  * @date : 2023/09/25
@@ -21,7 +24,11 @@ public class LandDataApiDto {
 
     /** 토지면적 **/
     // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
-    private Double lndpclAr;
+    private BigDecimal lndpclAr;
+
+    /** 토지면적 **/
+    // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
+    private BigDecimal lndpclArByPyung;
 
 
     /** 지목 **/
@@ -50,9 +57,13 @@ public class LandDataApiDto {
     // 법률에는 도로접면으로 표시되며 필지에 대하여 인접한 도로와의 관계를 구분하는 코드정보
     private String roadSideCodeNm;
 
-    /** 공시지가 **/
+    /** 토지면적당 공시지가 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
     private Integer pblntfPclnd;
+
+    /** 토지면적당 공시지가 합계 **/
+    // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
+    private Double totalPblntfPclnd;
 
     /** 공시지가 년도 **/
     // 공시 기준년도
@@ -81,9 +92,18 @@ public class LandDataApiDto {
     private String prposArea2Nm;
 
     public static LandDataApiDto convertData(JSONObject nsdi) {
+        int pblntfPclnd = nsdi.getInt("NSDI:PBLNTF_PCLND");
+        Double lndpclAr = nsdi.getDouble("NSDI:LNDPCL_AR");
+        Double totalPblntfPclnd = pblntfPclnd * lndpclAr;
+
+
+        double areaInPyung = lndpclAr / 3.305785;
+        BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
+
         return LandDataApiDto.builder()
                 .pnu(nsdi.getLong("NSDI:PNU"))
-                .lndpclAr(nsdi.getDouble("NSDI:LNDPCL_AR"))
+                .lndpclAr(nsdi.getBigDecimal("NSDI:LNDPCL_AR"))
+                .lndpclArByPyung(lndpclArByPyung)
                 .lndcgrCodeNm(nsdi.getString("NSDI:LNDCGR_CODE_NM"))
                 .prposArea1Nm(nsdi.getString("NSDI:PRPOS_AREA_1_NM"))
                 .ladUseSittnNm(nsdi.getString("NSDI:LAD_USE_SITTN_NM"))
@@ -91,7 +111,9 @@ public class LandDataApiDto {
                 .tpgrphFrmCodeNm(nsdi.getString("NSDI:TPGRPH_FRM_CODE_NM"))
                 .roadSideCodeNm(nsdi.getString("NSDI:ROAD_SIDE_CODE_NM"))
                 .pblntfPclnd(nsdi.getInt("NSDI:PBLNTF_PCLND"))
+                .totalPblntfPclnd(totalPblntfPclnd)
                 .stdrYear(nsdi.getInt("NSDI:STDR_YEAR"))
                 .build();
     }
+
 }

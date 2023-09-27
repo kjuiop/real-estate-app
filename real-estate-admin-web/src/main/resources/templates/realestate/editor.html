@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 no-left-padding">
-                                    <label class="text-label">1필지 토지합계면적 : 221.00m/66.85 평</label>
+                                    <label class="text-label">[[${landList.size()}]]필지 토지합계면적 : [[${landInfo.lndpclAr}]]㎡/[[${landInfo.lndpclArByPyung}]] 평</label>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column margin-bottom-5">
@@ -140,29 +140,63 @@
                                     <label class="text-label">토지면적</label>
                                     <div class="com-md-12 no-left-padding display-flex-row">
                                         <input type="text" class="form-control form-control-sm" th:value="${landInfo.lndpclAr}" style="height: 36px;"/>
-                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;m&nbsp;&nbsp;</button>
+                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;㎡&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
                                 <div class="col-md-6 display-flex-column">
-                                    <label class="text-label">지목</label>
+                                    <label class="text-label">&nbsp;</label>
                                     <div class="com-md-12 no-left-padding display-flex-row">
-                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.lndcgrCodeNm}" style="height: 36px;" />
+                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.lndpclArByPyung}" style="height: 36px;" />
                                         <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;평&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                 <div class="col-md-6 display-flex-column no-left-padding">
+                                    <label class="text-label">개별공시지가(㎡)</label>
+                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                        <input type="text" class="form-control form-control-sm" th:value="${#numbers.formatInteger(landInfo.pblntfPclnd, 3, 'COMMA')}" style="height: 36px;" />
+                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 display-flex-column">
+                                    <label class="text-label">개별공시지가(합계)</label>
+                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                        <input type="text" class="form-control form-control-sm" th:value="${#numbers.formatInteger(landInfo.totalPblntfPclnd, 3, 'COMMA')}" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 display-flex-row margin-bottom-5">
+                                <div class="col-md-6 display-flex-column no-left-padding">
+                                    <label class="text-label">지목</label>
+                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.lndcgrCodeNm}" style="height: 36px;" />
+                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;평&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 display-flex-column">
                                     <label class="text-label">용도지역</label>
                                     <div class="com-md-12 no-left-padding display-flex-row">
                                         <input type="text" class="form-control form-control-sm" th:value="${landInfo.prposArea1Nm}" style="height: 36px;" />
                                         <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
-                                <div class="col-md-6 display-flex-column">
+
+                            </div>
+                            <div class="form-group col-md-12 display-flex-row margin-bottom-5">
+                                <div class="col-md-6 display-flex-column no-left-padding">
                                     <label class="text-label">토지이용상황</label>
                                     <div class="com-md-12 no-left-padding display-flex-row">
                                         <input type="text" class="form-control form-control-sm" th:value="${landInfo.ladUseSittnNm}" style="height: 36px;"/>
+                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 display-flex-column">
+                                    <label class="text-label">도로접면</label>
+                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.roadSideCodeNm}" style="height: 36px;" />
                                         <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
@@ -179,22 +213,6 @@
                                     <label class="text-label">지형형상</label>
                                     <div class="com-md-12 no-left-padding display-flex-row">
                                         <input type="text" class="form-control form-control-sm" th:value="${landInfo.tpgrphFrmCodeNm}" style="height: 36px;"/>
-                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12 display-flex-row margin-bottom-5">
-                                <div class="col-md-6 display-flex-column no-left-padding">
-                                    <label class="text-label">도로접면</label>
-                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.roadSideCodeNm}" style="height: 36px;" />
-                                        <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 display-flex-column">
-                                    <label class="text-label">공시지가</label>
-                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                        <input type="text" class="form-control form-control-sm" th:value="${landInfo.pblntfPclnd}" style="height: 36px;"/>
                                         <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                     </div>
                                 </div>
