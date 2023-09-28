@@ -12,8 +12,6 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandDto;
-import io.gig.realestate.domain.realestate.land.dto.LandFrlDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
