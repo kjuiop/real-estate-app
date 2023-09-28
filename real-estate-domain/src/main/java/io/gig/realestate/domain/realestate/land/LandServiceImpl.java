@@ -29,13 +29,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LandServiceImpl implements LandService {
 
-    private final LandDataProperties landProperties;
+    private final LandDataProperties properties;
 
     @Override
     @Transactional
     public List<LandDataApiDto> getLandListInfoByPnu(String pnu) throws IOException {
-        StringBuilder urlBuilder = new StringBuilder(landProperties.getUrl()); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landProperties.getServiceKey()); /*Service Key*/
+        StringBuilder urlBuilder = new StringBuilder(properties.getUrl()); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + properties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(pnu, "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

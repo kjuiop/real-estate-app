@@ -10,6 +10,8 @@ import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.construct.ConstructService;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -37,6 +39,7 @@ public class RealEstateController {
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
     private final LandService landService;
+    private final ConstructService constructService;
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
@@ -57,12 +60,14 @@ public class RealEstateController {
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         List<LandDataApiDto> landList = landService.getLandListInfoByPnu(pnu);
+        ConstructDataApiDto constructInfo = constructService.getConstructInfoByPnu(pnu);
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("landInfo", landList.get(0));
+        model.addAttribute("constructInfo", constructInfo);
         model.addAttribute("landList", landList);
 
         return "realestate/editor";
