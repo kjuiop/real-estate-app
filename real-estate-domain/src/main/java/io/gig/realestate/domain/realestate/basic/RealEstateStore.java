@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.realestate;
+package io.gig.realestate.domain.realestate.basic;
 
 /**
  * @author : JAKE

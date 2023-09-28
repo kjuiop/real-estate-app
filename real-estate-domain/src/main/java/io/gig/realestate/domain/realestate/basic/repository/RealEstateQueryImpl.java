@@ -1,10 +1,10 @@
-package io.gig.realestate.domain.realestate.repository;
+package io.gig.realestate.domain.realestate.basic.repository;
 
 import io.gig.realestate.domain.exception.NotFoundException;
-import io.gig.realestate.domain.realestate.RealEstateReader;
-import io.gig.realestate.domain.realestate.RealEstateSearchDto;
-import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.RealEstateReader;
+import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

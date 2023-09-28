@@ -1,8 +1,8 @@
-package io.gig.realestate.domain.realestate.dto;
+package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -32,12 +32,15 @@ public class RealEstateDto {
 
     private YnType ownYn;
 
+    private String pnu;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public RealEstateDto(RealEstate r) {
         this.realEstateId = r.getId();
+        this.pnu = r.getPnu();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
         this.usageType = new CategoryDto(r.getUsageType());

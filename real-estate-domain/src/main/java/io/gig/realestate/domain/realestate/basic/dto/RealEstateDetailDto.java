@@ -1,7 +1,7 @@
-package io.gig.realestate.domain.realestate.dto;
+package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +40,13 @@ public class RealEstateDetailDto extends RealEstateDto {
         if (r.getManager() != null) {
             this.managerId = r.getManager().getId();
         }
+    }
+
+    public static RealEstateDetailDto initDetailDto(String address, String pnu) {
+        return RealEstateDetailDto.builder()
+                .address(address)
+                .pnu(pnu)
+                .ownYn(YnType.Y)
+                .build();
     }
 }

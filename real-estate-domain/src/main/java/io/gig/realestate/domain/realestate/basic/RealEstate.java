@@ -1,14 +1,17 @@
-package io.gig.realestate.domain.realestate;
+package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.land.LandInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -28,6 +31,8 @@ public class RealEstate extends BaseTimeEntity {
     private String buildingName;
 
     private String etcInfo;
+
+    private String pnu;
 
     private String address;
 
@@ -55,6 +60,10 @@ public class RealEstate extends BaseTimeEntity {
     @JoinColumn(name = "manager_by_id")
     private Administrator manager;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<LandInfo> landInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -65,6 +74,7 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
+                .pnu(createForm.getPnu())
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
                 .address(createForm.getAddress())

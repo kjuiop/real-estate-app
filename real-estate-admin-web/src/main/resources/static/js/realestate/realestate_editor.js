@@ -10,6 +10,8 @@ let loadBasicInfo = function() {
         return;
     }
 
+    loadKakaoMap(dto.address);
+
     let $frm = $('form[name="frmBasicRegister"]'),
         usageCodeId = $frm.find('.usageCode').val();
 

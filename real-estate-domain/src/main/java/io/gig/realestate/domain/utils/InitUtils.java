@@ -75,6 +75,7 @@ public class InitUtils {
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("전체 팀 관리", "/settings/team-manager", "fa fa-circle-o", 3, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 4, superAdminMenuRoles, settingMenu);
+        menuService.initChildMenu("법정동 코드관리", "/settings/area-manager", "fa fa-circle-o", 5, superAdminMenuRoles, settingMenu);
 
         teamService.initTeam("본부", TeamStatus.ACTIVE, superAdmin);
 
