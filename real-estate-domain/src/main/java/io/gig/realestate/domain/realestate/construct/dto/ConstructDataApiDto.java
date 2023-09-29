@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.construct.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,90 @@ import java.util.List;
  * @date : 2023/09/28
  */
 @Getter
+@Builder
 public class ConstructDataApiDto {
+
+    // 건물명
+    private String bldNm;
+
+    // 세대수
+    private int hhldCnt;
+
+    // 사용승인일
+    private int useAprDay;
+
+    // 대지면적
+    private int platArea;
+
+    // 건물면적
+    private int archArea;
+
+    // 건폐율
+    private int bcRat;
+
+    // 연면적
+    private int totArea;
+
+    // 용적율
+    private int vlRat;
+
+    // 층수
+
+    // 높이
+    private int heit;
+
+    // 지상층수
+    private int grndFlrCnt;
+
+    // 지하층수
+    private int ugrndFlrCnt;
+
+    // 엘리베이터
+
+    // 옥내 자주식 주차 대수
+    private int indrAutoUtcnt;
+
+    // 옥외 자주식 주차 대수
+    private int oudrAutoUtcnt;
+
+    // 옥내 기계식 주차 대수
+    private int indrMechUtcnt;
+
+    // 옥외 기계식 주차 대수
+    private int oudrMechUtcnt;
+
+    // 주용도
+    private String mainPurpsCdNm;
+
+    // 부용도
+    private String etcPurps;
+
+    // 구조
+    private String strctCdNm;
+
+    public static ConstructDataApiDto convertData(JSONObject item) {
+        return ConstructDataApiDto.builder()
+                .bldNm(item.getString("bldNm"))
+                .hhldCnt(item.getInt("hhldCnt"))
+                .useAprDay(item.getInt("useAprDay"))
+                .platArea(item.getInt("platArea"))
+                .archArea(item.getInt("archArea"))
+                .bcRat(item.getInt("bcRat"))
+                .totArea(item.getInt("totArea"))
+                .vlRat(item.getInt("vlRat"))
+                .heit(item.getInt("heit"))
+                .grndFlrCnt(item.getInt("grndFlrCnt"))
+                .ugrndFlrCnt(item.getInt("ugrndFlrCnt"))
+                .indrAutoUtcnt(item.getInt("indrAutoUtcnt"))
+                .oudrAutoUtcnt(item.getInt("oudrAutoUtcnt"))
+                .indrMechUtcnt(item.getInt("indrMechUtcnt"))
+                .oudrAutoUtcnt(item.getInt("oudrAutoUtcnt"))
+                .mainPurpsCdNm(item.getString("mainPurpsCdNm"))
+                .etcPurps(item.getString("etcPurps"))
+                .strctCdNm(item.getString("strctCdNm"))
+                .build();
+    }
+
 
     @Getter
     @Builder

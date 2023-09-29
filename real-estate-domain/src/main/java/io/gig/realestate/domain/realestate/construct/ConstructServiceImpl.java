@@ -1,5 +1,7 @@
 package io.gig.realestate.domain.realestate.construct;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.utils.CommonUtils;
@@ -60,6 +62,17 @@ public class ConstructServiceImpl implements ConstructService {
         conn.disconnect();
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        return null;
+        ConstructDataApiDto dto = parseJsonData(convertResult);
+        return dto;
+    }
+
+    private ConstructDataApiDto parseJsonData(JSONObject data) throws JsonProcessingException {
+        JSONObject response = data.getJSONObject("response");
+        JSONObject body = response.getJSONObject("body");
+        JSONObject items = body.getJSONObject("items");
+        JSONObject item = items.getJSONObject("item");
+
+
+        return ConstructDataApiDto.convertData(item);
     }
 }
