@@ -28,21 +28,20 @@ public class ConstructDataApiDto {
     private int platArea;
 
     // 건물면적
-    private int archArea;
+    private Double archArea;
 
     // 건폐율
-    private int bcRat;
+    private Double bcRat;
 
     // 연면적
-    private int totArea;
+    private Double totArea;
 
     // 용적율
-    private int vlRat;
+    private Double vlRat;
 
     // 층수
-
     // 높이
-    private int heit;
+    private Double heit;
 
     // 지상층수
     private int grndFlrCnt;
@@ -51,6 +50,12 @@ public class ConstructDataApiDto {
     private int ugrndFlrCnt;
 
     // 엘리베이터
+
+    // 승용 승강기수
+    private int rideUseElvtCnt;
+
+    // 비상용 승강기수
+    private int emgenUseElvtCnt;
 
     // 옥내 자주식 주차 대수
     private int indrAutoUtcnt;
@@ -79,11 +84,13 @@ public class ConstructDataApiDto {
                 .hhldCnt(item.getInt("hhldCnt"))
                 .useAprDay(item.getInt("useAprDay"))
                 .platArea(item.getInt("platArea"))
-                .archArea(item.getInt("archArea"))
-                .bcRat(item.getInt("bcRat"))
-                .totArea(item.getInt("totArea"))
-                .vlRat(item.getInt("vlRat"))
-                .heit(item.getInt("heit"))
+                .archArea(item.getDouble("archArea"))
+                .bcRat(item.getDouble("bcRat"))
+                .totArea(item.getDouble("totArea"))
+                .vlRat(item.getDouble("vlRat"))
+                .heit(item.getDouble("heit"))
+                .rideUseElvtCnt(item.getInt("rideUseElvtCnt"))
+                .emgenUseElvtCnt(item.getInt("emgenUseElvtCnt"))
                 .grndFlrCnt(item.getInt("grndFlrCnt"))
                 .ugrndFlrCnt(item.getInt("ugrndFlrCnt"))
                 .indrAutoUtcnt(item.getInt("indrAutoUtcnt"))
