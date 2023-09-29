@@ -33,10 +33,11 @@ public class LandServiceImpl implements LandService {
 
     @Override
     @Transactional
-    public List<LandDataApiDto> getLandListInfoByPnu(String pnu) throws IOException {
+    public List<LandDataApiDto> getLandListInfo(String bCode, String landType, String bun, String ji) throws IOException {
+        LandDataApiDto.Request request = LandDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(properties.getUrl()); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + properties.getServiceKey()); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(pnu, "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");

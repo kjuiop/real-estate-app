@@ -50,17 +50,21 @@ public class RealEstateController {
 
     @GetMapping("new")
     public String register(
-            @RequestParam(name = "pnu") String pnu,
+            @RequestParam(name = "bCode") String bCode,
+            @RequestParam(name = "landType") String landType,
+            @RequestParam(name = "bun") String bun,
+            @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
             Model model,
             @CurrentUser LoginUser loginUser) throws IOException {
 
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address);
+        List<LandDataApiDto> landList = landService.getLandListInfo(bCode, landType, bun, ji);
+        ConstructDataApiDto constructInfo = constructService.getConstructInfo(bCode, landType, bun, ji);
+
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address, pnu);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
-        List<LandDataApiDto> landList = landService.getLandListInfoByPnu(pnu);
-        ConstructDataApiDto constructInfo = constructService.getConstructInfoByPnu(pnu);
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);

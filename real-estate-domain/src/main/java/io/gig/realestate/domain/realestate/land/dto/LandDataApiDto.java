@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.land.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
@@ -114,6 +115,33 @@ public class LandDataApiDto {
                 .totalPblntfPclnd(totalPblntfPclnd)
                 .stdrYear(nsdi.getInt("NSDI:STDR_YEAR"))
                 .build();
+    }
+
+    @Getter
+    @Builder
+    public static class Request {
+        private final String pnu;
+
+        public static Request assembleParam(String bCode, String landType, String bun, String ji) {
+
+            String landCode = "1";
+            if (landType.equals("mountain")) {
+                landCode = "2";
+            }
+
+            String bunCode = String.format("%04d", Integer.parseInt(bun));
+            String jiCode = String.format("%04d", Integer.parseInt(ji));
+
+            StringBuilder pnuBuilder = new StringBuilder();
+            pnuBuilder.append(bCode);
+            pnuBuilder.append(landCode);
+            pnuBuilder.append(bunCode);
+            pnuBuilder.append(jiCode);
+
+            return Request.builder()
+                    .pnu(pnuBuilder.toString())
+                    .build();
+        }
     }
 
 }

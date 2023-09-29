@@ -31,8 +31,8 @@ public class ConstructServiceImpl implements ConstructService {
 
     @Override
     @Transactional
-    public ConstructDataApiDto getConstructInfoByPnu(String pnu) throws IOException {
-        ConstructDataApiDto.Request request = ConstructDataApiDto.Request.assembleParam(pnu);
+    public ConstructDataApiDto getConstructInfo(String bCode, String landType, String bun, String ji) throws IOException {
+        ConstructDataApiDto.Request request = ConstructDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(properties.getUrl());
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + properties.getServiceKey());
         urlBuilder.append("&" + URLEncoder.encode("sigunguCd","UTF-8") + "=" + URLEncoder.encode(request.getSigunguCd(), "UTF-8"));

@@ -22,31 +22,26 @@ public class ConstructDataApiDto {
         private final String bun;
         private final String ji;
 
-        public static Request assembleParam(String pnu) {
-            int[] lengths = {5, 5, 1, 4, 4};
+        public static Request assembleParam(String bCode, String landType, String bun, String ji) {
 
-            List<String> result = new ArrayList<>();
-            int currentIndex = 0;
-
-            for (int i = 0; i < lengths.length; i++) {
-                if (currentIndex + lengths[i] > pnu.length()) {
-                    lengths[i] = pnu.length() - currentIndex;
-                }
-
-                result.add(pnu.substring(currentIndex, currentIndex + lengths[i]));
-                currentIndex += lengths[i];
-
-                if (currentIndex >= pnu.length()) {
-                    break;
-                }
+            String sigunguCd = bCode.substring(0, bCode.length() / 2);
+            String bjdongCd = bCode.substring(bCode.length() / 2);
+            String landCode = "0";
+            if (landType.equals("mountain")) {
+                landCode = "1";
+            } else if (landType.equals("block")) {
+                landCode = "2";
             }
 
+            String bunCode = String.format("%04d", Integer.parseInt(bun));
+            String jiCode = String.format("%04d", Integer.parseInt(ji));
+
             return Request.builder()
-                    .sigunguCd(result.get(0))
-                    .bjdongCd(result.get(1))
-                    .platGbCd("0")
-                    .bun(result.get(3))
-                    .ji(result.get(4))
+                    .sigunguCd(sigunguCd)
+                    .bjdongCd(bjdongCd)
+                    .platGbCd(landCode)
+                    .bun(bunCode)
+                    .ji(jiCode)
                     .build();
         }
     }

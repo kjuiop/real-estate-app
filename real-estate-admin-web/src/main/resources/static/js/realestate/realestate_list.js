@@ -33,13 +33,11 @@ let moveRegister = function(e) {
 
     console.log("params : ", params);
 
-    let bun = params.bun.padStart(4, '0'),
-        ji = params.ji.padStart(4, '0');
-
-    let pnu = params.bCode.concat(params.landType, bun, ji);
-
     location.href = "/real-estate/new"
-        + "?pnu=" + pnu
+        + "?bCode=" + params.bCode
+        + "&landType=" + params.landType
+        + "&bun=" + params.bun
+        + "&ji=" + params.ji
         + "&address=" + encodeURIComponent(params.address);
 
 }

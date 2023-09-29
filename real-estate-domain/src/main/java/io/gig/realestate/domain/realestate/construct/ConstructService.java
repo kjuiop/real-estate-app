@@ -11,5 +11,5 @@ import java.net.MalformedURLException;
  * @date : 2023/09/28
  */
 public interface ConstructService {
-    ConstructDataApiDto getConstructInfoByPnu(String pnu) throws IOException;
+    ConstructDataApiDto getConstructInfo(String bCode, String landType, String bun, String ji) throws IOException;
 }
