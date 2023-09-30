@@ -12,6 +12,7 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -61,6 +62,7 @@ public class RealEstateController {
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address);
         List<LandDataApiDto> landList = landService.getLandListInfo(bCode, landType, bun, ji);
         ConstructDataApiDto constructInfo = constructService.getConstructInfo(bCode, landType, bun, ji);
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(bCode, landType, bun, ji);
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
@@ -72,6 +74,7 @@ public class RealEstateController {
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("landInfo", landList.get(0));
         model.addAttribute("constructInfo", constructInfo);
+        model.addAttribute("floorInfo", floorInfo);
         model.addAttribute("landList", landList);
 
         return "realestate/editor";

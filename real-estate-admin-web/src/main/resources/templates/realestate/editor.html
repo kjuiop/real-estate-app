@@ -299,53 +299,20 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td class="center-text">-1</td>
-                                                <td>창고</td>
-                                                <td>2.54</td>
+                                            <tr th:if="${not #lists.isEmpty(floorInfo)}" th:each="floor, status : ${floorInfo}">
+                                                <td class="center-text">[[${floor.flrNo}]]</td>
+                                                <td>[[${floor.mainPurpsCdNm}]]</td>
+                                                <td>[[${floor.area}]]</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>주택(방2,화1)</td>
-                                                <td>12.00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>미용실</td>
-                                                <td>17.21</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>세탁소</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">2</td>
-                                                <td>주택(방2,화1)</td>
-                                                <td>2.54</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:unless="${not #lists.isEmpty(floorInfo)}">
+                                                <td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>
                                             </tr>
                                             </tbody>
-                                            <tfoot>
+                                            <tfoot th:if="${not #lists.isEmpty(floorInfo)}">
                                             <tr>
                                                 <td></td>
                                                 <td>총 임대료</td>

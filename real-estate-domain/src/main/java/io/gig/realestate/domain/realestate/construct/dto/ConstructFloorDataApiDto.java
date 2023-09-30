@@ -1,0 +1,70 @@
+package io.gig.realestate.domain.realestate.construct.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+/**
+ * @author : JAKE
+ * @date : 2023/09/28
+ */
+@Getter
+@Builder
+public class ConstructFloorDataApiDto {
+
+    // 층
+    private int flrNo;
+
+    // 면적
+    private Double area;
+
+    // 주용도
+    private String mainPurpsCdNm;
+
+    // 부용도
+    private String etcPurps;
+
+    public static ConstructFloorDataApiDto convertData(JSONObject item) {
+        return ConstructFloorDataApiDto.builder()
+                .flrNo(item.getInt("flrNo"))
+                .area(item.getDouble("area"))
+                .mainPurpsCdNm(item.getString("mainPurpsCdNm"))
+                .etcPurps(item.getString("etcPurps"))
+                .build();
+    }
+
+
+    @Getter
+    @Builder
+    public static class Request {
+        private final String sigunguCd;
+        private final String bjdongCd;
+        private final String platGbCd;
+        private final String bun;
+        private final String ji;
+
+        public static Request assembleParam(String bCode, String landType, String bun, String ji) {
+
+            String sigunguCd = bCode.substring(0, bCode.length() / 2);
+            String bjdongCd = bCode.substring(bCode.length() / 2);
+            String landCode = "0";
+            if (landType.equals("mountain")) {
+                landCode = "1";
+            } else if (landType.equals("block")) {
+                landCode = "2";
+            }
+
+            String bunCode = String.format("%04d", Integer.parseInt(bun));
+            String jiCode = String.format("%04d", Integer.parseInt(ji));
+
+            return Request.builder()
+                    .sigunguCd(sigunguCd)
+                    .bjdongCd(bjdongCd)
+                    .platGbCd(landCode)
+                    .bun(bunCode)
+                    .ji(jiCode)
+                    .build();
+        }
+    }
+}
