@@ -102,7 +102,6 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate initialInfo(String legalCode, String address, String landType, String bun, String ji) {
         return RealEstate.builder()
-                .buildingName("작성중")
                 .legalCode(legalCode)
                 .address(address)
                 .landType(landType)
