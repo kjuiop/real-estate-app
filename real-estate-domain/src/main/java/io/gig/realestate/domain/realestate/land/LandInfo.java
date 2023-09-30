@@ -50,7 +50,7 @@ public class LandInfo {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(LandCreateForm createForm) {
+    public static LandInfo create(LandCreateForm createForm, RealEstate realEstate) {
         return LandInfo.builder()
                 .lndcgrCodeNm(createForm.getLndcgrCodeNm())
                 .lndpclAr(createForm.getLndpclAr())
@@ -61,6 +61,7 @@ public class LandInfo {
                 .roadSideCodeNm(createForm.getRoadSideCodeNm())
                 .tpgrphFrmCodeNm(createForm.getTpgrphFrmCodeNm())
                 .tpgrphHgCodeNm(createForm.getTpgrphHgCodeNm())
+                .realEstate(realEstate)
                 .build();
     }
 }

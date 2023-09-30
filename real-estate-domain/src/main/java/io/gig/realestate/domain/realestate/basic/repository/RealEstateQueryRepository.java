@@ -1,8 +1,10 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
+import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 
 /**
  * @author : JAKE
@@ -53,20 +56,27 @@ public class RealEstateQueryRepository {
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
 
-
-
     public Optional<RealEstateDetailDto> getRealEstateDetail(Long realEstateId) {
 
-        Optional<RealEstateDetailDto> fetch = Optional.ofNullable(this.queryFactory
+        RealEstateDetailDto realEstateDetailDto = queryFactory
                 .select(Projections.constructor(RealEstateDetailDto.class,
-                        realEstate))
+                        realEstate,
+                        ExpressionUtils.as(
+                                JPAExpressions.select(landInfo.id)
+                                        .from(landInfo)
+                                        .where(landInfo.realEstate.id.eq(realEstateId))
+                                        .limit(1)
+                                        .orderBy(landInfo.id.asc())
+                                , "landInfoId"
+                        )
+                ))
                 .from(realEstate)
                 .where(defaultCondition())
                 .where(eqRealEstateId(realEstateId))
                 .limit(1)
-                .fetchFirst());
+                .fetchOne();
 
-        return fetch;
+        return Optional.ofNullable(realEstateDetailDto);
     }
 
 
