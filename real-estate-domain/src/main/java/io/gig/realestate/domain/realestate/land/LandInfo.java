@@ -3,7 +3,6 @@ package io.gig.realestate.domain.realestate.land;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
-import io.gig.realestate.domain.team.Team;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

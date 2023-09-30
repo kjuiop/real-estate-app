@@ -159,7 +159,7 @@ let basicInfoSave = function(e) {
     });
 }
 
-let basicLandSave = function(e) {
+let landInfoSave = function(e) {
     e.preventDefault();
 
     let $frmBasic = $('form[name="frmBasicRegister"]'),
@@ -202,6 +202,43 @@ let basicLandSave = function(e) {
     });
 }
 
+let priceInfoSave = function(e) {
+    e.preventDefault();
+
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let $frmLand = $('form[name="frmPriceRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
+
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
+
+    console.log("params", params);
+
+
+    $.ajax({
+        url: "/real-estate/price",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 let searchAddress = function(e) {
     e.preventDefault();
 
@@ -227,4 +264,5 @@ $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
     .on('click', '.btnBasicSave', basicInfoSave)
-    .on('click', '.btnLandSave', basicLandSave);
+    .on('click', '.btnLandSave', landInfoSave)
+    .on('click', '.btnPriceSave', priceInfoSave);
