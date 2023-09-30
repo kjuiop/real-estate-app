@@ -285,67 +285,34 @@
                                     <div class="row">
                                         <label class="text-label">층별 임대차 현황 정보</label>
                                     </div>
-                                    <div class="row">
-                                        <table class="table table-sm table-bordered">
+                                    <div class="row" style="overflow-x: auto;">
+                                        <table class="table table-sm table-bordered" style="white-space: nowrap;">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">층수</th>
-                                                <th scope="col">업종</th>
                                                 <th scope="col">면적</th>
+                                                <th scope="col">용도</th>
+                                                <th scope="col">부용도</th>
                                                 <th scope="col">보증금</th>
                                                 <th scope="col">임대료</th>
                                                 <th scope="col">관리비</th>
-                                                <th scope="col">비고</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td class="center-text">-1</td>
-                                                <td>창고</td>
-                                                <td>2.54</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>주택(방2,화1)</td>
-                                                <td>12.00</td>
-                                                <td></td>
+                                            <tr th:if="${not #lists.isEmpty(floorInfo)}" th:each="floor, status : ${floorInfo}">
+                                                <td class="center-text">[[${floor.flrNoNm}]]</td>
+                                                <td>[[${floor.area}]]</td>
+                                                <td>[[${floor.mainPurpsCdNm}]]</td>
+                                                <td>[[${floor.etcPurps}]]</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>미용실</td>
-                                                <td>17.21</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">1</td>
-                                                <td>세탁소</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="center-text">2</td>
-                                                <td>주택(방2,화1)</td>
-                                                <td>2.54</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:unless="${not #lists.isEmpty(floorInfo)}">
+                                                <td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>
                                             </tr>
                                             </tbody>
-                                            <tfoot>
+                                            <tfoot th:if="${not #lists.isEmpty(floorInfo)}">
                                             <tr>
                                                 <td></td>
                                                 <td>총 임대료</td>
