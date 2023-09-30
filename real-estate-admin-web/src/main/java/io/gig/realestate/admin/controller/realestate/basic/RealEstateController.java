@@ -1,4 +1,4 @@
-package io.gig.realestate.admin.controller.realestate;
+package io.gig.realestate.admin.controller.realestate.basic;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
@@ -60,7 +60,6 @@ public class RealEstateController {
             @CurrentUser LoginUser loginUser) throws IOException {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
-        List<LandDataApiDto> landList = landService.getLandListInfo(legalCode, landType, bun, ji);
         ConstructDataApiDto constructInfo = constructService.getConstructInfo(legalCode, landType, bun, ji);
         List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
 
@@ -72,10 +71,8 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-        model.addAttribute("landInfo", landList.get(0));
         model.addAttribute("constructInfo", constructInfo);
         model.addAttribute("floorInfo", floorInfo);
-        model.addAttribute("landList", landList);
 
         return "realestate/editor";
     }

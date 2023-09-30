@@ -1,6 +1,7 @@
 let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
+    loadLandInfo();
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -30,8 +31,50 @@ let loadBasicInfo = function() {
         error: function(error){
             ajaxErrorFieldByText(error);
         }
-    })
+    });
 
+}
+
+let loadLandInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url = "/real-estate/land/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let landList = result.data,
+                landInfo = landList[0];
+            let $frm = $('form[name="frmLandRegister"]');
+            $frm.find('.landSize').text(landList.length);
+            $frm.find('.area').text(landInfo.lndpclAr);
+            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
 
 let drawBtnUsageCode = function(categories) {
@@ -43,7 +86,6 @@ let drawBtnUsageCode = function(categories) {
         } else {
             tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
-
     });
 
     return tags;
@@ -121,6 +163,14 @@ let searchAddress = function(e) {
             loadKakaoMap(data.address)
         }
     }).open();
+}
+
+let addCommasToNumber = function(number) {
+    number = Math.floor(number);
+    number = Math.round(number / 100) * 100;
+    let numberStr = number.toString();
+    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numberStr;
 }
 
 $(document).ready(onReady)

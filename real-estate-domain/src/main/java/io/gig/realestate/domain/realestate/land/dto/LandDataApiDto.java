@@ -64,7 +64,7 @@ public class LandDataApiDto {
 
     /** 토지면적당 공시지가 합계 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
-    private Double totalPblntfPclnd;
+    private double totalPblntfPclnd;
 
     /** 공시지가 년도 **/
     // 공시 기준년도
@@ -95,7 +95,7 @@ public class LandDataApiDto {
     public static LandDataApiDto convertData(JSONObject nsdi) {
         int pblntfPclnd = nsdi.getInt("NSDI:PBLNTF_PCLND");
         Double lndpclAr = nsdi.getDouble("NSDI:LNDPCL_AR");
-        Double totalPblntfPclnd = pblntfPclnd * lndpclAr;
+        double calculate = pblntfPclnd * lndpclAr;
 
 
         double areaInPyung = lndpclAr / 3.305785;
@@ -112,7 +112,7 @@ public class LandDataApiDto {
                 .tpgrphFrmCodeNm(nsdi.getString("NSDI:TPGRPH_FRM_CODE_NM"))
                 .roadSideCodeNm(nsdi.getString("NSDI:ROAD_SIDE_CODE_NM"))
                 .pblntfPclnd(nsdi.getInt("NSDI:PBLNTF_PCLND"))
-                .totalPblntfPclnd(totalPblntfPclnd)
+                .totalPblntfPclnd(calculate)
                 .stdrYear(nsdi.getInt("NSDI:STDR_YEAR"))
                 .build();
     }
