@@ -110,8 +110,8 @@ let selectUsageCode = function(e) {
 
 
 let basicInfoSave = function(e) {
-
     e.preventDefault();
+
     let $frm = $('form[name="frmBasicRegister"]'),
     params = serializeObject({form:$frm[0]}).json();
     params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
@@ -135,6 +135,48 @@ let basicInfoSave = function(e) {
 
     $.ajax({
         url: "/real-estate/basic",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let basicLandSave = function(e) {
+    e.preventDefault();
+
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
+
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal('주소를 입력해주세요.');
+        return;
+    }
+
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+
+    console.log("detailParams", detailParams);
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/real-estate/land",
         method: "post",
         type: "json",
         contentType: "application/json",
@@ -176,4 +218,5 @@ let addCommasToNumber = function(number) {
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
-    .on('click', '.btnBasicSave', basicInfoSave);
+    .on('click', '.btnBasicSave', basicInfoSave)
+    .on('click', '.btnLandSave', basicLandSave);

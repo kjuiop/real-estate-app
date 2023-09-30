@@ -104,7 +104,7 @@ public class RealEstateController {
 
     @PostMapping("basic")
     @ResponseBody
-    public ResponseEntity<ApiResponse> basicSave(@Valid @RequestBody RealEstateCreateForm createForm,
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,
                                                  @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoSave(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);

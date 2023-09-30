@@ -54,7 +54,9 @@ public class RealEstateDto {
         this.ji = r.getJi();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
-        this.usageType = new CategoryDto(r.getUsageType());
+        if (r.getUsageType() != null) {
+            this.usageType = new CategoryDto(r.getUsageType());
+        }
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();
         this.ownYn = r.getOwnYn();

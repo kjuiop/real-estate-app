@@ -97,9 +97,9 @@
                                         <td>
                                             <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName}"></a>
                                         </td>
-                                        <td th:text="${item.usageType.name}"></td>
+                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td th:text="${item.managerName}"></td>
-                                        <td th:text="${item.address + ' ' + item.addressDetail}"></td>
+                                        <td th:text="${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">

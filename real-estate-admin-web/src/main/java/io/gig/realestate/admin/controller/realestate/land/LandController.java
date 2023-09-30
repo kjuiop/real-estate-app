@@ -1,16 +1,19 @@
 package io.gig.realestate.admin.controller.realestate.land;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,5 +37,13 @@ public class LandController {
     ) throws IOException {
         List<LandDataApiDto> landList = landService.getLandListInfo(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(landList), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody LandCreateForm createForm,
+                                                 @CurrentUser LoginUser loginUser) {
+        Long realEstateId = landService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

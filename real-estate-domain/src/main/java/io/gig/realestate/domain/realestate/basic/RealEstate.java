@@ -78,6 +78,10 @@ public class RealEstate extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    public void addLandInfo(LandInfo landInfo) {
+        this.landInfoList.add(landInfo);
+    }
+
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
@@ -93,6 +97,17 @@ public class RealEstate extends BaseTimeEntity {
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
+                .build();
+    }
+
+    public static RealEstate initialInfo(String legalCode, String address, String landType, String bun, String ji) {
+        return RealEstate.builder()
+                .buildingName("작성중")
+                .legalCode(legalCode)
+                .address(address)
+                .landType(landType)
+                .bun(bun)
+                .ji(ji)
                 .build();
     }
 }
