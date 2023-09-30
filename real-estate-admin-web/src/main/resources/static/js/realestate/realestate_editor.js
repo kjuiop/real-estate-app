@@ -2,6 +2,7 @@ let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
     loadLandInfo();
+    loadPriceInfo();
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -77,6 +78,37 @@ let loadLandInfo = function() {
             $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
             $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
             $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadPriceInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto) && !checkNullOrEmptyValue(dto.priceInfoId)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/price/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let priceList = result.data,
+                priceInfo = priceList[0];
+            let $frm = $('form[name="frmPriceRegister"]');
+            $frm.find('.salePrice').val(priceInfo.salePrice);
+            $frm.find('.depositPrice').val(priceInfo.depositPrice);
+            $frm.find('.revenueRate').val(priceInfo.revenueRate);
+            $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
+            $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
+            $frm.find('.rentMonth').val(priceInfo.rentMonth);
+            $frm.find('.management').val(priceInfo.management);
+            $frm.find('.managementExpense').val(priceInfo.managementExpense);
         },
         error: function(error){
             ajaxErrorFieldByText(error);

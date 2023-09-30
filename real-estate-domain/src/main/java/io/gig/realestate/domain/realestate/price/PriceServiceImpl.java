@@ -5,10 +5,13 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
+import io.gig.realestate.domain.realestate.price.dto.PriceListDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -21,6 +24,13 @@ public class PriceServiceImpl implements PriceService {
 
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
+    private final PriceReader priceReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PriceListDto> getPriceListInfoByRealEstateId(Long realEstateId) {
+        return priceReader.getPriceInfoByRealEstateId(realEstateId);
+    }
 
     @Override
     @Transactional

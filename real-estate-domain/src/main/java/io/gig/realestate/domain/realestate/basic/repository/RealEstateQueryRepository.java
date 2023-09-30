@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
+import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
 /**
  * @author : JAKE
@@ -68,6 +69,14 @@ public class RealEstateQueryRepository {
                                         .limit(1)
                                         .orderBy(landInfo.id.asc())
                                 , "landInfoId"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(priceInfo.id)
+                                        .from(priceInfo)
+                                        .where(priceInfo.realEstate.id.eq(realEstateId))
+                                        .limit(1)
+                                        .orderBy(priceInfo.id.asc())
+                                , "priceInfoId"
                         )
                 ))
                 .from(realEstate)
