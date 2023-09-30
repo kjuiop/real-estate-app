@@ -32,7 +32,13 @@ public class RealEstate extends BaseTimeEntity {
 
     private String etcInfo;
 
-    private String pnu;
+    private String legalCode;
+
+    private String landType;
+
+    private String bun;
+
+    private String ji;
 
     private String address;
 
@@ -74,9 +80,12 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
-                .pnu(createForm.getPnu())
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
+                .legalCode(createForm.getLegalCode())
+                .landType(createForm.getLandType())
+                .bun(createForm.getBun())
+                .ji(createForm.getJi())
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
                 .ownYn(createForm.getOwnYn())

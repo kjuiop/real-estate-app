@@ -51,7 +51,7 @@ public class RealEstateController {
 
     @GetMapping("new")
     public String register(
-            @RequestParam(name = "bCode") String bCode,
+            @RequestParam(name = "bCode") String legalCode,
             @RequestParam(name = "landType") String landType,
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji,
@@ -59,10 +59,10 @@ public class RealEstateController {
             Model model,
             @CurrentUser LoginUser loginUser) throws IOException {
 
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address);
-        List<LandDataApiDto> landList = landService.getLandListInfo(bCode, landType, bun, ji);
-        ConstructDataApiDto constructInfo = constructService.getConstructInfo(bCode, landType, bun, ji);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(bCode, landType, bun, ji);
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
+        List<LandDataApiDto> landList = landService.getLandListInfo(legalCode, landType, bun, ji);
+        ConstructDataApiDto constructInfo = constructService.getConstructInfo(legalCode, landType, bun, ji);
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");

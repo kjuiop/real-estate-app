@@ -42,8 +42,12 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String address) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address) {
         return RealEstateDetailDto.builder()
+                .legalCode(legalCode)
+                .landType(landType)
+                .bun(bun)
+                .ji(ji)
                 .address(address)
                 .ownYn(YnType.Y)
                 .build();

@@ -34,13 +34,24 @@ public class RealEstateDto {
 
     private String pnu;
 
+    private String legalCode;
+
+    private String landType;
+
+    private String bun;
+
+    private String ji;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public RealEstateDto(RealEstate r) {
         this.realEstateId = r.getId();
-        this.pnu = r.getPnu();
+        this.legalCode = r.getLegalCode();
+        this.landType = r.getLandType();
+        this.bun = r.getBun();
+        this.ji = r.getJi();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
         this.usageType = new CategoryDto(r.getUsageType());
