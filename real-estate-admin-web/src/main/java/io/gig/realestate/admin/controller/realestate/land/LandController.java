@@ -6,6 +6,8 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandDto;
+import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,13 @@ import java.util.List;
 public class LandController {
 
     private final LandService landService;
+
+    @GetMapping("{realEstateId}")
+    public ResponseEntity<ApiResponse> getLandData(
+            @PathVariable(name = "realEstateId") Long realEstateId) {
+        List<LandListDto> landList = landService.getLandListInfoByRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(landList), HttpStatus.OK);
+    }
 
     @GetMapping("ajax/public-data")
     public ResponseEntity<ApiResponse> getPublicData(

@@ -8,6 +8,8 @@ import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandDto;
+import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandDataProperties;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,14 @@ public class LandServiceImpl implements LandService {
     private final LandDataProperties properties;
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
+
+    private final LandReader landReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LandListDto> getLandListInfoByRealEstateId(Long realEstateId) {
+        return landReader.getLandInfoByRealEstateId(realEstateId);
+    }
 
     @Override
     @Transactional

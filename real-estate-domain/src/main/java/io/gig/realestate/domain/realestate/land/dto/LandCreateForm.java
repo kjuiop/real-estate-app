@@ -40,4 +40,6 @@ public class LandCreateForm {
     private String tpgrphFrmCodeNm;
 
     private String tpgrphHgCodeNm;
+
+    private String ladUseSittnNm;
 }

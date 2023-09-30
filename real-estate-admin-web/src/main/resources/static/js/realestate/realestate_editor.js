@@ -41,11 +41,18 @@ let loadLandInfo = function() {
         return;
     }
 
-    let url = "/real-estate/land/ajax/public-data"
-        + "?legalCode=" + dto.legalCode
-        + "&landType=" + dto.landType
-        + "&bun=" + dto.bun
-        + "&ji=" + dto.ji
+    let url;
+
+    if (checkNullOrEmptyValue(dto.landInfoId)) {
+        url = "/real-estate/land/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
 
     $.ajax({
         url: url,
@@ -171,9 +178,10 @@ let basicLandSave = function(e) {
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
 
-    console.log("detailParams", detailParams);
-
-    console.log("params", params);
+    params.lndpclAr = params.lndpclAr.replaceAll(',', '');
+    params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
+    params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
+    params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
 
     $.ajax({
         url: "/real-estate/land",
