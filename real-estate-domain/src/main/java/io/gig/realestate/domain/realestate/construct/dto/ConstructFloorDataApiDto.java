@@ -16,6 +16,8 @@ public class ConstructFloorDataApiDto {
     // 층
     private int flrNo;
 
+    private String flrNoNm;
+
     // 면적
     private Double area;
 
@@ -28,6 +30,7 @@ public class ConstructFloorDataApiDto {
     public static ConstructFloorDataApiDto convertData(JSONObject item) {
         return ConstructFloorDataApiDto.builder()
                 .flrNo(item.getInt("flrNo"))
+                .flrNoNm(item.getString("flrNoNm"))
                 .area(item.getDouble("area"))
                 .mainPurpsCdNm(item.getString("mainPurpsCdNm"))
                 .etcPurps(item.getString("etcPurps"))

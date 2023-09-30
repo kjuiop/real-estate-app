@@ -20,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -109,6 +111,8 @@ public class ConstructServiceImpl implements ConstructService {
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
         List<ConstructFloorDataApiDto> dto = parseFloorJsonData(convertResult);
+        Comparator<ConstructFloorDataApiDto> comparator = Comparator.comparingInt(ConstructFloorDataApiDto::getFlrNo).reversed();
+        dto.sort(comparator);
         return dto;
     }
 

@@ -285,25 +285,25 @@
                                     <div class="row">
                                         <label class="text-label">층별 임대차 현황 정보</label>
                                     </div>
-                                    <div class="row">
-                                        <table class="table table-sm table-bordered">
+                                    <div class="row" style="overflow-x: auto;">
+                                        <table class="table table-sm table-bordered" style="white-space: nowrap;">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">층수</th>
-                                                <th scope="col">업종</th>
                                                 <th scope="col">면적</th>
+                                                <th scope="col">용도</th>
+                                                <th scope="col">부용도</th>
                                                 <th scope="col">보증금</th>
                                                 <th scope="col">임대료</th>
                                                 <th scope="col">관리비</th>
-                                                <th scope="col">비고</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr th:if="${not #lists.isEmpty(floorInfo)}" th:each="floor, status : ${floorInfo}">
-                                                <td class="center-text">[[${floor.flrNo}]]</td>
-                                                <td>[[${floor.mainPurpsCdNm}]]</td>
+                                                <td class="center-text">[[${floor.flrNoNm}]]</td>
                                                 <td>[[${floor.area}]]</td>
-                                                <td></td>
+                                                <td>[[${floor.mainPurpsCdNm}]]</td>
+                                                <td>[[${floor.etcPurps}]]</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
