@@ -1,7 +1,6 @@
 package io.gig.realestate.domain.realestate.land;
 
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandFrlDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,5 +10,5 @@ import java.util.List;
  * @date : 2023/09/23
  */
 public interface LandService {
-    List<LandDataApiDto> getLandListInfoByPnu(String pnu) throws IOException;
+    List<LandDataApiDto> getLandListInfo(String bCode, String landType, String bun, String ji) throws IOException;
 }

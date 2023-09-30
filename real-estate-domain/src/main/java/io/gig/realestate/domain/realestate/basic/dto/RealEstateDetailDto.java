@@ -42,10 +42,9 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String address, String pnu) {
+    public static RealEstateDetailDto initDetailDto(String address) {
         return RealEstateDetailDto.builder()
                 .address(address)
-                .pnu(pnu)
                 .ownYn(YnType.Y)
                 .build();
     }
