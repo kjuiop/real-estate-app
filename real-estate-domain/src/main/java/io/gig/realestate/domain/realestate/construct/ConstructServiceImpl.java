@@ -7,6 +7,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.ConstructDataProperties;
@@ -42,6 +43,14 @@ public class ConstructServiceImpl implements ConstructService {
 
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
+
+    private final ConstructReader constructReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ConstructDto getConstructInfoByRealEstateId(Long realEstateId) {
+        return constructReader.getConstructInfoByRealEstateId(realEstateId);
+    }
 
     @Override
     @Transactional

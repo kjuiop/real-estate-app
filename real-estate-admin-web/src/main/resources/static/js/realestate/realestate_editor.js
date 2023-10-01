@@ -123,12 +123,17 @@ let loadConstructInfo = function() {
         return;
     }
 
-    let url = '/real-estate/construct/ajax/public-data'
-        + "?legalCode=" + dto.legalCode
-        + "&landType=" + dto.landType
-        + "&bun=" + dto.bun
-        + "&ji=" + dto.ji
-    ;
+    let url;
+
+    if (checkNullOrEmptyValue(dto.constructInfoId)) {
+        url = "/real-estate/construct/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/construct/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
 
     $.ajax({
         url: url,

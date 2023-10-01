@@ -5,7 +5,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +26,13 @@ import java.io.IOException;
 public class ConstructController {
 
     private final ConstructService constructService;
+
+    @GetMapping("{realEstateId}")
+    public ResponseEntity<ApiResponse> getConstructData(
+            @PathVariable(name = "realEstateId") Long realEstateId) {
+        ConstructDto constructDto = constructService.getConstructInfoByRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(constructDto), HttpStatus.OK);
+    }
 
     @GetMapping("ajax/public-data")
     public ResponseEntity<ApiResponse> getPublicData(

@@ -22,6 +22,7 @@ public class RealEstateDetailDto extends RealEstateDto {
     private Long managerId;
     private Long landInfoId;
     private Long priceInfoId;
+    private Long constructInfoId;
 
     static {
         EMPTY = RealEstateDetailDto.builder()
@@ -37,10 +38,11 @@ public class RealEstateDetailDto extends RealEstateDto {
         return EMPTY;
     }
 
-    public RealEstateDetailDto(RealEstate r, Long landInfoId, Long priceInfoId) {
+    public RealEstateDetailDto(RealEstate r, Long landInfoId, Long priceInfoId, Long constructInfo) {
         super(r);
         this.landInfoId = landInfoId;
         this.priceInfoId = priceInfoId;
+        this.constructInfoId = constructInfo;
         if (r.getManager() != null) {
             this.managerId = r.getManager().getId();
         }
