@@ -218,3 +218,11 @@
     text-align: center;
     justify-content: center;
 }
+
+.text-blue {
+    color: darkblue;
+}
+
+.button-pointer {
+    cursor: pointer;
+}

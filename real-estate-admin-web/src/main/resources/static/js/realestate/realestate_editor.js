@@ -363,6 +363,112 @@ let constructInfoSave = function(e) {
     });
 }
 
+let changeCustomerInfo = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        type = $this.attr("type"),
+        $unit = $this.parents('.customerInfoUnit');
+
+    $('.toggleCustomer').removeClass('text-blue');
+    $this.addClass('text-blue');
+
+    if (type === 'customer') {
+        $unit.html(drawCustomerInfo());
+    } else {
+        $unit.html(drawCompanyInfo());
+    }
+
+}
+
+let drawCustomerInfo = function() {
+
+    let tag = '';
+    tag +=     '<div class="row display-flex-row margin-bottom-5 test">';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<div class="display-flex-row">';
+    tag +=                 '<div class="col-md-6 no-left-padding">';
+    tag +=                     '<label class="text-label">고객명</label>';
+    tag +=                 '</div>';
+    tag +=                 '<div class="col-md-6">';
+    tag +=                     '<label class="text-label pull-right">';
+    tag +=                         '<span class="toggleCustomer text-blue button-pointer" type="customer">개인</span>  | ';
+    tag +=                         '<span class="toggleCustomer button-pointer" type="company">법인</span>' ;
+    tag +=                     '</label>';
+    tag +=                 '</div>';
+    tag +=             '</div>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=         '</div>';
+    tag +=         '<div class="col-md-2">';
+    tag +=             '<label class="text-label">성별</label>';
+    tag +=             '<select class="form-control form-control-sm valid-ignore custom-select">';
+    tag +=                 '<option>남</option>';
+    tag +=                 '<option>여</option>';
+    tag +=             '</select>';
+    tag +=         '</div>';
+    tag +=         '<div class="col-md-4">';
+    tag +=             '<label class="text-label">생년월일</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=         '</div>';
+    tag +=     '</div>';
+    tag +=     '<div class="row display-flex-row">';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<label class="text-label">휴대전화</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=         '</div>';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<label class="text-label">기타전화</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=         '</div>';
+    tag +=     '</div>';
+    tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
+    tag +=         '<input type="text" class="form-control form-control-sm" placeholder="비고"/>';
+    tag +=     '</div>';
+
+    return tag;
+}
+
+let drawCompanyInfo = function() {
+
+    let tag = '';
+    tag +=     '<div class="row display-flex-row margin-bottom-5 test">';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<div class="display-flex-row">';
+    tag +=                 '<div class="col-md-6 no-left-padding">';
+    tag +=                     '<label class="text-label">법인명</label>';
+    tag +=                 '</div>';
+    tag +=                 '<div class="col-md-6">';
+    tag +=                     '<label class="text-label pull-right">';
+    tag +=                         '<span class="toggleCustomer button-pointer" type="customer">개인</span>  | ';
+    tag +=                         '<span class="toggleCustomer button-pointer text-blue" type="company">법인</span>' ;
+    tag +=                     '</label>';
+    tag +=                 '</div>';
+    tag +=             '</div>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=         '</div>';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<label class="text-label">대표자명</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=         '</div>';
+    tag +=     '</div>';
+    tag +=     '<div class="row display-flex-row">';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<label class="text-label">법인전화</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=         '</div>';
+    tag +=         '<div class="col-md-6">';
+    tag +=             '<label class="text-label">휴대전화</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=         '</div>';
+    tag +=     '</div>';
+    tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
+    tag +=         '<input type="text" class="form-control form-control-sm" placeholder="비고"/>';
+    tag +=     '</div>';
+
+    return tag;
+}
+
+
 let searchAddress = function(e) {
     e.preventDefault();
 
@@ -390,4 +496,5 @@ $(document).ready(onReady)
     .on('click', '.btnBasicSave', basicInfoSave)
     .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnPriceSave', priceInfoSave)
-    .on('click', '.btnConstructSave', constructInfoSave);
+    .on('click', '.btnConstructSave', constructInfoSave)
+    .on('click', '.toggleCustomer', changeCustomerInfo);
