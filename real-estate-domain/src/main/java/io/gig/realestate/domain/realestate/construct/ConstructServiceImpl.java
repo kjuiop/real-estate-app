@@ -1,6 +1,11 @@
 package io.gig.realestate.domain.realestate.construct;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstateReader;
+import io.gig.realestate.domain.realestate.basic.RealEstateStore;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.utils.CommonUtils;
@@ -34,6 +39,25 @@ public class ConstructServiceImpl implements ConstructService {
 
     private final ConstructDataProperties constructDataProperties;
     private final ConstructFloorDataProperties floorDataProperties;
+
+    private final RealEstateReader realEstateReader;
+    private final RealEstateStore realEstateStore;
+
+    @Override
+    @Transactional
+    public Long create(ConstructCreateForm createForm, LoginUser loginUser) {
+
+        RealEstate realEstate;
+        if (createForm.getRealEstateId() == null) {
+            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
+        } else {
+            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+        }
+
+        ConstructInfo constructInfo = ConstructInfo.create(createForm, realEstate);
+        realEstate.addConstructInfo(constructInfo);
+        return realEstateStore.store(realEstate).getId();
+    }
 
     @Override
     @Transactional

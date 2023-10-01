@@ -1,16 +1,19 @@
 package io.gig.realestate.admin.controller.realestate.construct;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 /**
@@ -33,5 +36,13 @@ public class ConstructController {
     ) throws IOException {
         ConstructDataApiDto constructInfo = constructService.getConstructInfo(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(constructInfo), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody ConstructCreateForm createForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = constructService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }
