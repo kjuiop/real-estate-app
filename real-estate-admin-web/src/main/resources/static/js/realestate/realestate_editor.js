@@ -1,6 +1,9 @@
 let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
+    loadLandInfo();
+    loadPriceInfo();
+    loadConstructInfo();
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -30,8 +33,142 @@ let loadBasicInfo = function() {
         error: function(error){
             ajaxErrorFieldByText(error);
         }
-    })
+    });
 
+}
+
+let loadLandInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+
+    if (checkNullOrEmptyValue(dto.landInfoId)) {
+        url = "/real-estate/land/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let landList = result.data,
+                landInfo = landList[0];
+            let $frm = $('form[name="frmLandRegister"]');
+            $frm.find('.landSize').text(landList.length);
+            $frm.find('.area').text(landInfo.lndpclAr);
+            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadPriceInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto) || !checkNullOrEmptyValue(dto.priceInfoId)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/price/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let priceList = result.data,
+                priceInfo = priceList[0];
+            let $frm = $('form[name="frmPriceRegister"]');
+            $frm.find('.salePrice').val(priceInfo.salePrice);
+            $frm.find('.depositPrice').val(priceInfo.depositPrice);
+            $frm.find('.revenueRate').val(priceInfo.revenueRate);
+            $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
+            $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
+            $frm.find('.rentMonth').val(priceInfo.rentMonth);
+            $frm.find('.management').val(priceInfo.management);
+            $frm.find('.managementExpense').val(priceInfo.managementExpense);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadConstructInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+
+    if (checkNullOrEmptyValue(dto.constructInfoId)) {
+        url = "/real-estate/construct/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/construct/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let constructInfo = result.data;
+            console.log("constructInfo", constructInfo);
+
+            let $frm = $('form[name="frmConstructRegister"]');
+            $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
+            $frm.find('.etcPurps').val(constructInfo.etcPurps);
+            $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
+            $frm.find('.useAprDay').val(constructInfo.useAprDay);
+            $frm.find('.platArea').val(constructInfo.platArea);
+            $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            $frm.find('.archArea').val(constructInfo.archArea);
+            $frm.find('.bcRat').val(constructInfo.bcRat);
+            $frm.find('.totArea').val(constructInfo.totArea);
+            $frm.find('.vlRat').val(constructInfo.vlRat);
+            $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
+            $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
+            $frm.find('.rideUseElvtCnt').val(constructInfo.rideUseElvtCnt);
+            $frm.find('.emgenUseElvtCnt').val(constructInfo.emgenUseElvtCnt);
+            $frm.find('.indrAutoUtcnt').val(constructInfo.indrAutoUtcnt);
+            $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
+            $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
+            $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
 
 let drawBtnUsageCode = function(categories) {
@@ -43,7 +180,6 @@ let drawBtnUsageCode = function(categories) {
         } else {
             tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
-
     });
 
     return tags;
@@ -68,8 +204,8 @@ let selectUsageCode = function(e) {
 
 
 let basicInfoSave = function(e) {
-
     e.preventDefault();
+
     let $frm = $('form[name="frmBasicRegister"]'),
     params = serializeObject({form:$frm[0]}).json();
     params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
@@ -110,6 +246,123 @@ let basicInfoSave = function(e) {
     });
 }
 
+let landInfoSave = function(e) {
+    e.preventDefault();
+
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
+
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal('주소를 입력해주세요.');
+        return;
+    }
+
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+
+    params.lndpclAr = params.lndpclAr.replaceAll(',', '');
+    params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
+    params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
+    params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
+
+    $.ajax({
+        url: "/real-estate/land",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let priceInfoSave = function(e) {
+    e.preventDefault();
+
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let $frmLand = $('form[name="frmPriceRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
+
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
+
+    console.log("params", params);
+
+
+    $.ajax({
+        url: "/real-estate/price",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let constructInfoSave = function(e) {
+    e.preventDefault();
+
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let $frmConstruct = $('form[name="frmConstructRegister"]'),
+        params = serializeObject({form:$frmConstruct[0]}).json();
+
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
+
+    console.log("params", params);
+
+
+    $.ajax({
+        url: "/real-estate/construct",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 let searchAddress = function(e) {
     e.preventDefault();
 
@@ -123,7 +376,18 @@ let searchAddress = function(e) {
     }).open();
 }
 
+let addCommasToNumber = function(number) {
+    number = Math.floor(number);
+    number = Math.round(number / 100) * 100;
+    let numberStr = number.toString();
+    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numberStr;
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
-    .on('click', '.btnBasicSave', basicInfoSave);
+    .on('click', '.btnBasicSave', basicInfoSave)
+    .on('click', '.btnLandSave', landInfoSave)
+    .on('click', '.btnPriceSave', priceInfoSave)
+    .on('click', '.btnConstructSave', constructInfoSave);

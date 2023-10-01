@@ -13,4 +13,6 @@ public interface RealEstateReader {
     Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto);
 
     RealEstateDetailDto getRealEstateDetail(Long realEstateId);
+
+    RealEstate getRealEstateById(Long realEstateId);
 }

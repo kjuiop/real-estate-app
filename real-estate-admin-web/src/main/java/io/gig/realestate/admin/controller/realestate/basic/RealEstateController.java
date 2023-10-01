@@ -1,4 +1,4 @@
-package io.gig.realestate.admin.controller.realestate;
+package io.gig.realestate.admin.controller.realestate.basic;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
@@ -51,7 +51,7 @@ public class RealEstateController {
 
     @GetMapping("new")
     public String register(
-            @RequestParam(name = "bCode") String bCode,
+            @RequestParam(name = "bCode") String legalCode,
             @RequestParam(name = "landType") String landType,
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji,
@@ -59,10 +59,8 @@ public class RealEstateController {
             Model model,
             @CurrentUser LoginUser loginUser) throws IOException {
 
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(address);
-        List<LandDataApiDto> landList = landService.getLandListInfo(bCode, landType, bun, ji);
-        ConstructDataApiDto constructInfo = constructService.getConstructInfo(bCode, landType, bun, ji);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(bCode, landType, bun, ji);
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
 
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
@@ -72,6 +70,28 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
+        model.addAttribute("floorInfo", floorInfo);
+
+        return "realestate/editor";
+    }
+
+    @GetMapping("{realEstateId}/edit")
+    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) throws IOException {
+
+        RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
+        List<LandDataApiDto> landList = landService.getLandListInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
+        ConstructDataApiDto constructInfo = constructService.getConstructInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
+
+        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
+        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
+        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("admins", admins);
+        model.addAttribute("processCds", processCds);
+        model.addAttribute("usageCds", usageCds);
+
         model.addAttribute("landInfo", landList.get(0));
         model.addAttribute("constructInfo", constructInfo);
         model.addAttribute("floorInfo", floorInfo);
@@ -80,25 +100,9 @@ public class RealEstateController {
         return "realestate/editor";
     }
 
-    @GetMapping("{realEstateId}/edit")
-    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
-
-        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
-        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
-        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("admins", admins);
-        model.addAttribute("processCds", processCds);
-        model.addAttribute("usageCds", usageCds);
-
-        return "realestate/editor";
-    }
-
     @PostMapping("basic")
     @ResponseBody
-    public ResponseEntity<ApiResponse> basicSave(@Valid @RequestBody RealEstateCreateForm createForm,
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,
                                                  @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoSave(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);

@@ -16,7 +16,13 @@ public class RealEstateCreateForm {
 
     private YnType ownYn;
 
-    private String pnu;
+    private String legalCode;
+
+    private String landType;
+
+    private String bun;
+
+    private String ji;
 
     private String buildingName;
 

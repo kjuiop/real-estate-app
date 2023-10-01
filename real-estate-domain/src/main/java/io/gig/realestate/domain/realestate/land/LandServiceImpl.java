@@ -1,7 +1,13 @@
 package io.gig.realestate.domain.realestate.land;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstateReader;
+import io.gig.realestate.domain.realestate.basic.RealEstateStore;
+import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandDataProperties;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +36,32 @@ import java.util.List;
 public class LandServiceImpl implements LandService {
 
     private final LandDataProperties properties;
+    private final RealEstateReader realEstateReader;
+    private final RealEstateStore realEstateStore;
+
+    private final LandReader landReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LandListDto> getLandListInfoByRealEstateId(Long realEstateId) {
+        return landReader.getLandInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    @Transactional
+    public Long create(LandCreateForm createForm, LoginUser loginUser) {
+
+        RealEstate realEstate;
+        if (createForm.getRealEstateId() == null) {
+            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
+        } else {
+            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+        }
+
+        LandInfo landInfo = LandInfo.create(createForm, realEstate);
+        realEstate.addLandInfo(landInfo);
+        return realEstateStore.store(realEstate).getId();
+    }
 
     @Override
     @Transactional
