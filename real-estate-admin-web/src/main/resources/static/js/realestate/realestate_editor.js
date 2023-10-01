@@ -1,180 +1,243 @@
 let onReady = function() {
-    let $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
-    loadRole();
+    loadBasicInfo();
+    loadLandInfo();
+    loadPriceInfo();
+    loadConstructInfo();
     onlyNumberKeyEvent({className: "only-number"});
-    isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
-let createValidate = function($frm) {
-
-    $.validator.setDefaults({
-        onkeyup:false,
-        onclick:false,
-        onfocusout:false,
-        showErrors: function(errorMap, errorList) {
-            if (errorList.length) {
-                jQueryErrorField(errorList);
-            }
-        }
-    });
-
-    $.validator.addMethod("isEmailDuplicateCheck", function(value, element){
-        let isDuplication = $('#emailCheckYn').val();
-
-        console.log("duplication", isDuplication);
-        return isDuplication;
-    });
-
-    $.validator.addMethod("isPwValidCheckYn", function(value, element){
-        let isValid = $('#pwValidCheckYn').val();
-
-        console.log("isValid", isValid);
-        return isValid;
-    });
-
-    $.validator.addMethod("isPwEqualCheckYn", function(value, element){
-        let isValid = $('#pwEqualCheckYn').val();
-
-        console.log("isValid", isValid);
-        return isValid;
-    });
-
-    $frm.validate({
-        debug : true,
-        ignore : '.valid-ignore, *:not([name])',
-        rules: {
-            username: {
-                required: true,
-                isEmailDuplicateCheck: false
-            },
-            name: {
-                required: true
-            },
-            password: {
-                required: true,
-            },
-            confirmPassword: {
-                required: true,
-            }
-        },
-        messages: {
-            username: {
-                required: '이메일을 입력해주세요.',
-                isEmailDuplicateCheck: '이미 사용중인 이메일입니다.'
-            },
-            name: {
-                required: '이름을 입력해주세요.'
-            },
-            password: {
-                required: '비밀번호를 입력해주세요.',
-            },
-            confirmPassword: {
-                required: '비밀번호를 입력해주세요.',
-            }
-        },
-        submitHandler: function() {
-            save();
-        }
-    });
-}
-
-let updateValidate = function($frm) {
-
-    $.validator.setDefaults({
-        onkeyup:false,
-        onclick:false,
-        onfocusout:false,
-        showErrors: function(errorMap, errorList) {
-            if (errorList.length) {
-                jQueryErrorField(errorList);
-            }
-        }
-    });
-
-    $.validator.addMethod("isEmailDuplicateCheck", function(value, element){
-        let isDuplication = $('#emailCheckYn').val();
-
-        console.log("duplication", isDuplication);
-        return isDuplication;
-    });
-
-    $frm.validate({
-        debug : true,
-        ignore : '.valid-ignore, *:not([name])',
-        rules: {
-            username: {
-                required: true,
-                isEmailDuplicateCheck: false
-            },
-            name: {
-                required: true
-            }
-        },
-        messages: {
-            username: {
-                required: '이메일을 입력해주세요.',
-                isEmailDuplicateCheck: '이미 사용중인 이메일입니다.'
-            },
-            name: {
-                required: '이름을 입력해주세요.'
-            }
-        },
-        submitHandler: function() {
-            save();
-        }
-    });
-}
-
-let loadRole = function($frm) {
+let loadBasicInfo = function() {
 
     if (!checkNullOrEmptyValue(dto)) {
         return;
     }
 
-    if (dto) {
-        $.each(dto.roles, function (idx, role) {
-            $('#exclude-role option[value="' + role + '"]').hide();
-            $('#include-role option[value="' + role + '"]').show();
-        });
-    }
-}
+    loadKakaoMap(dto.address);
 
-let addRole = function(e) {
-    e.preventDefault();
-
-    let role = $('#exclude-role option:checked').val();
-    $('#exclude-role option[value="' + role + '"]').hide();
-    $('#include-role option[value="' + role + '"]').show();
-}
-
-let removeRole = function(e) {
-    e.preventDefault();
-
-    let role = $('#include-role option:checked').val();
-    $('#exclude-role option[value="' + role + '"]').show();
-    $('#include-role option[value="' + role + '"]').hide();
-};
-
-let save = function() {
-
-    let $frm = $('form[name="frmRegister"]'),
-    formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
-    param = serializeObject({form:$frm[0]}).json();
-    param['roleNames'] = getRoleNames();
-    console.log("params", param);
+    let $frm = $('form[name="frmBasicRegister"]'),
+        usageCodeId = $frm.find('.usageCode').val();
 
     $.ajax({
-        url: "/administrators",
-        method: formMethod,
+        url: "/settings/category-manager/children-categories?parentId=" + usageCodeId,
+        method: "get",
         type: "json",
         contentType: "application/json",
-        data: JSON.stringify(param),
+        success: function(result) {
+            console.log("result", result);
+            let categories = result.data;
+
+            let tags = drawBtnUsageCode(categories);
+            $frm.find('.usageCdsSection').html(tags);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
+let loadLandInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+
+    if (checkNullOrEmptyValue(dto.landInfoId)) {
+        url = "/real-estate/land/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let landList = result.data,
+                landInfo = landList[0];
+            let $frm = $('form[name="frmLandRegister"]');
+            $frm.find('.landSize').text(landList.length);
+            $frm.find('.area').text(landInfo.lndpclAr);
+            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadPriceInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto) || !checkNullOrEmptyValue(dto.priceInfoId)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/price/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let priceList = result.data,
+                priceInfo = priceList[0];
+            let $frm = $('form[name="frmPriceRegister"]');
+            $frm.find('.salePrice').val(priceInfo.salePrice);
+            $frm.find('.depositPrice').val(priceInfo.depositPrice);
+            $frm.find('.revenueRate').val(priceInfo.revenueRate);
+            $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
+            $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
+            $frm.find('.rentMonth').val(priceInfo.rentMonth);
+            $frm.find('.management').val(priceInfo.management);
+            $frm.find('.managementExpense').val(priceInfo.managementExpense);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadConstructInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+
+    if (checkNullOrEmptyValue(dto.constructInfoId)) {
+        url = "/real-estate/construct/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/construct/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let constructInfo = result.data;
+            console.log("constructInfo", constructInfo);
+
+            let $frm = $('form[name="frmConstructRegister"]');
+            $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
+            $frm.find('.etcPurps').val(constructInfo.etcPurps);
+            $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
+            $frm.find('.useAprDay').val(constructInfo.useAprDay);
+            $frm.find('.platArea').val(constructInfo.platArea);
+            $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            $frm.find('.archArea').val(constructInfo.archArea);
+            $frm.find('.bcRat').val(constructInfo.bcRat);
+            $frm.find('.totArea').val(constructInfo.totArea);
+            $frm.find('.vlRat').val(constructInfo.vlRat);
+            $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
+            $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
+            $frm.find('.rideUseElvtCnt').val(constructInfo.rideUseElvtCnt);
+            $frm.find('.emgenUseElvtCnt').val(constructInfo.emgenUseElvtCnt);
+            $frm.find('.indrAutoUtcnt').val(constructInfo.indrAutoUtcnt);
+            $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
+            $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
+            $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawBtnUsageCode = function(categories) {
+
+    let tags = "";
+    $.each(categories, function (idx, item) {
+        if (dto != null && dto.usageType != null && dto.usageType.id === item.id) {
+            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+        } else {
+            tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+        }
+    });
+
+    return tags;
+}
+
+let selectUsageCode = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $(this).parents('.usageCdsSection');
+
+    $section.find('.btnUsageCode').each(function() {
+        $(this).removeClass("btn-primary");
+        $(this).removeClass("selected");
+        $(this).addClass("btn-default");
+    });
+
+    $this.removeClass("btn-default");
+    $this.addClass("btn-primary");
+    $this.addClass("selected");
+}
+
+
+let basicInfoSave = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmBasicRegister"]'),
+    params = serializeObject({form:$frm[0]}).json();
+    params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
+
+    if (!checkNullOrEmptyValue(params.managerUsername)) {
+        twoBtnModal('담당자를 선택해주세요.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.buildingName)) {
+        twoBtnModal('건물명을 입력해주세요.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal('주소를 입력해주세요.');
+        return;
+    }
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/real-estate/basic",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
-            let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
+            let message = '정상적으로 저장되었습니다.';
             twoBtnModal(message, function() {
-                location.href = '/administrators/' + result.data + '/edit';
+                location.href = '/real-estate/' + result.data + '/edit';
             });
         },
         error:function(error){
@@ -183,114 +246,148 @@ let save = function() {
     });
 }
 
-let checkDuplicateData = function(e) {
+let landInfoSave = function(e) {
     e.preventDefault();
 
-    if (dto.adminId != null) {
-        return false;
-    }
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
 
-    let $field = $(this),
-        value = $field.val();
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
 
-    if (!checkEmailValidCheck(value)) {
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal('주소를 입력해주세요.');
         return;
     }
 
-    if (checkNullOrEmptyValue(value)) {
-        $.ajax({
-            url: "/administrators/check-duplicate/username/" + value,
-            method: "get",
-            type: "json",
-            contentType: "application/json",
-            success: function(result) {
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
 
-                let isDuplicate = result.data;
+    params.lndpclAr = params.lndpclAr.replaceAll(',', '');
+    params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
+    params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
+    params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
 
-                console.log("isDuplicate", isDuplicate);
+    $.ajax({
+        url: "/real-estate/land",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
 
-                $field.siblings('.error-message').remove();
-                if (isDuplicate) {
-                    drawErrorMessage($field, '이미 존재하는 이메일 입니다.');
-                    $('#emailCheckYn').val(false);
-                } else {
-                    drawSuccessMessage($field, '사용가능한 이메일 입니다.');
-                    $('#emailCheckYn').val(true);
-                }
-            },
-            error: function(error){
-                ajaxErrorFieldByText(error);
-            }
-        })
-    }
-};
+let priceInfoSave = function(e) {
+    e.preventDefault();
 
-const checkValidPassword = function() {
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
 
-    const $frm = $('form[name=frmRegister]');
-    let $password = $frm.find('input[name="password"]'),
-        $field = $('input[name="confirmPassword"]'),
-        password = $frm.find('input[name="password"]').val(),
-        repeat = $frm.find('input[name="confirmPassword"]').val();
+    let $frmLand = $('form[name="frmPriceRegister"]'),
+        params = serializeObject({form:$frmLand[0]}).json();
 
-    if (!checkNullOrEmptyValue(password)) {
-        return false;
-    }
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
 
-    if (password.length < 6) {
-        $('#pwValidCheckYn').val(false);
-        drawErrorMessage($password, '6자리 이상의 미빌번호를 입력해주세요.');
-        return false;
-    } else {
-        $('#pwValidCheckYn').val(true);
-    }
+    console.log("params", params);
 
-    if (password !== repeat) {
-        $('#pwEqualCheckYn').val(false);
-        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
-        return false;
-    } else {
-        $('#pwEqualCheckYn').val(true);
-        drawSuccessMessage($field, '비밀번호가 동일합니다.');
-        return false;
-    }
 
-};
+    $.ajax({
+        url: "/real-estate/price",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
 
-let getRoleNames = function() {
-    let roleNames = [];
+let constructInfoSave = function(e) {
+    e.preventDefault();
 
-    if ($('#include-role').length > 0) {
-        let isEmptyRole = true;
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
 
-        $('#include-role option').filter(function () {
-            return $(this).css('display') === 'block';
-        }).each(function (idx, role) {
-            roleNames.push($(role).val());
-            isEmptyRole = false;
-        });
+    let $frmConstruct = $('form[name="frmConstructRegister"]'),
+        params = serializeObject({form:$frmConstruct[0]}).json();
 
-    }
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
 
-    return roleNames;
+    console.log("params", params);
+
+
+    $.ajax({
+        url: "/real-estate/construct",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
 
 let searchAddress = function(e) {
     e.preventDefault();
 
-    let $frm = $(this).parents(`form[name="frmRegister"]`);
+    let $frm = $(this).parents(`form[name="frmBasicRegister"]`);
     new daum.Postcode({
         oncomplete: function(data) { //선택시 입력값 세팅
             $frm.find(`input[name="address"]`).val(data.address);
-            $frm.find(`input[name="address_detail"]`).focus();
+            $frm.find(`input[name="addressDetail"]`).focus();
             loadKakaoMap(data.address)
         }
     }).open();
 }
 
+let addCommasToNumber = function(number) {
+    number = Math.floor(number);
+    number = Math.round(number / 100) * 100;
+    let numberStr = number.toString();
+    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numberStr;
+}
+
 $(document).ready(onReady)
-    .on('blur', 'input[name=username]', checkDuplicateData)
-    .on('click', '#btn-include-role', addRole)
-    .on('click', '#btn-exclude-role', removeRole)
-    .on('blur', 'input[name=confirmPassword]', checkValidPassword)
-    .on('click', '.btnAddress', searchAddress);
+    .on('click', '.btnAddress', searchAddress)
+    .on('click', '.btnUsageCode', selectUsageCode)
+    .on('click', '.btnBasicSave', basicInfoSave)
+    .on('click', '.btnLandSave', landInfoSave)
+    .on('click', '.btnPriceSave', priceInfoSave)
+    .on('click', '.btnConstructSave', constructInfoSave);

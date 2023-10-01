@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -150,6 +151,19 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Transactional(readOnly = true)
     public boolean existsUsername(String value) {
         return administratorReader.existUsername(value);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdministratorListDto> getAdminListMyMembers(LoginUser loginUser) {
+
+        boolean isSuperAdmin = loginUser.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_SUPER_ADMIN"));
+        if (isSuperAdmin) {
+            return administratorReader.getAllAdministrators();
+        }
+
+        return administratorReader.getAdministratorsByTeam(loginUser.getLoginUser().getTeam());
     }
 
     private void validPassword(Administrator administrator, String password) {

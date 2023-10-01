@@ -3,6 +3,7 @@ package io.gig.realestate.domain.category.repository;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryReader;
 import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,11 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
+        return queryRepository.getChildrenCategoryDtosByName(name);
+    }
+
+    @Override
     public long getCountCategoryData() {
         return queryRepository.getCountCategoryData();
     }
@@ -39,6 +45,15 @@ public class CategoryQueryImpl implements CategoryReader {
     @Override
     public Optional<CategoryDto> getCategoryDtoById(Long id) {
         return queryRepository.getCategoryDtoById(id);
+    }
+
+    @Override
+    public CategoryDto getCategoryDtoByName(String name) {
+        Optional<CategoryDto> foundCategory = queryRepository.getCategoryDtoByName(name);
+        if (foundCategory.isEmpty()) {
+            throw new NotFoundException(">>> 카테고리가 존재하지 않습니다.");
+        }
+        return foundCategory.get();
     }
 
     @Override

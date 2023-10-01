@@ -3,6 +3,7 @@ package io.gig.realestate.domain.admin;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.team.Team;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -32,4 +33,8 @@ public interface AdministratorReader {
     Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
 
     Administrator getAdminEntityById(Long adminId);
+
+    List<AdministratorListDto> getAllAdministrators();
+
+    List<AdministratorListDto> getAdministratorsByTeam(Team team);
 }

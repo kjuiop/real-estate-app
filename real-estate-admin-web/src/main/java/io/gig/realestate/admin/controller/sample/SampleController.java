@@ -1,6 +1,6 @@
 package io.gig.realestate.admin.controller.sample;
 
-import io.gig.realestate.domain.realestate.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

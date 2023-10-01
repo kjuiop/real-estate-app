@@ -1,0 +1,61 @@
+package io.gig.realestate.domain.realestate.basic.dto;
+
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+/**
+ * @author : JAKE
+ * @date : 2023/04/14
+ */
+@SuperBuilder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RealEstateDetailDto extends RealEstateDto {
+
+    private static final RealEstateDetailDto EMPTY;
+    private Long managerId;
+    private Long landInfoId;
+    private Long priceInfoId;
+    private Long constructInfoId;
+
+    static {
+        EMPTY = RealEstateDetailDto.builder()
+                .ownYn(YnType.Y)
+                .empty(true)
+                .build();
+    }
+
+    @Builder.Default
+    private boolean empty = false;
+
+    public static RealEstateDetailDto emptyDto() {
+        return EMPTY;
+    }
+
+    public RealEstateDetailDto(RealEstate r, Long landInfoId, Long priceInfoId, Long constructInfo) {
+        super(r);
+        this.landInfoId = landInfoId;
+        this.priceInfoId = priceInfoId;
+        this.constructInfoId = constructInfo;
+        if (r.getManager() != null) {
+            this.managerId = r.getManager().getId();
+        }
+    }
+
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address) {
+        return RealEstateDetailDto.builder()
+                .legalCode(legalCode)
+                .landType(landType)
+                .bun(bun)
+                .ji(ji)
+                .address(address)
+                .ownYn(YnType.Y)
+                .build();
+    }
+}
