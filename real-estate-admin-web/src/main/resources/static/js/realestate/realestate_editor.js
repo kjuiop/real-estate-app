@@ -3,6 +3,7 @@ let onReady = function() {
     loadBasicInfo();
     loadLandInfo();
     loadPriceInfo();
+    loadConstructInfo();
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -87,7 +88,7 @@ let loadLandInfo = function() {
 
 let loadPriceInfo = function() {
 
-    if (!checkNullOrEmptyValue(dto) && !checkNullOrEmptyValue(dto.priceInfoId)) {
+    if (!checkNullOrEmptyValue(dto) || !checkNullOrEmptyValue(dto.priceInfoId)) {
         return;
     }
 
@@ -109,6 +110,55 @@ let loadPriceInfo = function() {
             $frm.find('.rentMonth').val(priceInfo.rentMonth);
             $frm.find('.management').val(priceInfo.management);
             $frm.find('.managementExpense').val(priceInfo.managementExpense);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadConstructInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url = '/real-estate/construct/ajax/public-data'
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let constructInfo = result.data;
+            console.log("constructInfo", constructInfo);
+
+            let $frm = $('form[name="frmConstructRegister"]');
+            $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
+            $frm.find('.etcPurps').val(constructInfo.etcPurps);
+            $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
+            $frm.find('.useAprDay').val(constructInfo.useAprDay);
+            $frm.find('.platArea').val(constructInfo.platArea);
+            $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            $frm.find('.archArea').val(constructInfo.archArea);
+            $frm.find('.bcRat').val(constructInfo.bcRat);
+            $frm.find('.totArea').val(constructInfo.totArea);
+            $frm.find('.vlRat').val(constructInfo.vlRat);
+            $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
+            $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
+            $frm.find('.rideUseElvtCnt').val(constructInfo.rideUseElvtCnt);
+            $frm.find('.emgenUseElvtCnt').val(constructInfo.emgenUseElvtCnt);
+            $frm.find('.indrAutoUtcnt').val(constructInfo.indrAutoUtcnt);
+            $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
+            $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
+            $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
