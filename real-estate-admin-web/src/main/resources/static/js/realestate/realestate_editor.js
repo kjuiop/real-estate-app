@@ -407,7 +407,7 @@ let drawCustomerInfo = function() {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
-    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="customer" />';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="CUSTOMER" />';
     tag +=                         '<span class="toggleCustomer text-blue button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer" type="company">법인</span>' ;
     tag +=                     '</label>';
@@ -418,8 +418,8 @@ let drawCustomerInfo = function() {
     tag +=         '<div class="col-md-2">';
     tag +=             '<label class="text-label">성별</label>';
     tag +=             '<select class="form-control form-control-sm valid-ignore custom-select" name="gender">';
-    tag +=                 '<option value="man">남</option>';
-    tag +=                 '<option value="woman">여</option>';
+    tag +=                 '<option value="MAN">남</option>';
+    tag +=                 '<option value="WOMAN">여</option>';
     tag +=             '</select>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-4">';
@@ -455,7 +455,7 @@ let drawCompanyInfo = function() {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
-    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="company" />';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="COMPANY" />';
     tag +=                         '<span class="toggleCustomer button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer text-blue" type="company">법인</span>' ;
     tag +=                     '</label>';
@@ -488,12 +488,15 @@ let drawCompanyInfo = function() {
 let addCustomerSave = function(e) {
     e.preventDefault();
 
-    let params = [];
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        detailParams = serializeObject({form:$frmBasic[0]}).json();
+
+    let customerInfo = [];
     let $frm = $('form[name="frmCustomerRegister"]');
     $frm.find('.customerInfoUnit').each(function (idx, item) {
         let type = $(this).find('input[name="type"]').val();
         let param;
-        if (type === 'customer') {
+        if (type === 'CUSTOMER') {
             param = {
                 "type" : type,
                 "customerName" : $(item).find('input[name="customerName"]').val(),
@@ -503,21 +506,48 @@ let addCustomerSave = function(e) {
                 "etcPhone" : $(item).find('input[name="etcPhone"]').val(),
                 "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
             }
-        } else {
+        } else if (type === 'COMPANY') {
             param = {
                 "type" : type,
                 "companyName" : $(item).find('input[name="companyName"]').val(),
-                "representName" : $(item).find('select[name="representName"]').val(),
+                "representName" : $(item).find('input[name="representName"]').val(),
                 "companyPhone" : $(item).find('input[name="companyPhone"]').val(),
                 "representPhone" : $(item).find('input[name="representPhone"]').val(),
                 "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
             }
         }
 
-        params.push(param);
+        customerInfo.push(param);
     });
 
+    let params = {
+        "customerInfo": customerInfo,
+    }
+    params.legalCode = detailParams.legalCode;
+    params.landType = detailParams.landType;
+    params.bun = detailParams.bun;
+    params.ji = detailParams.ji;
+    params.address = detailParams.address;
+
     console.log("params", params);
+
+    $.ajax({
+        url: "/real-estate/customer",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
 
 
