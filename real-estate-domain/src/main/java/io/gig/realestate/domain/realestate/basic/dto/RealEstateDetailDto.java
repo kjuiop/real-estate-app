@@ -19,10 +19,8 @@ import lombok.experimental.SuperBuilder;
 public class RealEstateDetailDto extends RealEstateDto {
 
     private static final RealEstateDetailDto EMPTY;
+
     private Long managerId;
-    private Long landInfoId;
-    private Long priceInfoId;
-    private Long constructInfoId;
 
     static {
         EMPTY = RealEstateDetailDto.builder()
@@ -34,15 +32,41 @@ public class RealEstateDetailDto extends RealEstateDto {
     @Builder.Default
     private boolean empty = false;
 
+    @Builder.Default
+    private boolean existLandInfo = false;
+
+    @Builder.Default
+    private boolean existPriceInfo = false;
+
+    @Builder.Default
+    private boolean existConstructInfo = false;
+
+    @Builder.Default
+    private boolean existCustomerInfo = false;
+
     public static RealEstateDetailDto emptyDto() {
         return EMPTY;
     }
 
-    public RealEstateDetailDto(RealEstate r, Long landInfoId, Long priceInfoId, Long constructInfo) {
+    public RealEstateDetailDto(RealEstate r) {
         super(r);
-        this.landInfoId = landInfoId;
-        this.priceInfoId = priceInfoId;
-        this.constructInfoId = constructInfo;
+
+        if (r.getLandInfoList().size() > 0) {
+            this.existLandInfo = true;
+        }
+
+        if (r.getPriceInfoList().size() > 0) {
+            this.existPriceInfo = true;
+        }
+
+        if (r.getConstructInfoList().size() > 0) {
+            this.existConstructInfo = true;
+        }
+
+        if (r.getCustomerInfoList().size() > 0) {
+            this.existCustomerInfo = true;
+        }
+
         if (r.getManager() != null) {
             this.managerId = r.getManager().getId();
         }

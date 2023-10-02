@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/10/02
@@ -22,6 +24,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
+
+    private final CustomerReader customerReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerDto> getCustomerListInfoByRealEstateId(Long realEstateId) {
+        return customerReader.getCustomerListInfoByRealEstateId(realEstateId);
+    }
 
     @Override
     @Transactional

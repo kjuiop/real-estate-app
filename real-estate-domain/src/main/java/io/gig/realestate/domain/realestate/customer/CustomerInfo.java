@@ -31,6 +31,8 @@ public class CustomerInfo {
 
     private String customerName;
 
+    private String birth;
+
     private String phone;
 
     private String etcPhone;
@@ -61,6 +63,7 @@ public class CustomerInfo {
     public static CustomerInfo create(CustomerDto dto, RealEstate realEstate) {
         return CustomerInfo.builder()
                 .type(dto.getType())
+                .birth(dto.getBirth())
                 .customerName(dto.getCustomerName())
                 .phone(dto.getPhone())
                 .etcPhone(dto.getPhone())

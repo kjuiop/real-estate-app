@@ -4,7 +4,8 @@ let onReady = function() {
     loadLandInfo();
     loadPriceInfo();
     loadConstructInfo();
-    $('#customerInfoSection').html(drawUnitCustomerInfo());
+    loadCustomerInfo();
+    $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -46,7 +47,7 @@ let loadLandInfo = function() {
 
     let url;
 
-    if (checkNullOrEmptyValue(dto.landInfoId)) {
+    if (dto.existLandInfo === true) {
         url = "/real-estate/land/" + dto.realEstateId;
     } else {
         url = "/real-estate/land/ajax/public-data"
@@ -89,7 +90,11 @@ let loadLandInfo = function() {
 
 let loadPriceInfo = function() {
 
-    if (!checkNullOrEmptyValue(dto) || !checkNullOrEmptyValue(dto.priceInfoId)) {
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    if (dto.existPriceInfo !== true) {
         return;
     }
 
@@ -126,7 +131,7 @@ let loadConstructInfo = function() {
 
     let url;
 
-    if (checkNullOrEmptyValue(dto.constructInfoId)) {
+    if (dto.existConstructInfo === true) {
         url = "/real-estate/construct/" + dto.realEstateId;
     } else {
         url = "/real-estate/construct/ajax/public-data"
@@ -165,6 +170,48 @@ let loadConstructInfo = function() {
             $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
             $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
             $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadCustomerInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    if (dto.existCustomerInfo !== true) {
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/customer/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("customer result", result);
+            let customerInfoList = result.data;
+
+            let tag = '';
+            $.each(customerInfoList, function(idx, item) {
+                tag += drawUnitCustomerInfo(item.type, item);
+            });
+            $('#customerInfoSection').html(tag);
+            // let priceList = result.data,
+            //     priceInfo = priceList[0];
+            // let $frm = $('form[name="frmCustomerRegister"]');
+            // $frm.find('.salePrice').val(priceInfo.salePrice);
+            // $frm.find('.depositPrice').val(priceInfo.depositPrice);
+            // $frm.find('.revenueRate').val(priceInfo.revenueRate);
+            // $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
+            // $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
+            // $frm.find('.rentMonth').val(priceInfo.rentMonth);
+            // $frm.find('.management').val(priceInfo.management);
+            // $frm.find('.managementExpense').val(priceInfo.managementExpense);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -375,17 +422,22 @@ let changeCustomerInfo = function(e) {
     $this.addClass('text-blue');
 
     if (type === 'customer') {
-        $unit.html(drawCustomerInfo());
+        $unit.html(drawCustomerInfo(null));
     } else {
-        $unit.html(drawCompanyInfo());
+        $unit.html(drawCompanyInfo(null));
     }
 
 }
 
-let drawUnitCustomerInfo = function() {
+let drawUnitCustomerInfo = function(type, item) {
     let tag = '';
     tag += '<div class="customerInfoUnit">';
-    tag += drawCustomerInfo();
+
+    if (type === 'CUSTOMER') {
+        tag += drawCustomerInfo(item);
+    } else {
+        tag += drawCompanyInfo(item);
+    }
     tag += '</div>';
     return tag;
 }
@@ -393,10 +445,22 @@ let drawUnitCustomerInfo = function() {
 let addCustomerInfo = function(e) {
     e.preventDefault();
 
-    $('#customerInfoSection').append(drawUnitCustomerInfo());
+    $('#customerInfoSection').append(drawUnitCustomerInfo("CUSTOMER", null));
 }
 
-let drawCustomerInfo = function() {
+let drawCustomerInfo = function(item) {
+
+    if (!checkNullOrEmptyValue(item)) {
+        item = {
+            "type": "",
+            "customerName": "",
+            "gender": "",
+            "birth": "",
+            "phone": "",
+            "etcPhone": "",
+            "etcInfo": "",
+        }
+    }
 
     let tag = '';
     tag +=     '<div class="row display-flex-row margin-bottom-5">';
@@ -413,38 +477,57 @@ let drawCustomerInfo = function() {
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName" value="' +  item.customerName + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-2">';
     tag +=             '<label class="text-label">성별</label>';
     tag +=             '<select class="form-control form-control-sm valid-ignore custom-select" name="gender">';
-    tag +=                 '<option value="MAN">남</option>';
-    tag +=                 '<option value="WOMAN">여</option>';
+    if (item.gender === "MAN") {
+        tag +=                 '<option value="MAN" selected>남</option>';
+    } else {
+        tag +=                 '<option value="MAN">남</option>';
+    }
+    if (item.gender === "WOMAN") {
+        tag +=                 '<option value="WOMAN" selected>여</option>';
+    } else {
+        tag +=                 '<option value="WOMAN">여</option>';
+    }
     tag +=             '</select>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-4">';
     tag +=             '<label class="text-label">생년월일</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth" value="' +  item.birth + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="phone" />';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="phone" value="' +  item.phone + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">기타전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" />';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" value="' +  item.etcPhone + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
-    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" placeholder="비고"/>';
+    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" value="' +  item.etcInfo + '" placeholder="비고"/>';
     tag +=     '</div>';
 
     return tag;
 }
 
-let drawCompanyInfo = function() {
+let drawCompanyInfo = function(item) {
+
+    if (!checkNullOrEmptyValue(item)) {
+        item = {
+            "type": "",
+            "companyName": "",
+            "representName": "",
+            "companyPhone": "",
+            "representPhone": "",
+            "etcInfo": "",
+        }
+    }
 
     let tag = '';
     tag +=     '<div class="row display-flex-row margin-bottom-5 test">';
@@ -461,25 +544,25 @@ let drawCompanyInfo = function() {
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="companyName" />';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="companyName" value="' +  item.companyName + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">대표자명</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" />';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">법인전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" />';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" value="' +  item.companyPhone + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone" value="' +  item.representPhone + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
-    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" placeholder="비고"/>';
+    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" value="' +  item.etcInfo + '" placeholder="비고"/>';
     tag +=     '</div>';
 
     return tag;
