@@ -633,6 +633,44 @@ let addCustomerSave = function(e) {
     });
 }
 
+let addMemo = function(e) {
+
+    if (e.key !== "Enter") {
+        return;
+    }
+
+    if (dto.realEstateId === null) {
+        return;
+    }
+
+    e.preventDefault();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "memo" : $(this).val(),
+    }
+
+    console.log("memo", params);
+
+    $.ajax({
+        url: "/real-estate/memo",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
 
 let searchAddress = function(e) {
     e.preventDefault();
@@ -664,4 +702,5 @@ $(document).ready(onReady)
     .on('click', '.btnConstructSave', constructInfoSave)
     .on('click', '.toggleCustomer', changeCustomerInfo)
     .on('click', '.btnCustomerAdd', addCustomerInfo)
-    .on('click', '.btnCustomerSave', addCustomerSave);
+    .on('click', '.btnCustomerSave', addCustomerSave)
+    .on('keydown', '#memoInput', addMemo);
