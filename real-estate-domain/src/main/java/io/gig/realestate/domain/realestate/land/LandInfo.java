@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.land;
 
+import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class LandInfo {
+public class LandInfo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

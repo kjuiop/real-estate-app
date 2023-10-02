@@ -6,7 +6,9 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
+import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -80,6 +82,14 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<ConstructInfo> constructInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<CustomerInfo> customerInfoList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<MemoInfo> memoInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -98,6 +108,14 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addConstructInfo(ConstructInfo constructInfo) {
         this.constructInfoList.add(constructInfo);
+    }
+
+    public void addCustomerInfo(CustomerInfo customerInfo) {
+        this.customerInfoList.add(customerInfo);
+    }
+
+    public void addMemoInfo(MemoInfo memoInfo) {
+        this.memoInfoList.add(memoInfo);
     }
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
