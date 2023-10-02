@@ -4,6 +4,7 @@ let onReady = function() {
     loadLandInfo();
     loadPriceInfo();
     loadConstructInfo();
+    $('#customerInfoSection').html(drawUnitCustomerInfo());
     onlyNumberKeyEvent({className: "only-number"});
 }
 
@@ -370,7 +371,7 @@ let changeCustomerInfo = function(e) {
         type = $this.attr("type"),
         $unit = $this.parents('.customerInfoUnit');
 
-    $('.toggleCustomer').removeClass('text-blue');
+    $unit.find('.toggleCustomer').removeClass('text-blue');
     $this.addClass('text-blue');
 
     if (type === 'customer') {
@@ -381,10 +382,24 @@ let changeCustomerInfo = function(e) {
 
 }
 
+let drawUnitCustomerInfo = function() {
+    let tag = '';
+    tag += '<div class="customerInfoUnit">';
+    tag += drawCustomerInfo();
+    tag += '</div>';
+    return tag;
+}
+
+let addCustomerInfo = function(e) {
+    e.preventDefault();
+
+    $('#customerInfoSection').append(drawUnitCustomerInfo());
+}
+
 let drawCustomerInfo = function() {
 
     let tag = '';
-    tag +=     '<div class="row display-flex-row margin-bottom-5 test">';
+    tag +=     '<div class="row display-flex-row margin-bottom-5">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<div class="display-flex-row">';
     tag +=                 '<div class="col-md-6 no-left-padding">';
@@ -392,37 +407,38 @@ let drawCustomerInfo = function() {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="customer" />';
     tag +=                         '<span class="toggleCustomer text-blue button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer" type="company">법인</span>' ;
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-2">';
     tag +=             '<label class="text-label">성별</label>';
-    tag +=             '<select class="form-control form-control-sm valid-ignore custom-select">';
-    tag +=                 '<option>남</option>';
-    tag +=                 '<option>여</option>';
+    tag +=             '<select class="form-control form-control-sm valid-ignore custom-select" name="gender">';
+    tag +=                 '<option value="man">남</option>';
+    tag +=                 '<option value="woman">여</option>';
     tag +=             '</select>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-4">';
     tag +=             '<label class="text-label">생년월일</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="phone" />';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">기타전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" />';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
-    tag +=         '<input type="text" class="form-control form-control-sm" placeholder="비고"/>';
+    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" placeholder="비고"/>';
     tag +=     '</div>';
 
     return tag;
@@ -439,33 +455,69 @@ let drawCompanyInfo = function() {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="company" />';
     tag +=                         '<span class="toggleCustomer button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer text-blue" type="company">법인</span>' ;
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="companyName" />';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">대표자명</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" />';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">법인전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" />';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
-    tag +=         '<input type="text" class="form-control form-control-sm" placeholder="비고"/>';
+    tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" placeholder="비고"/>';
     tag +=     '</div>';
 
     return tag;
+}
+
+let addCustomerSave = function(e) {
+    e.preventDefault();
+
+    let params = [];
+    let $frm = $('form[name="frmCustomerRegister"]');
+    $frm.find('.customerInfoUnit').each(function (idx, item) {
+        let type = $(this).find('input[name="type"]').val();
+        let param;
+        if (type === 'customer') {
+            param = {
+                "type" : type,
+                "customerName" : $(item).find('input[name="customerName"]').val(),
+                "gender" : $(item).find('select[name="gender"]').val(),
+                "birth" : $(item).find('input[name="birth"]').val(),
+                "phone" : $(item).find('input[name="phone"]').val(),
+                "etcPhone" : $(item).find('input[name="etcPhone"]').val(),
+                "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
+            }
+        } else {
+            param = {
+                "type" : type,
+                "companyName" : $(item).find('input[name="companyName"]').val(),
+                "representName" : $(item).find('select[name="representName"]').val(),
+                "companyPhone" : $(item).find('input[name="companyPhone"]').val(),
+                "representPhone" : $(item).find('input[name="representPhone"]').val(),
+                "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
+            }
+        }
+
+        params.push(param);
+    });
+
+    console.log("params", params);
 }
 
 
@@ -497,4 +549,6 @@ $(document).ready(onReady)
     .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnPriceSave', priceInfoSave)
     .on('click', '.btnConstructSave', constructInfoSave)
-    .on('click', '.toggleCustomer', changeCustomerInfo);
+    .on('click', '.toggleCustomer', changeCustomerInfo)
+    .on('click', '.btnCustomerAdd', addCustomerInfo)
+    .on('click', '.btnCustomerSave', addCustomerSave);

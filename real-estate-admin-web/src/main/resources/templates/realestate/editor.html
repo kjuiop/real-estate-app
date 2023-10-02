@@ -498,7 +498,7 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title margin-right-4">고객정보</h3>
-                            <button type="button" class="btn btn-xs btn-default margin-right-5 margin-left-5"> 추가</button>
+                            <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span>1</span>명</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-sm btn-primary btnCustomerSave"> 저장</button>
@@ -506,49 +506,9 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">
-                                <div id="customerInfoSection">
-                                    <div class="customerInfoUnit">
-                                        <div class="row display-flex-row margin-bottom-5">
-                                            <div class="col-md-6">
-                                                <div class="display-flex-row">
-                                                    <div class="col-md-6 no-left-padding">
-                                                        <label class="text-label">고객명</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="text-label pull-right">
-                                                            <span class="toggleCustomer text-blue button-pointer" type="customer">개인</span> | <span class="toggleCustomer button-pointer" type="company">법인</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <input type="text" class="form-control form-control-sm input-height-36" />
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="text-label">성별</label>
-                                                <select class="form-control form-control-sm valid-ignore custom-select">
-                                                    <option>남</option>
-                                                    <option>여</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label class="text-label">생년월일</label>
-                                                <input type="text" class="form-control form-control-sm input-height-36" />
-                                            </div>
-                                        </div>
-                                        <div class="row display-flex-row">
-                                            <div class="col-md-6">
-                                                <label class="text-label">휴대전화</label>
-                                                <input type="text" class="form-control form-control-sm" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="text-label">기타전화</label>
-                                                <input type="text" class="form-control form-control-sm" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">
-                                            <input type="text" class="form-control form-control-sm" placeholder="비고" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <form name="frmCustomerRegister">
+                                    <div id="customerInfoSection"></div>
+                                </form>
                                 <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
                                     <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
                                     <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
