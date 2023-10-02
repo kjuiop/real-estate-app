@@ -498,7 +498,7 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title margin-right-4">고객정보</h3>
-                            <button type="button" class="btn btn-xs btn-default margin-right-5 margin-left-5"> 추가</button>
+                            <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span>1</span>명</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-sm btn-primary btnCustomerSave"> 저장</button>
@@ -506,170 +506,24 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">
-                                <div class="row display-flex-row margin-bottom-5">
-                                    <div class="col-md-6">
-                                        <label class="text-label">고객명</label>
-                                        <input type="text" class="form-control form-control-sm input-height-36" />
+                                <form name="frmCustomerRegister">
+                                    <div id="customerInfoSection"></div>
+                                </form>
+                                <div th:if="${isModify}">
+                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
+                                        <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
+                                        <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
+                                        <button type="button" class="btn btn-sm btn-warning" style="margin-right: 5px;"> 삭제항목 보이기</button>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label class="text-label">성별</label>보
-                                        <select class="form-control form-control-sm valid-ignore custom-select">
-                                            <option>남</option>
-                                            <option>여</option>
-                                        </select>
+                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
+                                        <input type="text" id="memoInput" class="form-control form-control-sm" placeholder="내용을 입력하세요." />
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="text-label">생년월일</label>
-                                        <input type="text" class="form-control form-control-sm input-height-36" />
-                                    </div>
-                                </div>
-                                <div class="row display-flex-row">
-                                    <div class="col-md-6">
-                                        <label class="text-label">휴대전화</label>
-                                        <input type="text" class="form-control form-control-sm" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="text-label">기타전화</label>
-                                        <input type="text" class="form-control form-control-sm" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">
-                                    <input type="text" class="form-control form-control-sm" placeholder="비고" />
-                                </div>
-                                <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
-                                    <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
-                                    <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
-                                    <button type="button" class="btn btn-sm btn-warning" style="margin-right: 5px;"> 삭제항목 보이기</button>
-                                </div>
-                                <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
-                                    <input type="text" class="form-control form-control-sm" placeholder="내용을 입력하세요." />
-                                </div>
-                                <div class="col-md-12 display-flex-column margin-top-5">
-                                    <div class="row horizontal-scroll">
-                                        <table class="table table-sm customer-info">
-                                            <tbody>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">책임명도 가능하고 용도변경은 매수자 비용부담하에 가능하다.</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">평단가를 6천에 맞춰달라</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">담당자: 김정인 -> 김선엽으로 변경</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">입금자 : 370,000만원 -> 0만원으로 변경</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">매매가 : 375,000만원 -> 400,000만원으로 변경</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">위탁관리</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">매물 자동 이관 담당자 : 김정인 -> 김선엽으로 변경</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">금액을 높이라고 고민중임</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">변동없음</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">변동없음</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">37억이 마지노선</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">금액을 높이라고 고민중임</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">변동없음</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">변동없음</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:10%">
-                                                    <input type="checkbox" class="checkElement">
-                                                </td>
-                                                <td style="width:20%">22-06-07 10:04</td>
-                                                <td style="width:20%">김선엽</td>
-                                                <td style="width:50%">37억이 마지노선</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="col-md-12 display-flex-column margin-top-5">
+                                        <div class="row horizontal-scroll">
+                                            <table class="table table-sm customer-info">
+                                                <tbody class="memoInfo"></tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

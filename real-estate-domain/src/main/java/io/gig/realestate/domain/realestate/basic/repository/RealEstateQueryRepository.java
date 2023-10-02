@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
+import static io.gig.realestate.domain.realestate.customer.QCustomerInfo.customerInfo;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
@@ -62,31 +63,7 @@ public class RealEstateQueryRepository {
 
         RealEstateDetailDto realEstateDetailDto = queryFactory
                 .select(Projections.constructor(RealEstateDetailDto.class,
-                        realEstate,
-                        ExpressionUtils.as(
-                                JPAExpressions.select(landInfo.id)
-                                        .from(landInfo)
-                                        .where(landInfo.realEstate.id.eq(realEstateId))
-                                        .limit(1)
-                                        .orderBy(landInfo.id.asc())
-                                , "landInfoId"
-                        ),
-                        ExpressionUtils.as(
-                                JPAExpressions.select(priceInfo.id)
-                                        .from(priceInfo)
-                                        .where(priceInfo.realEstate.id.eq(realEstateId))
-                                        .limit(1)
-                                        .orderBy(priceInfo.id.asc())
-                                , "priceInfoId"
-                        ),
-                        ExpressionUtils.as(
-                                JPAExpressions.select(constructInfo.id)
-                                        .from(constructInfo)
-                                        .where(constructInfo.realEstate.id.eq(realEstateId))
-                                        .limit(1)
-                                        .orderBy(constructInfo.id.asc())
-                                , "constructInfoId"
-                        )
+                        realEstate
                 ))
                 .from(realEstate)
                 .where(defaultCondition())
