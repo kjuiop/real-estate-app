@@ -5,6 +5,7 @@ let onReady = function() {
     loadPriceInfo();
     loadConstructInfo();
     loadCustomerInfo();
+    loadMemoInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
 }
@@ -201,17 +202,36 @@ let loadCustomerInfo = function() {
                 tag += drawUnitCustomerInfo(item.type, item);
             });
             $('#customerInfoSection').html(tag);
-            // let priceList = result.data,
-            //     priceInfo = priceList[0];
-            // let $frm = $('form[name="frmCustomerRegister"]');
-            // $frm.find('.salePrice').val(priceInfo.salePrice);
-            // $frm.find('.depositPrice').val(priceInfo.depositPrice);
-            // $frm.find('.revenueRate').val(priceInfo.revenueRate);
-            // $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
-            // $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
-            // $frm.find('.rentMonth').val(priceInfo.rentMonth);
-            // $frm.find('.management').val(priceInfo.management);
-            // $frm.find('.managementExpense').val(priceInfo.managementExpense);
+
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadMemoInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/memo/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("memo result", result);
+            let memoInfoList = result.data;
+            let tag = '';
+            if (memoInfoList.length === 0) {
+                tag = drawEmptyMemoInfo();
+            } else {
+                tag = drawMemoInfoList(memoInfoList);
+            }
+            $('.memoInfo').html(tag);
+            initICheck();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -410,6 +430,8 @@ let constructInfoSave = function(e) {
         }
     });
 }
+
+
 
 let changeCustomerInfo = function(e) {
     e.preventDefault();
@@ -670,6 +692,31 @@ let addMemo = function(e) {
         }
     });
 
+}
+
+let drawEmptyMemoInfo = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag +=    '<td class="text-center" colSpan="4">등록된 메모가 없습니다.</td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let drawMemoInfoList = function(memoInfoList) {
+    let tag = '';
+
+    $.each(memoInfoList, function(idx, item) {
+        tag += '<tr>';
+        tag +=  '<td style="width:10%">';
+        tag +=      '<input type="checkbox" class="checkElement" name="memoId" value="' + item.memoId +'">';
+        tag +=  '</td>';
+        tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
+        tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
+        tag +=  '<td style="width:50%">' + item.memo + '</td>';
+        tag += '</tr>';
+    });
+
+    return tag;
 }
 
 let searchAddress = function(e) {
