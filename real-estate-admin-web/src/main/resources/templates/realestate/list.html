@@ -166,7 +166,8 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>진행구분</th>
+                                        <th>사진</th>
+                                        <th>진행단계</th>
                                         <th>건물명</th>
                                         <th>용도</th>
                                         <th>담당자</th>
@@ -181,6 +182,7 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
                                             </label>
                                         </td>
+                                        <td></td>
                                         <td th:text="${'-'}"></td>
                                         <td>
                                             <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName != null ? item.buildingName : '작성중'}"></a>

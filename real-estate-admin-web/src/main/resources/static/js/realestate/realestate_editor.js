@@ -740,6 +740,11 @@ let addCommasToNumber = function(number) {
     return numberStr;
 }
 
+let uploadImage = function(e) {
+    e.preventDefault();
+
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
@@ -750,4 +755,5 @@ $(document).ready(onReady)
     .on('click', '.toggleCustomer', changeCustomerInfo)
     .on('click', '.btnCustomerAdd', addCustomerInfo)
     .on('click', '.btnCustomerSave', addCustomerSave)
-    .on('keydown', '#memoInput', addMemo);
+    .on('keydown', '#memoInput', addMemo)
+    .on('click', '.btnImageUpload', uploadImage);
