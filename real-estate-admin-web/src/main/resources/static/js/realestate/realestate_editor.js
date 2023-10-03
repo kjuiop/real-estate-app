@@ -212,7 +212,7 @@ let loadCustomerInfo = function() {
 
 let loadMemoInfo = function() {
 
-    if (!checkNullOrEmptyValue(dto)) {
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
         return;
     }
 
@@ -743,6 +743,49 @@ let addCommasToNumber = function(number) {
 let uploadImage = function(e) {
     e.preventDefault();
 
+    documentUpload({
+        multiple: false,
+        accept: '.jpg, .png, .gif',
+        sizeCheck: false,
+        usageType: `RealEstate`,
+        fileType: `Image`,
+        callback: function (res) {
+            console.log("res", res);
+            let image = res.data;
+            let $imagePanel = $('.image-section');
+            let tag = imgDraw(image.fullPath, image.originalFilename);
+            $imagePanel.html(tag);
+            $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
+        }
+    });
+}
+
+let imgDraw = function (fullPath, orgFilename) {
+    let serverFileName = "";
+
+    if(fullPath != null && fullPath !== '') {
+        serverFileName = fullPath.split("/");
+        serverFileName = serverFileName[serverFileName.length -1];
+    }
+
+    let tag = '' +
+        '<div class="thumbnailInfo ui-state-default">' +
+        '<div class="col-md-1 no-left-padding right-margin">' +
+        '<div class="image-panel">' +
+        '<button type="button" class="btn btn-danger pull-right remove-image">' +
+        '<i class="fa fa-times" aria-hidden="true"></i>' +
+        '</button>' +
+        '<a href="#"><img src="' + fullPath + '" filename="' + orgFilename + '" class="btnImageUpload"></a>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    return tag;
+};
+
+let removeImage = function() {
+    let $imagePanel = $('.image-section');
+    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
+    $imagePanel.html(tag);
 }
 
 $(document).ready(onReady)
@@ -756,4 +799,5 @@ $(document).ready(onReady)
     .on('click', '.btnCustomerAdd', addCustomerInfo)
     .on('click', '.btnCustomerSave', addCustomerSave)
     .on('keydown', '#memoInput', addMemo)
-    .on('click', '.btnImageUpload', uploadImage);
+    .on('click', '.btnImageUpload', uploadImage)
+    .on('click', '.remove-image', removeImage);

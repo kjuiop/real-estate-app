@@ -193,17 +193,17 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="7">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12" style="padding: 10px; margin-top: 10px;">
+                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
                             <button id="btnRealEstateModal" class="btn btn-sm btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
                         </div>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-12">
                                 <div class="text-center">
                                     <!-- 페이징 -->
                                 </div>

@@ -238,7 +238,9 @@
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; overflow: auto;">
                                             <label class="text-label">대표이미지</label>
-                                            <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload" style="cursor: pointer;"/>
+                                            <div class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 display-flex-column">
                                             <div class="display-flex-row no-right-padding">
@@ -535,6 +537,7 @@
             </div>
         </div>
     </section>
+    <div th:replace="layouts/utilFragments::attachment"></div>
 </div>
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
