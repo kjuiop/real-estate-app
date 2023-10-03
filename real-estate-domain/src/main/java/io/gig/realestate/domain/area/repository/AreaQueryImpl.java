@@ -23,4 +23,9 @@ public class AreaQueryImpl implements AreaReader {
     public List<AreaListDto> getParentAreaList() {
         return queryRepository.getParentAreaList();
     }
+
+    @Override
+    public List<AreaListDto> getAreaListByParentId(Long areaId) {
+        return queryRepository.getAreaListByParentId(areaId);
+    }
 }

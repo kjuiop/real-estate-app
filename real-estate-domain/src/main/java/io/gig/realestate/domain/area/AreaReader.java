@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface AreaReader {
     List<AreaListDto> getParentAreaList();
+
+    List<AreaListDto> getAreaListByParentId(Long areaId);
 }

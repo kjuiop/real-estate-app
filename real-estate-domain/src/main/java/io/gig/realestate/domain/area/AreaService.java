@@ -14,4 +14,6 @@ public interface AreaService {
     void createByExcelData(MultipartFile file) throws IOException;
 
     List<AreaListDto> getParentAreaList();
+
+    List<AreaListDto> getAreaListByParentId(Long areaId);
 }

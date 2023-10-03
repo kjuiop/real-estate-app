@@ -34,6 +34,15 @@ public class AreaQueryRepository {
                 .fetch();
     }
 
+    public List<AreaListDto> getAreaListByParentId(Long areaId) {
+        return this.queryFactory
+                .select(Projections.constructor(AreaListDto.class, area))
+                .from(area)
+                .where(eqParentId(areaId))
+                .orderBy(area.sortOrder.asc())
+                .fetch();
+    }
+
     private BooleanExpression isNullParent() {
         return area.parent.isNull();
     }
@@ -41,4 +50,9 @@ public class AreaQueryRepository {
     private BooleanExpression eqLevel(int level) {
         return area.level.eq(level);
     }
+
+    private BooleanExpression eqParentId(Long areaId) {
+        return areaId != null ? area.parent.id.eq(areaId) : null;
+    }
+
 }

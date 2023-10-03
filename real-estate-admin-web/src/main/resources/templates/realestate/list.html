@@ -24,7 +24,7 @@
                                     <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="sido">
                                         <option>시도 선택</option>
                                         <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
-                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:text="${area.name}"></option>
+                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>
                                         </th:block>
                                     </select>
                                     <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="gungu">
@@ -43,20 +43,6 @@
                             </div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
                                 <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">진행단계</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-6" name="processType">
-                                        <option>전체</option>
-                                        <option>준비</option>
-                                        <option>작업중</option>
-                                        <option>완료</option>
-                                        <option>보류</option>
-                                        <option>매각전</option>
-                                        <option>매각</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
                                     <label class="search-label line-center">팀 선택</label>
                                 </div>
                                 <div class="col-md-3 display-flex-row">
@@ -70,6 +56,22 @@
                                 <div class="col-md-3 display-flex-row">
                                     <select class="form-control form-control-sm custom-select col-md-6" name="admin">
                                         <option>전체</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">진행단계</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-6" name="processType">
+                                        <option>전체</option>
+                                        <option>준비</option>
+                                        <option>작업중</option>
+                                        <option>완료</option>
+                                        <option>보류</option>
+                                        <option>매각전</option>
+                                        <option>매각</option>
                                     </select>
                                 </div>
                             </div>
