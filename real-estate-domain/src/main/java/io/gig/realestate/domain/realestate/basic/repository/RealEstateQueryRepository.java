@@ -1,10 +1,8 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
@@ -22,10 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
-import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
-import static io.gig.realestate.domain.realestate.customer.QCustomerInfo.customerInfo;
-import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
-import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
 /**
  * @author : JAKE

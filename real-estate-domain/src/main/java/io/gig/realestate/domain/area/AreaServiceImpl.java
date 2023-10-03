@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.area;
 
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,14 +10,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -26,7 +24,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
 
+    private final AreaReader areaReader;
     private final AreaStore areaStore;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AreaListDto> getParentAreaList() {
+        return areaReader.getParentAreaList();
+    }
 
     @Override
     @Transactional

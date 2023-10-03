@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.area;
 
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -50,6 +51,11 @@ public class Area extends BaseTimeEntity {
     @Builder.Default
     @Setter(AccessLevel.PRIVATE)
     private int level = 1;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PARENT_ID")

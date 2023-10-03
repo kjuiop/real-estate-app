@@ -21,13 +21,16 @@
                                     <label class="search-label line-center">위치</label>
                                 </div>
                                 <div class="col-md-11 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="sido">
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="sido">
                                         <option>시도 선택</option>
+                                        <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
+                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:text="${area.name}"></option>
+                                        </th:block>
                                     </select>
-                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="gungu">
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="gungu">
                                         <option>구군 선택</option>
                                     </select>
-                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="dong">
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="dong">
                                         <option>동 선택</option>
                                     </select>
                                     <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="landType">

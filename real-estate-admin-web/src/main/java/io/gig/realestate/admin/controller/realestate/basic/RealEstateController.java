@@ -4,6 +4,8 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
@@ -39,13 +41,16 @@ public class RealEstateController {
     private final CategoryService categoryService;
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
-    private final LandService landService;
     private final ConstructService constructService;
+    private final AreaService areaService;
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
+        List<AreaListDto> areaList = areaService.getParentAreaList();
+
+        model.addAttribute("areaList", areaList);
         model.addAttribute("condition", searchDto);
+        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
         return "realestate/list";
     }
 
