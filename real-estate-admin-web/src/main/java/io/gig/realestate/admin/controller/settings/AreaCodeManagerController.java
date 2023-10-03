@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AreaCodeManagerController {
 
+    private final AreaService areaService;
 
     @GetMapping
     public String index() {
@@ -32,7 +35,8 @@ public class AreaCodeManagerController {
 
     @PostMapping("excel/read")
     @ResponseBody
-    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+        areaService.createByExcelData(file);
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
     }
 }
