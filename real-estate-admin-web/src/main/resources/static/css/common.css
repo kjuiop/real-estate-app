@@ -25,7 +25,7 @@
 }
 
 .sub-line {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .hidden {
@@ -193,6 +193,11 @@
     font-size: 14px;
 }
 
+.search-label {
+    font-weight: normal;
+    font-size: 14px;
+}
+
 .center-text {
     text-align: center;
 }
@@ -225,4 +230,12 @@
 
 .button-pointer {
     cursor: pointer;
+}
+
+.height-select {
+    height: 36px;
+}
+
+.line-center {
+    line-height: 2;
 }

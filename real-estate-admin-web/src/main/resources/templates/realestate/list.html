@@ -15,28 +15,111 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 매물관리</h5></div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
-                                    <label>담당자 명</label>
+                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
+                            <div class="col-12 display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-top: 5px; padding-left: 30px;">
+                                    <label class="search-label line-center">위치</label>
                                 </div>
-                                <div class="col-7">
-                                    <input type="text" class="form-control" id="name" name="name" th:value="${condition.name}" placeholder="이름을 입력하세요." />
+                                <div class="col-md-11 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="sido">
+                                        <option>시도 선택</option>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="gungu">
+                                        <option>구군 선택</option>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="dong">
+                                        <option>동 선택</option>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="landType">
+                                        <option value="general">일반</option>
+                                        <option value="mountain">산</option>
+                                    </select>
+                                    <input type="text" class="form-control col-md-1 margin-right-4 height-select" name="bun" placeholder="번" />
+                                    <input type="text" class="form-control col-md-1 height-select" name="ji" placeholder="지" />
                                 </div>
-                                <div class="col-3"></div>
                             </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-left: 30px;">
-                                    <label for="processType_All" class="control-label">상태</label>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">진행단계</label>
                                 </div>
-                                <div class="col-10">
-                                    <label class="margin-right-10" for="processType_All" style="font-weight: normal;"><input type="radio" name="processType" id="processType_All" value="" checked>&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
-                                    <label class="margin-right-10" for="processType_prepare" style="font-weight: normal;"><input type="radio" name="processType" id="processType_prepare" value="NORMAL">&nbsp;&nbsp;&nbsp;준비</label>
-                                    <label class="margin-right-10" for="processType_working" style="font-weight: normal;"><input type="radio" name="processType" id="processType_working" value="PENDING">&nbsp;&nbsp;&nbsp;작업중</label>
-                                    <label class="margin-right-10" for="processType_complete" style="font-weight: normal;"><input type="radio" name="processType" id="processType_complete" value="WITHDRAW">&nbsp;&nbsp;&nbsp;완료</label>
-                                    <label class="margin-right-10" for="processType_pending" style="font-weight: normal;"><input type="radio" name="processType" id="processType_pending" value="WITHDRAW">&nbsp;&nbsp;&nbsp;보류</label>
-                                    <label class="margin-right-10" for="processType_beforeSell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_beforeSell" value="WITHDRAW">&nbsp;&nbsp;&nbsp;매각 전</label>
-                                    <label class="margin-right-10" for="processType_sell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_sell" value="INACTIVE">&nbsp;&nbsp;&nbsp;매각</label> &nbsp;
+                                <div class="col-md-3 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-6" name="processType">
+                                        <option>전체</option>
+                                        <option>준비</option>
+                                        <option>작업중</option>
+                                        <option>완료</option>
+                                        <option>보류</option>
+                                        <option>매각전</option>
+                                        <option>매각</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">팀 선택</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-6" name="team">
+                                        <option>전체</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">관리자 선택</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-6" name="admin">
+                                        <option>전체</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">매매/전세가</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">보증금</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">임대료</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">전용/공급</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">연면적</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
+                                </div>
+                                <div class="col-md-1" style="padding-left: 30px;">
+                                    <label class="search-label line-center">대지면적</label>
+                                </div>
+                                <div class="col-md-3 display-flex-row">
+                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
+                                    ~&nbsp;
+                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
                                 </div>
                             </div>
                             <div class="col-12 display-flex-row line">
