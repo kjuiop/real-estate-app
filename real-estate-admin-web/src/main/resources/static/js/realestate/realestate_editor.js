@@ -337,6 +337,7 @@ let landInfoSave = function(e) {
     params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
     params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
     params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
+    params.realEstateId = dto.realEstateId;
 
     $.ajax({
         url: "/real-estate/land",
@@ -363,17 +364,18 @@ let priceInfoSave = function(e) {
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
-    let $frmLand = $('form[name="frmPriceRegister"]'),
-        params = serializeObject({form:$frmLand[0]}).json();
+    let $frmPrice = $('form[name="frmPriceRegister"]'),
+        params = serializeObject({form:$frmPrice[0]}).json();
 
     params.legalCode = detailParams.legalCode;
     params.landType = detailParams.landType;
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
-
 
     $.ajax({
         url: "/real-estate/price",
@@ -408,6 +410,7 @@ let constructInfoSave = function(e) {
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
 
@@ -633,6 +636,7 @@ let addCustomerSave = function(e) {
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
 
@@ -779,6 +783,7 @@ let imgDraw = function (fullPath, orgFilename) {
         '</div>' +
         '</div>' +
         '</div>';
+
     return tag;
 };
 

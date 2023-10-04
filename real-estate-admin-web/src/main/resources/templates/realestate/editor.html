@@ -239,7 +239,12 @@
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; overflow: auto;">
                                             <label class="text-label">대표이미지</label>
                                             <div class="image-section">
-                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                                <th:block th:if="${dto.imgUrl}">
+                                                    <img th:src="${dto.imgUrl}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                                </th:block>
+                                                <th:block th:unless="${dto.imgUrl}">
+                                                    <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                                </th:block>
                                             </div>
                                         </div>
                                         <div class="col-md-6 display-flex-column">

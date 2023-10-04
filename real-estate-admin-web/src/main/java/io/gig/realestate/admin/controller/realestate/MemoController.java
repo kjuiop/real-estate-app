@@ -1,4 +1,4 @@
-package io.gig.realestate.admin.controller.realestate.memo;
+package io.gig.realestate.admin.controller.realestate;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;

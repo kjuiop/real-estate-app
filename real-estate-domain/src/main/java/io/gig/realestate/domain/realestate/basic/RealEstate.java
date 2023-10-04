@@ -48,6 +48,8 @@ public class RealEstate extends BaseTimeEntity {
 
     private String addressDetail;
 
+    private String imgUrl;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -144,5 +146,20 @@ public class RealEstate extends BaseTimeEntity {
                 .bun(bun)
                 .ji(ji)
                 .build();
+    }
+
+    public static RealEstate initialInfoWithImg(String legalCode, String address, String landType, String bun, String ji, String imgUrl) {
+        return RealEstate.builder()
+                .legalCode(legalCode)
+                .address(address)
+                .landType(landType)
+                .bun(bun)
+                .ji(ji)
+                .imgUrl(imgUrl)
+                .build();
+    }
+
+    public void updateImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class RealEstateCreateForm {
 
+    private Long realEstateId;
+
     private String managerUsername;
 
     private YnType ownYn;

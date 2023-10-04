@@ -42,6 +42,8 @@ public class RealEstateDto {
 
     private String ji;
 
+    private String imgUrl;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -60,6 +62,7 @@ public class RealEstateDto {
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();
         this.ownYn = r.getOwnYn();
+        this.imgUrl = r.getImgUrl();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }

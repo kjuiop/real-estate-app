@@ -23,6 +23,8 @@ public class PriceCreateForm {
 
     private String address;
 
+    private String imgUrl;
+
     private int salePrice;
 
     private int depositPrice;
