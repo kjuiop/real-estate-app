@@ -42,6 +42,9 @@ let loadBasicInfo = function() {
 }
 
 let loadImg = function(imgUrl) {
+    if (!checkNullOrEmptyValue(imgUrl)) {
+        return;
+    }
     let $imagePanel = $('.image-section');
     let tag = imgDraw(imgUrl);
     $imagePanel.html(tag);
