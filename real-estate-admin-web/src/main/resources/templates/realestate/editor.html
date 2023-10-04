@@ -236,15 +236,10 @@
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-column line">
                                     <div class="col-md-12 display-flex-row no-left-padding">
-                                        <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; overflow: auto;">
+                                        <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; overflow: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
                                             <div class="image-section">
-                                                <th:block th:if="${dto.imgUrl}">
-                                                    <img th:src="${dto.imgUrl}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
-                                                </th:block>
-                                                <th:block th:unless="${dto.imgUrl}">
-                                                    <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
-                                                </th:block>
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
                                             </div>
                                         </div>
                                         <div class="col-md-6 display-flex-column">

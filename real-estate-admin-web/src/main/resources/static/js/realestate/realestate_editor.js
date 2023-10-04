@@ -17,6 +17,7 @@ let loadBasicInfo = function() {
     }
 
     loadKakaoMap(dto.address);
+    loadImg(dto.imgUrl);
 
     let $frm = $('form[name="frmBasicRegister"]'),
         usageCodeId = $frm.find('.usageCode').val();
@@ -38,6 +39,12 @@ let loadBasicInfo = function() {
         }
     });
 
+}
+
+let loadImg = function(imgUrl) {
+    let $imagePanel = $('.image-section');
+    let tag = imgDraw(imgUrl);
+    $imagePanel.html(tag);
 }
 
 let loadLandInfo = function() {
@@ -757,29 +764,23 @@ let uploadImage = function(e) {
             console.log("res", res);
             let image = res.data;
             let $imagePanel = $('.image-section');
-            let tag = imgDraw(image.fullPath, image.originalFilename);
+            let tag = imgDraw(image.fullPath);
             $imagePanel.html(tag);
             $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
         }
     });
 }
 
-let imgDraw = function (fullPath, orgFilename) {
-    let serverFileName = "";
-
-    if(fullPath != null && fullPath !== '') {
-        serverFileName = fullPath.split("/");
-        serverFileName = serverFileName[serverFileName.length -1];
-    }
+let imgDraw = function (fullPath) {
 
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default">' +
-        '<div class="col-md-1 no-left-padding right-margin">' +
-        '<div class="image-panel">' +
+        '<div class="col-md-12 no-left-padding right-margin">' +
+        '<div class="image-panel" style="width:100%;">' +
         '<button type="button" class="btn btn-danger pull-right remove-image">' +
         '<i class="fa fa-times" aria-hidden="true"></i>' +
         '</button>' +
-        '<a href="#"><img src="' + fullPath + '" filename="' + orgFilename + '" class="btnImageUpload"></a>' +
+        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload"></a>' +
         '</div>' +
         '</div>' +
         '</div>';
