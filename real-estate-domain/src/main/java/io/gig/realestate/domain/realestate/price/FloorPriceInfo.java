@@ -26,7 +26,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String flrNo;
+    private int flrNo;
 
     private String flrNoNm;
 
@@ -51,27 +51,18 @@ public class FloorPriceInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static List<FloorPriceInfo> create(List<PriceCreateForm.FloorDto> createForm, RealEstate realEstate) {
-        if (createForm.size() == 0) {
-            return null;
-        }
-
-        List<FloorPriceInfo> floorPriceInfo = new ArrayList();
-        for (PriceCreateForm.FloorDto dto : createForm) {
-            FloorPriceInfo price = FloorPriceInfo.builder()
-                    .flrNoNm(dto.getFlrNoNm())
-                    .area(dto.getArea())
-                    .mainPurpsCdNm(dto.getMainPurpsCdNm())
-                    .etcPurps(dto.getEtcPurps())
-                    .guaranteePrice(dto.getGuaranteePrice())
-                    .rent(dto.getRent())
-                    .management(dto.getManagement())
-                    .realEstate(realEstate)
-                    .build();
-            floorPriceInfo.add(price);
-        }
-
-        return floorPriceInfo;
+    public static FloorPriceInfo create(PriceCreateForm.FloorDto dto, RealEstate realEstate) {
+        return FloorPriceInfo.builder()
+                .flrNo(dto.getFlrNo())
+                .flrNoNm(dto.getFlrNoNm())
+                .area(dto.getArea())
+                .mainPurpsCdNm(dto.getMainPurpsCdNm())
+                .etcPurps(dto.getEtcPurps())
+                .guaranteePrice(dto.getGuaranteePrice())
+                .rent(dto.getRent())
+                .management(dto.getManagement())
+                .realEstate(realEstate)
+                .build();
     }
 
 }

@@ -3,10 +3,12 @@ package io.gig.realestate.domain.realestate.construct.repository;
 import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.construct.ConstructReader;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
+import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,5 +33,8 @@ public class ConstructQueryImpl implements ConstructReader {
         return findConstruct.get();
     }
 
-
+    @Override
+    public List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId) {
+        return queryRepository.getFloorInfoByRealEstateId(realEstateId);
+    }
 }

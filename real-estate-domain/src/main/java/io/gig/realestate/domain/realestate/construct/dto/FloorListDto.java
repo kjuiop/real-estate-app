@@ -1,0 +1,45 @@
+package io.gig.realestate.domain.realestate.construct.dto;
+
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * @author : JAKE
+ * @date : 2023/10/07
+ */
+@Getter
+@NoArgsConstructor
+public class FloorListDto {
+
+    private int flrNo;
+
+    private String flrNoNm;
+
+    // 면적
+    private Double area;
+
+    // 주용도
+    private String mainPurpsCdNm;
+
+    // 부용도
+    private String etcPurps;
+
+    private int guaranteePrice;
+
+    private int rent;
+
+    private int management;
+
+    public FloorListDto (FloorPriceInfo f) {
+        this.flrNo = f.getFlrNo();
+        this.flrNoNm = f.getFlrNoNm();
+        this.area = f.getArea();
+        this.mainPurpsCdNm = f.getMainPurpsCdNm();
+        this.etcPurps = f.getEtcPurps();
+        this.guaranteePrice = f.getGuaranteePrice();
+        this.rent = f.getRent();
+        this.management = f.getManagement();
+    }
+}

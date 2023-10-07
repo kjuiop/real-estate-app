@@ -2,8 +2,6 @@ package io.gig.realestate.admin.controller.realestate;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
-import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.price.PriceService;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceListDto;

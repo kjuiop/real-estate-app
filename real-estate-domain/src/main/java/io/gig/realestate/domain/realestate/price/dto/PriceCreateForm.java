@@ -52,7 +52,7 @@ public class PriceCreateForm {
     @Builder
     public static class FloorDto {
 
-        private String flrNo;
+        private int flrNo;
 
         private String flrNoNm;
 

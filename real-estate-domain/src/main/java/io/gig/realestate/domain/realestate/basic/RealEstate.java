@@ -125,6 +125,10 @@ public class RealEstate extends BaseTimeEntity {
         this.memoInfoList.add(memoInfo);
     }
 
+    public void addFloorInfo(FloorPriceInfo floorPriceInfo) {
+        this.floorPriceInfo.add(floorPriceInfo);
+    }
+
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
@@ -166,9 +170,5 @@ public class RealEstate extends BaseTimeEntity {
 
     public void updateImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    public void updateFloorPriceInfo(List<FloorPriceInfo> floorPriceInfos) {
-        this.floorPriceInfo = floorPriceInfos;
     }
 }

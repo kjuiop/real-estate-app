@@ -3,10 +3,7 @@ package io.gig.realestate.admin.controller.realestate;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.*;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,13 @@ public class ConstructController {
             @PathVariable(name = "realEstateId") Long realEstateId) {
         ConstructDto constructDto = constructService.getConstructInfoByRealEstateId(realEstateId);
         return new ResponseEntity<>(ApiResponse.OK(constructDto), HttpStatus.OK);
+    }
+
+    @GetMapping("floor/{realEstateId}")
+    public ResponseEntity<ApiResponse> getFloorData(
+            @PathVariable(name = "realEstateId") Long realEstateId) {
+        List<FloorListDto> floorInfo = constructService.getFloorInfoByRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(floorInfo), HttpStatus.OK);
     }
 
     @GetMapping("ajax/public-data")

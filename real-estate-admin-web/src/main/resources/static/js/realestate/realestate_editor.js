@@ -196,11 +196,15 @@ let loadConstructFloorInfo = function() {
     }
 
     let url;
-    url = "/real-estate/construct/floor/ajax/public-data"
-        + "?legalCode=" + dto.legalCode
-        + "&landType=" + dto.landType
-        + "&bun=" + dto.bun
-        + "&ji=" + dto.ji
+    if (dto.existPriceInfo === true) {
+        url = "/real-estate/construct/floor/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/construct/floor/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
 
     $.ajax({
         url: url,
@@ -236,7 +240,7 @@ let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
         tag += '<tr>';
-        tag += '<td class="center-text padding-8 flrNoNm" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '</td>';
         tag += '<td class="center-text padding-8 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
         tag += '<td class="center-text padding-8 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
@@ -448,6 +452,7 @@ let priceInfoSave = function(e) {
     let floorInfo = [];
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
+            "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
             "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
             "area" : $(item).find('.area').attr('data'),
             "mainPurpsCdNm" : $(item).find('.mainPurpsCdNm').attr('data'),
