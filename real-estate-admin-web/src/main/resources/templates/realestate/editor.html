@@ -225,16 +225,16 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form class="form-horizontal" name="frmPriceRegister" method="post">
-                            <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
-                            <div class="card-header">
-                                <h3 class="card-title">금액정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnPriceSave"> 저장</button>
-                                </div>
+                        <div class="card-header">
+                            <h3 class="card-title">금액정보</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-sm btn-primary btnPriceSave"> 저장</button>
                             </div>
-                            <div class="card-body" style="padding: 10px;">
-                                <div class="form-group col-md-12 display-flex-column line">
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <div class="form-group col-md-12 display-flex-column line">
+                                <form class="form-horizontal" name="frmPriceRegister" method="post">
+                                    <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; overflow: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
@@ -285,43 +285,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 display-flex-column" style="margin-top: 20px;">
-                                        <div class="row">
-                                            <label class="control-label">층별 임대차 현황 정보</label>
-                                        </div>
-                                        <div class="row" style="overflow-x: auto;">
-                                            <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
-                                                <thead class="thead-light">
-                                                <tr>
-                                                    <th class="center-text" scope="col">층수</th>
-                                                    <th class="center-text" scope="col">면적</th>
-                                                    <th class="center-text" scope="col">용도</th>
-                                                    <th class="center-text" scope="col">부용도</th>
-                                                    <th class="center-text" scope="col">보증금</th>
-                                                    <th class="center-text" scope="col">임대료</th>
-                                                    <th class="center-text" scope="col">관리비</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="text-center" colspan="7">해당 건물의 층별 정보를 조회중에 있습니다.</td>
-                                                </tr>
-                                                </tbody>
-                                                <tfoot class="hidden">
-                                                <tr>
-                                                    <td colspan="4" style="padding-left: 10px;">총 임대료</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                </form>
+                                <div class="col-md-12 display-flex-column" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <label class="control-label">층별 임대차 현황 정보</label>
+                                    </div>
+                                    <div class="row" style="overflow-x: auto;">
+                                        <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th class="center-text" scope="col">층수</th>
+                                                <th class="center-text" scope="col">면적</th>
+                                                <th class="center-text" scope="col">용도</th>
+                                                <th class="center-text" scope="col">부용도</th>
+                                                <th class="center-text" scope="col">보증금</th>
+                                                <th class="center-text" scope="col">임대료</th>
+                                                <th class="center-text" scope="col">관리비</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="text-center" colspan="7">해당 건물의 층별 정보를 조회중에 있습니다.</td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot class="hidden">
+                                            <tr>
+                                                <td colspan="4" style="padding-left: 10px;">총 임대료</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <!-- /.card-body -->
+                        </div>
                     </div>
                     <!-- /.card -->
                     <div class="card" style="margin-top: 5px;">

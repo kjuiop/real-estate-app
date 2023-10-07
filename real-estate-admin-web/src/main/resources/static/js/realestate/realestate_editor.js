@@ -236,13 +236,13 @@ let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
         tag += '<tr>';
-        tag += '<td class="center-text padding-8 flrNo" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-8 flrNoNm" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '</td>';
         tag += '<td class="center-text padding-8 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
         tag += '<td class="center-text padding-8 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
-        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
-        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
-        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" name="rent" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-8"><input type="number" class="form-control form-control-sm" value="0" name="management" style="min-width: 100px;"/></td>';
         tag += '</tr>';
     })
     return tag;
@@ -446,9 +446,9 @@ let priceInfoSave = function(e) {
     params.realEstateId = dto.realEstateId;
 
     let floorInfo = [];
-    $frmPrice.find('.construct-floor-table tbody tr').each(function(idx, item) {
+    $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
-            "flrNo" : $(item).find('.flrNo').attr('data'),
+            "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
             "area" : $(item).find('.area').attr('data'),
             "mainPurpsCdNm" : $(item).find('.mainPurpsCdNm').attr('data'),
             "etcPurps" : $(item).find('.etcPurps').attr('data'),

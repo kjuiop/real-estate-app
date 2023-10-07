@@ -1,7 +1,11 @@
 package io.gig.realestate.domain.realestate.price.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -40,4 +44,33 @@ public class PriceCreateForm {
     private int management;
 
     private int managementExpense;
+
+    private List<FloorDto> floorInfo = new ArrayList<>();
+
+
+    @Getter
+    @Builder
+    public static class FloorDto {
+
+        private String flrNo;
+
+        private String flrNoNm;
+
+        // 면적
+        private Double area;
+
+        // 주용도
+        private String mainPurpsCdNm;
+
+        // 부용도
+        private String etcPurps;
+
+        private int guaranteePrice;
+
+        private int rent;
+
+        private int management;
+
+    }
+
 }

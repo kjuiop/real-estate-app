@@ -9,6 +9,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -79,6 +80,10 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<PriceInfo> priceInfoList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<FloorPriceInfo> floorPriceInfo = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -161,5 +166,9 @@ public class RealEstate extends BaseTimeEntity {
 
     public void updateImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public void updateFloorPriceInfo(List<FloorPriceInfo> floorPriceInfos) {
+        this.floorPriceInfo = floorPriceInfos;
     }
 }

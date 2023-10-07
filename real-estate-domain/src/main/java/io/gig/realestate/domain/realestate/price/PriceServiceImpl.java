@@ -43,9 +43,11 @@ public class PriceServiceImpl implements PriceService {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
             realEstate.updateImgUrl(createForm.getImgUrl());
         }
-
         PriceInfo priceInfo = PriceInfo.create(createForm, realEstate);
         realEstate.addPriceInfo(priceInfo);
+
+        List<FloorPriceInfo> floorPriceInfos = FloorPriceInfo.create(createForm.getFloorInfo(), realEstate);
+        realEstate.updateFloorPriceInfo(floorPriceInfos);
         return realEstateStore.store(realEstate).getId();
     }
 
