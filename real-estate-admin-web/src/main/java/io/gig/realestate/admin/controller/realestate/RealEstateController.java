@@ -12,6 +12,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
@@ -98,6 +99,14 @@ public class RealEstateController {
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,
                                                  @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoSave(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("basic")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody RealEstateUpdateForm updateForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.basicInfoUpdate(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

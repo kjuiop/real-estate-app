@@ -110,6 +110,9 @@ public class ConstructServiceImpl implements ConstructService {
         JSONObject response = data.getJSONObject("response");
         JSONObject body = response.getJSONObject("body");
         JSONObject items = body.getJSONObject("items");
+
+        // array 인지, item 인지 
+
         JSONObject item = items.getJSONObject("item");
         return ConstructDataApiDto.convertData(item);
     }

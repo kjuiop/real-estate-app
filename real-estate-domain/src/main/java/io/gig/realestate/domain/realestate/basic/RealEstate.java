@@ -5,6 +5,7 @@ import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
@@ -147,11 +148,16 @@ public class RealEstate extends BaseTimeEntity {
                 .build();
     }
 
-    public void update(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator loginUser) {
-        this.buildingName = createForm.getBuildingName();
-        this.etcInfo = createForm.getEtcInfo();
-        this.addressDetail = createForm.getAddressDetail();
-        this.ownYn = createForm.getOwnYn();
+    public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
+//        this.legalCode = updateForm.getLegalCode();
+//        this.landType = updateForm.getLandType();
+//        this.bun = updateForm.getBun();
+//        this.ji = updateForm.getJi();
+        this.buildingName = updateForm.getBuildingName();
+        this.etcInfo = updateForm.getEtcInfo();
+//        this.address = updateForm.getAddress();
+        this.addressDetail = updateForm.getAddressDetail();
+        this.ownYn = updateForm.getOwnYn();
         this.usageType = usageType;
         this.manager = manager;
         this.updatedBy = loginUser;

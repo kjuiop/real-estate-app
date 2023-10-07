@@ -21,7 +21,8 @@
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${!isModify}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${isModify}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">

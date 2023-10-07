@@ -318,7 +318,7 @@ let drawBtnUsageCode = function(categories) {
     let tags = "";
     $.each(categories, function (idx, item) {
         if (dto != null && dto.usageType != null && dto.usageType.id === item.id) {
-            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         } else {
             tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
@@ -348,7 +348,9 @@ let selectUsageCode = function(e) {
 let basicInfoSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.realEstateId != null;
     let $frm = $('form[name="frmBasicRegister"]'),
+    httpMethod = isModify ? 'put' : 'post',
     params = serializeObject({form:$frm[0]}).json();
     params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
 
@@ -371,13 +373,17 @@ let basicInfoSave = function(e) {
 
     $.ajax({
         url: "/real-estate/basic",
-        method: "post",
+        method: httpMethod,
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
+
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });

@@ -8,6 +8,7 @@ import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -50,8 +51,17 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
         } else {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-            realEstate.update(createForm, manager, usageType, loginUser.getLoginUser());
         }
+        return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long basicInfoUpdate(RealEstateUpdateForm updateForm, LoginUser loginUser) {
+        Category usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+        Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
         return realEstateStore.store(realEstate).getId();
     }
 }
