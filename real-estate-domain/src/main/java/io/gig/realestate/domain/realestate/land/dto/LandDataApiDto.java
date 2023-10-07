@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -129,6 +130,9 @@ public class LandDataApiDto {
                 landCode = "2";
             }
 
+            if (!StringUtils.hasText(ji)) {
+                ji = "0";
+            }
             String bunCode = String.format("%04d", Integer.parseInt(bun));
             String jiCode = String.format("%04d", Integer.parseInt(ji));
 

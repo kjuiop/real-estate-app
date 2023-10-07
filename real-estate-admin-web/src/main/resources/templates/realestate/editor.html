@@ -290,7 +290,7 @@
                                             <label class="text-label">층별 임대차 현황 정보</label>
                                         </div>
                                         <div class="row" style="overflow-x: auto;">
-                                            <table class="table table-sm table-bordered" style="white-space: nowrap;">
+                                            <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
                                                 <thead class="thead-light">
                                                 <tr>
                                                     <th scope="col">층수</th>
@@ -303,25 +303,13 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr th:if="${not #lists.isEmpty(floorInfo)}" th:each="floor, status : ${floorInfo}">
-                                                    <td class="center-text">[[${floor.flrNoNm}]]</td>
-                                                    <td>[[${floor.area}]]</td>
-                                                    <td>[[${floor.mainPurpsCdNm}]]</td>
-                                                    <td>[[${floor.etcPurps}]]</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr th:unless="${not #lists.isEmpty(floorInfo)}">
-                                                    <td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>
+                                                <tr>
+                                                    <td class="text-center" colspan="7">해당 건물의 층별 정보를 조회중에 있습니다.</td>
                                                 </tr>
                                                 </tbody>
-                                                <tfoot th:if="${not #lists.isEmpty(floorInfo)}">
+                                                <tfoot class="hidden">
                                                 <tr>
-                                                    <td></td>
-                                                    <td>총 임대료</td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td colspan="4" style="padding-left: 10px;">총 임대료</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>

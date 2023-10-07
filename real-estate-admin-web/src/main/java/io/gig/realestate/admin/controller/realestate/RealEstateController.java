@@ -65,8 +65,6 @@ public class RealEstateController {
             @CurrentUser LoginUser loginUser) throws IOException {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
-
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -75,7 +73,6 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-        model.addAttribute("floorInfo", floorInfo);
 
         return "realestate/editor";
     }

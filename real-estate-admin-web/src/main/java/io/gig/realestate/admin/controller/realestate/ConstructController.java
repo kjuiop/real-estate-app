@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -43,6 +45,17 @@ public class ConstructController {
     ) throws IOException {
         ConstructDataApiDto constructInfo = constructService.getConstructInfo(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(constructInfo), HttpStatus.OK);
+    }
+
+    @GetMapping("floor/ajax/public-data")
+    public ResponseEntity<ApiResponse> getFloorPublicData(
+            @RequestParam(name = "legalCode") String legalCode,
+            @RequestParam(name = "landType") String landType,
+            @RequestParam(name = "bun") String bun,
+            @RequestParam(name = "ji") String ji
+    ) throws IOException {
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
+        return new ResponseEntity<>(ApiResponse.OK(floorInfo), HttpStatus.OK);
     }
 
     @PostMapping

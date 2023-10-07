@@ -4,6 +4,7 @@ let onReady = function() {
     loadLandInfo();
     loadPriceInfo();
     loadConstructInfo();
+    loadConstructFloorInfo();
     loadCustomerInfo();
     loadMemoInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
@@ -186,6 +187,65 @@ let loadConstructInfo = function() {
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let loadConstructFloorInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+    url = "/real-estate/construct/floor/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("floor result", result);
+            let floorData = result.data;
+            let $tbody = $('.construct-floor-table tbody'),
+                $tfoot = $('.construct-floor-table tfoot');
+            if (floorData.length === 0) {
+                let tag = '';
+                tag += '<tr>';
+                tag += '<td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>';
+                tag += '</tr>';
+                $tbody.html(tag);
+                $tfoot.addClass('hidden');
+                return;
+            }
+            
+            let tag = drawConstructFloorInfo(floorData);
+            $tbody.html(tag);
+            $tfoot.removeClass('hidden');
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawConstructFloorInfo = function(data) {
+    let tag = '';
+    $.each(data, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="center-text padding-10">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-10">' + item.area + '</td>';
+        tag += '<td class="center-text padding-10">' + item.mainPurpsCdNm + '</td>';
+        tag += '<td class="center-text padding-10">' + item.etcPurps + '</td>';
+        tag += '<td class="center-text padding-10"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-10"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-10"><input type="number" class="form-control form-control-sm" value="0" style="min-width: 100px;"/></td>';
+        tag += '</tr>';
+    })
+    return tag;
 }
 
 let loadCustomerInfo = function() {

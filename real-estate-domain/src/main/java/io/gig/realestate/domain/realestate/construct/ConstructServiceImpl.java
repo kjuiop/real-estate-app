@@ -111,7 +111,6 @@ public class ConstructServiceImpl implements ConstructService {
         return ConstructDataApiDto.convertData(item);
     }
 
-
     @Override
     @Transactional
     public List<ConstructFloorDataApiDto> getConstructFloorInfo(String bCode, String landType, String bun, String ji) throws IOException {
