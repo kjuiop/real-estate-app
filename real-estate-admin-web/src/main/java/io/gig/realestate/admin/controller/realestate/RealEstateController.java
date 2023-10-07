@@ -1,9 +1,11 @@
-package io.gig.realestate.admin.controller.realestate.basic;
+package io.gig.realestate.admin.controller.realestate;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
@@ -39,13 +41,16 @@ public class RealEstateController {
     private final CategoryService categoryService;
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
-    private final LandService landService;
     private final ConstructService constructService;
+    private final AreaService areaService;
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
+        List<AreaListDto> areaList = areaService.getParentAreaList();
+
+        model.addAttribute("areaList", areaList);
         model.addAttribute("condition", searchDto);
+        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
         return "realestate/list";
     }
 
@@ -79,10 +84,7 @@ public class RealEstateController {
     public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) throws IOException {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
-        List<LandDataApiDto> landList = landService.getLandListInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
-        ConstructDataApiDto constructInfo = constructService.getConstructInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
         List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
-
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -91,11 +93,7 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-
-        model.addAttribute("landInfo", landList.get(0));
-        model.addAttribute("constructInfo", constructInfo);
         model.addAttribute("floorInfo", floorInfo);
-        model.addAttribute("landList", landList);
 
         return "realestate/editor";
     }

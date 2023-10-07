@@ -50,7 +50,6 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     public RealEstateDetailDto(RealEstate r) {
         super(r);
-
         if (r.getLandInfoList().size() > 0) {
             this.existLandInfo = true;
         }

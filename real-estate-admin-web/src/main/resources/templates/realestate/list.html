@@ -15,34 +15,197 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 매물관리</h5></div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
-                                    <label>담당자 명</label>
-                                </div>
-                                <div class="col-7">
-                                    <input type="text" class="form-control" id="name" name="name" th:value="${condition.name}" placeholder="이름을 입력하세요." />
-                                </div>
-                                <div class="col-3"></div>
+                            <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <table class="table projects search-table spacing-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 33%;" colspan="3"></th>
+                                            <th style="width: 66%;" colspan="6"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="9" style="width: 100%;">
+                                                <label class="control-label" style="font-weight: normal;">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                    물건 정보 검색
+                                                </label>
+                                                <div class="text-right">
+                                                    <button class="btn btn-default text-right">전체</button>
+                                                    <button class="btn btn-default text-right">준비</button>
+                                                    <button class="btn btn-default text-right">완료</button>
+                                                    <button class="btn btn-default text-right">보류</button>
+                                                    <button class="btn btn-default text-right">매각</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" style="position: relative;">
+                                                <div class="input-label">
+                                                    <label for="name" class="top-label">
+                                                        <div class="search-text">물건명</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="name"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="name" class="top-label">
+                                                        <div class="search-text">담당자</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="manager"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="team"  class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="display-flex-row">
+                                                    <div class="input-label" style="display: inline-block">
+                                                        <label for="charge" class="top-label">
+                                                            <div class="search-text">금액</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="charge" class="form-control" style="border: 1px solid #555;">
+                                                    <div>~</div>
+                                                    <input type="text" id="won" class="form-control" style="border: 1px solid #555;">
+                                                    <div>억원</div>
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">전체면적</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">용도지역</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" style="position: relative;">
+                                                <div class="input-label">
+                                                    <label for="realEstateId" class="top-label">
+                                                        <div class="search-text">물건번호</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="realEstateId"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="owner" class="top-label">
+                                                        <div class="search-text">소유자</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="owner"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="phone" class="top-label">
+                                                        <div class="search-text">연락처</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="phone"  class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-left: 30px;">
-                                    <label for="processType_All" class="control-label">상태</label>
+
+                            <div class="col-md-11 display-flex-row sub-line">
+                                <div class="col-md-1" style="padding-top: 5px; padding-left: 30px;">
+                                    <label class="search-label line-center">위치</label>
                                 </div>
-                                <div class="col-10">
-                                    <label class="margin-right-10" for="processType_All" style="font-weight: normal;"><input type="radio" name="processType" id="processType_All" value="" checked>&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
-                                    <label class="margin-right-10" for="processType_prepare" style="font-weight: normal;"><input type="radio" name="processType" id="processType_prepare" value="NORMAL">&nbsp;&nbsp;&nbsp;준비</label>
-                                    <label class="margin-right-10" for="processType_working" style="font-weight: normal;"><input type="radio" name="processType" id="processType_working" value="PENDING">&nbsp;&nbsp;&nbsp;작업중</label>
-                                    <label class="margin-right-10" for="processType_complete" style="font-weight: normal;"><input type="radio" name="processType" id="processType_complete" value="WITHDRAW">&nbsp;&nbsp;&nbsp;완료</label>
-                                    <label class="margin-right-10" for="processType_pending" style="font-weight: normal;"><input type="radio" name="processType" id="processType_pending" value="WITHDRAW">&nbsp;&nbsp;&nbsp;보류</label>
-                                    <label class="margin-right-10" for="processType_beforeSell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_beforeSell" value="WITHDRAW">&nbsp;&nbsp;&nbsp;매각 전</label>
-                                    <label class="margin-right-10" for="processType_sell" style="font-weight: normal;"><input type="radio" name="processType" id="processType_sell" value="INACTIVE">&nbsp;&nbsp;&nbsp;매각</label> &nbsp;
+                                <div class="col-md-11 display-flex-row">
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="sido">
+                                        <option>시도 선택</option>
+                                        <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
+                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>
+                                        </th:block>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="gungu">
+                                        <option>구군 선택</option>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="dong">
+                                        <option>동 선택</option>
+                                    </select>
+                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="landType">
+                                        <option value="general">일반</option>
+                                        <option value="mountain">산</option>
+                                    </select>
+                                    <input type="text" class="form-control col-md-1 margin-right-4 height-select" name="bun" placeholder="번" />
+                                    <input type="text" class="form-control col-md-1 height-select" name="ji" placeholder="지" />
                                 </div>
                             </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-8"></div>
-                                <div class="col-4">
-                                    <div class="col-12">
+
+                            <div class="col-md-12 display-flex-row line margin-top-8">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
                                             초기화
                                         </button>
@@ -78,7 +241,8 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>진행구분</th>
+                                        <th>사진</th>
+                                        <th>진행단계</th>
                                         <th>건물명</th>
                                         <th>용도</th>
                                         <th>담당자</th>
@@ -93,6 +257,7 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
                                             </label>
                                         </td>
+                                        <td></td>
                                         <td th:text="${'-'}"></td>
                                         <td>
                                             <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName != null ? item.buildingName : '작성중'}"></a>
@@ -103,17 +268,17 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="7">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12" style="padding: 10px; margin-top: 10px;">
+                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
                             <button id="btnRealEstateModal" class="btn btn-sm btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
                         </div>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-12">
                                 <div class="text-center">
                                     <!-- 페이징 -->
                                 </div>

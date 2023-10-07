@@ -117,6 +117,55 @@ let loadKakaoMap = function(searchAddress) {
 
 }
 
+let getChildAreaData = function() {
+    let areaId = $(this).val(),
+        name = $(this).attr('name');
+
+    if (!checkNullOrEmptyValue(areaId)) {
+        oneBtnModal("시/도, 군/구를 선택해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/settings/area-manager/" + areaId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("area result : ", result);
+            let areaList = result.data;
+            let $frm = $('form[name="frmSearch"]'),
+            $gungu = $frm.find('select[name="gungu"]'),
+            $dong = $frm.find('select[name="dong"');
+            let tag;
+            if (name === 'sido') {
+                tag = drawAreaOption("gungu", areaList);
+                $gungu.html(tag);
+            } else if (name === 'gungu') {
+                tag = drawAreaOption("dong", areaList);
+                $dong.html(tag);
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
+let drawAreaOption = function(depth, areaList) {
+    let tag = '';
+    if (depth === 'gungu') {
+        tag += '<option>구군 선택</option>';
+    } else if (depth === 'dong') {
+        tag += '<option>동 선택</option>';
+    }
+    $.each(areaList, function(idx, item) {
+        tag += '<option id="' + item.areaId + '" value="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+    });
+    return tag;
+}
+
 
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
@@ -126,4 +175,5 @@ $(document).ready(onReady)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
-    .on('click', '#btnRealEstateModal', realEstateModal);
+    .on('click', '#btnRealEstateModal', realEstateModal)
+    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);

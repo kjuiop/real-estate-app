@@ -44,7 +44,13 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
         Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
         Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
-        RealEstate newRealEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
-        return realEstateStore.store(newRealEstate).getId();
+
+        RealEstate realEstate;
+        if (createForm.getRealEstateId() == null) {
+            realEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
+        } else {
+            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+        }
+        return realEstateStore.store(realEstate).getId();
     }
 }

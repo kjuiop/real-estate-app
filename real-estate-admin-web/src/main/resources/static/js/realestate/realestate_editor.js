@@ -17,6 +17,7 @@ let loadBasicInfo = function() {
     }
 
     loadKakaoMap(dto.address);
+    loadImg(dto.imgUrl);
 
     let $frm = $('form[name="frmBasicRegister"]'),
         usageCodeId = $frm.find('.usageCode').val();
@@ -38,6 +39,15 @@ let loadBasicInfo = function() {
         }
     });
 
+}
+
+let loadImg = function(imgUrl) {
+    if (!checkNullOrEmptyValue(imgUrl)) {
+        return;
+    }
+    let $imagePanel = $('.image-section');
+    let tag = imgDraw(imgUrl);
+    $imagePanel.html(tag);
 }
 
 let loadLandInfo = function() {
@@ -212,7 +222,7 @@ let loadCustomerInfo = function() {
 
 let loadMemoInfo = function() {
 
-    if (!checkNullOrEmptyValue(dto)) {
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
         return;
     }
 
@@ -337,6 +347,7 @@ let landInfoSave = function(e) {
     params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
     params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
     params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
+    params.realEstateId = dto.realEstateId;
 
     $.ajax({
         url: "/real-estate/land",
@@ -363,17 +374,18 @@ let priceInfoSave = function(e) {
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
-    let $frmLand = $('form[name="frmPriceRegister"]'),
-        params = serializeObject({form:$frmLand[0]}).json();
+    let $frmPrice = $('form[name="frmPriceRegister"]'),
+        params = serializeObject({form:$frmPrice[0]}).json();
 
     params.legalCode = detailParams.legalCode;
     params.landType = detailParams.landType;
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
-
 
     $.ajax({
         url: "/real-estate/price",
@@ -408,6 +420,7 @@ let constructInfoSave = function(e) {
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
 
@@ -633,6 +646,7 @@ let addCustomerSave = function(e) {
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
+    params.realEstateId = dto.realEstateId;
 
     console.log("params", params);
 
@@ -740,6 +754,49 @@ let addCommasToNumber = function(number) {
     return numberStr;
 }
 
+let uploadImage = function(e) {
+    e.preventDefault();
+
+    documentUpload({
+        multiple: false,
+        accept: '.jpg, .png, .gif',
+        sizeCheck: false,
+        usageType: `RealEstate`,
+        fileType: `Image`,
+        callback: function (res) {
+            console.log("res", res);
+            let image = res.data;
+            let $imagePanel = $('.image-section');
+            let tag = imgDraw(image.fullPath);
+            $imagePanel.html(tag);
+            $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
+        }
+    });
+}
+
+let imgDraw = function (fullPath) {
+
+    let tag = '' +
+        '<div class="thumbnailInfo ui-state-default">' +
+        '<div class="col-md-12 no-left-padding right-margin">' +
+        '<div class="image-panel" style="width:100%;">' +
+        '<button type="button" class="btn btn-danger pull-right remove-image">' +
+        '<i class="fa fa-times" aria-hidden="true"></i>' +
+        '</button>' +
+        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload"></a>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+    return tag;
+};
+
+let removeImage = function() {
+    let $imagePanel = $('.image-section');
+    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
+    $imagePanel.html(tag);
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
@@ -750,4 +807,6 @@ $(document).ready(onReady)
     .on('click', '.toggleCustomer', changeCustomerInfo)
     .on('click', '.btnCustomerAdd', addCustomerInfo)
     .on('click', '.btnCustomerSave', addCustomerSave)
-    .on('keydown', '#memoInput', addMemo);
+    .on('keydown', '#memoInput', addMemo)
+    .on('click', '.btnImageUpload', uploadImage)
+    .on('click', '.remove-image', removeImage);

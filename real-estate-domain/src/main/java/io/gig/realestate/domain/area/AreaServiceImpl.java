@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.area;
 
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,14 +10,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -26,7 +24,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
 
+    private final AreaReader areaReader;
     private final AreaStore areaStore;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AreaListDto> getParentAreaList() {
+        return areaReader.getParentAreaList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AreaListDto> getAreaListByParentId(Long areaId) {
+        return areaReader.getAreaListByParentId(areaId);
+    }
 
     @Override
     @Transactional
@@ -99,13 +110,19 @@ public class AreaServiceImpl implements AreaService {
             // 시도
             Area area = Area.create(legalAddressCode, name, sortOder, legalAddressCode, sido, gungu, dong, ri, createdAt, canceledAt, level);
             if (level == 1) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 sidoArea = area;
                 sidoSortOrder++;
             } else if (level == 2) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 gunguArea = area;
                 gunguSortOrder++;
                 area.addParent(sidoArea);
             } else if (level == 3) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 area.addParent(gunguArea);
                 dongSortOrder++;
                 dongArea = area;
@@ -117,5 +134,14 @@ public class AreaServiceImpl implements AreaService {
         }
 
         areaStore.storeAll(areaList);
+    }
+
+    public boolean isSkipData(String input) {
+        String substring = input.substring(2, 5);
+        if (substring.equals("105")) {
+            return false;
+        }
+
+        return true;
     }
 }

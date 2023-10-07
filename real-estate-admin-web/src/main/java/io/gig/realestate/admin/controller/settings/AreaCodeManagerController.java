@@ -2,10 +2,12 @@ package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryCreateForm;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.category.dto.CategoryUpdateForm;
+import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +40,12 @@ public class AreaCodeManagerController {
     public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
         areaService.createByExcelData(file);
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
+    }
+
+    @GetMapping("{areaId}")
+    public ResponseEntity<ApiResponse> getAreaListByParentId(
+            @PathVariable(name = "areaId") Long areaId) {
+        List<AreaListDto> areaList = areaService.getAreaListByParentId(areaId);
+        return new ResponseEntity<>(ApiResponse.OK(areaList), HttpStatus.OK);
     }
 }
