@@ -62,7 +62,7 @@ public class RealEstateController {
             @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
             Model model,
-            @CurrentUser LoginUser loginUser) throws IOException {
+            @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
@@ -78,10 +78,9 @@ public class RealEstateController {
     }
 
     @GetMapping("{realEstateId}/edit")
-    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) throws IOException {
+    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -90,7 +89,6 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-        model.addAttribute("floorInfo", floorInfo);
 
         return "realestate/editor";
     }

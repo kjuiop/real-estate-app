@@ -50,6 +50,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
         } else {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+            realEstate.update(createForm, manager, usageType, loginUser.getLoginUser());
         }
         return realEstateStore.store(realEstate).getId();
     }

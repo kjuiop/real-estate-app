@@ -147,6 +147,16 @@ public class RealEstate extends BaseTimeEntity {
                 .build();
     }
 
+    public void update(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator loginUser) {
+        this.buildingName = createForm.getBuildingName();
+        this.etcInfo = createForm.getEtcInfo();
+        this.addressDetail = createForm.getAddressDetail();
+        this.ownYn = createForm.getOwnYn();
+        this.usageType = usageType;
+        this.manager = manager;
+        this.updatedBy = loginUser;
+    }
+
     public static RealEstate initialInfo(String legalCode, String address, String landType, String bun, String ji) {
         return RealEstate.builder()
                 .legalCode(legalCode)
@@ -171,4 +181,6 @@ public class RealEstate extends BaseTimeEntity {
     public void updateImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+
 }
