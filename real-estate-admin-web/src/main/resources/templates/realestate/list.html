@@ -15,7 +15,167 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
+                            <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <table class="table projects search-table spacing-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 33%;" colspan="3"></th>
+                                            <th style="width: 66%;" colspan="6"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="9" style="width: 100%;">
+                                                <label class="control-label" style="font-weight: normal;">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                    물건 정보 검색
+                                                </label>
+                                                <div class="text-right">
+                                                    <button class="btn btn-default text-right">전체</button>
+                                                    <button class="btn btn-default text-right">준비</button>
+                                                    <button class="btn btn-default text-right">완료</button>
+                                                    <button class="btn btn-default text-right">보류</button>
+                                                    <button class="btn btn-default text-right">매각</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" style="position: relative;">
+                                                <div class="input-label">
+                                                    <label for="name" class="top-label">
+                                                        <div class="search-text">물건명</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="name"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="name" class="top-label">
+                                                        <div class="search-text">담당자</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="manager"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="team"  class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="display-flex-row">
+                                                    <div class="input-label" style="display: inline-block">
+                                                        <label for="charge" class="top-label">
+                                                            <div class="search-text">금액</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="charge" class="form-control" style="border: 1px solid #555;">
+                                                    <div>~</div>
+                                                    <input type="text" id="won" class="form-control" style="border: 1px solid #555;">
+                                                    <div>억원</div>
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">전체면적</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">용도지역</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" style="position: relative;">
+                                                <div class="input-label">
+                                                    <label for="realEstateId" class="top-label">
+                                                        <div class="search-text">물건번호</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="realEstateId"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="owner" class="top-label">
+                                                        <div class="search-text">소유자</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="owner"  class="form-control">
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="input-label">
+                                                    <label for="phone" class="top-label">
+                                                        <div class="search-text">연락처</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="phone"  class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">팀</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td colspan="2">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div class="col-md-11 display-flex-row sub-line">
                                 <div class="col-md-1" style="padding-top: 5px; padding-left: 30px;">
                                     <label class="search-label line-center">위치</label>
@@ -41,92 +201,7 @@
                                     <input type="text" class="form-control col-md-1 height-select" name="ji" placeholder="지" />
                                 </div>
                             </div>
-                            <div class="col-md-11 form-group display-flex-row sub-line">
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">팀 선택</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-6" name="team">
-                                        <option>전체</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">관리자 선택</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-6" name="admin">
-                                        <option>전체</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-11 form-group display-flex-row sub-line">
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">진행단계</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-6" name="processType">
-                                        <option>전체</option>
-                                        <option>준비</option>
-                                        <option>작업중</option>
-                                        <option>완료</option>
-                                        <option>보류</option>
-                                        <option>매각전</option>
-                                        <option>매각</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-11 form-group display-flex-row sub-line">
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">매매/전세가</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">보증금</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">임대료</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="만원" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="만원" />
-                                </div>
-                            </div>
-                            <div class="col-md-11 form-group display-flex-row sub-line">
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">전용/공급</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">연면적</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
-                                </div>
-                                <div class="col-md-1" style="padding-left: 30px;">
-                                    <label class="search-label line-center">대지면적</label>
-                                </div>
-                                <div class="col-md-3 display-flex-row">
-                                    <input type="text" class="form-control col-md-6 height-select margin-right-4" placeholder="평" />
-                                    <span class="line-center">~&nbsp;</span>
-                                    <input type="text" class="form-control col-md-6 height-select" placeholder="평" />
-                                </div>
-                            </div>
+
                             <div class="col-md-12 display-flex-row line margin-top-8">
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">

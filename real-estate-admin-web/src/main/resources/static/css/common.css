@@ -219,6 +219,33 @@
     height: 36px;
 }
 
+.input-label {
+    position: relative;
+}
+
+.input-label .top-label {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+}
+
+.input-label .bottom-label {
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+}
+
+.input-label .search-text {
+    font-weight: normal;
+    color: #828a92;
+}
+
+.input-label + input {
+    height: 64px;
+    padding-top: 30px;
+    border: 0px;
+}
+
 .text-alien-center {
     text-align: center;
     justify-content: center;
@@ -238,4 +265,27 @@
 
 .line-center {
     line-height: 2;
+}
+
+.search-table tbody tr:first-child td:first-child {
+    border: 0;
+}
+
+.search-table td {
+    padding: 5px;
+    border: 1px solid #c3cad2;
+    border-radius: 3px;
+}
+
+.search-table th {
+    border: 0;
+}
+
+.textarea-resize {
+    resize: none;
+}
+
+.spacing-table {
+    border-spacing: 10px;
+    border-collapse: separate;
 }

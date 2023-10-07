@@ -110,13 +110,19 @@ public class AreaServiceImpl implements AreaService {
             // 시도
             Area area = Area.create(legalAddressCode, name, sortOder, legalAddressCode, sido, gungu, dong, ri, createdAt, canceledAt, level);
             if (level == 1) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 sidoArea = area;
                 sidoSortOrder++;
             } else if (level == 2) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 gunguArea = area;
                 gunguSortOrder++;
                 area.addParent(sidoArea);
             } else if (level == 3) {
+                //TODO gugun 이 없을 때 데이터 싱크 안맞음
+                //TODO contains 적용
                 area.addParent(gunguArea);
                 dongSortOrder++;
                 dongArea = area;
@@ -128,5 +134,14 @@ public class AreaServiceImpl implements AreaService {
         }
 
         areaStore.storeAll(areaList);
+    }
+
+    public boolean isSkipData(String input) {
+        String substring = input.substring(2, 5);
+        if (substring.equals("105")) {
+            return false;
+        }
+
+        return true;
     }
 }
