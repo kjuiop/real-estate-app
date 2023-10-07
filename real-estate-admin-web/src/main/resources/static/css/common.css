@@ -28,6 +28,10 @@
     padding: 8px !important;
 }
 
+.padding-6 {
+    padding: 6px !important;
+}
+
 .line {
     margin-bottom: 30px;
 }
@@ -119,6 +123,10 @@
 
 .margin-bottom-20 {
     margin-bottom: 20px;
+}
+
+.margin-right-3 {
+    margin-right: 3px;
 }
 
 .margin-right-4 {

@@ -107,18 +107,18 @@
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!isModify}"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${isModify}"> 수정</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
-                                <div class="form-group col-md-12 display-flex-column line" style="border-bottom: 1px solid #eeeeee">
+                                <div class="form-group col-md-12 display-flex-column" style="border-bottom: 1px solid #eeeeee">
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 no-left-padding">
-                                            <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 토지 추가</button>
                                             <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px;"> 토지이용계획확인원</button>
                                         </div>
                                         <div class="col-md-6 right-align">
-                                            <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
+                                            <label class="control-label right-align margin-top-5" style="font-weight: normal; font-size: 12px;">
                                                 <input type="checkbox" class="checkElement" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;노선상업지역
                                             </label> &nbsp;
                                         </div>
@@ -129,11 +129,16 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="form-group col-md-12 display-flex-row btnLandSection"></div>
                                 <div class="form-group col-md-12 display-flex-column margin-bottom-5">
-                                    <label class="text-label">동+지번(주소)</label>
+                                    <div class="display-flex-row" style="margin-bottom: 5px;">
+                                        <label class="text-label margin-right-8">동+지번(주소)</label>
+                                        <input type="hidden" name="pnu" />
+                                    </div>
                                     <div class="display-flex-row col-md-12 no-left-padding">
-                                        <input type="text" class="form-control form-control-sm col-md-9 margin-right-8" name="address" th:value="${dto.address}" style="height: 36px;" readonly />
-                                        <button type="button" class="btn btn-sm btn-primary col-md-2"> 토지검색</button>
+                                        <input type="text" class="form-control form-control-sm col-md-7 margin-right-8" name="address" th:value="${dto.address}" style="height: 36px;" readonly />
+                                        <button type="button" class="btn btn-sm btn-default col-md-2 margin-right-8"> 토지검색</button>
+                                        <button type="button" class="btn btn-sm btn-primary col-md-2 btnLandAdd"> 토지추가</button>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
@@ -537,6 +542,7 @@
     <script th:replace="layouts/fragments :: postcode"></script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>
     <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
+    <script src="/static/js/realestate/land/land_editor.js" th:src="@{/js/realestate/land/land_editor.js}"></script>
     <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
 </section>
 </body>

@@ -26,6 +26,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private String pnu;
 
+    private String address;
+
     private String lndcgrCodeNm;
 
     private Double lndpclAr;
@@ -57,6 +59,7 @@ public class LandInfo extends BaseTimeEntity {
 
     public static LandInfo create(LandCreateForm createForm, RealEstate realEstate) {
         return LandInfo.builder()
+                .address(createForm.getAddress())
                 .lndcgrCodeNm(createForm.getLndcgrCodeNm())
                 .lndpclAr(Double.parseDouble(createForm.getLndpclAr()))
                 .lndpclArByPyung(Double.parseDouble(createForm.getLndpclArByPyung()))
