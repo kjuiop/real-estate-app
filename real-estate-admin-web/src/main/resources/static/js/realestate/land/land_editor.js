@@ -1,3 +1,67 @@
+let loadLandInfoList = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+    let isLandInfo = dto.existLandInfo;
+    if (isLandInfo === true) {
+        url = "/real-estate/land/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("load database land info", result);
+            let landList = result.data,
+                landInfo = landList[0];
+            let $frm = $('form[name="frmLandRegister"]');
+            $frm.find('.landSize').text(landList.length);
+            $frm.find('.area').text(landInfo.lndpclAr);
+            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+            $frm.find('input[name="pnu"]').val(landInfo.pnu);
+            if (landInfo.commercialYn === 'Y') {
+                $frm.find('input[name="commercialYn"]').iCheck('check');
+            } else {
+                $frm.find('input[name="commercialYn"]').iCheck('uncheck');
+            }
+
+            if (isLandInfo === true) {
+                $frm.find('.btnLandSection').html('');
+                let tag = '';
+                $.each(landList, function(idx, item) {
+                    tag += drawLandButton(item);
+                    $frm.find('.btnLandSection').append(tag);
+                    $frm.find('.btnLandSection .btnLandLoad').last().data('land-data', item);
+                });
+            }
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
 
 let landInfoAdd = function(e) {
     e.preventDefault();
@@ -9,6 +73,8 @@ let landInfoAdd = function(e) {
         isAlready = false;
 
     params.pnu = pnu;
+
+    console.log("landInfoAdd params", params)
 
     $section.find('.btnLandLoad').each(function(idx, item) {
         let alreadyPnu = $(item).attr('pnu');
@@ -65,67 +131,6 @@ let loadLandInfoById = function(e) {
     $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
     $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
-}
-
-let loadLandInfoList = function() {
-
-    if (!checkNullOrEmptyValue(dto)) {
-        return;
-    }
-
-    let url;
-    let isLandInfo = dto.existLandInfo;
-    if (isLandInfo === true) {
-        url = "/real-estate/land/" + dto.realEstateId;
-    } else {
-        url = "/real-estate/land/ajax/public-data"
-            + "?legalCode=" + dto.legalCode
-            + "&landType=" + dto.landType
-            + "&bun=" + dto.bun
-            + "&ji=" + dto.ji
-    }
-
-
-    $.ajax({
-        url: url,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            console.log("load database land info", result);
-            let landList = result.data,
-                landInfo = landList[0];
-            let $frm = $('form[name="frmLandRegister"]');
-            $frm.find('.landSize').text(landList.length);
-            $frm.find('.area').text(landInfo.lndpclAr);
-            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
-            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
-            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
-            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
-            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
-            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
-            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
-            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
-            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
-            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-            $frm.find('input[name="pnu"]').val(landInfo.pnu);
-
-
-            if (isLandInfo === true) {
-                $frm.find('.btnLandSection').html('');
-                let tag = '';
-                $.each(landList, function(idx, item) {
-                    tag += drawLandButton(item);
-                    $frm.find('.btnLandSection').append(tag);
-                    $frm.find('.btnLandSection .btnLandLoad').last().data('land-data', item);
-                });
-            }
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
 }
 
 let landInfoSave = function(e) {

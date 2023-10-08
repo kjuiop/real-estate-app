@@ -43,7 +43,10 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
-        Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
+        Category usageType = null;
+        if (createForm.getUsageTypeId() != null) {
+            usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
+        }
         Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
 
         RealEstate realEstate;
@@ -58,7 +61,11 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public Long basicInfoUpdate(RealEstateUpdateForm updateForm, LoginUser loginUser) {
-        Category usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+        Category usageType = null;
+        if (updateForm.getUsageTypeId() != null) {
+            usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+        }
+
         Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());

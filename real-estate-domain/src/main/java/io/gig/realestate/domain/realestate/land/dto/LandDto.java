@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.land.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,6 +74,8 @@ public class LandDto {
     // 공시 기준년도
     private Integer stdrYear;
 
+    private YnType commercialYn;
+
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
@@ -87,5 +90,6 @@ public class LandDto {
         this.pblntfPclnd = l.getPblntfPclnd();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
         this.ladUseSittnNm = l.getLadUseSittnNm();
+        this.commercialYn = l.getCommercialYn();
     }
 }
