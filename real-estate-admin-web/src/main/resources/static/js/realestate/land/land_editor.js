@@ -129,6 +129,8 @@ let landInfoSave = function(e) {
     let $frmLand = $('form[name="frmLandRegister"]'),
         formData = serializeObject({form:$frmLand[0]}).json();
 
+    let commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
+
     let $section = $frmLand.find('.btnLandSection'),
         addBtnLength = $section.find('.btnLandLoad').length;
 
@@ -160,6 +162,7 @@ let landInfoSave = function(e) {
         "bun" : detailParams.bun,
         "ji" : detailParams.ji,
         "address" : dto.address,
+        "commercialYn" : commercialYn,
         "landInfoList" : landInfoList
     }
 

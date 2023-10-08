@@ -80,7 +80,7 @@ public class LandDto {
         this.lndpclAr = l.getLndpclAr();
         this.lndpclArByPyung = l.getLndpclArByPyung();
         this.lndcgrCodeNm = l.getLndcgrCodeNm();
-        this.prposArea1Nm = l.getPrposArealNm();
+        this.prposArea1Nm = l.getPrposArea1Nm();
         this.tpgrphHgCodeNm = l.getTpgrphHgCodeNm();
         this.tpgrphFrmCodeNm = l.getTpgrphFrmCodeNm();
         this.roadSideCodeNm = l.getRoadSideCodeNm();

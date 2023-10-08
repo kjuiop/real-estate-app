@@ -38,7 +38,7 @@ public class LandInfo extends BaseTimeEntity {
 
     private Double totalPblntfPclnd;
 
-    private String prposArealNm;
+    private String prposArea1Nm;
 
     private String roadSideCodeNm;
 
@@ -53,19 +53,25 @@ public class LandInfo extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType commercialYn = YnType.N;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(String address, LandCreateForm.LandInfoDto dto, RealEstate realEstate) {
+    public static LandInfo create(String address, YnType commercialYn, LandCreateForm.LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
                 .address(address)
+                .commercialYn(commercialYn)
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
                 .lndpclAr(Double.parseDouble(dto.getLndpclAr()))
                 .lndpclArByPyung(Double.parseDouble(dto.getLndpclArByPyung()))
                 .pblntfPclnd(Double.parseDouble(dto.getPblntfPclnd()))
                 .totalPblntfPclnd(Double.parseDouble(dto.getTotalPblntfPclnd()))
-                .prposArealNm(dto.getPrposArealNm())
+                .prposArea1Nm(dto.getPrposArea1Nm())
                 .roadSideCodeNm(dto.getRoadSideCodeNm())
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
                 .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())

@@ -59,7 +59,7 @@ public class LandServiceImpl implements LandService {
         }
 
         for (LandCreateForm.LandInfoDto dto : createForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(createForm.getAddress(), dto, realEstate);
+            LandInfo landInfo = LandInfo.create(createForm.getAddress(), createForm.getCommercialYn(), dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
 
