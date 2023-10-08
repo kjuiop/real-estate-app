@@ -32,8 +32,8 @@ let loadLandInfoList = function() {
             $frm.find('.pyung').text(landInfo.lndpclArByPyung);
             $frm.find('.lndpclAr').val(landInfo.lndpclAr);
             $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
-            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+            $frm.find('.pblntfPclnd').val(landInfo.pblntfPclnd);
+            $frm.find('.totalPblntfPclnd').val(landInfo.totalPblntfPclnd);
             $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
             $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
             $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
@@ -115,6 +115,9 @@ let loadLandInfoById = function(e) {
     let $this = $(this),
         landInfo = $this.data('land-data');
 
+    if (!checkNullOrEmptyValue(landInfo)) {
+        return;
+    }
     console.log("land data", landInfo);
 
     let $frm = $('form[name="frmLandRegister"]');
@@ -122,8 +125,8 @@ let loadLandInfoById = function(e) {
     $frm.find('.pyung').text(landInfo.lndpclArByPyung);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-    $frm.find('.pblntfPclnd').val(landInfo.pblntfPclnd);
-    $frm.find('.totalPblntfPclnd').val(landInfo.totalPblntfPclnd);
+    $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+    $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
     $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
     $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
     $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
@@ -163,10 +166,18 @@ let landInfoSave = function(e) {
 
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
-        landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
-        landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
-        landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
-        landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        }
         landData.realEstateId = dto.realEstateId;
         landInfoList.push(landData);
     });

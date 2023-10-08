@@ -8,6 +8,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.land.dto.LandUpdateForm;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandDataProperties;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,19 @@ public class LandServiceImpl implements LandService {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
         }
 
+        realEstate.getLandInfoList().clear();
+        for (LandCreateForm.LandInfoDto dto : createForm.getLandInfoList()) {
+            LandInfo landInfo = LandInfo.create(createForm.getAddress(), createForm.getCommercialYn(), dto, realEstate);
+            realEstate.addLandInfo(landInfo);
+        }
+
+        return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long update(LandCreateForm createForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
         realEstate.getLandInfoList().clear();
         for (LandCreateForm.LandInfoDto dto : createForm.getLandInfoList()) {
             LandInfo landInfo = LandInfo.create(createForm.getAddress(), createForm.getCommercialYn(), dto, realEstate);

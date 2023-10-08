@@ -42,7 +42,6 @@ public class RealEstateController {
     private final CategoryService categoryService;
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
-    private final ConstructService constructService;
     private final AreaService areaService;
 
     @GetMapping

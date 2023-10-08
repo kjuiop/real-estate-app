@@ -197,9 +197,23 @@ let drawConstructFloorInfo = function(data) {
         tag += '<td class="center-text padding-6 area" data="' + item.area + '">' + item.area + '</td>';
         tag += '<td class="center-text padding-6 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
-        tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
-        tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="rent" style="min-width: 100px;"/></td>';
-        tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="management" style="min-width: 100px;"/></td>';
+        if (item.guaranteePrice > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
+        }
+
+        if (item.rent > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.rent + '" name="rent" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="rent" style="min-width: 100px;"/></td>';
+        }
+
+        if (item.management > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.management + '" name="management" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="management" style="min-width: 100px;"/></td>';
+        }
         tag += '</tr>';
     })
     return tag;
@@ -749,6 +763,9 @@ let searchAddress = function(e) {
 }
 
 let addCommasToNumber = function(number) {
+    if (number < 1000) {
+        return number;
+    }
     number = Math.floor(number);
     number = Math.round(number / 100) * 100;
     let numberStr = number.toString();

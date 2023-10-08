@@ -1,10 +1,7 @@
 package io.gig.realestate.domain.realestate.land;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
-import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandDto;
-import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.land.dto.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,4 +16,6 @@ public interface LandService {
     Long create(LandCreateForm createForm, LoginUser loginUser);
 
     List<LandListDto> getLandListInfoByRealEstateId(Long realEstateId);
+
+    Long update(LandCreateForm updateForm, LoginUser loginUser);
 }
