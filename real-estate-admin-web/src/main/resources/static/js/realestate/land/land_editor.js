@@ -13,7 +13,9 @@ let landInfoAdd = function(e) {
     $section.find('.btnLandLoad').each(function(idx, item) {
         let alreadyPnu = $(item).attr('pnu');
         if (pnu === alreadyPnu) {
-            twoBtnModal("이미 등록된 토지 정보입니다.");
+            twoBtnModal("이미 등록된 토지 정보입니다. 정보를 갱신하겠습니까?", function() {
+                $(item).data('land-data', params);
+            });
             isAlready = true;
             return false;
         }
@@ -72,8 +74,8 @@ let loadLandInfoList = function() {
     }
 
     let url;
-
-    if (dto.existLandInfo === true) {
+    let isLandInfo = dto.existLandInfo;
+    if (isLandInfo === true) {
         url = "/real-estate/land/" + dto.realEstateId;
     } else {
         url = "/real-estate/land/ajax/public-data"
@@ -90,7 +92,7 @@ let loadLandInfoList = function() {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("result", result);
+            console.log("load database land info", result);
             let landList = result.data,
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
@@ -109,8 +111,16 @@ let loadLandInfoList = function() {
             $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
             $frm.find('input[name="pnu"]').val(landInfo.pnu);
 
-            // let tag = drawLandButton(landList);
-            // $frm.find('.btnLandSection').html(tag);
+
+            if (isLandInfo === true) {
+                $frm.find('.btnLandSection').html('');
+                let tag = '';
+                $.each(landList, function(idx, item) {
+                    tag += drawLandButton(item);
+                    $frm.find('.btnLandSection').append(tag);
+                    $frm.find('.btnLandSection .btnLandLoad').last().data('land-data', item);
+                });
+            }
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -135,7 +145,7 @@ let landInfoSave = function(e) {
         addBtnLength = $section.find('.btnLandLoad').length;
 
     if (addBtnLength === 0) {
-        twoBtnModal('저장하려는 토지 정보를 입력해주세요.');
+        twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
         return;
     }
 

@@ -64,6 +64,7 @@ public class LandInfo extends BaseTimeEntity {
 
     public static LandInfo create(String address, YnType commercialYn, LandCreateForm.LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
+                .pnu(dto.getPnu())
                 .address(address)
                 .commercialYn(commercialYn)
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
