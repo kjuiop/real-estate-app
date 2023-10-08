@@ -429,6 +429,7 @@ let constructInfoSave = function(e) {
 
     let isModify = dto.existConstructInfo;
     let $frmConstruct = $('form[name="frmConstructRegister"]'),
+        httpMethod = isModify ? 'put' : 'post',
         params = serializeObject({form:$frmConstruct[0]}).json();
 
     params.legalCode = detailParams.legalCode;
@@ -443,13 +444,16 @@ let constructInfoSave = function(e) {
 
     $.ajax({
         url: "/real-estate/construct",
-        method: "post",
+        method: 'post',
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });

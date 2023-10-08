@@ -204,6 +204,10 @@ let landInfoSave = function(e) {
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
+
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });

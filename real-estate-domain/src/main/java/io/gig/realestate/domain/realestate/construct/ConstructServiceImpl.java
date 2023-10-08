@@ -65,6 +65,7 @@ public class ConstructServiceImpl implements ConstructService {
         } else {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
         }
+        realEstate.getConstructInfoList().clear();
 
         ConstructInfo constructInfo = ConstructInfo.create(createForm, realEstate);
         realEstate.addConstructInfo(constructInfo);
