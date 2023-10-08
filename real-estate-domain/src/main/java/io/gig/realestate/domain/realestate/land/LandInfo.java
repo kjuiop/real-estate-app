@@ -57,19 +57,19 @@ public class LandInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(LandCreateForm createForm, RealEstate realEstate) {
+    public static LandInfo create(String address, LandCreateForm.LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
-                .address(createForm.getAddress())
-                .lndcgrCodeNm(createForm.getLndcgrCodeNm())
-                .lndpclAr(Double.parseDouble(createForm.getLndpclAr()))
-                .lndpclArByPyung(Double.parseDouble(createForm.getLndpclArByPyung()))
-                .pblntfPclnd(Double.parseDouble(createForm.getPblntfPclnd()))
-                .totalPblntfPclnd(Double.parseDouble(createForm.getTotalPblntfPclnd()))
-                .prposArealNm(createForm.getPrposArealNm())
-                .roadSideCodeNm(createForm.getRoadSideCodeNm())
-                .tpgrphFrmCodeNm(createForm.getTpgrphFrmCodeNm())
-                .tpgrphHgCodeNm(createForm.getTpgrphHgCodeNm())
-                .ladUseSittnNm(createForm.getLadUseSittnNm())
+                .address(address)
+                .lndcgrCodeNm(dto.getLndcgrCodeNm())
+                .lndpclAr(Double.parseDouble(dto.getLndpclAr()))
+                .lndpclArByPyung(Double.parseDouble(dto.getLndpclArByPyung()))
+                .pblntfPclnd(Double.parseDouble(dto.getPblntfPclnd()))
+                .totalPblntfPclnd(Double.parseDouble(dto.getTotalPblntfPclnd()))
+                .prposArealNm(dto.getPrposArealNm())
+                .roadSideCodeNm(dto.getRoadSideCodeNm())
+                .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
+                .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
+                .ladUseSittnNm(dto.getLadUseSittnNm())
                 .realEstate(realEstate)
                 .build();
     }

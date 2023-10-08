@@ -3,7 +3,25 @@ let landInfoAdd = function(e) {
     e.preventDefault();
 
     let $frmLand = $('form[name="frmLandRegister"]'),
-        params = serializeObject({form:$frmLand[0]}).json();
+        params = serializeObject({form:$frmLand[0]}).json(),
+        pnu = $frmLand.find('input[name="pnu"]').val(),
+        $section = $frmLand.find('.btnLandSection'),
+        isAlready = false;
+
+    params.pnu = pnu;
+
+    $section.find('.btnLandLoad').each(function(idx, item) {
+        let alreadyPnu = $(item).attr('pnu');
+        if (pnu === alreadyPnu) {
+            twoBtnModal("이미 등록된 토지 정보입니다.");
+            isAlready = true;
+            return false;
+        }
+    });
+
+    if (isAlready === true) {
+        return;
+    }
 
     let tag = drawLandButton(params);
     $frmLand.find('.btnLandSection').append(tag);
@@ -26,15 +44,25 @@ let drawLandButton = function(data) {
 let loadLandInfoById = function(e) {
     e.preventDefault();
 
-    let $this = $(this);
-    console.log("land-data", $this.data('land-data'));
+    let $this = $(this),
+        landInfo = $this.data('land-data');
 
-    let landId = $(this).attr('landId');
-    if (!checkNullOrEmptyValue(landId)) {
-        return;
-    }
+    console.log("land data", landInfo);
 
-    alert("in");
+    let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('.area').text(landInfo.lndpclAr);
+    $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+    $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+    $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+    $frm.find('.pblntfPclnd').val(landInfo.pblntfPclnd);
+    $frm.find('.totalPblntfPclnd').val(landInfo.totalPblntfPclnd);
+    $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+    $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+    $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+    $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+    $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+    $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('input[name="pnu"]').val(landInfo.pnu);
 }
 
 let loadLandInfoList = function() {
@@ -80,6 +108,7 @@ let loadLandInfoList = function() {
             $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
             $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
             $frm.find('input[name="pnu"]').val(landInfo.pnu);
+
             // let tag = drawLandButton(landList);
             // $frm.find('.btnLandSection').html(tag);
         },
@@ -98,45 +127,60 @@ let landInfoSave = function(e) {
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
     let $frmLand = $('form[name="frmLandRegister"]'),
-        params = serializeObject({form:$frmLand[0]}).json();
+        formData = serializeObject({form:$frmLand[0]}).json();
 
-    if (!checkNullOrEmptyValue(params.address)) {
+    let $section = $frmLand.find('.btnLandSection'),
+        addBtnLength = $section.find('.btnLandLoad').length;
+
+    if (addBtnLength === 0) {
+        twoBtnModal('저장하려는 토지 정보를 입력해주세요.');
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(formData.address)) {
         twoBtnModal('주소를 입력해주세요.');
         return;
     }
 
+    let landInfoList = [];
+
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
-        let landData = $(item).attr('data-param');
-        console.log("landData : ", landData);
+        let landData = $(item).data('land-data');
+        landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+        landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+        landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+        landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        landData.realEstateId = dto.realEstateId;
+        landInfoList.push(landData);
     });
 
+    let params = {
+        "legalCode" : detailParams.legalCode,
+        "landType" : detailParams.landType,
+        "bun" : detailParams.bun,
+        "ji" : detailParams.ji,
+        "address" : dto.address,
+        "landInfoList" : landInfoList
+    }
 
-    // params.legalCode = detailParams.legalCode;
-    // params.landType = detailParams.landType;
-    // params.bun = detailParams.bun;
-    // params.ji = detailParams.ji;
-    //
-    // params.lndpclAr = params.lndpclAr.replaceAll(',', '');
-    // params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
-    // params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
-    // params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
-    // params.realEstateId = dto.realEstateId;
-    //
-    // $.ajax({
-    //     url: "/real-estate/land",
-    //     method: httpMethod,
-    //     type: "json",
-    //     contentType: "application/json",
-    //     data: JSON.stringify(params),
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         let message = '정상적으로 저장되었습니다.';
-    //         twoBtnModal(message, function() {
-    //             location.href = '/real-estate/' + result.data + '/edit';
-    //         });
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
+    console.log("land params", params);
+
+
+    $.ajax({
+        url: "/real-estate/land",
+        method: httpMethod,
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let message = '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
+                location.href = '/real-estate/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 }
