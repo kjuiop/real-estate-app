@@ -136,7 +136,7 @@ let loadLandInfoById = function(e) {
 let landInfoSave = function(e) {
     e.preventDefault();
 
-    let isModify = dto.realEstateId != null;
+    let isModify = dto.existLandInfo;
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         httpMethod = isModify ? 'put' : 'post',
         detailParams = serializeObject({form:$frmBasic[0]}).json();

@@ -107,8 +107,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!isModify}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${isModify}"> 수정</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!dto.existLandInfo}"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${dto.existLandInfo}"> 수정</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
@@ -234,7 +234,8 @@
                         <div class="card-header">
                             <h3 class="card-title">금액정보</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${!dto.existPriceInfo}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${dto.existPriceInfo}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
@@ -334,7 +335,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${!dto.existConstructInfo}"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${dto.existConstructInfo}"> 수정</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
@@ -496,7 +498,8 @@
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span>1</span>명</label>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
@@ -504,7 +507,7 @@
                                 <form name="frmCustomerRegister">
                                     <div id="customerInfoSection"></div>
                                 </form>
-                                <div th:if="${isModify}">
+                                <div th:if="${dto.existCustomerInfo}">
                                     <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
                                         <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
                                         <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>

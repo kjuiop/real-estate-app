@@ -350,10 +350,12 @@ let basicInfoSave = function(e) {
 let priceInfoSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.existPriceInfo;
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
     let $frmPrice = $('form[name="frmPriceRegister"]'),
+        httpMethod = isModify ? 'put' : 'post',
         params = serializeObject({form:$frmPrice[0]}).json();
 
     params.legalCode = detailParams.legalCode;
@@ -385,13 +387,16 @@ let priceInfoSave = function(e) {
 
     $.ajax({
         url: "/real-estate/price",
-        method: "post",
+        method: httpMethod,
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -408,6 +413,7 @@ let constructInfoSave = function(e) {
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
+    let isModify = dto.existConstructInfo;
     let $frmConstruct = $('form[name="frmConstructRegister"]'),
         params = serializeObject({form:$frmConstruct[0]}).json();
 

@@ -5,6 +5,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.price.PriceService;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceListDto;
+import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,14 @@ public class PriceController {
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody PriceCreateForm createForm,
                                             @CurrentUser LoginUser loginUser) {
         Long realEstateId = priceService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody PriceUpdateForm updateForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = priceService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 

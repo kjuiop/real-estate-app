@@ -4,6 +4,7 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
+import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -52,6 +53,20 @@ public class FloorPriceInfo extends BaseTimeEntity {
     private RealEstate realEstate;
 
     public static FloorPriceInfo create(PriceCreateForm.FloorDto dto, RealEstate realEstate) {
+        return FloorPriceInfo.builder()
+                .flrNo(dto.getFlrNo())
+                .flrNoNm(dto.getFlrNoNm())
+                .area(dto.getArea())
+                .mainPurpsCdNm(dto.getMainPurpsCdNm())
+                .etcPurps(dto.getEtcPurps())
+                .guaranteePrice(dto.getGuaranteePrice())
+                .rent(dto.getRent())
+                .management(dto.getManagement())
+                .realEstate(realEstate)
+                .build();
+    }
+
+    public static FloorPriceInfo update(PriceUpdateForm.FloorDto dto, RealEstate realEstate) {
         return FloorPriceInfo.builder()
                 .flrNo(dto.getFlrNo())
                 .flrNoNm(dto.getFlrNoNm())
