@@ -219,6 +219,20 @@
     height: 36px;
 }
 
+.search-single-group {
+    width: 11%
+}
+
+.search-double-group {
+    width: 22%
+}
+
+.search-double-field input, .input-label + input{
+    height: 64px;
+    padding-top: 30px;
+    border: 0px;
+}
+
 .input-label {
     position: relative;
 }
@@ -236,14 +250,28 @@
 }
 
 .input-label .search-text {
+    font-size: 0.9rem;
     font-weight: normal;
     color: #828a92;
+    white-space: nowrap;
 }
 
-.input-label + input {
-    height: 64px;
-    padding-top: 30px;
-    border: 0px;
+.search-input {
+    font-size: 1.1rem;
+}
+
+.search-input-sm {
+    width: 30%;
+}
+
+.input-div {
+    position: relative;
+}
+
+.input-div span{
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: 8px;
 }
 
 .text-alien-center {

@@ -26,6 +26,11 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td>
+                                                // TODO 위치 검색
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td colspan="9" style="width: 100%;">
                                                 <label class="control-label" style="font-weight: normal;">
                                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -47,7 +52,7 @@
                                                         <div class="search-text">물건명</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="name"  class="form-control">
+                                                <input type="text" id="name" name="name" class="form-control search-input">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -55,7 +60,7 @@
                                                         <div class="search-text">담당자</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="manager"  class="form-control">
+                                                <input type="text" id="manager" name="manager" class="form-control search-input">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -63,35 +68,49 @@
                                                         <div class="search-text">팀</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="team"  class="form-control">
+                                                <input type="text" id="team" name="team" class="form-control search-input">
                                             </td>
-                                            <td colspan="2">
-                                                <div class="display-flex-row">
-                                                    <div class="input-label" style="display: inline-block">
-                                                        <label for="charge" class="top-label">
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minCharge" class="top-label">
                                                             <div class="search-text">금액</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="charge" class="form-control" style="border: 1px solid #555;">
-                                                    <div>~</div>
-                                                    <input type="text" id="won" class="form-control" style="border: 1px solid #555;">
-                                                    <div>억원</div>
+                                                    <input type="text" id="minCharge" name="minCharge" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxCharge" name="maxCharge" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxCharge" class="bottom-label">
+                                                            <div class="search-text">억원</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">전체면적</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minTotalArea" class="top-label">
+                                                            <div class="search-text">전체면적</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minTotalArea" name="minTotalArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxTotalArea" name="maxTotalArea" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxTotalArea" class="bottom-label">
+                                                            <div class="search-text">평</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" class="form-control">                                            </td>
+                                            </td>
                                             <td colspan="2">
                                                 <div class="input-label">
                                                     <label for="team" class="top-label">
                                                         <div class="search-text">용도지역</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="useDistrict" class="form-control search-input">
                                             </td>
                                         </tr>
                                         <tr>
@@ -101,7 +120,7 @@
                                                         <div class="search-text">물건번호</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="realEstateId"  class="form-control">
+                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -109,7 +128,7 @@
                                                         <div class="search-text">소유자</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="owner"  class="form-control">
+                                                <input type="text" id="owner" name="owner" class="form-control">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -117,28 +136,46 @@
                                                         <div class="search-text">연락처</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="phone"  class="form-control">
+                                                <input type="text" id="phone" name="phone" class="form-control">
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minRateOfReturn" class="top-label">
+                                                            <div class="search-text">수익률</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minRateOfReturn" name="minRateOfReturn" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxRateOfReturn" name="maxRateOfReturn" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxRateOfReturn" class="bottom-label">
+                                                            <div class="search-text">%</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" class="form-control">
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minGrossFloorArea" class="top-label">
+                                                            <div class="search-text">연면적</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minGrossFloorArea" name="minGrossFloorArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxGrossFloorArea" name="maxGrossFloorArea" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxGrossFloorArea" class="bottom-label">
+                                                            <div class="search-text">평</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" class="form-control">
                                             </td>
                                             <td colspan="2">
                                                 <div class="input-label">
                                                     <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
+                                                        <div class="search-text">도로</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" class="form-control">
@@ -148,26 +185,44 @@
                                             <td colspan="3">
                                                 <div class="input-label">
                                                     <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
+                                                        <div class="search-text">주소</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" class="form-control">
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minSiteArea" class="top-label">
+                                                            <div class="search-text">대지</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxSiteArea" class="bottom-label">
+                                                            <div class="search-text">평</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" class="form-control">
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="startApprovalYear" class="top-label">
+                                                            <div class="search-text">승인일자</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="startApprovalYear" name="startApprovalYear" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="endApprovalYear" name="endApprovalYear" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="endApprovalYear" class="bottom-label">
+                                                            <div class="search-text">년</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" class="form-control">
                                             </td>
                                             <td colspan="2">
                                             </td>
