@@ -358,3 +358,8 @@
     border-spacing: 10px;
     border-collapse: separate;
 }
+
+.list-img-size {
+    width: 75px;
+    height: 75px;
+}

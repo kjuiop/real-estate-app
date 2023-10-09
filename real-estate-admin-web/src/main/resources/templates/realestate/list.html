@@ -32,11 +32,14 @@
                                                     물건 정보 검색
                                                 </label>
                                                 <div class="pull-right" style="display: inline-block;">
-                                                    <button class="btn btn-default text-right">전체</button>
-                                                    <button class="btn btn-default text-right">준비</button>
-                                                    <button class="btn btn-default text-right">완료</button>
-                                                    <button class="btn btn-default text-right">보류</button>
-                                                    <button class="btn btn-default text-right">매각</button>
+                                                    <button class="btn btn-primary text-right" processType="all">전체</button>
+                                                    <button class="btn btn-default text-right" processType="Writing">작성중</button>
+                                                    <button class="btn btn-default text-right" processType="Prepare">준비</button>
+                                                    <button class="btn btn-default text-right" processType="Working">작업중</button>
+                                                    <button class="btn btn-default text-right" processType="Complete">완료</button>
+                                                    <button class="btn btn-default text-right" processType="Pending">보류</button>
+                                                    <button class="btn btn-default text-right" processType="SellBefore">매각전</button>
+                                                    <button class="btn btn-default text-right" processType="SellComplete">매각</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -420,12 +423,12 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>사진</th>
+                                        <th style="width: 10%;">사진</th>
+                                        <th style="width: 20%;">주소</th>
                                         <th>진행단계</th>
-                                        <th>건물명</th>
+                                        <th>금액</th>
                                         <th>용도</th>
                                         <th>담당자</th>
-                                        <th>주소</th>
                                         <th>등록일</th>
                                     </tr>
                                     </thead>
@@ -436,14 +439,38 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
                                             </label>
                                         </td>
-                                        <td></td>
-                                        <td th:text="${'-'}"></td>
                                         <td>
-                                            <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName != null ? item.buildingName : '작성중'}"></a>
+                                            <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="list-img-size" style="cursor: pointer;"/>
+                                            </th:block>
+                                            <th:block th:if="${not #strings.isEmpty(item.imgUrl)}">
+                                                <img th:src="${item.imgUrl}" class="list-img-size" style="cursor: pointer;"/>
+                                            </th:block>
+                                        </td>
+                                        <td>
+                                            <div class="display-flex-column">
+                                                <a th:href="|/real-estate/${item.realEstateId}/edit|">
+                                                    <span style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
+                                                </a>
+                                                <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
+                                                    <span th:text="${item.buildingName}"></span>
+                                                </th:block>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <th:block th:if="${item.processType != null}">
+                                                [[${item.processType.description}]]
+                                            </th:block>
+                                        </td>
+                                        <td>
+                                            <div class="display-flex-column">
+                                                <div class="display-flex-row">
+                                                    <button class="btn btn-xs btn-danger" disabled>매매</button>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td th:text="${item.managerName}"></td>
-                                        <td th:text="${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
