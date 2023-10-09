@@ -347,26 +347,35 @@
                                         <td>
                                             <div class="display-flex-column">
                                                 <div class="display-flex-row">
-                                                    <button class="btn btn-xs btn-danger margin-right-5">매매</button>
-                                                    <div>
-                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
-                                                        (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
-                                                    </div>
+                                                    <th:block th:if="${item.salePrice > 0}">
+                                                        <button class="btn btn-xs btn-danger margin-right-5">매매</button>
+                                                        <div>
+                                                            <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                            (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
+                                                        </div>
+                                                    </th:block>
                                                 </div>
                                                 <div class="display-flex-row margin-top-5">
-                                                    <button class="btn btn-xs btn-default margin-right-5">수익</button>
-                                                    <div>
-                                                        <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
-                                                    </div>
+                                                    <th:block th:if="${item.revenueRate > 0}">
+                                                        <button class="btn btn-xs btn-default margin-right-5">수익</button>
+                                                        <div>
+                                                            <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
+                                                        </div>
+                                                    </th:block>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div>
+                                            <th:block th:if="${not #strings.isEmpty(item.totArea)}">
                                                 연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;대&nbsp;<span th:text="${item.platArea}"></span>㎡
                                                 <br />
-                                                건&nbsp;<span th:text="${item.archArea}"></span>㎡
-                                            </div>
+                                            </th:block>
+                                            <th:block th:if="${not #strings.isEmpty(item.archArea)}">
+                                                <div>
+
+                                                    건&nbsp;<span th:text="${item.archArea}"></span>㎡
+                                                </div>
+                                            </th:block>
                                         </td>
                                         <td th:text="${item.managerName}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
