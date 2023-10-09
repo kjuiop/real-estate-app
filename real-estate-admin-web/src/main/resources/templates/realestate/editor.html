@@ -21,8 +21,8 @@
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${!isModify}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${isModify}"> 수정</button>
+                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${!isModify && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${isModify && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
@@ -39,8 +39,17 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <th:block th:each="code : ${processCds}">
-                                        <button type="button" class="btn btn-xs btn-default" disabled th:categoryId="${code.id}" style="margin-right: 5px;"> [[${code.name}]]</button>
+                                    <th:block th:if="${isModify}">
+                                        <div th:if="${dto.processType != null}">
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:disabled="${dto.processType.type ne 'preparing'}" processType="Prepare">준비</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" disabled processType="Working">작업중</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" disabled processType="Complete">완료</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" disabled processType="Impossible">작업불가</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" disabled processType="Pending">보류</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" disabled processType="Sell">매각</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" disabled processType="R">R</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" disabled processType="AB">A-B</button>
+                                        </div>
                                     </th:block>
                                 </div>
                             </div>
@@ -107,8 +116,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!dto.existLandInfo}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${dto.existLandInfo}"> 수정</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!dto.existLandInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${dto.existLandInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
@@ -234,8 +243,8 @@
                         <div class="card-header">
                             <h3 class="card-title">금액정보</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${!dto.existPriceInfo}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${dto.existPriceInfo}"> 수정</button>
+                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${!dto.existPriceInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${dto.existPriceInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
@@ -359,8 +368,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${!dto.existConstructInfo}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${dto.existConstructInfo}"> 수정</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${!dto.existConstructInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${dto.existConstructInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
@@ -522,8 +531,8 @@
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span id="customerCnt">1</span>명</label>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo}"> 수정</button>
+                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
+                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
                             </div>
                         </div>
                         <div class="card-body" style="padding: 10px;">

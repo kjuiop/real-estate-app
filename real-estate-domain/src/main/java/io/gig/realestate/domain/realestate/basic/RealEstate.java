@@ -66,7 +66,7 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private ProcessType processType = ProcessType.Writing;
+    private ProcessType processType = ProcessType.Preparing;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")
@@ -191,4 +191,8 @@ public class RealEstate extends BaseTimeEntity {
     }
 
 
+    public void updateProcessStatus(ProcessType processType, Administrator loginUser) {
+        this.processType = processType;
+        this.updatedBy = loginUser;
+    }
 }

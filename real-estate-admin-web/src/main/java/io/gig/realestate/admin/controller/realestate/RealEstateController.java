@@ -66,12 +66,10 @@ public class RealEstateController {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
-        model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
 
         return "realestate/editor";
@@ -81,13 +79,12 @@ public class RealEstateController {
     public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
+        dto.checkIsOwnUser(loginUser.getLoginUser().getId());
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
-        model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
 
         return "realestate/editor";
@@ -106,6 +103,14 @@ public class RealEstateController {
     public ResponseEntity<ApiResponse> update(@Valid @RequestBody RealEstateUpdateForm updateForm,
                                             @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoUpdate(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("process")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> processUpdate(@Valid @RequestBody RealEstateUpdateForm updateForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.updateProcessStatus(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

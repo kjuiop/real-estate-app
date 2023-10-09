@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,4 +36,6 @@ public class RealEstateUpdateForm {
     private String address;
 
     private String addressDetail;
+
+    private ProcessType processType;
 }

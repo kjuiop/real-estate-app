@@ -910,6 +910,68 @@ let removeBtn = function(e) {
     $(this).parents('button').remove();
 }
 
+let changeProcessStatus = function(e) {
+    e.preventDefault();
+
+    let processStatus = $(this).attr('processType');
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "processType": processStatus
+    }
+
+    console.log("changeProcessStatus params :", params);
+
+
+    let isValid = checkInputRealEstate();
+    if (!isValid) {
+        return;
+    }
+
+    twoBtnModal('매물 상태를 변경하시겠습니까?', function() {
+        $.ajax({
+            url: "/real-estate/process",
+            method: "put",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 변경되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let checkInputRealEstate = function() {
+    if (!dto.existLandInfo) {
+        twoBtnModal("토지정보를 저장해주세요.");
+        return false;
+    }
+
+    if (!dto.existPriceInfo) {
+        twoBtnModal("금액정보를 저장해주세요.");
+        return false;
+    }
+
+    if (!dto.existConstructInfo) {
+        twoBtnModal("건축물 정보를 저장해주세요.");
+        return false;
+    }
+
+    if (!dto.existCustomerInfo) {
+        twoBtnModal("고객 정보를 저장해주세요.");
+        return false;
+    }
+
+    return true;
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
@@ -928,4 +990,5 @@ $(document).ready(onReady)
     .on('click', '.removeBtn', removeBtn)
     .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
     .on('click', '.btnRemoveMemo', removeMemo)
-    .on('click', '.btnRemoveAllMemo', removeAllMemo);
+    .on('click', '.btnRemoveAllMemo', removeAllMemo)
+    .on('click', '.btnProcessType', changeProcessStatus);

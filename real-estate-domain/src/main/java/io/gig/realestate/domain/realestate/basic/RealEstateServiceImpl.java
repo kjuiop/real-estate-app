@@ -71,4 +71,12 @@ public class RealEstateServiceImpl implements RealEstateService {
         realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
         return realEstateStore.store(realEstate).getId();
     }
+
+    @Override
+    @Transactional
+    public Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateProcessStatus(updateForm.getProcessType(), loginUser.getLoginUser());
+        return realEstateStore.store(realEstate).getId();
+    }
 }
