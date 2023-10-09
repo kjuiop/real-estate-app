@@ -17,4 +17,6 @@ public interface MemoService {
     List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId);
 
     Long delete(MemoDeleteForm deleteForm, LoginUser loginUser);
+
+    Long deleteMemoList(MemoDeleteForm deleteForm, LoginUser loginUser);
 }

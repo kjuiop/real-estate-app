@@ -29,4 +29,9 @@ public class MemoQueryImpl implements MemoReader {
     public MemoInfo getMemoInfoById(Long memoId) {
         return queryRepository.getMemoInfoById(memoId);
     }
+
+    @Override
+    public List<MemoInfo> getMemoListByIds(List<Long> memoIds) {
+        return queryRepository.getMemoListByIds(memoIds);
+    }
 }

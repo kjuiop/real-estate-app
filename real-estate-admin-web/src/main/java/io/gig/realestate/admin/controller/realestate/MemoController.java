@@ -50,4 +50,12 @@ public class MemoController {
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 
+    @DeleteMapping("list")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> deleteIds(@Valid @RequestBody MemoDeleteForm deleteForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long realEstateId = memoService.deleteMemoList(deleteForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
 }

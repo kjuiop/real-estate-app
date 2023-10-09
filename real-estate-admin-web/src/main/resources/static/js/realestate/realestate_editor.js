@@ -778,7 +778,7 @@ let drawMemoInfoList = function(memoInfoList) {
         tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
         tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
         tag +=  '<td style="width:40%">' + item.memo + '</td>';
-        tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
+        tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true" style="font-size: 15px;"></i></button></td>';
         tag += '</tr>';
     });
     return tag;
@@ -805,7 +805,7 @@ let removeMemo = function(e) {
                 console.log("result : ", result);
                 let message = '정상적으로 삭제되었습니다.';
                 twoBtnModal(message, function() {
-                    location.href = '/real-estate/' + result.data + '/edit';
+                    location.reload();
                 });
             },
             error:function(error){
@@ -818,7 +818,35 @@ let removeMemo = function(e) {
 let removeAllMemo = function(e) {
     e.preventDefault();
 
+    let memoIds = [];
+    $("input[name='memoId']:checked").each(function (idx, item) {
+        memoIds.push($(item).val());
+    });
 
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "memoIds" : memoIds
+    }
+
+    twoBtnModal("메모를 삭제하시겠습니까?", function() {
+        $.ajax({
+            url: "/real-estate/memo/list",
+            method: "delete",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 삭제되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
 }
 
 let searchAddress = function(e) {
@@ -911,4 +939,4 @@ $(document).ready(onReady)
     .on('click', '.removeBtn', removeBtn)
     .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
     .on('click', '.btnRemoveMemo', removeMemo)
-    .on('click', '.btnRemoveAllMemo', btnRemoveAllMemo);
+    .on('click', '.btnRemoveAllMemo', removeAllMemo);

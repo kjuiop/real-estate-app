@@ -25,6 +25,7 @@ public class MemoServiceImpl implements MemoService {
     private final RealEstateStore realEstateStore;
 
     private final MemoReader memoReader;
+    private final MemoStore memoStore;
 
     @Override
     @Transactional(readOnly = true)
@@ -47,6 +48,16 @@ public class MemoServiceImpl implements MemoService {
     public Long delete(MemoDeleteForm deleteForm, LoginUser loginUser) {
         MemoInfo memoInfo = memoReader.getMemoInfoById(deleteForm.getMemoId());
         memoInfo.delete();
+        return deleteForm.getRealEstateId();
+    }
+
+    @Override
+    public Long deleteMemoList(MemoDeleteForm deleteForm, LoginUser loginUser) {
+        List<MemoInfo> memoList = memoReader.getMemoListByIds(deleteForm.getMemoIds());
+        for (MemoInfo memoInfo : memoList) {
+            memoInfo.delete();
+        }
+        memoStore.saveAll(memoList);
         return deleteForm.getRealEstateId();
     }
 }

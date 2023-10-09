@@ -52,6 +52,15 @@ public class MemoQueryRepository {
         return contentQuery.fetchOne();
     }
 
+    public List<MemoInfo> getMemoListByIds(List<Long> memoIds) {
+        JPAQuery<MemoInfo> contentQuery = this.queryFactory
+                .selectFrom(memoInfo)
+                .where(defaultCondition())
+                .where(memoInfo.id.in(memoIds));
+
+        return contentQuery.fetch();
+    }
+
     private BooleanExpression defaultCondition() {
         return memoInfo.deleteYn.eq(YnType.N);
     }

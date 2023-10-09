@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate.memo.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/10/02
@@ -14,4 +16,6 @@ public class MemoDeleteForm {
     private Long realEstateId;
 
     private Long memoId;
+
+    private List<Long> memoIds;
 }
