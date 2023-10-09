@@ -112,10 +112,22 @@ public class ConstructServiceImpl implements ConstructService {
         JSONObject body = response.getJSONObject("body");
         JSONObject items = body.getJSONObject("items");
 
-        // array 인지, item 인지 
+        Object object = items.get("item");
+        if (object == null) {
+            return null;
+        }
 
-        JSONObject item = items.getJSONObject("item");
-        return ConstructDataApiDto.convertData(item);
+        if (object instanceof JSONObject) {
+            JSONObject item = items.getJSONObject("item");
+            return ConstructDataApiDto.convertData(item);
+        }
+
+        if (object instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray) object;
+            JSONObject item = (JSONObject) jsonArray.get(0);
+            return ConstructDataApiDto.convertData(item);
+        }
+        return null;
     }
 
     @Override
