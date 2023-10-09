@@ -4,10 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.land.LandService;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
-import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
-import io.gig.realestate.domain.realestate.land.dto.LandDto;
-import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.land.dto.*;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,6 +50,14 @@ public class LandController {
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody LandCreateForm createForm,
                                                  @CurrentUser LoginUser loginUser) {
         Long realEstateId = landService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody LandCreateForm createForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = landService.update(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

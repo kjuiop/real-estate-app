@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.construct.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,8 @@ public class ConstructDto {
 
     private String strctCdNm;
 
+    private YnType illegalConstructYn;
+
     public ConstructDto(ConstructInfo c) {
         this.constructId = c.getId();
         this.bldNm = c.getBldNm();
@@ -78,5 +81,6 @@ public class ConstructDto {
         this.mainPurpsCdNm = c.getMainPurpsCdNm();
         this.etcPurps = c.getEtcPurps();
         this.strctCdNm = c.getStrctCdNm();
+        this.illegalConstructYn = c.getIllegalConstructYn();
     }
 }

@@ -12,6 +12,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
@@ -41,7 +42,6 @@ public class RealEstateController {
     private final CategoryService categoryService;
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
-    private final ConstructService constructService;
     private final AreaService areaService;
 
     @GetMapping
@@ -62,11 +62,9 @@ public class RealEstateController {
             @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
             Model model,
-            @CurrentUser LoginUser loginUser) throws IOException {
+            @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(legalCode, landType, bun, ji);
-
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -75,16 +73,14 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-        model.addAttribute("floorInfo", floorInfo);
 
         return "realestate/editor";
     }
 
     @GetMapping("{realEstateId}/edit")
-    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) throws IOException {
+    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
-        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(dto.getLegalCode(), dto.getLandType(), dto.getBun(), dto.getJi());
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -93,7 +89,6 @@ public class RealEstateController {
         model.addAttribute("admins", admins);
         model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
-        model.addAttribute("floorInfo", floorInfo);
 
         return "realestate/editor";
     }
@@ -103,6 +98,14 @@ public class RealEstateController {
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,
                                                  @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoSave(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("basic")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody RealEstateUpdateForm updateForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.basicInfoUpdate(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

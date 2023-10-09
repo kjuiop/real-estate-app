@@ -5,10 +5,12 @@ import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -82,6 +84,10 @@ public class RealEstate extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<FloorPriceInfo> floorPriceInfo = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<ConstructInfo> constructInfoList = new ArrayList<>();
 
     @Builder.Default
@@ -120,6 +126,10 @@ public class RealEstate extends BaseTimeEntity {
         this.memoInfoList.add(memoInfo);
     }
 
+    public void addFloorInfo(FloorPriceInfo floorPriceInfo) {
+        this.floorPriceInfo.add(floorPriceInfo);
+    }
+
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
@@ -136,6 +146,21 @@ public class RealEstate extends BaseTimeEntity {
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
+    }
+
+    public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
+//        this.legalCode = updateForm.getLegalCode();
+//        this.landType = updateForm.getLandType();
+//        this.bun = updateForm.getBun();
+//        this.ji = updateForm.getJi();
+        this.buildingName = updateForm.getBuildingName();
+        this.etcInfo = updateForm.getEtcInfo();
+//        this.address = updateForm.getAddress();
+        this.addressDetail = updateForm.getAddressDetail();
+        this.ownYn = updateForm.getOwnYn();
+        this.usageType = usageType;
+        this.manager = manager;
+        this.updatedBy = loginUser;
     }
 
     public static RealEstate initialInfo(String legalCode, String address, String landType, String bun, String ji) {
@@ -162,4 +187,6 @@ public class RealEstate extends BaseTimeEntity {
     public void updateImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+
 }

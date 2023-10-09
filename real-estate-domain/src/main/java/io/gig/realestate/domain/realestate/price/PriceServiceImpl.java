@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceListDto;
+import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,33 @@ public class PriceServiceImpl implements PriceService {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
             realEstate.updateImgUrl(createForm.getImgUrl());
         }
-
         PriceInfo priceInfo = PriceInfo.create(createForm, realEstate);
         realEstate.addPriceInfo(priceInfo);
+
+        realEstate.getFloorPriceInfo().clear();
+        for (PriceCreateForm.FloorDto dto : createForm.getFloorInfo()) {
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
+            realEstate.addFloorInfo(floorInfo);
+        }
         return realEstateStore.store(realEstate).getId();
     }
 
+    @Override
+    @Transactional
+    public Long update(PriceUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate  = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateImgUrl(updateForm.getImgUrl());
+
+        PriceInfo priceInfo = realEstate.getPriceInfoList().get(0);
+        priceInfo.update(updateForm);
+        realEstate.getPriceInfoList().clear();
+        realEstate.addPriceInfo(priceInfo);
+
+        realEstate.getFloorPriceInfo().clear();
+        for (PriceUpdateForm.FloorDto dto : updateForm.getFloorInfo()) {
+            FloorPriceInfo floorInfo = FloorPriceInfo.update(dto, realEstate);
+            realEstate.addFloorInfo(floorInfo);
+        }
+        return realEstateStore.store(realEstate).getId();
+    }
 }

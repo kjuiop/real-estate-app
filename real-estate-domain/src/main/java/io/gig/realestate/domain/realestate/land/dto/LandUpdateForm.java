@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class LandCreateForm {
+public class LandUpdateForm {
 
     private Long realEstateId;
 

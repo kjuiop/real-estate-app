@@ -20,6 +20,18 @@
     padding-right: 0;
 }
 
+.padding-10 {
+    padding: 10px !important;
+}
+
+.padding-8 {
+    padding: 8px !important;
+}
+
+.padding-6 {
+    padding: 6px !important;
+}
+
 .line {
     margin-bottom: 30px;
 }
@@ -111,6 +123,10 @@
 
 .margin-bottom-20 {
     margin-bottom: 20px;
+}
+
+.margin-right-3 {
+    margin-right: 3px;
 }
 
 .margin-right-4 {

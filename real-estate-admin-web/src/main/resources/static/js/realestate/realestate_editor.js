@@ -1,11 +1,13 @@
 let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
-    loadLandInfo();
+    loadLandInfoList();
     loadPriceInfo();
     loadConstructInfo();
+    loadConstructFloorInfo();
     loadCustomerInfo();
     loadMemoInfo();
+    loadLandInfoList();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
 }
@@ -50,54 +52,6 @@ let loadImg = function(imgUrl) {
     $imagePanel.html(tag);
 }
 
-let loadLandInfo = function() {
-
-    if (!checkNullOrEmptyValue(dto)) {
-        return;
-    }
-
-    let url;
-
-    if (dto.existLandInfo === true) {
-        url = "/real-estate/land/" + dto.realEstateId;
-    } else {
-        url = "/real-estate/land/ajax/public-data"
-            + "?legalCode=" + dto.legalCode
-            + "&landType=" + dto.landType
-            + "&bun=" + dto.bun
-            + "&ji=" + dto.ji
-    }
-
-
-    $.ajax({
-        url: url,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            console.log("result", result);
-            let landList = result.data,
-                landInfo = landList[0];
-            let $frm = $('form[name="frmLandRegister"]');
-            $frm.find('.landSize').text(landList.length);
-            $frm.find('.area').text(landInfo.lndpclAr);
-            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
-            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
-            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
-            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
-            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
-            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
-            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
-            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
-            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
-            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
 
 let loadPriceInfo = function() {
 
@@ -181,11 +135,94 @@ let loadConstructInfo = function() {
             $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
             $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
             $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+
+            if (constructInfo.illegalConstructYn === 'Y') {
+                $frm.find('input[name="illegalConstructYn"]').iCheck('check');
+            } else {
+                $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
+            }
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let loadConstructFloorInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+    if (dto.existPriceInfo === true) {
+        url = "/real-estate/construct/floor/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/construct/floor/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("floor result", result);
+            let floorData = result.data;
+            let $tbody = $('.construct-floor-table tbody'),
+                $tfoot = $('.construct-floor-table tfoot');
+            if (floorData.length === 0) {
+                let tag = '';
+                tag += '<tr>';
+                tag += '<td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>';
+                tag += '</tr>';
+                $tbody.html(tag);
+                $tfoot.addClass('hidden');
+                return;
+            }
+            
+            let tag = drawConstructFloorInfo(floorData);
+            $tbody.html(tag);
+            $tfoot.removeClass('hidden');
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawConstructFloorInfo = function(data) {
+    let tag = '';
+    $.each(data, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="center-text padding-6 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-6 area" data="' + item.area + '">' + item.area + '</td>';
+        tag += '<td class="center-text padding-6 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
+        tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
+        if (item.guaranteePrice > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
+        }
+
+        if (item.rent > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.rent + '" name="rent" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="rent" style="min-width: 100px;"/></td>';
+        }
+
+        if (item.management > 0) {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.management + '" name="management" style="min-width: 100px;"/></td>';
+        } else {
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="management" style="min-width: 100px;"/></td>';
+        }
+        tag += '</tr>';
+    })
+    return tag;
 }
 
 let loadCustomerInfo = function() {
@@ -212,7 +249,7 @@ let loadCustomerInfo = function() {
                 tag += drawUnitCustomerInfo(item.type, item);
             });
             $('#customerInfoSection').html(tag);
-
+            setCustomerCnt();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -254,7 +291,7 @@ let drawBtnUsageCode = function(categories) {
     let tags = "";
     $.each(categories, function (idx, item) {
         if (dto != null && dto.usageType != null && dto.usageType.id === item.id) {
-            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         } else {
             tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
@@ -284,7 +321,9 @@ let selectUsageCode = function(e) {
 let basicInfoSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.realEstateId != null;
     let $frm = $('form[name="frmBasicRegister"]'),
+    httpMethod = isModify ? 'put' : 'post',
     params = serializeObject({form:$frm[0]}).json();
     params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
 
@@ -307,57 +346,17 @@ let basicInfoSave = function(e) {
 
     $.ajax({
         url: "/real-estate/basic",
-        method: "post",
+        method: httpMethod,
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
+
             let message = '정상적으로 저장되었습니다.';
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
-let landInfoSave = function(e) {
-    e.preventDefault();
-
-    let $frmBasic = $('form[name="frmBasicRegister"]'),
-        detailParams = serializeObject({form:$frmBasic[0]}).json();
-
-    let $frmLand = $('form[name="frmLandRegister"]'),
-        params = serializeObject({form:$frmLand[0]}).json();
-
-    if (!checkNullOrEmptyValue(params.address)) {
-        twoBtnModal('주소를 입력해주세요.');
-        return;
-    }
-
-    params.legalCode = detailParams.legalCode;
-    params.landType = detailParams.landType;
-    params.bun = detailParams.bun;
-    params.ji = detailParams.ji;
-
-    params.lndpclAr = params.lndpclAr.replaceAll(',', '');
-    params.lndpclArByPyung = params.lndpclArByPyung.replaceAll(',', '');
-    params.pblntfPclnd = params.pblntfPclnd.replaceAll(',', '');
-    params.totalPblntfPclnd = params.totalPblntfPclnd.replaceAll(',', '');
-    params.realEstateId = dto.realEstateId;
-
-    $.ajax({
-        url: "/real-estate/land",
-        method: "post",
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            console.log("result : ", result);
-            let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -371,10 +370,12 @@ let landInfoSave = function(e) {
 let priceInfoSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.existPriceInfo;
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
     let $frmPrice = $('form[name="frmPriceRegister"]'),
+        httpMethod = isModify ? 'put' : 'post',
         params = serializeObject({form:$frmPrice[0]}).json();
 
     params.legalCode = detailParams.legalCode;
@@ -385,17 +386,37 @@ let priceInfoSave = function(e) {
     params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
     params.realEstateId = dto.realEstateId;
 
+    let floorInfo = [];
+    $('.construct-floor-table tbody tr').each(function(idx, item) {
+        let param = {
+            "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
+            "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
+            "area" : $(item).find('.area').attr('data'),
+            "mainPurpsCdNm" : $(item).find('.mainPurpsCdNm').attr('data'),
+            "etcPurps" : $(item).find('.etcPurps').attr('data'),
+            "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
+            "rent" : $(item).find('input[name="rent"]').val(),
+            "management" : $(item).find('input[name="management"]').val(),
+        }
+        floorInfo.push(param);
+    });
+
+    params.floorInfo = floorInfo;
+
     console.log("params", params);
 
     $.ajax({
         url: "/real-estate/price",
-        method: "post",
+        method: httpMethod,
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -412,8 +433,12 @@ let constructInfoSave = function(e) {
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
+    let isModify = dto.existConstructInfo;
     let $frmConstruct = $('form[name="frmConstructRegister"]'),
+        httpMethod = isModify ? 'put' : 'post',
         params = serializeObject({form:$frmConstruct[0]}).json();
+
+    let illegalConstructYn = $frmConstruct.find('input[name="illegalConstructYn"]').is(":checked") ? "Y" : "N";
 
     params.legalCode = detailParams.legalCode;
     params.landType = detailParams.landType;
@@ -421,19 +446,23 @@ let constructInfoSave = function(e) {
     params.ji = detailParams.ji;
     params.address = detailParams.address;
     params.realEstateId = dto.realEstateId;
+    params.illegalConstructYn = illegalConstructYn;
 
     console.log("params", params);
 
 
     $.ajax({
         url: "/real-estate/construct",
-        method: "post",
+        method: 'post',
         type: "json",
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -481,6 +510,18 @@ let addCustomerInfo = function(e) {
     e.preventDefault();
 
     $('#customerInfoSection').append(drawUnitCustomerInfo("CUSTOMER", null));
+    setCustomerCnt();
+}
+
+let removeCustomerInfo = function(e) {
+    e.preventDefault();
+    $(this).parents('.customerInfoUnit').remove();
+    setCustomerCnt();
+}
+
+let setCustomerCnt = function() {
+    let customerLength = $('#customerInfoSection .customerInfoUnit').length;
+    $('#customerCnt').html(customerLength);
 }
 
 let drawCustomerInfo = function(item) {
@@ -530,7 +571,10 @@ let drawCustomerInfo = function(item) {
     tag +=             '</select>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-4">';
+    tag +=         '<div>';
     tag +=             '<label class="text-label">생년월일</label>';
+    tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
+    tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth" value="' +  item.birth + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
@@ -582,7 +626,10 @@ let drawCompanyInfo = function(item) {
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="companyName" value="' +  item.companyName + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
+    tag +=         '<div>';
     tag +=             '<label class="text-label">대표자명</label>';
+    tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right">삭제</button>'
+    tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
@@ -606,6 +653,7 @@ let drawCompanyInfo = function(item) {
 let addCustomerSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.existCustomerInfo;
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
@@ -659,6 +707,9 @@ let addCustomerSave = function(e) {
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -711,7 +762,7 @@ let addMemo = function(e) {
 let drawEmptyMemoInfo = function() {
     let tag = '';
     tag += '<tr>';
-    tag +=    '<td class="text-center" colSpan="4">등록된 메모가 없습니다.</td>';
+    tag +=    '<td class="text-center" colSpan="5">등록된 메모가 없습니다.</td>';
     tag += '</tr>';
     return tag;
 }
@@ -720,17 +771,82 @@ let drawMemoInfoList = function(memoInfoList) {
     let tag = '';
 
     $.each(memoInfoList, function(idx, item) {
-        tag += '<tr>';
+        tag += '<tr class="memoUnit">';
         tag +=  '<td style="width:10%">';
         tag +=      '<input type="checkbox" class="checkElement" name="memoId" value="' + item.memoId +'">';
         tag +=  '</td>';
         tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
         tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
-        tag +=  '<td style="width:50%">' + item.memo + '</td>';
+        tag +=  '<td style="width:40%">' + item.memo + '</td>';
+        tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true" style="font-size: 15px;"></i></button></td>';
         tag += '</tr>';
     });
-
     return tag;
+}
+
+let removeMemo = function(e) {
+    e.preventDefault();
+
+    let memoId = $(this).parents('.memoUnit').find('input[name="memoId"]').val();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "memoId" : memoId,
+    }
+
+    twoBtnModal("메모를 삭제하시겠습니까?", function() {
+        $.ajax({
+            url: "/real-estate/memo",
+            method: "delete",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 삭제되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let removeAllMemo = function(e) {
+    e.preventDefault();
+
+    let memoIds = [];
+    $("input[name='memoId']:checked").each(function (idx, item) {
+        memoIds.push($(item).val());
+    });
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "memoIds" : memoIds
+    }
+
+    twoBtnModal("메모를 삭제하시겠습니까?", function() {
+        $.ajax({
+            url: "/real-estate/memo/list",
+            method: "delete",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 삭제되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
 }
 
 let searchAddress = function(e) {
@@ -747,6 +863,9 @@ let searchAddress = function(e) {
 }
 
 let addCommasToNumber = function(number) {
+    if (number < 1000) {
+        return number;
+    }
     number = Math.floor(number);
     number = Math.round(number / 100) * 100;
     let numberStr = number.toString();
@@ -797,11 +916,15 @@ let removeImage = function() {
     $imagePanel.html(tag);
 }
 
+let removeBtn = function(e) {
+    e.preventDefault();
+    $(this).parents('button').remove();
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
     .on('click', '.btnBasicSave', basicInfoSave)
-    .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnPriceSave', priceInfoSave)
     .on('click', '.btnConstructSave', constructInfoSave)
     .on('click', '.toggleCustomer', changeCustomerInfo)
@@ -809,4 +932,11 @@ $(document).ready(onReady)
     .on('click', '.btnCustomerSave', addCustomerSave)
     .on('keydown', '#memoInput', addMemo)
     .on('click', '.btnImageUpload', uploadImage)
-    .on('click', '.remove-image', removeImage);
+    .on('click', '.remove-image', removeImage)
+    .on('click', '.btnLandSave', landInfoSave)
+    .on('click', '.btnLandLoad', loadLandInfoById)
+    .on('click', '.btnLandAdd', landInfoAdd)
+    .on('click', '.removeBtn', removeBtn)
+    .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
+    .on('click', '.btnRemoveMemo', removeMemo)
+    .on('click', '.btnRemoveAllMemo', removeAllMemo);

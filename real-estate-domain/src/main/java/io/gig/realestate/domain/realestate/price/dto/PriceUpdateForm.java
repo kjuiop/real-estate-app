@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class PriceCreateForm {
+public class PriceUpdateForm {
 
     private Long realEstateId;
 

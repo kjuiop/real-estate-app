@@ -69,6 +69,11 @@ public class ConstructInfo extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType illegalConstructYn = YnType.N;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
@@ -95,6 +100,7 @@ public class ConstructInfo extends BaseTimeEntity {
                 .mainPurpsCdNm(createForm.getMainPurpsCdNm())
                 .etcPurps(createForm.getEtcPurps())
                 .strctCdNm(createForm.getStrctCdNm())
+                .illegalConstructYn(createForm.getIllegalConstructYn())
                 .realEstate(realEstate)
                 .build();
     }

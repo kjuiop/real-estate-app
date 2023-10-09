@@ -1,8 +1,10 @@
 package io.gig.realestate.domain.realestate.price;
 
+import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
+import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,7 +19,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class PriceInfo {
+public class PriceInfo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,5 +62,16 @@ public class PriceInfo {
                 .managementExpense(createForm.getManagementExpense())
                 .realEstate(realEstate)
                 .build();
+    }
+
+    public void update(PriceUpdateForm updateForm) {
+        this.salePrice = updateForm.getSalePrice();
+        this.depositPrice = updateForm.getDepositPrice();
+        this.revenueRate = updateForm.getRevenueRate();
+        this.averageUnitPrice = updateForm.getAverageUnitPrice();
+        this.guaranteePrice = updateForm.getGuaranteePrice();
+        this.rentMonth = updateForm.getRentMonth();
+        this.management = updateForm.getManagement();
+        this.managementExpense = updateForm.getManagementExpense();
     }
 }

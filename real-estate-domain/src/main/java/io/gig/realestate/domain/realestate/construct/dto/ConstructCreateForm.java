@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.construct.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,5 +86,7 @@ public class ConstructCreateForm {
 
     // 구조
     private String strctCdNm;
+
+    private YnType illegalConstructYn;
 
 }
