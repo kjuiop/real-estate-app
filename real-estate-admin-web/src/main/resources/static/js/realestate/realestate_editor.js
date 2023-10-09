@@ -573,7 +573,7 @@ let drawCustomerInfo = function(item) {
     tag +=         '<div class="col-md-4">';
     tag +=         '<div>';
     tag +=             '<label class="text-label">생년월일</label>';
-    tag +=             '<button type="button" class="btn btn-sm btn-danger btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
+    tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
     tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth" value="' +  item.birth + '"/>';
     tag +=         '</div>';
@@ -628,7 +628,7 @@ let drawCompanyInfo = function(item) {
     tag +=         '<div class="col-md-6">';
     tag +=         '<div>';
     tag +=             '<label class="text-label">대표자명</label>';
-    tag +=             '<button type="button" class="btn btn-sm btn-danger btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
+    tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right">삭제</button>'
     tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
     tag +=         '</div>';
@@ -762,7 +762,7 @@ let addMemo = function(e) {
 let drawEmptyMemoInfo = function() {
     let tag = '';
     tag += '<tr>';
-    tag +=    '<td class="text-center" colSpan="4">등록된 메모가 없습니다.</td>';
+    tag +=    '<td class="text-center" colSpan="5">등록된 메모가 없습니다.</td>';
     tag += '</tr>';
     return tag;
 }
@@ -771,17 +771,54 @@ let drawMemoInfoList = function(memoInfoList) {
     let tag = '';
 
     $.each(memoInfoList, function(idx, item) {
-        tag += '<tr>';
+        tag += '<tr class="memoUnit">';
         tag +=  '<td style="width:10%">';
         tag +=      '<input type="checkbox" class="checkElement" name="memoId" value="' + item.memoId +'">';
         tag +=  '</td>';
         tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
         tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
-        tag +=  '<td style="width:50%">' + item.memo + '</td>';
+        tag +=  '<td style="width:40%">' + item.memo + '</td>';
+        tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
         tag += '</tr>';
     });
-
     return tag;
+}
+
+let removeMemo = function(e) {
+    e.preventDefault();
+
+    let memoId = $(this).parents('.memoUnit').find('input[name="memoId"]').val();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "memoId" : memoId,
+    }
+
+    twoBtnModal("메모를 삭제하시겠습니까?", function() {
+        $.ajax({
+            url: "/real-estate/memo",
+            method: "delete",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 삭제되었습니다.';
+                twoBtnModal(message, function() {
+                    location.href = '/real-estate/' + result.data + '/edit';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let removeAllMemo = function(e) {
+    e.preventDefault();
+
+
 }
 
 let searchAddress = function(e) {
@@ -872,4 +909,6 @@ $(document).ready(onReady)
     .on('click', '.btnLandLoad', loadLandInfoById)
     .on('click', '.btnLandAdd', landInfoAdd)
     .on('click', '.removeBtn', removeBtn)
-    .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo);
+    .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
+    .on('click', '.btnRemoveMemo', removeMemo)
+    .on('click', '.btnRemoveAllMemo', btnRemoveAllMemo);

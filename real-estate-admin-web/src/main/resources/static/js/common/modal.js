@@ -61,6 +61,7 @@ const commonModal = function(options) {
     }
 
     let bPopup = $modal.bPopup(bPopupOption);
+    $btnSubmit.focus();
 
     $btnSubmit.unbind("click").click(function(e) {
         e.preventDefault();

@@ -5,6 +5,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.memo.dto.MemoCreateForm;
+import io.gig.realestate.domain.realestate.memo.dto.MemoDeleteForm;
 import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,13 @@ public class MemoServiceImpl implements MemoService {
         MemoInfo memo = MemoInfo.create(createForm, newRealEstate, loginUser.getLoginUser());
         newRealEstate.addMemoInfo(memo);
         return realEstateStore.store(newRealEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long delete(MemoDeleteForm deleteForm, LoginUser loginUser) {
+        MemoInfo memoInfo = memoReader.getMemoInfoById(deleteForm.getMemoId());
+        memoInfo.delete();
+        return deleteForm.getRealEstateId();
     }
 }

@@ -189,7 +189,8 @@ let landInfoSave = function(e) {
         "ji" : detailParams.ji,
         "address" : dto.address,
         "commercialYn" : commercialYn,
-        "landInfoList" : landInfoList
+        "landInfoList" : landInfoList,
+        "realEstateId" : dto.realEstateId
     }
 
     console.log("land params", params);

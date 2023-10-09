@@ -52,4 +52,8 @@ public class MemoInfo extends BaseTimeEntity {
                 .updatedBy(loginUser)
                 .build();
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

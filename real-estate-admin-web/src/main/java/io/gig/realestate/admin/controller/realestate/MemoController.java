@@ -4,6 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.memo.MemoService;
 import io.gig.realestate.domain.realestate.memo.dto.MemoCreateForm;
+import io.gig.realestate.domain.realestate.memo.dto.MemoDeleteForm;
 import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,14 @@ public class MemoController {
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody MemoCreateForm createForm,
                                             @CurrentUser LoginUser loginUser) {
         Long realEstateId = memoService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> delete(@Valid @RequestBody MemoDeleteForm deleteForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = memoService.delete(deleteForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 
