@@ -343,7 +343,7 @@
                                 <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
                                     <div class="col-md-6 no-left-padding">
                                         <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;위반건축물여부
+                                            <input type="checkbox" class="checkElement" name="illegalConstructYn" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;위반건축물여부
                                         </label> &nbsp;
                                     </div>
                                     <div class="col-md-6 right-align"></div>
@@ -496,7 +496,7 @@
                         <div class="card-header">
                             <h3 class="card-title margin-right-4">고객정보</h3>
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
-                            <label class="text-label">총 <span>1</span>명</label>
+                            <label class="text-label">총 <span id="customerCnt">1</span>명</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo}"> 저장</button>
                                 <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo}"> 수정</button>

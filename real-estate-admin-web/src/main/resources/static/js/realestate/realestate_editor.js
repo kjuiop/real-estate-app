@@ -135,6 +135,12 @@ let loadConstructInfo = function() {
             $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
             $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
             $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+
+            if (constructInfo.illegalConstructYn === 'Y') {
+                $frm.find('input[name="illegalConstructYn"]').iCheck('check');
+            } else {
+                $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
+            }
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -243,7 +249,7 @@ let loadCustomerInfo = function() {
                 tag += drawUnitCustomerInfo(item.type, item);
             });
             $('#customerInfoSection').html(tag);
-
+            setCustomerCnt();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -432,12 +438,15 @@ let constructInfoSave = function(e) {
         httpMethod = isModify ? 'put' : 'post',
         params = serializeObject({form:$frmConstruct[0]}).json();
 
+    let illegalConstructYn = $frmConstruct.find('input[name="illegalConstructYn"]').is(":checked") ? "Y" : "N";
+
     params.legalCode = detailParams.legalCode;
     params.landType = detailParams.landType;
     params.bun = detailParams.bun;
     params.ji = detailParams.ji;
     params.address = detailParams.address;
     params.realEstateId = dto.realEstateId;
+    params.illegalConstructYn = illegalConstructYn;
 
     console.log("params", params);
 
@@ -501,6 +510,18 @@ let addCustomerInfo = function(e) {
     e.preventDefault();
 
     $('#customerInfoSection').append(drawUnitCustomerInfo("CUSTOMER", null));
+    setCustomerCnt();
+}
+
+let removeCustomerInfo = function(e) {
+    e.preventDefault();
+    $(this).parents('.customerInfoUnit').remove();
+    setCustomerCnt();
+}
+
+let setCustomerCnt = function() {
+    let customerLength = $('#customerInfoSection .customerInfoUnit').length;
+    $('#customerCnt').html(customerLength);
 }
 
 let drawCustomerInfo = function(item) {
@@ -550,7 +571,10 @@ let drawCustomerInfo = function(item) {
     tag +=             '</select>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-4">';
+    tag +=         '<div>';
     tag +=             '<label class="text-label">생년월일</label>';
+    tag +=             '<button type="button" class="btn btn-sm btn-danger btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
+    tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="birth" value="' +  item.birth + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
@@ -602,7 +626,10 @@ let drawCompanyInfo = function(item) {
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="companyName" value="' +  item.companyName + '"/>';
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
+    tag +=         '<div>';
     tag +=             '<label class="text-label">대표자명</label>';
+    tag +=             '<button type="button" class="btn btn-sm btn-danger btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'
+    tag +=         '</div>'
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
@@ -626,6 +653,7 @@ let drawCompanyInfo = function(item) {
 let addCustomerSave = function(e) {
     e.preventDefault();
 
+    let isModify = dto.existCustomerInfo;
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         detailParams = serializeObject({form:$frmBasic[0]}).json();
 
@@ -679,6 +707,9 @@ let addCustomerSave = function(e) {
         success: function (result) {
             console.log("result : ", result);
             let message = '정상적으로 저장되었습니다.';
+            if (isModify) {
+                message = '정상적으로 수정되었습니다.';
+            }
             twoBtnModal(message, function() {
                 location.href = '/real-estate/' + result.data + '/edit';
             });
@@ -840,4 +871,5 @@ $(document).ready(onReady)
     .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnLandLoad', loadLandInfoById)
     .on('click', '.btnLandAdd', landInfoAdd)
-    .on('click', '.removeBtn', removeBtn);
+    .on('click', '.removeBtn', removeBtn)
+    .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo);
