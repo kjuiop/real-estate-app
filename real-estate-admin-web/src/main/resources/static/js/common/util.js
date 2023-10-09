@@ -230,3 +230,14 @@ const drawErrorMessage = function($field, errorMsg) {
 const drawSuccessMessage = function($field, errorMsg) {
     $field.html('<small class="error-message text-small text-blue margin-left-3">' + errorMsg + '</small>');
 }
+
+let addCommasToNumber = function(number) {
+    if (number < 1000) {
+        return number;
+    }
+    number = Math.floor(number);
+    number = Math.round(number / 100) * 100;
+    let numberStr = number.toString();
+    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numberStr;
+}

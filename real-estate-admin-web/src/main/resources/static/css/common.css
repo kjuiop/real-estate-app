@@ -365,5 +365,9 @@
 }
 
 .width-60px {
-    width: 60px;
+    min-width: 60px;
+}
+
+.min-width-50px {
+    min-width: 50px;
 }

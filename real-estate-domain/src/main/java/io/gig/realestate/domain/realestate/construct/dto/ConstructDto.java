@@ -23,7 +23,7 @@ public class ConstructDto {
 
     private int useAprDay;
 
-    private int platArea;
+    private double platArea;
 
     private Double archArea;
 

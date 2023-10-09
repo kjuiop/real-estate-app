@@ -32,8 +32,8 @@ let loadLandInfoList = function() {
             $frm.find('.pyung').text(landInfo.lndpclArByPyung);
             $frm.find('.lndpclAr').val(landInfo.lndpclAr);
             $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(landInfo.pblntfPclnd);
-            $frm.find('.totalPblntfPclnd').val(landInfo.totalPblntfPclnd);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
             $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
             $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
             $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);

@@ -862,17 +862,6 @@ let searchAddress = function(e) {
     }).open();
 }
 
-let addCommasToNumber = function(number) {
-    if (number < 1000) {
-        return number;
-    }
-    number = Math.floor(number);
-    number = Math.round(number / 100) * 100;
-    let numberStr = number.toString();
-    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return numberStr;
-}
-
 let uploadImage = function(e) {
     e.preventDefault();
 

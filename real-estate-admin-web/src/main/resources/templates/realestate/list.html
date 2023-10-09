@@ -43,38 +43,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-<!--                                        <tr>-->
-<!--                                            <td colspan="9" style="width: 100%;">-->
-<!--                                                <div class="input-label">-->
-<!--                                                    <label for="team" class="top-label">-->
-<!--                                                        <div class="search-text">위치</div>-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <div class="display-flex-row margin-top-35">-->
-<!--                                                    <select class="form-control form-control custom-select search-single-group margin-right-5" name="sido">-->
-<!--                                                        <option>시도 선택</option>-->
-<!--                                                        <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">-->
-<!--                                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>-->
-<!--                                                        </th:block>-->
-<!--                                                    </select>-->
-
-<!--                                                    <select class="form-control form-control-sm custom-select search-single-group select-box margin-right-5" name="gungu">-->
-<!--                                                        <option>구군 선택</option>-->
-<!--                                                    </select>-->
-
-<!--                                                    <select class="form-control form-control-sm custom-select search-single-group select-box margin-right-4" name="dong">-->
-<!--                                                        <option>동 선택</option>-->
-<!--                                                    </select>-->
-
-<!--                                                    <select class="form-control form-control-sm custom-select search-single-group margin-right-4" name="landType">-->
-<!--                                                        <option value="general">일반</option>-->
-<!--                                                        <option value="mountain">산</option>-->
-<!--                                                    </select>-->
-<!--                                                    <input type="text" class="form-control search-single-group margin-right-4 height-select" name="bun" placeholder="번" />-->
-<!--                                                    <input type="text" class="form-control search-single-group height-select" name="ji" placeholder="지" />-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
                                         <tr>
                                             <td colspan="3">
                                                 <div class="input-label">
@@ -115,89 +83,24 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="startApprovalYear" class="top-label">
-                                                            <div class="search-text">번</div>
+                                                        <label for="minTotalArea" class="top-label">
+                                                            <div class="search-text">번지</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" name="useDistrict" class="form-control search-input">
+                                                    <input type="text" id="bun" name="minTotalArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>-</span></div>
+                                                    <input type="text" id="ji" name="maxTotalArea" class="form-control search-input center-align">
                                                 </div>
                                             </td>
                                             <td colspan="2">
-                                                <div class="display-flex-row search-double-field">
-                                                    <div class="input-label">
-                                                        <label for="startApprovalYear" class="top-label">
-                                                            <div class="search-text">지</div>
-                                                        </label>
-                                                    </div>
-                                                    <input type="text" name="useDistrict" class="form-control search-input">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">용도지역</div>
+                                                    </label>
                                                 </div>
+                                                <input type="text" name="useDistrict" class="form-control search-input">
                                             </td>
                                         </tr>
-<!--                                        <tr>-->
-<!--                                            <td colspan="1" style="position: relative;">-->
-<!--                                                <div class="input-label">-->
-<!--                                                    <label for="name" class="top-label">-->
-<!--                                                        <div class="search-text">위치</div>-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <select class="form-control form-control custom-select select-box" name="sido">-->
-<!--                                                    <option>시도 선택</option>-->
-<!--                                                    <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">-->
-<!--                                                        <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>-->
-<!--                                                    </th:block>-->
-<!--                                                </select>-->
-<!--                                            </td>-->
-<!--                                            <td colspan="1">-->
-<!--                                                <div class="input-label">-->
-<!--                                                    <label for="name" class="top-label">-->
-<!--                                                        <div class="search-text">&nbsp;</div>-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <select class="form-control form-control-sm custom-select select-box" name="gungu">-->
-<!--                                                    <option>구군 선택</option>-->
-<!--                                                </select>-->
-<!--                                            </td>-->
-<!--                                            <td colspan="1">-->
-<!--                                                <div class="input-label">-->
-<!--                                                    <label for="team" class="top-label">-->
-<!--                                                        <div class="search-text">&nbsp;</div>-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <select class="form-control form-control-sm custom-select select-box" name="dong">-->
-<!--                                                    <option>동 선택</option>-->
-<!--                                                </select>-->
-<!--                                            </td>-->
-<!--                                            <td colspan="2" class="search-double-group">-->
-<!--                                                <div class="display-flex-row search-double-field">-->
-<!--                                                    <div class="input-label">-->
-<!--                                                        <label for="minSiteArea" class="top-label">-->
-<!--                                                            <div class="search-text">일반</div>-->
-<!--                                                        </label>-->
-<!--                                                    </div>-->
-<!--                                                    <input type="text" name="useDistrict" class="form-control search-input">-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            <td colspan="2" class="search-double-group">-->
-<!--                                                <div class="display-flex-row search-double-field">-->
-<!--                                                    <div class="input-label">-->
-<!--                                                        <label for="startApprovalYear" class="top-label">-->
-<!--                                                            <div class="search-text">번</div>-->
-<!--                                                        </label>-->
-<!--                                                    </div>-->
-<!--                                                    <input type="text" name="useDistrict" class="form-control search-input">-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            <td colspan="2">-->
-<!--                                                <div class="display-flex-row search-double-field">-->
-<!--                                                    <div class="input-label">-->
-<!--                                                        <label for="startApprovalYear" class="top-label">-->
-<!--                                                            <div class="search-text">지</div>-->
-<!--                                                        </label>-->
-<!--                                                    </div>-->
-<!--                                                    <input type="text" name="useDistrict" class="form-control search-input">-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
                                         <tr>
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
@@ -257,13 +160,22 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">용도지역</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minSiteArea" class="top-label">
+                                                            <div class="search-text">대지</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxSiteArea" class="bottom-label">
+                                                            <div class="search-text">평</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" name="useDistrict" class="form-control search-input">
                                             </td>
                                         </tr>
                                         <tr>
@@ -325,41 +237,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">도로</div>
-                                                    </label>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">주소</div>
-                                                    </label>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </td>
-                                            <td colspan="2" class="search-double-group">
-                                                <div class="display-flex-row search-double-field">
-                                                    <div class="input-label">
-                                                        <label for="minSiteArea" class="top-label">
-                                                            <div class="search-text">대지</div>
-                                                        </label>
-                                                    </div>
-                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
-                                                    <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
-                                                    <div class="input-label">
-                                                        <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
@@ -377,8 +254,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -388,10 +263,10 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
+                                        <button type="button" id="btnReset" class="btn btn-success float-right"><i class="fa fa-refresh"></i>
                                             초기화
                                         </button>
-                                        <button type="submit" class="btn btn-sm btn-default float-right" style="margin-right: 5px;">
+                                        <button type="submit" class="btn btn-default float-right" style="margin-right: 5px;">
                                             <i class="fa fa-search"></i> 검색
                                         </button>
                                     </div>
@@ -401,7 +276,7 @@
                     </div>
                     <div class="card" style="border-left: 5px solid #117a8b;">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span>0</span>개&nbsp;)
+                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${pages.content.size()}"></span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
@@ -424,12 +299,13 @@
                                             </label>
                                         </th>
                                         <th style="width: 10%;">사진</th>
-                                        <th style="width: 20%;">주소</th>
-                                        <th>진행단계</th>
-                                        <th>금액</th>
-                                        <th>용도</th>
-                                        <th>담당자</th>
-                                        <th>등록일</th>
+                                        <th style="width: 15%;">주소</th>
+                                        <th style="width: 5%;">용도</th>
+                                        <th style="width: 9%;">진행단계</th>
+                                        <th style="width: 15%;">금액</th>
+                                        <th style="width: 11%;">면적</th>
+                                        <th style="width: 5%;">담당자</th>
+                                        <th style="width: 9%;">등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -455,8 +331,12 @@
                                                 <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
                                                     <span th:text="${item.buildingName}"></span>
                                                 </th:block>
+                                                <th:block th:if="${not #strings.isEmpty(item.prposArea1Nm)}">
+                                                    <span th:text="${item.prposArea1Nm}"></span>
+                                                </th:block>
                                             </div>
                                         </td>
+                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td>
                                             <th:block th:if="${item.processType != null}">
                                                 [[${item.processType.description}]]
@@ -465,13 +345,29 @@
                                         <td>
                                             <div class="display-flex-column">
                                                 <div class="display-flex-row">
-                                                    <button class="btn btn-xs btn-danger" disabled>매매</button>
+                                                    <button class="btn btn-xs btn-danger margin-right-5">매매</button>
+                                                    <div>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                        (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
+                                                    </div>
+                                                </div>
+                                                <div class="display-flex-row margin-top-5">
+                                                    <button class="btn btn-xs btn-default margin-right-5">수익</button>
+                                                    <div>
+                                                        <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
+                                        <td>
+                                            <div>
+                                                연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;대&nbsp;<span th:text="${item.platArea}"></span>㎡
+                                                <br />
+                                                건&nbsp;<span th:text="${item.archArea}"></span>㎡
+                                            </div>
+                                        </td>
                                         <td th:text="${item.managerName}"></td>
-                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
+                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
                                         <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
@@ -481,7 +377,7 @@
                             </div>
                         </div>
                         <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
-                            <button id="btnRealEstateModal" class="btn btn-sm btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
+                            <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

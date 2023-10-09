@@ -34,7 +34,7 @@ public class ConstructCreateForm {
     private int useAprDay;
 
     // 대지면적
-    private int platArea;
+    private double platArea;
 
     // 건물면적
     private Double archArea;
