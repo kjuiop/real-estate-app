@@ -21,6 +21,7 @@ let reset = function(e) {
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='page']").val(0);
     $frm.find("input[name='size']").val(10);
+    $frm.find('input[name="processType"]').val('');
     $frm.submit();
 };
 
@@ -146,6 +147,7 @@ let getChildAreaData = function() {
             if (name === 'sido') {
                 tag = drawAreaOption("gungu", areaList);
                 $gungu.html(tag);
+                $dong.html('<option>동 선택</option>');
             } else if (name === 'gungu') {
                 tag = drawAreaOption("dong", areaList);
                 $dong.html(tag);
