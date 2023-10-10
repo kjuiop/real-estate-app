@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +47,12 @@ public class RealEstateQueryRepository {
                 .where(where)
                 .where(defaultCondition())
                 .where(eqProcessType(searchDto.getProcessType()))
+                .where(eqSido(searchDto.getSido()))
+                .where(eqGungu(searchDto.getGungu()))
+                .where(eqDong(searchDto.getDong()))
+                .where(eqLandType(searchDto.getLandType()))
+                .where(eqBun(searchDto.getBun()))
+                .where(eqJi(searchDto.getJi()))
                 .orderBy(realEstate.id.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
@@ -93,5 +101,42 @@ public class RealEstateQueryRepository {
 
     private BooleanExpression eqProcessType(ProcessType processType) {
         return processType != null ? realEstate.processType.eq(processType) : null;
+    }
+
+    private BooleanExpression eqSido(String sido) {
+        if (!StringUtils.hasText(sido) || sido.length() < 3) {
+            return null;
+        }
+
+        String legalCode = sido.substring(0, 2);
+        return realEstate.legalCode.startsWith(legalCode);
+    }
+
+    private BooleanExpression eqGungu(String gungu) {
+        if (!StringUtils.hasText(gungu) || gungu.length() < 5) {
+            return null;
+        }
+        String legalCode = gungu.substring(0, 5);
+        return realEstate.legalCode.startsWith(legalCode);
+    }
+
+    private BooleanExpression eqDong(String dong) {
+        if (!StringUtils.hasText(dong) || dong.length() < 8) {
+            return null;
+        }
+        String legalCode = dong.substring(0, 8);
+        return realEstate.legalCode.startsWith(legalCode);
+    }
+
+    private BooleanExpression eqLandType(String landType) {
+        return StringUtils.hasText(landType) ? realEstate.landType.eq(landType) : null;
+    }
+
+    private BooleanExpression eqBun(String bun) {
+        return StringUtils.hasText(bun) ? realEstate.bun.eq(bun) : null;
+    }
+
+    private BooleanExpression eqJi(String ji) {
+        return StringUtils.hasText(ji) ? realEstate.ji.eq(ji) : null;
     }
 }

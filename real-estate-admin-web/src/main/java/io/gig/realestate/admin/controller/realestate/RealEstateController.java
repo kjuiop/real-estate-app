@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,9 +47,21 @@ public class RealEstateController {
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        List<AreaListDto> areaList = areaService.getParentAreaList();
 
-        model.addAttribute("areaList", areaList);
+        List<AreaListDto> sidoList = areaService.getParentAreaList();
+        model.addAttribute("sidoList", sidoList);
+
+        if (StringUtils.hasText(searchDto.getSido())) {
+            List<AreaListDto> gunguList = areaService.getAreaListBySido(searchDto.getSido());
+            model.addAttribute("gunguList", gunguList);
+        }
+
+        if (StringUtils.hasText(searchDto.getGungu())) {
+            List<AreaListDto> dongList = areaService.getAreaListByGungu(searchDto.getGungu());
+            model.addAttribute("dongList", dongList);
+        }
+
+
         model.addAttribute("condition", searchDto);
         model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
         return "realestate/list";

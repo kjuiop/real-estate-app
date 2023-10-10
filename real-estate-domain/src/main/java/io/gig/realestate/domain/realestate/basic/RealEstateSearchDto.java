@@ -21,6 +21,18 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String name;
 
+    private String sido;
+
+    private String gungu;
+
+    private String dong;
+
+    private String landType;
+
+    private String bun;
+
+    private String ji;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }

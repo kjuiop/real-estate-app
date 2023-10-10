@@ -7,6 +7,7 @@ import io.gig.realestate.domain.area.dto.AreaListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -43,6 +44,26 @@ public class AreaQueryRepository {
                 .fetch();
     }
 
+    public List<AreaListDto> getAreaListBySido(String sido) {
+        return this.queryFactory
+                .select(Projections.constructor(AreaListDto.class, area))
+                .from(area)
+                .where(eqSido(sido))
+                .where(eqLevel(2))
+                .orderBy(area.sortOrder.asc())
+                .fetch();
+    }
+
+    public List<AreaListDto> getAreaListByGungu(String gungu) {
+        return this.queryFactory
+                .select(Projections.constructor(AreaListDto.class, area))
+                .from(area)
+                .where(eqGungu(gungu))
+                .where(eqLevel(3))
+                .orderBy(area.sortOrder.asc())
+                .fetch();
+    }
+
     private BooleanExpression isNullParent() {
         return area.parent.isNull();
     }
@@ -55,4 +76,21 @@ public class AreaQueryRepository {
         return areaId != null ? area.parent.id.eq(areaId) : null;
     }
 
+    private BooleanExpression eqSido(String sido) {
+        if (!StringUtils.hasText(sido) || sido.length() < 3) {
+            return null;
+        }
+
+        String legalCode = sido.substring(0, 2);
+        return area.legalAddressCode.startsWith(legalCode);
+    }
+
+    private BooleanExpression eqGungu(String gungu) {
+        if (!StringUtils.hasText(gungu) || gungu.length() < 6) {
+            return null;
+        }
+
+        String legalCode = gungu.substring(0, 5);
+        return area.legalAddressCode.startsWith(legalCode);
+    }
 }

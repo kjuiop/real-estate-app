@@ -21,9 +21,6 @@ let reset = function(e) {
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='page']").val(0);
     $frm.find("input[name='size']").val(10);
-    $frm.find("input[name='username']").val('');
-    $frm.find("input[name='name']").val('');
-    $frm.find("input[name='userStatus']").val('');
     $frm.submit();
 };
 
@@ -126,7 +123,7 @@ let loadKakaoMap = function(searchAddress) {
 }
 
 let getChildAreaData = function() {
-    let areaId = $(this).val(),
+    let areaId = $(this).find('option:selected').attr('areaId'),
         name = $(this).attr('name');
 
     if (!checkNullOrEmptyValue(areaId)) {
@@ -169,28 +166,10 @@ let drawAreaOption = function(depth, areaList) {
         tag += '<option>동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
-        tag += '<option id="' + item.areaId + '" value="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
     });
     return tag;
 }
-
-let selectProcessType = function(e) {
-    e.preventDefault();
-
-    let $this = $(this),
-        $section = $(this).parents('.processUnitSection');
-
-    $section.find('.btnProcessType').each(function() {
-        $(this).removeClass("btn-primary");
-        $(this).removeClass("selected");
-        $(this).addClass("btn-default");
-    });
-
-    $this.removeClass("btn-default");
-    $this.addClass("btn-primary");
-    $this.addClass("selected");
-}
-
 
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
@@ -201,5 +180,4 @@ $(document).ready(onReady)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
-    // .on('click', '.btnProcessType', selectProcessType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);

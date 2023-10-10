@@ -56,16 +56,22 @@
                                                 <div class="display-flex-row margin-top-35">
                                                     <select class="form-control custom-select margin-right-5 border-none" name="sido">
                                                         <option>시도 선택</option>
-                                                        <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
-                                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
                                                     <select class="form-control form-control-sm custom-select select-box margin-right-5 border-none" name="gungu">
                                                         <option>구군 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        </th:block>
                                                     </select>
 
                                                     <select class="form-control form-control-sm custom-select select-box margin-right-4 border-none" name="dong">
                                                         <option>동 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        </th:block>
                                                     </select>
                                                 </div>
                                             </td>
@@ -77,8 +83,8 @@
                                                         </label>
                                                     </div>
                                                     <select class="form-control form-control-sm custom-select margin-top-35 border-none" name="landType">
-                                                        <option value="general">일반</option>
-                                                        <option value="mountain">산</option>
+                                                        <option value="general" th:selected="${not #strings.isEmpty(condition.landType) && condition.landType eq 'general'}">일반</option>
+                                                        <option value="mountain" th:selected="${not #strings.isEmpty(condition.landType) && condition.landType eq 'mountain'}">산</option>
                                                     </select>
                                                 </div>
                                             </td>
@@ -89,9 +95,9 @@
                                                             <div class="search-text">번지</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="bun" name="minTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="bun" name="bun" class="form-control search-input center-align" th:value="${condition.bun}">
                                                     <div class="input-div"><span>-</span></div>
-                                                    <input type="text" id="ji" name="maxTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="ji" name="ji" class="form-control search-input center-align" th:value="${condition.ji}">
                                                 </div>
                                             </td>
                                             <td colspan="2">

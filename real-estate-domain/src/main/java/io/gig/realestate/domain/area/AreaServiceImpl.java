@@ -40,6 +40,18 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<AreaListDto> getAreaListBySido(String sido) {
+        return areaReader.getAreaListBySido(sido);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AreaListDto> getAreaListByGungu(String gungu) {
+        return areaReader.getAreaListByGungu(gungu);
+    }
+
+    @Override
     @Transactional
     public void createByExcelData(MultipartFile file) throws IOException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
