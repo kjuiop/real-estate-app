@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="callout callout-info">
+                    <div class="callout">
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
@@ -31,17 +31,17 @@
                                                     <i class="fa fa-search" aria-hidden="true"></i>
                                                     물건 정보 검색
                                                 </label>
-                                                <div class="pull-right" style="display: inline-block;">
-                                                    <button class="btn btn-primary text-right" processType="all">전체</button>
-                                                    <button class="btn btn-default text-right" processType="Preparing">준비중</button>
-                                                    <button class="btn btn-default text-right" processType="Prepare">준비</button>
-                                                    <button class="btn btn-default text-right" processType="Working">작업중</button>
-                                                    <button class="btn btn-default text-right" processType="Complete">완료</button>
-                                                    <button class="btn btn-default text-right" processType="Impossible">작업불가</button>
-                                                    <button class="btn btn-default text-right" processType="Pending">보류</button>
-                                                    <button class="btn btn-default text-right" processType="Sell">매각</button>
-                                                    <button class="btn btn-default text-right" processType="R">R</button>
-                                                    <button class="btn btn-default text-right" processType="AB">A-B</button>
+                                                <div class="pull-right processUnitSection" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-primary text-right btnProcessType" processType="all">전체</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Preparing">준비중</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Prepare">준비</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Working">작업중</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Complete">완료</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Impossible">작업불가</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Pending">보류</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Sell">매각</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="R">R</button>
+                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="AB">A-B</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -264,18 +264,18 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnReset" class="btn btn-success float-right"><i class="fa fa-refresh"></i>
-                                            초기화
-                                        </button>
-                                        <button type="submit" class="btn btn-default float-right" style="margin-right: 5px;">
+                                        <button type="submit" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="card" style="border-left: 5px solid #117a8b;">
+                    <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">총</h4>(&nbsp;<span th:text="${pages.content.size()}"></span>개&nbsp;)
                             <div class="card-tools float-right">
@@ -299,10 +299,10 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th style="width: 10%;">사진</th>
+                                        <th style="width: 8%;">사진</th>
                                         <th style="width: 15%;">주소</th>
+                                        <th style="width: 8%;">진행단계</th>
                                         <th style="width: 5%;">용도</th>
-                                        <th style="width: 9%;">진행단계</th>
                                         <th style="width: 15%;">금액</th>
                                         <th style="width: 11%;">면적</th>
                                         <th style="width: 5%;">담당자</th>
@@ -337,18 +337,18 @@
                                                 </th:block>
                                             </div>
                                         </td>
-                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td>
                                             <th:block th:if="${item.processType != null}">
                                                 [[${item.processType.description}]]
                                             </th:block>
                                         </td>
+                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td>
                                             <div class="display-flex-column">
                                                 <div class="display-flex-row">
                                                     <th:block th:if="${item.salePrice > 0}">
-                                                        <button class="btn btn-xs btn-danger margin-right-5">매매</button>
                                                         <div>
+                                                            <button class="btn btn-xs btn-danger margin-right-5">매매</button>
                                                             <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
                                                             (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
                                                         </div>
@@ -356,8 +356,9 @@
                                                 </div>
                                                 <div class="display-flex-row margin-top-5">
                                                     <th:block th:if="${item.revenueRate > 0}">
-                                                        <button class="btn btn-xs btn-default margin-right-5">수익</button>
+
                                                         <div>
+                                                            <button class="btn btn-xs btn-default margin-right-5">수익</button>
                                                             <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
                                                         </div>
                                                     </th:block>

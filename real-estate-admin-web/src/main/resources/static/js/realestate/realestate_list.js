@@ -2,10 +2,13 @@ let onReady = function() {
 };
 
 let search = function(e) {
+    e.preventDefault();
+
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
-    $frm.submit();
+
+    alert("in");
 };
 
 let reset = function(e) {
@@ -166,14 +169,32 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
+let selectProcessType = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $(this).parents('.processUnitSection');
+
+    $section.find('.btnProcessType').each(function() {
+        $(this).removeClass("btn-primary");
+        $(this).removeClass("selected");
+        $(this).addClass("btn-default");
+    });
+
+    $this.removeClass("btn-default");
+    $this.addClass("btn-primary");
+    $this.addClass("selected");
+}
+
 
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
-    .on('click', '#btnSearch', search)
+    .on('submit', '#btnSearch', search)
     .on('change', '#limit', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
+    .on('click', '.btnProcessType', selectProcessType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);

@@ -5,6 +5,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/realestate/detail}">
+<head>
+    <style>
+        @media (min-width: 1500px) {
+            .col-md-4 {
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            .col-sm-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content" th:with="isModify = ${dto.realEstateId != null}">
