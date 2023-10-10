@@ -55,20 +55,20 @@
                                                 </div>
                                                 <div class="display-flex-row margin-top-35">
                                                     <select class="form-control custom-select margin-right-5 border-none" name="sido">
-                                                        <option>시도 선택</option>
+                                                        <option value="">시도 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
                                                     <select class="form-control form-control-sm custom-select select-box margin-right-5 border-none" name="gungu">
-                                                        <option>구군 선택</option>
+                                                        <option value="">구군 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
 
                                                     <select class="form-control form-control-sm custom-select select-box margin-right-4 border-none" name="dong">
-                                                        <option>동 선택</option>
+                                                        <option value="">동 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:text="${area.name}"></option>
                                                         </th:block>

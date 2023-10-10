@@ -148,9 +148,15 @@ let getChildAreaData = function() {
                 tag = drawAreaOption("gungu", areaList);
                 $gungu.html(tag);
                 $dong.html('<option>동 선택</option>');
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
             } else if (name === 'gungu') {
                 tag = drawAreaOption("dong", areaList);
                 $dong.html(tag);
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
             }
         },
         error:function(error){
@@ -163,9 +169,9 @@ let getChildAreaData = function() {
 let drawAreaOption = function(depth, areaList) {
     let tag = '';
     if (depth === 'gungu') {
-        tag += '<option>구군 선택</option>';
+        tag += '<option value="">구군 선택</option>';
     } else if (depth === 'dong') {
-        tag += '<option>동 선택</option>';
+        tag += '<option value="">동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
         tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
