@@ -41,6 +41,8 @@ public class Administrator extends BaseTimeEntity {
 
     private String name;
 
+    private String phone;
+
     @Builder.Default
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
@@ -104,6 +106,7 @@ public class Administrator extends BaseTimeEntity {
                 .name(signUpForm.getName())
                 .password(encodedPassword)
                 .passwordFailureCount(0)
+                .phone(signUpForm.getPhone())
                 .team(team)
                 .build();
     }

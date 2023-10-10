@@ -53,13 +53,12 @@
                                                     </label>
                                                 </div>
                                                 <div class="display-flex-row margin-top-35">
-                                                    <select class="form-control form-control custom-select margin-right-5 border-none" name="sido">
+                                                    <select class="form-control custom-select margin-right-5 border-none" name="sido">
                                                         <option>시도 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
                                                             <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
-
                                                     <select class="form-control form-control-sm custom-select select-box margin-right-5 border-none" name="gungu">
                                                         <option>구군 선택</option>
                                                     </select>

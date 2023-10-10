@@ -1,5 +1,4 @@
 let onReady = function() {
-
     let $frm = $('form[name="frmTeamRegister"]');
     isModify($frm, 'teamId') ? updateValidate($frm) : createValidate($frm);
 }
@@ -91,4 +90,40 @@ let save = function() {
     });
 }
 
-$(document).ready(onReady);
+let changeStatus = function() {
+    let adminId = $(this).parents('tr').find('.adminId').val(),
+        status = $(this).val();
+
+    let params = [];
+    let param = {
+        "adminId" : adminId,
+        "status" : status,
+    }
+    params.push(param);
+
+    twoBtnModal("상태를 변경하시겠습니까?", function() {
+        $.ajax({
+            url: "/settings/administrators/status",
+            method : "put",
+            type: "json",
+            contentType : "application/json",
+            data: JSON.stringify(params),
+            success: function (response) {
+                console.log(response);
+                if (response.status === "OK") {
+                    oneBtnModal("상태 변경이 완료되었습니다.", function () {
+                        location.reload();
+                    });
+                }
+            },
+            error : function (response) {
+                oneBtnModal("변경 중 오류가 발생하였습니다.", function(){});
+            }
+        });
+    });
+}
+
+$(document).ready(onReady)
+    .on('change', 'select[name="status"]', changeStatus)
+    .on('ifToggled', '.chkAll', selectedChkAll)
+    .on('ifToggled', 'input[name=numbers]', selectedChkBox);

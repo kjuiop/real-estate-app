@@ -15,7 +15,7 @@ public enum AdminStatus {
 
     PENDING("Pending", "대기"),
 
-    NORMAL("Normal", "정상"),
+    NORMAL("Normal", "활성"),
 
     WITHDRAW("Withdraw", "탈퇴"),
 

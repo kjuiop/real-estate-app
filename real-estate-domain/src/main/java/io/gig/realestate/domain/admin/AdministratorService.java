@@ -44,4 +44,6 @@ public interface AdministratorService {
     void statusUpdate(List<AdminStatusUpdateForm> updateForm);
 
     List<AdministratorListDto> getAdminListMyMembers(LoginUser loginUser);
+
+    Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long id);
 }
