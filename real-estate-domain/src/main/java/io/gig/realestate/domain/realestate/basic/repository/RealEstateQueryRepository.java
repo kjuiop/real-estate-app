@@ -10,6 +10,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,6 +44,7 @@ public class RealEstateQueryRepository {
                 .from(realEstate)
                 .where(where)
                 .where(defaultCondition())
+                .where(eqProcessType(searchDto.getProcessType()))
                 .orderBy(realEstate.id.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
@@ -87,5 +89,9 @@ public class RealEstateQueryRepository {
 
     private BooleanExpression eqRealEstateId(Long realEstateId) {
         return realEstateId != null ? realEstate.id.eq(realEstateId) : null;
+    }
+
+    private BooleanExpression eqProcessType(ProcessType processType) {
+        return processType != null ? realEstate.processType.eq(processType) : null;
     }
 }

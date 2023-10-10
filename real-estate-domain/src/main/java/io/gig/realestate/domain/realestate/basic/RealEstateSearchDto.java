@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.common.BaseSearchDto;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Sort;
 @Setter
 @NoArgsConstructor
 public class RealEstateSearchDto extends BaseSearchDto {
+
+    private ProcessType processType;
 
     private String name;
 

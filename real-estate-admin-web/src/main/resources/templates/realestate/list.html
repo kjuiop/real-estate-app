@@ -15,6 +15,7 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
+                            <input type="hidden" name="processType" />
                             <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
                                 <table class="table projects search-table spacing-table">
@@ -32,16 +33,16 @@
                                                     물건 정보 검색
                                                 </label>
                                                 <div class="pull-right processUnitSection" style="display: inline-block;">
-                                                    <button type="button" class="btn btn-primary text-right btnProcessType" processType="all">전체</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Preparing">준비중</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Prepare">준비</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Working">작업중</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Complete">완료</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Impossible">작업불가</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Pending">보류</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="Sell">매각</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="R">R</button>
-                                                    <button type="button" class="btn btn-default text-right btnProcessType" processType="AB">A-B</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'preparing' ? 'btn-primary' : 'btn-default'}" processType="Preparing">준비중</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" processType="R">R</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" processType="AB">A-B</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -264,7 +265,7 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-default float-right">
+                                        <button type="button" id="btnSearch" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
                                         </button>
                                         <button type="button" id="btnReset" class="btn btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
@@ -381,7 +382,7 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="9">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -485,6 +486,9 @@
 </div>
 <section layout:fragment="script">
     <script th:inline="javascript">
+        /*<![CDATA[*/
+        var condition =/*[[${condition}]]*/'';
+        /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: postcode"></script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>

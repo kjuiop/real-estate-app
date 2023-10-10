@@ -1,4 +1,5 @@
 let onReady = function() {
+    console.log("condition", condition);
 };
 
 let search = function(e) {
@@ -8,7 +9,11 @@ let search = function(e) {
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
 
-    alert("in");
+    let processType = $(this).attr('processType');
+    if (checkNullOrEmptyValue(processType)) {
+        $frm.find('input[name="processType"]').val(processType);
+    }
+    $frm.submit();
 };
 
 let reset = function(e) {
@@ -190,11 +195,11 @@ let selectProcessType = function(e) {
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
-    .on('submit', '#btnSearch', search)
+    .on('click', '#btnSearch, .btnProcessType', search)
     .on('change', '#limit', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
-    .on('click', '.btnProcessType', selectProcessType)
+    // .on('click', '.btnProcessType', selectProcessType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);
