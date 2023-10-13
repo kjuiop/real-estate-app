@@ -36,10 +36,7 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${!isModify && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${isModify && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
@@ -131,10 +128,7 @@
                             <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!dto.existLandInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${dto.existLandInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
-                                </div>
+                                <div class="card-tools"></div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-column" style="border-bottom: 1px solid #eeeeee">
@@ -258,10 +252,7 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">금액정보</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${!dto.existPriceInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${dto.existPriceInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
@@ -383,10 +374,7 @@
                         <form class="form-horizontal" name="frmConstructRegister" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${!dto.existConstructInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${dto.existConstructInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
-                                </div>
+                                <div class="card-tools"></div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
@@ -546,10 +534,7 @@
                             <h3 class="card-title margin-right-4">고객정보</h3>
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span id="customerCnt">1</span>명</label>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo && (dto.isOwnUser && dto.processType.level < 2)}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">

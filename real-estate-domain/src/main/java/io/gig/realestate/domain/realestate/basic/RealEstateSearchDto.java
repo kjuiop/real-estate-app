@@ -33,6 +33,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String ji;
 
+    private String buildingName;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }

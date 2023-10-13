@@ -106,21 +106,21 @@
                                                         <div class="search-text">용도지역</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="useDistrict" class="form-control search-input">
+                                                <input type="text" name="useStrictArea" class="form-control search-input">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
-                                                    <label for="name" class="top-label">
+                                                    <label for="buildingName" class="top-label">
                                                         <div class="search-text">물건명</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="name" name="name" class="form-control search-input">
+                                                <input type="text" id="buildingName" name="buildingName" class="form-control search-input" th:value="${condition.buildingName}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
-                                                    <label for="name" class="top-label">
+                                                    <label for="manager" class="top-label">
                                                         <div class="search-text">담당자</div>
                                                     </label>
                                                 </div>
@@ -423,7 +423,7 @@
                             <form class="form-horizontal" name="frmMoveRegister">
                                 <input type="hidden" name="bCode" />
                                 <input type="hidden" name="hCode" />
-                                <table class="table table-borderless">
+                                <table class="table table-borderless" style="height: 225px;">
                                     <tbody>
                                     <tr>
                                         <td class="col-md-6" colspan="6">

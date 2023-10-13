@@ -23,7 +23,7 @@ let loadLandInfoList = function() {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("load database land info", result);
+            console.log("load land info", result);
             let landList = result.data,
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');

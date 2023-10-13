@@ -53,6 +53,7 @@ public class RealEstateQueryRepository {
                 .where(eqLandType(searchDto.getLandType()))
                 .where(eqBun(searchDto.getBun()))
                 .where(eqJi(searchDto.getJi()))
+                .where(likeBuildingName(searchDto.getBuildingName()))
                 .orderBy(realEstate.id.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
@@ -138,5 +139,9 @@ public class RealEstateQueryRepository {
 
     private BooleanExpression eqJi(String ji) {
         return StringUtils.hasText(ji) ? realEstate.ji.eq(ji) : null;
+    }
+
+    private BooleanExpression likeBuildingName(String buildingName) {
+        return StringUtils.hasText(buildingName) ? realEstate.buildingName.contains(buildingName) : null;
     }
 }
