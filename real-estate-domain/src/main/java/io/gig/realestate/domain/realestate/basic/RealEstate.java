@@ -185,14 +185,11 @@ public class RealEstate extends BaseTimeEntity {
     }
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
-//        this.legalCode = updateForm.getLegalCode();
-//        this.landType = updateForm.getLandType();
-//        this.bun = updateForm.getBun();
-//        this.ji = updateForm.getJi();
         this.buildingName = updateForm.getBuildingName();
         this.etcInfo = updateForm.getEtcInfo();
-//        this.address = updateForm.getAddress();
         this.addressDetail = updateForm.getAddressDetail();
+        this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
+        this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.usageType = usageType;
         this.manager = manager;
         this.updatedBy = loginUser;

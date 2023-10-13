@@ -18,6 +18,8 @@ let realEstateSave = function(e) {
     let $basicFrm = $('form[name="frmBasicRegister"]'),
         params = serializeObject({form:$basicFrm[0]}).json();
 
+    params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
+
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
         return;
@@ -46,6 +48,46 @@ let realEstateSave = function(e) {
             }
         });
     });
+}
+
+let realEstateUpdate = function(e) {
+    e.preventDefault();
+
+    let $basicFrm = $('form[name="frmBasicRegister"]'),
+        params = serializeObject({form:$basicFrm[0]}).json();
+
+    params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
+
+    if (!checkNullOrEmptyValue(params.managerUsername)) {
+        twoBtnModal("담당자를 선택해주세요.");
+        return;
+    }
+
+    params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
+    params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
+
+    console.log("update basic params", params);
+
+    twoBtnModal("매물 정보를 일괄 수정하시겠습니까?", function () {
+        $.ajax({
+            url: "/real-estate",
+            method: 'put',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 수정되었습니다.', function() {
+                    location.href = '/real-estate/' + result.data + '/edit';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+
+
 }
 
 let loadBasicInfo = function() {
@@ -364,56 +406,6 @@ let selectUsageCode = function(e) {
     $this.removeClass("btn-default");
     $this.addClass("btn-primary");
     $this.addClass("selected");
-}
-
-
-let basicInfoSave = function(e) {
-    e.preventDefault();
-
-    let isModify = dto.realEstateId != null;
-    let $frm = $('form[name="frmBasicRegister"]'),
-    httpMethod = isModify ? 'put' : 'post',
-    params = serializeObject({form:$frm[0]}).json();
-    params["usageTypeId"] = $frm.find('.btnUsageCode.selected').attr("usageTypeId");
-
-    if (!checkNullOrEmptyValue(params.managerUsername)) {
-        twoBtnModal('담당자를 선택해주세요.');
-        return;
-    }
-
-    if (!checkNullOrEmptyValue(params.buildingName)) {
-        twoBtnModal('건물명을 입력해주세요.');
-        return;
-    }
-
-    if (!checkNullOrEmptyValue(params.address)) {
-        twoBtnModal('주소를 입력해주세요.');
-        return;
-    }
-
-    console.log("params", params);
-
-    $.ajax({
-        url: "/real-estate/basic",
-        method: httpMethod,
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            console.log("result : ", result);
-
-            let message = '정상적으로 저장되었습니다.';
-            if (isModify) {
-                message = '정상적으로 수정되었습니다.';
-            }
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
 }
 
 let priceInfoSave = function(e) {
@@ -1023,6 +1015,7 @@ let checkInputRealEstate = function() {
 
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
+    .on('click', '.btnUpdate', realEstateUpdate)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
     .on('click', '.btnConstructSave', constructInfoSave)

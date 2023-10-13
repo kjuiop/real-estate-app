@@ -57,6 +57,20 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional
+    public Long update(RealEstateUpdateForm updateForm, LoginUser loginUser) {
+        Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
+        Category usageType = null;
+        if (updateForm.getUsageTypeId() != null) {
+            usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+        }
+
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
+        return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
     public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
         Category usageType = null;
         if (createForm.getUsageTypeId() != null) {

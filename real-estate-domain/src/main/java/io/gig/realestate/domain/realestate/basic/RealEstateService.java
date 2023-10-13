@@ -24,4 +24,6 @@ public interface RealEstateService {
     Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser);
 
     Long create(RealEstateCreateForm createForm, LoginUser loginUser);
+
+    Long update(RealEstateUpdateForm updateForm, LoginUser loginUser);
 }

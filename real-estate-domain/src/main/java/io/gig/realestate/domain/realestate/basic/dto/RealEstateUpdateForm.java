@@ -15,27 +15,19 @@ public class RealEstateUpdateForm {
 
     private Long realEstateId;
 
-    private String managerUsername;
-
-    private YnType ownYn;
-
-    private String legalCode;
-
-    private String landType;
-
-    private String bun;
-
-    private String ji;
-
     private String buildingName;
 
     private String etcInfo;
 
+    private String addressDetail;
+
+    private YnType ownExclusiveYn;
+
+    private YnType otherExclusiveYn;
+
     private Long usageTypeId;
 
-    private String address;
-
-    private String addressDetail;
+    private String managerUsername;
 
     private ProcessType processType;
 }
