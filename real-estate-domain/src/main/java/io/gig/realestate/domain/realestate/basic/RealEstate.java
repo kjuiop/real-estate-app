@@ -56,7 +56,12 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType ownYn = YnType.Y;
+    private YnType ownExclusiveYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType otherExclusiveYn = YnType.N;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -142,7 +147,8 @@ public class RealEstate extends BaseTimeEntity {
                 .ji(createForm.getJi())
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
-                .ownYn(createForm.getOwnYn())
+                .ownExclusiveYn(createForm.getOwnExclusiveYn())
+                .otherExclusiveYn(createForm.getOtherExclusiveYn())
                 .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
@@ -159,7 +165,6 @@ public class RealEstate extends BaseTimeEntity {
         this.etcInfo = updateForm.getEtcInfo();
 //        this.address = updateForm.getAddress();
         this.addressDetail = updateForm.getAddressDetail();
-        this.ownYn = updateForm.getOwnYn();
         this.usageType = usageType;
         this.manager = manager;
         this.updatedBy = loginUser;

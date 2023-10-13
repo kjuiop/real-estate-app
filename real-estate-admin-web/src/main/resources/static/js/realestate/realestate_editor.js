@@ -12,6 +12,28 @@ let onReady = function() {
     onlyNumberKeyEvent({className: "only-number"});
 }
 
+let realEstateSave = function(e) {
+    e.preventDefault();
+
+    let $basicFrm = $('form[name="frmBasicRegister"]'),
+        basicParams = serializeObject({form:$basicFrm[0]}).json()
+    ;
+
+    // 건물명 가져오기
+
+    if (!checkNullOrEmptyValue(basicParams.managerUsername)) {
+        twoBtnModal("담당자를 선택해주세요.");
+        return;
+    }
+
+    basicParams.ownExclusiveYn === 'on' ? (basicParams.ownExclusiveYn = 'Y') : (basicParams.ownExclusiveYn = 'N')
+    basicParams.otherExclusiveYn === 'on' ? (basicParams.otherExclusiveYn = 'Y') : (basicParams.otherExclusiveYn = 'N')
+
+    console.log("save basic params", basicParams);
+
+
+}
+
 let loadBasicInfo = function() {
 
     if (!checkNullOrEmptyValue(dto)) {
@@ -112,9 +134,15 @@ let loadConstructInfo = function() {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("result", result);
             let constructInfo = result.data;
-            console.log("constructInfo", constructInfo);
+            console.log("constructInfo result", constructInfo);
+
+            let $basicFrm = $('form[name="frmBasicRegister"]'),
+                $buildingName = $basicFrm.find('input[name="buildingName"]');
+
+            if (checkNullOrEmptyValue(constructInfo.bldNm)) {
+                $buildingName.val(constructInfo.bldNm);
+            }
 
             let $frm = $('form[name="frmConstructRegister"]');
             $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
@@ -973,10 +1001,9 @@ let checkInputRealEstate = function() {
 }
 
 $(document).ready(onReady)
+    .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
-    .on('click', '.btnBasicSave', basicInfoSave)
-    .on('click', '.btnPriceSave', priceInfoSave)
     .on('click', '.btnConstructSave', constructInfoSave)
     .on('click', '.toggleCustomer', changeCustomerInfo)
     .on('click', '.btnCustomerAdd', addCustomerInfo)

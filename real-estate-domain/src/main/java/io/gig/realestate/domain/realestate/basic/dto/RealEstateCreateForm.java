@@ -16,7 +16,9 @@ public class RealEstateCreateForm {
 
     private String managerUsername;
 
-    private YnType ownYn;
+    private YnType ownExclusiveYn;
+
+    private YnType otherExclusiveYn;
 
     private String legalCode;
 
