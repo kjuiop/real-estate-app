@@ -66,12 +66,22 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType rYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType abYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private ProcessType processType = ProcessType.Preparing;
+    private ProcessType processType = ProcessType.Prepare;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")

@@ -39,6 +39,10 @@ public class RealEstateDto {
 
     private YnType otherExclusiveYn;
 
+    private YnType rYn;
+
+    private YnType abYn;
+
     private String pnu;
 
     private String legalCode;
@@ -72,6 +76,8 @@ public class RealEstateDto {
         this.otherExclusiveYn = r.getOtherExclusiveYn();
         this.imgUrl = r.getImgUrl();
         this.processType = r.getProcessType();
+        this.rYn = r.getRYn();
+        this.abYn = r.getAbYn();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }

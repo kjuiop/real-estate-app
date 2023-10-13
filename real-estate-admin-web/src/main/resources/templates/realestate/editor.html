@@ -54,14 +54,14 @@
                                 <div class="col-md-12 display-flex-row">
                                     <th:block th:if="${isModify}">
                                         <div th:if="${dto.processType != null}">
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:disabled="${dto.processType.type ne 'preparing'}" processType="Prepare">준비</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" disabled processType="Working">작업중</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" disabled processType="Complete">완료</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" disabled processType="Impossible">작업불가</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" disabled processType="Pending">보류</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" disabled processType="Sell">매각</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" disabled processType="R">R</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" disabled processType="AB">A-B</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                            <button class="btn btn-xs btnR btn-default text-right margin-right-5" th:classappend="${dto.rYn eq 'Y' ? 'btn-primary' : 'btn-default'}">R</button>
+                                            <button class="btn btn-xs btnAb btn-default text-right margin-right-5" th:classappend="${dto.abYn eq 'Y' ? 'btn-primary' : 'btn-default'}">A-B</button>
                                         </div>
                                     </th:block>
                                 </div>

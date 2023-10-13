@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ProcessType {
 
-    Preparing("preparing", "준비중", 0),
     Prepare("prepare", "준비", 1),
     Working("working", "작업중", 2),
     Complete("complete", "완료", 3),
