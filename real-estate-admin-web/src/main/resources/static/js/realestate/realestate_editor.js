@@ -101,6 +101,39 @@ let realEstateUpdate = function(e) {
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
+
+    let $section = $frmLand.find('.btnLandSection'),
+        addBtnLength = $section.find('.btnLandLoad').length;
+
+    if (addBtnLength === 0) {
+        twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
+        return;
+    }
+
+    let landInfoList = [];
+    $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
+        let landData = $(item).data('land-data');
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        }
+        landData.realEstateId = dto.realEstateId;
+        landData.commercialYn = commercialYn;
+        landInfoList.push(landData);
+    });
+
+    params.landInfoList = landInfoList;
+
     console.log("update basic params", params);
 
     twoBtnModal("매물 정보를 일괄 수정하시겠습니까?", function () {

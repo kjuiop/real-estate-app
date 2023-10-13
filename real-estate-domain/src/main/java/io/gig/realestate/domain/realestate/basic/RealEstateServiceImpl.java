@@ -73,6 +73,13 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
+
+        realEstate.getLandInfoList().clear();
+        for (LandInfoDto dto : updateForm.getLandInfoList()) {
+            LandInfo landInfo = LandInfo.create(updateForm.getAddress(), dto, realEstate);
+            realEstate.addLandInfo(landInfo);
+        }
+
         return realEstateStore.store(realEstate).getId();
     }
 
