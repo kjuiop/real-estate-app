@@ -16,22 +16,36 @@ let realEstateSave = function(e) {
     e.preventDefault();
 
     let $basicFrm = $('form[name="frmBasicRegister"]'),
-        basicParams = serializeObject({form:$basicFrm[0]}).json()
-    ;
+        params = serializeObject({form:$basicFrm[0]}).json();
 
-    // 건물명 가져오기
-
-    if (!checkNullOrEmptyValue(basicParams.managerUsername)) {
+    if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
         return;
     }
 
-    basicParams.ownExclusiveYn === 'on' ? (basicParams.ownExclusiveYn = 'Y') : (basicParams.ownExclusiveYn = 'N')
-    basicParams.otherExclusiveYn === 'on' ? (basicParams.otherExclusiveYn = 'Y') : (basicParams.otherExclusiveYn = 'N')
+    params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
+    params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
-    console.log("save basic params", basicParams);
+    console.log("save basic params", params);
 
-
+    twoBtnModal("매물 정보를 일괄 저장하시겠습니까?", function () {
+        $.ajax({
+            url: "/real-estate",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    location.href = '/real-estate/' + result.data + '/edit';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
 }
 
 let loadBasicInfo = function() {
@@ -45,6 +59,13 @@ let loadBasicInfo = function() {
 
     let $frm = $('form[name="frmBasicRegister"]'),
         usageCodeId = $frm.find('.usageCode').val();
+
+    if (dto.ownExclusiveYn === 'Y') {
+        $frm.find('input[name="ownExclusiveYn"]').iCheck('check');
+    }
+    if (dto.otherExclusiveYn === 'Y') {
+        $frm.find('input[name="otherExclusiveYn"]').iCheck('check');
+    }
 
     $.ajax({
         url: "/settings/category-manager/children-categories?parentId=" + usageCodeId,

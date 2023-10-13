@@ -42,6 +42,21 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional
+    public Long create(RealEstateCreateForm createForm, LoginUser loginUser) {
+        Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
+        RealEstate newRealEstate;
+        if (createForm.getUsageTypeId() != null) {
+            Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
+            newRealEstate = RealEstate.createWithUsageType(createForm, manager, usageType, loginUser.getLoginUser());
+        } else {
+            newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+        }
+
+        return realEstateStore.store(newRealEstate).getId();
+    }
+
+    @Override
+    @Transactional
     public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
         Category usageType = null;
         if (createForm.getUsageTypeId() != null) {
@@ -51,7 +66,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         RealEstate realEstate;
         if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.create(createForm, manager, usageType, loginUser.getLoginUser());
+            realEstate = RealEstate.createWithUsageType(createForm, manager, usageType, loginUser.getLoginUser());
         } else {
             realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
         }

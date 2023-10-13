@@ -103,6 +103,14 @@ public class RealEstateController {
         return "realestate/editor";
     }
 
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> create(@Valid @RequestBody RealEstateCreateForm createForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
     @PostMapping("basic")
     @ResponseBody
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,

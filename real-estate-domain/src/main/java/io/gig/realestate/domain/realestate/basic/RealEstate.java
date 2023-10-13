@@ -137,7 +137,25 @@ public class RealEstate extends BaseTimeEntity {
         this.floorPriceInfo.add(floorPriceInfo);
     }
 
-    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
+    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
+        return RealEstate.builder()
+                .buildingName(createForm.getBuildingName())
+                .etcInfo(createForm.getEtcInfo())
+                .legalCode(createForm.getLegalCode())
+                .landType(createForm.getLandType())
+                .bun(createForm.getBun())
+                .ji(createForm.getJi())
+                .address(createForm.getAddress())
+                .addressDetail(createForm.getAddressDetail())
+                .ownExclusiveYn(createForm.getOwnExclusiveYn())
+                .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .manager(manager)
+                .createdBy(createdBy)
+                .updatedBy(createdBy)
+                .build();
+    }
+
+    public static RealEstate createWithUsageType(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
