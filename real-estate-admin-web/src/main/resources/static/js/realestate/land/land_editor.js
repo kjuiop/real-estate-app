@@ -40,7 +40,7 @@ let loadLandInfoList = function() {
             $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
             $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
             $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-            $frm.find('input[name="pnu"]').val(landInfo.pnu);
+            $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
             if (landInfo.commercialYn === 'Y') {
                 $frm.find('input[name="commercialYn"]').iCheck('check');
             } else {
@@ -163,7 +163,6 @@ let landInfoSave = function(e) {
     }
 
     let landInfoList = [];
-
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
         if (typeof landData.lndpclAr === 'string') {

@@ -1,8 +1,12 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -37,5 +41,7 @@ public class RealEstateCreateForm {
     private String address;
 
     private String addressDetail;
+
+    private List<LandInfoDto> landInfoList = new ArrayList<>();
 
 }

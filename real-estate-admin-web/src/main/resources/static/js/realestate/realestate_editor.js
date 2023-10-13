@@ -15,10 +15,10 @@ let onReady = function() {
 let realEstateSave = function(e) {
     e.preventDefault();
 
-    let $basicFrm = $('form[name="frmBasicRegister"]'),
-        params = serializeObject({form:$basicFrm[0]}).json();
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        params = serializeObject({form:$frmBasic[0]}).json();
 
-    params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
+    params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
@@ -28,7 +28,42 @@ let realEstateSave = function(e) {
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
-    console.log("save basic params", params);
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
+
+    let $section = $frmLand.find('.btnLandSection'),
+        addBtnLength = $section.find('.btnLandLoad').length;
+
+    if (addBtnLength === 0) {
+        twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
+        return;
+    }
+
+    let landInfoList = [];
+    $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
+        let landData = $(item).data('land-data');
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        }
+        landData.realEstateId = dto.realEstateId;
+        landData.commercialYn = commercialYn;
+        landInfoList.push(landData);
+    });
+
+    params.landInfoList = landInfoList;
+
+
+    console.log("save params", params);
 
     twoBtnModal("매물 정보를 일괄 저장하시겠습니까?", function () {
         $.ajax({

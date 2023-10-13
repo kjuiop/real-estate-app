@@ -9,6 +9,8 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,11 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate = RealEstate.createWithUsageType(createForm, manager, usageType, loginUser.getLoginUser());
         } else {
             newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+        }
+
+        for (LandInfoDto dto : createForm.getLandInfoList()) {
+            LandInfo landInfo = LandInfo.create(createForm.getAddress(), dto, newRealEstate);
+            newRealEstate.addLandInfo(landInfo);
         }
 
         return realEstateStore.store(newRealEstate).getId();

@@ -4,6 +4,7 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.land.dto.LandUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -63,11 +64,11 @@ public class LandInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(String address, YnType commercialYn, LandCreateForm.LandInfoDto dto, RealEstate realEstate) {
+    public static LandInfo create(String address, LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
                 .pnu(dto.getPnu())
                 .address(address)
-                .commercialYn(commercialYn)
+                .commercialYn(dto.getCommercialYn())
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
                 .lndpclAr(Double.parseDouble(dto.getLndpclAr()))
                 .lndpclArByPyung(Double.parseDouble(dto.getLndpclArByPyung()))
