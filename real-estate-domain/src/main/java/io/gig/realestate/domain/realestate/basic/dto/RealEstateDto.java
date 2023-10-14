@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -26,11 +27,21 @@ public class RealEstateDto {
 
     private CategoryDto usageType;
 
+    private ProcessType processType;
+
     private String address;
 
     private String addressDetail;
 
     private YnType ownYn;
+
+    private YnType ownExclusiveYn;
+
+    private YnType otherExclusiveYn;
+
+    private YnType rYn;
+
+    private YnType abYn;
 
     private String pnu;
 
@@ -61,8 +72,12 @@ public class RealEstateDto {
         }
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();
-        this.ownYn = r.getOwnYn();
+        this.ownExclusiveYn = r.getOwnExclusiveYn();
+        this.otherExclusiveYn = r.getOtherExclusiveYn();
         this.imgUrl = r.getImgUrl();
+        this.processType = r.getProcessType();
+        this.rYn = r.getRYn();
+        this.abYn = r.getAbYn();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }

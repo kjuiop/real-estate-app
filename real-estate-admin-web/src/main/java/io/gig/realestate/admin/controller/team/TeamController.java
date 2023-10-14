@@ -1,10 +1,11 @@
 package io.gig.realestate.admin.controller.team;
 
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
-import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamDetailDto;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -23,20 +24,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamController {
 
-    private final TeamService teamService;
     private final AdministratorService administratorService;
 
     @GetMapping
-    public String register(AdminSearchDto searchDto, Model model) {
+    public String register(AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        List<AdministratorListDto> managerCandidates = administratorService.getCandidateManagers(searchDto);
-        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto);
+        Page<AdministratorListDto> teamMembers = administratorService.getAdminByTeamId(searchDto, loginUser.getLoginUser().getTeam().getId());
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
-        model.addAttribute("managerCandidates", managerCandidates);
-        model.addAttribute("memberCandidates", memberCandidates);
+        model.addAttribute("pages", teamMembers);
 
         return "team/editor";
     }

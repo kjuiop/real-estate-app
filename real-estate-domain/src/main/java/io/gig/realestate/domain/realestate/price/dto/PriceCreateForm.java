@@ -15,20 +15,6 @@ import java.util.List;
 @Setter
 public class PriceCreateForm {
 
-    private Long realEstateId;
-
-    private String legalCode;
-
-    private String landType;
-
-    private String bun;
-
-    private String ji;
-
-    private String address;
-
-    private String imgUrl;
-
     private int salePrice;
 
     private int depositPrice;
@@ -44,33 +30,4 @@ public class PriceCreateForm {
     private int management;
 
     private int managementExpense;
-
-    private List<FloorDto> floorInfo = new ArrayList<>();
-
-
-    @Getter
-    @Builder
-    public static class FloorDto {
-
-        private int flrNo;
-
-        private String flrNoNm;
-
-        // 면적
-        private Double area;
-
-        // 주용도
-        private String mainPurpsCdNm;
-
-        // 부용도
-        private String etcPurps;
-
-        private int guaranteePrice;
-
-        private int rent;
-
-        private int management;
-
-    }
-
 }

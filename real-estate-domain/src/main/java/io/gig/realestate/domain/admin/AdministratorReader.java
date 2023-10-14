@@ -37,4 +37,6 @@ public interface AdministratorReader {
     List<AdministratorListDto> getAllAdministrators();
 
     List<AdministratorListDto> getAdministratorsByTeam(Team team);
+
+    Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId);
 }

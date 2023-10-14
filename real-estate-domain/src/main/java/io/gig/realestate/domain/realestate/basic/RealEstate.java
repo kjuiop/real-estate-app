@@ -6,6 +6,7 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
@@ -55,16 +56,32 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType ownYn = YnType.Y;
+    private YnType ownExclusiveYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType otherExclusiveYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType rYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType abYn = YnType.N;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "process_type_id")
-    private Category processType;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private ProcessType processType = ProcessType.Prepare;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")
@@ -130,17 +147,38 @@ public class RealEstate extends BaseTimeEntity {
         this.floorPriceInfo.add(floorPriceInfo);
     }
 
-    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
+    public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
+                .imgUrl(createForm.getImgUrl())
                 .legalCode(createForm.getLegalCode())
                 .landType(createForm.getLandType())
                 .bun(createForm.getBun())
                 .ji(createForm.getJi())
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
-                .ownYn(createForm.getOwnYn())
+                .ownExclusiveYn(createForm.getOwnExclusiveYn())
+                .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .manager(manager)
+                .createdBy(createdBy)
+                .updatedBy(createdBy)
+                .build();
+    }
+
+    public static RealEstate createWithUsageType(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
+        return RealEstate.builder()
+                .buildingName(createForm.getBuildingName())
+                .etcInfo(createForm.getEtcInfo())
+                .imgUrl(createForm.getImgUrl())
+                .legalCode(createForm.getLegalCode())
+                .landType(createForm.getLandType())
+                .bun(createForm.getBun())
+                .ji(createForm.getJi())
+                .address(createForm.getAddress())
+                .addressDetail(createForm.getAddressDetail())
+                .ownExclusiveYn(createForm.getOwnExclusiveYn())
+                .otherExclusiveYn(createForm.getOtherExclusiveYn())
                 .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
@@ -149,16 +187,13 @@ public class RealEstate extends BaseTimeEntity {
     }
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
-//        this.legalCode = updateForm.getLegalCode();
-//        this.landType = updateForm.getLandType();
-//        this.bun = updateForm.getBun();
-//        this.ji = updateForm.getJi();
         this.buildingName = updateForm.getBuildingName();
         this.etcInfo = updateForm.getEtcInfo();
-//        this.address = updateForm.getAddress();
         this.addressDetail = updateForm.getAddressDetail();
-        this.ownYn = updateForm.getOwnYn();
+        this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
+        this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.usageType = usageType;
+        this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;
         this.updatedBy = loginUser;
     }
@@ -189,4 +224,8 @@ public class RealEstate extends BaseTimeEntity {
     }
 
 
+    public void updateProcessStatus(ProcessType processType, Administrator loginUser) {
+        this.processType = processType;
+        this.updatedBy = loginUser;
+    }
 }

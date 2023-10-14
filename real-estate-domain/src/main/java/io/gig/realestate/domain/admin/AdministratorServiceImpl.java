@@ -166,6 +166,12 @@ public class AdministratorServiceImpl implements AdministratorService {
         return administratorReader.getAdministratorsByTeam(loginUser.getLoginUser().getTeam());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
+        return administratorReader.getAdminByTeamId(searchDto, teamId);
+    }
+
     private void validPassword(Administrator administrator, String password) {
         if (administrator.passwordValid(password)) {
             throw new IllegalArgumentException("이전에 사용했던 비밀번호입니다.");

@@ -12,4 +12,8 @@ public interface AreaReader {
     List<AreaListDto> getParentAreaList();
 
     List<AreaListDto> getAreaListByParentId(Long areaId);
+
+    List<AreaListDto> getAreaListBySido(String sido);
+
+    List<AreaListDto> getAreaListByGungu(String gungu);
 }

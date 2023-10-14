@@ -1,22 +1,24 @@
 let onReady = function() {
+    console.log("condition", condition);
 };
 
 let search = function(e) {
+    e.preventDefault();
+
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
+
+    let processType = $(this).attr('processType');
+    if (checkNullOrEmptyValue(processType)) {
+        $frm.find('input[name="processType"]').val(processType);
+    }
     $frm.submit();
 };
 
 let reset = function(e) {
-
-    let $frm = $("form[name='frmSearch']");
-    $frm.find("input[name='page']").val(0);
-    $frm.find("input[name='size']").val(10);
-    $frm.find("input[name='username']").val('');
-    $frm.find("input[name='name']").val('');
-    $frm.find("input[name='userStatus']").val('');
-    $frm.submit();
+    e.preventDefault();
+    location.href = '/real-estate';
 };
 
 let realEstateModal = function(e) {
@@ -118,7 +120,7 @@ let loadKakaoMap = function(searchAddress) {
 }
 
 let getChildAreaData = function() {
-    let areaId = $(this).val(),
+    let areaId = $(this).find('option:selected').attr('areaId'),
         name = $(this).attr('name');
 
     if (!checkNullOrEmptyValue(areaId)) {
@@ -141,9 +143,16 @@ let getChildAreaData = function() {
             if (name === 'sido') {
                 tag = drawAreaOption("gungu", areaList);
                 $gungu.html(tag);
+                $dong.html('<option>동 선택</option>');
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
             } else if (name === 'gungu') {
                 tag = drawAreaOption("dong", areaList);
                 $dong.html(tag);
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
             }
         },
         error:function(error){
@@ -156,21 +165,20 @@ let getChildAreaData = function() {
 let drawAreaOption = function(depth, areaList) {
     let tag = '';
     if (depth === 'gungu') {
-        tag += '<option>구군 선택</option>';
+        tag += '<option value="">구군 선택</option>';
     } else if (depth === 'dong') {
-        tag += '<option>동 선택</option>';
+        tag += '<option value="">동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
-        tag += '<option id="' + item.areaId + '" value="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
     });
     return tag;
 }
 
-
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
-    .on('click', '#btnSearch', search)
+    .on('click', '#btnSearch, .btnProcessType', search)
     .on('change', '#limit', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)

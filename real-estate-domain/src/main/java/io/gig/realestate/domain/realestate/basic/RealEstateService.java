@@ -20,4 +20,10 @@ public interface RealEstateService {
     RealEstateDetailDto getDetail(Long realEstateId);
 
     Long basicInfoUpdate(RealEstateUpdateForm updateForm, LoginUser loginUser);
+
+    Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser);
+
+    Long create(RealEstateCreateForm createForm, LoginUser loginUser);
+
+    Long update(RealEstateUpdateForm updateForm, LoginUser loginUser);
 }

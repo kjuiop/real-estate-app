@@ -23,7 +23,7 @@ let loadLandInfoList = function() {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("load database land info", result);
+            console.log("load land info", result);
             let landList = result.data,
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
@@ -32,15 +32,15 @@ let loadLandInfoList = function() {
             $frm.find('.pyung').text(landInfo.lndpclArByPyung);
             $frm.find('.lndpclAr').val(landInfo.lndpclAr);
             $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(landInfo.pblntfPclnd);
-            $frm.find('.totalPblntfPclnd').val(landInfo.totalPblntfPclnd);
+            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
             $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
             $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
             $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
             $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
             $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
             $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-            $frm.find('input[name="pnu"]').val(landInfo.pnu);
+            $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
             if (landInfo.commercialYn === 'Y') {
                 $frm.find('input[name="commercialYn"]').iCheck('check');
             } else {
@@ -73,6 +73,8 @@ let landInfoAdd = function(e) {
         isAlready = false;
 
     params.pnu = pnu;
+    params.pblntfPclnd = removeComma(params.pblntfPclnd)
+    params.totalPblntfPclnd = removeComma(params.totalPblntfPclnd)
 
     console.log("landInfoAdd params", params)
 
@@ -163,20 +165,19 @@ let landInfoSave = function(e) {
     }
 
     let landInfoList = [];
-
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
         if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+            landData.lndpclAr = removeComma(landData.lndpclAr)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+            landData.lndpclArByPyung = removeComma(landData.lndpclArByPyung)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+            landData.pblntfPclnd = removeComma(landData.pblntfPclnd)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+            landData.totalPblntfPclnd = removeComma(landData.totalPblntfPclnd)
         }
         landData.realEstateId = dto.realEstateId;
         landInfoList.push(landData);
@@ -217,4 +218,40 @@ let landInfoSave = function(e) {
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let assembleLandParams = function() {
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
+
+    let $section = $frmLand.find('.btnLandSection'),
+        addBtnLength = $section.find('.btnLandLoad').length;
+
+    if (addBtnLength === 0) {
+        twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
+        return;
+    }
+
+    let landInfoList = [];
+    $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
+        let landData = $(item).data('land-data');
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+        }
+        if (typeof landData.lndpclAr === 'string') {
+            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        }
+        landData.realEstateId = dto.realEstateId;
+        landData.commercialYn = commercialYn;
+        landInfoList.push(landData);
+    });
+
+    return landInfoList;
 }

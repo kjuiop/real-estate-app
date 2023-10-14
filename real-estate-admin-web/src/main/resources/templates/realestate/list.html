@@ -11,52 +11,116 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="callout callout-info">
+                    <div class="callout">
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
+                            <input type="hidden" name="processType" />
                             <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
                                 <table class="table projects search-table spacing-table">
                                     <thead>
                                         <tr>
-                                            <th style="width: 33%;" colspan="3"></th>
-                                            <th style="width: 66%;" colspan="6"></th>
+                                            <th style="width: 33%;" class="no-padding" colspan="3"></th>
+                                            <th style="width: 66%;" class="no-padding" colspan="6"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                // TODO 위치 검색
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="9" style="width: 100%;">
-                                                <label class="control-label" style="font-weight: normal;">
+                                            <td colspan="9" class="search-title" style="width: 100%;">
+                                                <label class="control-label line-center margin-bottom-0" style="font-weight: normal;">
                                                     <i class="fa fa-search" aria-hidden="true"></i>
                                                     물건 정보 검색
                                                 </label>
-                                                <div class="text-right">
-                                                    <button class="btn btn-default text-right">전체</button>
-                                                    <button class="btn btn-default text-right">준비</button>
-                                                    <button class="btn btn-default text-right">완료</button>
-                                                    <button class="btn btn-default text-right">보류</button>
-                                                    <button class="btn btn-default text-right">매각</button>
+                                                <div class="pull-right processUnitSection" style="display: inline-block;">
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'preparing' ? 'btn-primary' : 'btn-default'}" processType="Preparing">준비중</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" processType="R">R</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" processType="AB">A-B</button>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">위치</div>
+                                                    </label>
+                                                </div>
+                                                <div class="display-flex-row margin-top-35">
+                                                    <select class="form-control custom-select margin-right-5 border-none" name="sido">
+                                                        <option value="">시도 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-5 border-none" name="gungu">
+                                                        <option value="">구군 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
+
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-4 border-none" name="dong">
+                                                        <option value="">동 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minSiteArea" class="top-label">
+                                                            <div class="search-text">일반</div>
+                                                        </label>
+                                                    </div>
+                                                    <select class="form-control form-control-sm custom-select margin-top-35 border-none" name="landType">
+                                                        <option value="general" th:selected="${not #strings.isEmpty(condition.landType) && condition.landType eq 'general'}">일반</option>
+                                                        <option value="mountain" th:selected="${not #strings.isEmpty(condition.landType) && condition.landType eq 'mountain'}">산</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minTotalArea" class="top-label">
+                                                            <div class="search-text">번지</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="bun" name="bun" class="form-control search-input center-align" th:value="${condition.bun}">
+                                                    <div class="input-div"><span>-</span></div>
+                                                    <input type="text" id="ji" name="ji" class="form-control search-input center-align" th:value="${condition.ji}">
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="input-label">
+                                                    <label for="team" class="top-label">
+                                                        <div class="search-text">용도지역</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" name="useStrictArea" class="form-control search-input">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
-                                                    <label for="name" class="top-label">
+                                                    <label for="buildingName" class="top-label">
                                                         <div class="search-text">물건명</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="name" name="name" class="form-control search-input">
+                                                <input type="text" id="buildingName" name="buildingName" class="form-control search-input" th:value="${condition.buildingName}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
-                                                    <label for="name" class="top-label">
+                                                    <label for="manager" class="top-label">
                                                         <div class="search-text">담당자</div>
                                                     </label>
                                                 </div>
@@ -104,13 +168,22 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">용도지역</div>
-                                                    </label>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minSiteArea" class="top-label">
+                                                            <div class="search-text">대지</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxSiteArea" class="bottom-label">
+                                                            <div class="search-text">평</div>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <input type="text" name="useDistrict" class="form-control search-input">
                                             </td>
                                         </tr>
                                         <tr>
@@ -172,41 +245,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">도로</div>
-                                                    </label>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">주소</div>
-                                                    </label>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </td>
-                                            <td colspan="2" class="search-double-group">
-                                                <div class="display-flex-row search-double-field">
-                                                    <div class="input-label">
-                                                        <label for="minSiteArea" class="top-label">
-                                                            <div class="search-text">대지</div>
-                                                        </label>
-                                                    </div>
-                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
-                                                    <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
-                                                    <div class="input-label">
-                                                        <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
@@ -224,57 +262,29 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td colspan="2">
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="col-md-11 display-flex-row sub-line">
-                                <div class="col-md-1" style="padding-top: 5px; padding-left: 30px;">
-                                    <label class="search-label line-center">위치</label>
-                                </div>
-                                <div class="col-md-11 display-flex-row">
-                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="sido">
-                                        <option>시도 선택</option>
-                                        <th:block th:if="${not #lists.isEmpty(areaList)}" th:each="area: ${areaList}">
-                                            <option th:id="${area.areaId}" th:value="${area.areaId}" th:legalCode="${area.legalAddressCode}" th:text="${area.name}"></option>
-                                        </th:block>
-                                    </select>
-                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="gungu">
-                                        <option>구군 선택</option>
-                                    </select>
-                                    <select class="form-control form-control-sm custom-select col-md-2 margin-right-4" name="dong">
-                                        <option>동 선택</option>
-                                    </select>
-                                    <select class="form-control form-control-sm custom-select col-md-1 margin-right-4" name="landType">
-                                        <option value="general">일반</option>
-                                        <option value="mountain">산</option>
-                                    </select>
-                                    <input type="text" class="form-control col-md-1 margin-right-4 height-select" name="bun" placeholder="번" />
-                                    <input type="text" class="form-control col-md-1 height-select" name="ji" placeholder="지" />
-                                </div>
                             </div>
 
                             <div class="col-md-12 display-flex-row line margin-top-8">
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
-                                            초기화
-                                        </button>
-                                        <button type="submit" class="btn btn-sm btn-default float-right" style="margin-right: 5px;">
+                                        <button type="button" id="btnSearch" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="card" style="border-left: 5px solid #117a8b;">
+                    <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span>0</span>개&nbsp;)
+                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${pages.content.size()}"></span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
@@ -296,13 +306,14 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>사진</th>
-                                        <th>진행단계</th>
-                                        <th>건물명</th>
-                                        <th>용도</th>
-                                        <th>담당자</th>
-                                        <th>주소</th>
-                                        <th>등록일</th>
+                                        <th style="width: 8%;">사진</th>
+                                        <th style="width: 15%;">주소</th>
+                                        <th style="width: 8%;">진행단계</th>
+                                        <th style="width: 5%;">용도</th>
+                                        <th style="width: 15%;">금액</th>
+                                        <th style="width: 11%;">면적</th>
+                                        <th style="width: 5%;">담당자</th>
+                                        <th style="width: 9%;">등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -312,25 +323,79 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
                                             </label>
                                         </td>
-                                        <td></td>
-                                        <td th:text="${'-'}"></td>
                                         <td>
-                                            <a th:href="|/real-estate/${item.realEstateId}/edit|" th:text="${item.buildingName != null ? item.buildingName : '작성중'}"></a>
+                                            <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="list-img-size" style="cursor: pointer;"/>
+                                            </th:block>
+                                            <th:block th:if="${not #strings.isEmpty(item.imgUrl)}">
+                                                <img th:src="${item.imgUrl}" class="list-img-size" style="cursor: pointer;"/>
+                                            </th:block>
+                                        </td>
+                                        <td>
+                                            <div class="display-flex-column">
+                                                <a th:href="|/real-estate/${item.realEstateId}/edit|">
+                                                    <span style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
+                                                </a>
+                                                <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
+                                                    <span th:text="${item.buildingName}"></span>
+                                                </th:block>
+                                                <th:block th:if="${not #strings.isEmpty(item.prposArea1Nm)}">
+                                                    <span th:text="${item.prposArea1Nm}"></span>
+                                                </th:block>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <th:block th:if="${item.processType != null}">
+                                                [[${item.processType.description}]]
+                                            </th:block>
                                         </td>
                                         <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
+                                        <td>
+                                            <div class="display-flex-column">
+                                                <div class="display-flex-row">
+                                                    <th:block th:if="${item.salePrice > 0}">
+                                                        <div>
+                                                            <button class="btn btn-xs btn-danger margin-right-5">매매</button>
+                                                            <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                            (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                                <div class="display-flex-row margin-top-5">
+                                                    <th:block th:if="${item.revenueRate > 0}">
+
+                                                        <div>
+                                                            <button class="btn btn-xs btn-default margin-right-5">수익</button>
+                                                            <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <th:block th:if="${not #strings.isEmpty(item.totArea)}">
+                                                연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;대&nbsp;<span th:text="${item.platArea}"></span>㎡
+                                                <br />
+                                            </th:block>
+                                            <th:block th:if="${not #strings.isEmpty(item.archArea)}">
+                                                <div>
+
+                                                    건&nbsp;<span th:text="${item.archArea}"></span>㎡
+                                                </div>
+                                            </th:block>
+                                        </td>
                                         <td th:text="${item.managerName}"></td>
-                                        <td th:text="${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}"></td>
-                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
+                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="8">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="9">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
-                            <button id="btnRealEstateModal" class="btn btn-sm btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
+                            <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -358,7 +423,7 @@
                             <form class="form-horizontal" name="frmMoveRegister">
                                 <input type="hidden" name="bCode" />
                                 <input type="hidden" name="hCode" />
-                                <table class="table table-borderless">
+                                <table class="table table-borderless" style="height: 225px;">
                                     <tbody>
                                     <tr>
                                         <td class="col-md-6" colspan="6">
@@ -427,6 +492,9 @@
 </div>
 <section layout:fragment="script">
     <script th:inline="javascript">
+        /*<![CDATA[*/
+        var condition =/*[[${condition}]]*/'';
+        /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: postcode"></script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>

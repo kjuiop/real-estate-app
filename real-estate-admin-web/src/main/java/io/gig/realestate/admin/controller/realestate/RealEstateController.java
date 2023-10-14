@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,9 +47,21 @@ public class RealEstateController {
 
     @GetMapping
     public String index(RealEstateSearchDto searchDto, Model model) {
-        List<AreaListDto> areaList = areaService.getParentAreaList();
 
-        model.addAttribute("areaList", areaList);
+        List<AreaListDto> sidoList = areaService.getParentAreaList();
+        model.addAttribute("sidoList", sidoList);
+
+        if (StringUtils.hasText(searchDto.getSido())) {
+            List<AreaListDto> gunguList = areaService.getAreaListBySido(searchDto.getSido());
+            model.addAttribute("gunguList", gunguList);
+        }
+
+        if (StringUtils.hasText(searchDto.getGungu())) {
+            List<AreaListDto> dongList = areaService.getAreaListByGungu(searchDto.getGungu());
+            model.addAttribute("dongList", dongList);
+        }
+
+
         model.addAttribute("condition", searchDto);
         model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
         return "realestate/list";
@@ -66,12 +79,10 @@ public class RealEstateController {
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
-        model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
 
         return "realestate/editor";
@@ -81,16 +92,31 @@ public class RealEstateController {
     public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
+        dto.checkIsOwnUser(loginUser.getLoginUser().getId());
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        List<CategoryDto> processCds = categoryService.getChildrenCategoryDtosByName("진행구분");
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
-        model.addAttribute("processCds", processCds);
         model.addAttribute("usageCds", usageCds);
 
         return "realestate/editor";
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> create(@Valid @RequestBody RealEstateCreateForm createForm,
+                                            @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody RealEstateUpdateForm updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.update(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 
     @PostMapping("basic")
@@ -103,9 +129,17 @@ public class RealEstateController {
 
     @PutMapping("basic")
     @ResponseBody
-    public ResponseEntity<ApiResponse> update(@Valid @RequestBody RealEstateUpdateForm updateForm,
+    public ResponseEntity<ApiResponse> update2(@Valid @RequestBody RealEstateUpdateForm updateForm,
                                             @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.basicInfoUpdate(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("process")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> processUpdate(@Valid @RequestBody RealEstateUpdateForm updateForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.updateProcessStatus(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

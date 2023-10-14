@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;

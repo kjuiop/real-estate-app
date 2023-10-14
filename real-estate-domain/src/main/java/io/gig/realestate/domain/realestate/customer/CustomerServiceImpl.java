@@ -37,19 +37,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public Long create(CustomerCreateForm createForm, LoginUser loginUser) {
 
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-
-        realEstate.getCustomerInfoList().clear();
-        for (CustomerDto dto : createForm.getCustomerInfo()) {
-            CustomerInfo info = CustomerInfo.create(dto, realEstate);
-            realEstate.addCustomerInfo(info);
-        }
-
-        return realEstateStore.store(realEstate).getId();
+        return null;
+//        RealEstate realEstate;
+//        if (createForm.getRealEstateId() == null) {
+//            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
+//        } else {
+//            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+//        }
+//
+//        realEstate.getCustomerInfoList().clear();
+//        for (CustomerDto dto : createForm.getCustomerInfo()) {
+//            CustomerInfo info = CustomerInfo.create(dto, realEstate);
+//            realEstate.addCustomerInfo(info);
+//        }
+//
+//        return realEstateStore.store(realEstate).getId();
     }
 }

@@ -59,17 +59,7 @@ public class ConstructServiceImpl implements ConstructService {
     @Transactional
     public Long create(ConstructCreateForm createForm, LoginUser loginUser) {
 
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-        realEstate.getConstructInfoList().clear();
-
-        ConstructInfo constructInfo = ConstructInfo.create(createForm, realEstate);
-        realEstate.addConstructInfo(constructInfo);
-        return realEstateStore.store(realEstate).getId();
+        return null;
     }
 
     @Override
@@ -112,10 +102,22 @@ public class ConstructServiceImpl implements ConstructService {
         JSONObject body = response.getJSONObject("body");
         JSONObject items = body.getJSONObject("items");
 
-        // array 인지, item 인지 
+        Object object = items.get("item");
+        if (object == null) {
+            return null;
+        }
 
-        JSONObject item = items.getJSONObject("item");
-        return ConstructDataApiDto.convertData(item);
+        if (object instanceof JSONObject) {
+            JSONObject item = items.getJSONObject("item");
+            return ConstructDataApiDto.convertData(item);
+        }
+
+        if (object instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray) object;
+            JSONObject item = (JSONObject) jsonArray.get(0);
+            return ConstructDataApiDto.convertData(item);
+        }
+        return null;
     }
 
     @Override

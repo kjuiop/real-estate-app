@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.price;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
 import lombok.*;
@@ -52,7 +53,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static FloorPriceInfo create(PriceCreateForm.FloorDto dto, RealEstate realEstate) {
+    public static FloorPriceInfo create(FloorCreateForm dto, RealEstate realEstate) {
         return FloorPriceInfo.builder()
                 .flrNo(dto.getFlrNo())
                 .flrNoNm(dto.getFlrNoNm())

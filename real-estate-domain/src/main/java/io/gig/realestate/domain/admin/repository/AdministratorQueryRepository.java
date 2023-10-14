@@ -151,14 +151,6 @@ public class AdministratorQueryRepository {
                 .fetchFirst());
     }
 
-    private BooleanExpression eqAdminId(Long adminId) {
-        return adminId != null ? administrator.id.eq(adminId) : null;
-    }
-
-    private BooleanExpression defaultCondition() {
-        return administrator.deleteYn.eq(YnType.N);
-    }
-
     public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
         BooleanBuilder where = new BooleanBuilder();
 
@@ -202,4 +194,38 @@ public class AdministratorQueryRepository {
                 .orderBy(administrator.id.desc())
                 .fetch();
     }
+
+    public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
+        BooleanBuilder where = new BooleanBuilder();
+
+        JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(where)
+                .where(defaultCondition())
+                .where(administratorRole.role.name.eq("ROLE_MEMBER"))
+                .where(eqTeamId(teamId))
+                .limit(searchDto.getPageableWithSort().getPageSize())
+                .offset(searchDto.getPageableWithSort().getOffset());
+
+        List<AdministratorListDto> content = contentQuery.fetch();
+        long total = content.size();
+
+        return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
+    }
+
+    private BooleanExpression eqTeamId(Long teamId) {
+        return teamId != null ? administrator.team.id.eq(teamId) : null;
+    }
+
+    private BooleanExpression eqAdminId(Long adminId) {
+        return adminId != null ? administrator.id.eq(adminId) : null;
+    }
+
+    private BooleanExpression defaultCondition() {
+        return administrator.deleteYn.eq(YnType.N);
+    }
+
 }

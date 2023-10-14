@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.common.BaseSearchDto;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,23 @@ import org.springframework.data.domain.Sort;
 @NoArgsConstructor
 public class RealEstateSearchDto extends BaseSearchDto {
 
+    private ProcessType processType;
+
     private String name;
+
+    private String sido;
+
+    private String gungu;
+
+    private String dong;
+
+    private String landType;
+
+    private String bun;
+
+    private String ji;
+
+    private String buildingName;
 
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));

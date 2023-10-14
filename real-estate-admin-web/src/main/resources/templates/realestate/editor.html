@@ -5,6 +5,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/realestate/detail}">
+<head>
+    <style>
+        @media (min-width: 1500px) {
+            .col-md-4 {
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            .col-sm-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content" th:with="isModify = ${dto.realEstateId != null}">
@@ -20,27 +36,33 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">기본정보</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${!isModify}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnBasicSave" th:if="${isModify}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 display-flex-row">
                                     <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
-                                        <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="radio" name="ownYn" value="Y" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;제이디부동산 전속
+                                        <label class="control-label right-align margin-top-5 margin-right-5" style="font-weight: normal; font-size: 12px;">
+                                            <input type="checkbox" class="checkElement" name="ownExclusiveYn" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;제이디부동산 전속
                                         </label> &nbsp;
-                                        <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="radio" name="ownYn" value="N" style="font-size: 12px;" th:checked="${dto.ownYn eq YnType.N}">&nbsp;&nbsp;&nbsp;타부동산 전속
+                                        <label class="control-label right-align margin-top-5" style="font-weight: normal; font-size: 12px;">
+                                            <input type="checkbox" class="checkElement" name="otherExclusiveYn" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;타부동산 전속
                                         </label> &nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-12 display-flex-row">
-                                    <th:block th:each="code : ${processCds}">
-                                        <button type="button" class="btn btn-xs btn-default" disabled th:categoryId="${code.id}" style="margin-right: 5px;"> [[${code.name}]]</button>
+                                    <th:block th:if="${isModify}">
+                                        <div th:if="${dto.processType != null}">
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                            <button class="btn btn-xs btnR btn-default text-right margin-right-5" th:classappend="${dto.rYn eq 'Y' ? 'btn-primary' : 'btn-default'}">R</button>
+                                            <button class="btn btn-xs btnAb btn-default text-right margin-right-5" th:classappend="${dto.abYn eq 'Y' ? 'btn-primary' : 'btn-default'}">A-B</button>
+                                        </div>
                                     </th:block>
                                 </div>
                             </div>
@@ -48,7 +70,7 @@
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">담당자 선택</label>
                                     <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
-                                        <option>선택</option>
+                                        <option value="">선택</option>
                                         <th:block th:each="admin : ${admins}">
                                             <option th:value="${admin.username}" th:selected="${admin.adminId eq dto.managerId}">[[${admin.name}]]</option>
                                         </th:block>
@@ -106,10 +128,7 @@
                             <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${!dto.existLandInfo}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnLandSave" th:if="${dto.existLandInfo}"> 수정</button>
-                                </div>
+                                <div class="card-tools"></div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-column" style="border-bottom: 1px solid #eeeeee">
@@ -233,10 +252,7 @@
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">금액정보</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${!dto.existPriceInfo}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnPriceSave" th:if="${dto.existPriceInfo}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
@@ -253,41 +269,65 @@
                                             <div class="display-flex-row no-right-padding">
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">매매가</label>
-                                                    <input type="number" class="form-control form-control-sm salePrice" name="salePrice" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm salePrice" name="salePrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">입금가</label>
-                                                    <input type="number" class="form-control form-control-sm depositPrice" name="depositPrice" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm depositPrice" name="depositPrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="display-flex-row no-right-padding margin-top-5">
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">수익률</label>
-                                                    <input type="number" class="form-control form-control-sm revenueRate" name="revenueRate" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm revenueRate" name="revenueRate" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;%&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">평단가</label>
-                                                    <input type="number" class="form-control form-control-sm averageUnitPrice" name="averageUnitPrice" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm averageUnitPrice" name="averageUnitPrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="display-flex-row no-right-padding margin-top-5">
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">보증금</label>
-                                                    <input type="number" class="form-control form-control-sm guaranteePrice" name="guaranteePrice" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm guaranteePrice" name="guaranteePrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">월 임대료</label>
-                                                    <input type="number" class="form-control form-control-sm rentMonth" name="rentMonth" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm rentMonth" name="rentMonth" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="display-flex-row no-right-padding margin-top-5">
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">관리비</label>
-                                                    <input type="number" class="form-control form-control-sm management" name="management" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm management" name="management" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">관리비지출</label>
-                                                    <input type="number" class="form-control form-control-sm managementExpense" name="managementExpense" value="0"/>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="number" class="form-control form-control-sm managementExpense" name="managementExpense" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -334,10 +374,7 @@
                         <form class="form-horizontal" name="frmConstructRegister" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${!dto.existConstructInfo}"> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnConstructSave" th:if="${dto.existConstructInfo}"> 수정</button>
-                                </div>
+                                <div class="card-tools"></div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
@@ -497,10 +534,7 @@
                             <h3 class="card-title margin-right-4">고객정보</h3>
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span id="customerCnt">1</span>명</label>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${!dto.existCustomerInfo}"> 저장</button>
-                                <button type="button" class="btn btn-sm btn-primary btnCustomerSave" th:if="${dto.existCustomerInfo}"> 수정</button>
-                            </div>
+                            <div class="card-tools"></div>
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">
@@ -546,7 +580,11 @@
     <script th:replace="layouts/fragments :: postcode"></script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>
     <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
+    <script src="/static/js/realestate/basic/basic_editor.js" th:src="@{/js/realestate/basic/basic_editor.js}"></script>
     <script src="/static/js/realestate/land/land_editor.js" th:src="@{/js/realestate/land/land_editor.js}"></script>
+    <script src="/static/js/realestate/price/price_editor.js" th:src="@{/js/realestate/price/price_editor.js}"></script>
+    <script src="/static/js/realestate/construct/construct_editor.js" th:src="@{/js/realestate/construct/construct_editor.js}"></script>
+    <script src="/static/js/realestate/customer/customer_editor.js" th:src="@{/js/realestate/customer/customer_editor.js}"></script>
     <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
 </section>
 </body>
