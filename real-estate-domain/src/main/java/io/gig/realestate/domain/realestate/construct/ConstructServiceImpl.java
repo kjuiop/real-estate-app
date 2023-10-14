@@ -59,17 +59,7 @@ public class ConstructServiceImpl implements ConstructService {
     @Transactional
     public Long create(ConstructCreateForm createForm, LoginUser loginUser) {
 
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-        realEstate.getConstructInfoList().clear();
-
-        ConstructInfo constructInfo = ConstructInfo.create(createForm, realEstate);
-        realEstate.addConstructInfo(constructInfo);
-        return realEstateStore.store(realEstate).getId();
+        return null;
     }
 
     @Override

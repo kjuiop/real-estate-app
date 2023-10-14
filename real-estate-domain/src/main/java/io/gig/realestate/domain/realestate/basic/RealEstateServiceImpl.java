@@ -9,6 +9,7 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
@@ -70,6 +71,9 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addFloorInfo(floorInfo);
         }
 
+        ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate);
+        newRealEstate.addConstructInfo(constructInfo);
+
         return realEstateStore.store(newRealEstate).getId();
     }
 
@@ -90,6 +94,20 @@ public class RealEstateServiceImpl implements RealEstateService {
             LandInfo landInfo = LandInfo.create(updateForm.getAddress(), dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
+
+        realEstate.getPriceInfoList().clear();
+        PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
+        realEstate.addPriceInfo(priceInfo);
+
+        realEstate.getFloorPriceInfo().clear();
+        for (FloorCreateForm dto : updateForm.getFloorInfoList()) {
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
+            realEstate.addFloorInfo(floorInfo);
+        }
+
+        realEstate.getConstructInfoList().clear();
+        ConstructInfo constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate);
+        realEstate.addConstructInfo(constructInfo);
 
         return realEstateStore.store(realEstate).getId();
     }

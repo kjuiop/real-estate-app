@@ -2,7 +2,10 @@ package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
+import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,5 +42,11 @@ public class RealEstateUpdateForm {
 
     private ProcessType processType;
 
+    private PriceCreateForm priceInfo;
+
+    private ConstructCreateForm constructInfo;
+
     private List<LandInfoDto> landInfoList = new ArrayList<>();
+
+    private List<FloorCreateForm> floorInfoList = new ArrayList<>();
 }
