@@ -35,21 +35,30 @@ public class ConstructDto {
 
     private Double heit;
 
+    // 지상
     private int grndFlrCnt;
 
+    // 지하
     private int ugrndFlrCnt;
 
+    // 승용승강기 수
     private int rideUseElvtCnt;
 
+    // 비사용 승강기 수
     private int emgenUseElvtCnt;
 
+    // 옥내 자주식 대수(대)
     private int indrAutoUtcnt;
 
+    // 옥외 자주식 대수
     private int oudrAutoUtcnt;
 
+    // 옥내 기계식 대수
     private int indrMechUtcnt;
 
+    // 옥외 기계식 대수
     private int oudrMechUtcnt;
+
 
     private String mainPurpsCdNm;
 
