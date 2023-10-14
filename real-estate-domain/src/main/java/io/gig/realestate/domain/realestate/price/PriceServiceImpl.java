@@ -37,22 +37,23 @@ public class PriceServiceImpl implements PriceService {
     @Transactional
     public Long create(PriceCreateForm createForm, LoginUser loginUser) {
 
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfoWithImg(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi(), createForm.getImgUrl());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-            realEstate.updateImgUrl(createForm.getImgUrl());
-        }
-        PriceInfo priceInfo = PriceInfo.create(createForm, realEstate);
-        realEstate.addPriceInfo(priceInfo);
-
-        realEstate.getFloorPriceInfo().clear();
-        for (PriceCreateForm.FloorDto dto : createForm.getFloorInfo()) {
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
-            realEstate.addFloorInfo(floorInfo);
-        }
-        return realEstateStore.store(realEstate).getId();
+        return null;
+//        RealEstate realEstate;
+//        if (createForm.getRealEstateId() == null) {
+//            realEstate = RealEstate.initialInfoWithImg(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi(), createForm.getImgUrl());
+//        } else {
+//            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
+//            realEstate.updateImgUrl(createForm.getImgUrl());
+//        }
+//        PriceInfo priceInfo = PriceInfo.create(createForm, realEstate);
+//        realEstate.addPriceInfo(priceInfo);
+//
+//        realEstate.getFloorPriceInfo().clear();
+//        for (PriceCreateForm.FloorDto dto : createForm.getFloorInfo()) {
+//            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
+//            realEstate.addFloorInfo(floorInfo);
+//        }
+//        return realEstateStore.store(realEstate).getId();
     }
 
     @Override

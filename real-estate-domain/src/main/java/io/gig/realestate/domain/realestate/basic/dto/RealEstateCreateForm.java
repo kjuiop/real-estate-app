@@ -1,7 +1,10 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
+import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,6 +47,9 @@ public class RealEstateCreateForm {
 
     private String imgUrl;
 
+    private PriceCreateForm priceInfo;
+
     private List<LandInfoDto> landInfoList = new ArrayList<>();
 
+    private List<FloorCreateForm> floorInfoList = new ArrayList<>();
 }

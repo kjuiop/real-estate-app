@@ -1,0 +1,32 @@
+package io.gig.realestate.domain.realestate.construct.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+
+/**
+ * @author : JAKE
+ * @date : 2023/10/14
+ */
+@Getter
+@Builder
+public class FloorCreateForm {
+
+    private int flrNo;
+
+    private String flrNoNm;
+
+    // 면적
+    private Double area;
+
+    // 주용도
+    private String mainPurpsCdNm;
+
+    // 부용도
+    private String etcPurps;
+
+    private int guaranteePrice;
+
+    private int rent;
+
+    private int management;
+}
