@@ -111,7 +111,7 @@ let drawCustomerInfo = function(item) {
     tag +=             '</div>';
     tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName" value="' +  item.customerName + '"/>';
     tag +=         '</div>';
-    tag +=         '<div class="col-md-2">';
+    tag +=         '<div class="col-md-3">';
     tag +=             '<label class="text-label">성별</label>';
     tag +=             '<select class="form-control form-control-sm valid-ignore custom-select" name="gender">';
     if (item.gender === "MAN") {
@@ -126,7 +126,7 @@ let drawCustomerInfo = function(item) {
     }
     tag +=             '</select>';
     tag +=         '</div>';
-    tag +=         '<div class="col-md-4">';
+    tag +=         '<div class="col-md-3">';
     tag +=         '<div>';
     tag +=             '<label class="text-label">생년월일</label>';
     tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right margin-bottom-5">삭제</button>'

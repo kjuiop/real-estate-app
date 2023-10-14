@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.customer;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerDto;
 import io.gig.realestate.domain.realestate.customer.types.CustomerType;
 import io.gig.realestate.domain.realestate.customer.types.GenderType;
@@ -61,7 +62,7 @@ public class CustomerInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static CustomerInfo create(CustomerDto dto, RealEstate realEstate) {
+    public static CustomerInfo create(CustomerCreateForm dto, RealEstate realEstate) {
         return CustomerInfo.builder()
                 .type(dto.getType())
                 .birth(dto.getBirth())
