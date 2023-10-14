@@ -23,6 +23,8 @@ public class RealEstateUpdateForm {
 
     private String etcInfo;
 
+    private String imgUrl;
+
     private String address;
 
     private String addressDetail;

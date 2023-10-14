@@ -151,6 +151,7 @@ public class RealEstate extends BaseTimeEntity {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
+                .imgUrl(createForm.getImgUrl())
                 .legalCode(createForm.getLegalCode())
                 .landType(createForm.getLandType())
                 .bun(createForm.getBun())
@@ -169,6 +170,7 @@ public class RealEstate extends BaseTimeEntity {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
                 .etcInfo(createForm.getEtcInfo())
+                .imgUrl(createForm.getImgUrl())
                 .legalCode(createForm.getLegalCode())
                 .landType(createForm.getLandType())
                 .bun(createForm.getBun())
@@ -191,6 +193,7 @@ public class RealEstate extends BaseTimeEntity {
         this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
         this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.usageType = usageType;
+        this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;
         this.updatedBy = loginUser;
     }

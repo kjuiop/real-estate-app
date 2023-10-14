@@ -42,6 +42,8 @@ public class RealEstateCreateForm {
 
     private String addressDetail;
 
+    private String imgUrl;
+
     private List<LandInfoDto> landInfoList = new ArrayList<>();
 
 }
