@@ -1,5 +1,7 @@
 package io.gig.realestate.domain.realestate.customer.dto;
 
+import io.gig.realestate.domain.realestate.customer.types.CustomerType;
+import io.gig.realestate.domain.realestate.customer.types.GenderType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,17 +15,27 @@ import java.util.List;
 @Setter
 public class CustomerCreateForm {
 
-    private Long realEstateId;
+    private Long customerId;
 
-    private String legalCode;
+    private CustomerType type;
 
-    private String landType;
+    private String birth;
 
-    private String bun;
+    private String customerName;
 
-    private String ji;
+    private String phone;
 
-    private String address;
+    private String etcPhone;
 
-    private List<CustomerDto> customerInfo;
+    private GenderType gender;
+
+    private String etcInfo;
+
+    private String companyName;
+
+    private String companyPhone;
+
+    private String representName;
+
+    private String representPhone;
 }

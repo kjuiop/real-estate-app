@@ -187,3 +187,22 @@ let constructInfoSave = function(e) {
     });
 }
 
+let assembleFloorParams = function() {
+
+    let floorInfoList = [];
+    $('.construct-floor-table tbody tr').each(function(idx, item) {
+        let param = {
+            "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
+            "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
+            "area" : $(item).find('.area').attr('data'),
+            "mainPurpsCdNm" : $(item).find('.mainPurpsCdNm').attr('data'),
+            "etcPurps" : $(item).find('.etcPurps').attr('data'),
+            "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
+            "rent" : $(item).find('input[name="rent"]').val(),
+            "management" : $(item).find('input[name="management"]').val(),
+        }
+        floorInfoList.push(param);
+    });
+
+    return floorInfoList;
+}
