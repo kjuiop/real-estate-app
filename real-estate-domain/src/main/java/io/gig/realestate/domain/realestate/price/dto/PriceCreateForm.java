@@ -30,4 +30,6 @@ public class PriceCreateForm {
     private int management;
 
     private int managementExpense;
+
+    private double totalLndpclArByPyung;
 }

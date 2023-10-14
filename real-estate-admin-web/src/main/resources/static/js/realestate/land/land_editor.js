@@ -55,6 +55,8 @@ let loadLandInfoList = function() {
                     $frm.find('.btnLandSection').append(tag);
                     $frm.find('.btnLandSection .btnLandLoad').last().data('land-data', item);
                 });
+
+                calculateLandInfo();
             }
         },
         error: function(error){
@@ -96,6 +98,23 @@ let landInfoAdd = function(e) {
     let tag = drawLandButton(params);
     $frmLand.find('.btnLandSection').append(tag);
     $frmLand.find('.btnLandSection .btnLandLoad').last().data('land-data', params);
+    calculateLandInfo();
+}
+
+let calculateLandInfo = function() {
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        $section = $frmLand.find('.btnLandSection');
+
+    let totalLndpclArByPyung = 0;
+
+    $section.find('.btnLandLoad').each(function(idx, item) {
+        let landData = $(item).data('land-data');
+        totalLndpclArByPyung += parseFloat(landData.lndpclArByPyung);
+    });
+
+    $frmLand.find('input[name="totalLndpclArByPyung"]').val(totalLndpclArByPyung);
+    $frmLand.find('.pyung').html(totalLndpclArByPyung);
 }
 
 let drawLandButton = function(data) {

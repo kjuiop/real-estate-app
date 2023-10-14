@@ -352,23 +352,24 @@
                                         <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td>
                                             <div class="display-flex-column">
-                                                <div class="display-flex-row">
-                                                    <th:block th:if="${item.salePrice > 0}">
-                                                        <div>
-                                                            <button class="btn btn-xs btn-danger margin-right-5">매매</button>
-                                                            <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
-                                                            (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
-                                                        </div>
-                                                    </th:block>
+                                                <div class="display-flex-row" th:if="${item.salePrice > 0}">
+                                                    <div>
+                                                        <button class="btn btn-xs btn-danger margin-right-5">매매</button>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                    </div>
                                                 </div>
-                                                <div class="display-flex-row margin-top-5">
-                                                    <th:block th:if="${item.revenueRate > 0}">
-
-                                                        <div>
-                                                            <button class="btn btn-xs btn-default margin-right-5">수익</button>
-                                                            <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
-                                                        </div>
-                                                    </th:block>
+                                                <div class="display-flex-row margin-top-5" th:if="${item.salePrice > 0}">
+                                                    <div>
+                                                        <button class="btn btn-xs btn-danger margin-right-5">평단가</button>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="display-flex-row margin-top-5" th:if="${item.revenueRate > 0}">
+                                                    <div>
+                                                        <button class="btn btn-xs btn-default margin-right-5">수익</button>
+                                                        <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>

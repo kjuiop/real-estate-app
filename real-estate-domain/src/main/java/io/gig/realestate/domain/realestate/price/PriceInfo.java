@@ -42,6 +42,14 @@ public class PriceInfo extends BaseTimeEntity {
     private int managementExpense;
 
     @Builder.Default
+    @Column(columnDefinition = "int default '0'")
+    private int landPyungUnitPrice = 0;
+
+    @Builder.Default
+    @Column(columnDefinition = "int default '0'")
+    private int buildingPyungUnitPrice = 0;
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
@@ -51,7 +59,7 @@ public class PriceInfo extends BaseTimeEntity {
     private RealEstate realEstate;
 
     public static PriceInfo create(PriceCreateForm createForm, RealEstate realEstate) {
-        return PriceInfo.builder()
+        PriceInfo priceInfo = PriceInfo.builder()
                 .salePrice(createForm.getSalePrice())
                 .depositPrice(createForm.getDepositPrice())
                 .revenueRate(createForm.getRevenueRate())
@@ -62,16 +70,17 @@ public class PriceInfo extends BaseTimeEntity {
                 .managementExpense(createForm.getManagementExpense())
                 .realEstate(realEstate)
                 .build();
+
+        priceInfo.landPyungUnitPrice = calculateLandPyungUnit(priceInfo.getSalePrice(), createForm.getTotalLndpclArByPyung());
+
+        return priceInfo;
     }
 
-    public void update(PriceUpdateForm updateForm) {
-        this.salePrice = updateForm.getSalePrice();
-        this.depositPrice = updateForm.getDepositPrice();
-        this.revenueRate = updateForm.getRevenueRate();
-        this.averageUnitPrice = updateForm.getAverageUnitPrice();
-        this.guaranteePrice = updateForm.getGuaranteePrice();
-        this.rentMonth = updateForm.getRentMonth();
-        this.management = updateForm.getManagement();
-        this.managementExpense = updateForm.getManagementExpense();
+    private static int calculateLandPyungUnit(int salePrice, double lndpclAr) {
+        if (salePrice == 0 || lndpclAr == 0.0) {
+            return 0;
+        }
+        salePrice *= 10000;
+        return (int) (salePrice / lndpclAr);
     }
 }
