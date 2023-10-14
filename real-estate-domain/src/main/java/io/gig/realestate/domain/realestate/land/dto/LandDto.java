@@ -27,6 +27,8 @@ public class LandDto {
     // 각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호
     private String pnu;
 
+    private String pnuStr;
+
     /** 토지면적 **/
     // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
     private Double lndpclAr;
@@ -79,6 +81,7 @@ public class LandDto {
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
+        this.pnuStr = l.getPnu();
         this.address = l.getAddress();
         this.lndpclAr = l.getLndpclAr();
         this.lndpclArByPyung = l.getLndpclArByPyung();

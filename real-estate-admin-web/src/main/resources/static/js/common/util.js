@@ -241,3 +241,13 @@ let addCommasToNumber = function(number) {
     numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return numberStr;
 }
+
+let removeComma = function(str) {
+    if (!checkNullOrEmptyValue(str)) {
+        return str;
+    }
+
+    str = str.toString();
+    str = str.replaceAll(',', '');
+    return str;
+}

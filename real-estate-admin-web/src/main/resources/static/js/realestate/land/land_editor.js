@@ -73,6 +73,8 @@ let landInfoAdd = function(e) {
         isAlready = false;
 
     params.pnu = pnu;
+    params.pblntfPclnd = removeComma(params.pblntfPclnd)
+    params.totalPblntfPclnd = removeComma(params.totalPblntfPclnd)
 
     console.log("landInfoAdd params", params)
 
@@ -166,16 +168,16 @@ let landInfoSave = function(e) {
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
         if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclAr = landData.lndpclAr.replaceAll(',', '');
+            landData.lndpclAr = removeComma(landData.lndpclAr)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclArByPyung = landData.lndpclArByPyung.replaceAll(',', '');
+            landData.lndpclArByPyung = removeComma(landData.lndpclArByPyung)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
+            landData.pblntfPclnd = removeComma(landData.pblntfPclnd)
         }
         if (typeof landData.lndpclAr === 'string') {
-            landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+            landData.totalPblntfPclnd = removeComma(landData.totalPblntfPclnd)
         }
         landData.realEstateId = dto.realEstateId;
         landInfoList.push(landData);
