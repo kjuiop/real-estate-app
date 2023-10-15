@@ -36,6 +36,7 @@ let realEstateSave = function(e) {
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
+    params.priceInfo.totArea = $('input[name="totArea"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -92,6 +93,7 @@ let realEstateUpdate = function(e) {
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
+    params.priceInfo.totArea = $('input[name="totArea"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;

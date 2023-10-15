@@ -72,7 +72,7 @@ public class PriceInfo extends BaseTimeEntity {
                 .build();
 
         priceInfo.landPyungUnitPrice = calculateLandPyungUnit(priceInfo.getSalePrice(), createForm.getTotalLndpclArByPyung());
-
+        priceInfo.buildingPyungUnitPrice = calculateBuildingPyungUnit(priceInfo.getSalePrice(), createForm.getTotArea());
         return priceInfo;
     }
 
@@ -82,5 +82,13 @@ public class PriceInfo extends BaseTimeEntity {
         }
         salePrice *= 10000;
         return (int) (salePrice / lndpclAr);
+    }
+
+    private static int calculateBuildingPyungUnit(int salePrice, double totArea) {
+        if (salePrice == 0 || totArea == 0.0) {
+            return 0;
+        }
+        salePrice *= 10000;
+        return (int) (salePrice / totArea);
     }
 }
