@@ -54,14 +54,14 @@
                                 <div class="col-md-12 display-flex-row">
                                     <th:block th:if="${isModify}">
                                         <div th:if="${dto.processType != null}">
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
-                                            <button class="btn btn-xs btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                            <button class="btn btn-xs btnR btn-default text-right margin-right-5" th:classappend="${dto.rYn eq 'Y' ? 'btn-primary' : 'btn-default'}">R</button>
-                                            <button class="btn btn-xs btnAb btn-default text-right margin-right-5" th:classappend="${dto.abYn eq 'Y' ? 'btn-primary' : 'btn-default'}">A-B</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                            <button class="btn btn-sm btnR btn-default text-right margin-right-5" th:classappend="${dto.rYn eq 'Y' ? 'btn-primary' : 'btn-default'}">R</button>
+                                            <button class="btn btn-sm btnAb btn-default text-right margin-right-5" th:classappend="${dto.abYn eq 'Y' ? 'btn-primary' : 'btn-default'}">A-B</button>
                                         </div>
                                     </th:block>
                                 </div>
@@ -483,7 +483,7 @@
 <!--                                            <label class="text-label">규모(층수, 지상/지하)</label>-->
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm col-md-8 grndFlrCnt" name="grndFlrCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
@@ -500,7 +500,7 @@
 <!--                                            <label class="text-label">엘레베이터(승용/긴급)</label>-->
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm col-md-8 rideUseElvtCnt" name="rideUseElvtCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
@@ -521,7 +521,7 @@
                                             <label class="text-label">주차(자주식)</label>
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm col-md-8 indrAutoUtcnt" name="indrAutoUtcnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
@@ -537,14 +537,14 @@
 <!--                                            <label class="text-label">주차(기계식, 옥내/옥외)</label>-->
                                             <label class="text-label">주차(기계식)</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 input-height-36 indrMechUtcnt" name="indrMechUtcnt" />
+                                                <input type="text" class="form-control form-control-sm col-md-8 indrMechUtcnt" name="indrMechUtcnt" style="height: 36px;" />
                                                 <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 input-height-36 oudrMechUtcnt" name="oudrMechUtcnt" />
+                                                <input type="text" class="form-control form-control-sm col-md-8 oudrMechUtcnt" name="oudrMechUtcnt" style="height: 36px;" />
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>

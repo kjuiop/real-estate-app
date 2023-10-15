@@ -375,3 +375,7 @@
 .width-80px {
     width: 80px;
 }
+
+.min-width-30 {
+    min-width: 30px;
+}

@@ -92,7 +92,7 @@ public class RealEstateController {
     public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
 
         RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
-        dto.checkIsOwnUser(loginUser.getLoginUser().getId());
+        dto.checkIsOwnUser(loginUser);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 
