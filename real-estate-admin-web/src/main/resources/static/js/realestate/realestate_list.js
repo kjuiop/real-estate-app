@@ -33,6 +33,22 @@ let moveRegister = function(e) {
     let $frm = $('form[name="frmMoveRegister"]'),
         params = serializeObject({form:$frm[0]}).json();
 
+    let usageCdId = $('select[name="usageCd"] option:selected').val();
+    if (!checkNullOrEmptyValue(usageCdId)) {
+        twoBtnModal("매물 용도를 선택해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal("주소 검색을 통해 주소를 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.bun) || !checkNullOrEmptyValue(params.ji)) {
+        twoBtnModal("지번을 입력해주세요.");
+        return;
+    }
+
     console.log("params : ", params);
 
     location.href = "/real-estate/new"
@@ -40,7 +56,9 @@ let moveRegister = function(e) {
         + "&landType=" + params.landType
         + "&bun=" + params.bun
         + "&ji=" + params.ji
-        + "&address=" + encodeURIComponent(params.address);
+        + "&address=" + encodeURIComponent(params.address)
+        + "&usageCdId=" + usageCdId
+    ;
 
 }
 

@@ -33,6 +33,8 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     private Long createdById;
 
+    private Long usageCdId;
+
     @Builder.Default
     private boolean isOwnUser = false;
 
@@ -53,7 +55,6 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     static {
         EMPTY = RealEstateDetailDto.builder()
-                .ownYn(YnType.Y)
                 .empty(true)
                 .build();
     }
@@ -90,14 +91,14 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId) {
         return RealEstateDetailDto.builder()
                 .legalCode(legalCode)
                 .landType(landType)
                 .bun(bun)
                 .ji(ji)
                 .address(address)
-                .ownYn(YnType.Y)
+                .usageCdId(usageCdId)
                 .build();
     }
 
