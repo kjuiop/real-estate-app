@@ -228,4 +228,12 @@ public class RealEstate extends BaseTimeEntity {
         this.processType = processType;
         this.updatedBy = loginUser;
     }
+
+    public void updateRStatus(YnType rYn) {
+        this.rYn = rYn;
+    }
+
+    public void updateABStatus(YnType abYn) {
+        this.abYn = abYn;
+    }
 }

@@ -43,6 +43,10 @@ public class RealEstateUpdateForm {
 
     private ProcessType processType;
 
+    private YnType rYn;
+
+    private YnType abYn;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;

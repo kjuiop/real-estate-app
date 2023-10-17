@@ -13,6 +13,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.realestate.basic.dto.StatusUpdateForm;
 import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
@@ -140,6 +141,22 @@ public class RealEstateController {
     public ResponseEntity<ApiResponse> processUpdate(@Valid @RequestBody RealEstateUpdateForm updateForm,
                                                      @CurrentUser LoginUser loginUser) {
         Long realEstateId = realEstateService.updateProcessStatus(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("status/r")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> rStatusUpdate(@Valid @RequestBody StatusUpdateForm updateForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.updateRStatus(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
+    }
+
+    @PutMapping("status/ab")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> abStatusUpdate(@Valid @RequestBody StatusUpdateForm updateForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long realEstateId = realEstateService.updateABStatus(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 }

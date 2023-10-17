@@ -279,6 +279,68 @@ let checkInputRealEstate = function() {
     return true;
 }
 
+let changeRStatus = function(e) {
+    e.preventDefault();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "rStatusYn" : $(this).attr('rStatus'),
+    }
+
+    console.log('r status params : ', params)
+
+    twoBtnModal('R 표시를 전환하겠습니까?', function() {
+        $.ajax({
+            url: "/real-estate/status/r",
+            method: "put",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 변경되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let changeABStatus = function(e) {
+    e.preventDefault();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "abYn" : $(this).attr('abStatus'),
+    }
+
+    console.log('abStatus params : ', params)
+
+    twoBtnModal('AB 표시를 전환하겠습니까?', function() {
+        $.ajax({
+            url: "/real-estate/status/ab",
+            method: "put",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 변경되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -298,4 +360,6 @@ $(document).ready(onReady)
     .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
     .on('click', '.btnRemoveMemo', removeMemo)
     .on('click', '.btnRemoveAllMemo', removeAllMemo)
-    .on('click', '.btnProcessType', changeProcessStatus);
+    .on('click', '.btnProcessType', changeProcessStatus)
+    .on('click', '.btnR', changeRStatus)
+    .on('click', '.btnAB', changeABStatus);

@@ -5,10 +5,7 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
@@ -163,5 +160,21 @@ public class RealEstateServiceImpl implements RealEstateService {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.updateProcessStatus(updateForm.getProcessType(), loginUser.getLoginUser());
         return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long updateRStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateRStatus(updateForm.getRYn());
+        return updateForm.getRealEstateId();
+    }
+
+    @Override
+    @Transactional
+    public Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateABStatus(updateForm.getAbYn());
+        return updateForm.getRealEstateId();
     }
 }
