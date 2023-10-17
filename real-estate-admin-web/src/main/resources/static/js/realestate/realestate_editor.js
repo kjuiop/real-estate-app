@@ -205,11 +205,26 @@ let removeBtn = function(e) {
 let changeProcessStatus = function(e) {
     e.preventDefault();
 
+    if (dto.ownUser !== true) {
+        twoBtnModal("매물 상태를 변경할 권한이 없습니다.");
+        return;
+    }
+
     let processStatus = $(this).attr('processType');
     let params = {
         "realEstateId" : dto.realEstateId,
         "processType": processStatus
     }
+
+    if (processStatus === 'Prepare' && dto.processType !== 'NotAssign') {
+        return;
+    }
+
+    if (processStatus === dto.processType) {
+        return;
+    }
+
+
 
     console.log("changeProcessStatus params :", params);
 
