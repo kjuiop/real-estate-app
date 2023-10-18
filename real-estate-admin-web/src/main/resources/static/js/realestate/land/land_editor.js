@@ -115,14 +115,18 @@ let calculateLandInfo = function() {
 
     $section.find('.btnLandLoad').each(function(idx, item) {
         let landData = $(item).data('land-data');
-        console.log("landinfo : " + idx + ", data : " + landData);
         totalLndpclArByPyung += parseFloat(landData.lndpclArByPyung);
         totalLndpcl += parseFloat(landData.lndpclAr);
     });
 
 
+    console.log("before calculate totalLndpcl : ", totalLndpcl)
+    console.log("before calculate totalLndpclArByPyung : ", totalLndpclArByPyung)
     totalLndpcl = Math.floor(totalLndpcl * 100) / 100;
     totalLndpclArByPyung = Math.floor(totalLndpclArByPyung * 100) / 100;
+
+    console.log("after calculate totalLndpcl : ", totalLndpcl)
+    console.log("after calculate totalLndpclArByPyung : ", totalLndpclArByPyung)
 
     $frmLand.find('input[name="totalLndpclAr"]').val(totalLndpcl);
     $frmLand.find('input[name="totalLndpclArByPyung"]').val(totalLndpclArByPyung);
@@ -135,9 +139,9 @@ let drawLandButton = function(data) {
     let tag = '';
 
     if (checkNullOrEmptyValue(data.landId)) {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + data.landId + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + data.landId + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     } else {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     }
 
     return tag;
@@ -264,4 +268,10 @@ let applyLandInfo = function(e) {
 
         $('.btnModalClose').trigger('click');
     });
+}
+
+let removeLandBtn = function(e) {
+    e.preventDefault();
+    $(this).parents('button').remove();
+    calculateLandInfo();
 }

@@ -189,11 +189,6 @@ let removeImage = function() {
     $imagePanel.html(tag);
 }
 
-let removeBtn = function(e) {
-    e.preventDefault();
-    $(this).parents('button').remove();
-}
-
 let changeProcessStatus = function(e) {
     e.preventDefault();
 
@@ -348,7 +343,7 @@ $(document).ready(onReady)
     .on('click', '.remove-image', removeImage)
     .on('click', '.btnLandLoad', loadLandInfoById)
     .on('click', '.btnLandAdd', landInfoAdd)
-    .on('click', '.removeBtn', removeBtn)
+    .on('click', '.removeLandBtn', removeLandBtn)
     .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
     .on('click', '.btnRemoveMemo', removeMemo)
     .on('click', '.btnRemoveAllMemo', removeAllMemo)
