@@ -38,7 +38,7 @@ public class MemoServiceImpl implements MemoService {
     public Long create(MemoCreateForm createForm, LoginUser loginUser) {
 
         RealEstate newRealEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        MemoInfo memo = MemoInfo.create(createForm, newRealEstate, loginUser.getLoginUser());
+        MemoInfo memo = MemoInfo.create(createForm.getMemo(), newRealEstate, loginUser.getLoginUser());
         newRealEstate.addMemoInfo(memo);
         return realEstateStore.store(newRealEstate).getId();
     }

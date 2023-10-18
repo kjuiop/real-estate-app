@@ -44,9 +44,9 @@ public class MemoInfo extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static MemoInfo create(MemoCreateForm createForm, RealEstate realEstate, Administrator loginUser) {
+    public static MemoInfo create(String memo, RealEstate realEstate, Administrator loginUser) {
         return MemoInfo.builder()
-                .memo(createForm.getMemo())
+                .memo(memo)
                 .realEstate(realEstate)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)

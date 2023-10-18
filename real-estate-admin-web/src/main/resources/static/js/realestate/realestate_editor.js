@@ -31,7 +31,12 @@ let realEstateSave = function(e) {
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
+
     let landInfoList = assembleLandParams();
+    if (landInfoList.length === 0) {
+        return;
+    }
+
     params.landInfoList = landInfoList;
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
@@ -271,7 +276,7 @@ let changeRStatus = function(e) {
 
     let params = {
         "realEstateId" : dto.realEstateId,
-        "rStatusYn" : $(this).attr('rStatus'),
+        "rYn" : $(this).attr('rStatus')
     }
 
     console.log('r status params : ', params)
@@ -341,7 +346,6 @@ $(document).ready(onReady)
     .on('keydown', '#memoInput', addMemo)
     .on('click', '.btnImageUpload', uploadImage)
     .on('click', '.remove-image', removeImage)
-    .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnLandLoad', loadLandInfoById)
     .on('click', '.btnLandAdd', landInfoAdd)
     .on('click', '.removeBtn', removeBtn)

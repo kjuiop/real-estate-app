@@ -45,7 +45,7 @@
                                         </label> &nbsp;
                                     </div>
                                 </div>
-                                <div class="col-md-12 row">
+                                <div class="col-md-12">
                                     <th:block th:if="${isModify}">
                                         <div th:if="${dto.processType != null}">
                                             <button class="btn btn-sm btnProcessType margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare" th:if="${dto.processType.type eq 'prepare' || dto.processType.level eq 1 || dto.processType.type eq 'notAssign'}">준비</button>

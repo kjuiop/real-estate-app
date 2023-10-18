@@ -5,6 +5,7 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
@@ -12,6 +13,7 @@ import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +60,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         for (LandInfoDto dto : createForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(createForm.getAddress(), dto, newRealEstate);
+            LandInfo landInfo = LandInfo.create(dto, newRealEstate);
             newRealEstate.addLandInfo(landInfo);
         }
 
@@ -95,7 +97,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         realEstate.getLandInfoList().clear();
         for (LandInfoDto dto : updateForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(updateForm.getAddress(), dto, realEstate);
+            LandInfo landInfo = LandInfo.create(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
 
@@ -127,6 +129,11 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.updateProcessStatus(updateForm.getProcessType(), loginUser.getLoginUser());
+
+        String memo = updateForm.getProcessType().getDescription() + "상태로 변경하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
+
         return realEstateStore.store(realEstate).getId();
     }
 
@@ -135,7 +142,12 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long updateRStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.updateRStatus(updateForm.getRYn());
-        return updateForm.getRealEstateId();
+        String status = YnType.Y == updateForm.getRYn() ? "활성화" : "비활성화";
+        String memo = "R 상태를 " + status + "하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
+
+        return realEstateStore.store(realEstate).getId();
     }
 
     @Override
@@ -143,6 +155,10 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.updateABStatus(updateForm.getAbYn());
-        return updateForm.getRealEstateId();
+        String status = YnType.Y == updateForm.getAbYn() ? "활성화" : "비활성화";
+        String memo = "A-B 상태를 " + status + "하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
+        return realEstateStore.store(realEstate).getId();
     }
 }
