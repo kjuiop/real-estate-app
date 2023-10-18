@@ -158,19 +158,6 @@ let selectUsageCode = function(e) {
     $this.addClass("selected");
 }
 
-let searchAddress = function(e) {
-    e.preventDefault();
-
-    let $frm = $(this).parents(`form[name="frmBasicRegister"]`);
-    new daum.Postcode({
-        oncomplete: function(data) { //선택시 입력값 세팅
-            $frm.find(`input[name="address"]`).val(data.address);
-            $frm.find(`input[name="addressDetail"]`).focus();
-            loadKakaoMap(data.address)
-        }
-    }).open();
-}
-
 let uploadImage = function(e) {
     e.preventDefault();
 
@@ -341,6 +328,7 @@ let changeABStatus = function(e) {
     });
 }
 
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -362,4 +350,6 @@ $(document).ready(onReady)
     .on('click', '.btnRemoveAllMemo', removeAllMemo)
     .on('click', '.btnProcessType', changeProcessStatus)
     .on('click', '.btnR', changeRStatus)
-    .on('click', '.btnAB', changeABStatus);
+    .on('click', '.btnAB', changeABStatus)
+    .on('click', '#btnLandModal', showLandModal)
+    .on('click', '.btnApplyLand', applyLandInfo);

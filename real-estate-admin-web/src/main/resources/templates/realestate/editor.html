@@ -7,12 +7,6 @@
       layout:decorate="~{layouts/realestate/detail}">
 <head>
     <style>
-        @media (min-width: 1500px) {
-            .col-md-4 {
-                flex: 0 0 25%;
-                max-width: 25%;
-            }
-        }
         @media (min-width: 768px) and (max-width: 1500px) {
             .col-sm-6 {
                 flex: 0 0 50%;
@@ -156,7 +150,7 @@
                                     </div>
                                     <div class="display-flex-row col-md-12 no-left-padding">
                                         <input type="text" class="form-control form-control-sm col-md-7 margin-right-8" name="address" th:value="${dto.address}" style="height: 36px;" readonly />
-                                        <button type="button" class="btn btn-sm btn-default col-md-2 margin-right-8"> 토지검색</button>
+                                        <button type="button" id="btnLandModal" class="btn btn-sm btn-default col-md-2 margin-right-8"> 토지검색</button>
                                         <button type="button" class="btn btn-sm btn-primary col-md-2 btnLandAdd"> 토지추가</button>
                                     </div>
                                 </div>
@@ -595,6 +589,61 @@
             </div>
         </div>
     </section>
+    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="landModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;">토지 검색</h4>
+                    <button type="button" class="btnModalClose close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; height: 100%; overflow: auto;">
+                    <div class="form-horizontal col-md-12 no-left-padding display-flex-row">
+                        <div class="col-md-8 no-left-padding">
+                            <form class="form-horizontal" name="frmMoveRegister">
+                                <input type="hidden" name="bCode" />
+                                <input type="hidden" name="hCode" />
+                                <table class="table table-borderless" style="height: 225px;">
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-md-12 no-left-padding" colspan="12">
+                                            <div class="col-md-12">
+                                                <label class="text-label">주소</label>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding">
+                                                <input type="text" class="form-control form-control-sm col-sm-9" name="address" readonly />
+                                                <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
+                                                <select class="form-control col-md-4 margin-right-4" name="landType">
+                                                    <option value="general">일반</option>
+                                                    <option value="mountain">산</option>
+                                                </select>
+                                                <input type="text" class="form-control col-md-4 margin-right-4" name="bun" placeholder="번" />
+                                                <input type="text" class="form-control col-md-4" name="ji" placeholder="지" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="modalMap" class="col-md-4 text-alien-center" style="background-color: #eeeeee; border-radius: 20px; padding: 80px 20px 20px;">
+                            <span class="margin-bottom-10">지도</span>
+                            <p style="font-size: 12px; margin-top: 20px; color: #7987a1;">
+                                검색버튼을 클릭해서
+                                <br />
+                                주소를 입력해주세요.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-horizontal margin-top-20">
+                        <button type="button" class="btn btn-primary btnApplyLand pull-right">토지 적용</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div th:replace="layouts/utilFragments::attachment"></div>
 </div>
 <section layout:fragment="script">

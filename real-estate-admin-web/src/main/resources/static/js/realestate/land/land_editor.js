@@ -274,3 +274,30 @@ let assembleLandParams = function() {
 
     return landInfoList;
 }
+
+let searchAddress = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#landModal');
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+            $modal.find(`input[name="address"]`).val(data.address);
+            loadKakaoModalMap(data.address)
+        }
+    }).open();
+}
+
+let showLandModal = function(e) {
+    e.preventDefault();
+
+    $('#landModal').modal('show');
+}
+
+
+let applyLandInfo = function(e) {
+    e.preventDefault();
+
+    twoBtnModal("검색하신 매물정보를 적용하겠습니까?", function() {
+        $('.btnModalClose').trigger('click');
+    });
+}
