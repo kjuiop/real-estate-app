@@ -27,7 +27,6 @@ let loadLandInfoList = function() {
             let landList = result.data,
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
-            $frm.find('.landSize').text(landList.length);
 
             settingLandInfo(landInfo);
 
@@ -51,8 +50,6 @@ let loadLandInfoList = function() {
 
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
-    $frm.find('.area').text(landInfo.lndpclAr);
-    $frm.find('.pyung').text(landInfo.lndpclArByPyung);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
@@ -113,14 +110,25 @@ let calculateLandInfo = function() {
         $section = $frmLand.find('.btnLandSection');
 
     let totalLndpclArByPyung = 0;
+    let totalLndpcl = 0;
+    let landLength = $section.find('.btnLandLoad').length;
 
     $section.find('.btnLandLoad').each(function(idx, item) {
         let landData = $(item).data('land-data');
+        console.log("landinfo : " + idx + ", data : " + landData);
         totalLndpclArByPyung += parseFloat(landData.lndpclArByPyung);
+        totalLndpcl += parseFloat(landData.lndpclAr);
     });
 
+
+    totalLndpcl = Math.floor(totalLndpcl * 100) / 100;
+    totalLndpclArByPyung = Math.floor(totalLndpclArByPyung * 100) / 100;
+
+    $frmLand.find('input[name="totalLndpclAr"]').val(totalLndpcl);
     $frmLand.find('input[name="totalLndpclArByPyung"]').val(totalLndpclArByPyung);
     $frmLand.find('.pyung').html(totalLndpclArByPyung);
+    $frmLand.find('.landSize').html(landLength);
+    $frmLand.find('.area').html(totalLndpcl);
 }
 
 let drawLandButton = function(data) {
@@ -325,7 +333,6 @@ let applyLandInfo = function(e) {
                 console.log("load land info", result);
                 let landList = result.data,
                     landInfo = landList[0];
-                $frm.find('.landSize').text(landList.length);
                 $frm.find('input[name="address"]').val(address);
                 settingLandInfo(landInfo);
             },
