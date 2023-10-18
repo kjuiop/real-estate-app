@@ -28,24 +28,8 @@ let loadLandInfoList = function() {
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
             $frm.find('.landSize').text(landList.length);
-            $frm.find('.area').text(landInfo.lndpclAr);
-            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
-            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
-            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
-            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
-            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
-            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
-            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
-            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
-            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
-            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-            $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
-            if (landInfo.commercialYn === 'Y') {
-                $frm.find('input[name="commercialYn"]').iCheck('check');
-            } else {
-                $frm.find('input[name="commercialYn"]').iCheck('uncheck');
-            }
+
+            settingLandInfo(landInfo);
 
             if (isLandInfo === true) {
                 $frm.find('.btnLandSection').html('');
@@ -63,6 +47,28 @@ let loadLandInfoList = function() {
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let settingLandInfo = function(landInfo) {
+    let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('.area').text(landInfo.lndpclAr);
+    $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+    $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+    $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+    $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+    $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+    $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+    $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+    $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+    $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+    $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+    $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
+    if (landInfo.commercialYn === 'Y') {
+        $frm.find('input[name="commercialYn"]').iCheck('check');
+    } else {
+        $frm.find('input[name="commercialYn"]').iCheck('uncheck');
+    }
 }
 
 let landInfoAdd = function(e) {
@@ -297,7 +303,37 @@ let showLandModal = function(e) {
 let applyLandInfo = function(e) {
     e.preventDefault();
 
+    let $frm = $('form[name="frmLandRegister"]'),
+        $modal = $('#landModal'),
+        address = $('#landModal').find('input[name="address"]').val();
+
     twoBtnModal("검색하신 매물정보를 적용하겠습니까?", function() {
+
+        let url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + $modal.find('input[name="bCode"]').val()
+            + "&landType=" + $modal.find('select[name="landType"] option:selected').val()
+            + "&bun=" + $modal.find('input[name="bun"]').val()
+            + "&ji=" + $modal.find('input[name="ji"]').val()
+        ;
+
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("load land info", result);
+                let landList = result.data,
+                    landInfo = landList[0];
+                $frm.find('.landSize').text(landList.length);
+                $frm.find('input[name="address"]').val(address);
+                settingLandInfo(landInfo);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+
         $('.btnModalClose').trigger('click');
     });
 }
