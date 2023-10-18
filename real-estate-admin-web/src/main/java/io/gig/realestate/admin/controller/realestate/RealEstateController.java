@@ -118,22 +118,6 @@ public class RealEstateController {
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
 
-    @PostMapping("basic")
-    @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody RealEstateCreateForm createForm,
-                                                 @CurrentUser LoginUser loginUser) {
-        Long realEstateId = realEstateService.basicInfoSave(createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
-    }
-
-    @PutMapping("basic")
-    @ResponseBody
-    public ResponseEntity<ApiResponse> update2(@Valid @RequestBody RealEstateUpdateForm updateForm,
-                                            @CurrentUser LoginUser loginUser) {
-        Long realEstateId = realEstateService.basicInfoUpdate(updateForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
-    }
-
     @PutMapping("process")
     @ResponseBody
     public ResponseEntity<ApiResponse> processUpdate(@Valid @RequestBody RealEstateUpdateForm updateForm,

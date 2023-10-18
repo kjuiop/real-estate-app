@@ -10,13 +10,9 @@ import org.springframework.data.domain.Page;
  */
 public interface RealEstateService {
 
-    Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser);
-
     Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto);
 
     RealEstateDetailDto getDetail(Long realEstateId);
-
-    Long basicInfoUpdate(RealEstateUpdateForm updateForm, LoginUser loginUser);
 
     Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser);
 
