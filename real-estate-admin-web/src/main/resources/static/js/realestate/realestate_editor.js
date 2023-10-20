@@ -328,6 +328,30 @@ let changeABStatus = function(e) {
     });
 }
 
+let multiImgUpload = function(e) {
+    e.preventDefault();
+
+
+    documentUpload({
+        multiple: true,
+        accept: '.jpg, .png, .gif',
+        sizeCheck: false,
+        usageType: `RealEstate`,
+        fileType: `Image`,
+        callback: function (res) {
+            console.log("res", res);
+            let attachments = res.data;
+            let $imagePanel = $('.image-sub-section');
+            $.each(attachments, function(idx, item) {
+                let tag = '<img src="' + item.fullPath + '" class="col-sm-12 no-left-padding btnMultiImgUpload thumbnailInfo" style="cursor: pointer; width: 50px; height: 50px;"/>';
+                $imagePanel.append(tag);
+            });
+        }
+    });
+
+
+}
+
 
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
@@ -351,4 +375,6 @@ $(document).ready(onReady)
     .on('click', '.btnR', changeRStatus)
     .on('click', '.btnAB', changeABStatus)
     .on('click', '#btnLandModal', showLandModal)
-    .on('click', '.btnApplyLand', applyLandInfo);
+    .on('click', '.btnApplyLand', applyLandInfo)
+    .on('click', '.btnMultiImgUpload', multiImgUpload)
+;

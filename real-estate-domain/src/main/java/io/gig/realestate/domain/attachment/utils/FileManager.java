@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -58,7 +59,7 @@ public class FileManager {
     }
 
     public Optional<File> convertMultipartFileToFile(MultipartFile file) throws Exception {
-        File convertFile = new File(file.getOriginalFilename());
+        File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         if (convertFile.createNewFile()) {
             try {
                 FileOutputStream fos = new FileOutputStream(convertFile);

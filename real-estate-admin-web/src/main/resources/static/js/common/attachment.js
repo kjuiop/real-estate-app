@@ -76,15 +76,15 @@ function documentUpload(options) {
         e.preventDefault();
         ajaxForm($form, uploadSuccess);
 
-        // 바이트 기준 1048576(Byte) = 1024(KB) = 1(MB)
-        const fileSize = document.getElementById("file").size;
-        const fileType = document.getElementById("file").type.split('/');
-
-        //3MB
-        if (fileType[0] === 'image' && (fileType[1] === 'png' || fileType[1] === 'jpg' || fileType[1] === 'jpeg') && fileSize > 3145728) {
-            oneBtnModal("이미지는 최대 3MB 용량을 넘기지 못합니다.");
-            return false;
-        }
+        // // 바이트 기준 1048576(Byte) = 1024(KB) = 1(MB)
+        // const fileSize = document.getElementById("file").size;
+        // const fileType = document.getElementById("file").type.split('/');
+        //
+        // //3MB
+        // if (fileType[0] === 'image' && (fileType[1] === 'png' || fileType[1] === 'jpg' || fileType[1] === 'jpeg') && fileSize > 3145728) {
+        //     oneBtnModal("이미지는 최대 3MB 용량을 넘기지 못합니다.");
+        //     return false;
+        // }
 
         $form.submit();
     });

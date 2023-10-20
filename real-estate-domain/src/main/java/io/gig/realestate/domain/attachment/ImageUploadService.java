@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,39 +28,48 @@ public class ImageUploadService implements UploadService {
 
     @Override
     @Transactional
-    public AttachmentDto upload(AttachmentCreateForm request) {
+    public List<AttachmentDto> upload(AttachmentCreateForm request) {
 
-        MultipartFile mf = request.getMultipartFile();
-        String filePath = request.getUsageType().getType() + File.separator +  request.getFileType();
+        if (request.getMultipartFile() != null) {
+            MultipartFile[] multipartFiles = request.getMultipartFiles();
+            multipartFiles[0] = request.getMultipartFile();
+        }
 
-        long time = System.currentTimeMillis();
-        String originalFilename = mf.getOriginalFilename();
-        String saveFileName = String.format("%d_%s", time, originalFilename.replaceAll(" ", ""));
+        List<AttachmentDto> attachmentDtoList = new ArrayList<>();
+        for (MultipartFile mf : request.getMultipartFiles()) {
+            String filePath = request.getUsageType().getType() + File.separator +  request.getFileType();
 
-        File uploadFile = null;
-        try {
-            Optional<File> uploadFileOpt = fileManager.convertMultipartFileToFile(mf);
-            if (uploadFileOpt.isEmpty()) {
-                throw new Exception("파일변환에 실패했습니다.");
-            }
-            uploadFile = uploadFileOpt.get();
-            String saveFilePath = s3UploadUtils.upload(uploadFile, filePath, saveFileName);
+            long time = System.currentTimeMillis();
+            String originalFilename = mf.getOriginalFilename();
+            String saveFileName = String.format("%d_%s", time, originalFilename.replaceAll(" ", ""));
 
-            return AttachmentDto.builder()
-                    .fileType(FileType.Image)
-                    .usageType(request.getUsageType())
-                    .originalFilename(originalFilename)
-                    .savedFilename(saveFileName)
-                    .fullPath(saveFilePath)
-                    .build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }  finally {
-            if (uploadFile != null) {
-                uploadFile.delete();
+            File uploadFile = null;
+            try {
+                Optional<File> uploadFileOpt = fileManager.convertMultipartFileToFile(mf);
+                if (uploadFileOpt.isEmpty()) {
+                    throw new Exception("파일변환에 실패했습니다.");
+                }
+                uploadFile = uploadFileOpt.get();
+                String saveFilePath = s3UploadUtils.upload(uploadFile, filePath, saveFileName);
+
+                AttachmentDto dto = AttachmentDto.builder()
+                        .fileType(FileType.Image)
+                        .usageType(request.getUsageType())
+                        .originalFilename(originalFilename)
+                        .savedFilename(saveFileName)
+                        .fullPath(saveFilePath)
+                        .build();
+
+                attachmentDtoList.add(dto);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }  finally {
+                if (uploadFile != null) {
+                    uploadFile.delete();
+                }
             }
         }
 
-        return null;
+        return attachmentDtoList;
     }
 }

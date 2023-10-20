@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AttachmentCreateForm {
 
     private MultipartFile multipartFile;
+    private MultipartFile[] multipartFiles;
     private FileType fileType;
     private UsageType usageType;
 }

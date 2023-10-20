@@ -8,6 +8,8 @@ import io.gig.realestate.domain.attachment.dto.AttachmentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/10/03
@@ -19,9 +21,9 @@ public class AttachmentFacade {
     private final UploadServiceFactory uploadServiceFactory;
     private final AttachmentService attachmentService;
 
-    public AttachmentDto upload(AttachmentCreateForm createForm) {
+    public List<AttachmentDto> upload(AttachmentCreateForm createForm) {
         UploadService uploadService = uploadServiceFactory.create(createForm.getFileType());
-        AttachmentDto result = uploadService.upload(createForm);
+        List<AttachmentDto> result = uploadService.upload(createForm);
         attachmentService.create(result);
         return result;
     }
