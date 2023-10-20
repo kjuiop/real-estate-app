@@ -174,7 +174,7 @@ let uploadImage = function(e) {
         fileType: `Image`,
         callback: function (res) {
             console.log("res", res);
-            let image = res.data;
+            let image = res.data[0];
             let $imagePanel = $('.image-section');
             let tag = imgDraw(image.fullPath);
             $imagePanel.html(tag);

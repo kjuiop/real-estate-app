@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +31,16 @@ public class ImageUploadService implements UploadService {
     @Transactional
     public List<AttachmentDto> upload(AttachmentCreateForm request) {
 
-        if (request.getMultipartFile() != null) {
-            MultipartFile[] multipartFiles = request.getMultipartFiles();
+        MultipartFile[] multipartFiles;
+        if (request.getMultipartFiles() != null && request.getMultipartFiles().length > 0) {
+            multipartFiles = request.getMultipartFiles();
+        } else {
+            multipartFiles = new MultipartFile[1];
             multipartFiles[0] = request.getMultipartFile();
         }
 
         List<AttachmentDto> attachmentDtoList = new ArrayList<>();
-        for (MultipartFile mf : request.getMultipartFiles()) {
+        for (MultipartFile mf : multipartFiles) {
             String filePath = request.getUsageType().getType() + File.separator +  request.getFileType();
 
             long time = System.currentTimeMillis();
