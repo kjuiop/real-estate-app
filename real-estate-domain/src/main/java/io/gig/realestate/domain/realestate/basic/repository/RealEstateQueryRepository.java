@@ -47,6 +47,7 @@ public class RealEstateQueryRepository {
         where.and(eqBun(searchDto.getBun()));
         where.and(eqJi(searchDto.getJi()));
         where.and(likeBuildingName(searchDto.getBuildingName()));
+        where.and(eqRealEstateId(searchDto.getRealEstateId()));
 
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory

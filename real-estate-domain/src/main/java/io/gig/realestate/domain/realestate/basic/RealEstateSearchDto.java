@@ -35,6 +35,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String buildingName;
 
+    private Long realEstateId;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }

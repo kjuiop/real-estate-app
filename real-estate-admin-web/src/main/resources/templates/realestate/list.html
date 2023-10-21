@@ -192,7 +192,7 @@
                                                         <div class="search-text">물건번호</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control">
+                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control" th:value="${condition.realEstateId}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -301,7 +301,7 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 3%;">
-                                            No.
+                                            No
                                         </th>
                                         <th style="width: 8%;">사진</th>
                                         <th style="width: 15%;">주소</th>
@@ -316,8 +316,8 @@
                                     </thead>
                                     <tbody>
                                     <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                                        <td th:text="${pages.totalElements - (status.count + (pages.number * pages.size)) + 1}">
-                                            1
+                                        <td>
+                                            [[${item.realEstateId}]]
                                         </td>
                                         <td>
                                             <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
