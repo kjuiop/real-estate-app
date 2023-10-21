@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.attachment.dto.ImageDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
@@ -11,6 +12,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
+import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
@@ -80,6 +82,11 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addCustomerInfo(customerInfo);
         }
 
+        for (ImageDto dto : createForm.getSubImages()) {
+            ImageInfo imageInfo = ImageInfo.create(dto, newRealEstate, loginUser.getLoginUser());
+            newRealEstate.addImageInfo(imageInfo);
+        }
+
         return realEstateStore.store(newRealEstate).getId();
     }
 
@@ -119,6 +126,12 @@ public class RealEstateServiceImpl implements RealEstateService {
         for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
             CustomerInfo customerInfo = CustomerInfo.create(dto, realEstate);
             realEstate.addCustomerInfo(customerInfo);
+        }
+
+        realEstate.getSubImgInfoList().clear();
+        for (ImageDto dto : updateForm.getSubImages()) {
+            ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
+            realEstate.addImageInfo(imageInfo);
         }
 
         return realEstateStore.store(realEstate).getId();

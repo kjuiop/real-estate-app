@@ -9,6 +9,7 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
+import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
@@ -115,6 +116,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<MemoInfo> memoInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<ImageInfo> subImgInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -145,6 +150,10 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addFloorInfo(FloorPriceInfo floorPriceInfo) {
         this.floorPriceInfo.add(floorPriceInfo);
+    }
+
+    public void addImageInfo(ImageInfo imageInfo) {
+        this.subImgInfoList.add(imageInfo);
     }
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {

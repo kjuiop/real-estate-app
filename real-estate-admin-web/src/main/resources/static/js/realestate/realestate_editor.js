@@ -32,6 +32,17 @@ let realEstateSave = function(e) {
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
 
+    let subImages = [];
+    let $imgSubImgSection = $('.image-sub-section');
+    $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
+       let image = {
+           "fullPath" : $(item).find('.sub-image').attr('src'),
+       }
+       subImages.push(image);
+    });
+    params.subImages = subImages;
+
+
     let landInfoList = assembleLandParams();
     if (landInfoList.length === 0) {
         return;
@@ -92,6 +103,16 @@ let realEstateUpdate = function(e) {
 
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
+
+    let subImages = [];
+    let $imgSubImgSection = $('.image-sub-section');
+    $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
+        let image = {
+            "fullPath" : $(item).find('.sub-image').attr('src'),
+        }
+        subImages.push(image);
+    });
+    params.subImages = subImages;
 
     let landInfoList = assembleLandParams();
     params.landInfoList = landInfoList;
