@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
+import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
@@ -56,6 +57,8 @@ public class RealEstateQueryRepository {
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
+        where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
+        where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -197,6 +200,30 @@ public class RealEstateQueryRepository {
                 JPAExpressions.selectDistinct(priceInfo.realEstate.id)
                         .from(priceInfo)
                         .where(priceInfo.salePrice.between(minSalePrice, maxSalePrice))
+        );
+    }
+
+    private BooleanExpression betweenLndpclAr(int minLnpclAr, int maxLnpclAr) {
+        if (minLnpclAr < 0 || maxLnpclAr <= 0 || maxLnpclAr < minLnpclAr) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(landInfo.realEstate.id)
+                        .from(landInfo)
+                        .where(landInfo.lndpclAr.between(minLnpclAr, maxLnpclAr))
+        );
+    }
+
+    private BooleanExpression betweenTotArea(int minTotArea, int maxTotArea) {
+        if (minTotArea < 0 || maxTotArea <= 0 || maxTotArea < minTotArea) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
+                        .from(constructInfo)
+                        .where(constructInfo.totArea.between(minTotArea, maxTotArea))
         );
     }
 }

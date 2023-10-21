@@ -145,7 +145,7 @@
                                                     <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
-                                                            <div class="search-text">만원</div>
+                                                           <div class="search-text">만원</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@
                                                     <input type="text" id="maxTotalArea" name="maxTotalArea" class="form-control search-input center-align">
                                                     <div class="input-label">
                                                         <label for="maxTotalArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -174,12 +174,12 @@
                                                             <div class="search-text">대지</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minSiteArea" name="minLndpclAr" class="form-control search-input center-align" th:value="${condition.minLndpclAr}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr}">
                                                     <div class="input-label">
                                                         <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -234,12 +234,12 @@
                                                             <div class="search-text">연면적</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minGrossFloorArea" name="minGrossFloorArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minGrossFloorArea" name="minTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxGrossFloorArea" name="maxGrossFloorArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea}">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
