@@ -346,6 +346,8 @@ let multiImgUpload = function(e) {
                 let tag = drawSubImageTag(idx, item.fullPath);
                 $imagePanel.append(tag);
             });
+
+            $( ".sortable-section" ).sortable().disableSelection();
         }
     });
 }
