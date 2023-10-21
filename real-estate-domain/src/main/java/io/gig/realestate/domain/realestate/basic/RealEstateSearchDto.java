@@ -37,6 +37,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Long realEstateId;
 
+    private String manager;
+
+    private String prposArea1Nm;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }

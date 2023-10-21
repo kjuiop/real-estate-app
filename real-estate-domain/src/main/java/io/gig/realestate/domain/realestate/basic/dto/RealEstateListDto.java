@@ -1,6 +1,8 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.land.LandInfo;
+import org.springframework.util.StringUtils;
 
 /**
  * @author : JAKE
@@ -14,7 +16,7 @@ public class RealEstateListDto extends RealEstateDto {
     public double platArea;
     public double totArea;
     public double archArea;
-    public String prposArea1Nm;
+    public String prposArea1Nm = "";
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
 
@@ -35,7 +37,17 @@ public class RealEstateListDto extends RealEstateDto {
             this.archArea = r.getConstructInfoList().get(0).getArchArea();
         }
         if (r.getLandInfoList().size() > 0) {
-            this.prposArea1Nm = r.getLandInfoList().get(0).getPrposArea1Nm();
+            StringBuilder prposArea1Nm = new StringBuilder();
+            for (int i=0; i<r.getLandInfoList().size(); i++) {
+                LandInfo landInfo = r.getLandInfoList().get(i);
+                if (StringUtils.hasText(landInfo.getPrposArea1Nm())) {
+                    prposArea1Nm.append(landInfo.getPrposArea1Nm());
+                }
+                if (i < r.getLandInfoList().size()-1) {
+                    prposArea1Nm.append(", ");
+                }
+            }
+            this.prposArea1Nm = prposArea1Nm.toString();
         }
     }
 }

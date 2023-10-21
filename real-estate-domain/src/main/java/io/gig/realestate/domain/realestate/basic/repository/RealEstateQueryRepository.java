@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
@@ -12,6 +13,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
+import io.gig.realestate.domain.realestate.land.QLandInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
+import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 
 /**
  * @author : JAKE
@@ -48,7 +51,7 @@ public class RealEstateQueryRepository {
         where.and(eqJi(searchDto.getJi()));
         where.and(likeBuildingName(searchDto.getBuildingName()));
         where.and(eqRealEstateId(searchDto.getRealEstateId()));
-
+        where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -74,7 +77,6 @@ public class RealEstateQueryRepository {
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
-
 
     public Optional<RealEstateDetailDto> getRealEstateDetail(Long realEstateId) {
 
@@ -156,4 +158,18 @@ public class RealEstateQueryRepository {
     private BooleanExpression likeBuildingName(String buildingName) {
         return StringUtils.hasText(buildingName) ? realEstate.buildingName.contains(buildingName) : null;
     }
+
+    private BooleanExpression likePrposArea1Nm(String prposArea1Nm) {
+        if (!StringUtils.hasText(prposArea1Nm)) {
+            return null;
+        }
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(landInfo.realEstate.id)
+                        .from(landInfo)
+                        .where(landInfo.prposArea1Nm.like("%" + prposArea1Nm + "%"))
+        );
+    }
+
+
+
 }
