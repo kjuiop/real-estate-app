@@ -52,6 +52,8 @@ public class RealEstateQueryRepository {
         where.and(likeBuildingName(searchDto.getBuildingName()));
         where.and(eqRealEstateId(searchDto.getRealEstateId()));
         where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
+        where.and(likeManagerName(searchDto.getManager()));
+        where.and(likeTeamName(searchDto.getTeam()));
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -156,7 +158,7 @@ public class RealEstateQueryRepository {
     }
 
     private BooleanExpression likeBuildingName(String buildingName) {
-        return StringUtils.hasText(buildingName) ? realEstate.buildingName.contains(buildingName) : null;
+        return StringUtils.hasText(buildingName) ? realEstate.buildingName.like("%" + buildingName + "%") : null;
     }
 
     private BooleanExpression likePrposArea1Nm(String prposArea1Nm) {
@@ -170,6 +172,18 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression likeManagerName(String manager) {
+        if (!StringUtils.hasText(manager)) {
+            return null;
+        }
+        return realEstate.manager.name.like("%" + manager + "%");
+    }
 
+    private BooleanExpression likeTeamName(String teamName) {
+        if (!StringUtils.hasText(teamName)) {
+            return null;
+        }
+        return realEstate.manager.team.name.like("%" + teamName + "%");
+    }
 
 }

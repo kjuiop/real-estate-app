@@ -39,6 +39,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String manager;
 
+    private String team;
+
     private String prposArea1Nm;
 
     public PageRequest getPageableWithSort() {
