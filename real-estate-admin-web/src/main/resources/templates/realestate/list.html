@@ -140,12 +140,12 @@
                                                             <div class="search-text">금액</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minCharge" name="minCharge" class="form-control search-input center-align">
+                                                    <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxCharge" name="maxCharge" class="form-control search-input center-align">
+                                                    <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
-                                                            <div class="search-text">억원</div>
+                                                            <div class="search-text">만원</div>
                                                         </label>
                                                     </div>
                                                 </div>

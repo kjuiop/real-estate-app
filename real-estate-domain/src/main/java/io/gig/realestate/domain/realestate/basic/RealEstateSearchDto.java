@@ -43,6 +43,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String prposArea1Nm;
 
+    private int minSalePrice;
+
+    private int maxSalePrice;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }

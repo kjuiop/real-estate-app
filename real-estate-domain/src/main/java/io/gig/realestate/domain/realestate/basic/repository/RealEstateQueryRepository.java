@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
+import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
 /**
  * @author : JAKE
@@ -54,6 +55,7 @@ public class RealEstateQueryRepository {
         where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
+        where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -186,4 +188,15 @@ public class RealEstateQueryRepository {
         return realEstate.manager.team.name.like("%" + teamName + "%");
     }
 
+    private BooleanExpression betweenSalePrice(int minSalePrice, int maxSalePrice) {
+        if (minSalePrice < 0 || maxSalePrice <= 0 || maxSalePrice < minSalePrice) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(priceInfo.realEstate.id)
+                        .from(priceInfo)
+                        .where(priceInfo.salePrice.between(minSalePrice, maxSalePrice))
+        );
+    }
 }
