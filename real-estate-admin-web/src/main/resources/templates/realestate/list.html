@@ -34,7 +34,6 @@
                                                 </label>
                                                 <div class="pull-right processUnitSection" style="display: inline-block;">
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'preparing' ? 'btn-primary' : 'btn-default'}" processType="Preparing">준비중</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
@@ -302,9 +301,7 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 3%;">
-                                            <label class="margin-bottom-0">
-                                                <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
-                                            </label>
+                                            No.
                                         </th>
                                         <th style="width: 8%;">사진</th>
                                         <th style="width: 15%;">주소</th>
@@ -319,10 +316,8 @@
                                     </thead>
                                     <tbody>
                                     <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                                        <td>
-                                            <label class="margin-bottom-0">
-                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
-                                            </label>
+                                        <td th:text="${pages.totalElements - (status.count + (pages.number * pages.size)) + 1}">
+                                            1
                                         </td>
                                         <td>
                                             <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
@@ -420,7 +415,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="text-center">
-                                    <!-- 페이징 -->
+                                    <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
                                 </div>
                             </div>
                         </div>

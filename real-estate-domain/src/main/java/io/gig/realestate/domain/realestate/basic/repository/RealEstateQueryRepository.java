@@ -38,6 +38,16 @@ public class RealEstateQueryRepository {
     public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
 
         BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(eqProcessType(searchDto.getProcessType()));
+        where.and(eqSido(searchDto.getSido()));
+        where.and(eqGungu(searchDto.getGungu()));
+        where.and(eqDong(searchDto.getDong()));
+        where.and(eqLandType(searchDto.getLandType()));
+        where.and(eqBun(searchDto.getBun()));
+        where.and(eqJi(searchDto.getJi()));
+        where.and(likeBuildingName(searchDto.getBuildingName()));
+
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -45,24 +55,25 @@ public class RealEstateQueryRepository {
                 ))
                 .from(realEstate)
                 .where(where)
-                .where(defaultCondition())
-                .where(eqProcessType(searchDto.getProcessType()))
-                .where(eqSido(searchDto.getSido()))
-                .where(eqGungu(searchDto.getGungu()))
-                .where(eqDong(searchDto.getDong()))
-                .where(eqLandType(searchDto.getLandType()))
-                .where(eqBun(searchDto.getBun()))
-                .where(eqJi(searchDto.getJi()))
-                .where(likeBuildingName(searchDto.getBuildingName()))
                 .orderBy(realEstate.id.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
         List<RealEstateListDto> content = contentQuery.fetch();
-        long total = content.size();
+
+        Long total = queryFactory
+                .select(realEstate.count())
+                .from(realEstate)
+                .where(where)
+                .fetchOne();
+
+        if (total == null) {
+            total = 0L;
+        }
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
+
 
     public Optional<RealEstateDetailDto> getRealEstateDetail(Long realEstateId) {
 

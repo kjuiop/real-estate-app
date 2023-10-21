@@ -13,6 +13,7 @@ let search = function(e) {
     if (checkNullOrEmptyValue(processType)) {
         $frm.find('input[name="processType"]').val(processType);
     }
+    console.log("process Type : ", processType)
     $frm.submit();
 };
 

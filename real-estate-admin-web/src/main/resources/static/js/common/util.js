@@ -275,3 +275,9 @@ let imgModal = function (e) {
         $imgModal.modal('show');
     }
 }
+
+function pagination(page) {
+    let $frmSearch = $("form[name='frmSearch']");
+    $frmSearch.find("input[name='page']").val(page);
+    $frmSearch.submit();
+}
