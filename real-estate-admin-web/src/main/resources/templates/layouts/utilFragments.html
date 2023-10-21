@@ -29,6 +29,30 @@
         <input type="text" id="fileType" name="fileType" />
     </form>
 </div>
+<div th:fragment="commonImageModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="image-modal">
+        <form name="frmSearch" onsubmit="return false;">
+            <input type="hidden" id="targetSubImg" value="" />
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" style="">
+                    <div class="modal-header">
+                        <h4 class="modal-title control-label pull-left">확대 이미지</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" id="modal-imgSection" style="padding: 20px; display: block; margin: 0 auto; overflow: auto;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button type="button" class="btn btn-danger btnRemoveSubImg pull-right">이미지 삭제</button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
+</div>
 
 <!-- Admin-console -->
 <div th:fragment="adminPagination(pages)">
