@@ -3,7 +3,8 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.attachment.dto.ImageDto;
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
@@ -82,7 +83,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addCustomerInfo(customerInfo);
         }
 
-        for (ImageDto dto : createForm.getSubImages()) {
+        for (ImageCreateForm dto : createForm.getSubImages()) {
             ImageInfo imageInfo = ImageInfo.create(dto, newRealEstate, loginUser.getLoginUser());
             newRealEstate.addImageInfo(imageInfo);
         }
@@ -129,7 +130,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         realEstate.getSubImgInfoList().clear();
-        for (ImageDto dto : updateForm.getSubImages()) {
+        for (ImageCreateForm dto : updateForm.getSubImages()) {
             ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
             realEstate.addImageInfo(imageInfo);
         }

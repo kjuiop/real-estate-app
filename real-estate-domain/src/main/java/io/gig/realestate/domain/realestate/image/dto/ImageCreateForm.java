@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.attachment.dto;
+package io.gig.realestate.domain.realestate.image.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class ImageDto {
+public class ImageCreateForm {
 
     private String fullPath;
 }

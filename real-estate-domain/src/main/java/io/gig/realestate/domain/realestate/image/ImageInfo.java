@@ -1,7 +1,8 @@
 package io.gig.realestate.domain.realestate.image;
 
 import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.attachment.dto.ImageDto;
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import lombok.AccessLevel;
@@ -41,7 +42,7 @@ public class ImageInfo extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static ImageInfo create(ImageDto dto, RealEstate realEstate, Administrator createdBy) {
+    public static ImageInfo create(ImageCreateForm dto, RealEstate realEstate, Administrator createdBy) {
         return ImageInfo.builder()
                 .fullPath(dto.getFullPath())
                 .realEstate(realEstate)

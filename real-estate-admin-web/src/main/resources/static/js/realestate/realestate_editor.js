@@ -8,6 +8,7 @@ let onReady = function() {
     loadCustomerInfo();
     loadMemoInfo();
     loadLandInfoList();
+    loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
 }
