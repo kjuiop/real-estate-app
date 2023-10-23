@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
@@ -157,8 +158,8 @@ public class AdministratorQueryRepository {
     public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(administratorRole.role.name.ne("ROLE_SUPER_ADMIN"));
-
+        where.and(excludeSuperAdmin());
+        where.and(neLoginUsername(loginUsername));
 
         JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(AdministratorListDto.class,
@@ -240,6 +241,13 @@ public class AdministratorQueryRepository {
 
     private BooleanExpression neLoginUsername(String loginUsername) {
         return StringUtils.hasText(loginUsername) ? administrator.username.ne(loginUsername) : null;
+    }
+
+    private BooleanExpression excludeSuperAdmin() {
+        return administrator.id.notIn(
+                JPAExpressions.selectDistinct(administratorRole.administrator.id)
+                        .from(administratorRole)
+                        .where(administratorRole.role.name.eq("ROLE_SUPER_ADMIN")));
     }
 
     private BooleanExpression defaultCondition() {
