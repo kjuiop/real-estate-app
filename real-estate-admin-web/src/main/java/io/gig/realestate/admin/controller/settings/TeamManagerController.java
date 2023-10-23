@@ -11,6 +11,7 @@ import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDetailDto;
+import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -47,12 +48,12 @@ public class TeamManagerController {
     public String register(AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        List<AdministratorListDto> managerCandidates = administratorService.getCandidateManagers(searchDto, loginUser.getUsername());
-        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto);
+        List<TeamListDto> teamList = teamService.getTeamList();
+        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto, loginUser.getUsername());
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
-        model.addAttribute("managerCandidates", managerCandidates);
+        model.addAttribute("teamList", teamList);
         model.addAttribute("memberCandidates", memberCandidates);
 
         return "/settings/team/editor";

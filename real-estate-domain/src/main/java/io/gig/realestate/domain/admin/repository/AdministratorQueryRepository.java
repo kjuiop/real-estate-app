@@ -154,8 +154,11 @@ public class AdministratorQueryRepository {
                 .fetchFirst());
     }
 
-    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
         BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(administratorRole.role.name.ne("ROLE_SUPER_ADMIN"));
+
 
         JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(AdministratorListDto.class,
@@ -163,13 +166,21 @@ public class AdministratorQueryRepository {
                 .from(administrator)
                 .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
-                .where(defaultCondition())
-                .where(administratorRole.role.name.eq("ROLE_MEMBER"))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
         List<AdministratorListDto> content = contentQuery.fetch();
-        long total = content.size();
+
+        Long total = queryFactory
+                .select(administrator.count())
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole)
+                .where(where)
+                .fetchOne();
+
+        if (total == null) {
+            total = 0L;
+        }
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }

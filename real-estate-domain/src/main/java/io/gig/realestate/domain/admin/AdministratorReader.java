@@ -30,7 +30,7 @@ public interface AdministratorReader {
 
     List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String username);
 
-    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
+    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername);
 
     Administrator getAdminEntityById(Long adminId);
 

@@ -37,7 +37,7 @@ public interface AdministratorService {
 
     List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername);
 
-    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
+    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername);
 
     Long signUp(AdministratorSignUpForm signUpForm);
 

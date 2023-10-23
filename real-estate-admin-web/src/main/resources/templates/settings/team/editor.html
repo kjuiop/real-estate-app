@@ -48,25 +48,8 @@
                                     </div>
                                     <div class="col-5"></div>
                                 </div>
-
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
-                                        <label>팀 장</label>
-                                    </div>
-                                    <div class="col-5">
-                                        <select class="form-control">
-                                            <option value="">선택</option>
-                                            <th:block th:each="candidate : ${managerCandidates}">
-                                                <option th:value="${candidate.username}" th:text="${candidate.name}"></option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                    <div class="col-5"></div>
-                                </div>
-
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
                                     <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
                                 </div>
                         </div>
                         </form>
@@ -91,12 +74,13 @@
                                                     <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                                 </label>
                                             </th>
+                                            <th>팀</th>
+                                            <th>권한</th>
                                             <th>이메일</th>
                                             <th>이름</th>
                                             <th>전화번호</th>
                                             <th>상태</th>
                                             <th style="width: 13%;">최종로그인</th>
-                                            <th>등록자</th>
                                             <th style="width: 13%;">등록일</th>
                                         </tr>
                                         </thead>
@@ -107,16 +91,29 @@
                                                     <input type="checkbox" class="checkElement chkAll adminId" name="numbers" th:value="${item.adminId}">
                                                 </label>
                                             </td>
+                                            <td>
+                                                <select class="form-control form-control-sm width-80px" name="status">
+                                                    <th:block th:if="${not #lists.isEmpty(teamList)}" th:each="team, status : ${teamList}">
+                                                        <option th:value="${team.teamId}" th:selected="${team.name eq item.teamName}">[[${team.name}]]</option>
+                                                    </th:block>
+                                                </select>
+                                            </td>
+                                            <td th:text="${item.roleName}"></td>
                                             <td th:text="${item.username}"></td>
                                             <td th:text="${item.name}"></td>
                                             <td th:text="${item.phone}"></td>
-                                            <td th:text="${item.status.description}"></td>
+                                            <td>
+                                                <select class="form-control form-control-sm width-80px" name="status">
+                                                    <option value="PENDING" th:selected="${item.status.key eq 'Pending'}">대기</option>
+                                                    <option value="NORMAL" th:selected="${item.status.key eq 'Normal'}">활성</option>
+                                                    <option value="INACTIVE" th:selected="${item.status.key eq 'InActive'}">비활성</option>
+                                                </select>
+                                            </td>
                                             <td th:text="${item.lastLoginAt != null ?  #temporals.format(item.lastLoginAt, 'YYYY-MM-dd HH:mm') : '-'}"></td>
-                                            <td th:text="${item.createdByUsername}"></td>
                                             <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                         </tr>
                                         <tr th:unless="${not #lists.isEmpty(memberCandidates.content)}">
-                                            <td class="text-center" colspan="8">등록된 팀원이 없습니다.</td>
+                                            <td class="text-center" colspan="9">등록된 팀원이 없습니다.</td>
                                         </tr>
                                         </tbody>
                                     </table>
