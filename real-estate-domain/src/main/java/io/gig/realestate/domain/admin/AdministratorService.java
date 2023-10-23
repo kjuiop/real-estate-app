@@ -35,7 +35,7 @@ public interface AdministratorService {
 
     Long update(AdministratorUpdateForm updateForm);
 
-    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
+    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername);
 
     Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
 

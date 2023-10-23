@@ -27,8 +27,8 @@ public class AdministratorQueryImpl implements AdministratorReader {
     private final AdministratorQueryRepository queryRepository;
 
     @Override
-    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
-        return queryRepository.getCandidateManagers(searchDto);
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername) {
+        return queryRepository.getCandidateManagers(searchDto, loginUsername);
     }
 
     @Override

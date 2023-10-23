@@ -28,7 +28,7 @@ public interface AdministratorReader {
 
     AdministratorDetailDto getAdminDetail(Long adminId);
 
-    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
+    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String username);
 
     Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
 

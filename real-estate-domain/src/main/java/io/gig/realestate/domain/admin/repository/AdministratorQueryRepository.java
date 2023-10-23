@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.admin.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -122,7 +124,7 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
-    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername) {
 
         BooleanBuilder where = new BooleanBuilder();
 
@@ -133,6 +135,7 @@ public class AdministratorQueryRepository {
                 .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
                 .where(defaultCondition())
+                .where(neLoginUsername(loginUsername))
                 .where(administratorRole.role.name.eq("ROLE_MANAGER"))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
@@ -222,6 +225,10 @@ public class AdministratorQueryRepository {
 
     private BooleanExpression eqAdminId(Long adminId) {
         return adminId != null ? administrator.id.eq(adminId) : null;
+    }
+
+    private BooleanExpression neLoginUsername(String loginUsername) {
+        return StringUtils.hasText(loginUsername) ? administrator.username.ne(loginUsername) : null;
     }
 
     private BooleanExpression defaultCondition() {

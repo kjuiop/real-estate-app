@@ -56,9 +56,8 @@
                                     <div class="col-5">
                                         <select class="form-control">
                                             <option value="">선택</option>
-                                            <th:block th:each="code : ${bankCode}">
-                                                <option th:value="${code.codeId}" th:text="${code.codeName}" th:codeName="${code.codeName}"
-                                                        th:selected="${isModify && partnerDto.bankCodeId != null} ? ${code.codeId eq partnerDto.bankCodeId}"></option>
+                                            <th:block th:each="candidate : ${managerCandidates}">
+                                                <option th:value="${candidate.username}" th:text="${candidate.name}"></option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -94,6 +93,7 @@
                                             </th>
                                             <th>이메일</th>
                                             <th>이름</th>
+                                            <th>전화번호</th>
                                             <th>상태</th>
                                             <th style="width: 13%;">최종로그인</th>
                                             <th>등록자</th>
@@ -101,8 +101,22 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td class="text-center" colspan="7">등록된 팀원이 없습니다.</td>
+                                        <tr th:if="${not #lists.isEmpty(memberCandidates.content)}" th:each="item, status : ${memberCandidates.content}">
+                                            <td>
+                                                <label class="margin-bottom-0">
+                                                    <input type="checkbox" class="checkElement chkAll adminId" name="numbers" th:value="${item.adminId}">
+                                                </label>
+                                            </td>
+                                            <td th:text="${item.username}"></td>
+                                            <td th:text="${item.name}"></td>
+                                            <td th:text="${item.phone}"></td>
+                                            <td th:text="${item.status.description}"></td>
+                                            <td th:text="${item.lastLoginAt != null ?  #temporals.format(item.lastLoginAt, 'YYYY-MM-dd HH:mm') : '-'}"></td>
+                                            <td th:text="${item.createdByUsername}"></td>
+                                            <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
+                                        </tr>
+                                        <tr th:unless="${not #lists.isEmpty(memberCandidates.content)}">
+                                            <td class="text-center" colspan="8">등록된 팀원이 없습니다.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -110,6 +124,13 @@
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
                                     <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
                                     <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <div th:replace="layouts/utilFragments::adminPagination(${memberCandidates})"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>

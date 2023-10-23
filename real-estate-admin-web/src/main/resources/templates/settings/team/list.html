@@ -79,7 +79,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <a th:href="|/settings/team-list/${item.teamId}/edit|" th:text="${item.name}"></a>
+                                            <a th:href="|/settings/team-manager/${item.teamId}/edit|" th:text="${item.name}"></a>
                                         </td>
                                         <td th:text="${not #strings.isEmpty(item.managerUsername)} ? ${item.managerUsername} : '-'"></td>
                                         <td th:text="${not #strings.isEmpty(item.managerName)} ? ${item.managerName} : '-'"></td>
