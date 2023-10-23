@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
+import static io.gig.realestate.domain.realestate.customer.QCustomerInfo.customerInfo;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
@@ -57,8 +58,13 @@ public class RealEstateQueryRepository {
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
+        where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
         where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
+        where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
+        where.and(betweenUseAprDay(searchDto.getStartUseAprDay(), searchDto.getEndUseAprDay()));
+        where.and(likeCustomerName(searchDto.getCustomer()));
+        where.and(eqPhone(searchDto.getPhone()));
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -191,8 +197,8 @@ public class RealEstateQueryRepository {
         return realEstate.manager.team.name.like("%" + teamName + "%");
     }
 
-    private BooleanExpression betweenSalePrice(int minSalePrice, int maxSalePrice) {
-        if (minSalePrice < 0 || maxSalePrice <= 0 || maxSalePrice < minSalePrice) {
+    private BooleanExpression betweenSalePrice(Integer minSalePrice, Integer maxSalePrice) {
+        if (minSalePrice == null || maxSalePrice == null || minSalePrice < 0 || maxSalePrice <= 0 || maxSalePrice < minSalePrice) {
             return null;
         }
 
@@ -203,8 +209,8 @@ public class RealEstateQueryRepository {
         );
     }
 
-    private BooleanExpression betweenLndpclAr(int minLnpclAr, int maxLnpclAr) {
-        if (minLnpclAr < 0 || maxLnpclAr <= 0 || maxLnpclAr < minLnpclAr) {
+    private BooleanExpression betweenLndpclAr(Integer minLnpclAr, Integer maxLnpclAr) {
+        if (minLnpclAr == null || maxLnpclAr == null || minLnpclAr < 0 || maxLnpclAr <= 0 || maxLnpclAr < minLnpclAr) {
             return null;
         }
 
@@ -215,8 +221,20 @@ public class RealEstateQueryRepository {
         );
     }
 
-    private BooleanExpression betweenTotArea(int minTotArea, int maxTotArea) {
-        if (minTotArea < 0 || maxTotArea <= 0 || maxTotArea < minTotArea) {
+    private BooleanExpression betweenArchArea(Integer minArchArea, Integer maxArchArea) {
+        if (minArchArea == null || maxArchArea == null || minArchArea < 0 || maxArchArea <= 0 || maxArchArea < minArchArea) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
+                        .from(constructInfo)
+                        .where(constructInfo.archArea.between(minArchArea, maxArchArea))
+        );
+    }
+
+    private BooleanExpression betweenTotArea(Integer minTotArea, Integer maxTotArea) {
+        if (minTotArea == null || maxTotArea == null || minTotArea < 0 || maxTotArea <= 0 || maxTotArea < minTotArea) {
             return null;
         }
 
@@ -225,5 +243,55 @@ public class RealEstateQueryRepository {
                         .from(constructInfo)
                         .where(constructInfo.totArea.between(minTotArea, maxTotArea))
         );
+    }
+
+    private BooleanExpression betweenRevenueRate(Integer minRevenueRate, Integer maxRevenueRate) {
+        if (minRevenueRate == null || maxRevenueRate == null || minRevenueRate < 0 || maxRevenueRate <= 0 || maxRevenueRate < minRevenueRate) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(priceInfo.realEstate.id)
+                        .from(priceInfo)
+                        .where(priceInfo.revenueRate.between(minRevenueRate, maxRevenueRate))
+        );
+    }
+
+    private BooleanExpression betweenUseAprDay(Integer startUseAprDay, Integer endUseAprDay) {
+        if (startUseAprDay == null || endUseAprDay == null || startUseAprDay < 0 || endUseAprDay <= 0 || endUseAprDay < startUseAprDay) {
+            return null;
+        }
+
+        startUseAprDay *= 10000;
+        endUseAprDay *= 10000;
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
+                        .from(constructInfo)
+                        .where(constructInfo.useAprDay.between(startUseAprDay, endUseAprDay))
+        );
+    }
+
+    private BooleanExpression likeCustomerName(String customer) {
+        if (!StringUtils.hasText(customer)) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(customerInfo.realEstate.id)
+                        .from(customerInfo)
+                        .where(customerInfo.customerName.like("%" + customer + "%")
+                                .or(customerInfo.companyName.like("%" + customer + "%"))));
+    }
+
+    private BooleanExpression eqPhone(String phone) {
+        if (!StringUtils.hasText(phone)) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(customerInfo.realEstate.id)
+                        .from(customerInfo)
+                        .where(customerInfo.phone.eq(phone)));
     }
 }

@@ -140,9 +140,9 @@
                                                             <div class="search-text">금액</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice}">
+                                                    <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice}">
+                                                    <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
                                                            <div class="search-text">만원</div>
@@ -153,15 +153,15 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="minTotalArea" class="top-label">
-                                                            <div class="search-text">전체면적</div>
+                                                        <label for="minArchArea" class="top-label">
+                                                            <div class="search-text">건축면적</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minTotalArea" name="minTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minArchArea" name="minArchArea" class="form-control search-input center-align" th:value="${condition.minArchArea > 0 ? condition.minArchArea : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxTotalArea" name="maxTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxArchArea" name="maxArchArea" class="form-control search-input center-align" th:value="${condition.maxArchArea > 0 ? condition.maxArchArea : ''}">
                                                     <div class="input-label">
-                                                        <label for="maxTotalArea" class="bottom-label">
+                                                        <label for="maxArchArea" class="bottom-label">
                                                             <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
@@ -174,9 +174,9 @@
                                                             <div class="search-text">대지</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minSiteArea" name="minLndpclAr" class="form-control search-input center-align" th:value="${condition.minLndpclAr}">
+                                                    <input type="text" id="minSiteArea" name="minLndpclAr" class="form-control search-input center-align" th:value="${condition.minLndpclAr > 0 ? condition.minLndpclAr : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr}">
+                                                    <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr > 0 ? condition.maxLndpclAr : ''}">
                                                     <div class="input-label">
                                                         <label for="maxSiteArea" class="bottom-label">
                                                             <div class="search-text">㎡</div>
@@ -200,7 +200,7 @@
                                                         <div class="search-text">소유자</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="owner" name="owner" class="form-control">
+                                                <input type="text" id="owner" name="customer" class="form-control" th:value="${condition.customer}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -208,7 +208,7 @@
                                                         <div class="search-text">연락처</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="phone" name="phone" class="form-control">
+                                                <input type="text" id="phone" name="phone" class="form-control" th:value="${condition.phone}">
                                             </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
@@ -217,9 +217,9 @@
                                                             <div class="search-text">수익률</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minRateOfReturn" name="minRateOfReturn" class="form-control search-input center-align">
+                                                    <input type="text" id="minRateOfReturn" name="minRevenueRate" class="form-control search-input center-align" th:value="${condition.minRevenueRate > 0 ? condition.minRevenueRate : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxRateOfReturn" name="maxRateOfReturn" class="form-control search-input center-align">
+                                                    <input type="text" id="maxRateOfReturn" name="maxRevenueRate" class="form-control search-input center-align" th:value="${condition.maxRevenueRate > 0 ? condition.maxRevenueRate : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRateOfReturn" class="bottom-label">
                                                             <div class="search-text">%</div>
@@ -234,9 +234,9 @@
                                                             <div class="search-text">연면적</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minGrossFloorArea" name="minTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea}">
+                                                    <input type="text" id="minGrossFloorArea" name="minTotArea" class="form-control search-input center-align" th:value="${condition.minTotArea > 0 ? condition.minTotArea : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea}">
+                                                    <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea > 0 ? condition.maxTotArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
                                                             <div class="search-text">㎡</div>
@@ -247,15 +247,15 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="startApprovalYear" class="top-label">
+                                                        <label for="startUseAprDay" class="top-label">
                                                             <div class="search-text">승인일자</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="startApprovalYear" name="startApprovalYear" class="form-control search-input center-align">
+                                                    <input type="text" id="startUseAprDay" name="startUseAprDay" class="form-control search-input center-align" th:value="${condition.startUseAprDay > 0 ? condition.startUseAprDay : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="endApprovalYear" name="endApprovalYear" class="form-control search-input center-align">
+                                                    <input type="text" id="endUseAprDay" name="endUseAprDay" class="form-control search-input center-align" th:value="${condition.endUseAprDay > 0 ? condition.endUseAprDay : ''}">
                                                     <div class="input-label">
-                                                        <label for="endApprovalYear" class="bottom-label">
+                                                        <label for="endUseAprDay" class="bottom-label">
                                                             <div class="search-text">년</div>
                                                         </label>
                                                     </div>

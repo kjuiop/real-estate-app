@@ -39,21 +39,37 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String manager;
 
+    private String customer;
+
+    private String phone;
+
     private String team;
 
     private String prposArea1Nm;
 
-    private int minSalePrice;
+    private Integer minSalePrice;
 
-    private int maxSalePrice;
+    private Integer maxSalePrice;
 
-    private int minLndpclAr;
+    private Integer minLndpclAr;
 
-    private int maxLndpclAr;
+    private Integer maxLndpclAr;
 
-    private int minTotArea;
+    private Integer minTotArea;
 
-    private int maxTotArea;
+    private Integer maxTotArea;
+
+    private Integer minArchArea;
+
+    private Integer maxArchArea;
+
+    private Integer minRevenueRate;
+
+    private Integer maxRevenueRate;
+
+    private Integer startUseAprDay;
+
+    private Integer endUseAprDay;
 
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
