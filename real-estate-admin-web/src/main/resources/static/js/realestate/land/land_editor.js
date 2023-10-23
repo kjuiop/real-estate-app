@@ -27,40 +27,44 @@ let loadLandInfoList = function() {
             let landList = result.data,
                 landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
-            $frm.find('.landSize').text(landList.length);
-            $frm.find('.area').text(landInfo.lndpclAr);
-            $frm.find('.pyung').text(landInfo.lndpclArByPyung);
-            $frm.find('.lndpclAr').val(landInfo.lndpclAr);
-            $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
-            $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
-            $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
-            $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
-            $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
-            $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
-            $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
-            $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
-            $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
-            $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
-            if (landInfo.commercialYn === 'Y') {
-                $frm.find('input[name="commercialYn"]').iCheck('check');
-            } else {
-                $frm.find('input[name="commercialYn"]').iCheck('uncheck');
-            }
+
+            settingLandInfo(landInfo);
 
             if (isLandInfo === true) {
                 $frm.find('.btnLandSection').html('');
-                let tag = '';
                 $.each(landList, function(idx, item) {
-                    tag += drawLandButton(item);
+                    let tag = drawLandButton(item);
                     $frm.find('.btnLandSection').append(tag);
                     $frm.find('.btnLandSection .btnLandLoad').last().data('land-data', item);
                 });
+
+                calculateLandInfo();
             }
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let settingLandInfo = function(landInfo) {
+    let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('.lndpclAr').val(landInfo.lndpclAr);
+    $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
+    $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+    $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+    $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
+    $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
+    $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
+    $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
+    $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
+    $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
+    if (landInfo.commercialYn === 'Y') {
+        $frm.find('input[name="commercialYn"]').iCheck('check');
+    } else {
+        $frm.find('input[name="commercialYn"]').iCheck('uncheck');
+    }
 }
 
 let landInfoAdd = function(e) {
@@ -73,8 +77,9 @@ let landInfoAdd = function(e) {
         isAlready = false;
 
     params.pnu = pnu;
-    params.pblntfPclnd = removeComma(params.pblntfPclnd)
-    params.totalPblntfPclnd = removeComma(params.totalPblntfPclnd)
+    params.pblntfPclnd = removeComma(params.pblntfPclnd);
+    params.totalPblntfPclnd = removeComma(params.totalPblntfPclnd);
+    params.address = $frmLand.find('input[name="address"]').val();
 
     console.log("landInfoAdd params", params)
 
@@ -96,15 +101,47 @@ let landInfoAdd = function(e) {
     let tag = drawLandButton(params);
     $frmLand.find('.btnLandSection').append(tag);
     $frmLand.find('.btnLandSection .btnLandLoad').last().data('land-data', params);
+    calculateLandInfo();
+}
+
+let calculateLandInfo = function() {
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        $section = $frmLand.find('.btnLandSection');
+
+    let totalLndpclArByPyung = 0;
+    let totalLndpcl = 0;
+    let landLength = $section.find('.btnLandLoad').length;
+
+    $section.find('.btnLandLoad').each(function(idx, item) {
+        let landData = $(item).data('land-data');
+        totalLndpclArByPyung += parseFloat(landData.lndpclArByPyung);
+        totalLndpcl += parseFloat(landData.lndpclAr);
+    });
+
+
+    console.log("before calculate totalLndpcl : ", totalLndpcl)
+    console.log("before calculate totalLndpclArByPyung : ", totalLndpclArByPyung)
+    totalLndpcl = Math.floor(totalLndpcl * 100) / 100;
+    totalLndpclArByPyung = Math.floor(totalLndpclArByPyung * 100) / 100;
+
+    console.log("after calculate totalLndpcl : ", totalLndpcl)
+    console.log("after calculate totalLndpclArByPyung : ", totalLndpclArByPyung)
+
+    $frmLand.find('input[name="totalLndpclAr"]').val(totalLndpcl);
+    $frmLand.find('input[name="totalLndpclArByPyung"]').val(totalLndpclArByPyung);
+    $frmLand.find('.pyung').html(totalLndpclArByPyung);
+    $frmLand.find('.landSize').html(landLength);
+    $frmLand.find('.area').html(totalLndpcl);
 }
 
 let drawLandButton = function(data) {
     let tag = '';
 
     if (checkNullOrEmptyValue(data.landId)) {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + data.landId + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + data.landId + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     } else {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     }
 
     return tag;
@@ -138,89 +175,9 @@ let loadLandInfoById = function(e) {
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
 }
 
-let landInfoSave = function(e) {
-    e.preventDefault();
-
-    let isModify = dto.existLandInfo;
-    let $frmBasic = $('form[name="frmBasicRegister"]'),
-        httpMethod = isModify ? 'put' : 'post',
-        detailParams = serializeObject({form:$frmBasic[0]}).json();
-
-    let $frmLand = $('form[name="frmLandRegister"]'),
-        formData = serializeObject({form:$frmLand[0]}).json();
-
-    let commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
-
-    let $section = $frmLand.find('.btnLandSection'),
-        addBtnLength = $section.find('.btnLandLoad').length;
-
-    if (addBtnLength === 0) {
-        twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
-        return;
-    }
-
-    if (!checkNullOrEmptyValue(formData.address)) {
-        twoBtnModal('주소를 입력해주세요.');
-        return;
-    }
+let assembleLandParams = function() {
 
     let landInfoList = [];
-    $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
-        let landData = $(item).data('land-data');
-        if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclAr = removeComma(landData.lndpclAr)
-        }
-        if (typeof landData.lndpclAr === 'string') {
-            landData.lndpclArByPyung = removeComma(landData.lndpclArByPyung)
-        }
-        if (typeof landData.lndpclAr === 'string') {
-            landData.pblntfPclnd = removeComma(landData.pblntfPclnd)
-        }
-        if (typeof landData.lndpclAr === 'string') {
-            landData.totalPblntfPclnd = removeComma(landData.totalPblntfPclnd)
-        }
-        landData.realEstateId = dto.realEstateId;
-        landInfoList.push(landData);
-    });
-
-    let params = {
-        "legalCode" : detailParams.legalCode,
-        "landType" : detailParams.landType,
-        "bun" : detailParams.bun,
-        "ji" : detailParams.ji,
-        "address" : dto.address,
-        "commercialYn" : commercialYn,
-        "landInfoList" : landInfoList,
-        "realEstateId" : dto.realEstateId
-    }
-
-    console.log("land params", params);
-
-
-    $.ajax({
-        url: "/real-estate/land",
-        method: httpMethod,
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            console.log("result : ", result);
-            let message = '정상적으로 저장되었습니다.';
-            if (isModify) {
-                message = '정상적으로 수정되었습니다.';
-            }
-
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
-let assembleLandParams = function() {
 
     let $frmLand = $('form[name="frmLandRegister"]'),
         commercialYn = $frmLand.find('input[name="commercialYn"]').is(":checked") ? "Y" : "N";
@@ -230,10 +187,10 @@ let assembleLandParams = function() {
 
     if (addBtnLength === 0) {
         twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
-        return;
+        return landInfoList;
     }
 
-    let landInfoList = [];
+
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
         if (typeof landData.lndpclAr === 'string') {
@@ -245,7 +202,7 @@ let assembleLandParams = function() {
         if (typeof landData.lndpclAr === 'string') {
             landData.pblntfPclnd = landData.pblntfPclnd.replaceAll(',', '');
         }
-        if (typeof landData.lndpclAr === 'string') {
+        if (typeof landData.totalPblntfPclnd === 'string') {
             landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
         }
         landData.realEstateId = dto.realEstateId;
@@ -254,4 +211,67 @@ let assembleLandParams = function() {
     });
 
     return landInfoList;
+}
+
+let searchAddress = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#landModal');
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+            $modal.find(`input[name="address"]`).val(data.address);
+            loadKakaoModalMap(data.address)
+        }
+    }).open();
+}
+
+let showLandModal = function(e) {
+    e.preventDefault();
+
+    $('#landModal').modal('show');
+}
+
+
+let applyLandInfo = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmLandRegister"]'),
+        $modal = $('#landModal'),
+        address = $('#landModal').find('input[name="address"]').val();
+
+    twoBtnModal("검색하신 매물정보를 적용하겠습니까?", function() {
+
+        let url = "/real-estate/land/ajax/public-data"
+            + "?legalCode=" + $modal.find('input[name="bCode"]').val()
+            + "&landType=" + $modal.find('select[name="landType"] option:selected').val()
+            + "&bun=" + $modal.find('input[name="bun"]').val()
+            + "&ji=" + $modal.find('input[name="ji"]').val()
+        ;
+
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("load land info", result);
+                let landList = result.data,
+                    landInfo = landList[0];
+                $frm.find('input[name="address"]').val(address);
+                $frm.find('input[name="pnu"]').val(landInfo.pnu);
+                settingLandInfo(landInfo);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+
+        $('.btnModalClose').trigger('click');
+    });
+}
+
+let removeLandBtn = function(e) {
+    e.preventDefault();
+    $(this).parents('button').remove();
+    calculateLandInfo();
 }

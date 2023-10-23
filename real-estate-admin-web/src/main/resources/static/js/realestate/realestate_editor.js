@@ -8,6 +8,7 @@ let onReady = function() {
     loadCustomerInfo();
     loadMemoInfo();
     loadLandInfoList();
+    loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
 }
@@ -31,10 +32,28 @@ let realEstateSave = function(e) {
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
+
+    let subImages = [];
+    let $imgSubImgSection = $('.image-sub-section');
+    $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
+       let image = {
+           "fullPath" : $(item).find('.sub-image').attr('src'),
+       }
+       subImages.push(image);
+    });
+    params.subImages = subImages;
+
+
     let landInfoList = assembleLandParams();
+    if (landInfoList.length === 0) {
+        return;
+    }
+
     params.landInfoList = landInfoList;
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
+    params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
+    params.priceInfo.totArea = $('input[name="totArea"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -86,10 +105,22 @@ let realEstateUpdate = function(e) {
     params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
     params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
 
+    let subImages = [];
+    let $imgSubImgSection = $('.image-sub-section');
+    $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
+        let image = {
+            "fullPath" : $(item).find('.sub-image').attr('src'),
+        }
+        subImages.push(image);
+    });
+    params.subImages = subImages;
+
     let landInfoList = assembleLandParams();
     params.landInfoList = landInfoList;
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
+    params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
+    params.priceInfo.totArea = $('input[name="totArea"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -123,40 +154,11 @@ let realEstateUpdate = function(e) {
 
 }
 
-let loadMemoInfo = function() {
-
-    if (!checkNullOrEmptyValue(dto.realEstateId)) {
-        return;
-    }
-
-    $.ajax({
-        url: "/real-estate/memo/" + dto.realEstateId,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            console.log("memo result", result);
-            let memoInfoList = result.data;
-            let tag = '';
-            if (memoInfoList.length === 0) {
-                tag = drawEmptyMemoInfo();
-            } else {
-                tag = drawMemoInfoList(memoInfoList);
-            }
-            $('.memoInfo').html(tag);
-            initICheck();
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
 let drawBtnUsageCode = function(categories) {
 
     let tags = "";
     $.each(categories, function (idx, item) {
-        if (dto != null && dto.usageType != null && dto.usageType.id === item.id) {
+        if (dto.usageCdId === item.id || (dto.usageType != null && dto.usageType.id === item.id)) {
             tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         } else {
             tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
@@ -183,149 +185,6 @@ let selectUsageCode = function(e) {
     $this.addClass("selected");
 }
 
-
-let addMemo = function(e) {
-
-    if (e.key !== "Enter") {
-        return;
-    }
-
-    if (dto.realEstateId === null) {
-        return;
-    }
-
-    e.preventDefault();
-
-    let params = {
-        "realEstateId" : dto.realEstateId,
-        "memo" : $(this).val(),
-    }
-
-    console.log("memo", params);
-
-    $.ajax({
-        url: "/real-estate/memo",
-        method: "post",
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            console.log("result : ", result);
-            let message = '정상적으로 저장되었습니다.';
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-
-}
-
-let drawEmptyMemoInfo = function() {
-    let tag = '';
-    tag += '<tr>';
-    tag +=    '<td class="text-center" colSpan="5">등록된 메모가 없습니다.</td>';
-    tag += '</tr>';
-    return tag;
-}
-
-let drawMemoInfoList = function(memoInfoList) {
-    let tag = '';
-
-    $.each(memoInfoList, function(idx, item) {
-        tag += '<tr class="memoUnit">';
-        tag +=  '<td style="width:10%">';
-        tag +=      '<input type="checkbox" class="checkElement" name="memoId" value="' + item.memoId +'">';
-        tag +=  '</td>';
-        tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
-        tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
-        tag +=  '<td style="width:40%">' + item.memo + '</td>';
-        tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true" style="font-size: 15px;"></i></button></td>';
-        tag += '</tr>';
-    });
-    return tag;
-}
-
-let removeMemo = function(e) {
-    e.preventDefault();
-
-    let memoId = $(this).parents('.memoUnit').find('input[name="memoId"]').val();
-
-    let params = {
-        "realEstateId" : dto.realEstateId,
-        "memoId" : memoId,
-    }
-
-    twoBtnModal("메모를 삭제하시겠습니까?", function() {
-        $.ajax({
-            url: "/real-estate/memo",
-            method: "delete",
-            type: "json",
-            contentType: "application/json",
-            data: JSON.stringify(params),
-            success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 삭제되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
-            },
-            error:function(error){
-                ajaxErrorFieldByText(error);
-            }
-        });
-    });
-}
-
-let removeAllMemo = function(e) {
-    e.preventDefault();
-
-    let memoIds = [];
-    $("input[name='memoId']:checked").each(function (idx, item) {
-        memoIds.push($(item).val());
-    });
-
-    let params = {
-        "realEstateId" : dto.realEstateId,
-        "memoIds" : memoIds
-    }
-
-    twoBtnModal("메모를 삭제하시겠습니까?", function() {
-        $.ajax({
-            url: "/real-estate/memo/list",
-            method: "delete",
-            type: "json",
-            contentType: "application/json",
-            data: JSON.stringify(params),
-            success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 삭제되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
-            },
-            error:function(error){
-                ajaxErrorFieldByText(error);
-            }
-        });
-    });
-}
-
-let searchAddress = function(e) {
-    e.preventDefault();
-
-    let $frm = $(this).parents(`form[name="frmBasicRegister"]`);
-    new daum.Postcode({
-        oncomplete: function(data) { //선택시 입력값 세팅
-            $frm.find(`input[name="address"]`).val(data.address);
-            $frm.find(`input[name="addressDetail"]`).focus();
-            loadKakaoMap(data.address)
-        }
-    }).open();
-}
-
 let uploadImage = function(e) {
     e.preventDefault();
 
@@ -337,7 +196,7 @@ let uploadImage = function(e) {
         fileType: `Image`,
         callback: function (res) {
             console.log("res", res);
-            let image = res.data;
+            let image = res.data[0];
             let $imagePanel = $('.image-section');
             let tag = imgDraw(image.fullPath);
             $imagePanel.html(tag);
@@ -352,19 +211,29 @@ let removeImage = function() {
     $imagePanel.html(tag);
 }
 
-let removeBtn = function(e) {
-    e.preventDefault();
-    $(this).parents('button').remove();
-}
-
 let changeProcessStatus = function(e) {
     e.preventDefault();
+
+    if (dto.ownUser !== true) {
+        twoBtnModal("매물 상태를 변경할 권한이 없습니다.");
+        return;
+    }
 
     let processStatus = $(this).attr('processType');
     let params = {
         "realEstateId" : dto.realEstateId,
         "processType": processStatus
     }
+
+    if (processStatus === 'Prepare' && dto.processType !== 'NotAssign') {
+        return;
+    }
+
+    if (processStatus === dto.processType) {
+        return;
+    }
+
+
 
     console.log("changeProcessStatus params :", params);
 
@@ -419,6 +288,110 @@ let checkInputRealEstate = function() {
     return true;
 }
 
+let changeRStatus = function(e) {
+    e.preventDefault();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "rYn" : $(this).attr('rStatus')
+    }
+
+    console.log('r status params : ', params)
+
+    twoBtnModal('R 표시를 전환하겠습니까?', function() {
+        $.ajax({
+            url: "/real-estate/status/r",
+            method: "put",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 변경되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let changeABStatus = function(e) {
+    e.preventDefault();
+
+    let params = {
+        "realEstateId" : dto.realEstateId,
+        "abYn" : $(this).attr('abStatus'),
+    }
+
+    console.log('abStatus params : ', params)
+
+    twoBtnModal('AB 표시를 전환하겠습니까?', function() {
+        $.ajax({
+            url: "/real-estate/status/ab",
+            method: "put",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("result : ", result);
+                let message = '정상적으로 변경되었습니다.';
+                twoBtnModal(message, function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let multiImgUpload = function(e) {
+    e.preventDefault();
+
+
+    documentUpload({
+        multiple: true,
+        accept: '.jpg, .png, .gif',
+        sizeCheck: false,
+        usageType: `RealEstate`,
+        fileType: `Image`,
+        callback: function (res) {
+            console.log("res", res);
+            let attachments = res.data;
+            let $imagePanel = $('.image-sub-section');
+            $.each(attachments, function(idx, item) {
+                let tag = drawSubImageTag(idx, item.fullPath);
+                $imagePanel.append(tag);
+            });
+
+            $( ".sortable-section" ).sortable().disableSelection();
+        }
+    });
+}
+
+let drawSubImageTag = function(idx, fullPath) {
+    let tag = '';
+    tag += '<div class="display-inline-block sub-img-unit">';
+    tag += '<a href="#"><img id="sub-image-' + idx + '" src="' + fullPath + '" class="col-sm-12 no-left-padding thumbnailInfo sub-image" style="cursor: pointer; width: 50px; height: 50px;"/></a>';
+    tag += '</div>';
+    return tag;
+}
+
+let removeSubImg = function(e) {
+    e.preventDefault();
+
+    let $imgModal = $('#image-modal');
+    let targetId = $imgModal.find('#targetSubImg').val();
+    let targetSubImgId = '#' + targetId;
+    $(targetSubImgId).parents('.sub-img-unit').remove();
+    $imgModal.find('.close').trigger('click');
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -431,11 +404,18 @@ $(document).ready(onReady)
     .on('keydown', '#memoInput', addMemo)
     .on('click', '.btnImageUpload', uploadImage)
     .on('click', '.remove-image', removeImage)
-    .on('click', '.btnLandSave', landInfoSave)
     .on('click', '.btnLandLoad', loadLandInfoById)
     .on('click', '.btnLandAdd', landInfoAdd)
-    .on('click', '.removeBtn', removeBtn)
+    .on('click', '.removeLandBtn', removeLandBtn)
     .on('click', '.btnRemoveCustomerInfo', removeCustomerInfo)
     .on('click', '.btnRemoveMemo', removeMemo)
     .on('click', '.btnRemoveAllMemo', removeAllMemo)
-    .on('click', '.btnProcessType', changeProcessStatus);
+    .on('click', '.btnProcessType', changeProcessStatus)
+    .on('click', '.btnR', changeRStatus)
+    .on('click', '.btnAB', changeABStatus)
+    .on('click', '#btnLandModal', showLandModal)
+    .on('click', '.btnApplyLand', applyLandInfo)
+    .on('click', '.btnMultiImgUpload', multiImgUpload)
+    .on('click', '.sub-image', imgModal)
+    .on('click', '.btnRemoveSubImg', removeSubImg)
+;

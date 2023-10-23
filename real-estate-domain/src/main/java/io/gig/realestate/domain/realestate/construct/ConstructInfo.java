@@ -30,7 +30,7 @@ public class ConstructInfo extends BaseTimeEntity {
 
     private int useAprDay;
 
-    private double platArea;
+    private Double platArea;
 
     private Double archArea;
 

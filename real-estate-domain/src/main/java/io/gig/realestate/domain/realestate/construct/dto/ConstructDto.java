@@ -17,39 +17,57 @@ public class ConstructDto {
 
     private Long constructId;
 
+    // 건물명
     private String bldNm;
 
+    // 세대 수
     private int hhldCnt;
 
+    // 사용승인일
     private int useAprDay;
 
-    private double platArea;
+    // 대지 면적
+    private Double platArea;
 
+    // 건축 면적
     private Double archArea;
 
+    // 건폐율
     private Double bcRat;
 
+    // 연면적
     private Double totArea;
 
+    // 용적률
     private Double vlRat;
 
+    // 높이
     private Double heit;
 
+    // 지상
     private int grndFlrCnt;
 
+    // 지하
     private int ugrndFlrCnt;
 
+    // 승용승강기 수
     private int rideUseElvtCnt;
 
+    // 비사용 승강기 수
     private int emgenUseElvtCnt;
 
+    // 옥내 자주식 대수(대)
     private int indrAutoUtcnt;
 
+    // 옥외 자주식 대수
     private int oudrAutoUtcnt;
 
+    // 옥내 기계식 대수
     private int indrMechUtcnt;
 
+    // 옥외 기계식 대수
     private int oudrMechUtcnt;
+
 
     private String mainPurpsCdNm;
 

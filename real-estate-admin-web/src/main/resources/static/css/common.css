@@ -8,6 +8,10 @@
     flex-direction: column;
 }
 
+.display-inline-block {
+    display: inline-block;
+}
+
 .no-padding {
     padding: 0 !important;
 }
@@ -374,4 +378,8 @@
 
 .width-80px {
     width: 80px;
+}
+
+.min-width-30 {
+    min-width: 30px;
 }

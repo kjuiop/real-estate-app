@@ -34,7 +34,6 @@
                                                 </label>
                                                 <div class="pull-right processUnitSection" style="display: inline-block;">
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'preparing' ? 'btn-primary' : 'btn-default'}" processType="Preparing">준비중</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
@@ -106,7 +105,7 @@
                                                         <div class="search-text">용도지역</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="useStrictArea" class="form-control search-input">
+                                                <input type="text" name="prposArea1Nm" class="form-control search-input" th:value="${condition.prposArea1Nm}">
                                             </td>
                                         </tr>
                                         <tr>
@@ -124,7 +123,7 @@
                                                         <div class="search-text">담당자</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="manager" name="manager" class="form-control search-input">
+                                                <input type="text" id="manager" name="manager" class="form-control search-input" th:value="${condition.manager}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -132,7 +131,7 @@
                                                         <div class="search-text">팀</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="team" name="team" class="form-control search-input">
+                                                <input type="text" id="team" name="team" class="form-control search-input" th:value="${condition.team}">
                                             </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
@@ -141,12 +140,12 @@
                                                             <div class="search-text">금액</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minCharge" name="minCharge" class="form-control search-input center-align">
+                                                    <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxCharge" name="maxCharge" class="form-control search-input center-align">
+                                                    <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
-                                                            <div class="search-text">억원</div>
+                                                           <div class="search-text">만원</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -154,16 +153,16 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="minTotalArea" class="top-label">
-                                                            <div class="search-text">전체면적</div>
+                                                        <label for="minArchArea" class="top-label">
+                                                            <div class="search-text">건축면적</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minTotalArea" name="minTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minArchArea" name="minArchArea" class="form-control search-input center-align" th:value="${condition.minArchArea > 0 ? condition.minArchArea : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxTotalArea" name="maxTotalArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxArchArea" name="maxArchArea" class="form-control search-input center-align" th:value="${condition.maxArchArea > 0 ? condition.maxArchArea : ''}">
                                                     <div class="input-label">
-                                                        <label for="maxTotalArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                        <label for="maxArchArea" class="bottom-label">
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -175,12 +174,12 @@
                                                             <div class="search-text">대지</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minSiteArea" name="minSiteArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minSiteArea" name="minLndpclAr" class="form-control search-input center-align" th:value="${condition.minLndpclAr > 0 ? condition.minLndpclAr : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxSiteArea" name="maxSiteArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr > 0 ? condition.maxLndpclAr : ''}">
                                                     <div class="input-label">
                                                         <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -193,7 +192,7 @@
                                                         <div class="search-text">물건번호</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control">
+                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control" th:value="${condition.realEstateId}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -201,7 +200,7 @@
                                                         <div class="search-text">소유자</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="owner" name="owner" class="form-control">
+                                                <input type="text" id="owner" name="customer" class="form-control" th:value="${condition.customer}">
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -209,7 +208,7 @@
                                                         <div class="search-text">연락처</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="phone" name="phone" class="form-control">
+                                                <input type="text" id="phone" name="phone" class="form-control" th:value="${condition.phone}">
                                             </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
@@ -218,9 +217,9 @@
                                                             <div class="search-text">수익률</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minRateOfReturn" name="minRateOfReturn" class="form-control search-input center-align">
+                                                    <input type="text" id="minRateOfReturn" name="minRevenueRate" class="form-control search-input center-align" th:value="${condition.minRevenueRate > 0 ? condition.minRevenueRate : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxRateOfReturn" name="maxRateOfReturn" class="form-control search-input center-align">
+                                                    <input type="text" id="maxRateOfReturn" name="maxRevenueRate" class="form-control search-input center-align" th:value="${condition.maxRevenueRate > 0 ? condition.maxRevenueRate : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRateOfReturn" class="bottom-label">
                                                             <div class="search-text">%</div>
@@ -235,12 +234,12 @@
                                                             <div class="search-text">연면적</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minGrossFloorArea" name="minGrossFloorArea" class="form-control search-input center-align">
+                                                    <input type="text" id="minGrossFloorArea" name="minTotArea" class="form-control search-input center-align" th:value="${condition.minTotArea > 0 ? condition.minTotArea : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxGrossFloorArea" name="maxGrossFloorArea" class="form-control search-input center-align">
+                                                    <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea > 0 ? condition.maxTotArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-text">평</div>
+                                                            <div class="search-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -248,15 +247,15 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="startApprovalYear" class="top-label">
+                                                        <label for="startUseAprDay" class="top-label">
                                                             <div class="search-text">승인일자</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="startApprovalYear" name="startApprovalYear" class="form-control search-input center-align">
+                                                    <input type="text" id="startUseAprDay" name="startUseAprDay" class="form-control search-input center-align" th:value="${condition.startUseAprDay > 0 ? condition.startUseAprDay : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="endApprovalYear" name="endApprovalYear" class="form-control search-input center-align">
+                                                    <input type="text" id="endUseAprDay" name="endUseAprDay" class="form-control search-input center-align" th:value="${condition.endUseAprDay > 0 ? condition.endUseAprDay : ''}">
                                                     <div class="input-label">
-                                                        <label for="endApprovalYear" class="bottom-label">
+                                                        <label for="endUseAprDay" class="bottom-label">
                                                             <div class="search-text">년</div>
                                                         </label>
                                                     </div>
@@ -301,17 +300,16 @@
                                 <table class="table table-striped projects">
                                     <thead>
                                     <tr>
-                                        <th style="width: 5%;">
-                                            <label class="margin-bottom-0">
-                                                <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
-                                            </label>
+                                        <th style="width: 3%;">
+                                            No
                                         </th>
                                         <th style="width: 8%;">사진</th>
                                         <th style="width: 15%;">주소</th>
-                                        <th style="width: 8%;">진행단계</th>
-                                        <th style="width: 5%;">용도</th>
-                                        <th style="width: 15%;">금액</th>
-                                        <th style="width: 11%;">면적</th>
+                                        <th style="width: 7%;">진행단계</th>
+                                        <th style="width: 7%;">용도</th>
+                                        <th class="text-center" style="width: 12%;">금액</th>
+                                        <th style="width: 5%;">수익</th>
+                                        <th style="width: 8%;">면적</th>
                                         <th style="width: 5%;">담당자</th>
                                         <th style="width: 9%;">등록일</th>
                                     </tr>
@@ -319,9 +317,7 @@
                                     <tbody>
                                     <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <td>
-                                            <label class="margin-bottom-0">
-                                                <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.realEstateId}">
-                                            </label>
+                                            [[${item.realEstateId}]]
                                         </td>
                                         <td>
                                             <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
@@ -351,35 +347,54 @@
                                         </td>
                                         <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
                                         <td>
-                                            <div class="display-flex-column">
-                                                <div class="display-flex-row">
-                                                    <th:block th:if="${item.salePrice > 0}">
-                                                        <div>
-                                                            <button class="btn btn-xs btn-danger margin-right-5">매매</button>
-                                                            <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원&nbsp;
-                                                            (<span th:text="${item.averageUnitPrice > 0 ? #numbers.formatInteger(item.averageUnitPrice, 3, 'COMMA') : ''}"></span>만/3.3㎡)
-                                                        </div>
-                                                    </th:block>
+                                            <th:block th:if="${item.salePrice > 0}">
+                                                <div class="row" th:if="${item.salePrice > 0}">
+                                                    <div style="min-width: 66px;">
+                                                        <button class="btn btn-xs btn-danger pull-right margin-right-5">매매</button>
+                                                    </div>
+                                                    <div>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원
+                                                    </div>
                                                 </div>
-                                                <div class="display-flex-row margin-top-5">
-                                                    <th:block th:if="${item.revenueRate > 0}">
+                                            </th:block>
 
-                                                        <div>
-                                                            <button class="btn btn-xs btn-default margin-right-5">수익</button>
-                                                            <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%&nbsp;
-                                                        </div>
-                                                    </th:block>
+                                            <th:block th:if="${item.landPyungUnitPrice > 0}">
+                                                <div class="row margin-top-5" th:if="${item.landPyungUnitPrice > 0}">
+                                                    <div style="min-width: 66px;">
+                                                        <button class="btn btn-xs btn-default pull-right margin-right-5">평단가(대)</button>
+                                                    </div>
+                                                    <div>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.landPyungUnitPrice, 3, 'COMMA') : ''}"></span>원
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </th:block>
+                                            <th:block th:if="${item.buildingPyungUnitPrice > 0}">
+                                                <div class="row margin-top-5" th:if="${item.buildingPyungUnitPrice > 0}">
+                                                    <div style="min-width: 66px;">
+                                                        <button class="btn btn-xs btn-default pull-right margin-right-5">평단가(연)</button>
+                                                    </div>
+                                                    <div>
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.buildingPyungUnitPrice, 3, 'COMMA') : ''}"></span>원
+                                                    </div>
+                                                </div>
+                                            </th:block>
+                                        </td>
+                                        <td>
+                                            <th:block th:if="${item.revenueRate > 0}">
+                                                <span th:text="${item.revenueRate > 0 ? item.revenueRate : ''}"></span>%
+                                            </th:block>
                                         </td>
                                         <td>
                                             <th:block th:if="${not #strings.isEmpty(item.totArea)}">
-                                                연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;대&nbsp;<span th:text="${item.platArea}"></span>㎡
+                                                연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;
+                                                <br />
+                                            </th:block>
+                                            <th:block th:if="${not #strings.isEmpty(item.platArea)}">
+                                                대&nbsp;<span th:text="${item.platArea}"></span>㎡&nbsp;
                                                 <br />
                                             </th:block>
                                             <th:block th:if="${not #strings.isEmpty(item.archArea)}">
                                                 <div>
-
                                                     건&nbsp;<span th:text="${item.archArea}"></span>㎡
                                                 </div>
                                             </th:block>
@@ -388,7 +403,7 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="9">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="10">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -400,7 +415,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="text-center">
-                                    <!-- 페이징 -->
+                                    <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
                                 </div>
                             </div>
                         </div>
@@ -426,37 +441,23 @@
                                 <table class="table table-borderless" style="height: 225px;">
                                     <tbody>
                                     <tr>
-                                        <td class="col-md-6" colspan="6">
-                                            <label class="text-label no-left-padding">매물종류</label>
-                                            <select class="form-control" name="teamId">
+                                        <td class="col-md-12" colspan="12">
+                                            <label class="text-label no-left-padding">매물용도</label>
+                                            <select class="form-control" name="usageCd">
                                                 <option value="">선택</option>
-                                            </select>
-                                        </td>
-                                        <td class="col-md-6" colspan="6">
-                                            <label class="text-label no-left-padding">거래종류</label>
-                                            <select class="form-control" name="roleName">
-                                                <option value="">선택</option>
+                                                <th:block th:each="code : ${usageCds}">
+                                                    <option th:value="${code.id}">[[${code.name}]]</option>
+                                                </th:block>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="col-md-12 no-left-padding" colspan="12">
+                                        <td class="col-md-12 no-left-padding"colspan="12">
                                             <div class="col-md-12">
                                                 <label class="text-label">주소</label>
                                             </div>
                                             <div class="col-md-12 display-flex-row no-left-padding">
                                                 <input type="text" class="form-control form-control-sm col-sm-9" name="address" readonly />
-                                                <!--
-                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
-                                                    <option value="">시도선택</option>
-                                                </select>
-                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
-                                                    <option value="">구군 선택</option>
-                                                </select>
-                                                <select class="form-control col-sm-3 margin-right-4" name="landType">
-                                                    <option value="">동 선택</option>
-                                                </select>
-                                                -->
                                                 <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                             </div>
                                             <div class="col-md-12 display-flex-row no-left-padding margin-top-8">

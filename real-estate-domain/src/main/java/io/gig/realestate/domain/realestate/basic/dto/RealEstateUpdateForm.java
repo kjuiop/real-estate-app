@@ -1,5 +1,7 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
@@ -43,9 +45,15 @@ public class RealEstateUpdateForm {
 
     private ProcessType processType;
 
+    private YnType rYn;
+
+    private YnType abYn;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
+
+    private List<ImageCreateForm> subImages = new ArrayList<>();
 
     private List<LandInfoDto> landInfoList = new ArrayList<>();
 

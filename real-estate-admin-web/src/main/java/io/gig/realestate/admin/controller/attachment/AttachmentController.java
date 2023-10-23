@@ -6,11 +6,14 @@ import io.gig.realestate.domain.attachment.dto.AttachmentCreateForm;
 import io.gig.realestate.domain.attachment.dto.AttachmentDto;
 import io.gig.realestate.domain.attachment.types.FileType;
 import io.gig.realestate.domain.attachment.types.UsageType;
+import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -26,18 +29,20 @@ public class AttachmentController {
     @PostMapping("upload")
     @ResponseBody
     public ResponseEntity<ApiResponse> upload(
-            @RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+            @RequestParam(value = "files", required = false) MultipartFile[] multipartFiles,
             @RequestParam("fileType") FileType fileType,
             @RequestParam("usageType") UsageType usageType
     ) {
 
         AttachmentCreateForm createForm = AttachmentCreateForm.builder()
                 .multipartFile(multipartFile)
+                .multipartFiles(multipartFiles)
                 .usageType(usageType)
                 .fileType(fileType)
                 .build();
 
-        AttachmentDto response = attachmentFacade.upload(createForm);
+        List<AttachmentDto> response = attachmentFacade.upload(createForm);
 
         return new ResponseEntity<>(ApiResponse.OK(response), HttpStatus.OK);
     }

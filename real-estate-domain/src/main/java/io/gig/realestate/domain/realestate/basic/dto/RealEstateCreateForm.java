@@ -1,12 +1,13 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
-import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,6 +53,8 @@ public class RealEstateCreateForm {
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
+
+    private List<ImageCreateForm> subImages = new ArrayList<>();
 
     private List<LandInfoDto> landInfoList = new ArrayList<>();
 

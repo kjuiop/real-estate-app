@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/10/03
@@ -17,10 +20,15 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public void create(AttachmentDto createForm) {
-        Attachment newAttachment = Attachment.Of(createForm.getUsageType(), createForm.getFileType(),
-                createForm.getOriginalFilename(), createForm.getSavedFilename(), createForm.getFullPath());
+    public void create(List<AttachmentDto> attachmentList) {
 
-        attachmentStore.store(newAttachment);
+        List<Attachment> attachments = new ArrayList<>();
+        for (AttachmentDto dto : attachmentList) {
+            Attachment newAttachment = Attachment.Of(dto.getUsageType(), dto.getFileType(),
+                    dto.getOriginalFilename(), dto.getSavedFilename(), dto.getFullPath());
+            attachments.add(newAttachment);
+        }
+
+        attachmentStore.storeAll(attachments);
     }
 }

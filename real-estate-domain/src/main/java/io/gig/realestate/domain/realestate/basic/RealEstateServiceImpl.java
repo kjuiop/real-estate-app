@@ -3,18 +3,20 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
+import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +63,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         for (LandInfoDto dto : createForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(createForm.getAddress(), dto, newRealEstate);
+            LandInfo landInfo = LandInfo.create(dto, newRealEstate);
             newRealEstate.addLandInfo(landInfo);
         }
 
@@ -81,6 +83,11 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addCustomerInfo(customerInfo);
         }
 
+        for (ImageCreateForm dto : createForm.getSubImages()) {
+            ImageInfo imageInfo = ImageInfo.create(dto, newRealEstate, loginUser.getLoginUser());
+            newRealEstate.addImageInfo(imageInfo);
+        }
+
         return realEstateStore.store(newRealEstate).getId();
     }
 
@@ -98,7 +105,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         realEstate.getLandInfoList().clear();
         for (LandInfoDto dto : updateForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(updateForm.getAddress(), dto, realEstate);
+            LandInfo landInfo = LandInfo.create(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
 
@@ -122,38 +129,12 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addCustomerInfo(customerInfo);
         }
 
-        return realEstateStore.store(realEstate).getId();
-    }
-
-    @Override
-    @Transactional
-    public Long basicInfoSave(RealEstateCreateForm createForm, LoginUser loginUser) {
-        Category usageType = null;
-        if (createForm.getUsageTypeId() != null) {
-            usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
-        }
-        Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
-
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.createWithUsageType(createForm, manager, usageType, loginUser.getLoginUser());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-        return realEstateStore.store(realEstate).getId();
-    }
-
-    @Override
-    @Transactional
-    public Long basicInfoUpdate(RealEstateUpdateForm updateForm, LoginUser loginUser) {
-        Category usageType = null;
-        if (updateForm.getUsageTypeId() != null) {
-            usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+        realEstate.getSubImgInfoList().clear();
+        for (ImageCreateForm dto : updateForm.getSubImages()) {
+            ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
+            realEstate.addImageInfo(imageInfo);
         }
 
-        Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
-        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
-        realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
         return realEstateStore.store(realEstate).getId();
     }
 
@@ -162,6 +143,36 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.updateProcessStatus(updateForm.getProcessType(), loginUser.getLoginUser());
+
+        String memo = updateForm.getProcessType().getDescription() + "상태로 변경하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
+
+        return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long updateRStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateRStatus(updateForm.getRYn());
+        String status = YnType.Y == updateForm.getRYn() ? "활성화" : "비활성화";
+        String memo = "R 상태를 " + status + "하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
+
+        return realEstateStore.store(realEstate).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.updateABStatus(updateForm.getAbYn());
+        String status = YnType.Y == updateForm.getAbYn() ? "활성화" : "비활성화";
+        String memo = "A-B 상태를 " + status + "하였습니다.";
+        MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
+        realEstate.addMemoInfo(newMemo);
         return realEstateStore.store(realEstate).getId();
     }
 }

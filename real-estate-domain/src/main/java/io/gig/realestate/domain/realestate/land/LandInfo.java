@@ -64,10 +64,11 @@ public class LandInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(String address, LandInfoDto dto, RealEstate realEstate) {
+    public static LandInfo create(LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
                 .pnu(dto.getPnu())
-                .address(address)
+                .address(dto.getAddress())
+                .address(dto.getAddress())
                 .commercialYn(dto.getCommercialYn())
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
                 .lndpclAr(Double.parseDouble(dto.getLndpclAr()))

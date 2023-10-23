@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/10/04
@@ -20,5 +22,10 @@ public class AttachmentStoreImpl implements AttachmentStore {
     @Override
     public Attachment store(Attachment attachment) {
         return attachmentStoreRepository.save(attachment);
+    }
+
+    @Override
+    public void storeAll(List<Attachment> attachmentList) {
+        attachmentStoreRepository.saveAll(attachmentList);
     }
 }
