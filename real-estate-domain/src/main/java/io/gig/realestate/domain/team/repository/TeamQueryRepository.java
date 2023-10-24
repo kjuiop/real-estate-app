@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.Team;
+import io.gig.realestate.domain.team.dto.TeamDetailDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,26 @@ public class TeamQueryRepository {
                         .fetchOne());
     }
 
+    public Optional<TeamDetailDto> getTeamDetail(Long teamId) {
+
+        TeamDetailDto teamDetailDto = queryFactory
+                .select(Projections.constructor(TeamDetailDto.class,
+                        team
+                ))
+                .from(team)
+                .where(defaultCondition())
+                .where(eqTeamId(teamId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(teamDetailDto);
+    }
+
     private BooleanExpression defaultCondition() {
         return team.deleteYn.eq(YnType.N);
+    }
+
+    private BooleanExpression eqTeamId(Long teamId) {
+        return teamId != null ? team.id.eq(teamId) : null;
     }
 }

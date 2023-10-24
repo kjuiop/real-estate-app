@@ -45,11 +45,20 @@ public class TeamManagerController {
     }
 
     @GetMapping("new")
-    public String register(AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
+    public String register(Model model) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        List<TeamListDto> teamList = teamService.getTeamList();
+        model.addAttribute("dto", dto);
+
+        return "/settings/team/editor";
+    }
+
+    @GetMapping("{teamId}/edit")
+    public String editForm(@PathVariable(name = "teamId") Long teamId, AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
+        TeamDetailDto dto = teamService.getDetail(teamId);
+
         Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto, loginUser.getUsername());
+        List<TeamListDto> teamList = teamService.getTeamList();
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
@@ -61,8 +70,8 @@ public class TeamManagerController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm) {
-        Long teamId = teamService.create(createForm);
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm, @CurrentUser LoginUser loginUser) {
+        Long teamId = teamService.create(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
     }
 

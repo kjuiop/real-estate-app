@@ -1,11 +1,9 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
-import io.gig.realestate.domain.team.dto.TeamDto;
-import io.gig.realestate.domain.team.dto.TeamListDto;
-import io.gig.realestate.domain.team.dto.TeamSearchDto;
+import io.gig.realestate.domain.team.dto.*;
 import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,9 +42,15 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public TeamDetailDto getDetail(Long teamId) {
+        return teamReader.getTeamDetail(teamId);
+    }
+
+    @Override
     @Transactional
-    public Long create(TeamCreateForm createForm) {
-        Team newTeam = Team.create(createForm);
+    public Long create(TeamCreateForm createForm, LoginUser loginUser) {
+        Team newTeam = Team.create(createForm, loginUser.getLoginUser());
         return teamStore.store(newTeam).getId();
     }
 

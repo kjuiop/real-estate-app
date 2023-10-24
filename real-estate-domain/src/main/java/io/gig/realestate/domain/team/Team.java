@@ -55,10 +55,12 @@ public class Team extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static Team create(TeamCreateForm createForm) {
+    public static Team create(TeamCreateForm createForm, Administrator loginUser) {
         return Team.builder()
                 .name(createForm.getName())
                 .activeYn(createForm.getActiveYn())
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
                 .build();
     }
 
