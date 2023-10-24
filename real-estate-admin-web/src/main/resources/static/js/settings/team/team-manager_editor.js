@@ -131,3 +131,5 @@ let update = function(e) {
 $(document).ready(onReady)
     .on('click', '.btnTeamSave', save)
     .on('click', '.btnTeamUpdate', update)
+    .on('ifToggled', '.chkAll', selectedChkAll)
+    .on('ifToggled', 'input[name=numbers]', selectedChkBox);

@@ -1,9 +1,11 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
+import io.gig.realestate.domain.team.dto.TeamUpdateForm;
 import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -72,5 +74,11 @@ public class Team extends BaseTimeEntity {
                 .createdBy(manager)
                 .updatedBy(manager)
                 .build();
+    }
+
+    public void update(TeamUpdateForm updateForm, Administrator loginUser) {
+        this.name = updateForm.getName();
+        this.activeYn = updateForm.getActiveYn();
+        this.updatedBy = loginUser;
     }
 }

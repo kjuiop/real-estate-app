@@ -26,4 +26,6 @@ public interface TeamService {
     List<TeamListDto> getTeamList();
 
     TeamDetailDto getDetail(Long teamId);
+
+    Long update(TeamUpdateForm updateForm, LoginUser loginUser);
 }

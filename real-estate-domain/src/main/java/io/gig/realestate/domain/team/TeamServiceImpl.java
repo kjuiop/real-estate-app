@@ -56,6 +56,14 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
+    public Long update(TeamUpdateForm updateForm, LoginUser loginUser) {
+        Team team = teamReader.getTeamById(updateForm.getTeamId());
+        team.update(updateForm, loginUser.getLoginUser());
+        return team.getId();
+    }
+
+    @Override
+    @Transactional
     public void initTeam(String name, YnType activeYn, Administrator manager) {
         Team team = Team.initTeam(name, activeYn, manager);
         manager.addTeam(team);

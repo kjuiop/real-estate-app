@@ -9,10 +9,7 @@ import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
-import io.gig.realestate.domain.team.dto.TeamDetailDto;
-import io.gig.realestate.domain.team.dto.TeamListDto;
-import io.gig.realestate.domain.team.dto.TeamSearchDto;
+import io.gig.realestate.domain.team.dto.*;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -72,6 +69,13 @@ public class TeamManagerController {
     @ResponseBody
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm, @CurrentUser LoginUser loginUser) {
         Long teamId = teamService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody TeamUpdateForm updateForm, @CurrentUser LoginUser loginUser) {
+        Long teamId = teamService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
     }
 

@@ -13,7 +13,7 @@
                 <div class="col-md-12 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <form class="form-horizontal" name="frmTeamRegister" method="post" th:object="${dto}">
-                            <input type="hidden" name="teamId" th:field="*{teamId}" />
+                            <input type="hidden" name="teamId" th:field="*{teamId}" th:value="${dto.teamId}" />
                             <div class="card-header">
                                 <h3 class="card-title">팀 정보</h3>
                                 <div class="card-tools">
@@ -22,7 +22,6 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <input type="hidden" id="teamId" name="teamId" />
                                 <div class="form-group col-12 display-flex-row">
                                     <div class="col-2">
                                         <label for="userStatus_Pending">상태</label>
@@ -49,7 +48,8 @@
                                     <div class="col-5"></div>
                                 </div>
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="button" class="btn btn-sm btnTeamSave btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;" th:classappend="${isModify ? 'btnTeamUpdate' : 'btnTeamSave'}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-sm btnTeamSave btnTeamSave btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-sm btnTeamUpdate btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
                                 </div>
                         </div>
                         </form>
