@@ -30,9 +30,9 @@ public class Team extends BaseTimeEntity {
     private String name;
 
     @Builder.Default
-    @Column(length = 50)
     @Enumerated(EnumType.STRING)
-    private TeamStatus status = TeamStatus.ACTIVE;
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType activeYn = YnType.Y;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -58,13 +58,14 @@ public class Team extends BaseTimeEntity {
     public static Team create(TeamCreateForm createForm) {
         return Team.builder()
                 .name(createForm.getName())
+                .activeYn(createForm.getActiveYn())
                 .build();
     }
 
-    public static Team initTeam(String name, TeamStatus status, Administrator manager) {
+    public static Team initTeam(String name, YnType activeYn, Administrator manager) {
         return Team.builder()
                 .name(name)
-                .status(status)
+                .activeYn(activeYn)
                 .manager(manager)
                 .createdBy(manager)
                 .updatedBy(manager)

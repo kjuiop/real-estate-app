@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
@@ -22,7 +23,7 @@ public interface TeamService {
 
     Page<TeamListDto> getTeamPageListBySearch(TeamSearchDto searchDto);
 
-    void initTeam(String name, TeamStatus status, Administrator manager);
+    void initTeam(String name, YnType activeYn, Administrator manager);
 
     List<TeamListDto> getTeamList();
 }

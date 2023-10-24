@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.dto.TeamCreateForm;
 import io.gig.realestate.domain.team.dto.TeamDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
@@ -51,8 +52,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public void initTeam(String name, TeamStatus status, Administrator manager) {
-        Team team = Team.initTeam(name, status, manager);
+    public void initTeam(String name, YnType activeYn, Administrator manager) {
+        Team team = Team.initTeam(name, activeYn, manager);
         manager.addTeam(team);
         teamStore.store(team);
     }

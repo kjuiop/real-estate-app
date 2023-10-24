@@ -77,13 +77,13 @@ public class InitUtils {
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 4, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("법정동 코드관리", "/settings/area-manager", "fa fa-circle-o", 5, superAdminMenuRoles, settingMenu);
 
-        teamService.initTeam("본부", TeamStatus.ACTIVE, superAdmin);
+        teamService.initTeam("본부", YnType.Y, superAdmin);
 
 
         Set<Role> managerRoles = new HashSet<>();
         managerRoles.add(managerRole);
         Administrator devAdmin = administratorService.initAdmin("dev@jdrealty.io", passwordEncoder.encode("dev123$"), "김정인", managerRoles);
-        teamService.initTeam("개발팀", TeamStatus.ACTIVE, devAdmin);
+        teamService.initTeam("개발팀", YnType.Y, devAdmin);
     }
 
     private void initCategoryData() {
