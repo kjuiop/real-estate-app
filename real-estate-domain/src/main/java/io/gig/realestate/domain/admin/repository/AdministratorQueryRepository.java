@@ -1,7 +1,6 @@
 package io.gig.realestate.domain.admin.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -26,7 +25,6 @@ import java.util.Optional;
 
 import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
-import static io.gig.realestate.domain.category.QCategory.category;
 import static io.gig.realestate.domain.team.QTeam.team;
 
 /**

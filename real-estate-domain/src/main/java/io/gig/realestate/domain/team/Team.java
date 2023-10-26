@@ -81,4 +81,12 @@ public class Team extends BaseTimeEntity {
         this.activeYn = updateForm.getActiveYn();
         this.updatedBy = loginUser;
     }
+
+    public void changeManager(Administrator admin) {
+        this.manager = admin;
+    }
+
+    public void unAssignManager() {
+        this.manager = null;
+    }
 }

@@ -74,10 +74,10 @@
                                                     <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                                 </label>
                                             </th>
-                                            <th>팀</th>
+                                            <th style="width: 10%;">팀</th>
                                             <th>권한</th>
-                                            <th>이메일</th>
                                             <th>이름</th>
+                                            <th>이메일</th>
                                             <th>전화번호</th>
                                             <th>상태</th>
                                             <th style="width: 13%;">최종로그인</th>
@@ -85,22 +85,21 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:if="${not #lists.isEmpty(memberCandidates.content)}" th:each="item, status : ${memberCandidates.content}">
+                                        <tr class="admin-unit" th:if="${not #lists.isEmpty(memberCandidates.content)}" th:each="item, status : ${memberCandidates.content}">
                                             <td>
                                                 <label class="margin-bottom-0">
                                                     <input type="checkbox" class="checkElement chkAll adminId" name="numbers" th:value="${item.adminId}">
                                                 </label>
                                             </td>
+                                            <td th:text="${item.teamName}"></td>
                                             <td>
-                                                <select class="form-control form-control-sm width-80px" name="status">
-                                                    <th:block th:if="${not #lists.isEmpty(teamList)}" th:each="team, status : ${teamList}">
-                                                        <option th:value="${team.teamId}" th:selected="${team.name eq item.teamName}">[[${team.name}]]</option>
-                                                    </th:block>
+                                                <select class="form-control form-control-sm" name="role">
+                                                    <option value="ROLE_MANAGER" th:selected="${item.roleName eq '팀장'}">팀장</option>
+                                                    <option value="ROLE_MEMBER" th:selected="${item.roleName eq '팀원'}">팀원</option>
                                                 </select>
                                             </td>
-                                            <td th:text="${item.roleName}"></td>
-                                            <td th:text="${item.username}"></td>
                                             <td th:text="${item.name}"></td>
+                                            <td th:text="${item.username}"></td>
                                             <td th:text="${item.phone}"></td>
                                             <td>
                                                 <select class="form-control form-control-sm width-80px" name="status">
@@ -119,8 +118,8 @@
                                     </table>
                                 </div>
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                    <button type="button" class="btn btn-sm btnMemberSave btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/team-manager" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

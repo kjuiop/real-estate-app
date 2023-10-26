@@ -53,13 +53,10 @@ public class TeamManagerController {
     @GetMapping("{teamId}/edit")
     public String editForm(@PathVariable(name = "teamId") Long teamId, AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
         TeamDetailDto dto = teamService.getDetail(teamId);
-
         Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto, loginUser.getUsername());
-        List<TeamListDto> teamList = teamService.getTeamList();
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
-        model.addAttribute("teamList", teamList);
         model.addAttribute("memberCandidates", memberCandidates);
 
         return "/settings/team/editor";

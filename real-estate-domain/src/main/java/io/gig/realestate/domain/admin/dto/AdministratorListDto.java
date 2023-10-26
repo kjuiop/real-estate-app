@@ -10,9 +10,8 @@ import io.gig.realestate.domain.admin.AdministratorRole;
 public class AdministratorListDto extends AdministratorDto {
 
     public String createdByUsername;
-
+    public Long teamId;
     public String teamName;
-
     public String roleName;
 
     public AdministratorListDto(Administrator a) {
@@ -22,6 +21,7 @@ public class AdministratorListDto extends AdministratorDto {
         }
 
         if (a.getTeam() != null) {
+            this.teamId = a.getTeam().getId();
             this.teamName = a.getTeam().getName();
         }
 

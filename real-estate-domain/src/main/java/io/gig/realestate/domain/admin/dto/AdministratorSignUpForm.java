@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.admin.dto;
 
-import io.gig.realestate.domain.admin.types.AdminStatus;
 import lombok.Getter;
 import lombok.Setter;
 
