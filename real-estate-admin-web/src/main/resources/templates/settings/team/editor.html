@@ -48,8 +48,8 @@
                                     <div class="col-5"></div>
                                 </div>
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="button" class="btn btn-sm btnTeamSave btnTeamSave btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
-                                    <button type="button" class="btn btn-sm btnTeamUpdate btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
+                                    <button type="button" class="btn btn-primary pull-right btnTeamSave" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-primary pull-right btnTeamUpdate" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
                                 </div>
                         </div>
                         </form>
@@ -118,8 +118,8 @@
                                     </table>
                                 </div>
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="button" class="btn btn-sm btnMemberSave btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/settings/team-manager" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                    <button type="button" class="btnMemberSave btn btn-primary pull-right"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/team-manager" class="btn btn-default pull-right margin-right-5"> 목록</a>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
