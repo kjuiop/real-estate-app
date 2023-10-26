@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ public class TeamQueryRepository {
                 .from(team)
                 .where(where)
                 .where(defaultCondition())
+                .where(likeName(searchDto.getName()))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
@@ -90,5 +92,9 @@ public class TeamQueryRepository {
 
     private BooleanExpression eqTeamId(Long teamId) {
         return teamId != null ? team.id.eq(teamId) : null;
+    }
+
+    private BooleanExpression likeName(String name) {
+        return StringUtils.hasText(name) ? team.name.like("%" + name + "%") : null;
     }
 }
