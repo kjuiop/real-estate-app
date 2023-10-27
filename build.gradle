@@ -73,6 +73,7 @@ subprojects {
         /** DB **/
         runtimeOnly 'com.h2database:h2'
         implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
+        implementation 'mysql:mysql-connector-java'
     }
 
     configure (querydslProjects) {
