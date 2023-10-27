@@ -28,13 +28,15 @@ public interface AdministratorReader {
 
     AdministratorDetailDto getAdminDetail(Long adminId);
 
-    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
+    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String username);
 
-    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
+    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername);
 
     Administrator getAdminEntityById(Long adminId);
 
     List<AdministratorListDto> getAllAdministrators();
 
     List<AdministratorListDto> getAdministratorsByTeam(Team team);
+
+    Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId);
 }

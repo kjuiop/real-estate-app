@@ -1,7 +1,11 @@
 package io.gig.realestate.domain.realestate.price.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -10,18 +14,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PriceCreateForm {
-
-    private Long realEstateId;
-
-    private String legalCode;
-
-    private String landType;
-
-    private String bun;
-
-    private String ji;
-
-    private String address;
 
     private int salePrice;
 
@@ -38,4 +30,8 @@ public class PriceCreateForm {
     private int management;
 
     private int managementExpense;
+
+    private double totalLndpclArByPyung;
+
+    private double totArea;
 }

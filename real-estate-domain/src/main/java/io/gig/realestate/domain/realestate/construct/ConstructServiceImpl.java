@@ -5,10 +5,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.*;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.ConstructDataProperties;
 import io.gig.realestate.domain.utils.properties.ConstructFloorDataProperties;
@@ -53,19 +50,16 @@ public class ConstructServiceImpl implements ConstructService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId) {
+        return constructReader.getFloorInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
     @Transactional
     public Long create(ConstructCreateForm createForm, LoginUser loginUser) {
 
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-
-        ConstructInfo constructInfo = ConstructInfo.create(createForm, realEstate);
-        realEstate.addConstructInfo(constructInfo);
-        return realEstateStore.store(realEstate).getId();
+        return null;
     }
 
     @Override
@@ -107,10 +101,24 @@ public class ConstructServiceImpl implements ConstructService {
         JSONObject response = data.getJSONObject("response");
         JSONObject body = response.getJSONObject("body");
         JSONObject items = body.getJSONObject("items");
-        JSONObject item = items.getJSONObject("item");
-        return ConstructDataApiDto.convertData(item);
-    }
 
+        Object object = items.get("item");
+        if (object == null) {
+            return null;
+        }
+
+        if (object instanceof JSONObject) {
+            JSONObject item = items.getJSONObject("item");
+            return ConstructDataApiDto.convertData(item);
+        }
+
+        if (object instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray) object;
+            JSONObject item = (JSONObject) jsonArray.get(0);
+            return ConstructDataApiDto.convertData(item);
+        }
+        return null;
+    }
 
     @Override
     @Transactional

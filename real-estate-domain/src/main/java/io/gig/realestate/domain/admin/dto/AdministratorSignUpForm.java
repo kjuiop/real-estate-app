@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.admin.dto;
 
-import io.gig.realestate.domain.admin.types.AdminStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +27,9 @@ public class AdministratorSignUpForm {
 
     @NotEmpty(message = "패스워드를 확인해주세요.")
     private String confirmPassword;
+
+    @NotEmpty(message = "전화번호를 입력해주세요.")
+    private String phone;
 
     private Long teamId;
 

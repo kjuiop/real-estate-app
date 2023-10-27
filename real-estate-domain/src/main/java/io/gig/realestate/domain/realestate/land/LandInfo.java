@@ -4,6 +4,8 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.land.dto.LandUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,6 +28,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private String pnu;
 
+    private String address;
+
     private String lndcgrCodeNm;
 
     private Double lndpclAr;
@@ -36,7 +40,7 @@ public class LandInfo extends BaseTimeEntity {
 
     private Double totalPblntfPclnd;
 
-    private String prposArealNm;
+    private String prposArea1Nm;
 
     private String roadSideCodeNm;
 
@@ -51,23 +55,35 @@ public class LandInfo extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType commercialYn = YnType.N;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static LandInfo create(LandCreateForm createForm, RealEstate realEstate) {
+    public static LandInfo create(LandInfoDto dto, RealEstate realEstate) {
         return LandInfo.builder()
-                .lndcgrCodeNm(createForm.getLndcgrCodeNm())
-                .lndpclAr(Double.parseDouble(createForm.getLndpclAr()))
-                .lndpclArByPyung(Double.parseDouble(createForm.getLndpclArByPyung()))
-                .pblntfPclnd(Double.parseDouble(createForm.getPblntfPclnd()))
-                .totalPblntfPclnd(Double.parseDouble(createForm.getTotalPblntfPclnd()))
-                .prposArealNm(createForm.getPrposArealNm())
-                .roadSideCodeNm(createForm.getRoadSideCodeNm())
-                .tpgrphFrmCodeNm(createForm.getTpgrphFrmCodeNm())
-                .tpgrphHgCodeNm(createForm.getTpgrphHgCodeNm())
-                .ladUseSittnNm(createForm.getLadUseSittnNm())
+                .pnu(dto.getPnu())
+                .address(dto.getAddress())
+                .address(dto.getAddress())
+                .commercialYn(dto.getCommercialYn())
+                .lndcgrCodeNm(dto.getLndcgrCodeNm())
+                .lndpclAr(Double.parseDouble(dto.getLndpclAr()))
+                .lndpclArByPyung(Double.parseDouble(dto.getLndpclArByPyung()))
+                .pblntfPclnd(Double.parseDouble(dto.getPblntfPclnd()))
+                .totalPblntfPclnd(Double.parseDouble(dto.getTotalPblntfPclnd()))
+                .prposArea1Nm(dto.getPrposArea1Nm())
+                .roadSideCodeNm(dto.getRoadSideCodeNm())
+                .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
+                .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
+                .ladUseSittnNm(dto.getLadUseSittnNm())
                 .realEstate(realEstate)
                 .build();
+    }
+
+    public static void update(String address, YnType commercialYn, LandUpdateForm.LandInfoDto dto) {
     }
 }

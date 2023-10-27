@@ -230,3 +230,54 @@ const drawErrorMessage = function($field, errorMsg) {
 const drawSuccessMessage = function($field, errorMsg) {
     $field.html('<small class="error-message text-small text-blue margin-left-3">' + errorMsg + '</small>');
 }
+
+let addCommasToNumber = function(number) {
+    if (number < 1000) {
+        return number;
+    }
+    number = Math.floor(number);
+    number = Math.round(number / 100) * 100;
+    let numberStr = number.toString();
+    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numberStr;
+}
+
+let removeComma = function(str) {
+    if (!checkNullOrEmptyValue(str)) {
+        return str;
+    }
+
+    str = str.toString();
+    str = str.replaceAll(',', '');
+    return str;
+}
+
+let imgModal = function (e) {
+    e.preventDefault();
+
+    $('#modal-imgSection').html('');
+
+    let $this = $(this);
+
+    let $imgModal = $('#image-modal');
+    let imgId = $this.attr('id');
+    let imgPath = $this.attr("src");
+    let imgFullPath = $this.attr("fullPath");
+
+    $imgModal.find('#targetSubImg').val(imgId);
+
+    if(typeof (imgFullPath) ===  'undefined') imgFullPath = imgPath;
+
+    if (checkNullOrEmptyValue(imgPath)) {
+        let tag = '';
+        tag += '<img src="' + imgFullPath + '" style="display: block; margin: 0 auto; padding: 0 auto;">';
+        $('#modal-imgSection').html(tag);
+        $imgModal.modal('show');
+    }
+}
+
+function pagination(page) {
+    let $frmSearch = $("form[name='frmSearch']");
+    $frmSearch.find("input[name='page']").val(page);
+    $frmSearch.submit();
+}

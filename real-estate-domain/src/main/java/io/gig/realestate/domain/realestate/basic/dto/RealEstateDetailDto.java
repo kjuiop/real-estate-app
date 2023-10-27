@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.StringUtils;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author : JAKE
@@ -22,12 +29,14 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     private Long managerId;
 
-    static {
-        EMPTY = RealEstateDetailDto.builder()
-                .ownYn(YnType.Y)
-                .empty(true)
-                .build();
-    }
+    private Long managerTeamId;
+
+    private Long createdById;
+
+    private Long usageCdId;
+
+    @Builder.Default
+    private boolean isOwnUser = false;
 
     @Builder.Default
     private boolean empty = false;
@@ -44,13 +53,18 @@ public class RealEstateDetailDto extends RealEstateDto {
     @Builder.Default
     private boolean existCustomerInfo = false;
 
+    static {
+        EMPTY = RealEstateDetailDto.builder()
+                .empty(true)
+                .build();
+    }
+
     public static RealEstateDetailDto emptyDto() {
         return EMPTY;
     }
 
     public RealEstateDetailDto(RealEstate r) {
         super(r);
-
         if (r.getLandInfoList().size() > 0) {
             this.existLandInfo = true;
         }
@@ -69,17 +83,52 @@ public class RealEstateDetailDto extends RealEstateDto {
 
         if (r.getManager() != null) {
             this.managerId = r.getManager().getId();
+            this.managerTeamId = r.getManager().getTeam().getId();
+        }
+
+        if (r.getCreatedBy() != null) {
+            this.createdById = r.getCreatedBy().getId();
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId) {
         return RealEstateDetailDto.builder()
                 .legalCode(legalCode)
                 .landType(landType)
                 .bun(bun)
                 .ji(ji)
                 .address(address)
-                .ownYn(YnType.Y)
+                .usageCdId(usageCdId)
                 .build();
+    }
+
+    public void checkIsOwnUser(LoginUser loginUser) {
+        if (loginUser.getLoginUser() == null) {
+            return;
+        }
+
+        // 담당자
+        if (this.managerId != null && this.managerId.equals(loginUser.getLoginUser().getId())) {
+            this.isOwnUser = true;
+            return;
+        }
+
+        Collection<GrantedAuthority> roles = loginUser.getAuthorities();
+        for (GrantedAuthority role : roles) {
+
+            if (StringUtils.hasText(role.getAuthority())
+                    && role.getAuthority().equals("ROLE_MANAGER")
+                    && this.managerTeamId != null
+                    && this.managerTeamId.equals(loginUser.getLoginUser().getTeam().getId())
+            ) {
+                this.isOwnUser = true;
+                return;
+            }
+
+            if (StringUtils.hasText(role.getAuthority()) && role.getAuthority().equals("ROLE_SUPER_ADMIN")) {
+                this.isOwnUser = true;
+                return;
+            }
+        }
     }
 }

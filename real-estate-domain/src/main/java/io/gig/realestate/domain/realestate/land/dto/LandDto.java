@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.land.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +18,16 @@ import java.math.BigDecimal;
 public class LandDto {
 
     // 데이터 검증 필요
+    private Long landId;
+
+    private String address;
 
     /** 토지 필지 번호 **/
     // 고유번호
     // 각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호
-    private Long pnu;
+    private String pnu;
+
+    private String pnuStr;
 
     /** 토지면적 **/
     // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
@@ -70,16 +76,23 @@ public class LandDto {
     // 공시 기준년도
     private Integer stdrYear;
 
+    private YnType commercialYn;
+
     public LandDto(LandInfo l) {
+        this.landId = l.getId();
+        this.pnu = l.getPnu();
+        this.pnuStr = l.getPnu();
+        this.address = l.getAddress();
         this.lndpclAr = l.getLndpclAr();
         this.lndpclArByPyung = l.getLndpclArByPyung();
         this.lndcgrCodeNm = l.getLndcgrCodeNm();
-        this.prposArea1Nm = l.getPrposArealNm();
+        this.prposArea1Nm = l.getPrposArea1Nm();
         this.tpgrphHgCodeNm = l.getTpgrphHgCodeNm();
         this.tpgrphFrmCodeNm = l.getTpgrphFrmCodeNm();
         this.roadSideCodeNm = l.getRoadSideCodeNm();
         this.pblntfPclnd = l.getPblntfPclnd();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
         this.ladUseSittnNm = l.getLadUseSittnNm();
+        this.commercialYn = l.getCommercialYn();
     }
 }

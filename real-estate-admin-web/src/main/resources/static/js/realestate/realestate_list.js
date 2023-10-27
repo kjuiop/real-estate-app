@@ -1,22 +1,25 @@
 let onReady = function() {
+    console.log("condition", condition);
 };
 
 let search = function(e) {
+    e.preventDefault();
+
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
+
+    let processType = $(this).attr('processType');
+    if (checkNullOrEmptyValue(processType)) {
+        $frm.find('input[name="processType"]').val(processType);
+    }
+    console.log("process Type : ", processType)
     $frm.submit();
 };
 
 let reset = function(e) {
-
-    let $frm = $("form[name='frmSearch']");
-    $frm.find("input[name='page']").val(0);
-    $frm.find("input[name='size']").val(10);
-    $frm.find("input[name='username']").val('');
-    $frm.find("input[name='name']").val('');
-    $frm.find("input[name='userStatus']").val('');
-    $frm.submit();
+    e.preventDefault();
+    location.href = '/real-estate';
 };
 
 let realEstateModal = function(e) {
@@ -31,14 +34,49 @@ let moveRegister = function(e) {
     let $frm = $('form[name="frmMoveRegister"]'),
         params = serializeObject({form:$frm[0]}).json();
 
+    let usageCdId = $('select[name="usageCd"] option:selected').val();
+    if (!checkNullOrEmptyValue(usageCdId)) {
+        twoBtnModal("매물 용도를 선택해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.address)) {
+        twoBtnModal("주소 검색을 통해 주소를 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.bun) || !checkNullOrEmptyValue(params.ji)) {
+        twoBtnModal("지번을 입력해주세요.");
+        return;
+    }
+
     console.log("params : ", params);
 
-    location.href = "/real-estate/new"
-        + "?bCode=" + params.bCode
-        + "&landType=" + params.landType
-        + "&bun=" + params.bun
-        + "&ji=" + params.ji
-        + "&address=" + encodeURIComponent(params.address);
+    $.ajax({
+        url: "/real-estate/check-duplicate/" + params.address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("result : ", result);
+            if (result.data) {
+                twoBtnModal("이미 등록된 매물 정보입니다.");
+            } else {
+                location.href = "/real-estate/new"
+                    + "?bCode=" + params.bCode
+                    + "&landType=" + params.landType
+                    + "&bun=" + params.bun
+                    + "&ji=" + params.ji
+                    + "&address=" + encodeURIComponent(params.address)
+                    + "&usageCdId=" + usageCdId
+                ;
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
 
 }
 
@@ -117,13 +155,69 @@ let loadKakaoMap = function(searchAddress) {
 
 }
 
+let getChildAreaData = function() {
+    let areaId = $(this).find('option:selected').attr('areaId'),
+        name = $(this).attr('name');
+
+    if (!checkNullOrEmptyValue(areaId)) {
+        oneBtnModal("시/도, 군/구를 선택해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/settings/area-manager/" + areaId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("area result : ", result);
+            let areaList = result.data;
+            let $frm = $('form[name="frmSearch"]'),
+            $gungu = $frm.find('select[name="gungu"]'),
+            $dong = $frm.find('select[name="dong"');
+            let tag;
+            if (name === 'sido') {
+                tag = drawAreaOption("gungu", areaList);
+                $gungu.html(tag);
+                $dong.html('<option>동 선택</option>');
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
+            } else if (name === 'gungu') {
+                tag = drawAreaOption("dong", areaList);
+                $dong.html(tag);
+                $frm.find('select[name="landType"]').val('general');
+                $frm.find('input[name="bun"]').val('');
+                $frm.find('input[name="ji"]').val('');
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
+let drawAreaOption = function(depth, areaList) {
+    let tag = '';
+    if (depth === 'gungu') {
+        tag += '<option value="">구군 선택</option>';
+    } else if (depth === 'dong') {
+        tag += '<option value="">동 선택</option>';
+    }
+    $.each(areaList, function(idx, item) {
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+    });
+    return tag;
+}
 
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
-    .on('click', '#btnSearch', search)
+    .on('click', '#btnSearch, .btnProcessType', search)
     .on('change', '#limit', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
-    .on('click', '#btnRealEstateModal', realEstateModal);
+    .on('click', '#btnRealEstateModal', realEstateModal)
+    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);

@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout}">
 <body>
-<div th:fragment="header">
+<div th:fragment="header" th:with="isModify = ${dto.realEstateId != null}">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
@@ -17,6 +17,10 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-none d-sm-inline-block">
+                <button type="button" class="btn btn-primary text-right margin-right-5 btnUpdate" th:if="${isModify && dto.isOwnUser}">일괄수정</button>
+                <button type="button" class="btn btn-primary text-right margin-right-5 btnSave" th:if="${!isModify}">일괄저장</button>
+            </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/logout" class="nav-link">logout</a>
             </li>

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,6 +23,8 @@ public class LandDataApiDto {
     // 고유번호
     // 각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호
     private Long pnu;
+
+    private String pnuStr;
 
     /** 토지면적 **/
     // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
@@ -101,8 +104,12 @@ public class LandDataApiDto {
         double areaInPyung = lndpclAr / 3.305785;
         BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
 
+        long pnu = nsdi.getLong("NSDI:PNU");
+        String pnuStr = String.valueOf(pnu);
+
         return LandDataApiDto.builder()
-                .pnu(nsdi.getLong("NSDI:PNU"))
+                .pnu(pnu)
+                .pnuStr(pnuStr)
                 .lndpclAr(nsdi.getBigDecimal("NSDI:LNDPCL_AR"))
                 .lndpclArByPyung(lndpclArByPyung)
                 .lndcgrCodeNm(nsdi.getString("NSDI:LNDCGR_CODE_NM"))
@@ -129,6 +136,9 @@ public class LandDataApiDto {
                 landCode = "2";
             }
 
+            if (!StringUtils.hasText(ji)) {
+                ji = "0";
+            }
             String bunCode = String.format("%04d", Integer.parseInt(bun));
             String jiCode = String.format("%04d", Integer.parseInt(ji));
 

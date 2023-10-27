@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.construct.dto;
 import lombok.Builder;
 import lombok.Getter;
 import org.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ConstructDataApiDto {
     private int useAprDay;
 
     // 대지면적
-    private int platArea;
+    private double platArea;
 
     // 건물면적
     private Double archArea;
@@ -124,6 +125,9 @@ public class ConstructDataApiDto {
                 landCode = "2";
             }
 
+            if (!StringUtils.hasText(ji)) {
+               ji = "0";
+            }
             String bunCode = String.format("%04d", Integer.parseInt(bun));
             String jiCode = String.format("%04d", Integer.parseInt(ji));
 

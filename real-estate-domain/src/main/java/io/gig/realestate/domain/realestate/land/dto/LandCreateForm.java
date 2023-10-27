@@ -1,7 +1,12 @@
 package io.gig.realestate.domain.realestate.land.dto;
 
+import io.gig.realestate.domain.common.YnType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -23,23 +28,34 @@ public class LandCreateForm {
 
     private String address;
 
-    private String lndcgrCodeNm;
+    private YnType commercialYn;
 
-    private String lndpclAr;
+    private List<LandInfoDto> landInfoList = new ArrayList<>();
 
-    private String lndpclArByPyung;
+    @Getter
+    @Builder
+    public static class LandInfoDto {
 
-    private String pblntfPclnd;
+        private String pnu;
 
-    private String totalPblntfPclnd;
+        private String lndcgrCodeNm;
 
-    private String prposArealNm;
+        private String lndpclAr;
 
-    private String roadSideCodeNm;
+        private String lndpclArByPyung;
 
-    private String tpgrphFrmCodeNm;
+        private String pblntfPclnd;
 
-    private String tpgrphHgCodeNm;
+        private String totalPblntfPclnd;
 
-    private String ladUseSittnNm;
+        private String prposArea1Nm;
+
+        private String roadSideCodeNm;
+
+        private String tpgrphFrmCodeNm;
+
+        private String tpgrphHgCodeNm;
+
+        private String ladUseSittnNm;
+    }
 }

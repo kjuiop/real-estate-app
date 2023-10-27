@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.memo.repository;
 
+import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.memo.MemoReader;
 import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,15 @@ public class MemoQueryImpl implements MemoReader {
     @Override
     public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getMemoListInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public MemoInfo getMemoInfoById(Long memoId) {
+        return queryRepository.getMemoInfoById(memoId);
+    }
+
+    @Override
+    public List<MemoInfo> getMemoListByIds(List<Long> memoIds) {
+        return queryRepository.getMemoListByIds(memoIds);
     }
 }

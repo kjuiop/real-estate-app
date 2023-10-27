@@ -9,6 +9,7 @@ import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class CategoryQueryRepository {
         List<CategoryDto> fetch = this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
                 .from(category)
                 .where(defaultCondition())
-                .where(category.parent.id.eq(parentId))
+                .where(eqParentId(parentId))
                 .orderBy(category.sortOrder.asc())
                 .fetch();
 
@@ -52,7 +53,7 @@ public class CategoryQueryRepository {
         List<CategoryDto> fetch = this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
                 .from(category)
                 .where(defaultCondition())
-                .where(category.parent.name.eq(name))
+                .where(eqParentName(name))
                 .orderBy(category.sortOrder.asc())
                 .fetch();
 
@@ -64,12 +65,8 @@ public class CategoryQueryRepository {
                 this.queryFactory
                         .selectFrom(category)
                         .where(defaultCondition())
-                        .where(category.id.eq(categoryId))
+                        .where(eqCategoryId(categoryId))
                         .fetchOne());
-    }
-
-    private BooleanExpression parentIsNull() {
-        return category.parent.isNull();
     }
 
     public Optional<CategoryDto> getCategoryDtoById(Long id) {
@@ -77,7 +74,7 @@ public class CategoryQueryRepository {
                 .select(Projections.constructor(CategoryDto.class, category))
                 .from(category)
                 .where(defaultCondition())
-                .where(category.id.eq(id))
+                .where(eqCategoryId(id))
                 .limit(1)
                 .fetchFirst());
 
@@ -96,14 +93,31 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
-    private BooleanExpression defaultCondition() {
-        return category.deleteYn.eq(YnType.N);
-    }
-
     public Long getCountCategoryData() {
         return this.queryFactory
                 .select(category.count())
                 .from(category)
                 .fetchOne();
     }
+
+    private BooleanExpression defaultCondition() {
+        return category.deleteYn.eq(YnType.N);
+    }
+
+    private BooleanExpression eqCategoryId(Long categoryId) {
+        return categoryId != null ? category.id.eq(categoryId) : null;
+    }
+
+    private BooleanExpression eqParentId(Long parentId) {
+        return parentId != null ? category.parent.id.eq(parentId) : null;
+    }
+
+    private BooleanExpression eqParentName(String name) {
+        return StringUtils.hasText(name) ? category.parent.name.eq(name) : null;
+    }
+
+    private BooleanExpression parentIsNull() {
+        return category.parent.isNull();
+    }
+
 }

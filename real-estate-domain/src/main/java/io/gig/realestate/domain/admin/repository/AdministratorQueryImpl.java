@@ -27,13 +27,13 @@ public class AdministratorQueryImpl implements AdministratorReader {
     private final AdministratorQueryRepository queryRepository;
 
     @Override
-    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
-        return queryRepository.getCandidateManagers(searchDto);
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername) {
+        return queryRepository.getCandidateManagers(searchDto, loginUsername);
     }
 
     @Override
-    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
-        return queryRepository.getCandidateMembers(searchDto);
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
+        return queryRepository.getCandidateMembers(searchDto, loginUsername);
     }
 
     @Override
@@ -98,6 +98,11 @@ public class AdministratorQueryImpl implements AdministratorReader {
     @Override
     public List<AdministratorListDto> getAdministratorsByTeam(Team team) {
         return queryRepository.getAdministratorsByTeam(team);
+    }
+
+    @Override
+    public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
+        return queryRepository.getAdminByTeamId(searchDto, teamId);
     }
 
     @Override

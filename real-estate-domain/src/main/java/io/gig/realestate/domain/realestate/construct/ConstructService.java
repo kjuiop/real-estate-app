@@ -1,10 +1,7 @@
 package io.gig.realestate.domain.realestate.construct;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
-import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -23,4 +20,6 @@ public interface ConstructService {
     Long create(ConstructCreateForm createForm, LoginUser loginUser);
 
     ConstructDto getConstructInfoByRealEstateId(Long realEstateId);
+
+    List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId);
 }

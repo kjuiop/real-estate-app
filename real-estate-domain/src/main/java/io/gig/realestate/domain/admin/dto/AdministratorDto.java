@@ -25,6 +25,8 @@ public class AdministratorDto {
 
     private String name;
 
+    private String phone;
+
     private AdminStatus status;
 
     private Integer passwordFailureCount;
@@ -44,6 +46,7 @@ public class AdministratorDto {
         this.username = a.getUsername();
         this.password = a.getPassword();
         this.name = a.getName();
+        this.phone = a.getPhone();
         this.passwordFailureCount = a.getPasswordFailureCount();
         this.status = a.getStatus();
         this.isNormal = a.isNormal();

@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface MemoReader {
     List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId);
+
+    MemoInfo getMemoInfoById(Long memoId);
+
+    List<MemoInfo> getMemoListByIds(List<Long> memoIds);
 }

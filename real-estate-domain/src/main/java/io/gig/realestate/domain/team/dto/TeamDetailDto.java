@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.team.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.team.Team;
 import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class TeamDetailDto extends TeamDto {
     static {
         EMPTY = TeamDetailDto.builder()
                 .empty(true)
-                .status(TeamStatus.ACTIVE)
+                .activeYn(YnType.Y)
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.team;
 
+import io.gig.realestate.domain.team.dto.TeamDetailDto;
 import io.gig.realestate.domain.team.dto.TeamDto;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamSearchDto;
@@ -17,4 +18,6 @@ public interface TeamReader {
     List<TeamListDto> getTeamList();
 
     Team getTeamById(Long teamId);
+
+    TeamDetailDto getTeamDetail(Long teamId);
 }

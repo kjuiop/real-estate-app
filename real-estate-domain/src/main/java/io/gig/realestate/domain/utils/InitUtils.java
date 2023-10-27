@@ -77,27 +77,18 @@ public class InitUtils {
         menuService.initChildMenu("관리자관리", "/settings/administrators", "fa fa-circle-o", 4, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("법정동 코드관리", "/settings/area-manager", "fa fa-circle-o", 5, superAdminMenuRoles, settingMenu);
 
-        teamService.initTeam("본부", TeamStatus.ACTIVE, superAdmin);
+        teamService.initTeam("본부", YnType.Y, superAdmin);
 
 
         Set<Role> managerRoles = new HashSet<>();
         managerRoles.add(managerRole);
         Administrator devAdmin = administratorService.initAdmin("dev@jdrealty.io", passwordEncoder.encode("dev123$"), "김정인", managerRoles);
-        teamService.initTeam("개발팀", TeamStatus.ACTIVE, devAdmin);
+        teamService.initTeam("개발팀", YnType.Y, devAdmin);
     }
 
     private void initCategoryData() {
-
-        Category processStep = categoryService.initCategory("CD_PROCESS", "진행구분", YnType.Y, 1, 1);
-        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "준비", YnType.Y, 2, 1, processStep);
-        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "작업중", YnType.Y, 2, 2, processStep);
-        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "완료", YnType.Y, 2, 3, processStep);
-        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "보류", YnType.Y, 2, 4, processStep);
-        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "매각 전", YnType.Y, 2, 5, processStep);
-        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "매각", YnType.Y, 2, 6, processStep);
-
         Category usageType = categoryService.initCategory("CD_USAGE","매물용도", YnType.Y, 1, 2);
-        Category usageChange = categoryService.initChildCategory("CD_USAGE_01", "CD_USAGE", "용도변경-별실가능", YnType.Y, 2, 1, usageType);
+        Category usageChange = categoryService.initChildCategory("CD_USAGE_01", "CD_USAGE", "용도변경-멸실가능", YnType.Y, 2, 1, usageType);
         categoryService.initChildCategory("CD_USAGE_01_01", "CD_USAGE_01", "투자용", YnType.Y, 3, 1, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_02", "CD_USAGE_01", "사옥용", YnType.Y, 3, 2, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_03", "CD_USAGE_01", "거주용", YnType.Y, 3, 3, usageChange);

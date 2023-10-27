@@ -8,8 +8,12 @@
     flex-direction: column;
 }
 
+.display-inline-block {
+    display: inline-block;
+}
+
 .no-padding {
-    padding: 0px;
+    padding: 0 !important;
 }
 
 .no-left-padding {
@@ -20,12 +24,24 @@
     padding-right: 0;
 }
 
+.padding-10 {
+    padding: 10px !important;
+}
+
+.padding-8 {
+    padding: 8px !important;
+}
+
+.padding-6 {
+    padding: 6px !important;
+}
+
 .line {
     margin-bottom: 30px;
 }
 
 .sub-line {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .hidden {
@@ -113,6 +129,10 @@
     margin-bottom: 20px;
 }
 
+.margin-right-3 {
+    margin-right: 3px;
+}
+
 .margin-right-4 {
     margin-right: 4px;
 }
@@ -157,6 +177,14 @@
     margin-top: 20px;
 }
 
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.margin-top-35 {
+    margin-top: 35px;
+}
+
 .margin-top-200 {
     margin-top: 200px;
 }
@@ -193,6 +221,11 @@
     font-size: 14px;
 }
 
+.search-label {
+    font-weight: normal;
+    font-size: 14px;
+}
+
 .center-text {
     text-align: center;
 }
@@ -214,6 +247,70 @@
     height: 36px;
 }
 
+.search-single-group {
+    width: 11%
+}
+
+.search-double-group {
+    width: 22%
+}
+
+.search-double-field input, .input-label + input{
+    height: 64px;
+    padding-top: 30px;
+    border: 0;
+}
+
+.search-table .input-label + .select-box {
+    margin-top: 25px !important;
+    border: 1px solid #ffffff !important;
+}
+
+.border-none {
+    border: none;
+}
+
+.input-label {
+    position: relative;
+}
+
+.input-label .top-label {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+}
+
+.input-label .bottom-label {
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+}
+
+.input-label .search-text {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #828a92;
+    white-space: nowrap;
+}
+
+.search-input {
+    font-size: 1.1rem;
+}
+
+.search-input-sm {
+    width: 30%;
+}
+
+.input-div {
+    position: relative;
+}
+
+.input-div span{
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: 8px;
+}
+
 .text-alien-center {
     text-align: center;
     justify-content: center;
@@ -225,4 +322,64 @@
 
 .button-pointer {
     cursor: pointer;
+}
+
+.height-select {
+    height: 36px;
+}
+
+.line-center {
+    line-height: 2;
+}
+
+.search-table tbody tr:first-child td:first-child {
+    border: 0;
+}
+
+.search-table thead th {
+    border: 0;
+}
+
+.search-table .search-title {
+    border: 0;
+}
+
+.search-table td {
+    padding: 5px;
+    border: 1px solid #c3cad2;
+    border-radius: 3px;
+}
+
+.search-table th {
+    border: 0;
+}
+
+.textarea-resize {
+    resize: none;
+}
+
+.spacing-table {
+    border-spacing: 10px;
+    border-collapse: separate;
+}
+
+.list-img-size {
+    width: 75px;
+    height: 75px;
+}
+
+.width-60px {
+    min-width: 60px;
+}
+
+.min-width-50px {
+    min-width: 50px;
+}
+
+.width-80px {
+    width: 80px;
+}
+
+.min-width-30 {
+    min-width: 30px;
 }

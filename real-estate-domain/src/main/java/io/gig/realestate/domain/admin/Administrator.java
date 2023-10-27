@@ -2,6 +2,7 @@ package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
 import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
+import io.gig.realestate.domain.admin.dto.AdministratorTemUpdateForm;
 import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
@@ -40,6 +41,8 @@ public class Administrator extends BaseTimeEntity {
     private String password;
 
     private String name;
+
+    private String phone;
 
     @Builder.Default
     @Column(length = 50)
@@ -104,6 +107,7 @@ public class Administrator extends BaseTimeEntity {
                 .name(signUpForm.getName())
                 .password(encodedPassword)
                 .passwordFailureCount(0)
+                .phone(signUpForm.getPhone())
                 .team(team)
                 .build();
     }
@@ -169,5 +173,9 @@ public class Administrator extends BaseTimeEntity {
 
     public boolean passwordValid(String inputPassword) {
         return this.getPassword().equals(inputPassword);
+    }
+
+    public void updateAdminStatus(AdministratorTemUpdateForm form) {
+        this.status = form.getStatus();
     }
 }

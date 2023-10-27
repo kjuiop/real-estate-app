@@ -2,15 +2,15 @@ package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
-import io.gig.realestate.domain.team.dto.TeamDetailDto;
-import io.gig.realestate.domain.team.dto.TeamSearchDto;
+import io.gig.realestate.domain.team.dto.*;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -42,15 +42,21 @@ public class TeamManagerController {
     }
 
     @GetMapping("new")
-    public String register(AdminSearchDto searchDto, Model model) {
+    public String register(Model model) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        List<AdministratorListDto> managerCandidates = administratorService.getCandidateManagers(searchDto);
-        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto);
+        model.addAttribute("dto", dto);
+
+        return "/settings/team/editor";
+    }
+
+    @GetMapping("{teamId}/edit")
+    public String editForm(@PathVariable(name = "teamId") Long teamId, AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
+        TeamDetailDto dto = teamService.getDetail(teamId);
+        Page<AdministratorListDto> memberCandidates = administratorService.getCandidateMembers(searchDto, loginUser.getUsername());
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);
-        model.addAttribute("managerCandidates", managerCandidates);
         model.addAttribute("memberCandidates", memberCandidates);
 
         return "/settings/team/editor";
@@ -58,8 +64,15 @@ public class TeamManagerController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm) {
-        Long teamId = teamService.create(createForm);
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody TeamCreateForm createForm, @CurrentUser LoginUser loginUser) {
+        Long teamId = teamService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody TeamUpdateForm updateForm, @CurrentUser LoginUser loginUser) {
+        Long teamId = teamService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
     }
 

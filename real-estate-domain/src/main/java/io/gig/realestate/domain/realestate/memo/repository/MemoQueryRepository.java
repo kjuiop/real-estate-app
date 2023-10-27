@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -41,11 +42,34 @@ public class MemoQueryRepository {
         return contentQuery.fetch();
     }
 
+    public MemoInfo getMemoInfoById(Long memoId) {
+
+        JPAQuery<MemoInfo> contentQuery = this.queryFactory
+                .selectFrom(memoInfo)
+                .where(defaultCondition())
+                .where(eqMemoId(memoId));
+
+        return contentQuery.fetchOne();
+    }
+
+    public List<MemoInfo> getMemoListByIds(List<Long> memoIds) {
+        JPAQuery<MemoInfo> contentQuery = this.queryFactory
+                .selectFrom(memoInfo)
+                .where(defaultCondition())
+                .where(memoInfo.id.in(memoIds));
+
+        return contentQuery.fetch();
+    }
+
     private BooleanExpression defaultCondition() {
         return memoInfo.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqRealEstateId(Long realEstateId) {
         return realEstateId != null ? memoInfo.realEstate.id.eq(realEstateId) : null;
+    }
+
+    private BooleanExpression eqMemoId(Long memoId) {
+        return memoId != null ? memoInfo.id.eq(memoId) : null;
     }
 }
