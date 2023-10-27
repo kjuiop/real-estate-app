@@ -5,6 +5,11 @@ plugins {
 group 'io.gig'
 version '1.0-SNAPSHOT'
 
+bootJar{
+    archivesBaseName = 'real-estate-admin-web'
+    archiveFileName = 'real-estate-admin-web.jar'
+}
+
 repositories {
     mavenCentral()
 }
