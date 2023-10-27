@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/03/04
@@ -20,5 +22,10 @@ public class AdministratorStoreImpl implements AdministratorStore {
     @Override
     public Administrator store(Administrator administrator) {
         return administratorStoreRepository.save(administrator);
+    }
+
+    @Override
+    public List<Administrator> storeAll(List<Administrator> administratorList) {
+        return administratorStoreRepository.saveAll(administratorList);
     }
 }

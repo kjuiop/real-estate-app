@@ -91,7 +91,7 @@ let save = function() {
 }
 
 let changeStatus = function() {
-    let adminId = $(this).parents('tr').find('.adminId').val(),
+    let adminId = $(this).parents('tr').find('input[name="adminId"]').val(),
         status = $(this).val();
 
     let params = [];
@@ -111,7 +111,7 @@ let changeStatus = function() {
             success: function (response) {
                 console.log(response);
                 if (response.status === "OK") {
-                    oneBtnModal("상태 변경이 완료되었습니다.", function () {
+                    twoBtnModal("상태 변경이 완료되었습니다.", function () {
                         location.reload();
                     });
                 }

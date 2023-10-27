@@ -2,6 +2,7 @@ package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
+import io.gig.realestate.domain.team.dto.TeamUpdateForm;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -35,9 +36,9 @@ public interface AdministratorService {
 
     Long update(AdministratorUpdateForm updateForm);
 
-    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto);
+    List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername);
 
-    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto);
+    Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername);
 
     Long signUp(AdministratorSignUpForm signUpForm);
 
@@ -46,4 +47,6 @@ public interface AdministratorService {
     List<AdministratorListDto> getAdminListMyMembers(LoginUser loginUser);
 
     Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long id);
+
+    void teamUpdate(Long teamId, List<AdministratorTemUpdateForm> updateForm);
 }

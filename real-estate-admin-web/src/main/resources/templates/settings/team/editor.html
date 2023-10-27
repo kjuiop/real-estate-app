@@ -13,7 +13,7 @@
                 <div class="col-md-12 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <form class="form-horizontal" name="frmTeamRegister" method="post" th:object="${dto}">
-                            <input type="hidden" name="teamId" th:field="*{teamId}" />
+                            <input type="hidden" name="teamId" th:field="*{teamId}" th:value="${dto.teamId}" />
                             <div class="card-header">
                                 <h3 class="card-title">팀 정보</h3>
                                 <div class="card-tools">
@@ -22,18 +22,17 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <input type="hidden" id="teamId" name="teamId" />
                                 <div class="form-group col-12 display-flex-row">
                                     <div class="col-2">
                                         <label for="userStatus_Pending">상태</label>
                                     </div>
                                     <div class="col-10">
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="userStatus_Pending" name="status" value="PENDING" th:checked="${dto.status eq TeamStatus.ACTIVE}">
+                                            <input type="radio" id="userStatus_Pending" name="activeYn" value="Y" th:checked="${dto.activeYn eq YnType.Y}">
                                             <label class="radio-label" style="font-weight: normal;">활성</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="userStatus_Normal" name="status" value="NORMAL" th:checked="${dto.status eq TeamStatus.INACTIVE}">
+                                            <input type="radio" id="userStatus_Normal" name="activeYn" value="N" th:checked="${dto.activeYn eq YnType.N}">
                                             <label class="radio-label" style="font-weight: normal;">비활성</label>
                                         </label>
                                     </div>
@@ -44,36 +43,19 @@
                                     </div>
                                     <div class="col-5">
                                         <input type="text" class="form-control valid-fields" name="name" placeholder="팀 이름을 입력해주세요."
-                                               autocomplete="off" required>
+                                               autocomplete="off" th:value="${dto.name}">
                                     </div>
                                     <div class="col-5"></div>
                                 </div>
-
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
-                                        <label>팀 장</label>
-                                    </div>
-                                    <div class="col-5">
-                                        <select class="form-control">
-                                            <option value="">선택</option>
-                                            <th:block th:each="code : ${bankCode}">
-                                                <option th:value="${code.codeId}" th:text="${code.codeName}" th:codeName="${code.codeName}"
-                                                        th:selected="${isModify && partnerDto.bankCodeId != null} ? ${code.codeId eq partnerDto.bankCodeId}"></option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                    <div class="col-5"></div>
-                                </div>
-
                                 <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                    <button type="button" class="btn btn-primary pull-right btnTeamSave" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-primary pull-right btnTeamUpdate" th:if="${isModify}"> 수정</button>
                                 </div>
                         </div>
                         </form>
                     </div>
 
-                    <div class="card" style="margin-top: 10px;">
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify}">
                         <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
                             <div class="card-header">
                                 <h3 class="card-title">팀 구성원 정보</h3>
@@ -92,24 +74,59 @@
                                                     <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                                 </label>
                                             </th>
-                                            <th>이메일</th>
+                                            <th style="width: 10%;">팀</th>
+                                            <th>권한</th>
                                             <th>이름</th>
+                                            <th>이메일</th>
+                                            <th>전화번호</th>
                                             <th>상태</th>
                                             <th style="width: 13%;">최종로그인</th>
-                                            <th>등록자</th>
                                             <th style="width: 13%;">등록일</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td class="text-center" colspan="7">등록된 팀원이 없습니다.</td>
+                                        <tr class="admin-unit" th:if="${not #lists.isEmpty(memberCandidates.content)}" th:each="item, status : ${memberCandidates.content}">
+                                            <td>
+                                                <label class="margin-bottom-0">
+                                                    <input type="checkbox" class="checkElement chkAll adminId" name="numbers" th:value="${item.adminId}">
+                                                </label>
+                                            </td>
+                                            <td th:text="${item.teamName}"></td>
+                                            <td>
+                                                <select class="form-control form-control-sm" name="role">
+                                                    <option value="ROLE_MANAGER" th:selected="${item.roleName eq '팀장'}">팀장</option>
+                                                    <option value="ROLE_MEMBER" th:selected="${item.roleName eq '팀원'}">팀원</option>
+                                                </select>
+                                            </td>
+                                            <td th:text="${item.name}"></td>
+                                            <td th:text="${item.username}"></td>
+                                            <td th:text="${item.phone}"></td>
+                                            <td>
+                                                <select class="form-control form-control-sm width-80px" name="status">
+                                                    <option value="PENDING" th:selected="${item.status.key eq 'Pending'}">대기</option>
+                                                    <option value="NORMAL" th:selected="${item.status.key eq 'Normal'}">활성</option>
+                                                    <option value="INACTIVE" th:selected="${item.status.key eq 'InActive'}">비활성</option>
+                                                </select>
+                                            </td>
+                                            <td th:text="${item.lastLoginAt != null ?  #temporals.format(item.lastLoginAt, 'YYYY-MM-dd HH:mm') : '-'}"></td>
+                                            <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
+                                        </tr>
+                                        <tr th:unless="${not #lists.isEmpty(memberCandidates.content)}">
+                                            <td class="text-center" colspan="9">등록된 팀원이 없습니다.</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/team" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                <div class="col-md-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="button" class="btnMemberSave btn btn-primary pull-right"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/team-manager" class="btn btn-default pull-right margin-right-5"> 목록</a>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <div th:replace="layouts/utilFragments::adminPagination(${memberCandidates})"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -126,7 +143,7 @@
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script src="/static/js/team/team_editor.js" th:src="@{/js/settings/team/team_editor.js}"></script>
+    <script src="/static/js/settings/team/team-manager_editor.js" th:src="@{/js/settings/team/team-manager_editor.js}"></script>
 </section>
 </body>
 </html>

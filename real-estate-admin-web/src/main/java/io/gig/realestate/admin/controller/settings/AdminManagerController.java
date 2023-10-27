@@ -5,7 +5,10 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
+import io.gig.realestate.domain.team.dto.TeamUpdateForm;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -87,5 +90,13 @@ public class AdminManagerController {
 
         boolean isDuplicate = administratorService.existsUsername(value);
         return new ResponseEntity<>(ApiResponse.OK(isDuplicate), HttpStatus.OK);
+    }
+
+    @PutMapping("team/{teamId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> teamUpdate(@PathVariable(name = "teamId") Long teamId,
+                                                  @Valid @RequestBody List<AdministratorTemUpdateForm> updateForm) {
+        administratorService.teamUpdate(teamId, updateForm);
+        return new ResponseEntity<>(ApiResponse.OK(teamId), HttpStatus.OK);
     }
 }

@@ -1,11 +1,19 @@
 package io.gig.realestate.domain.admin.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.QAdministrator;
+import io.gig.realestate.domain.admin.QAdministratorRole;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
@@ -17,14 +25,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.querydsl.jpa.JPAExpressions.select;
 import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
-import static io.gig.realestate.domain.category.QCategory.category;
 import static io.gig.realestate.domain.team.QTeam.team;
+import static io.gig.realestate.domain.role.QRole.role;
 
 /**
  * @author : JAKE
@@ -122,7 +132,7 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
-    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername) {
 
         BooleanBuilder where = new BooleanBuilder();
 
@@ -133,6 +143,7 @@ public class AdministratorQueryRepository {
                 .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
                 .where(defaultCondition())
+                .where(neLoginUsername(loginUsername))
                 .where(administratorRole.role.name.eq("ROLE_MANAGER"))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
@@ -151,22 +162,39 @@ public class AdministratorQueryRepository {
                 .fetchFirst());
     }
 
-    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
         BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(excludeSuperAdmin());
+        where.and(neLoginUsername(loginUsername));
+
+        NumberExpression<Long> sortOrder = new CaseBuilder()
+                .when(administratorRole.role.name.in("ROLE_MANAGER")
+                        .and(administratorRole.administrator.id.eq(administrator.id))).then(1L)
+                .otherwise(2L);
 
         JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(AdministratorListDto.class,
                         administrator))
                 .from(administrator)
-                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .leftJoin(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
-                .where(defaultCondition())
-                .where(administratorRole.role.name.eq("ROLE_MEMBER"))
+                .orderBy(sortOrder.asc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
         List<AdministratorListDto> content = contentQuery.fetch();
-        long total = content.size();
+
+        Long total = queryFactory
+                .select(administrator.count())
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole)
+                .where(where)
+                .fetchOne();
+
+        if (total == null) {
+            total = 0L;
+        }
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
@@ -222,6 +250,17 @@ public class AdministratorQueryRepository {
 
     private BooleanExpression eqAdminId(Long adminId) {
         return adminId != null ? administrator.id.eq(adminId) : null;
+    }
+
+    private BooleanExpression neLoginUsername(String loginUsername) {
+        return StringUtils.hasText(loginUsername) ? administrator.username.ne(loginUsername) : null;
+    }
+
+    private BooleanExpression excludeSuperAdmin() {
+        return administrator.id.notIn(
+                JPAExpressions.selectDistinct(administratorRole.administrator.id)
+                        .from(administratorRole)
+                        .where(administratorRole.role.name.eq("ROLE_SUPER_ADMIN")));
     }
 
     private BooleanExpression defaultCondition() {

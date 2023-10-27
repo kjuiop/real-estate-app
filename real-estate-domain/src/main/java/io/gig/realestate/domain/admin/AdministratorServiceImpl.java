@@ -4,7 +4,9 @@ import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.team.Team;
+import io.gig.realestate.domain.team.TeamReader;
 import io.gig.realestate.domain.team.TeamService;
+import io.gig.realestate.domain.team.TeamStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final TeamService teamService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final TeamReader teamReader;
+    private final TeamStore teamStore;
 
     @Override
     @Transactional(readOnly = true)
@@ -100,14 +103,14 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional
-    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto) {
-        return administratorReader.getCandidateManagers(searchDto);
+    public List<AdministratorListDto> getCandidateManagers(AdminSearchDto searchDto, String loginUsername) {
+        return administratorReader.getCandidateManagers(searchDto, loginUsername);
     }
 
     @Override
     @Transactional
-    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto) {
-        return administratorReader.getCandidateMembers(searchDto);
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
+        return administratorReader.getCandidateMembers(searchDto, loginUsername);
     }
 
     @Override
@@ -170,6 +173,32 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Transactional(readOnly = true)
     public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
         return administratorReader.getAdminByTeamId(searchDto, teamId);
+    }
+
+    @Override
+    @Transactional
+    public void teamUpdate(Long teamId, List<AdministratorTemUpdateForm> updateForm) {
+        List<Administrator> administrators = new ArrayList<>();
+        Team team = teamReader.getTeamById(teamId);
+        List<Role> managerRoles = List.of(roleService.findByRoleName("ROLE_MANAGER"));
+        List<Role> memberRoles = List.of(roleService.findByRoleName("ROLE_MEMBER"));
+        for (AdministratorTemUpdateForm form : updateForm) {
+            Administrator admin = administratorReader.getAdminEntityById(form.getAdminId());
+            admin.updateAdminStatus(form);
+            admin.getRoles().clear();
+            if (form.getRole().equals("ROLE_MANAGER")) {
+                admin.updateAdministratorRoles(managerRoles);
+                Team originTeam = admin.getTeam();
+                originTeam.unAssignManager();
+                team.changeManager(admin);
+            } else {
+                admin.updateAdministratorRoles(memberRoles);
+            }
+            admin.addTeam(team);
+            administrators.add(admin);
+        }
+
+        administratorStore.storeAll(administrators);
     }
 
     private void validPassword(Administrator administrator, String password) {

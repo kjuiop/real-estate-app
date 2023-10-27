@@ -28,9 +28,7 @@
                                         <thead>
                                         <tr>
                                             <th style="width: 5%;">
-                                                <label class="margin-bottom-0">
-                                                    <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
-                                                </label>
+                                                No.
                                             </th>
                                             <th style="width: 10%;">상태</th>
                                             <th style="width: 10%;">이름</th>
@@ -42,10 +40,9 @@
                                         </thead>
                                         <tbody>
                                         <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                                            <td>
-                                                <label class="margin-bottom-0">
-                                                    <input type="checkbox" class="checkElement chkAll adminId" name="numbers" th:value="${item.adminId}">
-                                                </label>
+                                            <td style="padding: 20px;">
+                                                [[${pages.totalElements - (status.count + (pages.number * pages.size)) + 1}]]
+                                                <input type="hidden" name="adminId" th:value="${item.adminId}" />
                                             </td>
                                             <td>
                                                 <select class="form-control form-control-sm width-80px" name="status">
@@ -66,11 +63,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-
-<!--                                <div class="col-12" style="padding: 20px; margin-top: 10px;">-->
-<!--                                    <button type="submit" class="btn btn-primary float-right" style="margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>-->
+<!--                                <div class="col-md-12" style="padding: 20px; margin-top: 10px;">-->
+<!--                                    <button type="button" class="btn btn-primary btnMemberSave float-right" style="margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>-->
 <!--                                </div>-->
-                        </div>
+                            </div>
                         </form>
                     </div>
                 </div>

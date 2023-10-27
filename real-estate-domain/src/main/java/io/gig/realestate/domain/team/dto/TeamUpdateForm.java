@@ -12,7 +12,9 @@ import javax.validation.constraints.NotEmpty;
  */
 @Getter
 @Setter
-public class TeamCreateForm {
+public class TeamUpdateForm {
+
+    private Long teamId;
 
     @NotEmpty(message = "팀 이름을 입력해주세요.")
     private String name;

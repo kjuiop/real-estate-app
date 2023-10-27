@@ -35,7 +35,7 @@
 <div class="wrapper">
     <div th:replace="layouts/top.html :: header"></div>
     <div th:replace="layouts/left.html :: left"></div>
-    <div class="content-wrapper">
+    <div class="content-wrapper" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
         <div layout:fragment="content" th:remove="tag"></div>
     </div>
 

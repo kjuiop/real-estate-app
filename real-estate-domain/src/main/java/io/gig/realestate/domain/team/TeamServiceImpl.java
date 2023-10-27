@@ -1,10 +1,9 @@
 package io.gig.realestate.domain.team;
 
 import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.team.dto.TeamCreateForm;
-import io.gig.realestate.domain.team.dto.TeamDto;
-import io.gig.realestate.domain.team.dto.TeamListDto;
-import io.gig.realestate.domain.team.dto.TeamSearchDto;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.team.dto.*;
 import io.gig.realestate.domain.team.types.TeamStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,16 +42,30 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public TeamDetailDto getDetail(Long teamId) {
+        return teamReader.getTeamDetail(teamId);
+    }
+
+    @Override
     @Transactional
-    public Long create(TeamCreateForm createForm) {
-        Team newTeam = Team.create(createForm);
+    public Long create(TeamCreateForm createForm, LoginUser loginUser) {
+        Team newTeam = Team.create(createForm, loginUser.getLoginUser());
         return teamStore.store(newTeam).getId();
     }
 
     @Override
     @Transactional
-    public void initTeam(String name, TeamStatus status, Administrator manager) {
-        Team team = Team.initTeam(name, status, manager);
+    public Long update(TeamUpdateForm updateForm, LoginUser loginUser) {
+        Team team = teamReader.getTeamById(updateForm.getTeamId());
+        team.update(updateForm, loginUser.getLoginUser());
+        return team.getId();
+    }
+
+    @Override
+    @Transactional
+    public void initTeam(String name, YnType activeYn, Administrator manager) {
+        Team team = Team.initTeam(name, activeYn, manager);
         manager.addTeam(team);
         teamStore.store(team);
     }

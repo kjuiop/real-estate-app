@@ -22,7 +22,7 @@ public class TeamDto {
 
     private String name;
 
-    private TeamStatus status;
+    private YnType activeYn;
 
     private LocalDateTime createdAt;
 
@@ -30,7 +30,7 @@ public class TeamDto {
 
     public TeamDto(Team t) {
         this.teamId = t.getId();
-        this.status = t.getStatus();
+        this.activeYn = t.getActiveYn();
         this.name = t.getName();
         this.createdAt = t.getCreatedAt();
         this.updatedAt = t.getUpdatedAt();
