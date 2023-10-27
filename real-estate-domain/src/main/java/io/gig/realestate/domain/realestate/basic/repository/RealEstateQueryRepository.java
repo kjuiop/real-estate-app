@@ -106,8 +106,6 @@ public class RealEstateQueryRepository {
         return Optional.ofNullable(realEstateDetailDto);
     }
 
-
-
     public Optional<RealEstate> getRealEstateById(Long realEstateId) {
         Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
                 .selectFrom(realEstate)
@@ -117,6 +115,16 @@ public class RealEstateQueryRepository {
                 .fetchFirst());
 
         return fetch;
+    }
+
+    public Long isExistAddress(String address) {
+        Long result = queryFactory
+                .select(realEstate.count())
+                .from(realEstate)
+                .where(realEstate.address.eq(address))
+                .fetchOne();
+
+        return result;
     }
 
     private BooleanExpression defaultCondition() {

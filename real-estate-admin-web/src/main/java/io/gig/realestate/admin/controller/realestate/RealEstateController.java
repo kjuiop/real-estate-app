@@ -141,4 +141,13 @@ public class RealEstateController {
         Long realEstateId = realEstateService.updateABStatus(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
     }
+
+    @GetMapping("check-duplicate/{address}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkDuplicate(@PathVariable(name = "address") String address,
+                                                      @CurrentUser LoginUser loginUser) {
+        boolean isExist = realEstateService.checkDuplicateAddress(address, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(isExist), HttpStatus.OK);
+    }
+
 }

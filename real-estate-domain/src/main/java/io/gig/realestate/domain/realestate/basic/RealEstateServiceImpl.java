@@ -175,4 +175,10 @@ public class RealEstateServiceImpl implements RealEstateService {
         realEstate.addMemoInfo(newMemo);
         return realEstateStore.store(realEstate).getId();
     }
+
+    @Override
+    @Transactional
+    public boolean checkDuplicateAddress(String address, LoginUser loginUser) {
+        return realEstateReader.isExistAddress(address);
+    }
 }

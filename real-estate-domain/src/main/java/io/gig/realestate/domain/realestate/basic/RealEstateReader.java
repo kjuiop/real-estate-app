@@ -16,4 +16,6 @@ public interface RealEstateReader {
     RealEstateDetailDto getRealEstateDetail(Long realEstateId);
 
     RealEstate getRealEstateById(Long realEstateId);
+
+    boolean isExistAddress(String address);
 }

@@ -51,4 +51,10 @@ public class RealEstateQueryImpl implements RealEstateReader {
 
         return findDetail.get();
     }
+
+    @Override
+    public boolean isExistAddress(String address) {
+        Long count = queryRepository.isExistAddress(address);
+        return count > 0;
+    }
 }
