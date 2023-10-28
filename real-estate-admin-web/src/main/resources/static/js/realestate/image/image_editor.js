@@ -1,5 +1,5 @@
 let loadImageInfo = function() {
-    if (!checkNullOrEmptyValue(dto)) {
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
         return;
     }
 

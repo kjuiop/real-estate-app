@@ -38,7 +38,7 @@ public class TeamManagerController {
     public String index(TeamSearchDto searchDto, Model model) {
         model.addAttribute("pages", teamService.getTeamPageListBySearch(searchDto));
         model.addAttribute("condition", searchDto);
-        return "/settings/team/list";
+        return "settings/team/list";
     }
 
     @GetMapping("new")
@@ -47,7 +47,7 @@ public class TeamManagerController {
         TeamDetailDto dto = TeamDetailDto.emptyDto();
         model.addAttribute("dto", dto);
 
-        return "/settings/team/editor";
+        return "settings/team/editor";
     }
 
     @GetMapping("{teamId}/edit")
@@ -59,7 +59,7 @@ public class TeamManagerController {
         model.addAttribute("searchDto", searchDto);
         model.addAttribute("memberCandidates", memberCandidates);
 
-        return "/settings/team/editor";
+        return "settings/team/editor";
     }
 
     @PostMapping

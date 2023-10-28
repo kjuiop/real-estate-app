@@ -15,6 +15,8 @@ DOCKER_REPOSITORY=kjuiop
 
 admin-web: config boot_jar move_jar
 
+release: target-version docker_build docker_push
+
 config:
 	@if [ ! -d $(TARGET_DIR) ]; then mkdir $(TARGET_DIR); fi
 	@if [ ! -d $(TARGET_BACKUP_DIR) ]; then mkdir $(TARGET_BACKUP_DIR); fi

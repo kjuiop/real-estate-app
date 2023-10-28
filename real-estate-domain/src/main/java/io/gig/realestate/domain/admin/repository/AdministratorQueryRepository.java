@@ -1,9 +1,6 @@
 package io.gig.realestate.domain.admin.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -12,8 +9,6 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.admin.QAdministrator;
-import io.gig.realestate.domain.admin.QAdministratorRole;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
@@ -30,11 +25,9 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 
-import static com.querydsl.jpa.JPAExpressions.select;
-import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.admin.QAdministrator.administrator;
+import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.team.QTeam.team;
-import static io.gig.realestate.domain.role.QRole.role;
 
 /**
  * @author : JAKE
@@ -50,6 +43,10 @@ public class AdministratorQueryRepository {
     public Page<AdministratorListDto> getAdminPageListBySearch(AdminSearchDto searchDto) {
 
         BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(likeUsername(searchDto.getUsername()));
+        where.and(likeName(searchDto.getName()));
+        where.and(eqStatus(searchDto.getAdminStatus()));
 
         JPAQuery<AdministratorListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(AdministratorListDto.class,
@@ -57,17 +54,24 @@ public class AdministratorQueryRepository {
                         ))
                 .from(administrator)
                 .where(where)
-                .where(defaultCondition())
                 .orderBy(administrator.id.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
         List<AdministratorListDto> content = contentQuery.fetch();
-        long total = content.size();
+
+        Long total = queryFactory
+                .select(administrator.count())
+                .from(administrator)
+                .where(where)
+                .fetchOne();
+
+        if (total == null) {
+            total = 0L;
+        }
 
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
-
 
     public Optional<AdministratorDetailDto> getAdminByUsername(String username) {
         Optional<AdministratorDetailDto> fetch = Optional.ofNullable(this.queryFactory
@@ -261,6 +265,18 @@ public class AdministratorQueryRepository {
                 JPAExpressions.selectDistinct(administratorRole.administrator.id)
                         .from(administratorRole)
                         .where(administratorRole.role.name.eq("ROLE_SUPER_ADMIN")));
+    }
+
+    private BooleanExpression likeUsername(String username) {
+        return StringUtils.hasText(username) ? administrator.username.like("%" + username + "%") : null;
+    }
+
+    private BooleanExpression likeName(String name) {
+        return StringUtils.hasText(name) ? administrator.name.like("%" + name + "%") : null;
+    }
+
+    private BooleanExpression eqStatus(AdminStatus status) {
+        return status != null ? administrator.status.eq(status) : null;
     }
 
     private BooleanExpression defaultCondition() {
