@@ -117,11 +117,12 @@ public class Administrator extends BaseTimeEntity {
                 .forEach(administratorRole -> this.getAdministratorRoles().add(administratorRole));
     }
 
-    public static Administrator initAdministrator(String username, String password, String name) {
+    public static Administrator initAdministrator(String username, String password, String name, String phone) {
         return Administrator.builder()
                 .username(username)
                 .password(password)
                 .name(name)
+                .phone(phone)
                 .emailValidatedAt(LocalDateTime.now())
                 .status(AdminStatus.NORMAL)
                 .build();
