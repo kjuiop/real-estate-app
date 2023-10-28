@@ -109,7 +109,11 @@ let drawCustomerInfo = function(item) {
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName" value="' +  item.customerName + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName" value="' +  item.customerName + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm input-height-36" name="customerName" value="**********"/>';
+    }
     tag +=         '</div>';
     tag +=         '<div class="col-md-3">';
     tag +=             '<label class="text-label">성별</label>';
@@ -137,11 +141,21 @@ let drawCustomerInfo = function(item) {
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="phone" value="' +  item.phone + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm" name="phone" value="' +  item.phone + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm" name="phone" value="**********"/>';
+    }
+
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">기타전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" value="' +  item.etcPhone + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" value="' +  item.etcPhone + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm" name="etcPhone" value="**********"/>';
+    }
+
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
@@ -186,17 +200,33 @@ let drawCompanyInfo = function(item) {
     tag +=             '<label class="text-label">대표자명</label>';
     tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right">삭제</button>'
     tag +=         '</div>'
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm input-height-36" name="representName" value="**********"/>';
+    }
+
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">법인전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" value="' +  item.companyPhone + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" value="' +  item.companyPhone + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm" name="companyPhone" value="**********"/>';
+    }
+
+
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone" value="' +  item.representPhone + '"/>';
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+        tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone" value="' +  item.representPhone + '"/>';
+    } else {
+        tag +=             '<input type="password" class="form-control form-control-sm" name="representPhone" value="**********"/>';
+    }
+
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';

@@ -16,7 +16,7 @@ public interface AdministratorService {
 
     long getCountAdministratorData();
 
-    Administrator initAdmin(String username, String password, String name, Set<Role> roles);
+    Administrator initAdmin(String username, String password, String name, String phone, Set<Role> roles);
 
     AdministratorDetailDto getAdminFindByUsername(String username);
 

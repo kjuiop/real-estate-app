@@ -55,7 +55,7 @@ public class InitUtils {
         Set<Role> superAdminRoles = new HashSet<>();
         superAdminRoles.add(superAdminRole);
         superAdminRoles.add(managerRole);
-        Administrator superAdmin = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", superAdminRoles);
+        Administrator superAdmin = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", "010-3182-0825", superAdminRoles);
 
         Set<Role> superAdminMenuRoles = new HashSet<>();
         superAdminMenuRoles.add(superAdminRole);
@@ -82,7 +82,7 @@ public class InitUtils {
 
         Set<Role> managerRoles = new HashSet<>();
         managerRoles.add(managerRole);
-        Administrator devAdmin = administratorService.initAdmin("dev@jdrealty.io", passwordEncoder.encode("dev123$"), "김정인", managerRoles);
+        Administrator devAdmin = administratorService.initAdmin("dev@jdrealty.io", passwordEncoder.encode("dev123$"), "김정인", "010-3182-0825", managerRoles);
         teamService.initTeam("개발팀", YnType.Y, devAdmin);
     }
 

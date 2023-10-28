@@ -92,8 +92,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional
-    public Administrator initAdmin(String username, String password, String name, Set<Role> roles) {
-        Administrator initAdministrator = Administrator.initAdministrator(username, password, name);
+    public Administrator initAdmin(String username, String password, String name, String phone, Set<Role> roles) {
+        Administrator initAdministrator = Administrator.initAdministrator(username, password, name, phone);
         for (Role role : roles) {
             AdministratorRole newRole = AdministratorRole.addAdministratorRole(initAdministrator, role);
             initAdministrator.addRole(newRole);

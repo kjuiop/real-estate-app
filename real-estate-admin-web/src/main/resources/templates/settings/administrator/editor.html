@@ -12,36 +12,6 @@
             <div class="row">
                 <div class="col-md-12 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form class="form-horizontal" name="frmTeamRegister" method="post">
-                            <div class="card-header">
-                                <h3 class="card-title">팀 정보</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-minus"></i></button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <input type="hidden" id="teamId" name="teamId" />
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
-                                        <label for="name">팀 이름</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" class="form-control valid-fields" name="name" placeholder="팀 이름을 입력해주세요."
-                                               autocomplete="off" required>
-                                    </div>
-                                    <div class="col-4"></div>
-                                </div>
-
-                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/settings/administrators" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
-                                </div>
-                        </div>
-                        </form>
-                    </div>
-
-                    <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
                             <input type="hidden" id="adminId" name="adminId" th:field="*{adminId}" />
                             <input type="hidden" id="emailCheckYn" />
@@ -156,9 +126,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
-                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
-                                    <a href="/settings/administrators" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary float-right"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/administrators" class="btn btn-default float-right margin-right-5"> 목록</a>
                                 </div>
                             </div>
                         </form>

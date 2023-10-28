@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-10">
                                     <label class="margin-right-10" for="AdminStatus_All" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_All" value="" th:checked="${condition.adminStatus eq null}">&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
-                                    <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL" th:checked="${condition.adminStatus eq AdminStatus.NORMAL}">&nbsp;&nbsp;&nbsp;정상</label>
+                                    <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL" th:checked="${condition.adminStatus eq AdminStatus.NORMAL}">&nbsp;&nbsp;&nbsp;활성</label>
                                     <label class="margin-right-10" for="AdminStatus_Pending" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Pending" value="PENDING" th:checked="${condition.adminStatus eq AdminStatus.PENDING}">&nbsp;&nbsp;&nbsp;보류</label>
                                     <label class="margin-right-10" for="AdminStatus_Withdraw" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Withdraw" value="WITHDRAW" th:checked="${condition.adminStatus eq AdminStatus.WITHDRAW}">&nbsp;&nbsp;&nbsp;탈퇴</label>
                                     <label class="margin-right-10" for="AdminStatus_Rejected" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Rejected" value="INACTIVE" th:checked="${condition.adminStatus eq AdminStatus.INACTIVE}">&nbsp;&nbsp;&nbsp;비활성화</label> &nbsp;
@@ -49,12 +49,12 @@
                             <div class="col-12 display-flex-row line">
                                 <div class="col-8"></div>
                                 <div class="col-4">
-                                    <div class="col-12">
-                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
-                                            초기화
-                                        </button>
-                                        <button type="submit" class="btn btn-sm btn-default float-right" style="margin-right: 5px;">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
                                         </button>
                                     </div>
                                 </div>
@@ -85,11 +85,13 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
                                             </label>
                                         </th>
-                                        <th>이메일</th>
+                                        <th>팀</th>
+                                        <th>권한</th>
                                         <th>이름</th>
+                                        <th>이메일</th>
+                                        <th>전화번호</th>
                                         <th>상태</th>
                                         <th style="width: 13%;">최종로그인</th>
-                                        <th>등록자</th>
                                         <th style="width: 13%;">등록일</th>
                                     </tr>
                                     </thead>
@@ -100,17 +102,19 @@
                                                 <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.adminId}">
                                             </label>
                                         </td>
+                                        <td th:text="${item.teamName}"></td>
+                                        <td th:text="${item.roleName}"></td>
+                                        <td th:text="${item.name}"></td>
                                         <td>
                                             <a th:href="|/settings/administrators/${item.adminId}/edit|" th:text="${item.username}"></a>
                                         </td>
-                                        <td th:text="${item.name}"></td>
+                                        <td th:text="${item.phone}"></td>
                                         <td th:text="${item.status.description}"></td>
                                         <td th:text="${#temporals.format(item.lastLoginAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
-                                        <td th:text="${not #strings.isEmpty(item.createdByUsername)} ? ${item.createdByUsername} : 'SYSTEM'"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="7">등록된 관리자가 없습니다.</td>
+                                        <td class="text-center" colspan="9">등록된 관리자가 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -128,16 +132,13 @@
                                 </label>
                                 <button class="btn btn-default btnChangeStatus margin-left-5" style="margin-bottom: 5px;">관리자 상태변경</button>
                             </div>
-                            <div class="pull-right">
-                                <a href="/settings/administrators/new" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규관리자등록</a>
+                            <div class="col-md-12 pull-right">
+                                <a href="/settings/administrators/new" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> 신규관리자등록</a>
                             </div>
-                        </div>
-                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="text-center">
-                                    <!-- 페이징 -->
                                     <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
                                 </div>
                             </div>
