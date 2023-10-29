@@ -109,7 +109,7 @@ let drawCustomerInfo = function(item) {
     tag +=                     '</label>';
     tag +=                 '</div>';
     tag +=             '</div>';
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.ownUser) {
         tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="customerName" value="' +  item.customerName + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm input-height-36" name="customerName" value="**********"/>';
@@ -141,7 +141,7 @@ let drawCustomerInfo = function(item) {
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="phone" value="' +  item.phone + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm" name="phone" value="**********"/>';
@@ -150,7 +150,7 @@ let drawCustomerInfo = function(item) {
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">기타전화</label>';
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" value="' +  item.etcPhone + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm" name="etcPhone" value="**********"/>';
@@ -200,7 +200,7 @@ let drawCompanyInfo = function(item) {
     tag +=             '<label class="text-label">대표자명</label>';
     tag +=             '<button type="button" class="btn btn-xs btn-default btnRemoveCustomerInfo pull-right">삭제</button>'
     tag +=         '</div>'
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="representName" value="' +  item.representName + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm input-height-36" name="representName" value="**********"/>';
@@ -211,7 +211,7 @@ let drawCompanyInfo = function(item) {
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">법인전화</label>';
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" value="' +  item.companyPhone + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm" name="companyPhone" value="**********"/>';
@@ -221,7 +221,7 @@ let drawCompanyInfo = function(item) {
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">휴대전화</label>';
-    if (!checkNullOrEmptyValue(dto.realEstateId) || dto.isOwnUser) {
+    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone" value="' +  item.representPhone + '"/>';
     } else {
         tag +=             '<input type="password" class="form-control form-control-sm" name="representPhone" value="**********"/>';
