@@ -162,12 +162,28 @@ public class ConstructServiceImpl implements ConstructService {
         JSONObject response = data.getJSONObject("response");
         JSONObject body = response.getJSONObject("body");
         JSONObject items = body.getJSONObject("items");
-        JSONArray item = items.getJSONArray("item");
-        for (Object object : item) {
-            JSONObject json = (JSONObject) object;
-            ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(json);
-            list.add(dto);
+
+        Object object = items.get("item");
+        if (object == null) {
+            return null;
         }
+
+        if (object instanceof JSONObject) {
+            // json array 또는 object
+            JSONObject item = items.getJSONObject("item");
+            ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(item);
+            list.add(dto);
+
+        } else if (object instanceof JSONArray) {
+            // json array 또는 object
+            JSONArray item = items.getJSONArray("item");
+            for (Object jData : item) {
+                JSONObject json = (JSONObject) jData;
+                ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(json);
+                list.add(dto);
+            }
+        }
+
 
         return list;
     }
