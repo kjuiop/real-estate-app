@@ -204,8 +204,8 @@ let checkDuplicateData = function(e) {
         return false;
     }
 
-    let $field = $(this),
-        value = $field.val();
+    let value = $(this).val(),
+        $field = $('.checkEmailSection');
 
     if (!checkEmailValidCheck(value)) {
         return;
@@ -241,11 +241,15 @@ let checkDuplicateData = function(e) {
 
 const checkValidPassword = function() {
 
-    const $frm = $('form[name=frmRegister]');
-    let $password = $frm.find('input[name="password"]'),
-        $field = $('input[name="confirmPassword"]'),
+    const $frm = $('form[name=frmAdminRegister]');
+    let $password = $frm.find('.checkPasswordSection'),
+        $confirm = $frm.find('.checkConfirmPasswordSection'),
         password = $frm.find('input[name="password"]').val(),
         repeat = $frm.find('input[name="confirmPassword"]').val();
+
+
+    console.log("password : ", password, " confirm : ", repeat);
+
 
     if (!checkNullOrEmptyValue(password)) {
         return false;
@@ -254,6 +258,8 @@ const checkValidPassword = function() {
     if (password.length < 6) {
         $('#pwValidCheckYn').val(false);
         drawErrorMessage($password, '6자리 이상의 미빌번호를 입력해주세요.');
+        $confirm.html('');
+        $('#pwEqualCheckYn').val(false);
         return false;
     } else {
         $('#pwValidCheckYn').val(true);
@@ -261,13 +267,13 @@ const checkValidPassword = function() {
 
     if (password !== repeat) {
         $('#pwEqualCheckYn').val(false);
-        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
-        return false;
-    } else {
-        $('#pwEqualCheckYn').val(true);
-        drawSuccessMessage($field, '비밀번호가 동일합니다.');
+        drawErrorMessage($confirm, '동일한 비밀번호가 아닙니다.');
         return false;
     }
+
+    $('#pwEqualCheckYn').val(true);
+    drawSuccessMessage($confirm, '비밀번호가 동일합니다.');
+    $password.html('');
 
 };
 
