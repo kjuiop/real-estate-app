@@ -17,6 +17,7 @@ let loadImageInfo = function() {
                 let tag = drawSubImageTag(idx, item.fullPath);
                 $imagePanel.append(tag);
             });
+            $( ".sortable-section" ).sortable().disableSelection();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
