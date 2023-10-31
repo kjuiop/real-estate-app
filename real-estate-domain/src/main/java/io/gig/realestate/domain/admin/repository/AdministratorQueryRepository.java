@@ -85,6 +85,17 @@ public class AdministratorQueryRepository {
         return fetch;
     }
 
+    public Optional<Administrator> getAdminOptional(String username) {
+        Optional<Administrator> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(administrator.username.eq(username))
+                .limit(1)
+                .fetchFirst());
+
+        return fetch;
+    }
+
     public Long getCountAdministrators() {
         return this.queryFactory
                 .select(administrator.count())

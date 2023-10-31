@@ -31,6 +31,8 @@ public class AdministratorCreateForm {
 
     private AdminStatus status;
 
+    private String phone;
+
     private Long teamId;
 
     private String role;

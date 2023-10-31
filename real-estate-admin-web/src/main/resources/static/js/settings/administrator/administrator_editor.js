@@ -3,9 +3,6 @@ let onReady = function() {
     console.log("dto", dto);
     loadRole();
     onlyNumberKeyEvent({className: "only-number"});
-
-    let $frm = $('form[name="frmAdminRegister"]');
-    isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
 let createValidate = function($frm) {
@@ -170,24 +167,98 @@ let removeData = function(e) {
     $section.find('.includeData option[value="' + role + '"]').hide();
 }
 
-let save = function() {
+let save = function(e) {
+    e.preventDefault();
 
     let $frm = $('form[name="frmAdminRegister"]'),
-    formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
-    param = serializeObject({form:$frm[0]}).json();
-    param['roleNames'] = getRoleNames();
-    console.log("params", param);
+    params = serializeObject({form:$frm[0]}).json();
+    params['roleNames'] = getRoleNames();
+    console.log("params", params);
+
+    let isDuplication = $('#emailCheckYn').val();
+    if (!isDuplication) {
+        return;
+    }
+
+    let isValidPassword = $('#pwValidCheckYn').val();
+    if (!isValidPassword) {
+        return;
+    }
+
+    let isEqualPassword = $('#pwEqualCheckYn').val();
+    if (!isEqualPassword) {
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.username)) {
+        twoBtnModal("이메일을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.name)) {
+        twoBtnModal("이름을 입력해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length === 0) {
+        twoBtnModal("관리자의 권한을 선택해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length > 1) {
+        twoBtnModal("관리자는 최대 1개의 권한만 선택 가능합니다.");
+        return;
+    }
+
+
 
     $.ajax({
         url: "/settings/administrators",
-        method: formMethod,
+        method: 'post',
         type: "json",
         contentType: "application/json",
-        data: JSON.stringify(param),
+        data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
-            let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
-            twoBtnModal(message, function() {
+            twoBtnModal('정상적으로 수정되었습니다.', function() {
+                location.href = '/settings/administrators/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let update = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmAdminRegister"]'),
+        params = serializeObject({form:$frm[0]}).json();
+    params['roleNames'] = getRoleNames();
+    console.log("params", params);
+
+    if (params.roleNames.length === 0) {
+        twoBtnModal("관리자의 권한을 선택해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length > 1) {
+        twoBtnModal("관리자는 최대 1개의 권한만 선택 가능합니다.");
+        return;
+    }
+
+
+
+    $.ajax({
+        url: "/settings/administrators",
+        method: 'put',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            twoBtnModal('정상적으로 수정되었습니다.', function() {
                 location.href = '/settings/administrators/' + result.data + '/edit';
             });
         },
@@ -204,8 +275,8 @@ let checkDuplicateData = function(e) {
         return false;
     }
 
-    let $field = $(this),
-        value = $field.val();
+    let value = $(this).val(),
+        $field = $('.checkEmailSection');
 
     if (!checkEmailValidCheck(value)) {
         return;
@@ -241,11 +312,15 @@ let checkDuplicateData = function(e) {
 
 const checkValidPassword = function() {
 
-    const $frm = $('form[name=frmRegister]');
-    let $password = $frm.find('input[name="password"]'),
-        $field = $('input[name="confirmPassword"]'),
+    const $frm = $('form[name=frmAdminRegister]');
+    let $password = $frm.find('.checkPasswordSection'),
+        $confirm = $frm.find('.checkConfirmPasswordSection'),
         password = $frm.find('input[name="password"]').val(),
         repeat = $frm.find('input[name="confirmPassword"]').val();
+
+
+    console.log("password : ", password, " confirm : ", repeat);
+
 
     if (!checkNullOrEmptyValue(password)) {
         return false;
@@ -254,6 +329,8 @@ const checkValidPassword = function() {
     if (password.length < 6) {
         $('#pwValidCheckYn').val(false);
         drawErrorMessage($password, '6자리 이상의 미빌번호를 입력해주세요.');
+        $confirm.html('');
+        $('#pwEqualCheckYn').val(false);
         return false;
     } else {
         $('#pwValidCheckYn').val(true);
@@ -261,13 +338,13 @@ const checkValidPassword = function() {
 
     if (password !== repeat) {
         $('#pwEqualCheckYn').val(false);
-        drawErrorMessage($field, '동일한 비밀번호가 아닙니다.');
-        return false;
-    } else {
-        $('#pwEqualCheckYn').val(true);
-        drawSuccessMessage($field, '비밀번호가 동일합니다.');
+        drawErrorMessage($confirm, '동일한 비밀번호가 아닙니다.');
         return false;
     }
+
+    $('#pwEqualCheckYn').val(true);
+    drawSuccessMessage($confirm, '비밀번호가 동일합니다.');
+    $password.html('');
 
 };
 
@@ -293,4 +370,6 @@ $(document).ready(onReady)
     .on('blur', 'input[name=username]', checkDuplicateData)
     .on('click', '.btnIncludeData', addData)
     .on('click', '.btnExcludeData', removeData)
-    .on('blur', 'input[name="confirmPassword"]', checkValidPassword);
+    .on('blur', 'input[name="confirmPassword"]', checkValidPassword)
+    .on('click', '.btnSave', save)
+    .on('click', '.btnUpdate', update);
