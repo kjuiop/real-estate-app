@@ -59,7 +59,7 @@ let loadConstructInfo = function() {
                 $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
             }
 
-            calculateConstructInfo(constructInfo);
+            // calculateConstructInfo(constructInfo);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -210,6 +210,7 @@ let assembleFloorParams = function() {
     return floorInfoList;
 }
 
+// temp
 let calculateConstructInfo = function(constructInfo) {
 
     let $frm = $('form[name="frmConstructRegister"]');
@@ -218,12 +219,32 @@ let calculateConstructInfo = function(constructInfo) {
         return;
     }
 
-    let playAreaPyung = $frm.find('.platAreaByPyung').val();
+    let platAreaPyung = $frm.find('.platAreaByPyung').val();
 
     let platArea = constructInfo.platArea;
-    if (platArea > 0 && playAreaPyung === 0) {
-        playAreaPyung = platArea / 3.305785;
-        $frm.find('.platAreaByPyung').val(playAreaPyung);
+    if (platArea > 0 && (platAreaPyung === 0 || !checkNullOrEmptyValue(platAreaPyung))) {
+        platAreaPyung = platArea / 3.305785;
+        platAreaPyung = Math.round(platAreaPyung * 100) / 100;
+        $frm.find('.platAreaByPyung').val(platAreaPyung);
+    }
+
+    let archArea = constructInfo.archArea;
+    let bcRat = constructInfo.bcRat;
+
+
+    console.log("constructInfo : ", constructInfo)
+    if (bcRat === 0 && archArea > 0 && platArea > 0) {
+        bcRat = (archArea / platArea) * 100;
+        bcRat = Math.round(bcRat * 100) / 100;
+        $frm.find('.bcRat').val(bcRat);
+    }
+
+    let vlRat = constructInfo.vlRat;
+    let totArea = constructInfo.totArea;
+    if (vlRat === 0 && totArea > 0 && platArea > 0) {
+        vlRat = (totArea / platArea) * 100;
+        vlRat = Math.round(vlRat * 100) / 100;
+        $frm.find('.vlRat').val(vlRat);
     }
 
 }

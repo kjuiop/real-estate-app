@@ -87,10 +87,22 @@ public class ConstructDataApiDto {
     public static ConstructDataApiDto convertData(JSONObject item) {
 
         double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
-
         double platAreaByPyung = platArea / 3.305785;
         platAreaByPyung = Math.round(platAreaByPyung * 100.0) / 100.0;
 
+        Double bcRat = item.has("bcRat") ? item.getDouble("bcRat") : null;
+        Double archArea = item.has("archArea") ? item.getDouble("archArea") : null;
+        if (bcRat == null && archArea != null && platArea > 0) {
+            bcRat = (archArea / platArea) * 100;
+            bcRat = Math.round(bcRat * 100.0) / 100.0;
+        }
+
+        Double vlRat = item.has("vlRat") ? item.getDouble("vlRat") : null;
+        Double totArea = item.has("totArea") ? item.getDouble("totArea") : null;
+        if (vlRat == null && totArea != null && platArea > 0) {
+            vlRat = (totArea / platArea) * 100;
+            vlRat = Math.round(vlRat * 100.0) / 100.0;
+        }
 
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
@@ -98,10 +110,10 @@ public class ConstructDataApiDto {
                 .useAprDay(item.has("useAprDay") ? item.getInt("useAprDay") : 0)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
                 .platAreaByPyung(platAreaByPyung)
-                .archArea(item.has("archArea") ? item.getDouble("archArea") : null)
-                .bcRat(item.has("bcRat") ? item.getDouble("bcRat") : null)
-                .totArea(item.has("totArea") ? item.getDouble("totArea") : null)
-                .vlRat(item.has("vlRat") ? item.getDouble("vlRat") : null)
+                .archArea(archArea)
+                .bcRat(bcRat)
+                .totArea(totArea)
+                .vlRat(vlRat)
                 .heit(item.has("heit") ? item.getDouble("heit") : null)
                 .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.getInt("rideUseElvtCnt") : 0)
                 .emgenUseElvtCnt(item.has("emgenUseElvtCnt") ? item.getInt("emgenUseElvtCnt") : 0)
