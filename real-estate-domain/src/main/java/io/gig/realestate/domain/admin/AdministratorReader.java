@@ -7,6 +7,7 @@ import io.gig.realestate.domain.team.Team;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -39,4 +40,6 @@ public interface AdministratorReader {
     List<AdministratorListDto> getAdministratorsByTeam(Team team);
 
     Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId);
+
+    Optional<Administrator> getAdminOptional(String username);
 }

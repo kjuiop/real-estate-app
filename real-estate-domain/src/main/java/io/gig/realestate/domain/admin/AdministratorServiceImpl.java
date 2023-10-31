@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -60,7 +61,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public Long create(@NotNull AdministratorCreateForm createForm) {
-        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()));
+        Team team = teamService.getTeamById(createForm.getTeamId());
+        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()), team);
         List<Role> roles = roleService.findByRoleNamesIn(createForm.getRoleNames());
         newAdmin.createAdministratorRoles(roles);
         return administratorStore.store(newAdmin).getId();
@@ -69,11 +71,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public Long update(AdministratorUpdateForm updateForm) {
+        Team team = teamService.getTeamById(updateForm.getTeamId());
         Administrator administrator = getAdminEntityByUsername(updateForm.getUsername());
         if (!StringUtils.hasText(updateForm.getPassword())) {
             validPassword(administrator, updateForm.getPassword());
         }
-        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()));
+        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()), team);
         List<Role> roles = roleService.findByRoleNamesIn(updateForm.getRoleNames());
         administrator.updateAdministratorRoles(roles);
         return administratorStore.store(administrator).getId();
@@ -140,8 +143,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public void increasePasswordFailureCount(String username) {
-        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
-        findAdministrator.increasePasswordFailureCount();
+        Optional<Administrator> findAdministrator = administratorReader.getAdminOptional(username);
+        if (findAdministrator.isPresent()) {
+            Administrator administrator = findAdministrator.get();
+            administrator.increasePasswordFailureCount();
+        }
     }
 
     @Override
@@ -199,6 +205,12 @@ public class AdministratorServiceImpl implements AdministratorService {
         }
 
         administratorStore.storeAll(administrators);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Administrator> getAdminOptional(String username) {
+        return administratorReader.getAdminOptional(username);
     }
 
     private void validPassword(Administrator administrator, String password) {

@@ -30,7 +30,12 @@ public class AdminSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Administrator administrator = administratorService.getAdminEntityByUsername(username);
+        Optional<Administrator> findAdministrator = administratorService.getAdminOptional(username);
+        if (findAdministrator.isEmpty()) {
+            return new LoginUser(username, null, false, false, false, false, null, null);
+        }
+
+        Administrator administrator = findAdministrator.get();
 
         // Role
         Set<GrantedAuthority> authorities = administrator.getRoles()

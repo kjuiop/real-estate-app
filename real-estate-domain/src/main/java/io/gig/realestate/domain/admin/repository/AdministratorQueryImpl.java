@@ -106,6 +106,11 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public Optional<Administrator> getAdminOptional(String username) {
+        return queryRepository.getAdminOptional(username);
+    }
+
+    @Override
     public boolean existUsername(String username) {
         return queryRepository.existByUsername(username);
     }
