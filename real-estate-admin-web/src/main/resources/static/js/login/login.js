@@ -193,7 +193,33 @@ let signUp = function(e) {
 
 }
 
+let login = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="loginForm"]'),
+        $username = $frm.find('input[name="username"]'),
+        $password = $frm.find('input[name="password"]');
+
+    if (!checkNullOrEmptyValue($username.val())) {
+        $('.loginCheck').html('<small class="error-message text-small text-danger margin-left-3">로그인하는 계정을 입력해주세요.</small>');
+        return;
+    } else {
+        $('.loginCheck').html('');
+    }
+
+    if (!checkNullOrEmptyValue($password.val())) {
+        $('.passwordCheck').html('<small class="error-message text-small text-danger margin-left-3">비밀번호를 입력해주세요.</small>');
+        return;
+    } else {
+        $('.passwordCheck').html('');
+    }
+
+
+    $frm.submit();
+}
+
 $(document).ready(onReady)
+    .on('click', '.btnLogin', login)
     .on('click', '#btnSignUpModal', signUpModal)
     .on('click', '#btnSignUp', signUp)
     .on('click', '#sign-up-modal .btnCheckDuplicate', checkDuplicateData)
