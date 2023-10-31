@@ -3,9 +3,6 @@ let onReady = function() {
     console.log("dto", dto);
     loadRole();
     onlyNumberKeyEvent({className: "only-number"});
-
-    let $frm = $('form[name="frmAdminRegister"]');
-    isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
 let createValidate = function($frm) {
@@ -170,24 +167,113 @@ let removeData = function(e) {
     $section.find('.includeData option[value="' + role + '"]').hide();
 }
 
-let save = function() {
+let save = function(e) {
+    e.preventDefault();
 
     let $frm = $('form[name="frmAdminRegister"]'),
-    formMethod = isModify($frm, 'adminId') ? 'put' : 'post',
-    param = serializeObject({form:$frm[0]}).json();
-    param['roleNames'] = getRoleNames();
-    console.log("params", param);
+    params = serializeObject({form:$frm[0]}).json();
+    params['roleNames'] = getRoleNames();
+    console.log("params", params);
+
+    let isDuplication = $('#emailCheckYn').val();
+    if (!isDuplication) {
+        return;
+    }
+
+    let isValidPassword = $('#pwValidCheckYn').val();
+    if (!isValidPassword) {
+        return;
+    }
+
+    let isEqualPassword = $('#pwEqualCheckYn').val();
+    if (!isEqualPassword) {
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.username)) {
+        twoBtnModal("이메일을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.name)) {
+        twoBtnModal("이름을 입력해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length === 0) {
+        twoBtnModal("관리자의 권한을 선택해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length > 1) {
+        twoBtnModal("관리자는 최대 1개의 권한만 선택 가능합니다.");
+        return;
+    }
+
+
 
     $.ajax({
         url: "/settings/administrators",
-        method: formMethod,
+        method: 'post',
         type: "json",
         contentType: "application/json",
-        data: JSON.stringify(param),
+        data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
-            let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
-            twoBtnModal(message, function() {
+            twoBtnModal('정상적으로 수정되었습니다.', function() {
+                location.href = '/settings/administrators/' + result.data + '/edit';
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let update = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmAdminRegister"]'),
+        params = serializeObject({form:$frm[0]}).json();
+    params['roleNames'] = getRoleNames();
+    console.log("params", params);
+
+    let isValidPassword = $('#pwValidCheckYn').val();
+    if (!isValidPassword) {
+        return;
+    }
+
+    let isEqualPassword = $('#pwEqualCheckYn').val();
+    if (!isEqualPassword) {
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.name)) {
+        twoBtnModal("이름을 입력해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length === 0) {
+        twoBtnModal("관리자의 권한을 선택해주세요.");
+        return;
+    }
+
+    if (params.roleNames.length > 1) {
+        twoBtnModal("관리자는 최대 1개의 권한만 선택 가능합니다.");
+        return;
+    }
+
+
+
+    $.ajax({
+        url: "/settings/administrators",
+        method: 'put',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            twoBtnModal('정상적으로 수정되었습니다.', function() {
                 location.href = '/settings/administrators/' + result.data + '/edit';
             });
         },
@@ -299,4 +385,6 @@ $(document).ready(onReady)
     .on('blur', 'input[name=username]', checkDuplicateData)
     .on('click', '.btnIncludeData', addData)
     .on('click', '.btnExcludeData', removeData)
-    .on('blur', 'input[name="confirmPassword"]', checkValidPassword);
+    .on('blur', 'input[name="confirmPassword"]', checkValidPassword)
+    .on('click', '.btnSave', save)
+    .on('click', '.btnUpdate', update);
