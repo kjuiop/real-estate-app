@@ -26,6 +26,10 @@ public class AdministratorUpdateForm {
 
     private AdminStatus status;
 
+    private String phone;
+
+    private Long teamId;
+
     @NotEmpty(message = "역할을 활성화해주세요.")
     private List<String> roleNames;
 }

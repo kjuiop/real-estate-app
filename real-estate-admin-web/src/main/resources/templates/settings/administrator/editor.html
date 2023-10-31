@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-12 display-flex-row checkDuplicate">
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
                                     <div class="col-2">
                                         <label for="username">이메일</label>
                                     </div>
@@ -37,41 +37,64 @@
                                     </div>
                                     <div class="col-md-4"></div>
                                 </div>
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
                                         <label for="name">이름</label>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <input type="text" id="name" class="form-control valid-fields" name="name" placeholder="이름을 입력해주세요."
                                                th:field="*{name}" th:readonly="${isModify}" autocomplete="off" required>
                                     </div>
-                                    <div class="col-4"></div>
+                                    <div class="col-md-4"></div>
                                 </div>
-                                <div class="form-group col-12 display-flex-row">
+                                <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-2">
                                         <label for="password">비밀번호</label>
                                     </div>
-                                    <div class="col-6 display-flex-column">
+                                    <div class="col-md-6 display-flex-column">
                                         <input id="password" type="password" class="form-control valid-fields" name="password" placeholder="비밀번호를 입력해주세요.">
                                         <div class="checkPasswordSection"></div>
                                     </div>
-                                    <div class="col-4"></div>
+                                    <div class="col-md-4"></div>
                                 </div>
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
                                         <label for="confirmPassword">비밀번호 확인</label>
                                     </div>
-                                    <div class="col-6 display-flex-column">
+                                    <div class="col-md-6 display-flex-column">
                                         <input id="confirmPassword" type="password" class="form-control valid-fields" name="confirmPassword" placeholder="비밀번호를 다시 입력해주세요.">
                                         <div class="checkConfirmPasswordSection"></div>
                                     </div>
-                                    <div class="col-4"></div>
+                                    <div class="col-md-4"></div>
                                 </div>
-                                <div class="form-group col-12 display-flex-row">
-                                    <div class="col-2">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">소속</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="teamId">
+                                            <th:block th:each="team : ${teams}">
+                                                <option th:value="${team.teamId}" th:text="${team.name}" th:selected="${dto.teamId eq team.teamId}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">전화번호</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" id="phone" class="form-control valid-fields" name="phone" placeholder="전화번호를 입력해주세요."
+                                               th:field="*{phone}" autocomplete="off" required>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
                                         <label for="userStatus_Pending">상태</label>
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-md-10">
                                         <label class="radio-label" style="font-weight: normal;">
                                             <input type="radio" id="userStatus_Pending" name="status" value="PENDING" th:checked="${dto.status eq AdminStatus.PENDING}">
                                             <label class="radio-label" style="font-weight: normal;">보류</label>
@@ -92,9 +115,9 @@
                                 </div>
 
                                 <div class="form-group display-flex-column roleSection" sec:authorize="hasRole('SUPER_ADMIN')">
-                                    <div class="col-12 display-flex-row">
-                                        <label class="col-2 control-label">역할</label>
-                                        <div class="col-3">
+                                    <div class="col-md-12 display-flex-row">
+                                        <label class="col-md-2 control-label">역할</label>
+                                        <div class="col-md-3">
                                             <label class="text-center" style="width: 100%">비활성 역할</label>
                                             <select multiple="" class="form-control valid-ignore excludeData" style="height: 82px;">
                                                 <option th:value="${r.name}" th:each="r: ${roles}">
@@ -102,7 +125,7 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        <div class="col-1">
+                                        <div class="col-md-1">
                                             <div style="display:flex;align-items: center;justify-content: center;height: 120px">
                                                 <div class="btn-group-vertical align-middle">
                                                     <button type="button" class="btn btn-info btnIncludeData"><i
@@ -112,7 +135,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-md-3">
                                             <label class="text-center" style="width: 100%">활성된 역할</label>
                                             <select multiple="" class="form-control valid-ignore includeData" style="height: 82px;">
                                                 <option th:value="${r.name}" th:each="r, status : ${roles}"
@@ -121,9 +144,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="display-flex-row col-12">
-                                        <div class="col-2"></div>
-                                        <div class="col-10">
+                                    <div class="display-flex-row col-md-12">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">
                                             <span id="roleNames"></span>
                                         </div>
                                     </div>

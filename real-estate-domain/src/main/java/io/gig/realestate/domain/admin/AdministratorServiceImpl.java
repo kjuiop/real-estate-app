@@ -60,7 +60,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public Long create(@NotNull AdministratorCreateForm createForm) {
-        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()));
+        Team team = teamService.getTeamById(createForm.getTeamId());
+        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()), team);
         List<Role> roles = roleService.findByRoleNamesIn(createForm.getRoleNames());
         newAdmin.createAdministratorRoles(roles);
         return administratorStore.store(newAdmin).getId();
@@ -69,11 +70,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public Long update(AdministratorUpdateForm updateForm) {
+        Team team = teamService.getTeamById(updateForm.getTeamId());
         Administrator administrator = getAdminEntityByUsername(updateForm.getUsername());
         if (!StringUtils.hasText(updateForm.getPassword())) {
             validPassword(administrator, updateForm.getPassword());
         }
-        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()));
+        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()), team);
         List<Role> roles = roleService.findByRoleNamesIn(updateForm.getRoleNames());
         administrator.updateAdministratorRoles(roles);
         return administratorStore.store(administrator).getId();

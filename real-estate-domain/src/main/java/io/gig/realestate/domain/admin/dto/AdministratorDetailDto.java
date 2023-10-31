@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AdministratorDetailDto extends AdministratorDto {
 
+    public Long teamId;
+
     private static final AdministratorDetailDto EMPTY;
 
     static {
@@ -41,6 +43,10 @@ public class AdministratorDetailDto extends AdministratorDto {
     public AdministratorDetailDto(Administrator a) {
         super(a);
         this.roles = a.getAdministratorRoles().stream().map(role -> role.getRole().getName()).collect(Collectors.toList());
+
+        if (a.getTeam() != null) {
+            this.teamId = a.getTeam().getId();
+        }
     }
 
 }

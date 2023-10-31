@@ -238,21 +238,6 @@ let update = function(e) {
     params['roleNames'] = getRoleNames();
     console.log("params", params);
 
-    let isValidPassword = $('#pwValidCheckYn').val();
-    if (!isValidPassword) {
-        return;
-    }
-
-    let isEqualPassword = $('#pwEqualCheckYn').val();
-    if (!isEqualPassword) {
-        return;
-    }
-
-    if (!checkNullOrEmptyValue(params.name)) {
-        twoBtnModal("이름을 입력해주세요.");
-        return;
-    }
-
     if (params.roleNames.length === 0) {
         twoBtnModal("관리자의 권한을 선택해주세요.");
         return;

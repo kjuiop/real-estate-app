@@ -91,13 +91,15 @@ public class Administrator extends BaseTimeEntity {
     }
 
 
-    public static Administrator create(AdministratorCreateForm createForm, String encodedPassword) {
+    public static Administrator create(AdministratorCreateForm createForm, String encodedPassword, Team team) {
         return Administrator.builder()
                 .username(createForm.getUsername())
                 .name(createForm.getName())
                 .password(encodedPassword)
                 .passwordFailureCount(0)
+                .phone(createForm.getPhone())
                 .status(createForm.getStatus())
+                .team(team)
                 .build();
     }
 
@@ -157,9 +159,11 @@ public class Administrator extends BaseTimeEntity {
         this.team = team;
     }
 
-    public void update(AdministratorUpdateForm form, String encodedPassword) {
+    public void update(AdministratorUpdateForm form, String encodedPassword, Team team) {
         this.password = encodedPassword;
         this.status = form.getStatus();
+        this.phone = form.getPhone();
+        this.team = team;
     }
 
     public void updateStatus(AdminStatus status) {

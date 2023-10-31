@@ -5,6 +5,8 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
+import io.gig.realestate.domain.team.TeamService;
+import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamUpdateForm;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class AdminManagerController {
 
     private final AdministratorService administratorService;
     private final RoleService roleService;
+    private final TeamService teamService;
 
     @GetMapping
     public String index(AdminSearchDto searchDto, Model model) {
@@ -55,9 +58,11 @@ public class AdminManagerController {
     public String editForm(@PathVariable(name = "adminId") Long adminId, Model model) {
         List<RoleDto> roles = roleService.getAllRoles();
         AdministratorDetailDto dto = administratorService.getDetail(adminId);
+        List<TeamListDto> teams = teamService.getTeamList();
 
         model.addAttribute("roles", roles);
         model.addAttribute("dto", dto);
+        model.addAttribute("teams", teams);
 
         return "settings/administrator/editor";
     }
