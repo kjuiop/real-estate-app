@@ -38,6 +38,7 @@ let loadConstructInfo = function() {
             $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
             $frm.find('.useAprDay').val(constructInfo.useAprDay);
             $frm.find('.platArea').val(constructInfo.platArea);
+            $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
             $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
             $frm.find('.archArea').val(constructInfo.archArea);
             $frm.find('.bcRat').val(constructInfo.bcRat);

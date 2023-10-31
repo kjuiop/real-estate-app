@@ -32,6 +32,8 @@ public class ConstructInfo extends BaseTimeEntity {
 
     private Double platArea;
 
+    private Double platAreaByPyung;
+
     private Double archArea;
 
     private Double bcRat;
@@ -84,6 +86,7 @@ public class ConstructInfo extends BaseTimeEntity {
                 .hhldCnt(createForm.getHhldCnt())
                 .useAprDay(createForm.getUseAprDay())
                 .platArea(createForm.getPlatArea())
+                .platAreaByPyung(createForm.getPlatAreaByPyung())
                 .archArea(createForm.getArchArea())
                 .bcRat(createForm.getBcRat())
                 .totArea(createForm.getTotArea())

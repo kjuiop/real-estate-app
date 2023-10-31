@@ -29,6 +29,8 @@ public class ConstructDto {
     // 대지 면적
     private Double platArea;
 
+    private Double platAreaByPyung;
+
     // 건축 면적
     private Double archArea;
 
@@ -83,6 +85,7 @@ public class ConstructDto {
         this.hhldCnt = c.getHhldCnt();
         this.useAprDay = c.getUseAprDay();
         this.platArea = c.getPlatArea();
+        this.platAreaByPyung = c.getPlatAreaByPyung();
         this.archArea = c.getArchArea();
         this.bcRat = c.getBcRat();
         this.totArea = c.getTotArea();

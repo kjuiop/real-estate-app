@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class ConstructDataApiDto {
 
     // 대지면적
     private double platArea;
+
+    // 대지면적 평
+    private double platAreaByPyung;
 
     // 건물면적
     private Double archArea;
@@ -80,11 +85,19 @@ public class ConstructDataApiDto {
     private String strctCdNm;
 
     public static ConstructDataApiDto convertData(JSONObject item) {
+
+        double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
+
+        double platAreaByPyung = platArea / 3.305785;
+        platAreaByPyung = Math.round(platAreaByPyung * 100.0) / 100.0;
+
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
                 .hhldCnt(item.has("hhldCnt") ? item.getInt("hhldCnt") : 0)
                 .useAprDay(item.has("useAprDay") ? item.getInt("useAprDay") : 0)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
+                .platAreaByPyung(platAreaByPyung)
                 .archArea(item.has("archArea") ? item.getDouble("archArea") : null)
                 .bcRat(item.has("bcRat") ? item.getDouble("bcRat") : null)
                 .totArea(item.has("totArea") ? item.getDouble("totArea") : null)
