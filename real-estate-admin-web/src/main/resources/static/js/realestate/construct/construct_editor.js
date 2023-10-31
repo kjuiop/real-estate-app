@@ -58,6 +58,8 @@ let loadConstructInfo = function() {
             } else {
                 $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
             }
+
+            calculateConstructInfo(constructInfo);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -206,4 +208,22 @@ let assembleFloorParams = function() {
     });
 
     return floorInfoList;
+}
+
+let calculateConstructInfo = function(constructInfo) {
+
+    let $frm = $('form[name="frmConstructRegister"]');
+
+    if (!checkNullOrEmptyValue(constructInfo)) {
+        return;
+    }
+
+    let playAreaPyung = $frm.find('.platAreaByPyung').val();
+
+    let platArea = constructInfo.platArea;
+    if (platArea > 0 && playAreaPyung === 0) {
+        playAreaPyung = platArea / 3.305785;
+        $frm.find('.platAreaByPyung').val(playAreaPyung);
+    }
+
 }
