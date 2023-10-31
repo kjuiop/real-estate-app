@@ -6,6 +6,7 @@ import io.gig.realestate.domain.team.dto.TeamUpdateForm;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -49,4 +50,6 @@ public interface AdministratorService {
     Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long id);
 
     void teamUpdate(Long teamId, List<AdministratorTemUpdateForm> updateForm);
+
+    Optional<Administrator> getAdminOptional(String username);
 }

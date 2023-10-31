@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -142,8 +143,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     @Transactional
     public void increasePasswordFailureCount(String username) {
-        Administrator findAdministrator = administratorReader.getAdministratorEntityByUsername(username);
-        findAdministrator.increasePasswordFailureCount();
+        Optional<Administrator> findAdministrator = administratorReader.getAdminOptional(username);
+        if (findAdministrator.isPresent()) {
+            Administrator administrator = findAdministrator.get();
+            administrator.increasePasswordFailureCount();
+        }
     }
 
     @Override
@@ -201,6 +205,12 @@ public class AdministratorServiceImpl implements AdministratorService {
         }
 
         administratorStore.storeAll(administrators);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Administrator> getAdminOptional(String username) {
+        return administratorReader.getAdminOptional(username);
     }
 
     private void validPassword(Administrator administrator, String password) {
