@@ -57,4 +57,24 @@ public class RealEstateQueryImpl implements RealEstateReader {
         Long count = queryRepository.isExistAddress(address);
         return count > 0;
     }
+
+    @Override
+    public Long getPrevRealEstateId(Long realEstateId) {
+        Optional<RealEstate> prevRealEstate = queryRepository.getPrevRealEstateId(realEstateId);
+        if (prevRealEstate.isEmpty()) {
+            return null;
+        }
+
+        return prevRealEstate.get().getId();
+    }
+
+    @Override
+    public Long getNextRealEstateId(Long realEstateId) {
+        Optional<RealEstate> nextRealEstate = queryRepository.getNextRealEstateId(realEstateId);
+        if (nextRealEstate.isEmpty()) {
+            return null;
+        }
+
+        return nextRealEstate.get().getId();
+    }
 }

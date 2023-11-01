@@ -25,4 +25,8 @@ public interface RealEstateService {
     Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser);
 
     boolean checkDuplicateAddress(String address, LoginUser loginUser);
+
+    Long getPrevRealEstateId(Long realEstateId);
+
+    Long getNextRealEstateId(Long realEstateId);
 }
