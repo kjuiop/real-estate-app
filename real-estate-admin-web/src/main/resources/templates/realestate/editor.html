@@ -192,7 +192,6 @@
                                         <label class="text-label">지목</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
                                             <input type="text" class="form-control form-control-sm lndcgrCodeNm" name="lndcgrCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;평&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
 
@@ -200,40 +199,36 @@
                                         <label class="text-label">용도지역</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
                                             <input type="text" class="form-control form-control-sm prposArea1Nm" name="prposArea1Nm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                     <div class="col-md-6 display-flex-column no-left-padding">
+                                        <label class="text-label">지형형상</label>
+                                        <div class="com-md-12 no-left-padding display-flex-row">
+                                            <input type="text" class="form-control form-control-sm tpgrphFrmCodeNm" name="tpgrphFrmCodeNm" style="height: 36px;"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-column no-left-padding">
                                         <label class="text-label">토지이용상황</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
                                             <input type="text" class="form-control form-control-sm ladUseSittnNm" name="ladUseSittnNm" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-column">
-                                        <label class="text-label">도로접면</label>
-                                        <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm roadSideCodeNm" name="roadSideCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                     <div class="col-md-6 display-flex-column no-left-padding">
-                                        <label class="text-label">지형높이</label>
+                                        <label class="text-label">도로접면</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm tpgrphHgCodeNm" name="tpgrphHgCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm roadSideCodeNm" name="roadSideCodeNm" style="height: 36px;" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 display-flex-column">
-                                        <label class="text-label">지형형상</label>
+                                        <label class="text-label">도로너비</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm tpgrphFrmCodeNm" name="tpgrphFrmCodeNm" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm roadWidth" name="roadWidth" style="height: 36px;"/>
+                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;m&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
                                 </div>
@@ -425,15 +420,23 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column margin-right-4">
                                             <label class="text-label">대지면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platArea" name="platArea" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm platArea" name="platArea" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;㎡&nbsp;&nbsp;</button>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platAreaByPyung" name="platAreaByPyung" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;평&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 display-flex-column no-left-padding">
                                         <div class="display-flex-row">
                                             <label class="text-label">총 세대수</label>

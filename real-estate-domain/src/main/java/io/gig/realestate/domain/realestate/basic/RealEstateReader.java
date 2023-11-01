@@ -18,4 +18,8 @@ public interface RealEstateReader {
     RealEstate getRealEstateById(Long realEstateId);
 
     boolean isExistAddress(String address);
+
+    Long getPrevRealEstateId(Long realEstateId);
+
+    Long getNextRealEstateId(Long realEstateId);
 }

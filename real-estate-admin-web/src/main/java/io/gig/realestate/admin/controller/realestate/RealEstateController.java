@@ -150,4 +150,18 @@ public class RealEstateController {
         return new ResponseEntity<>(ApiResponse.OK(isExist), HttpStatus.OK);
     }
 
+    @GetMapping("prev/{realEstateId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> movePrevPage(@PathVariable(name = "realEstateId") Long realEstateId) {
+        Long prevId = realEstateService.getPrevRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
+    }
+
+    @GetMapping("next/{realEstateId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> moveNextPage(@PathVariable(name = "realEstateId") Long realEstateId) {
+        Long prevId = realEstateService.getNextRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
+    }
+
 }

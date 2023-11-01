@@ -52,6 +52,15 @@ let moveRegister = function(e) {
 
     console.log("params : ", params);
 
+    // location.href = "/real-estate/new"
+    //     + "?bCode=" + params.bCode
+    //     + "&landType=" + params.landType
+    //     + "&bun=" + params.bun
+    //     + "&ji=" + params.ji
+    //     + "&address=" + encodeURIComponent(params.address)
+    //     + "&usageCdId=" + usageCdId
+    // ;
+
     $.ajax({
         url: "/real-estate/check-duplicate/" + params.address,
         method: "get",

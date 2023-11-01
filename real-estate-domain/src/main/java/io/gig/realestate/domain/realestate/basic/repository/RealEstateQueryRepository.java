@@ -118,13 +118,35 @@ public class RealEstateQueryRepository {
     }
 
     public Long isExistAddress(String address) {
-        Long result = queryFactory
+        Long result = this.queryFactory
                 .select(realEstate.count())
                 .from(realEstate)
                 .where(realEstate.address.eq(address))
                 .fetchOne();
 
         return result;
+    }
+
+    public Optional<RealEstate> getPrevRealEstateId(Long currentId) {
+        Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(realEstate)
+                .where(defaultCondition())
+                .where(realEstate.id.lt(currentId))
+                .orderBy(realEstate.id.desc())
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    public Optional<RealEstate> getNextRealEstateId(Long currentId) {
+        Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(realEstate)
+                .where(defaultCondition())
+                .where(realEstate.id.gt(currentId))
+                .orderBy(realEstate.id.asc())
+                .fetchFirst());
+
+        return fetch;
     }
 
     private BooleanExpression defaultCondition() {
@@ -302,4 +324,6 @@ public class RealEstateQueryRepository {
                         .from(customerInfo)
                         .where(customerInfo.phone.eq(phone)));
     }
+
+
 }

@@ -24,6 +24,9 @@ public class ConstructCreateForm {
     // 대지면적
     private double platArea;
 
+    // 대지면적 평
+    private double platAreaByPyung;
+
     // 건물면적
     private Double archArea;
 

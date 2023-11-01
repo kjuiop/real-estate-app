@@ -59,6 +59,7 @@ let settingLandInfo = function(landInfo) {
     $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
     $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
     $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('.roadWidth').val(landInfo.roadWidth)
     $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
     if (landInfo.commercialYn === 'Y') {
         $frm.find('input[name="commercialYn"]').iCheck('check');
@@ -172,6 +173,7 @@ let loadLandInfoById = function(e) {
     $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
     $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
     $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('.roadWidth').val(landInfo.roadWidth);
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
 }
 

@@ -78,6 +78,9 @@ public class LandDto {
 
     private YnType commercialYn;
 
+    /** 도로 너비 **/
+    private Double roadWidth;
+
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
@@ -94,5 +97,6 @@ public class LandDto {
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
         this.ladUseSittnNm = l.getLadUseSittnNm();
         this.commercialYn = l.getCommercialYn();
+        this.roadWidth = l.getRoadWidth();
     }
 }

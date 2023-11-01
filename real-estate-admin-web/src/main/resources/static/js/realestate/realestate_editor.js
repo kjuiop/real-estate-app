@@ -11,6 +11,7 @@ let onReady = function() {
     loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     onlyNumberKeyEvent({className: "only-number"});
+    // loadMoveOtherPage();
 }
 
 let realEstateSave = function(e) {
@@ -392,6 +393,50 @@ let removeSubImg = function(e) {
     $imgModal.find('.close').trigger('click');
 }
 
+let movePrevPage = function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "/real-estate/prev/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            if (!checkNullOrEmptyValue(result.data)) {
+                twoBtnModal("이전 매물정보가 존재하지 않습니다.");
+                return;
+            }
+
+            location.href = '/real-estate/' + result.data + '/edit';
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let moveNextPage = function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "/real-estate/next/" + dto.realEstateId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            if (!checkNullOrEmptyValue(result.data)) {
+                twoBtnModal("다음 매물정보가 존재하지 않습니다.");
+                return;
+            }
+
+            location.href = '/real-estate/' + result.data + '/edit';
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -418,4 +463,9 @@ $(document).ready(onReady)
     .on('click', '.btnMultiImgUpload', multiImgUpload)
     .on('click', '.sub-image', imgModal)
     .on('click', '.btnRemoveSubImg', removeSubImg)
+    .on('click', '.btnPrev', movePrevPage)
+    .on('click', '.btnNext', moveNextPage)
+    .on('blur', '.subGuaranteePrice', calculateGuaranteePrice)
+    .on('blur', '.subRent', calculateRentPrice)
+    .on('blur', '.subManagement', calculateManagementPrice)
 ;

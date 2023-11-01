@@ -181,4 +181,16 @@ public class RealEstateServiceImpl implements RealEstateService {
     public boolean checkDuplicateAddress(String address, LoginUser loginUser) {
         return realEstateReader.isExistAddress(address);
     }
+
+    @Override
+    @Transactional
+    public Long getPrevRealEstateId(Long realEstateId) {
+        return realEstateReader.getPrevRealEstateId(realEstateId);
+    }
+
+    @Override
+    @Transactional
+    public Long getNextRealEstateId(Long realEstateId) {
+        return realEstateReader.getNextRealEstateId(realEstateId);
+    }
 }

@@ -40,6 +40,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private Double totalPblntfPclnd;
 
+    private Double roadWidth;
+
     private String prposArea1Nm;
 
     private String roadSideCodeNm;
@@ -80,6 +82,7 @@ public class LandInfo extends BaseTimeEntity {
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
                 .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
                 .ladUseSittnNm(dto.getLadUseSittnNm())
+                .roadWidth(dto.getRoadWidth() != null ? Double.parseDouble(dto.getRoadWidth()) : null)
                 .realEstate(realEstate)
                 .build();
     }
