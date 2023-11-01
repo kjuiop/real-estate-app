@@ -393,48 +393,6 @@ let removeSubImg = function(e) {
     $imgModal.find('.close').trigger('click');
 }
 
-let loadMoveOtherPage = function() {
-    let prevUrl, nextUrl;
-
-    $.ajax({
-        url: "/real-estate/prev/" + dto.realEstateId,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            if (!checkNullOrEmptyValue(result.data)) {
-                twoBtnModal("이전 매물정보가 존재하지 않습니다.");
-                return;
-            }
-
-            prevUrl = '/real-estate/' + result.data + '/edit';
-            $('.btnPrev').attr('href', prevUrl);
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-
-    $.ajax({
-        url: "/real-estate/next/" + dto.realEstateId,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            if (!checkNullOrEmptyValue(result.data)) {
-                twoBtnModal("다음 매물정보가 존재하지 않습니다.");
-                return;
-            }
-
-            nextUrl = location.href = '/real-estate/' + result.data + '/edit';
-            $('.btnNext').attr('href', nextUrl)
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
 let movePrevPage = function(e) {
     e.preventDefault();
 
