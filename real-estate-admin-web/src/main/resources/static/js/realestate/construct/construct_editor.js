@@ -117,31 +117,64 @@ let loadConstructFloorInfo = function() {
 let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
-        tag += '<tr>';
+        tag += '<tr class="floor-unit">';
         tag += '<td class="center-text padding-6 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
         tag += '<td class="center-text padding-6 area" data="' + item.area + '">' + item.area + '</td>';
         tag += '<td class="center-text padding-6 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
         if (item.guaranteePrice > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
         }
 
         if (item.rent > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.rent + '" name="rent" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subRent" value="' + item.rent + '" name="rent" style="min-width: 100px;"/></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="rent" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subRent" value="0" name="rent" style="min-width: 100px;"/></td>';
         }
 
         if (item.management > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="' + item.management + '" name="management" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subManagement" value="' + item.management + '" name="management" style="min-width: 100px;"/></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm" value="0" name="management" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/></td>';
         }
         tag += '</tr>';
     })
     return tag;
+}
+
+let calculateGuaranteePrice = function(e) {
+    e.preventDefault();
+
+    let guaranteePrice = 0;
+    $('.floor-unit').each(function(idx, item) {
+        guaranteePrice += Number($(item).find('.subGuaranteePrice').val());
+    });
+
+    $('.guaranteePrice').val(guaranteePrice);
+}
+
+let calculateRentPrice = function(e) {
+    e.preventDefault();
+
+    let rent = 0;
+    $('.floor-unit').each(function(idx, item) {
+        rent += Number($(item).find('.subRent').val());
+    });
+
+    $('.rentMonth').val(rent);
+}
+
+let calculateManagementPrice = function(e) {
+    e.preventDefault();
+
+    let management = 0;
+    $('.floor-unit').each(function(idx, item) {
+        management += Number($(item).find('.subManagement').val());
+    });
+
+    $('.management').val(management);
 }
 
 let constructInfoSave = function(e) {

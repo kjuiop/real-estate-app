@@ -465,4 +465,7 @@ $(document).ready(onReady)
     .on('click', '.btnRemoveSubImg', removeSubImg)
     .on('click', '.btnPrev', movePrevPage)
     .on('click', '.btnNext', moveNextPage)
+    .on('blur', '.subGuaranteePrice', calculateGuaranteePrice)
+    .on('blur', '.subRent', calculateRentPrice)
+    .on('blur', '.subManagement', calculateManagementPrice)
 ;
