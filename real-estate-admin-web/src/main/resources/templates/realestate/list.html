@@ -311,6 +311,7 @@
                                         <th class="text-center" style="width: 12%;">금액</th>
                                         <th style="width: 5%;">수익</th>
                                         <th style="width: 8%;">면적</th>
+                                        <th style="width: 5%;">도로너비</th>
                                         <th style="width: 5%;">담당자</th>
                                         <th style="width: 9%;">등록일</th>
                                     </tr>
@@ -341,7 +342,7 @@
                                                 </th:block>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="text-alien-center">
                                             <th:block th:if="${item.processType != null}">
                                                 [[${item.processType.description}]]
                                             </th:block>
@@ -400,6 +401,7 @@
                                                 </div>
                                             </th:block>
                                         </td>
+                                        <td class="text-alien-center" th:text="${item.roadWidth > 0 ? item.roadWidth + 'm' : ''}"></td>
                                         <td th:text="${item.managerName}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
