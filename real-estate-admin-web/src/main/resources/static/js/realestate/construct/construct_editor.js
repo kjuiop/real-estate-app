@@ -144,39 +144,6 @@ let drawConstructFloorInfo = function(data) {
     return tag;
 }
 
-let calculateGuaranteePrice = function(e) {
-    e.preventDefault();
-
-    let guaranteePrice = 0;
-    $('.floor-unit').each(function(idx, item) {
-        guaranteePrice += Number($(item).find('.subGuaranteePrice').val());
-    });
-
-    $('.guaranteePrice').val(guaranteePrice);
-}
-
-let calculateRentPrice = function(e) {
-    e.preventDefault();
-
-    let rent = 0;
-    $('.floor-unit').each(function(idx, item) {
-        rent += Number($(item).find('.subRent').val());
-    });
-
-    $('.rentMonth').val(rent);
-}
-
-let calculateManagementPrice = function(e) {
-    e.preventDefault();
-
-    let management = 0;
-    $('.floor-unit').each(function(idx, item) {
-        management += Number($(item).find('.subManagement').val());
-    });
-
-    $('.management').val(management);
-}
-
 let constructInfoSave = function(e) {
     e.preventDefault();
 

@@ -12,7 +12,7 @@ public class RealEstateListDto extends RealEstateDto {
 
     public String managerName;
     public int salePrice;
-    public int revenueRate;
+    public double revenueRate;
     public double platArea;
     public double totArea;
     public double archArea;
