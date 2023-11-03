@@ -331,7 +331,7 @@
                                         </td>
                                         <td>
                                             <div class="display-flex-column">
-                                                <a th:href="|/real-estate/${item.realEstateId}/edit|">
+                                                <a th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
                                                     <span style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
                                                 </a>
                                                 <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
