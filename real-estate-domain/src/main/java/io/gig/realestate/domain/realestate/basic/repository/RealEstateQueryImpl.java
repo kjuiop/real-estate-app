@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -76,5 +77,10 @@ public class RealEstateQueryImpl implements RealEstateReader {
         }
 
         return nextRealEstate.get().getId();
+    }
+
+    @Override
+    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
+        return queryRepository.getRealEstateIdsBySearch(searchDto);
     }
 }

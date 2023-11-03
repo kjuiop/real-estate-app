@@ -91,6 +91,38 @@ public class RealEstateQueryRepository {
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
 
+    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
+        BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(eqProcessType(searchDto.getProcessType()));
+        where.and(eqSido(searchDto.getSido()));
+        where.and(eqGungu(searchDto.getGungu()));
+        where.and(eqDong(searchDto.getDong()));
+        where.and(eqLandType(searchDto.getLandType()));
+        where.and(eqBun(searchDto.getBun()));
+        where.and(eqJi(searchDto.getJi()));
+        where.and(likeBuildingName(searchDto.getBuildingName()));
+        where.and(eqRealEstateId(searchDto.getRealEstateId()));
+        where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
+        where.and(likeManagerName(searchDto.getManager()));
+        where.and(likeTeamName(searchDto.getTeam()));
+        where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
+        where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
+        where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
+        where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
+        where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
+        where.and(betweenUseAprDay(searchDto.getStartUseAprDay(), searchDto.getEndUseAprDay()));
+        where.and(likeCustomerName(searchDto.getCustomer()));
+        where.and(eqPhone(searchDto.getPhone()));
+
+        return this.queryFactory
+                .select(realEstate.id)
+                .from(realEstate)
+                .where(where)
+                .orderBy(realEstate.id.desc())
+                .fetch();
+    }
+
     public Optional<RealEstateDetailDto> getRealEstateDetail(Long realEstateId) {
 
         RealEstateDetailDto realEstateDetailDto = queryFactory
@@ -324,6 +356,5 @@ public class RealEstateQueryRepository {
                         .from(customerInfo)
                         .where(customerInfo.phone.eq(phone)));
     }
-
 
 }
