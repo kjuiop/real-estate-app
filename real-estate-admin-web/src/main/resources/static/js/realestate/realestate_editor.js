@@ -396,45 +396,23 @@ let removeSubImg = function(e) {
 let movePrevPage = function(e) {
     e.preventDefault();
 
-    $.ajax({
-        url: "/real-estate/prev/" + dto.realEstateId,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            if (!checkNullOrEmptyValue(result.data)) {
-                twoBtnModal("이전 매물정보가 존재하지 않습니다.");
-                return;
-            }
+    if (!checkNullOrEmptyValue(dto.prevId)) {
+        twoBtnModal("이전 매물정보가 존재하지 않습니다.");
+        return;
+    }
 
-            location.href = '/real-estate/' + result.data + '/edit';
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
+    location.href = '/real-estate/' + dto.prevId + '/edit';
 }
 
 let moveNextPage = function(e) {
     e.preventDefault();
 
-    $.ajax({
-        url: "/real-estate/next/" + dto.realEstateId,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            if (!checkNullOrEmptyValue(result.data)) {
-                twoBtnModal("다음 매물정보가 존재하지 않습니다.");
-                return;
-            }
+    if (!checkNullOrEmptyValue(dto.nextId)) {
+        twoBtnModal("다음 매물정보가 존재하지 않습니다.");
+        return;
+    }
 
-            location.href = '/real-estate/' + result.data + '/edit';
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
+    location.href = '/real-estate/' + dto.nextId + '/edit';
 }
 
 $(document).ready(onReady)

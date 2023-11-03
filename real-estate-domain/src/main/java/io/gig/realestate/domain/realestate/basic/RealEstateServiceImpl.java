@@ -57,7 +57,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     public RealEstateDetailDto getDetail(String sessionId, Long realEstateId) {
         RealEstateDetailDto detail = realEstateReader.getRealEstateDetail(realEstateId);
         List<Long> searchIds = searchIdsMap.get(sessionId);
-        if (searchIds.size() == 0) {
+        if (searchIds == null || searchIds.size() == 0) {
             return detail;
         }
 
