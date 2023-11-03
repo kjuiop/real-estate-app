@@ -469,4 +469,5 @@ $(document).ready(onReady)
     .on('blur', '.subRent', calculateRentPrice)
     .on('blur', '.subManagement', calculateManagementPrice)
     .on('blur', '.managementExpense', calculateManagementExpense)
+    .on('blur', '.salePrice', calculateAveragePrice)
 ;

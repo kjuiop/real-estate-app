@@ -78,6 +78,29 @@ let calculateManagementExpense = function() {
     calculateRevenueRateRate();
 }
 
+let calculateAveragePrice = function() {
+    // 매매가 / 전체 평
+    let lndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val(),
+        salePrice = $('input[name="salePrice"]').val();
+
+    if (lndpclArByPyung === 0 || salePrice === 0) {
+        return;
+    }
+
+    lndpclArByPyung = Number(lndpclArByPyung);
+    salePrice = Number(salePrice) * 10000;
+
+    let averageUnitPrice = salePrice / lndpclArByPyung;
+    averageUnitPrice = averageUnitPrice / 10000;
+    averageUnitPrice = averageUnitPrice.toFixed(0);
+    console.log("c salePrice", salePrice);
+    console.log("c lndpclArByPyung", lndpclArByPyung);
+    console.log("c averageUnitPrice", averageUnitPrice);
+
+    let $frm = $('form[name="frmPriceRegister"]');
+    $frm.find('input[name="averageUnitPrice"]').val(averageUnitPrice);
+}
+
 let calculateRevenueRateRate = function() {
     // 수익률 = 임대료 수익 - 연간 비용 / 보증금   * 100
 
