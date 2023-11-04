@@ -26,11 +26,101 @@ let loadPriceInfo = function() {
             $frm.find('.rentMonth').val(priceInfo.rentMonth);
             $frm.find('.management').val(priceInfo.management);
             $frm.find('.managementExpense').val(priceInfo.managementExpense);
+
+            // calculateRevenueRateRate();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let calculateGuaranteePrice = function(e) {
+    e.preventDefault();
+
+    let guaranteePrice = 0;
+    $('.floor-unit').each(function(idx, item) {
+        guaranteePrice += Number($(item).find('.subGuaranteePrice').val());
+    });
+
+    $('.guaranteePrice').val(guaranteePrice);
+
+    calculateRevenueRateRate();
+}
+
+let calculateRentPrice = function(e) {
+    e.preventDefault();
+
+    let rent = 0;
+    $('.floor-unit').each(function(idx, item) {
+        rent += Number($(item).find('.subRent').val());
+    });
+
+    $('.rentMonth').val(rent);
+
+    calculateRevenueRateRate();
+}
+
+let calculateManagementPrice = function(e) {
+    e.preventDefault();
+
+    let management = 0;
+    $('.floor-unit').each(function(idx, item) {
+        management += Number($(item).find('.subManagement').val());
+    });
+
+    $('.management').val(management);
+
+    calculateRevenueRateRate();
+}
+
+let calculateManagementExpense = function() {
+    calculateRevenueRateRate();
+}
+
+let calculateAveragePrice = function() {
+    // 매매가 / 전체 평
+    let lndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val(),
+        salePrice = $('input[name="salePrice"]').val();
+
+    if (lndpclArByPyung === 0 || salePrice === 0) {
+        return;
+    }
+
+    lndpclArByPyung = Number(lndpclArByPyung);
+    salePrice = Number(salePrice) * 10000;
+
+    let averageUnitPrice = salePrice / lndpclArByPyung;
+    averageUnitPrice = averageUnitPrice / 10000;
+    averageUnitPrice = averageUnitPrice.toFixed(0);
+    console.log("c salePrice", salePrice);
+    console.log("c lndpclArByPyung", lndpclArByPyung);
+    console.log("c averageUnitPrice", averageUnitPrice);
+
+    let $frm = $('form[name="frmPriceRegister"]');
+    $frm.find('input[name="averageUnitPrice"]').val(averageUnitPrice);
+}
+
+let calculateRevenueRateRate = function() {
+    // 수익률 = 임대료 수익 - 연간 비용 / 보증금   * 100
+
+    let $frm = $('form[name="frmPriceRegister"]');
+    let rentMonth = Number($frm.find('input[name="rentMonth"]').val()),
+        managementExpense = Number($frm.find('input[name="managementExpense"]').val()),
+        management = Number($frm.find('input[name="management"]').val()),
+        guaranteePrice = Number($frm.find('input[name="guaranteePrice"]').val());
+
+    if (guaranteePrice === 0) {
+        return;
+    }
+
+    let rentYear = rentMonth * 12,
+        managementYear = management * 12,
+        revenue = rentYear + managementYear - managementExpense;
+
+    let revenueRate = (revenue / guaranteePrice) * 100;
+    revenueRate = revenueRate.toFixed(2);
+    $frm.find('input[name="revenueRate"]').val(revenueRate);
 }
 
 let priceInfoSave = function(e) {

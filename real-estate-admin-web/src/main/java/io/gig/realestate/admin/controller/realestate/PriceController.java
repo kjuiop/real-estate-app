@@ -30,8 +30,8 @@ public class PriceController {
     @GetMapping("{realEstateId}")
     public ResponseEntity<ApiResponse> getPriceData(
             @PathVariable(name = "realEstateId") Long realEstateId) {
-        List<PriceListDto> landList = priceService.getPriceListInfoByRealEstateId(realEstateId);
-        return new ResponseEntity<>(ApiResponse.OK(landList), HttpStatus.OK);
+        List<PriceListDto> priceList = priceService.getPriceListInfoByRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(priceList), HttpStatus.OK);
     }
 
     @PostMapping

@@ -248,20 +248,37 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="startUseAprDay" class="top-label">
-                                                            <div class="search-text">승인일자</div>
+                                                        <label for="minRoadWidth" class="top-label">
+                                                            <div class="search-text">도로너비</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="startUseAprDay" name="startUseAprDay" class="form-control search-input center-align" th:value="${condition.startUseAprDay > 0 ? condition.startUseAprDay : ''}">
+                                                    <input type="text" id="minRoadWidth" name="minRoadWidth" class="form-control search-input center-align" th:value="${condition.minRoadWidth > 0 ? condition.minRoadWidth : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="endUseAprDay" name="endUseAprDay" class="form-control search-input center-align" th:value="${condition.endUseAprDay > 0 ? condition.endUseAprDay : ''}">
+                                                    <input type="text" id="maxRoadWidth" name="maxRoadWidth" class="form-control search-input center-align" th:value="${condition.maxRoadWidth > 0 ? condition.maxRoadWidth : ''}">
                                                     <div class="input-label">
-                                                        <label for="endUseAprDay" class="bottom-label">
-                                                            <div class="search-text">년</div>
+                                                        <label for="maxRoadWidth" class="bottom-label">
+                                                            <div class="search-text">m</div>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </td>
+<!--                                            <td colspan="2" class="search-double-group">-->
+<!--                                                <div class="display-flex-row search-double-field">-->
+<!--                                                    <div class="input-label">-->
+<!--                                                        <label for="startUseAprDay" class="top-label">-->
+<!--                                                            <div class="search-text">승인일자</div>-->
+<!--                                                        </label>-->
+<!--                                                    </div>-->
+<!--                                                    <input type="text" id="startUseAprDay" name="startUseAprDay" class="form-control search-input center-align" th:value="${condition.startUseAprDay > 0 ? condition.startUseAprDay : ''}">-->
+<!--                                                    <div class="input-div"><span>~</span></div>-->
+<!--                                                    <input type="text" id="endUseAprDay" name="endUseAprDay" class="form-control search-input center-align" th:value="${condition.endUseAprDay > 0 ? condition.endUseAprDay : ''}">-->
+<!--                                                    <div class="input-label">-->
+<!--                                                        <label for="endUseAprDay" class="bottom-label">-->
+<!--                                                            <div class="search-text">년</div>-->
+<!--                                                        </label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </td>-->
                                         </tr>
                                     </tbody>
                                 </table>
@@ -331,7 +348,7 @@
                                         </td>
                                         <td>
                                             <div class="display-flex-column">
-                                                <a th:href="|/real-estate/${item.realEstateId}/edit|">
+                                                <a th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
                                                     <span style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
                                                 </a>
                                                 <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
@@ -406,7 +423,7 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="10">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="11">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>

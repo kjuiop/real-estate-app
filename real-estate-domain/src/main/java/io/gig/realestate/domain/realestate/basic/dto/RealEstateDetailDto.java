@@ -12,7 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +36,10 @@ public class RealEstateDetailDto extends RealEstateDto {
     private Long createdById;
 
     private Long usageCdId;
+
+    private Long prevId;
+
+    private Long nextId;
 
     @Builder.Default
     private boolean isOwnUser = false;
@@ -130,5 +136,13 @@ public class RealEstateDetailDto extends RealEstateDto {
                 return;
             }
         }
+    }
+
+    public void setPrevId(Long prevId) {
+        this.prevId = prevId;
+    }
+
+    public void setNextId(Long nextId) {
+        this.nextId = nextId;
     }
 }

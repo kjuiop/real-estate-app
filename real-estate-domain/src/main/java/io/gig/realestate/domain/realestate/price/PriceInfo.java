@@ -29,7 +29,7 @@ public class PriceInfo extends BaseTimeEntity {
 
     private int depositPrice;
 
-    private int revenueRate;
+    private double revenueRate;
 
     private int averageUnitPrice;
 

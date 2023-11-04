@@ -22,7 +22,7 @@ public class PriceDto {
 
     private int depositPrice;
 
-    private int revenueRate;
+    private double revenueRate;
 
     private int averageUnitPrice;
 
