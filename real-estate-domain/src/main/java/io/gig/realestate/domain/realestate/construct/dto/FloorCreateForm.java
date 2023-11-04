@@ -24,6 +24,8 @@ public class FloorCreateForm {
     // 부용도
     private String etcPurps;
 
+    private String companyName;
+
     private int guaranteePrice;
 
     private int rent;

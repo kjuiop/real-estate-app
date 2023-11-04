@@ -118,10 +118,10 @@ let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
         tag += '<tr class="floor-unit">';
-        tag += '<td class="center-text padding-6 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
-        tag += '<td class="center-text padding-6 area" data="' + item.area + '">' + item.area + '</td>';
-        tag += '<td class="center-text padding-6 mainPurpsCdNm" data="' + item.mainPurpsCdNm + '">' + item.mainPurpsCdNm + '</td>';
+        tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '㎡</td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
+        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
         if (item.guaranteePrice > 0) {
             tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
         } else {
@@ -198,8 +198,8 @@ let assembleFloorParams = function() {
             "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
             "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
             "area" : $(item).find('.area').attr('data'),
-            "mainPurpsCdNm" : $(item).find('.mainPurpsCdNm').attr('data'),
             "etcPurps" : $(item).find('.etcPurps').attr('data'),
+            "companyName" : $(item).find('input[name="companyName"]').val(),
             "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
             "rent" : $(item).find('input[name="rent"]').val(),
             "management" : $(item).find('input[name="management"]').val(),

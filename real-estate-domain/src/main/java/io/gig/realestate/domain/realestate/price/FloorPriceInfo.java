@@ -38,6 +38,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private String etcPurps;
 
+    private String companyName;
+
     private int guaranteePrice;
 
     private int rent;
@@ -60,6 +62,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .area(dto.getArea())
                 .mainPurpsCdNm(dto.getMainPurpsCdNm())
                 .etcPurps(dto.getEtcPurps())
+                .companyName(dto.getCompanyName())
                 .guaranteePrice(dto.getGuaranteePrice())
                 .rent(dto.getRent())
                 .management(dto.getManagement())
@@ -74,6 +77,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .area(dto.getArea())
                 .mainPurpsCdNm(dto.getMainPurpsCdNm())
                 .etcPurps(dto.getEtcPurps())
+                .companyName(dto.getCompanyName())
                 .guaranteePrice(dto.getGuaranteePrice())
                 .rent(dto.getRent())
                 .management(dto.getManagement())

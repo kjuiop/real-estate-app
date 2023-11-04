@@ -71,6 +71,8 @@ public class PriceUpdateForm {
 
         private int management;
 
+        private String companyName;
+
     }
 
 }

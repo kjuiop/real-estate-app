@@ -20,6 +20,8 @@ public class FloorListDto {
     // 면적
     private Double area;
 
+    private String companyName;
+
     // 주용도
     private String mainPurpsCdNm;
 
@@ -38,6 +40,7 @@ public class FloorListDto {
         this.area = f.getArea();
         this.mainPurpsCdNm = f.getMainPurpsCdNm();
         this.etcPurps = f.getEtcPurps();
+        this.companyName = f.getCompanyName();
         this.guaranteePrice = f.getGuaranteePrice();
         this.rent = f.getRent();
         this.management = f.getManagement();
