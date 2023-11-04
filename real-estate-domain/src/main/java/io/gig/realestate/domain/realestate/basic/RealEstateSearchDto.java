@@ -71,6 +71,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer endUseAprDay;
 
+    private Integer minRoadWidth;
+
+    private Integer maxRoadWidth;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }
