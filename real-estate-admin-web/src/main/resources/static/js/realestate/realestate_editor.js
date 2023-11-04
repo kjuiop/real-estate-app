@@ -415,6 +415,11 @@ let moveNextPage = function(e) {
     location.href = '/real-estate/' + dto.nextId + '/edit';
 }
 
+let printPdf = function(e) {
+    e.preventDefault();
+    window.print();
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -448,4 +453,5 @@ $(document).ready(onReady)
     .on('blur', '.subManagement', calculateManagementPrice)
     .on('blur', '.managementExpense', calculateManagementExpense)
     .on('blur', '.salePrice', calculateAveragePrice)
+    .on('click', '.btnPrint', printPdf)
 ;

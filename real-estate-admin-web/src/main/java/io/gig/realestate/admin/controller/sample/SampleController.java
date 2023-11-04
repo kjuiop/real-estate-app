@@ -58,4 +58,9 @@ public class SampleController {
     public String pdf(Model model) {
         return "sample/pdf/sample";
     }
+
+    @GetMapping("ppt")
+    public String ppt(Model model) {
+        return "sample/ppt/sample";
+    }
 }
