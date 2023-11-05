@@ -139,55 +139,11 @@ let drawConstructFloorInfo = function(data) {
         } else {
             tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/></td>';
         }
+        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.term) + '" name="term" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
         tag += '</tr>';
     })
     return tag;
-}
-
-let constructInfoSave = function(e) {
-    e.preventDefault();
-
-    let $frmBasic = $('form[name="frmBasicRegister"]'),
-        detailParams = serializeObject({form:$frmBasic[0]}).json();
-
-    let isModify = dto.existConstructInfo;
-    let $frmConstruct = $('form[name="frmConstructRegister"]'),
-        httpMethod = isModify ? 'put' : 'post',
-        params = serializeObject({form:$frmConstruct[0]}).json();
-
-    let illegalConstructYn = $frmConstruct.find('input[name="illegalConstructYn"]').is(":checked") ? "Y" : "N";
-
-    params.legalCode = detailParams.legalCode;
-    params.landType = detailParams.landType;
-    params.bun = detailParams.bun;
-    params.ji = detailParams.ji;
-    params.address = detailParams.address;
-    params.realEstateId = dto.realEstateId;
-    params.illegalConstructYn = illegalConstructYn;
-
-    console.log("params", params);
-
-
-    $.ajax({
-        url: "/real-estate/construct",
-        method: 'post',
-        type: "json",
-        contentType: "application/json",
-        data: JSON.stringify(params),
-        success: function (result) {
-            console.log("result : ", result);
-            let message = '정상적으로 저장되었습니다.';
-            if (isModify) {
-                message = '정상적으로 수정되었습니다.';
-            }
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
 }
 
 let assembleFloorParams = function() {
@@ -203,6 +159,8 @@ let assembleFloorParams = function() {
             "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
             "rent" : $(item).find('input[name="rent"]').val(),
             "management" : $(item).find('input[name="management"]').val(),
+            "term" : $(item).find('input[name="term"]').val(),
+            "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
         }
         floorInfoList.push(param);
     });

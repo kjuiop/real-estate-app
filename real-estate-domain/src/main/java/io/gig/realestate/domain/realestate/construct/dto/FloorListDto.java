@@ -34,6 +34,10 @@ public class FloorListDto {
 
     private int management;
 
+    private String term;
+
+    private String etcInfo;
+
     public FloorListDto (FloorPriceInfo f) {
         this.flrNo = f.getFlrNo();
         this.flrNoNm = f.getFlrNoNm();
@@ -44,5 +48,7 @@ public class FloorListDto {
         this.guaranteePrice = f.getGuaranteePrice();
         this.rent = f.getRent();
         this.management = f.getManagement();
+        this.term = f.getTerm();
+        this.etcInfo = f.getEtcInfo();
     }
 }

@@ -46,6 +46,10 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private int management;
 
+    private String term;
+
+    private String etcInfo;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -66,6 +70,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .guaranteePrice(dto.getGuaranteePrice())
                 .rent(dto.getRent())
                 .management(dto.getManagement())
+                .term(dto.getTerm())
+                .etcInfo(dto.getEtcInfo())
                 .realEstate(realEstate)
                 .build();
     }

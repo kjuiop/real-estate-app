@@ -31,4 +31,8 @@ public class FloorCreateForm {
     private int rent;
 
     private int management;
+
+    private String term;
+
+    private String etcInfo;
 }
