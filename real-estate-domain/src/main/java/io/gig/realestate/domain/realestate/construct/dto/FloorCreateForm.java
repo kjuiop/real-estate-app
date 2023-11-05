@@ -18,6 +18,10 @@ public class FloorCreateForm {
     // 면적
     private Double area;
 
+    private double lndpclAr;
+
+    private double lndpclArByPyung;
+
     // 주용도
     private String mainPurpsCdNm;
 

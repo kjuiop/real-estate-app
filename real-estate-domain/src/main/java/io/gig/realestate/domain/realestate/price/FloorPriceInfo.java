@@ -34,6 +34,10 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private Double area;
 
+    private double lndpclAr;
+
+    private double lndpclArByPyung;
+
     private String mainPurpsCdNm;
 
     private String etcPurps;
@@ -64,6 +68,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .flrNo(dto.getFlrNo())
                 .flrNoNm(dto.getFlrNoNm())
                 .area(dto.getArea())
+                .lndpclAr(dto.getLndpclAr())
+                .lndpclArByPyung(dto.getLndpclArByPyung())
                 .mainPurpsCdNm(dto.getMainPurpsCdNm())
                 .etcPurps(dto.getEtcPurps())
                 .companyName(dto.getCompanyName())

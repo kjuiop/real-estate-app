@@ -120,6 +120,8 @@ let drawConstructFloorInfo = function(data) {
         tag += '<tr class="floor-unit">';
         tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '㎡</td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr" value="' +  item.lndpclAr + '" name="lndpclAr" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung" value="' +  item.lndpclArByPyung + '" name="lndpclArByPyung" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
         if (item.guaranteePrice > 0) {
@@ -154,6 +156,8 @@ let assembleFloorParams = function() {
             "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
             "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
             "area" : $(item).find('.area').attr('data'),
+            "lndpclAr" : $(item).find('input[name="lndpclAr"]').val(),
+            "lndpclArByPyung" : $(item).find('input[name="lndpclArByPyung"]').val(),
             "etcPurps" : $(item).find('.etcPurps').attr('data'),
             "companyName" : $(item).find('input[name="companyName"]').val(),
             "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
