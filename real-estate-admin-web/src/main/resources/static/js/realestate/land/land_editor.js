@@ -161,6 +161,7 @@ let loadLandInfoById = function(e) {
     console.log("land data", landInfo);
 
     let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('input[name="address"]').val(landInfo.address);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
