@@ -143,7 +143,7 @@ let drawConstructFloorInfo = function(data) {
         } else {
             tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
-        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.term) + '" name="term" style="min-width: 100px;"/></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termStartDate) + '" name="termStartDate" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">~</span><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termEndDate) + '" name="termEndDate" style="min-width: 100px;"/></div></td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
         tag += '</tr>';
     })
@@ -214,7 +214,8 @@ let assembleFloorParams = function() {
             "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
             "rent" : $(item).find('input[name="rent"]').val(),
             "management" : $(item).find('input[name="management"]').val(),
-            "term" : $(item).find('input[name="term"]').val(),
+            "termStartDate" : $(item).find('input[name="termStartDate"]').val(),
+            "termEndDate" : $(item).find('input[name="termEndDate"]').val(),
             "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
         }
         floorInfoList.push(param);

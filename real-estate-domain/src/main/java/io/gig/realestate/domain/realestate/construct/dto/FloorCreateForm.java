@@ -36,7 +36,9 @@ public class FloorCreateForm {
 
     private int management;
 
-    private String term;
+    private String termStartDate;
+
+    private String termEndDate;
 
     private String etcInfo;
 }

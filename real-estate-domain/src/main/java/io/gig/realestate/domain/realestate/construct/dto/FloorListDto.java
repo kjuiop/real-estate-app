@@ -38,7 +38,9 @@ public class FloorListDto {
 
     private int management;
 
-    private String term;
+    private String termStartDate;
+
+    private String termEndDate;
 
     private String etcInfo;
 
@@ -54,7 +56,8 @@ public class FloorListDto {
         this.guaranteePrice = f.getGuaranteePrice();
         this.rent = f.getRent();
         this.management = f.getManagement();
-        this.term = f.getTerm();
+        this.termStartDate = f.getTermStartDate();
+        this.termEndDate = f.getTermEndDate();
         this.etcInfo = f.getEtcInfo();
     }
 }

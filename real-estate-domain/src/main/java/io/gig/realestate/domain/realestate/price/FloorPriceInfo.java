@@ -50,7 +50,9 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private int management;
 
-    private String term;
+    private String termStartDate;
+
+    private String termEndDate;
 
     private String etcInfo;
 
@@ -76,7 +78,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .guaranteePrice(dto.getGuaranteePrice())
                 .rent(dto.getRent())
                 .management(dto.getManagement())
-                .term(dto.getTerm())
+                .termStartDate(dto.getTermStartDate())
+                .termEndDate(dto.getTermEndDate())
                 .etcInfo(dto.getEtcInfo())
                 .realEstate(realEstate)
                 .build();
