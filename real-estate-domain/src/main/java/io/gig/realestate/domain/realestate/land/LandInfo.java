@@ -8,6 +8,7 @@ import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.land.dto.LandUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -82,7 +83,7 @@ public class LandInfo extends BaseTimeEntity {
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
                 .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
                 .ladUseSittnNm(dto.getLadUseSittnNm())
-                .roadWidth(dto.getRoadWidth() != null ? Double.parseDouble(dto.getRoadWidth()) : null)
+                .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : null)
                 .realEstate(realEstate)
                 .build();
     }

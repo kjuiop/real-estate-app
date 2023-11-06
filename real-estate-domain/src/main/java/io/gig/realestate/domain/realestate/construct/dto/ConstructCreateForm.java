@@ -78,6 +78,8 @@ public class ConstructCreateForm {
     // 구조
     private String strctCdNm;
 
+    private String companyName;
+
     private YnType illegalConstructYn;
 
 }
