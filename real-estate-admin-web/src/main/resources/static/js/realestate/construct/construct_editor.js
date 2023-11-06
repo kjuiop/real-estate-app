@@ -107,6 +107,8 @@ let loadConstructFloorInfo = function() {
             let tag = drawConstructFloorInfo(floorData);
             $tbody.html(tag);
             $tfoot.removeClass('hidden');
+
+            calculateFloorInfo();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -119,33 +121,59 @@ let drawConstructFloorInfo = function(data) {
     $.each(data, function(idx, item) {
         tag += '<tr class="floor-unit">';
         tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
-        tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '㎡</td>';
+        tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr" value="' +  item.lndpclAr + '" name="lndpclAr" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung" value="' +  item.lndpclArByPyung + '" name="lndpclArByPyung" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
         if (item.guaranteePrice > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="0" name="guaranteePrice" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="0" name="guaranteePrice" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
 
         if (item.rent > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subRent" value="' + item.rent + '" name="rent" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent" value="' + item.rent + '" name="rent" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subRent" value="0" name="rent" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent" value="0" name="rent" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
 
         if (item.management > 0) {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subManagement" value="' + item.management + '" name="management" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement" value="' + item.management + '" name="management" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.term) + '" name="term" style="min-width: 100px;"/></td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
         tag += '</tr>';
     })
     return tag;
+}
+
+let calculateFloorInfo = function() {
+    let $table = $('.construct-floor-table');
+    let totalArea = 0, totalLndpclAr = 0, totalLndpclArByPyung = 0,
+        totalSubGuaranteePrice = 0, totalSubRent = 0, totalManagement = 0;
+    $('.construct-floor-table tbody tr').each(function(idx, item) {
+        let area = $(item).find('.area').attr('data');
+        totalArea += Number(area);
+        let lndpclAr = $(item).find('input[name="lndpclAr"]').val();
+        totalLndpclAr += Number(lndpclAr);
+        let lndpclArByPyung = $(item).find('input[name="lndpclArByPyung"]').val();
+        totalLndpclArByPyung += Number(lndpclArByPyung);
+        let guaranteePrice = $(item).find('input[name="guaranteePrice"]').val();
+        totalSubGuaranteePrice += Number(guaranteePrice);
+        let rent = $(item).find('input[name="rent"]').val();
+        totalSubRent += Number(rent);
+        let management = $(item).find('input[name="management"]').val();
+        totalManagement += Number(management);
+    });
+    $table.find('.totalArea').html(totalArea + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
+    $table.find('.totalLndpclAr').html(totalLndpclAr + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
+    $table.find('.totalLndpclArByPyung').html(totalLndpclArByPyung + '<span style="font-size: 15px; padding: 3px;">평</span>');
+    $table.find('.totalSubGuaranteePrice').html(totalSubGuaranteePrice + '<span style="font-size: 15px; padding: 3px;">만원</span>');
+    $table.find('.totalSubRent').html(totalSubRent + '<span style="font-size: 15px; padding: 3px;">만원</span>');
+    $table.find('.totalManagement').html(totalManagement + '<span style="font-size: 15px; padding: 3px;">만원</span>');
 }
 
 let assembleFloorParams = function() {
