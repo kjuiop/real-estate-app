@@ -156,30 +156,41 @@ let calculateFloorInfo = function() {
         totalSubGuaranteePrice = 0, totalSubRent = 0, totalManagement = 0;
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let area = $(item).find('.area').attr('data');
-        if (typeof area === 'number') {
+        console.log("type check ", typeof area)
+        if (!isNaN(area)) {
             totalArea += Number(area);
         }
         let lndpclAr = $(item).find('input[name="lndpclAr"]').val();
-        if (typeof lndpclAr === 'number') {
+        if (!isNaN(lndpclAr)) {
             totalLndpclAr += Number(lndpclAr);
         }
         let lndpclArByPyung = $(item).find('input[name="lndpclArByPyung"]').val();
-        if (typeof lndpclArByPyung === 'number') {
+        if (!isNaN(lndpclArByPyung)) {
             totalLndpclArByPyung += Number(lndpclArByPyung);
         }
         let guaranteePrice = $(item).find('input[name="guaranteePrice"]').val();
-        if (typeof guaranteePrice === 'number') {
+        if (!isNaN(guaranteePrice)) {
             totalSubGuaranteePrice += Number(guaranteePrice);
         }
         let rent = $(item).find('input[name="rent"]').val();
-        if (typeof rent === 'number') {
+        if (!isNaN(rent)) {
             totalSubRent += Number(rent);
         }
         let management = $(item).find('input[name="management"]').val();
-        if (typeof management === 'number') {
+        if (!isNaN(management)) {
             totalManagement += Number(management);
         }
     });
+    if (totalArea > 0) {
+        totalArea = totalArea.toFixed(2);
+    }
+    if (totalLndpclAr > 0) {
+        totalLndpclAr = totalLndpclAr.toFixed(2);
+    }
+    if (totalLndpclArByPyung > 0) {
+        totalLndpclArByPyung = totalLndpclArByPyung.toFixed(2);
+    }
+
     $table.find('.totalArea').html(totalArea + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
     $table.find('.totalLndpclAr').html(totalLndpclAr + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
     $table.find('.totalLndpclArByPyung').html(totalLndpclArByPyung + '<span style="font-size: 15px; padding: 3px;">평</span>');
