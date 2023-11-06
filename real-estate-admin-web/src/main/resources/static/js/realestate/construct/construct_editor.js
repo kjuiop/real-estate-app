@@ -122,8 +122,8 @@ let drawConstructFloorInfo = function(data) {
         tag += '<tr class="floor-unit">';
         tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr" value="' +  item.lndpclAr + '" name="lndpclAr" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung" value="' +  item.lndpclArByPyung + '" name="lndpclArByPyung" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
         if (item.guaranteePrice > 0) {
@@ -156,17 +156,29 @@ let calculateFloorInfo = function() {
         totalSubGuaranteePrice = 0, totalSubRent = 0, totalManagement = 0;
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let area = $(item).find('.area').attr('data');
-        totalArea += Number(area);
+        if (typeof area === 'number') {
+            totalArea += Number(area);
+        }
         let lndpclAr = $(item).find('input[name="lndpclAr"]').val();
-        totalLndpclAr += Number(lndpclAr);
+        if (typeof lndpclAr === 'number') {
+            totalLndpclAr += Number(lndpclAr);
+        }
         let lndpclArByPyung = $(item).find('input[name="lndpclArByPyung"]').val();
-        totalLndpclArByPyung += Number(lndpclArByPyung);
+        if (typeof lndpclArByPyung === 'number') {
+            totalLndpclArByPyung += Number(lndpclArByPyung);
+        }
         let guaranteePrice = $(item).find('input[name="guaranteePrice"]').val();
-        totalSubGuaranteePrice += Number(guaranteePrice);
+        if (typeof guaranteePrice === 'number') {
+            totalSubGuaranteePrice += Number(guaranteePrice);
+        }
         let rent = $(item).find('input[name="rent"]').val();
-        totalSubRent += Number(rent);
+        if (typeof rent === 'number') {
+            totalSubRent += Number(rent);
+        }
         let management = $(item).find('input[name="management"]').val();
-        totalManagement += Number(management);
+        if (typeof management === 'number') {
+            totalManagement += Number(management);
+        }
     });
     $table.find('.totalArea').html(totalArea + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
     $table.find('.totalLndpclAr').html(totalLndpclAr + '<span style="font-size: 15px; padding: 3px;">㎡</span>');
