@@ -378,6 +378,19 @@ let printPdf = function(e) {
     window.print();
 }
 
+let openPrintPop = function(e) {
+    e.preventDefault();
+
+    let _width = 1300;
+    let _height = 1000;
+    let _left = Math.ceil((window.screen.width - _width) / 2);
+    let _top = Math.ceil((window.screen.height - _height) / 2);
+
+
+    let options = 'top=10, left=10, width=' + _width + ', height=' + _height + ', left=' + _left + ', top=' + _top + ', status=no, menubar=no, toolbar=no, resizable=no';
+    window.open('/real-estate/print', 'print-popup', options);
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -410,5 +423,5 @@ $(document).ready(onReady)
     .on('blur', '.subManagement', calculateManagementPrice)
     .on('blur', '.managementExpense', calculateManagementExpense)
     .on('blur', '.salePrice', calculateAveragePrice)
-    .on('click', '.btnPrint', printPdf)
+    .on('click', '.btnOpenPrintPop', openPrintPop)
 ;

@@ -168,4 +168,10 @@ public class RealEstateController {
         return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
     }
 
+    @GetMapping("print")
+    public String pdf(Model model) {
+        return "realestate/print";
+    }
+
+
 }
