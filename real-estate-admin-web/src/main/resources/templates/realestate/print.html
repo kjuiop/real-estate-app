@@ -17,6 +17,12 @@
             .print-content {
                 display: block;
                 visibility: visible;
+                /*margin-top: 20px !important;*/
+                /*margin-bottom: 30px !important;*/
+            }
+
+            .print-section {
+                padding-top : 0 !important;
             }
         }
 
@@ -25,16 +31,17 @@
         }
 
         .print-content {
-            width: 1000px;
-            height: 700px;
+            width: 1100px;
+            height: 650px;
             background-color: #fff;
             border-radius: 10px;
-            margin: 5px auto;
+            margin: auto;
+            page-break-inside: avoid !important;
         }
 
         .print-button-section {
             position: fixed;
-            top: 50px;
+            top: 70px;
             right: 100px;
             width: 150px;
             height: 100px;
@@ -102,14 +109,36 @@
             font-weight: bold;
             font-size: 20px;
         }
+
+        .print-line {
+            padding: 20px;
+        }
+
+        .print-content table td {
+            padding: 5px;
+            font-size: 10px;
+            text-align: center;
+            min-width: 105px;
+        }
+
+        .table-label {
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            text-align: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="print-section">
+    <div class="print-section" style="padding-top: 10px;">
         <div class="print-button-section">
             <button class="btn btn-primary btnPrint print-button">프린트</button>
         </div>
+
+        <div class="print-line"></div>
+
         <div class="print-content" style="margin-bottom: 10px;">
             <div class="print-header"></div>
             <div class="cover-body row col-md-12 padding-20">
@@ -129,6 +158,7 @@
             </div>
         </div>
 
+        <div class="print-line"></div>
 
         <div class="print-content" style="margin-bottom: 10px;">
             <div class="print-header"></div>
@@ -166,54 +196,164 @@
                             <br />
                             신상현 이사 | 010 2604 9088 | sanghyun.shin@jd-realty.co.kr
                         </div>
-
                     </div>
                 </div>
             </div>
             <div class="print-footer text-alien-center"></div>
         </div>
-        <div class="print-content">
-            <div class="logo">
-                <!--                    <img src="/assets/img/logo.png" alt="test">	</div>-->
-                <div class="title">
-                    <h1 class="mb-4 editable" contenteditable="true">물건 보고서</h1>
-                    <h4 class="editable mb-2" contenteditable="true">test</h4>
 
-                    <div class="title-body">
-                        <!--                        <div data-label="대표사진" class="photo" style="background-image:url(https://dungzi.kr.object.iwinv.kr/10307/531f427b2fff1cdfb943994e286a7283.png)">-->
+        <div class="print-line"></div>
+
+        <div class="print-content" style="margin-bottom: 10px;">
+            <div class="print-header"></div>
+            <div class="cover-body print-body row col-md-12 padding-20">
+                <div class="col-md-6 padding-10">
+                    <img src="/images/print/33.jpeg" style="width: 100%; height: 100%;">
+                </div>
+                <div class="col-md-6 display-flex-column">
+                    <div class="display-flex-row table-unit">
+                        <div class="col-md-1 table-label">
+                            토<br/>
+                            지<br/>
+                            정<br/>
+                            보
+                        </div>
+                        <div class="col-md-11">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>소재지</td>
+                                    <td colspan="2">서울특별시 동작구 신대방동 686-44 번지</td>
+                                </tr>
+                                <tr>
+                                    <td>용도지역</td>
+                                    <td colspan="2">
+                                        도시지역, 일반상업지역, 준주거지역, 지구단위계획구역(대림지구), 도로(저촉),
+                                        도로(접합), 소로3류(폭 8m 미만)(접합), 건축선
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>지목</td>
+                                    <td colspan="2">주유소용지</td>
+                                </tr>
+                                <tr>
+                                    <td>공시지가</td>
+                                    <td>803.8만원/㎡</td>
+                                    <td>2,657.2만원/평</td>
+                                </tr>
+                                <tr>
+                                    <td>대지면적</td>
+                                    <td>2,482.6㎡</td>
+                                    <td>750.99평</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <table class="table table-bordered table-sm mt-3">
-                        <tbody><tr>
-                            <th width="30%" class="bg-light editable" contenteditable="true">주소</th>
-                            <td width="70%" class="text-start editable" contenteditable="true">서울 강남구 삼성동 115-3</td>
-                        </tr>
-                        <tr>
-                            <th width="30%" class="bg-light editable" contenteditable="true">거래유형</th>
-                            <td width="70%" class="text-start editable" contenteditable="true">매매</td>
-                        </tr>
-                        <tr>
-                            <th width="30%" class="bg-light editable" contenteditable="true">매물종류</th>
-                            <td width="70%" class="text-start editable" contenteditable="true">사무실</td>
-                        </tr>
-                        </tbody></table>
+
+                    <div class="display-flex-row table-unit margin-top-8">
+                        <div class="col-md-1 table-label">
+                            기<br/>
+                            존<br/>
+                            건<br/>
+                            물<br/>
+                            정<br/>
+                            보
+                        </div>
+                        <div class="col-md-11">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>대장상 대지면적</td>
+                                    <td>2,482.6㎡</td>
+                                    <td>750.99평</td>
+                                </tr>
+                                <tr>
+                                    <td>연 면 적</td>
+                                    <td>2,430.21㎡</td>
+                                    <td>735.14평</td>
+                                </tr>
+                                <tr>
+                                    <td>지상면적</td>
+                                    <td>2,007.47㎡</td>
+                                    <td>607.26평</td>
+                                </tr>
+                                <tr>
+                                    <td>건축면적</td>
+                                    <td>762.82㎡</td>
+                                    <td>230.75평</td>
+                                </tr>
+                                <tr>
+                                    <td>준공년도</td>
+                                    <td>1997년</td>
+                                    <td>9월</td>
+                                </tr>
+                                <tr>
+                                    <td>건물규모</td>
+                                    <td colspan="2">지상 4층 / 지하 1층</td>
+                                </tr>
+                                <tr>
+                                    <td>건폐 / 용적율</td>
+                                    <td>30.73%</td>
+                                    <td>80.86%</td>
+                                </tr>
+                                <tr>
+                                    <td>주차 / 승강기</td>
+                                    <td>22대(옥외자주식)</td>
+                                    <td>0대</td>
+                                </tr>
+                                <tr>
+                                    <td>구조</td>
+                                    <td>주용도</td>
+                                    <td>위험물저장 및 처리시설, 업무시설, 자동차관련시설, 근린생활시설</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="display-flex-row table-unit">
+                        <div class="col-md-1 table-label">
+                            금<br/>
+                            액<br/>
+                            정<br/>
+                            보
+                        </div>
+                        <div class="col-md-11">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>보증금</td>
+                                    <td colspan="3">수익률(관포)</td>
+                                </tr>
+                                <tr>
+                                    <td>임대료</td>
+                                    <td></td>
+                                    <td>관리비</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>연면적 평단가</td>
+                                    <td>-</td>
+                                    <td>토지 평단가</td>
+                                    <td>5,459 만원 / 평</td>
+                                </tr>
+                                <tr>
+                                    <td>매매가</td>
+                                    <td colspan="3">410 억원</td>
+                                </tr>
+                                <tr>
+                                    <td>비고</td>
+                                    <td colspan="3">
+                                        현재 주유소 운영중이며 평도 협의 가능
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="page_bottom">
-                <div class="container-fluid">
-                    <div class="row justify-content-between">
-                        <div class="col-4 editable align-self-center" contenteditable="true">
-                            <h5>문의 : 김정인 01031820825</h5>
-                        </div>
-                        <div class="col-6 text-end editable  align-self-center" contenteditable="true">
-                            <h5>test</h5>
-                            <div class="text-muted"></div>
-                        </div>
-                        <div class="col-2 text-end">
-                            <img src="/assets/img/logo.png" alt="test">			</div>
-                    </div>
-                </div>
-            </div>
+
+            <div class="print-footer text-alien-center"></div>
         </div>
+
+        <div class="print-line"></div>
+
     </div>
 </div>
 <section layout:fragment="script">

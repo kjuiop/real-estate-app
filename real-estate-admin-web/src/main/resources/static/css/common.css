@@ -423,3 +423,15 @@
 .font-size-30 {
     font-size: 30px;
 }
+
+.min-width-50 {
+    min-width: 50px;
+}
+
+.min-width-70 {
+    min-width: 70px;
+}
+
+.min-width-95 {
+    min-width: 95px;
+}
