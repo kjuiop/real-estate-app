@@ -189,6 +189,14 @@
     margin-top: 200px;
 }
 
+.margin-top-250 {
+    margin-top: 250px;
+}
+
+.margin-top-300 {
+    margin-top: 300px;
+}
+
 .hidden {
     display: none!important
 }
@@ -386,4 +394,8 @@
 
 .font-size-14 {
     font-size: 14px;
+}
+
+.padding-20 {
+    padding : 20px;
 }

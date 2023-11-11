@@ -10,13 +10,13 @@
         @media print {
             body {
                 margin: 0;
+                padding: 0;
                 visibility: hidden;
             }
 
             .print-content {
                 display: block;
                 visibility: visible;
-                width: 100vw; /* 가로 너비를 화면 전체로 설정합니다. */
             }
         }
 
@@ -26,12 +26,10 @@
 
         .print-content {
             width: 1000px;
-            height: 600px;
+            height: 700px;
             background-color: #fff;
-            padding: 50px;
             border-radius: 10px;
-
-            margin: 20px auto;
+            margin: 5px auto;
         }
 
         .print-button-section {
@@ -44,117 +42,128 @@
         }
 
         .print-button {
-            margin: 10px 0 auto;
+            /*margin: 10px 0 auto;*/
         }
+
+        .cover {
+            background-image: linear-gradient(
+                    rgba(255, 255, 255, 0.2),
+                    rgba(0, 0, 0, 0.8)
+            ), url('/images/print/33.jpeg');
+            background-size: cover;
+        }
+
+        .print-header {
+            position: absolute;
+            top: 0;
+            border: 5px solid darkblue;
+            width: 100%;
+        }
+
+        .print-footer {
+            position: absolute;
+            bottom: 0;
+            border: 3px solid orange;
+            background-color: orange;
+            width: 100%;
+        }
+
+        .print-button-section {
+            z-index: 999;
+        }
+
+        .print-section {
+            position: relative;
+        }
+
+        .print-content {
+            position: relative;
+        }
+
+        .building-name {
+            color: darkblue;
+            font-weight: bold;
+            font-size: 42px;
+        }
+
+        .address-line {
+            border: 2px solid orange;
+            width: 300px;
+            height: 2px;
+            float: right;
+        }
+
 
     </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <section class="content">
-        <div class="container-fluid">
-
-            <div class="row print-section" style="position: relative;">
-                <div class="print-button-section">
-                    <button class="btn btn-primary btnPrint print-button">프린트</button>
-                </div>
-                <div class="print-content">
-                    <div class="logo">
-                        <!--                    <img src="/assets/img/logo.png" alt="test">	</div>-->
-                        <div class="title">
-                            <h1 class="mb-4 editable" contenteditable="true">물건 보고서</h1>
-                            <h4 class="editable mb-2" contenteditable="true">test</h4>
-
-                            <div class="title-body">
-                                <!--                        <div data-label="대표사진" class="photo" style="background-image:url(https://dungzi.kr.object.iwinv.kr/10307/531f427b2fff1cdfb943994e286a7283.png)">-->
-                            </div>
-                            <table class="table table-bordered table-sm mt-3">
-                                <tbody><tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">주소</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">서울 강남구 삼성동 115-3</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">거래유형</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">매매</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">매물종류</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">사무실</td>
-                                </tr>
-                                </tbody></table>
-                        </div>
+    <div class="print-section">
+        <div class="print-button-section">
+            <button class="btn btn-primary btnPrint print-button">프린트</button>
+        </div>
+        <div class="print-content">
+            <div class="print-header"></div>
+            <div class="cover-body row col-md-12 padding-20">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="line-center right-align margin-top-250">
+                        <h1 class="building-name">신대방동 신축부지</h1>
+                        <div class="address-line"></div>
+                        <h5 style="margin-top: 22px;">서울시 동작구 신대방동 686-44번지</h5>
                     </div>
-<!--                    <div class="page_bottom">-->
-<!--                        <div class="container-fluid">-->
-<!--                            <div class="row justify-content-between">-->
-<!--                                <div class="col-4 editable align-self-center" contenteditable="true">-->
-<!--                                    <h5>문의 : 김정인 01031820825</h5>-->
-<!--                                </div>-->
-<!--                                <div class="col-6 text-end editable  align-self-center" contenteditable="true">-->
-<!--                                    <h5>test</h5>-->
-<!--                                    <div class="text-muted"></div>-->
-<!--                                </div>-->
-<!--                                <div class="col-2 text-end">-->
-<!--                                    <img src="/assets/img/logo.png" alt="test">			</div>-->
-<!--                            </div>-->
-<!--                            <div id="print_footer" class="row">-->
-<!--                                <div class="col">-->
-<!--                                    <div class="editable" style="border:1px dashed #ccc;background-color:#f9f9f9;opacity:0.7;color:#ff7979;font-size:11px;margin-top:10px;border-radius:5px;padding:0px 5px;" contenteditable="true">-->
-<!--                                        * 인쇄 날짜 : 2023-11-09 21:42:46 <br>-->
-<!--                                        * 본 자료는 공개불가이며 당사의 동의없이 제3자에게 무단복제, 전송, 변경하실 경우 법적 책임이 발생할 수 있습니다.<br>-->
-<!--                                        * 본 내용은 소유주의 진술에 의한 내용들이 포함되며 사실과 차이가 있을 수 있습니다.-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
+            </div>
+            <div class="print-footer text-alien-center">
+                <span>
+                   <b>제이디부동산 중개법인주식회사 | 서울시 강남구 도산대로 149, 진우빌딩 3층 |</b>  중개업등록번호 11680-2022-00432 | 대표 번호 02-514-7754
+                </span>
+            </div>
+        </div>
 
-                <div class="print-content">
-                    <div class="logo">
-                        <!--                    <img src="/assets/img/logo.png" alt="test">	</div>-->
-                        <div class="title">
-                            <h1 class="mb-4 editable" contenteditable="true">물건 보고서</h1>
-                            <h4 class="editable mb-2" contenteditable="true">test</h4>
+        <div class="print-content">
+            <div class="logo">
+                <!--                    <img src="/assets/img/logo.png" alt="test">	</div>-->
+                <div class="title">
+                    <h1 class="mb-4 editable" contenteditable="true">물건 보고서</h1>
+                    <h4 class="editable mb-2" contenteditable="true">test</h4>
 
-                            <div class="title-body">
-                                <!--                        <div data-label="대표사진" class="photo" style="background-image:url(https://dungzi.kr.object.iwinv.kr/10307/531f427b2fff1cdfb943994e286a7283.png)">-->
-                            </div>
-                            <table class="table table-bordered table-sm mt-3">
-                                <tbody><tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">주소</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">서울 강남구 삼성동 115-3</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">거래유형</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">매매</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%" class="bg-light editable" contenteditable="true">매물종류</th>
-                                    <td width="70%" class="text-start editable" contenteditable="true">사무실</td>
-                                </tr>
-                                </tbody></table>
-                        </div>
+                    <div class="title-body">
+                        <!--                        <div data-label="대표사진" class="photo" style="background-image:url(https://dungzi.kr.object.iwinv.kr/10307/531f427b2fff1cdfb943994e286a7283.png)">-->
                     </div>
-                    <div class="page_bottom">
-                        <div class="container-fluid">
-                            <div class="row justify-content-between">
-                                <div class="col-4 editable align-self-center" contenteditable="true">
-                                    <h5>문의 : 김정인 01031820825</h5>
-                                </div>
-                                <div class="col-6 text-end editable  align-self-center" contenteditable="true">
-                                    <h5>test</h5>
-                                    <div class="text-muted"></div>
-                                </div>
-                                <div class="col-2 text-end">
-                                    <img src="/assets/img/logo.png" alt="test">			</div>
-                            </div>
+                    <table class="table table-bordered table-sm mt-3">
+                        <tbody><tr>
+                            <th width="30%" class="bg-light editable" contenteditable="true">주소</th>
+                            <td width="70%" class="text-start editable" contenteditable="true">서울 강남구 삼성동 115-3</td>
+                        </tr>
+                        <tr>
+                            <th width="30%" class="bg-light editable" contenteditable="true">거래유형</th>
+                            <td width="70%" class="text-start editable" contenteditable="true">매매</td>
+                        </tr>
+                        <tr>
+                            <th width="30%" class="bg-light editable" contenteditable="true">매물종류</th>
+                            <td width="70%" class="text-start editable" contenteditable="true">사무실</td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+            <div class="page_bottom">
+                <div class="container-fluid">
+                    <div class="row justify-content-between">
+                        <div class="col-4 editable align-self-center" contenteditable="true">
+                            <h5>문의 : 김정인 01031820825</h5>
                         </div>
+                        <div class="col-6 text-end editable  align-self-center" contenteditable="true">
+                            <h5>test</h5>
+                            <div class="text-muted"></div>
+                        </div>
+                        <div class="col-2 text-end">
+                            <img src="/assets/img/logo.png" alt="test">			</div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
