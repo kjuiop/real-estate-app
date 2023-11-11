@@ -68,6 +68,10 @@
             width: 100%;
         }
 
+        .print-body {
+            height: 100%;
+        }
+
         .print-button-section {
             z-index: 999;
         }
@@ -93,7 +97,11 @@
             float: right;
         }
 
-
+        .two-section-header {
+            color: darkblue;
+            font-weight: bold;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -102,15 +110,15 @@
         <div class="print-button-section">
             <button class="btn btn-primary btnPrint print-button">프린트</button>
         </div>
-        <div class="print-content">
+        <div class="print-content" style="margin-bottom: 10px;">
             <div class="print-header"></div>
             <div class="cover-body row col-md-12 padding-20">
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="line-center right-align margin-top-250">
-                        <h1 class="building-name">신대방동 신축부지</h1>
+                        <h1 class="building-name" contenteditable="true" >신대방동 신축부지</h1>
                         <div class="address-line"></div>
-                        <h5 style="margin-top: 22px;">서울시 동작구 신대방동 686-44번지</h5>
+                        <h5 style="margin-top: 22px;" contenteditable="true" >서울시 동작구 신대방동 686-44번지</h5>
                     </div>
                 </div>
             </div>
@@ -121,6 +129,49 @@
             </div>
         </div>
 
+
+        <div class="print-content" style="margin-bottom: 10px;">
+            <div class="print-header"></div>
+            <div class="cover-body print-body row col-md-12 padding-20">
+                <div class="col-md-6 right-align padding-top-50">
+                    <span class="two-section-header">
+                        <span class="font-size-30">Disclaimer</span>
+                        <span class="font-size-30" style="font-weight: normal;">|</span>
+                    </span>
+                </div>
+                <div class="col-md-6 padding-top-50">
+                    <div class="padding-10 font-size-13" contenteditable="true" style="height: 90%; color: #828a92;">
+                        본 Teaster Memorandum(이하 "TM) 은 본 건 매각에 매입 또는 투자를 검토하고 있는 잠재적 매수자에게
+                        투자 결정 등의 행위에 참고가 될 수 있는 기본적 정보를 제공할 목적으로 작성되었습니다.
+                        <br/>
+                        본 TM 에 제시된 내용들은 매도자가 제공한 자료를 근거로 작성되었으나, 잠재적 매수자가 요구하는 모든 자료를
+                        포함하고 있지 않으므로 매수자는 본 건 투자와 관련하여 자체적인 조사와 분석을 요합니다.
+                        <br/>
+                        본 TM 은 추후 업무 내용에 따라 수정 혹은 변경될 수 있고 매도자는 본 TM 에 구속되거나 어떠한 책임도 부담하지 않습니다.
+                        <br/>
+                        따라서 본 TM 을 토대로 진행된 매수자의 직 간접적 손해에 대하여 어떠한 책임도 부담하지 않으며, 법적 책임 소재나 분쟁의
+                        증빙자료로 활용될 수 없습니다.
+                        <br/>
+                        본 TM 은 고유한 목적 외 사전 서면동의 없이 전부 또는 일부, 요약본이 복사되거나 제3자에게 공개 또는 인용될 수 없습니다.
+                        <br/>
+                        <br/>
+                        본 자료와 관련하여 문의사항이 있으시면 Contact Points 상의 담당자에게 연락 주시기 바랍니다.
+                    </div>
+                    <div class="row col-md-12 padding-10" style="height: 10%;">
+                        <div class="col-md-2 font-size-12 padding-10" style="border-right: 1px solid deepskyblue">
+                            Contact
+                        </div>
+                        <div class="col-md-10 font-size-12">
+                            정다운 이사 | 010 7345 7754 | dawoon.jung@jd-realty.co.kr
+                            <br />
+                            신상현 이사 | 010 2604 9088 | sanghyun.shin@jd-realty.co.kr
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="print-footer text-alien-center"></div>
+        </div>
         <div class="print-content">
             <div class="logo">
                 <!--                    <img src="/assets/img/logo.png" alt="test">	</div>-->
