@@ -12,18 +12,26 @@
                 margin: 0;
                 padding: 0;
                 visibility: hidden;
+                -webkit-print-color-adjust: exact;
             }
 
             .print-content {
                 display: block;
                 visibility: visible;
-                /*margin-top: 20px !important;*/
-                /*margin-bottom: 30px !important;*/
+                margin-top: 30px !important;
             }
 
-            .print-section {
-                padding-top : 0 !important;
-            }
+            /*.print-section {*/
+            /*    padding-top : 0 !important;*/
+            /*}*/
+
+            /*.print-cover {*/
+            /*    margin-top: 30px !important;*/
+            /*}*/
+
+            /*.first-section {*/
+            /*    margin-top: 60px !important;*/
+            /*}*/
         }
 
         @page {
@@ -36,7 +44,10 @@
             background-color: #fff;
             border-radius: 10px;
             margin: auto;
-            page-break-inside: avoid !important;
+        }
+
+        .print-distribute-line {
+            break-after: page;
         }
 
         .print-button-section {
@@ -112,6 +123,7 @@
 
         .print-line {
             padding: 20px;
+            /*break-after: page;*/
         }
 
         .print-content table td {
@@ -131,14 +143,14 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="print-section" style="padding-top: 10px;">
+    <div class="print-section">
         <div class="print-button-section">
             <button class="btn btn-primary btnPrint print-button">프린트</button>
         </div>
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body row col-md-12 padding-20">
                 <div class="col-md-6"></div>
@@ -159,7 +171,28 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line">
+            <div class="print-header"></div>
+            <div class="cover-body row col-md-12 padding-20">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="line-center right-align margin-top-250">
+                        <h1 class="building-name" contenteditable="true" >신대방동 신축부지</h1>
+                        <div class="address-line"></div>
+                        <h5 style="margin-top: 22px;" contenteditable="true" >서울시 동작구 신대방동 686-44번지</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="print-footer text-alien-center">
+                <span>
+                   <b>제이디부동산 중개법인주식회사 | 서울시 강남구 도산대로 149, 진우빌딩 3층 |</b>  중개업등록번호 11680-2022-00432 | 대표 번호 02-514-7754
+                </span>
+            </div>
+        </div>
+
+        <div class="print-line"></div>
+
+        <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
                 <div class="col-md-6 right-align padding-top-50">
@@ -203,7 +236,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
                 <div class="col-md-6 padding-10">
@@ -353,7 +386,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
                 <div class="col-md-6 padding-10">
@@ -502,7 +535,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body print-body padding-20">
                 <div id="map" style="width: 1050px; height: 600px; margin: 0 auto;"></div>
@@ -512,7 +545,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line" style="margin-bottom: 10px;">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
                 <div class="col-md-6 padding-10">
@@ -617,7 +650,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content" style="margin-bottom: 10px;">
+        <div class="print-content">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
                 <div class="col-md-6 padding-10">
