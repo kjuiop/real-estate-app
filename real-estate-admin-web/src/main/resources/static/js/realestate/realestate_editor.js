@@ -189,6 +189,8 @@ let selectUsageCode = function(e) {
 let uploadImage = function(e) {
     e.preventDefault();
 
+    let $this = $(this);
+
     documentUpload({
         multiple: false,
         accept: '.jpg, .png, .gif',
@@ -198,7 +200,7 @@ let uploadImage = function(e) {
         callback: function (res) {
             console.log("res", res);
             let image = res.data[0];
-            let $imagePanel = $('.image-section');
+            let $imagePanel = $this.parents('.image-section');
             let tag = imgDraw(image.fullPath);
             $imagePanel.html(tag);
             $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
@@ -207,7 +209,8 @@ let uploadImage = function(e) {
 }
 
 let removeImage = function() {
-    let $imagePanel = $('.image-section');
+    let $this = $(this),
+        $imagePanel = $this.parents('.image-section');
     let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
     $imagePanel.html(tag);
 }
