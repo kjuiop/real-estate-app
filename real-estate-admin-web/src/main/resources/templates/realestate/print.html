@@ -20,18 +20,6 @@
                 visibility: visible;
                 margin-top: 30px !important;
             }
-
-            /*.print-section {*/
-            /*    padding-top : 0 !important;*/
-            /*}*/
-
-            /*.print-cover {*/
-            /*    margin-top: 30px !important;*/
-            /*}*/
-
-            /*.first-section {*/
-            /*    margin-top: 60px !important;*/
-            /*}*/
         }
 
         @page {
@@ -139,6 +127,32 @@
             text-align: center;
             align-items: center;
         }
+
+        .min-width-table td {
+            min-width: 105px;
+        }
+
+        .print-content-title {
+            height: 50px;
+        }
+
+        .print-content-title h3 {
+            color: darkblue;
+            font-weight: bold;
+            padding-left: 30px;
+            padding-top: 10px;
+        }
+
+        .print-content-title span {
+            padding-left: 10px;
+            padding-top: 18px;
+            color: #BDBDBD;
+        }
+
+        .print-title-line {
+            background-color: darkblue;
+            height: 5px;
+        }
     </style>
 </head>
 <body>
@@ -146,27 +160,6 @@
     <div class="print-section">
         <div class="print-button-section">
             <button class="btn btn-primary btnPrint print-button">프린트</button>
-        </div>
-
-        <div class="print-line"></div>
-
-        <div class="print-content print-distribute-line">
-            <div class="print-header"></div>
-            <div class="cover-body row col-md-12 padding-20">
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="line-center right-align margin-top-250">
-                        <h1 class="building-name" contenteditable="true" >신대방동 신축부지</h1>
-                        <div class="address-line"></div>
-                        <h5 style="margin-top: 22px;" contenteditable="true" >서울시 동작구 신대방동 686-44번지</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="print-footer text-alien-center">
-                <span>
-                   <b>제이디부동산 중개법인주식회사 | 서울시 강남구 도산대로 149, 진우빌딩 3층 |</b>  중개업등록번호 11680-2022-00432 | 대표 번호 02-514-7754
-                </span>
-            </div>
         </div>
 
         <div class="print-line"></div>
@@ -237,12 +230,16 @@
         <div class="print-line"></div>
 
         <div class="print-content print-distribute-line">
-            <div class="print-header"></div>
-            <div class="cover-body print-body row col-md-12 padding-20">
-                <div class="col-md-6 padding-10">
+            <div class="row print-content-title">
+                <h3>자산 개요</h3>
+                <span>Property overview</span>
+            </div>
+            <div class="print-title-line"></div>
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+                <div class="col-md-6 padding-10 height-100">
                     <img src="/images/print/33.jpeg" style="width: 100%; height: 100%;">
                 </div>
-                <div class="col-md-6 display-flex-column">
+                <div class="col-md-6 display-flex-column height-100">
                     <div class="display-flex-row table-unit">
                         <div class="col-md-1 table-label">
                             토<br/>
@@ -251,7 +248,7 @@
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-105">
+                            <table class="table table-bordered min-width-table">
                                 <tr>
                                     <td>소재지</td>
                                     <td colspan="2">서울특별시 동작구 신대방동 686-44 번지</td>
@@ -291,7 +288,7 @@
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-105">
+                            <table class="table table-bordered min-width-table">
                                 <tr>
                                     <td>대장상 대지면적</td>
                                     <td>2,482.6㎡</td>
@@ -348,7 +345,7 @@
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-105">
+                            <table class="table table-bordered min-width-table">
                                 <tr>
                                     <td>보증금</td>
                                     <td colspan="3">수익률(관포)</td>
@@ -387,24 +384,22 @@
         <div class="print-line"></div>
 
         <div class="print-content print-distribute-line">
-            <div class="print-header"></div>
-            <div class="cover-body print-body row col-md-12 padding-20">
-                <div class="col-md-6 padding-10">
+            <div class="row print-content-title">
+                <h3>건축물 개요</h3>
+                <span>Building Information</span>
+            </div>
+            <div class="print-title-line"></div>
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+                <div class="col-md-6 padding-10 height-100">
                     <img src="/images/print/33.jpeg" style="width: 100%; height: 100%;">
                 </div>
-                <div class="col-md-6 display-flex-column" style="padding-top: 15px;">
-                    <table class="table table-bordered min-width-105">
+                <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
+                    <table class="table table-bordered min-width-table">
                         <tr>
                             <td style="background-color: orange; color: #fff;">층 수</td>
                             <td style="background-color: orange; color: #fff;">면 적 (㎡)</td>
                             <td style="background-color: orange; color: #fff;">면 적 (평)</td>
                             <td style="background-color: orange; color: #fff;">주 용 도</td>
-                        </tr>
-                        <tr>
-                            <td>11F</td>
-                            <td>1,391.47</td>
-                            <td>420.92</td>
-                            <td>업무시설(사무소)</td>
                         </tr>
                         <tr>
                             <td>10F</td>
@@ -536,9 +531,13 @@
         <div class="print-line"></div>
 
         <div class="print-content print-distribute-line">
-            <div class="print-header"></div>
+            <div class="row print-content-title">
+                <h3>위치</h3>
+                <span>Location</span>
+            </div>
+            <div class="print-title-line"></div>
             <div class="cover-body print-body padding-20">
-                <div id="map" style="width: 1050px; height: 600px; margin: 0 auto;"></div>
+                <div id="map" style="width: 500px; height: 500px;"></div>
             </div>
             <div class="print-footer text-alien-center"></div>
         </div>
@@ -546,12 +545,16 @@
         <div class="print-line"></div>
 
         <div class="print-content print-distribute-line" style="margin-bottom: 10px;">
-            <div class="print-header"></div>
-            <div class="cover-body print-body row col-md-12 padding-20">
-                <div class="col-md-6 padding-10">
+            <div class="row print-content-title">
+                <h3>토지 조서</h3>
+                <span>Land decree</span>
+            </div>
+            <div class="print-title-line"></div>
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+                <div class="col-md-6 padding-10 height-100">
                     <img src="/images/print/33.jpeg" style="width: 100%; height: 100%;">
                 </div>
-                <div class="col-md-6 display-flex-column" style="padding-top: 15px;">
+                <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
                     <table class="table table-bordered">
                         <tr>
                             <td style="background-color: darkblue; color: #ffffff;">구분</td>
@@ -651,12 +654,16 @@
         <div class="print-line"></div>
 
         <div class="print-content">
-            <div class="print-header"></div>
-            <div class="cover-body print-body row col-md-12 padding-20">
-                <div class="col-md-6 padding-10">
+            <div class="row print-content-title">
+                <h3>개발 개요</h3>
+                <span>Develop Plan</span>
+            </div>
+            <div class="print-title-line"></div>
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+                <div class="col-md-6 padding-10 height-100">
                     <img src="/images/print/33.jpeg" style="width: 100%; height: 100%;">
                 </div>
-                <div class="col-md-6 display-flex-column" style="padding-top: 15px;">
+                <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
                     <table class="table table-bordered">
                         <tr>
                             <td>위 치</td>
