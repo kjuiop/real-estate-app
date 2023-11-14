@@ -10,6 +10,7 @@ let onReady = function() {
     loadLandInfoList();
     loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
+    loadPrintInfo();
     onlyNumberKeyEvent({className: "only-number"});
     // loadMoveOtherPage();
 }
@@ -206,35 +207,6 @@ let selectUsageCode = function(e) {
     $this.addClass("selected");
 }
 
-let uploadImage = function(e) {
-    e.preventDefault();
-
-    let $this = $(this);
-
-    documentUpload({
-        multiple: false,
-        accept: '.jpg, .png, .gif',
-        sizeCheck: false,
-        usageType: `RealEstate`,
-        fileType: `Image`,
-        callback: function (res) {
-            console.log("res", res);
-            let image = res.data[0];
-            let $imagePanel = $this.parents('.image-section');
-            let tag = imgDraw(image.fullPath);
-            $imagePanel.html(tag);
-            $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
-        }
-    });
-}
-
-let removeImage = function() {
-    let $this = $(this),
-        $imagePanel = $this.parents('.image-section');
-    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
-    $imagePanel.html(tag);
-}
-
 let changeProcessStatus = function(e) {
     e.preventDefault();
 
@@ -412,6 +384,44 @@ let openPrintPop = function(e) {
 
     let options = 'top=10, left=10, width=' + _width + ', height=' + _height + ', left=' + _left + ', top=' + _top + ', status=no, menubar=no, toolbar=no, resizable=no';
     window.open('/real-estate/print', 'print-popup', options);
+}
+
+let loadPrintInfo = function() {
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
+    let $frm = $('form[name="frmPrintImage"]');
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.propertyImgUrl)) {
+        let $imagePanel = $frm.find('#propertyImgUrl');
+        let tag = imgDraw(dto.printInfo.propertyImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.buildingImgUrl)) {
+        let $imagePanel = $frm.find('#buildingImgUrl');
+        let tag = imgDraw(dto.printInfo.buildingImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.locationImgUrl)) {
+        let $imagePanel = $frm.find('#locationImgUrl');
+        let tag = imgDraw(dto.printInfo.locationImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.landDecreeImgUrl)) {
+        let $imagePanel = $frm.find('#landDecreeImgUrl');
+        let tag = imgDraw(dto.printInfo.landDecreeImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.developPlanImgUrl)) {
+        let $imagePanel = $frm.find('#developPlanImgUrl');
+        let tag = imgDraw(dto.printInfo.developPlanImgUrl);
+        $imagePanel.html(tag);
+    }
 }
 
 $(document).ready(onReady)

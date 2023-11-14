@@ -42,7 +42,7 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     private Long nextId;
 
-    private PrintDto printDto;
+    private PrintDto printInfo;
 
     @Builder.Default
     private boolean isOwnUser = false;
@@ -100,7 +100,7 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
 
         if (r.getPrintInfoList().size() > 0) {
-            this.printDto = new PrintDto(r.getPrintInfoList().get(0));
+            this.printInfo = new PrintDto(r.getPrintInfoList().get(0));
         }
     }
 
