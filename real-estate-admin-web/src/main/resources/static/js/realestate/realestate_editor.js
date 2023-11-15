@@ -376,6 +376,10 @@ let printPdf = function(e) {
 let openPrintPop = function(e) {
     e.preventDefault();
 
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
     let _width = 1300;
     let _height = 1000;
     let _left = Math.ceil((window.screen.width - _width) / 2);
@@ -383,7 +387,7 @@ let openPrintPop = function(e) {
 
 
     let options = 'top=10, left=10, width=' + _width + ', height=' + _height + ', left=' + _left + ', top=' + _top + ', status=no, menubar=no, toolbar=no, resizable=no';
-    window.open('/real-estate/print', 'print-popup', options);
+    window.open('/real-estate/print/' + dto.realEstateId, 'print-popup', options);
 }
 
 let loadPrintInfo = function() {

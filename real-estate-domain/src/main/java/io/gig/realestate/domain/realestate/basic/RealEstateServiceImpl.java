@@ -77,6 +77,12 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public RealEstateDetailAllDto getDetailAllInfo(Long realEstateId) {
+        return realEstateReader.getRealEstateDetailAllInfo(realEstateId);
+    }
+
+    @Override
     @Transactional
     public Long create(RealEstateCreateForm createForm, LoginUser loginUser) {
         Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());

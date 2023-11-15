@@ -39,6 +39,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private Double pblntfPclnd;
 
+    private Double pblndfPclndByPyung;
+
     private Double totalPblntfPclnd;
 
     private Double roadWidth;
@@ -68,7 +70,8 @@ public class LandInfo extends BaseTimeEntity {
     private RealEstate realEstate;
 
     public static LandInfo create(LandInfoDto dto, RealEstate realEstate) {
-        return LandInfo.builder()
+
+        LandInfo landInfo = LandInfo.builder()
                 .pnu(dto.getPnu())
                 .address(dto.getAddress())
                 .address(dto.getAddress())
@@ -86,6 +89,13 @@ public class LandInfo extends BaseTimeEntity {
                 .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : null)
                 .realEstate(realEstate)
                 .build();
+
+        if (StringUtils.hasText(dto.getPblntfPclnd())) {
+            double pblntfPclnd = Double.parseDouble(dto.getPblntfPclnd());
+            landInfo.pblndfPclndByPyung = Math.floor(pblntfPclnd * 3.305785);
+        }
+
+        return landInfo;
     }
 
     public static void update(String address, YnType commercialYn, LandUpdateForm.LandInfoDto dto) {

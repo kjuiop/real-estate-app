@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
@@ -86,6 +87,21 @@ public class RealEstateQueryRepository {
 
         RealEstateDetailDto realEstateDetailDto = queryFactory
                 .select(Projections.constructor(RealEstateDetailDto.class,
+                        realEstate
+                ))
+                .from(realEstate)
+                .where(defaultCondition())
+                .where(eqRealEstateId(realEstateId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(realEstateDetailDto);
+    }
+
+    public Optional<RealEstateDetailAllDto> getRealEstateAllInfo(Long realEstateId) {
+
+        RealEstateDetailAllDto realEstateDetailDto = queryFactory
+                .select(Projections.constructor(RealEstateDetailAllDto.class,
                         realEstate
                 ))
                 .from(realEstate)
@@ -355,5 +371,4 @@ public class RealEstateQueryRepository {
         where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
         return where;
     }
-
 }

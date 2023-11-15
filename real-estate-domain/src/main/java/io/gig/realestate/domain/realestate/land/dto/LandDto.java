@@ -37,7 +37,6 @@ public class LandDto {
     // 각 필지의 지적공부에 등록한 필지의 수평면상 넓이의 합계(㎡)
     private Double lndpclArByPyung;
 
-
     /** 지목 **/
     // imreal 에서는 용도지역을 지목으로 사용함
     // 토지의 주된 용도에 따라 토지의 종류를 구분한 지목코드의 코드정보
@@ -66,11 +65,13 @@ public class LandDto {
 
     /** 토지면적당 공시지가 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
-    private Double pblntfPclnd;
+    private double pblntfPclnd;
+
+    private double pblndfPclndByPyung;
 
     /** 토지면적당 공시지가 합계 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
-    private Double totalPblntfPclnd;
+    private double totalPblntfPclnd;
 
     /** 공시지가 년도 **/
     // 공시 기준년도
@@ -94,6 +95,7 @@ public class LandDto {
         this.tpgrphFrmCodeNm = l.getTpgrphFrmCodeNm();
         this.roadSideCodeNm = l.getRoadSideCodeNm();
         this.pblntfPclnd = l.getPblntfPclnd();
+        this.pblndfPclndByPyung = l.getPblndfPclndByPyung();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
         this.ladUseSittnNm = l.getLadUseSittnNm();
         this.commercialYn = l.getCommercialYn();
