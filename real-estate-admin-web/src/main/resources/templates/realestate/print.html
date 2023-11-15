@@ -360,29 +360,29 @@
                             <table class="table table-bordered min-width-table">
                                 <tr>
                                     <td>보증금</td>
-                                    <td></td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.guaranteePrice, 0, 'COMMA', 0, 'POINT')}]]만원</td>
                                     <td>수익률(관포)</td>
-                                    <td></td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.revenueRate, 0, 'COMMA', 0, 'POINT')}]]%</td>
                                 </tr>
                                 <tr>
                                     <td>임대료</td>
-                                    <td></td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.rentMonth, 0, 'COMMA', 0, 'POINT')}]]만원</td>
                                     <td>관리비</td>
-                                    <td></td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.management, 0, 'COMMA', 0, 'POINT')}]]만원</td>
                                 </tr>
                                 <tr>
                                     <td>연면적 평단가</td>
-                                    <td>-</td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT')}]]원 / 평</td>
                                     <td>토지 평단가</td>
-                                    <td>5,459 만원 / 평</td>
+                                    <td>[[${#numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT')}]]원 / 평</td>
                                 </tr>
                                 <tr>
                                     <td>매매가</td>
-                                    <td colspan="3">410 억원</td>
+                                    <td colspan="3">[[${#numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT')}]] 억원</td>
                                 </tr>
                                 <tr>
                                     <td>비고</td>
-                                    <td colspan="3">
+                                    <td colspan="3" contenteditable="true">
                                         현재 주유소 운영중이며 평도 협의 가능
                                     </td>
                                 </tr>
