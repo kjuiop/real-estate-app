@@ -237,10 +237,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo.propertyImgUrl}">
+                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.propertyImgUrl)}">
                         <img th:src="${printInfo.propertyImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <th:block th:unless="${printInfo.propertyImgUrl}">
+                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.propertyImgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>
@@ -270,8 +270,16 @@
                                 </tr>
                                 <tr>
                                     <td>공시지가</td>
-                                    <td>[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
-                                    <td>[[${#numbers.formatDecimal(landInfo.pblndfPclndByPyung / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/평</td>
+                                    <td>
+                                        <th:block th:if="${landInfo.pblntfPclnd != null && landInfo.pblntfPclnd > 0}">
+                                            [[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡
+                                        </th:block>
+                                    </td>
+                                    <td>
+                                        <th:block th:if="${landInfo.pblndfPclndByPyung != null && landInfo.pblndfPclndByPyung > 0}">
+                                            [[${#numbers.formatDecimal(landInfo.pblndfPclndByPyung / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/평
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>대지면적</td>
@@ -294,48 +302,48 @@
                         <div class="col-md-11">
                             <table class="table table-bordered min-width-table">
                                 <tr>
-                                    <td>대장상 대지면적</td>
-                                    <td>2,482.6㎡</td>
-                                    <td>750.99평</td>
+                                    <td style="width: 20%;">대장상 대지면적</td>
+                                    <td style="width: 40%;">[[${constructInfo.platArea}]]㎡</td>
+                                    <td style="width: 40%;">[[${constructInfo.platAreaByPyung}]]평</td>
                                 </tr>
                                 <tr>
-                                    <td>연 면 적</td>
-                                    <td>2,430.21㎡</td>
-                                    <td>735.14평</td>
+                                    <td style="width: 20%;">연 면 적</td>
+                                    <td style="width: 40%;">[[${constructInfo.totArea}]]㎡</td>
+                                    <td style="width: 40%;">[[${constructInfo.totAreaByPyung}]]평</td>
                                 </tr>
                                 <tr>
-                                    <td>지상면적</td>
-                                    <td>2,007.47㎡</td>
-                                    <td>607.26평</td>
+                                    <td style="width: 20%;">지상면적</td>
+                                    <td style="width: 40%;">[[${constructInfo.vlRatEstmTotArea}]]㎡</td>
+                                    <td style="width: 40%;">[[${constructInfo.vlRatEstmTotAreaByPyung}]]평</td>
                                 </tr>
                                 <tr>
-                                    <td>건축면적</td>
-                                    <td>762.82㎡</td>
-                                    <td>230.75평</td>
+                                    <td style="width: 20%;">건축면적</td>
+                                    <td style="width: 40%;">[[${constructInfo.archArea}]]㎡</td>
+                                    <td style="width: 40%;">[[${constructInfo.archAreaByPyung}]]평</td>
                                 </tr>
                                 <tr>
-                                    <td>준공년도</td>
-                                    <td>1997년</td>
-                                    <td>9월</td>
+                                    <td style="width: 20%;">준공년도</td>
+                                    <td style="width: 40%;">년</td>
+                                    <td style="width: 40%;">월</td>
                                 </tr>
                                 <tr>
-                                    <td>건물규모</td>
-                                    <td colspan="2">지상 4층 / 지하 1층</td>
+                                    <td style="width: 20%;">건물규모</td>
+                                    <td colspan="2">지상 [[${constructInfo.grndFlrCnt}]]층 / 지하 [[${constructInfo.ugrndFlrCnt}]]층</td>
                                 </tr>
                                 <tr>
-                                    <td>건폐 / 용적율</td>
-                                    <td>30.73%</td>
-                                    <td>80.86%</td>
+                                    <td style="width: 20%;">건폐 / 용적율</td>
+                                    <td style="width: 40%;">[[${constructInfo.bcRat}]]%</td>
+                                    <td style="width: 40%;">[[${constructInfo.vlRat}]]%</td>
                                 </tr>
                                 <tr>
-                                    <td>주차 / 승강기</td>
-                                    <td>22대(옥외자주식)</td>
-                                    <td>0대</td>
+                                    <td style="width: 20%;">주차 / 승강기</td>
+                                    <td style="width: 40%;">[[${constructInfo.oudrAutoUtcnt}]]대(옥외자주식)</td>
+                                    <td style="width: 40%;">[[${constructInfo.indrMechUtcnt}]]대</td>
                                 </tr>
                                 <tr>
-                                    <td>구조</td>
-                                    <td>주용도</td>
-                                    <td>위험물저장 및 처리시설, 업무시설, 자동차관련시설, 근린생활시설</td>
+                                    <td style="width: 20%;">구조</td>
+                                    <td style="width: 40%;">[[${constructInfo.mainPurpsCdNm}]]</td>
+                                    <td style="width: 40%;">[[${constructInfo.etcPurps}]]</td>
                                 </tr>
                             </table>
                         </div>
@@ -395,10 +403,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo.buildingImgUrl}">
+                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">
                         <img th:src="${printInfo.buildingImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <th:block th:unless="${printInfo.buildingImgUrl}">
+                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>
@@ -546,7 +554,7 @@
             </div>
             <div class="print-title-line"></div>
             <div class="cover-body print-body padding-20">
-                <th:block th:if="${printInfo.locationImgUrl}">
+                <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.locationImgUrl)}">
                     <img th:src="${printInfo.locationImgUrl}" style="width: 100%; height: 100%;">
                 </th:block>
 <!--                <div id="map" style="width: 500px; height: 500px;"></div>-->
@@ -564,10 +572,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo.landDecreeImgUrl}">
+                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.landDecreeImgUrl)}">
                         <img th:src="${printInfo.landDecreeImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <th:block th:unless="${printInfo.landDecreeImgUrl}">
+                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.landDecreeImgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>
@@ -678,10 +686,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo.developPlanImgUrl}">
+                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.developPlanImgUrl)}">
                         <img th:src="${printInfo.developPlanImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <th:block th:unless="${printInfo.developPlanImgUrl}">
+                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.developPlanImgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>

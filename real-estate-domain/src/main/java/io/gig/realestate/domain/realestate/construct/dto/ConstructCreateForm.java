@@ -82,4 +82,8 @@ public class ConstructCreateForm {
 
     private YnType illegalConstructYn;
 
+    private double vlRatEstmTotArea;
+
+    private double vlRatEstmTotAreaByPyung;
+
 }

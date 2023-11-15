@@ -65,13 +65,13 @@ public class LandDto {
 
     /** 토지면적당 공시지가 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
-    private double pblntfPclnd;
+    private Double pblntfPclnd;
 
-    private double pblndfPclndByPyung;
+    private Double pblndfPclndByPyung;
 
     /** 토지면적당 공시지가 합계 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
-    private double totalPblntfPclnd;
+    private Double totalPblntfPclnd;
 
     /** 공시지가 년도 **/
     // 공시 기준년도
