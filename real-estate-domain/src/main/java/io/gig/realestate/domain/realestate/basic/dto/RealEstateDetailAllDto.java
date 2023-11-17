@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
+import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.price.dto.PriceDto;
@@ -16,6 +17,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -45,6 +48,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private PrintDto printInfo;
 
+    private List<FloorListDto> floorInfoList;
+
 
     static {
         EMPTY = RealEstateDetailAllDto.builder()
@@ -71,6 +76,10 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
         if (r.getPrintInfoList().size() > 0) {
             this.printInfo = new PrintDto(r.getPrintInfoList().get(0));
+        }
+
+        if (r.getFloorPriceInfo().size() > 0) {
+            this.floorInfoList = r.getFloorPriceInfo().stream().map(FloorListDto::new).collect(Collectors.toList());
         }
     }
 }
