@@ -447,8 +447,8 @@
 <!--                        </tr>-->
                         <tr>
                             <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>
-                            <td id="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">56,334.26</td>
-                            <td id="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">17,041.11</td>
+                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">56,334.26</td>
+                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">17,041.11</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
                         </tr>
                     </table>
@@ -477,7 +477,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content print-distribute-line" style="margin-bottom: 10px;">
+        <div class="print-content print-distribute-line land-info-section" style="margin-bottom: 10px;">
             <div class="row print-content-title">
                 <h3>토지 조서</h3>
                 <span>Land decree</span>
@@ -502,83 +502,26 @@
                             <td style="background-color: darkblue; color: #ffffff;">지목</td>
                             <td style="background-color: darkblue; color: #ffffff;">공시지가(원/㎡)</td>
                         </tr>
+                        <th:block th:unless="${#lists.isEmpty(landInfoList)}" th:each="land, status : ${landInfoList}">
+                            <tr>
+                                <td>[[${status.index + 1}]]</td>
+                                <td>[[${land.address}]]</td>
+                                <td>[[${land.lndpclAr}]]</td>
+                                <td>[[${land.lndpclArByPyung}]]</td>
+                                <td>[[${land.prposArea1Nm}]]</td>
+                                <td>[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:if="${#lists.isEmpty(landInfoList)}">
+                            <tr>
+                                <td class="text-alien-center" colspan="6">토지정보가 없습니다.</td>
+                            </tr>
+                        </th:block>
                         <tr>
-                            <td>1</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>축현리 산 118-2</td>
-                            <td>18,711</td>
-                            <td>5,660</td>
-                            <td>임야</td>
-                            <td>58,100</td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">9개 필지</td>
+                            <td style="background-color: #A9D0F5; font-weight: bold;">[[${landInfoList.size()}]]개 필지</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">50,179</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">15,179</td>
+                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">50,179</td>
+                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">15,179</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
                         </tr>
@@ -682,6 +625,8 @@
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        var landInfoList =/*[[${landInfoList}]]*/'';
         var floorInfoList =/*[[${floorInfoList}]]*/'';
         /*]]>*/
     </script>

@@ -1,14 +1,24 @@
 let onReady = function() {
 
+    console.log("dto", dto);
+    console.log("landInfoList", landInfoList);
+
     if (floorInfoList.length > 0) {
         calculateFloorInfo(floorInfoList);
     }
-    console.log("floorInfoList", floorInfoList);
+
+    if (landInfoList.length > 0) {
+        calculateLandInfo(landInfoList);
+    }
 
     // loadKakaoMap('강남구 삼성동 115-3');
 }
 
 let calculateFloorInfo = function(floorInfoList) {
+
+    if (floorInfoList.length === 0) {
+        return;
+    }
 
     let $section = $('.floor-info-section'),
         totalLndpclAr = 0,
@@ -19,8 +29,27 @@ let calculateFloorInfo = function(floorInfoList) {
         totalLndpclArByPyung += item.lndpclArByPyung;
     });
 
-    $section.find('#totalLndpclAr').text(addCommasToNumber(totalLndpclAr));
-    $section.find('#totalLndpclArByPyung').text(addCommasToNumber(totalLndpclArByPyung));
+    $section.find('.totalLndpclAr').text(addCommasToNumber(totalLndpclAr));
+    $section.find('.totalLndpclArByPyung').text(addCommasToNumber(totalLndpclArByPyung));
+}
+
+let calculateLandInfo = function(landInfoList) {
+
+    if (landInfoList.length === 0) {
+        return;
+    }
+
+    let $section = $('.land-info-section'),
+        totalLndpclAr = 0,
+        totalLndpclArByPyung = 0;
+
+    $.each(landInfoList, function(idx, item) {
+       totalLndpclAr += item.lndpclAr;
+       totalLndpclArByPyung += item.lndpclArByPyung;
+    });
+
+    $section.find('.totalLndpclAr').text(totalLndpclAr);
+    $section.find('.totalLndpclArByPyung').text(totalLndpclArByPyung);
 }
 
 let loadKakaoMap = function(searchAddress) {

@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import io.gig.realestate.domain.realestate.print.dto.PrintDto;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private PrintDto printInfo;
 
+    private List<LandListDto> landInfoList;
+
     private List<FloorListDto> floorInfoList;
 
 
@@ -64,6 +67,7 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         super(r);
         if (r.getLandInfoList().size() > 0) {
             this.landInfo = new LandDto(r.getLandInfoList().get(0));
+            this.landInfoList = r.getLandInfoList().stream().map(LandListDto::new).collect(Collectors.toList());
         }
 
         if (r.getPriceInfoList().size() > 0) {
