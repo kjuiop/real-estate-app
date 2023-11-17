@@ -550,67 +550,67 @@
                     </th:block>
                 </div>
                 <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered develop-info-section">
                         <tr>
                             <td>위 치</td>
-                            <td colspan="2">서울시 동작구 신대방동 686-44</td>
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">[[${dto.address}]]</td>
                         </tr>
                         <tr>
                             <td>지 역</td>
-                            <td colspan="2">
-                                일반상업지역, 준주거지역, 지구단위계획구역(대림지구)
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">
+                                [[${landInfo.prposArea1Nm}]]
                             </td>
                         </tr>
                         <tr>
                             <td>대지면적</td>
-                            <td colspan="2">
-                                2,482.6㎡ (750.98평)
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">
+                                [[${landInfo.lndpclAr}]]㎡ ([[${landInfo.lndpclArByPyung}]]평)
                             </td>
                         </tr>
                         <tr>
                             <td>건 폐 율</td>
-                            <td colspan="2">50%</td>
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">[[${constructInfo.bcRat}]]%</td>
                         </tr>
                         <tr>
                             <td>용 적 율</td>
-                            <td colspan="2">625%</td>
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">[[${constructInfo.vlRat}]]%</td>
                         </tr>
                         <tr>
                             <td>규 모</td>
-                            <td colspan="2">지상 15층/지하6층</td>
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">지상 [[${constructInfo.grndFlrCnt}]]층 / 지하 [[${constructInfo.ugrndFlrCnt}]]층</td>
                         </tr>
                         <tr>
                             <td>최고높이</td>
-                            <td colspan="2">76M</td>
+                            <td colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;"></td>
                         </tr>
                         <tr>
                             <td>주 용 도</td>
-                            <td colspan="2">업무시설(오피스), 근린생활시설, 노유자시설</td>
+                            <td colspan="2" style="text-align: left; padding-left: 15px;">[[${landInfo.lndcgrCodeNm}]]</td>
                         </tr>
                         <tr>
-                            <td rowspan="4" style="vertical-align: middle;">연 면 적</td>
-                            <td>오피스</td>
-                            <td>6,533PY (기준층 전용 224PY)</td>
+                            <td rowspan="4" style="vertical-align: middle; width: 18%;">연 면 적</td>
+                            <td style="width: 15%;" contenteditable="true">오피스</td>
+                            <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
                         <tr>
-                            <td>근 생</td>
-                            <td>338PY (1,2F)</td>
+                            <td style="width: 15%;" contenteditable="true">근 생</td>
+                            <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
                         <tr>
-                            <td>기 타</td>
-                            <td>203PY (1,2F - 노유자 시설 등)</td>
+                            <td style="width: 15%;" contenteditable="true">기 타</td>
+                            <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
                         <tr>
-                            <td>합 계</td>
-                            <td>7,074PY</td>
+                            <td style="width: 15%;">합 계</td>
+                            <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
                         <tr>
                             <td>주 차</td>
-                            <td colspan="2">자주식 181대 (법정 118%)</td>
+                            <td class="text-alien-left" colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;">자주식 [[${constructInfo.oudrAutoUtcnt}]]대</td>
                         </tr>
                         <tr>
                             <td>비 고</td>
-                            <td colspan="2">기준층 전용 226PY, 층고 2.7M의 우수한 업무시설 자산으로 개발 예정</td>
+                            <td class="text-alien-left" colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;"></td>
                         </tr>
                     </table>
                 </div>
