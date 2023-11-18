@@ -112,6 +112,7 @@ let loadConstructFloorInfo = function() {
             $tfoot.removeClass('hidden');
 
             calculateFloorInfo();
+            $(".construct-floor-table tbody").sortable().disableSelection();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
