@@ -59,6 +59,11 @@ public class FloorPriceInfo extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType underFloorYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -81,6 +86,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .termStartDate(dto.getTermStartDate())
                 .termEndDate(dto.getTermEndDate())
                 .etcInfo(dto.getEtcInfo())
+                .underFloorYn(dto.getUnderFloorYn())
                 .realEstate(realEstate)
                 .build();
     }

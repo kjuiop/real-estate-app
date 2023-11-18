@@ -7,7 +7,6 @@ let onReady = function() {
     loadConstructFloorInfo();
     loadCustomerInfo();
     loadMemoInfo();
-    loadLandInfoList();
     loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     loadPrintInfo();
@@ -461,4 +460,7 @@ $(document).ready(onReady)
     .on('blur', '.managementExpense', calculateManagementExpense)
     .on('blur', '.salePrice', calculateAveragePrice)
     .on('click', '.btnOpenPrintPop', openPrintPop)
+    .on('blur', '.calSumField', calculateSumField)
+    .on('click', '.btnRowAdd', floorInfoRowAdd)
+    .on('click', '.btnRowRemove', floorInfoRowRemove)
 ;
