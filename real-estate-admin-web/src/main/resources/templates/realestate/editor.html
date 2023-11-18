@@ -611,7 +611,7 @@
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-                    <div class="card" style="margin-top: 10px;" th:if="${isModify}">
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify && dto.processType.level > 2}">
                         <div class="card-header">
                             <h3 class="card-title margin-right-4">출력 이미지</h3>
                         </div>
