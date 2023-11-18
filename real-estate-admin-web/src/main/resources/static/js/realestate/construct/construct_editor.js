@@ -123,41 +123,48 @@ let loadConstructFloorInfo = function() {
 let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
-        tag += '<tr class="floor-unit">';
-        tag += '<td class="center-text padding-8"><select class="form-control form-control-sm" style="min-width: 70px;" name="underFloorYn">';
-        if (item.underFloorYn === 'Y') {
-            tag += '<option value="N">지상</option><option value="Y" selected>지하</option>';
-        } else {
-            tag += '<option value="N" selected>지상</option><option value="Y">지하</option>';
-        }
-        tag += '</select></td>';
-        tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width: 100px;"/></td>';
-        tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
-        tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
-        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
-        if (item.guaranteePrice > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="' + item.guaranteePrice + '" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="0" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        }
-
-        if (item.rent > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="' + item.rent + '" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="0" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        }
-
-        if (item.management > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="' + item.management + '" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="0" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
-        }
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termStartDate) + '" name="termStartDate" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">~</span><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termEndDate) + '" name="termEndDate" style="min-width: 100px;"/></div></td>';
-        tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
-        tag += '</tr>';
+        tag += drawConstructFloorRow(item);
     })
+    return tag;
+}
+
+let drawConstructFloorRow = function(item) {
+    let tag = '';
+    tag += '<tr class="floor-unit">';
+    tag += '<td class="center-text padding-8"><select class="form-control form-control-sm" style="min-width: 70px;" name="underFloorYn">';
+    if (item.underFloorYn === 'Y') {
+        tag += '<option value="N">지상</option><option value="Y" selected>지하</option>';
+    } else {
+        tag += '<option value="N" selected>지상</option><option value="Y">지하</option>';
+    }
+    tag += '</select></td>';
+    tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width: 100px;"/></td>';
+    tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
+    tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
+    tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
+    tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
+    tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
+    if (item.guaranteePrice > 0) {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="' + item.guaranteePrice + '" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    } else {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="0" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    }
+
+    if (item.rent > 0) {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="' + item.rent + '" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    } else {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="0" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    }
+
+    if (item.management > 0) {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="' + item.management + '" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    } else {
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="0" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+    }
+    tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termStartDate) + '" name="termStartDate" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">~</span><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termEndDate) + '" name="termEndDate" style="min-width: 100px;"/></div></td>';
+    tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
+    tag += '<td class="center-text padding-8"><button class="btn btn-sm btn-danger btnRowRemove">삭제</button></td>'
+    tag += '</tr>';
     return tag;
 }
 
@@ -294,4 +301,17 @@ let calculateSumField = function(e) {
     });
 
     $sumSection.html(totalValue + '<span style="font-size: 15px; padding: 3px;">' + unit + '</span>');
+}
+
+let floorInfoRowAdd = function(e) {
+    e.preventDefault();
+
+    alert("add")
+}
+
+let floorInfoRowRemove = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    $this.parents('.floor-unit').remove();
 }

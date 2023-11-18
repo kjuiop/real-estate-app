@@ -461,4 +461,6 @@ $(document).ready(onReady)
     .on('blur', '.salePrice', calculateAveragePrice)
     .on('click', '.btnOpenPrintPop', openPrintPop)
     .on('blur', '.calSumField', calculateSumField)
+    .on('click', '.btnRowAdd', floorInfoRowAdd)
+    .on('click', '.btnRowRemove', floorInfoRowRemove)
 ;
