@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.construct.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -41,4 +42,6 @@ public class FloorCreateForm {
     private String termEndDate;
 
     private String etcInfo;
+
+    private YnType underFloorYn;
 }

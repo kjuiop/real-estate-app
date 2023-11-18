@@ -40,6 +40,10 @@ let loadLandInfoList = function() {
 
                 calculateLandInfo();
             }
+
+            if (!checkNullOrEmptyValue(dto.realEstateId)) {
+                $frm.find('.btnLandAdd').trigger('click');
+            }
         },
         error: function(error){
             ajaxErrorFieldByText(error);

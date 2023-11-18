@@ -1,12 +1,12 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
-import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
-import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import io.gig.realestate.domain.realestate.print.dto.PrintDto;
 import lombok.AllArgsConstructor;
@@ -14,10 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.StringUtils;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,8 +49,9 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private List<LandListDto> landInfoList;
 
-    private List<FloorListDto> floorInfoList;
+    private List<FloorListDto> floorUpList;
 
+    private List<FloorListDto> floorUnderList;
 
     static {
         EMPTY = RealEstateDetailAllDto.builder()
@@ -83,7 +82,19 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         }
 
         if (r.getFloorPriceInfo().size() > 0) {
-            this.floorInfoList = r.getFloorPriceInfo().stream().map(FloorListDto::new).collect(Collectors.toList());
+            List<FloorListDto> floorUpList = new ArrayList<>();
+            List<FloorListDto> floorUnderList = new ArrayList<>();
+
+            for (FloorPriceInfo floor : r.getFloorPriceInfo()) {
+                if (floor.getUnderFloorYn().equals(YnType.N)) {
+                    floorUpList.add(new FloorListDto(floor));
+                } else {
+                    floorUnderList.add(new FloorListDto(floor));
+                }
+            }
+
+            this.floorUpList = floorUpList;
+            this.floorUnderList = floorUnderList;
         }
     }
 }

@@ -179,7 +179,8 @@ public class RealEstateController {
         model.addAttribute("priceInfo", dto.getPriceInfo());
         model.addAttribute("landInfoList", dto.getLandInfoList());
         model.addAttribute("constructInfo", dto.getConstructInfo());
-        model.addAttribute("floorInfoList", dto.getFloorInfoList());
+        model.addAttribute("floorUpList", dto.getFloorUpList());
+        model.addAttribute("floorUnderList", dto.getFloorUnderList());
 
         return "realestate/print";
     }
