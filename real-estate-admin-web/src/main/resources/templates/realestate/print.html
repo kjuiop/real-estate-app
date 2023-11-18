@@ -246,14 +246,14 @@
                 </div>
                 <div class="col-md-6 display-flex-column height-100">
                     <div class="display-flex-row table-unit">
-                        <div class="col-md-1 table-label">
-                            토<br/>
-                            지<br/>
-                            정<br/>
+                        <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
+                            토
+                            지
+                            정
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-table">
+                            <table class="table table-bordered min-width-table" style="margin-bottom: 0;">
                                 <tr>
                                     <td>소재지</td>
                                     <td colspan="2">[[${landInfo.address}]]</td>
@@ -291,16 +291,16 @@
                     </div>
 
                     <div class="display-flex-row table-unit margin-top-8">
-                        <div class="col-md-1 table-label">
-                            기<br/>
-                            존<br/>
-                            건<br/>
-                            물<br/>
-                            정<br/>
+                        <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
+                            기
+                            존
+                            건
+                            물
+                            정
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-table">
+                            <table class="table table-bordered min-width-table" style="margin-bottom: 0;">
                                 <tr>
                                     <td style="width: 20%;">대장상 대지면적</td>
                                     <td style="width: 40%;">[[${constructInfo.platArea}]]㎡</td>
@@ -349,15 +349,15 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit">
-                        <div class="col-md-1 table-label">
-                            금<br/>
-                            액<br/>
-                            정<br/>
+                    <div class="display-flex-row table-unit margin-top-8">
+                        <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
+                            금
+                            액
+                            정
                             보
                         </div>
                         <div class="col-md-11">
-                            <table class="table table-bordered min-width-table">
+                            <table class="table table-bordered min-width-table" style="margin-bottom: 0;">
                                 <tr>
                                     <td>보증금</td>
                                     <td>[[${#numbers.formatDecimal(priceInfo.guaranteePrice, 0, 'COMMA', 0, 'POINT')}]]만원</td>
@@ -412,7 +412,7 @@
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>
-                <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
+                <div class="col-md-6 display-flex-column height-100 padding-top-20">
                     <table class="table table-bordered min-width-table">
                         <tr>
                             <td style="background-color: orange; color: #fff;">층 수</td>
@@ -483,7 +483,7 @@
                 <span>Land decree</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px;">
                 <div class="col-md-6 padding-10 height-100">
                     <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.landDecreeImgUrl)}">
                         <img th:src="${printInfo.landDecreeImgUrl}" style="width: 100%; height: 100%;">
@@ -540,7 +540,7 @@
                 <span>Develop Plan</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px;">
                 <div class="col-md-6 padding-10 height-100">
                     <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.developPlanImgUrl)}">
                         <img th:src="${printInfo.developPlanImgUrl}" style="width: 100%; height: 100%;">
@@ -550,7 +550,7 @@
                     </th:block>
                 </div>
                 <div class="col-md-6 display-flex-column height-100" style="padding-top: 5px;">
-                    <table class="table table-bordered develop-info-section">
+                    <table class="table table-bordered develop-info-section" style="border-top: 2px solid gray; border-bottom: 2px solid gray;">
                         <tr>
                             <td>위 치</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">[[${dto.address}]]</td>
