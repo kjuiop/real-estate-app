@@ -3,8 +3,8 @@ let onReady = function() {
     console.log("dto", dto);
     console.log("landInfoList", landInfoList);
 
-    if (floorInfoList.length > 0) {
-        calculateFloorInfo(floorInfoList);
+    if (floorUpList.length > 0 || floorUnderList.length > 0) {
+        calculateFloorInfo(floorUpList, floorUnderList);
     }
 
     if (landInfoList.length > 0) {
@@ -14,20 +14,44 @@ let onReady = function() {
     // loadKakaoMap('강남구 삼성동 115-3');
 }
 
-let calculateFloorInfo = function(floorInfoList) {
+let calculateFloorInfo = function(floorUpList, floorUnderList) {
 
-    if (floorInfoList.length === 0) {
+    if (floorUpList.length === 0 && floorUnderList.length === 0) {
         return;
     }
 
     let $section = $('.floor-info-section'),
+        totalUpFloorLndpclAr = 0,
+        totalUpFloorLndpclArByPyung = 0,
+        totalUnderFloorLndpclAr = 0,
+        totalUnderFloorLndpclArByPyung = 0,
         totalLndpclAr = 0,
         totalLndpclArByPyung = 0;
 
-    $.each(floorInfoList, function(idx, item) {
-        totalLndpclAr += item.lndpclAr;
-        totalLndpclArByPyung += item.lndpclArByPyung;
-    });
+    if (floorUpList.length > 0) {
+        $.each(floorUpList, function(idx, item) {
+            totalUpFloorLndpclAr += item.lndpclAr;
+            totalUpFloorLndpclArByPyung += item.lndpclArByPyung;
+        });
+        totalUpFloorLndpclAr = totalUpFloorLndpclAr.toFixed(2);
+        totalUpFloorLndpclArByPyung = totalUpFloorLndpclArByPyung.toFixed(2);
+        $section.find('.totalUpFloorLndpclAr').text(addCommasToNumber(totalUpFloorLndpclAr));
+        $section.find('.totalUpFloorLndpclArByPyung').text(addCommasToNumber(totalUpFloorLndpclArByPyung));
+    }
+
+    if (floorUnderList.length > 0) {
+        $.each(floorUpList, function(idx, item) {
+            totalUnderFloorLndpclAr += item.lndpclAr;
+            totalUnderFloorLndpclArByPyung += item.lndpclArByPyung;
+        });
+        totalUnderFloorLndpclAr = totalUnderFloorLndpclAr.toFixed(2);
+        totalUnderFloorLndpclArByPyung = totalUnderFloorLndpclArByPyung.toFixed(2);
+        $section.find('.totalUnderFloorLndpclAr').text(addCommasToNumber(totalUnderFloorLndpclAr));
+        $section.find('.totalUnderFloorLndpclArByPyung').text(addCommasToNumber(totalUnderFloorLndpclArByPyung));
+    }
+
+    totalLndpclAr = Number(totalUpFloorLndpclAr) + Number(totalUnderFloorLndpclAr);
+    totalLndpclArByPyung = Number(totalUpFloorLndpclArByPyung) + Number(totalUnderFloorLndpclArByPyung);
 
     $section.find('.totalLndpclAr').text(addCommasToNumber(totalLndpclAr));
     $section.find('.totalLndpclArByPyung').text(addCommasToNumber(totalLndpclArByPyung));
