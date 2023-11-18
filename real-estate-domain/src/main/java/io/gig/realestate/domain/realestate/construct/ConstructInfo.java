@@ -114,6 +114,7 @@ public class ConstructInfo extends BaseTimeEntity {
                 .illegalConstructYn(createForm.getIllegalConstructYn())
                 .vlRatEstmTotArea(createForm.getVlRatEstmTotArea())
                 .vlRatEstmTotAreaByPyung(createForm.getVlRatEstmTotAreaByPyung())
+                .heit(createForm.getHeit())
                 .realEstate(realEstate)
                 .build();
 
