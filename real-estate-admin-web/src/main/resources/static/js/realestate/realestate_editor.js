@@ -7,7 +7,6 @@ let onReady = function() {
     loadConstructFloorInfo();
     loadCustomerInfo();
     loadMemoInfo();
-    loadLandInfoList();
     loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     loadPrintInfo();
