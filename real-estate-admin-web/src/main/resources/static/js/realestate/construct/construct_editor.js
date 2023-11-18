@@ -142,7 +142,7 @@ let drawConstructFloorRow = function(item) {
     tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
-    tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
+    tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 100px;"/></td>';
     tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
     if (item.guaranteePrice > 0) {
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="' + item.guaranteePrice + '" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
@@ -228,7 +228,7 @@ let assembleFloorParams = function() {
             "area" : $(item).find('.area').attr('data'),
             "lndpclAr" : $(item).find('input[name="lndpclAr"]').val(),
             "lndpclArByPyung" : $(item).find('input[name="lndpclArByPyung"]').val(),
-            "etcPurps" : $(item).find('.etcPurps').attr('data'),
+            "etcPurps" : $(item).find('input[name="etcPurps"]').val(),
             "companyName" : $(item).find('input[name="companyName"]').val(),
             "guaranteePrice" : $(item).find('input[name="guaranteePrice"]').val(),
             "rent" : $(item).find('input[name="rent"]').val(),
@@ -306,7 +306,17 @@ let calculateSumField = function(e) {
 let floorInfoRowAdd = function(e) {
     e.preventDefault();
 
-    alert("add")
+    let data = {
+        "flrNo" : 999,
+        "underFloorYn" : 'N',
+        "area" : 0,
+        "lndpclAr" : 0,
+        "lndpclArByPyung" : 0,
+    }
+
+    let $tbody = $('.construct-floor-table tbody');
+    let tag = drawConstructFloorRow(data);
+    $tbody.append(tag);
 }
 
 let floorInfoRowRemove = function(e) {
