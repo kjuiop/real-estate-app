@@ -123,6 +123,13 @@ let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
         tag += '<tr class="floor-unit">';
+        tag += '<td class="center-text padding-8"><select class="form-control form-control-sm" style="min-width: 70px;" name="underFloorYn">';
+        if (item.underFloorYn === 'Y') {
+            tag += '<option value="N">지상</option><option value="Y" selected>지하</option>';
+        } else {
+            tag += '<option value="N" selected>지상</option><option value="Y">지하</option>';
+        }
+        tag += '</select></td>';
         tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width: 100px;"/></td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
@@ -207,6 +214,7 @@ let assembleFloorParams = function() {
     let floorInfoList = [];
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
+            "underFloorYn" : $(item).find('select[name="underFloorYn"] option:selected').val(),
             "flrNo" : $(item).find('.flrNo').attr('flrNo'),
             "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
             "area" : $(item).find('.area').attr('data'),
