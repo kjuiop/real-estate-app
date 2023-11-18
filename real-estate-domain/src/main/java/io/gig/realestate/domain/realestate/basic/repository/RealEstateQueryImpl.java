@@ -5,6 +5,7 @@ import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import lombok.RequiredArgsConstructor;
@@ -82,5 +83,15 @@ public class RealEstateQueryImpl implements RealEstateReader {
     @Override
     public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
         return queryRepository.getRealEstateIdsBySearch(searchDto);
+    }
+
+    @Override
+    public RealEstateDetailAllDto getRealEstateDetailAllInfo(Long realEstateId) {
+        Optional<RealEstateDetailAllDto> findRealEstate = queryRepository.getRealEstateAllInfo(realEstateId);
+        if (findRealEstate.isEmpty()) {
+            throw new NotFoundException(realEstateId + "의 매물 데이터가 없습니다.");
+        }
+
+        return findRealEstate.get();
     }
 }

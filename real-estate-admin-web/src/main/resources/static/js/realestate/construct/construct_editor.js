@@ -52,6 +52,9 @@ let loadConstructInfo = function() {
             $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
             $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
             $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+            $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
+            $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
+            $frm.find('input[name="heit"]').val(constructInfo.heit);
 
             if (constructInfo.illegalConstructYn === 'Y') {
                 $frm.find('input[name="illegalConstructYn"]').iCheck('check');

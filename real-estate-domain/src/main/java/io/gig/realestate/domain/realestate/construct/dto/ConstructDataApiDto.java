@@ -49,6 +49,11 @@ public class ConstructDataApiDto {
     // 높이
     private Double heit;
 
+    // 지상층 면적
+    private Double vlRatEstmTotArea;
+
+    private Double vlRatEstmTotAreaByPyung;
+
     // 지상층수
     private int grndFlrCnt;
 
@@ -104,6 +109,9 @@ public class ConstructDataApiDto {
             vlRat = Math.round(vlRat * 100.0) / 100.0;
         }
 
+        Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.getDouble("vlRatEstmTotArea") : 0;
+        Double vlRatEstmTotAreaByPyung = calculatePyung(vlRatEstmTotArea);
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
                 .hhldCnt(item.has("hhldCnt") ? item.getInt("hhldCnt") : 0)
@@ -126,7 +134,19 @@ public class ConstructDataApiDto {
                 .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.getString("mainPurpsCdNm") : null)
                 .etcPurps(item.has("etcPurps") ? item.getString("etcPurps") : null)
                 .strctCdNm(item.has("strctCdNm") ? item.getString("strctCdNm") : null)
+                .vlRatEstmTotArea(vlRatEstmTotArea)
+                .vlRatEstmTotAreaByPyung(vlRatEstmTotAreaByPyung)
                 .build();
+    }
+
+    private static Double calculatePyung(Double area) {
+        if (area == null || area == 0) {
+            return 0.0;
+        }
+
+        double result = area / 3.305785;
+        result = Math.round(result * 100.0) / 100.0;
+        return result;
     }
 
 

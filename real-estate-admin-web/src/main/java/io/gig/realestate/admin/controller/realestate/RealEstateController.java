@@ -168,4 +168,21 @@ public class RealEstateController {
         return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
     }
 
+    @GetMapping("print/{realEstateId}")
+    public String printRealEstate(@PathVariable(name = "realEstateId") Long realEstateId,
+                                  Model model) {
+        RealEstateDetailAllDto dto = realEstateService.getDetailAllInfo(realEstateId);
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("printInfo", dto.getPrintInfo());
+        model.addAttribute("landInfo", dto.getLandInfo());
+        model.addAttribute("priceInfo", dto.getPriceInfo());
+        model.addAttribute("landInfoList", dto.getLandInfoList());
+        model.addAttribute("constructInfo", dto.getConstructInfo());
+        model.addAttribute("floorInfoList", dto.getFloorInfoList());
+
+        return "realestate/print";
+    }
+
+
 }

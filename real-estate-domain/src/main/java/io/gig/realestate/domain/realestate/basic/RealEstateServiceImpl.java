@@ -18,6 +18,9 @@ import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
+import io.gig.realestate.domain.realestate.print.PrintInfo;
+import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
+import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +47,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
 
+    private final PrintStoreRepository printStoreRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto) {
@@ -69,6 +74,12 @@ public class RealEstateServiceImpl implements RealEstateService {
             detail.setNextId(searchIds.get(currentIndex + 1));
         }
         return detail;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RealEstateDetailAllDto getDetailAllInfo(Long realEstateId) {
+        return realEstateReader.getRealEstateDetailAllInfo(realEstateId);
     }
 
     @Override
@@ -155,6 +166,10 @@ public class RealEstateServiceImpl implements RealEstateService {
             ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
             realEstate.addImageInfo(imageInfo);
         }
+
+        realEstate.getPrintInfoList().clear();
+        PrintInfo printInfo = PrintInfo.create(updateForm.getPrintInfo(), realEstate);
+        realEstate.addPrintInfo(printInfo);
 
         return realEstateStore.store(realEstate).getId();
     }

@@ -29,4 +29,6 @@ public interface RealEstateService {
     Long getPrevRealEstateId(Long realEstateId);
 
     Long getNextRealEstateId(Long realEstateId);
+
+    RealEstateDetailAllDto getDetailAllInfo(Long realEstateId);
 }

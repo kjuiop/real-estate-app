@@ -10,6 +10,7 @@ let onReady = function() {
     loadLandInfoList();
     loadImageInfo();
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
+    loadPrintInfo();
     onlyNumberKeyEvent({className: "only-number"});
     // loadMoveOtherPage();
 }
@@ -64,6 +65,16 @@ let realEstateSave = function(e) {
 
     let customerInfoList = assembleCustomerParam();
     params.customerInfoList = customerInfoList;
+
+    let $frmPrint = $('form[name="frmPrintImage"]');
+    let printInfo = {
+        "propertyImgUrl": $frmPrint.find('#propertyImgurl').find('img').attr('src'),
+        "buildingImgUrl": $frmPrint.find('#buildingImgUrl').find('img').attr('src'),
+        "locationImgUrl": $frmPrint.find('#locationImgUrl').find('img').attr('src'),
+        "landDecreeImgUrl": $frmPrint.find('#landDecreeImgUrl').find('img').attr('src'),
+        "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl').find('img').attr('src'),
+    }
+    params.printInfo = printInfo;
 
     console.log("save params", params);
 
@@ -132,6 +143,16 @@ let realEstateUpdate = function(e) {
     let customerInfoList = assembleCustomerParam();
     params.customerInfoList = customerInfoList;
 
+    let $frmPrint = $('form[name="frmPrintImage"]');
+    let printInfo = {
+        "propertyImgUrl": $frmPrint.find('#propertyImgUrl .thumbnailInfo').find('img').attr('src'),
+        "buildingImgUrl": $frmPrint.find('#buildingImgUrl .thumbnailInfo').find('img').attr('src'),
+        "locationImgUrl": $frmPrint.find('#locationImgUrl .thumbnailInfo').find('img').attr('src'),
+        "landDecreeImgUrl": $frmPrint.find('#landDecreeImgUrl .thumbnailInfo').find('img').attr('src'),
+        "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl .thumbnailInfo').find('img').attr('src'),
+    }
+    params.printInfo = printInfo;
+
     console.log("update params", params);
 
     twoBtnModal("매물 정보를 일괄 수정하시겠습니까?", function () {
@@ -184,32 +205,6 @@ let selectUsageCode = function(e) {
     $this.removeClass("btn-default");
     $this.addClass("btn-primary");
     $this.addClass("selected");
-}
-
-let uploadImage = function(e) {
-    e.preventDefault();
-
-    documentUpload({
-        multiple: false,
-        accept: '.jpg, .png, .gif',
-        sizeCheck: false,
-        usageType: `RealEstate`,
-        fileType: `Image`,
-        callback: function (res) {
-            console.log("res", res);
-            let image = res.data[0];
-            let $imagePanel = $('.image-section');
-            let tag = imgDraw(image.fullPath);
-            $imagePanel.html(tag);
-            $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
-        }
-    });
-}
-
-let removeImage = function() {
-    let $imagePanel = $('.image-section');
-    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
-    $imagePanel.html(tag);
 }
 
 let changeProcessStatus = function(e) {
@@ -373,6 +368,66 @@ let moveNextPage = function(e) {
     location.href = '/real-estate/' + dto.nextId + '/edit';
 }
 
+let printPdf = function(e) {
+    e.preventDefault();
+    window.print();
+}
+
+let openPrintPop = function(e) {
+    e.preventDefault();
+
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
+    let _width = 1300;
+    let _height = 1000;
+    let _left = Math.ceil((window.screen.width - _width) / 2);
+    let _top = Math.ceil((window.screen.height - _height) / 2);
+
+
+    let options = 'top=10, left=10, width=' + _width + ', height=' + _height + ', left=' + _left + ', top=' + _top + ', status=no, menubar=no, toolbar=no, resizable=no';
+    window.open('/real-estate/print/' + dto.realEstateId, 'print-popup', options);
+}
+
+let loadPrintInfo = function() {
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
+    let $frm = $('form[name="frmPrintImage"]');
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.propertyImgUrl)) {
+        let $imagePanel = $frm.find('#propertyImgUrl');
+        let tag = imgDraw(dto.printInfo.propertyImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.buildingImgUrl)) {
+        let $imagePanel = $frm.find('#buildingImgUrl');
+        let tag = imgDraw(dto.printInfo.buildingImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.locationImgUrl)) {
+        let $imagePanel = $frm.find('#locationImgUrl');
+        let tag = imgDraw(dto.printInfo.locationImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.landDecreeImgUrl)) {
+        let $imagePanel = $frm.find('#landDecreeImgUrl');
+        let tag = imgDraw(dto.printInfo.landDecreeImgUrl);
+        $imagePanel.html(tag);
+    }
+
+    if (checkNullOrEmptyValue(dto.printInfo) && checkNullOrEmptyValue(dto.printInfo.developPlanImgUrl)) {
+        let $imagePanel = $frm.find('#developPlanImgUrl');
+        let tag = imgDraw(dto.printInfo.developPlanImgUrl);
+        $imagePanel.html(tag);
+    }
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -405,4 +460,5 @@ $(document).ready(onReady)
     .on('blur', '.subManagement', calculateManagementPrice)
     .on('blur', '.managementExpense', calculateManagementExpense)
     .on('blur', '.salePrice', calculateAveragePrice)
+    .on('click', '.btnOpenPrintPop', openPrintPop)
 ;

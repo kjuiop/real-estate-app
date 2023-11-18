@@ -14,6 +14,7 @@ import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
+import io.gig.realestate.domain.realestate.print.PrintInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -120,6 +121,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<ImageInfo> subImgInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<PrintInfo> printInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -154,6 +159,10 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addImageInfo(ImageInfo imageInfo) {
         this.subImgInfoList.add(imageInfo);
+    }
+
+    public void addPrintInfo(PrintInfo printInfo) {
+        this.printInfoList.add(printInfo);
     }
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
@@ -216,22 +225,6 @@ public class RealEstate extends BaseTimeEntity {
                 .ji(ji)
                 .build();
     }
-
-    public static RealEstate initialInfoWithImg(String legalCode, String address, String landType, String bun, String ji, String imgUrl) {
-        return RealEstate.builder()
-                .legalCode(legalCode)
-                .address(address)
-                .landType(landType)
-                .bun(bun)
-                .ji(ji)
-                .imgUrl(imgUrl)
-                .build();
-    }
-
-    public void updateImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
 
     public void updateProcessStatus(ProcessType processType, Administrator loginUser) {
         this.processType = processType;

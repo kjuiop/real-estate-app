@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.print.dto.PrintDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,8 @@ public class RealEstateDetailDto extends RealEstateDto {
     private Long prevId;
 
     private Long nextId;
+
+    private PrintDto printInfo;
 
     @Builder.Default
     private boolean isOwnUser = false;
@@ -94,6 +97,10 @@ public class RealEstateDetailDto extends RealEstateDto {
 
         if (r.getCreatedBy() != null) {
             this.createdById = r.getCreatedBy().getId();
+        }
+
+        if (r.getPrintInfoList().size() > 0) {
+            this.printInfo = new PrintDto(r.getPrintInfoList().get(0));
         }
     }
 

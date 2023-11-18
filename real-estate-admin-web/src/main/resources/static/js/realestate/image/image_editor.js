@@ -66,3 +66,33 @@ let removeSubImg = function(e) {
     $(targetSubImgId).parents('.sub-img-unit').remove();
     $imgModal.find('.close').trigger('click');
 }
+
+let uploadImage = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+
+    documentUpload({
+        multiple: false,
+        accept: '.jpg, .png, .gif',
+        sizeCheck: false,
+        usageType: `RealEstate`,
+        fileType: `Image`,
+        callback: function (res) {
+            console.log("res", res);
+            let image = res.data[0];
+            let $imagePanel = $this.parents('.image-section');
+            let tag = imgDraw(image.fullPath);
+            $imagePanel.html(tag);
+            $imagePanel.find('.thumbnailInfo').last().data('thumbnail-data', image);
+        }
+    });
+}
+
+let removeImage = function() {
+    let $this = $(this),
+        $imagePanel = $this.parents('.image-section');
+    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
+    $imagePanel.html(tag);
+}
+

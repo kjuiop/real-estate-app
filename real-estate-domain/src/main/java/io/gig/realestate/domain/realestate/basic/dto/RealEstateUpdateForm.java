@@ -9,6 +9,7 @@ import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
+import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,6 +53,8 @@ public class RealEstateUpdateForm {
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
+
+    private PrintCreateForm printInfo;
 
     private List<ImageCreateForm> subImages = new ArrayList<>();
 

@@ -382,7 +382,11 @@
                         <form class="form-horizontal" name="frmConstructRegister" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
-                                <div class="card-tools"></div>
+                                <div class="card-tools">
+                                    <input type="hidden" value="" name="vlRatEstmTotArea" />
+                                    <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
+                                    <input type="hidden" value="" name="heit" />
+                                </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
@@ -602,6 +606,57 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify && dto.processType.level > 2}">
+                        <div class="card-header">
+                            <h3 class="card-title margin-right-4">출력 이미지</h3>
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <div class="form-group col-md-12 display-flex-column">
+                                <form name="frmPrintImage">
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">자산 개요 이미지</label>
+                                            <div id="propertyImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">건축물 개요 이미지</label>
+                                            <div id="buildingImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">위치 이미지</label>
+                                            <div id="locationImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">토지 조서 이미지</label>
+                                            <div id="landDecreeImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">개발 개요 이미지</label>
+                                            <div id="developPlanImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- /.card-body -->
