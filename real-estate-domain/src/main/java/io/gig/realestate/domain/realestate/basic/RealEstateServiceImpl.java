@@ -3,8 +3,6 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
-import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
@@ -14,15 +12,24 @@ import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
+import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
+import io.gig.realestate.domain.realestate.print.PrintInfo;
+import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
+import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : JAKE
@@ -32,22 +39,47 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RealEstateServiceImpl implements RealEstateService {
 
+    private static Map<String, List<Long>> searchIdsMap = new HashMap<>();
+
     private final AdministratorService administratorService;
     private final CategoryService categoryService;
 
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
 
+    private final PrintStoreRepository printStoreRepository;
+
     @Override
     @Transactional(readOnly = true)
-    public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
+    public Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto) {
+        List<Long> searchIds = realEstateReader.getRealEstateIdsBySearch(searchDto);
+        searchIdsMap.put(sessionId, searchIds);
         return realEstateReader.getRealEstatePageListBySearch(searchDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public RealEstateDetailDto getDetail(Long realEstateId) {
-        return realEstateReader.getRealEstateDetail(realEstateId);
+    public RealEstateDetailDto getDetail(String sessionId, Long realEstateId) {
+        RealEstateDetailDto detail = realEstateReader.getRealEstateDetail(realEstateId);
+        List<Long> searchIds = searchIdsMap.get(sessionId);
+        if (searchIds == null || searchIds.size() == 0) {
+            return detail;
+        }
+
+        int currentIndex = searchIds.indexOf(realEstateId);
+        if (currentIndex -1 >= 0) {
+            detail.setPrevId(searchIds.get(currentIndex - 1));
+        }
+        if (currentIndex + 1 <= searchIds.size() - 1) {
+            detail.setNextId(searchIds.get(currentIndex + 1));
+        }
+        return detail;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RealEstateDetailAllDto getDetailAllInfo(Long realEstateId) {
+        return realEstateReader.getRealEstateDetailAllInfo(realEstateId);
     }
 
     @Override
@@ -135,6 +167,10 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addImageInfo(imageInfo);
         }
 
+        realEstate.getPrintInfoList().clear();
+        PrintInfo printInfo = PrintInfo.create(updateForm.getPrintInfo(), realEstate);
+        realEstate.addPrintInfo(printInfo);
+
         return realEstateStore.store(realEstate).getId();
     }
 
@@ -180,5 +216,17 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public boolean checkDuplicateAddress(String address, LoginUser loginUser) {
         return realEstateReader.isExistAddress(address);
+    }
+
+    @Override
+    @Transactional
+    public Long getPrevRealEstateId(Long realEstateId) {
+        return realEstateReader.getPrevRealEstateId(realEstateId);
+    }
+
+    @Override
+    @Transactional
+    public Long getNextRealEstateId(Long realEstateId) {
+        return realEstateReader.getNextRealEstateId(realEstateId);
     }
 }

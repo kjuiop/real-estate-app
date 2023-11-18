@@ -22,7 +22,7 @@ public class PriceDto {
 
     private int depositPrice;
 
-    private int revenueRate;
+    private double revenueRate;
 
     private int averageUnitPrice;
 
@@ -33,6 +33,10 @@ public class PriceDto {
     private int management;
 
     private int managementExpense;
+
+    private double landPyungUnitPrice;
+
+    private double buildingPyungUnitPrice;
 
     public PriceDto(PriceInfo p) {
         this.priceId = p.getId();
@@ -47,5 +51,7 @@ public class PriceDto {
         this.rentMonth = p.getRentMonth();
         this.management = p.getManagement();
         this.managementExpense = p.getManagementExpense();
+        this.landPyungUnitPrice = p.getLandPyungUnitPrice();
+        this.buildingPyungUnitPrice = p.getBuildingPyungUnitPrice();
     }
 }

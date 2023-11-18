@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class ConstructDataApiDto {
     // 대지면적
     private double platArea;
 
+    // 대지면적 평
+    private double platAreaByPyung;
+
     // 건물면적
     private Double archArea;
 
@@ -43,6 +48,11 @@ public class ConstructDataApiDto {
     // 층수
     // 높이
     private Double heit;
+
+    // 지상층 면적
+    private Double vlRatEstmTotArea;
+
+    private Double vlRatEstmTotAreaByPyung;
 
     // 지상층수
     private int grndFlrCnt;
@@ -80,15 +90,38 @@ public class ConstructDataApiDto {
     private String strctCdNm;
 
     public static ConstructDataApiDto convertData(JSONObject item) {
+
+        double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
+        double platAreaByPyung = platArea / 3.305785;
+        platAreaByPyung = Math.round(platAreaByPyung * 100.0) / 100.0;
+
+        Double bcRat = item.has("bcRat") ? item.getDouble("bcRat") : null;
+        Double archArea = item.has("archArea") ? item.getDouble("archArea") : null;
+        if (bcRat == null && archArea != null && platArea > 0) {
+            bcRat = (archArea / platArea) * 100;
+            bcRat = Math.round(bcRat * 100.0) / 100.0;
+        }
+
+        Double vlRat = item.has("vlRat") ? item.getDouble("vlRat") : null;
+        Double totArea = item.has("totArea") ? item.getDouble("totArea") : null;
+        if (vlRat == null && totArea != null && platArea > 0) {
+            vlRat = (totArea / platArea) * 100;
+            vlRat = Math.round(vlRat * 100.0) / 100.0;
+        }
+
+        Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.getDouble("vlRatEstmTotArea") : 0;
+        Double vlRatEstmTotAreaByPyung = calculatePyung(vlRatEstmTotArea);
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
                 .hhldCnt(item.has("hhldCnt") ? item.getInt("hhldCnt") : 0)
                 .useAprDay(item.has("useAprDay") ? item.getInt("useAprDay") : 0)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
-                .archArea(item.has("archArea") ? item.getDouble("archArea") : null)
-                .bcRat(item.has("bcRat") ? item.getDouble("bcRat") : null)
-                .totArea(item.has("totArea") ? item.getDouble("totArea") : null)
-                .vlRat(item.has("vlRat") ? item.getDouble("vlRat") : null)
+                .platAreaByPyung(platAreaByPyung)
+                .archArea(archArea)
+                .bcRat(bcRat)
+                .totArea(totArea)
+                .vlRat(vlRat)
                 .heit(item.has("heit") ? item.getDouble("heit") : null)
                 .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.getInt("rideUseElvtCnt") : 0)
                 .emgenUseElvtCnt(item.has("emgenUseElvtCnt") ? item.getInt("emgenUseElvtCnt") : 0)
@@ -101,7 +134,19 @@ public class ConstructDataApiDto {
                 .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.getString("mainPurpsCdNm") : null)
                 .etcPurps(item.has("etcPurps") ? item.getString("etcPurps") : null)
                 .strctCdNm(item.has("strctCdNm") ? item.getString("strctCdNm") : null)
+                .vlRatEstmTotArea(vlRatEstmTotArea)
+                .vlRatEstmTotAreaByPyung(vlRatEstmTotAreaByPyung)
                 .build();
+    }
+
+    private static Double calculatePyung(Double area) {
+        if (area == null || area == 0) {
+            return 0.0;
+        }
+
+        double result = area / 3.305785;
+        result = Math.round(result * 100.0) / 100.0;
+        return result;
     }
 
 

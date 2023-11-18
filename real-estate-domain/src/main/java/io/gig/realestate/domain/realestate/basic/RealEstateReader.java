@@ -1,9 +1,12 @@
 package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -18,4 +21,12 @@ public interface RealEstateReader {
     RealEstate getRealEstateById(Long realEstateId);
 
     boolean isExistAddress(String address);
+
+    Long getPrevRealEstateId(Long realEstateId);
+
+    Long getNextRealEstateId(Long realEstateId);
+
+    List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto);
+
+    RealEstateDetailAllDto getRealEstateDetailAllInfo(Long realEstateId);
 }

@@ -49,7 +49,7 @@ let imgDraw = function (fullPath) {
 
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default">' +
-        '<div class="col-md-12 no-left-padding right-margin">' +
+        '<div class="right-margin">' +
         '<div class="image-panel" style="width:100%;">' +
         '<button type="button" class="btn btn-danger pull-right remove-image">' +
         '<i class="fa fa-times" aria-hidden="true"></i>' +

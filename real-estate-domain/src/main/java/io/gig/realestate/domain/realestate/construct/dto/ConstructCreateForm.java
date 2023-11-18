@@ -24,6 +24,9 @@ public class ConstructCreateForm {
     // 대지면적
     private double platArea;
 
+    // 대지면적 평
+    private double platAreaByPyung;
+
     // 건물면적
     private Double archArea;
 
@@ -75,6 +78,12 @@ public class ConstructCreateForm {
     // 구조
     private String strctCdNm;
 
+    private String companyName;
+
     private YnType illegalConstructYn;
+
+    private double vlRatEstmTotArea;
+
+    private double vlRatEstmTotAreaByPyung;
 
 }

@@ -281,3 +281,7 @@ function pagination(page) {
     $frmSearch.find("input[name='page']").val(page);
     $frmSearch.submit();
 }
+
+let isNumberParam = function(param) {
+    return typeof param === 'number';
+}

@@ -32,15 +32,25 @@ public class ConstructInfo extends BaseTimeEntity {
 
     private Double platArea;
 
+    private Double platAreaByPyung;
+
     private Double archArea;
 
-    private Double bcRat;
+    private Double archAreaByPyung;
 
     private Double totArea;
+
+    private Double totAreaByPyung;
+
+    private Double bcRat;
 
     private Double vlRat;
 
     private Double heit;
+
+    private Double vlRatEstmTotArea;
+
+    private Double vlRatEstmTotAreaByPyung;
 
     private int grndFlrCnt;
 
@@ -79,11 +89,12 @@ public class ConstructInfo extends BaseTimeEntity {
     private RealEstate realEstate;
 
     public static ConstructInfo create(ConstructCreateForm createForm, RealEstate realEstate) {
-        return ConstructInfo.builder()
+        ConstructInfo constructInfo = ConstructInfo.builder()
                 .bldNm(createForm.getBldNm())
                 .hhldCnt(createForm.getHhldCnt())
                 .useAprDay(createForm.getUseAprDay())
                 .platArea(createForm.getPlatArea())
+                .platAreaByPyung(createForm.getPlatAreaByPyung())
                 .archArea(createForm.getArchArea())
                 .bcRat(createForm.getBcRat())
                 .totArea(createForm.getTotArea())
@@ -101,7 +112,25 @@ public class ConstructInfo extends BaseTimeEntity {
                 .etcPurps(createForm.getEtcPurps())
                 .strctCdNm(createForm.getStrctCdNm())
                 .illegalConstructYn(createForm.getIllegalConstructYn())
+                .vlRatEstmTotArea(createForm.getVlRatEstmTotArea())
+                .vlRatEstmTotAreaByPyung(createForm.getVlRatEstmTotAreaByPyung())
+                .heit(createForm.getHeit())
                 .realEstate(realEstate)
                 .build();
+
+        constructInfo.totAreaByPyung = calculatePyung(constructInfo.getTotArea());
+        constructInfo.archAreaByPyung = calculatePyung(constructInfo.getArchArea());
+
+        return constructInfo;
+    }
+
+    private static Double calculatePyung(Double area) {
+        if (area == null || area == 0) {
+            return 0.0;
+        }
+
+        double result = area / 3.305785;
+        result = Math.round(result * 100.0) / 100.0;
+        return result;
     }
 }

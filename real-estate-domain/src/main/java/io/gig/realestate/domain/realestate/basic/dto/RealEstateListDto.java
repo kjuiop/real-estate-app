@@ -12,13 +12,14 @@ public class RealEstateListDto extends RealEstateDto {
 
     public String managerName;
     public int salePrice;
-    public int revenueRate;
+    public double revenueRate;
     public double platArea;
     public double totArea;
     public double archArea;
     public String prposArea1Nm = "";
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
+    public int roadWidth;
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -45,6 +46,10 @@ public class RealEstateListDto extends RealEstateDto {
                 }
                 if (i < r.getLandInfoList().size()-1) {
                     prposArea1Nm.append(", ");
+                }
+
+                if (landInfo.getRoadWidth() != null && landInfo.getRoadWidth() > 0 && i == 0) {
+                    this.roadWidth += landInfo.getRoadWidth();
                 }
             }
             this.prposArea1Nm = prposArea1Nm.toString();

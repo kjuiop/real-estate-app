@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.7.0/css/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.7.0/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/zenburn.min.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'https://cdn.jsdelivr.net/npm/reveal.js@3.7.0/css/print/pdf.css' : 'https://cdn.jsdelivr.net/npm/reveal.js@3.7.0/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="reveal">
+                <div class="slides">
+                    <section data-markdown="slides/01-title_slide.md" data-separator="^\n\n\n" data-vertical="^\n\n">
+                    </section>
+                    <section data-markdown="slides/overview.md" data-separator="^\r?\n- - -\r?\n$" data-separator-vertical="^\s{0,3}\*\s*\*\s*\*[\*\s]*$"
+                             data-notes="^Note:">
+                    </section>
+                    <section>
+                        <section data-markdown="slides/90-backups.md" data-background-transition="convex">
+                        </section>
+                        <section data-markdown="slides/99-export.md" data-background-transition="convex">
+                        </section>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+    </script>
+    <script>
+        // 라이브러리를 가져오거나 브라우저에서는 이미 로드되어 있을 것입니다.
+        // window.PptxGenJS = window.PptxGenJS.PptxGenJS;
+        const pptx = new PptxGenJS();
+
+        // 새 프레젠테이션 생성
+        const presentation = pptx.addNewPresentation();
+
+        // 슬라이드 추가
+        const slide = presentation.addSlide();
+
+        // 텍스트 상자 추가
+        slide.addText('안녕하세요, pptxgenjs!', {
+            x: 1,
+            y: 1,
+            w: '80%',
+            h: 2,
+            fontSize: 24,
+            color: '363636',
+        });
+
+        // 파일 저장 (브라우저에서는 다운로드 링크를 생성)
+        pptx.save('my-presentation');
+    </script>
+</section>
+</body>
+</html>

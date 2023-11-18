@@ -29,14 +29,20 @@ public class ConstructDto {
     // 대지 면적
     private Double platArea;
 
+    private Double platAreaByPyung;
+
     // 건축 면적
     private Double archArea;
+
+    private Double archAreaByPyung;
 
     // 건폐율
     private Double bcRat;
 
     // 연면적
     private Double totArea;
+
+    private Double totAreaByPyung;
 
     // 용적률
     private Double vlRat;
@@ -68,6 +74,9 @@ public class ConstructDto {
     // 옥외 기계식 대수
     private int oudrMechUtcnt;
 
+    private Double vlRatEstmTotArea;
+
+    private Double vlRatEstmTotAreaByPyung;
 
     private String mainPurpsCdNm;
 
@@ -83,9 +92,12 @@ public class ConstructDto {
         this.hhldCnt = c.getHhldCnt();
         this.useAprDay = c.getUseAprDay();
         this.platArea = c.getPlatArea();
+        this.platAreaByPyung = c.getPlatAreaByPyung();
         this.archArea = c.getArchArea();
+        this.archAreaByPyung = c.getArchAreaByPyung();
         this.bcRat = c.getBcRat();
         this.totArea = c.getTotArea();
+        this.totAreaByPyung = c.getTotAreaByPyung();
         this.vlRat = c.getVlRat();
         this.heit = c.getHeit();
         this.grndFlrCnt = c.getGrndFlrCnt();
@@ -100,5 +112,7 @@ public class ConstructDto {
         this.etcPurps = c.getEtcPurps();
         this.strctCdNm = c.getStrctCdNm();
         this.illegalConstructYn = c.getIllegalConstructYn();
+        this.vlRatEstmTotArea = c.getVlRatEstmTotArea();
+        this.vlRatEstmTotAreaByPyung = c.getVlRatEstmTotAreaByPyung();
     }
 }

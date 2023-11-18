@@ -20,6 +20,12 @@ public class FloorListDto {
     // 면적
     private Double area;
 
+    private double lndpclAr;
+
+    private double lndpclArByPyung;
+
+    private String companyName;
+
     // 주용도
     private String mainPurpsCdNm;
 
@@ -32,14 +38,26 @@ public class FloorListDto {
 
     private int management;
 
+    private String termStartDate;
+
+    private String termEndDate;
+
+    private String etcInfo;
+
     public FloorListDto (FloorPriceInfo f) {
         this.flrNo = f.getFlrNo();
         this.flrNoNm = f.getFlrNoNm();
         this.area = f.getArea();
+        this.lndpclAr = f.getLndpclAr();
+        this.lndpclArByPyung = f.getLndpclArByPyung();
         this.mainPurpsCdNm = f.getMainPurpsCdNm();
         this.etcPurps = f.getEtcPurps();
+        this.companyName = f.getCompanyName();
         this.guaranteePrice = f.getGuaranteePrice();
         this.rent = f.getRent();
         this.management = f.getManagement();
+        this.termStartDate = f.getTermStartDate();
+        this.termEndDate = f.getTermEndDate();
+        this.etcInfo = f.getEtcInfo();
     }
 }

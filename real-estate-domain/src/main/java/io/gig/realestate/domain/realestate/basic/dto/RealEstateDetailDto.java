@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.print.dto.PrintDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +37,12 @@ public class RealEstateDetailDto extends RealEstateDto {
     private Long createdById;
 
     private Long usageCdId;
+
+    private Long prevId;
+
+    private Long nextId;
+
+    private PrintDto printInfo;
 
     @Builder.Default
     private boolean isOwnUser = false;
@@ -89,6 +98,10 @@ public class RealEstateDetailDto extends RealEstateDto {
         if (r.getCreatedBy() != null) {
             this.createdById = r.getCreatedBy().getId();
         }
+
+        if (r.getPrintInfoList().size() > 0) {
+            this.printInfo = new PrintDto(r.getPrintInfoList().get(0));
+        }
     }
 
     public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId) {
@@ -130,5 +143,13 @@ public class RealEstateDetailDto extends RealEstateDto {
                 return;
             }
         }
+    }
+
+    public void setPrevId(Long prevId) {
+        this.prevId = prevId;
+    }
+
+    public void setNextId(Long nextId) {
+        this.nextId = nextId;
     }
 }

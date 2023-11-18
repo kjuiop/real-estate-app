@@ -10,9 +10,9 @@ import org.springframework.data.domain.Page;
  */
 public interface RealEstateService {
 
-    Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto);
+    Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto);
 
-    RealEstateDetailDto getDetail(Long realEstateId);
+    RealEstateDetailDto getDetail(String sessionId, Long realEstateId);
 
     Long updateProcessStatus(RealEstateUpdateForm updateForm, LoginUser loginUser);
 
@@ -25,4 +25,10 @@ public interface RealEstateService {
     Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser);
 
     boolean checkDuplicateAddress(String address, LoginUser loginUser);
+
+    Long getPrevRealEstateId(Long realEstateId);
+
+    Long getNextRealEstateId(Long realEstateId);
+
+    RealEstateDetailAllDto getDetailAllInfo(Long realEstateId);
 }

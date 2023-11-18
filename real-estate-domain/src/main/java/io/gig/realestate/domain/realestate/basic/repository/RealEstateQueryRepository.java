@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
@@ -43,28 +44,7 @@ public class RealEstateQueryRepository {
 
     public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
 
-        BooleanBuilder where = new BooleanBuilder();
-        where.and(defaultCondition());
-        where.and(eqProcessType(searchDto.getProcessType()));
-        where.and(eqSido(searchDto.getSido()));
-        where.and(eqGungu(searchDto.getGungu()));
-        where.and(eqDong(searchDto.getDong()));
-        where.and(eqLandType(searchDto.getLandType()));
-        where.and(eqBun(searchDto.getBun()));
-        where.and(eqJi(searchDto.getJi()));
-        where.and(likeBuildingName(searchDto.getBuildingName()));
-        where.and(eqRealEstateId(searchDto.getRealEstateId()));
-        where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
-        where.and(likeManagerName(searchDto.getManager()));
-        where.and(likeTeamName(searchDto.getTeam()));
-        where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
-        where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
-        where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
-        where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
-        where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
-        where.and(betweenUseAprDay(searchDto.getStartUseAprDay(), searchDto.getEndUseAprDay()));
-        where.and(likeCustomerName(searchDto.getCustomer()));
-        where.and(eqPhone(searchDto.getPhone()));
+        BooleanBuilder where = getSearchCondition(searchDto);
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -91,10 +71,37 @@ public class RealEstateQueryRepository {
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
 
+    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
+
+        BooleanBuilder where = getSearchCondition(searchDto);
+
+        return this.queryFactory
+                .select(realEstate.id)
+                .from(realEstate)
+                .where(where)
+                .orderBy(realEstate.id.desc())
+                .fetch();
+    }
+
     public Optional<RealEstateDetailDto> getRealEstateDetail(Long realEstateId) {
 
         RealEstateDetailDto realEstateDetailDto = queryFactory
                 .select(Projections.constructor(RealEstateDetailDto.class,
+                        realEstate
+                ))
+                .from(realEstate)
+                .where(defaultCondition())
+                .where(eqRealEstateId(realEstateId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(realEstateDetailDto);
+    }
+
+    public Optional<RealEstateDetailAllDto> getRealEstateAllInfo(Long realEstateId) {
+
+        RealEstateDetailAllDto realEstateDetailDto = queryFactory
+                .select(Projections.constructor(RealEstateDetailAllDto.class,
                         realEstate
                 ))
                 .from(realEstate)
@@ -118,13 +125,35 @@ public class RealEstateQueryRepository {
     }
 
     public Long isExistAddress(String address) {
-        Long result = queryFactory
+        Long result = this.queryFactory
                 .select(realEstate.count())
                 .from(realEstate)
                 .where(realEstate.address.eq(address))
                 .fetchOne();
 
         return result;
+    }
+
+    public Optional<RealEstate> getPrevRealEstateId(Long currentId) {
+        Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(realEstate)
+                .where(defaultCondition())
+                .where(realEstate.id.lt(currentId))
+                .orderBy(realEstate.id.desc())
+                .fetchFirst());
+
+        return fetch;
+    }
+
+    public Optional<RealEstate> getNextRealEstateId(Long currentId) {
+        Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(realEstate)
+                .where(defaultCondition())
+                .where(realEstate.id.gt(currentId))
+                .orderBy(realEstate.id.asc())
+                .fetchFirst());
+
+        return fetch;
     }
 
     private BooleanExpression defaultCondition() {
@@ -280,6 +309,19 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenRoadWidth(Integer minRoadWidth, Integer maxRoadWidth) {
+        if (minRoadWidth == null || maxRoadWidth == null || minRoadWidth < 0 || maxRoadWidth <= 0 || maxRoadWidth < minRoadWidth) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(landInfo.realEstate.id)
+                        .from(landInfo)
+                        .where(landInfo.roadWidth.between(minRoadWidth, maxRoadWidth))
+        );
+    }
+
+
     private BooleanExpression likeCustomerName(String customer) {
         if (!StringUtils.hasText(customer)) {
             return null;
@@ -301,5 +343,32 @@ public class RealEstateQueryRepository {
                 JPAExpressions.selectDistinct(customerInfo.realEstate.id)
                         .from(customerInfo)
                         .where(customerInfo.phone.eq(phone)));
+    }
+
+    private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
+        BooleanBuilder where = new BooleanBuilder();
+        where.and(defaultCondition());
+        where.and(eqProcessType(searchDto.getProcessType()));
+        where.and(eqSido(searchDto.getSido()));
+        where.and(eqGungu(searchDto.getGungu()));
+        where.and(eqDong(searchDto.getDong()));
+        where.and(eqLandType(searchDto.getLandType()));
+        where.and(eqBun(searchDto.getBun()));
+        where.and(eqJi(searchDto.getJi()));
+        where.and(likeBuildingName(searchDto.getBuildingName()));
+        where.and(eqRealEstateId(searchDto.getRealEstateId()));
+        where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
+        where.and(likeManagerName(searchDto.getManager()));
+        where.and(likeTeamName(searchDto.getTeam()));
+        where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
+        where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
+        where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
+        where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
+        where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
+        where.and(betweenUseAprDay(searchDto.getStartUseAprDay(), searchDto.getEndUseAprDay()));
+        where.and(likeCustomerName(searchDto.getCustomer()));
+        where.and(eqPhone(searchDto.getPhone()));
+        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
+        return where;
     }
 }

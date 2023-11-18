@@ -137,7 +137,7 @@
                                             </label> &nbsp;
                                         </div>
                                     </div>
-                                    <div class="col-md-12 no-left-padding">
+                                    <div class="col-md-12 no-left-padding landSumSection">
                                         <label class="text-label">
                                             <span class="landSize">0</span>필지 토지합계면적 : <span class="area">0</span>㎡/<span class="pyung">0</span> 평
                                         </label>
@@ -192,7 +192,6 @@
                                         <label class="text-label">지목</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
                                             <input type="text" class="form-control form-control-sm lndcgrCodeNm" name="lndcgrCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;평&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
 
@@ -200,40 +199,36 @@
                                         <label class="text-label">용도지역</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
                                             <input type="text" class="form-control form-control-sm prposArea1Nm" name="prposArea1Nm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                     <div class="col-md-6 display-flex-column no-left-padding">
-                                        <label class="text-label">토지이용상황</label>
+                                        <label class="text-label">지형형상</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm ladUseSittnNm" name="ladUseSittnNm" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm tpgrphFrmCodeNm" name="tpgrphFrmCodeNm" style="height: 36px;"/>
                                         </div>
                                     </div>
                                     <div class="col-md-6 display-flex-column">
-                                        <label class="text-label">도로접면</label>
+                                        <label class="text-label">토지이용상황</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm roadSideCodeNm" name="roadSideCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm ladUseSittnNm" name="ladUseSittnNm" style="height: 36px;"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                     <div class="col-md-6 display-flex-column no-left-padding">
-                                        <label class="text-label">지형높이</label>
+                                        <label class="text-label">도로접면</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm tpgrphHgCodeNm" name="tpgrphHgCodeNm" style="height: 36px;" />
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm roadSideCodeNm" name="roadSideCodeNm" style="height: 36px;" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 display-flex-column">
-                                        <label class="text-label">지형형상</label>
+                                        <label class="text-label">도로너비</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm tpgrphFrmCodeNm" name="tpgrphFrmCodeNm" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
+                                            <input type="text" class="form-control form-control-sm roadWidth" name="roadWidth" style="height: 36px;"/>
+                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;m&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
                                 </div>
@@ -345,23 +340,33 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 <th class="center-text" scope="col">층수</th>
-                                                <th class="center-text" scope="col">면적</th>
+                                                <th class="center-text" scope="col">대장상 면적</th>
+                                                <th class="center-text" scope="col" colspan="2">임대 면적</th>
                                                 <th class="center-text" scope="col">용도</th>
-                                                <th class="center-text" scope="col">부용도</th>
+                                                <th class="center-text" scope="col">입점업체</th>
                                                 <th class="center-text" scope="col">보증금</th>
                                                 <th class="center-text" scope="col">임대료</th>
                                                 <th class="center-text" scope="col">관리비</th>
+                                                <th class="center-text" scope="col">계약기간</th>
+                                                <th class="center-text" scope="col">비고</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td class="text-center" colspan="7">해당 건물의 층별 정보를 조회중에 있습니다.</td>
+                                                <td class="text-center" colspan="11">해당 건물의 층별 정보를 조회중에 있습니다.</td>
                                             </tr>
                                             </tbody>
                                             <tfoot class="hidden">
                                             <tr>
-                                                <td colspan="4" style="padding-left: 10px;">총 임대료</td>
+                                                <td class="right-align center-text">합계</td>
+                                                <td class="right-align totalArea"></td>
+                                                <td class="right-align totalLndpclAr"></td>
+                                                <td class="right-align totalLndpclArByPyung"></td>
                                                 <td></td>
+                                                <td></td>
+                                                <td class="right-align totalSubGuaranteePrice"></td>
+                                                <td class="right-align totalSubRent"></td>
+                                                <td class="right-align totalManagement"></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
@@ -377,7 +382,11 @@
                         <form class="form-horizontal" name="frmConstructRegister" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">건축물 대장 정보</h3>
-                                <div class="card-tools"></div>
+                                <div class="card-tools">
+                                    <input type="hidden" value="" name="vlRatEstmTotArea" />
+                                    <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
+                                    <input type="hidden" value="" name="heit" />
+                                </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
                                 <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
@@ -425,15 +434,23 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column margin-right-4">
                                             <label class="text-label">대지면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platArea" name="platArea" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm platArea" name="platArea" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;㎡&nbsp;&nbsp;</button>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platAreaByPyung" name="platAreaByPyung" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;평&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 display-flex-column no-left-padding">
                                         <div class="display-flex-row">
                                             <label class="text-label">총 세대수</label>
@@ -589,6 +606,57 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify && dto.processType.level > 2}">
+                        <div class="card-header">
+                            <h3 class="card-title margin-right-4">출력 이미지</h3>
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <div class="form-group col-md-12 display-flex-column">
+                                <form name="frmPrintImage">
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">자산 개요 이미지</label>
+                                            <div id="propertyImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">건축물 개요 이미지</label>
+                                            <div id="buildingImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">위치 이미지</label>
+                                            <div id="locationImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">토지 조서 이미지</label>
+                                            <div id="landDecreeImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 no-left-padding margin-top-5">
+                                            <label class="text-label" style="padding-left: 20px;">개발 개요 이미지</label>
+                                            <div id="developPlanImgUrl" class="image-section">
+                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 margin-top-5">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- /.card-body -->

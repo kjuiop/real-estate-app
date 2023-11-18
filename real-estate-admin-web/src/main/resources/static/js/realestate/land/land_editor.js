@@ -59,6 +59,7 @@ let settingLandInfo = function(landInfo) {
     $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
     $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
     $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('.roadWidth').val(landInfo.roadWidth)
     $frm.find('input[name="pnu"]').val(landInfo.pnuStr);
     if (landInfo.commercialYn === 'Y') {
         $frm.find('input[name="commercialYn"]').iCheck('check');
@@ -160,8 +161,7 @@ let loadLandInfoById = function(e) {
     console.log("land data", landInfo);
 
     let $frm = $('form[name="frmLandRegister"]');
-    $frm.find('.area').text(landInfo.lndpclAr);
-    $frm.find('.pyung').text(landInfo.lndpclArByPyung);
+    $frm.find('input[name="address"]').val(landInfo.address);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
@@ -172,6 +172,7 @@ let loadLandInfoById = function(e) {
     $frm.find('.roadSideCodeNm').val(landInfo.roadSideCodeNm);
     $frm.find('.tpgrphHgCodeNm').val(landInfo.tpgrphHgCodeNm);
     $frm.find('.tpgrphFrmCodeNm').val(landInfo.tpgrphFrmCodeNm);
+    $frm.find('.roadWidth').val(landInfo.roadWidth);
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
 }
 
@@ -228,7 +229,23 @@ let searchAddress = function(e) {
 let showLandModal = function(e) {
     e.preventDefault();
 
-    $('#landModal').modal('show');
+    let $landModal = $('#landModal');
+    $landModal.find('input[name="address"]').val('');
+    $landModal.find('input[name="bun"]').val('');
+    $landModal.find('input[name="ji"]').val('');
+    $landModal.find('select[name="landType"]').val('general');
+    $landModal.find('input[name="bCode"]').val('');
+    $landModal.find('input[name="hCode"]').val('');
+
+    let tag = '';
+    tag += '<span class="margin-bottom-10">지도</span>';
+    tag += '<p style="font-size: 12px; margin-top: 20px; color: #7987a1;">';
+    tag +=     '검색버튼을 클릭해서';
+    tag +=     '<br/>';
+    tag +=     '주소를 입력해주세요.';
+    tag += '</p>';
+    $landModal.find('#modalMap').html(tag);
+    $landModal.modal('show');
 }
 
 
@@ -239,35 +256,32 @@ let applyLandInfo = function(e) {
         $modal = $('#landModal'),
         address = $('#landModal').find('input[name="address"]').val();
 
-    twoBtnModal("검색하신 매물정보를 적용하겠습니까?", function() {
+    let url = "/real-estate/land/ajax/public-data"
+        + "?legalCode=" + $modal.find('input[name="bCode"]').val()
+        + "&landType=" + $modal.find('select[name="landType"] option:selected').val()
+        + "&bun=" + $modal.find('input[name="bun"]').val()
+        + "&ji=" + $modal.find('input[name="ji"]').val()
+    ;
 
-        let url = "/real-estate/land/ajax/public-data"
-            + "?legalCode=" + $modal.find('input[name="bCode"]').val()
-            + "&landType=" + $modal.find('select[name="landType"] option:selected').val()
-            + "&bun=" + $modal.find('input[name="bun"]').val()
-            + "&ji=" + $modal.find('input[name="ji"]').val()
-        ;
-
-        $.ajax({
-            url: url,
-            method: "get",
-            type: "json",
-            contentType: "application/json",
-            success: function(result) {
-                console.log("load land info", result);
-                let landList = result.data,
-                    landInfo = landList[0];
-                $frm.find('input[name="address"]').val(address);
-                $frm.find('input[name="pnu"]').val(landInfo.pnu);
-                settingLandInfo(landInfo);
-            },
-            error: function(error){
-                ajaxErrorFieldByText(error);
-            }
-        });
-
-        $('.btnModalClose').trigger('click');
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("load land info", result);
+            let landList = result.data,
+                landInfo = landList[0];
+            $frm.find('input[name="address"]').val(address);
+            $frm.find('input[name="pnu"]').val(landInfo.pnu);
+            settingLandInfo(landInfo);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
     });
+
+    $('.btnModalClose').trigger('click');
 }
 
 let removeLandBtn = function(e) {

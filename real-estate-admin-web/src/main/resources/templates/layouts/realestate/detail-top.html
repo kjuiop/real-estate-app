@@ -15,9 +15,21 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/real-estate" class="nav-link">매물관리</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link btnPrev" disable>
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link btnNext" disable>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item d-none d-sm-inline-block">
+                <button type="button" class="btn btn-default text-right margin-right-5 btnOpenPrintPop" th:if="${isModify && dto.processType.level > 2}">프린트</button>
                 <button type="button" class="btn btn-primary text-right margin-right-5 btnUpdate" th:if="${isModify && dto.isOwnUser}">일괄수정</button>
                 <button type="button" class="btn btn-primary text-right margin-right-5 btnSave" th:if="${!isModify}">일괄저장</button>
             </li>

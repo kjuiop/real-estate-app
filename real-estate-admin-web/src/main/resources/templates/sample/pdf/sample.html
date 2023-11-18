@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<body>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container-fluid">
+            <div id="capture-me">
+                <h1>Hello, HTML2Canvas and jsPDF!</h1>
+                <p>This is an example of capturing content and downloading it as a PDF.</p>
+            </div>
+            <button id="capture-and-download-button">캡처 및 PDF 다운로드</button>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+    </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    <script>
+        document.getElementById("capture-and-download-button").addEventListener("click", function() {
+
+            window.print();
+            // const elementToCapture = document.getElementById("capture-me");
+            //
+            // // HTML2Canvas로 HTML 요소를 캡처
+            // html2canvas(elementToCapture).then(function(canvas) {
+            //     // Canvas 이미지를 jsPDF로 PDF로 변환
+            //     window.jsPDF = window.jspdf.jsPDF;
+            //     const pdf = new jsPDF();
+            //     pdf.addImage(canvas, "JPEG", 10, 10, canvas.width * 0.75, canvas.height * 0.75);
+            //
+            //     // PDF를 다운로드할 수 있는 링크로 만듭니다.
+            //     pdf.save("captured-content.pdf");
+            // });
+        });
+    </script>
+</section>
+</body>
+</html>

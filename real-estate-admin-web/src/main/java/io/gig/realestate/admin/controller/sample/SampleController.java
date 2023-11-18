@@ -53,4 +53,14 @@ public class SampleController {
     public String partnerLogin(Model model) {
         return "sample/partner/login";
     }
+
+    @GetMapping("pdf")
+    public String pdf(Model model) {
+        return "sample/pdf/sample";
+    }
+
+    @GetMapping("ppt")
+    public String ppt(Model model) {
+        return "sample/ppt/sample";
+    }
 }

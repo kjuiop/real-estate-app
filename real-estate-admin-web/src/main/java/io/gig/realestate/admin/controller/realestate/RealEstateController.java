@@ -10,12 +10,10 @@ import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
-import io.gig.realestate.domain.realestate.basic.dto.StatusUpdateForm;
+import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,8 +41,9 @@ public class RealEstateController {
     private final AreaService areaService;
 
     @GetMapping
-    public String index(RealEstateSearchDto searchDto, Model model) {
+    public String index(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
 
+        HttpSession session = request.getSession();
         List<AreaListDto> sidoList = areaService.getParentAreaList();
         model.addAttribute("sidoList", sidoList);
 
@@ -57,11 +58,11 @@ public class RealEstateController {
         }
 
         List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
-
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
 
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
-        model.addAttribute("pages", realEstateService.getRealEstatePageListBySearch(searchDto));
+        model.addAttribute("pages", pages);
         return "realestate/list";
     }
 
@@ -88,9 +89,12 @@ public class RealEstateController {
     }
 
     @GetMapping("{realEstateId}/edit")
-    public String editForm(@PathVariable(name = "realEstateId") Long realEstateId, Model model, @CurrentUser LoginUser loginUser) {
-
-        RealEstateDetailDto dto = realEstateService.getDetail(realEstateId);
+    public String editForm(HttpServletRequest request,
+                           @PathVariable(name = "realEstateId") Long realEstateId,
+                           Model model,
+                           @CurrentUser LoginUser loginUser) {
+        HttpSession session = request.getSession();
+        RealEstateDetailDto dto = realEstateService.getDetail(session.getId(), realEstateId);
         dto.checkIsOwnUser(loginUser);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -149,5 +153,36 @@ public class RealEstateController {
         boolean isExist = realEstateService.checkDuplicateAddress(address, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(isExist), HttpStatus.OK);
     }
+
+    @GetMapping("prev/{realEstateId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> movePrevPage(@PathVariable(name = "realEstateId") Long realEstateId) {
+        Long prevId = realEstateService.getPrevRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
+    }
+
+    @GetMapping("next/{realEstateId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> moveNextPage(@PathVariable(name = "realEstateId") Long realEstateId) {
+        Long prevId = realEstateService.getNextRealEstateId(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(prevId), HttpStatus.OK);
+    }
+
+    @GetMapping("print/{realEstateId}")
+    public String printRealEstate(@PathVariable(name = "realEstateId") Long realEstateId,
+                                  Model model) {
+        RealEstateDetailAllDto dto = realEstateService.getDetailAllInfo(realEstateId);
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("printInfo", dto.getPrintInfo());
+        model.addAttribute("landInfo", dto.getLandInfo());
+        model.addAttribute("priceInfo", dto.getPriceInfo());
+        model.addAttribute("landInfoList", dto.getLandInfoList());
+        model.addAttribute("constructInfo", dto.getConstructInfo());
+        model.addAttribute("floorInfoList", dto.getFloorInfoList());
+
+        return "realestate/print";
+    }
+
 
 }
