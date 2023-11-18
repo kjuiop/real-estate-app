@@ -123,28 +123,28 @@ let drawConstructFloorInfo = function(data) {
     let tag = '';
     $.each(data, function(idx, item) {
         tag += '<tr class="floor-unit">';
-        tag += '<td class="center-text padding-8 flrNoNm" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">' + item.flrNoNm + '</td>';
+        tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width: 100px;"/></td>';
         tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
-        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
+        tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
         tag += '<td class="center-text padding-6 etcPurps" data="' + item.etcPurps + '">' + item.etcPurps + '</td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
         if (item.guaranteePrice > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="' + item.guaranteePrice + '" name="guaranteePrice" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="' + item.guaranteePrice + '" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice" value="0" name="guaranteePrice" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="0" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
 
         if (item.rent > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent" value="' + item.rent + '" name="rent" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="' + item.rent + '" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent" value="0" name="rent" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subRent calSumField" value="0" name="rent" sum="totalSubRent" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
 
         if (item.management > 0) {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement" value="' + item.management + '" name="management" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="' + item.management + '" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         } else {
-            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement" value="0" name="management" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
+            tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subManagement calSumField" value="0" name="management" sum="totalManagement" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
         }
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termStartDate) + '" name="termStartDate" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">~</span><input type="text" class="form-control form-control-sm term" value="' + convertNullOrEmptyValue(item.termEndDate) + '" name="termEndDate" style="min-width: 100px;"/></div></td>';
         tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm etcInfo" value="' + convertNullOrEmptyValue(item.etcInfo) + '" name="etcInfo" style="min-width: 100px;"/></td>';
@@ -207,8 +207,8 @@ let assembleFloorParams = function() {
     let floorInfoList = [];
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
-            "flrNo" : $(item).find('.flrNoNm').attr('flrNo'),
-            "flrNoNm" : $(item).find('.flrNoNm').attr('data'),
+            "flrNo" : $(item).find('.flrNo').attr('flrNo'),
+            "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
             "area" : $(item).find('.area').attr('data'),
             "lndpclAr" : $(item).find('input[name="lndpclAr"]').val(),
             "lndpclArByPyung" : $(item).find('input[name="lndpclArByPyung"]').val(),
@@ -264,4 +264,25 @@ let calculateConstructInfo = function(constructInfo) {
         $frm.find('.vlRat').val(vlRat);
     }
 
+}
+
+let calculateSumField = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        name = $this.attr('name'),
+        sumClass = $this.attr('sum'),
+        unit = $this.attr('unit'),
+        $table = $('.construct-floor-table'),
+        $sumSection = $table.find('.' + sumClass);
+
+    let totalValue = 0;
+    $table.find('tbody tr').each(function(idx, item) {
+        let data = $(item).find('input[name="' + name + '"]').val();
+        if (!isNaN(data)) {
+            totalValue += Number(data);
+        }
+    });
+
+    $sumSection.html(totalValue + '<span style="font-size: 15px; padding: 3px;">' + unit + '</span>');
 }

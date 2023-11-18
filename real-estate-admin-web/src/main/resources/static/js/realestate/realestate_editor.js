@@ -460,4 +460,5 @@ $(document).ready(onReady)
     .on('blur', '.managementExpense', calculateManagementExpense)
     .on('blur', '.salePrice', calculateAveragePrice)
     .on('click', '.btnOpenPrintPop', openPrintPop)
+    .on('blur', '.calSumField', calculateSumField)
 ;
