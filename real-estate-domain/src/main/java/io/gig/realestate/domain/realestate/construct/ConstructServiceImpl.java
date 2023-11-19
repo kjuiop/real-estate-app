@@ -101,6 +101,11 @@ public class ConstructServiceImpl implements ConstructService {
     private ConstructDataApiDto parseConstructJsonData(JSONObject data) throws JsonProcessingException {
         JSONObject response = data.getJSONObject("response");
         JSONObject body = response.getJSONObject("body");
+
+        if (body.getInt("totalCount") == 0) {
+            return null;
+        }
+
         JSONObject items = body.getJSONObject("items");
 
         Object object = items.get("item");
@@ -153,8 +158,10 @@ public class ConstructServiceImpl implements ConstructService {
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
         List<ConstructFloorDataApiDto> dto = parseFloorJsonData(convertResult);
-        Comparator<ConstructFloorDataApiDto> comparator = Comparator.comparingInt(ConstructFloorDataApiDto::getFlrNo).reversed();
-        dto.sort(comparator);
+        if (dto != null && dto.size() > 0) {
+            Comparator<ConstructFloorDataApiDto> comparator = Comparator.comparingInt(ConstructFloorDataApiDto::getFlrNo).reversed();
+            dto.sort(comparator);
+        }
         return dto;
     }
 
@@ -162,6 +169,11 @@ public class ConstructServiceImpl implements ConstructService {
         List<ConstructFloorDataApiDto> list = new ArrayList<>();
         JSONObject response = data.getJSONObject("response");
         JSONObject body = response.getJSONObject("body");
+
+        if (body.getInt("totalCount") == 0) {
+            return null;
+        }
+
         JSONObject items = body.getJSONObject("items");
 
         Object object = items.get("item");

@@ -48,7 +48,7 @@ public class RealEstateListDto extends RealEstateDto {
                     prposArea1Nm.append(", ");
                 }
 
-                if (landInfo.getRoadWidth() != null && landInfo.getRoadWidth() > 0 && i == 0) {
+                if (landInfo.getRoadWidth() > 0 && i == 0) {
                     this.roadWidth += landInfo.getRoadWidth();
                 }
             }

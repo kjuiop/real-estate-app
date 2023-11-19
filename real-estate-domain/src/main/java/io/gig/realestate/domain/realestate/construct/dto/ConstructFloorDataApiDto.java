@@ -30,11 +30,11 @@ public class ConstructFloorDataApiDto {
 
     public static ConstructFloorDataApiDto convertData(JSONObject item) {
         return ConstructFloorDataApiDto.builder()
-                .flrNo(item.has("flrNo") ? item.getInt("flrNo") : 9999999)
-                .flrNoNm(item.has("flrNoNm") ? item.getString("flrNoNm") : null)
-                .area(item.has("area") ? item.getDouble("area") : null)
-                .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.getString("mainPurpsCdNm") : null)
-                .etcPurps(item.has("etcPurps") ? item.getString("etcPurps") : null)
+                .flrNo(item.has("flrNo") ? item.optInt("flrNo") : 0)
+                .flrNoNm(item.has("flrNoNm") ? item.optString("flrNoNm") : null)
+                .area(item.has("area") ? item.optDouble("area") : null)
+                .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.optString("mainPurpsCdNm") : null)
+                .etcPurps(item.has("etcPurps") ? item.optString("etcPurps") : null)
                 .build();
     }
 
