@@ -28,20 +28,20 @@ public class ConstructCreateForm {
     private double platAreaByPyung;
 
     // 건물면적
-    private Double archArea;
+    private double archArea;
 
     // 건폐율
-    private Double bcRat;
+    private double bcRat;
 
     // 연면적
-    private Double totArea;
+    private double totArea;
 
     // 용적율
-    private Double vlRat;
+    private double vlRat;
 
     // 층수
     // 높이
-    private Double heit;
+    private double heit;
 
     // 지상층수
     private int grndFlrCnt;

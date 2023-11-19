@@ -18,9 +18,9 @@ public class PriceDto {
 
     private Long priceId;
 
-    private int salePrice;
+    private double salePrice;
 
-    private int depositPrice;
+    private double depositPrice;
 
     private double revenueRate;
 

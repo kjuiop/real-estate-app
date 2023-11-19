@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 public class PriceCreateForm {
 
-    private int salePrice;
+    private double salePrice;
 
-    private int depositPrice;
+    private double depositPrice;
 
     private double revenueRate;
 

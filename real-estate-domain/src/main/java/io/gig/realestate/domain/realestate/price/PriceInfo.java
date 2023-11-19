@@ -25,9 +25,9 @@ public class PriceInfo extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int salePrice;
+    private double salePrice;
 
-    private int depositPrice;
+    private double depositPrice;
 
     private double revenueRate;
 
@@ -76,16 +76,16 @@ public class PriceInfo extends BaseTimeEntity {
         return priceInfo;
     }
 
-    private static int calculateLandPyungUnit(int salePrice, double lndpclAr) {
-        if (salePrice == 0 || lndpclAr == 0.0) {
+    private static int calculateLandPyungUnit(double salePrice, double lndpclAr) {
+        if (salePrice == 0.0 || lndpclAr == 0.0) {
             return 0;
         }
         salePrice *= 10000;
         return (int) (salePrice / lndpclAr);
     }
 
-    private static int calculateBuildingPyungUnit(int salePrice, double totArea) {
-        if (salePrice == 0 || totArea == 0.0) {
+    private static int calculateBuildingPyungUnit(double salePrice, double totArea) {
+        if (salePrice == 0.0 || totArea == 0.0) {
             return 0;
         }
         salePrice *= 10000;

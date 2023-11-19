@@ -24,9 +24,15 @@ let loadLandInfoList = function() {
         contentType: "application/json",
         success: function(result) {
             console.log("load land info", result);
-            let landList = result.data,
-                landInfo = landList[0];
             let $frm = $('form[name="frmLandRegister"]');
+            let landList = result.data;
+
+            if (!checkNullOrEmptyValue(landList)) {
+                $frm.find('.btnLandAdd').trigger('click');
+                return;
+            }
+
+            let landInfo = landList[0];
 
             settingLandInfo(landInfo);
 

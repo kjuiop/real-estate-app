@@ -23,6 +23,10 @@ let loadConstructInfo = function() {
         contentType: "application/json",
         success: function(result) {
             let constructInfo = result.data;
+            if (!checkNullOrEmptyValue(constructInfo)) {
+                return;
+            }
+
             console.log("constructInfo result", constructInfo);
 
             let $basicFrm = $('form[name="frmBasicRegister"]'),
@@ -97,6 +101,13 @@ let loadConstructFloorInfo = function() {
             let floorData = result.data;
             let $tbody = $('.construct-floor-table tbody'),
                 $tfoot = $('.construct-floor-table tfoot');
+
+            if (!checkNullOrEmptyValue(floorData)) {
+                $tfoot.removeClass('hidden');
+                $('.btnRowAdd').trigger('click');
+                return;
+            }
+
             if (floorData.length === 0) {
                 let tag = '';
                 tag += '<tr>';

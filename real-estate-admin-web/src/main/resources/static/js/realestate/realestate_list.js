@@ -45,46 +45,46 @@ let moveRegister = function(e) {
         return;
     }
 
-    if (!checkNullOrEmptyValue(params.bun) || !checkNullOrEmptyValue(params.ji)) {
+    if (!checkNullOrEmptyValue(params.bun)) {
         twoBtnModal("지번을 입력해주세요.");
         return;
     }
 
     console.log("params : ", params);
 
-    location.href = "/real-estate/new"
-        + "?bCode=" + params.bCode
-        + "&landType=" + params.landType
-        + "&bun=" + params.bun
-        + "&ji=" + params.ji
-        + "&address=" + encodeURIComponent(params.address)
-        + "&usageCdId=" + usageCdId
-    ;
-    //
-    // $.ajax({
-    //     url: "/real-estate/check-duplicate/" + params.address,
-    //     method: "get",
-    //     type: "json",
-    //     contentType: "application/json",
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         if (result.data) {
-    //             twoBtnModal("이미 등록된 매물 정보입니다.");
-    //         } else {
-    //             location.href = "/real-estate/new"
-    //                 + "?bCode=" + params.bCode
-    //                 + "&landType=" + params.landType
-    //                 + "&bun=" + params.bun
-    //                 + "&ji=" + params.ji
-    //                 + "&address=" + encodeURIComponent(params.address)
-    //                 + "&usageCdId=" + usageCdId
-    //             ;
-    //         }
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
+    // location.href = "/real-estate/new"
+    //     + "?bCode=" + params.bCode
+    //     + "&landType=" + params.landType
+    //     + "&bun=" + params.bun
+    //     + "&ji=" + params.ji
+    //     + "&address=" + encodeURIComponent(params.address)
+    //     + "&usageCdId=" + usageCdId
+    // ;
+
+    $.ajax({
+        url: "/real-estate/check-duplicate/" + params.address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("result : ", result);
+            if (result.data) {
+                twoBtnModal("이미 등록된 매물 정보입니다.");
+            } else {
+                location.href = "/real-estate/new"
+                    + "?bCode=" + params.bCode
+                    + "&landType=" + params.landType
+                    + "&bun=" + params.bun
+                    + "&ji=" + params.ji
+                    + "&address=" + encodeURIComponent(params.address)
+                    + "&usageCdId=" + usageCdId
+                ;
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 
 
 }
