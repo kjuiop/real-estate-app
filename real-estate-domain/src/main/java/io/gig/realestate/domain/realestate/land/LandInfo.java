@@ -33,17 +33,17 @@ public class LandInfo extends BaseTimeEntity {
 
     private String lndcgrCodeNm;
 
-    private Double lndpclAr;
+    private double lndpclAr;
 
-    private Double lndpclArByPyung;
+    private double lndpclArByPyung;
 
-    private Double pblntfPclnd;
+    private double pblntfPclnd;
 
-    private Double pblndfPclndByPyung;
+    private double pblndfPclndByPyung;
 
-    private Double totalPblntfPclnd;
+    private double totalPblntfPclnd;
 
-    private Double roadWidth;
+    private double roadWidth;
 
     private String prposArea1Nm;
 
@@ -77,16 +77,16 @@ public class LandInfo extends BaseTimeEntity {
                 .address(dto.getAddress())
                 .commercialYn(dto.getCommercialYn())
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
-                .lndpclAr(Double.parseDouble(dto.getLndpclAr()))
-                .lndpclArByPyung(Double.parseDouble(dto.getLndpclArByPyung()))
-                .pblntfPclnd(Double.parseDouble(dto.getPblntfPclnd()))
-                .totalPblntfPclnd(Double.parseDouble(dto.getTotalPblntfPclnd()))
+                .lndpclAr(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclAr()) : 0)
+                .lndpclArByPyung(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclArByPyung()) : 0)
+                .pblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getPblntfPclnd()) : 0)
+                .totalPblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getTotalPblntfPclnd()) : 0)
                 .prposArea1Nm(dto.getPrposArea1Nm())
                 .roadSideCodeNm(dto.getRoadSideCodeNm())
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
                 .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
                 .ladUseSittnNm(dto.getLadUseSittnNm())
-                .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : null)
+                .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : 0.0)
                 .realEstate(realEstate)
                 .build();
 

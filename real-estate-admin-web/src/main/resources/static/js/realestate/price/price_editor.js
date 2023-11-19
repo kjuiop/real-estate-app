@@ -88,14 +88,11 @@ let calculateAveragePrice = function() {
     }
 
     lndpclArByPyung = Number(lndpclArByPyung);
-    salePrice = Number(salePrice) * 10000;
+    salePrice = Number(salePrice) * 100000000;
 
     let averageUnitPrice = salePrice / lndpclArByPyung;
     averageUnitPrice = averageUnitPrice / 10000;
     averageUnitPrice = averageUnitPrice.toFixed(0);
-    console.log("c salePrice", salePrice);
-    console.log("c lndpclArByPyung", lndpclArByPyung);
-    console.log("c averageUnitPrice", averageUnitPrice);
 
     let $frm = $('form[name="frmPriceRegister"]');
     $frm.find('input[name="averageUnitPrice"]').val(averageUnitPrice);

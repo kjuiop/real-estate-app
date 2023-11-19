@@ -118,6 +118,10 @@ public class LandServiceImpl implements LandService {
     private List<LandDataApiDto> parseJsonData(JSONObject data) throws JsonProcessingException {
         JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
 
+        if (!wfs.has("gml:featureMember")) {
+            return null;
+        }
+
         Object object = wfs.get("gml:featureMember");
         if (object == null) {
             return null;
