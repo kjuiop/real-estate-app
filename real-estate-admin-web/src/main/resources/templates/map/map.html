@@ -9,8 +9,22 @@
 <div layout:fragment="content">
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
+            <div class="row padding-top-10">
+                <div class="col-md-12 display-flex-row">
+                    <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
+                        <option value="">시도 선택</option>
+                    </select>
+                    <select class="form-control col-md-1 select-box margin-right-5 border-none" name="gungu">
+                        <option value="">구군 선택</option>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-4 border-none" name="dong">
+                        <option value="">동 선택</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row padding-top-10">
+                <div class="col-md-12">
                     <div id="map" style="width:1200px;height:600px;"></div>
                 </div>
             </div>
@@ -19,14 +33,10 @@
 </div>
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        var dto =/*[[${dto}]]*/'';
-        /*]]>*/
     </script>
-    <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702"></script>
-    <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
-    <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
+    <script th:replace="layouts/fragments :: kakaoMaps"></script>
+    <script src="/static/js/map/kakao_map.js" th:src="@{/js/map/kakao_map.js}"></script>
+    <script src="/static/js/map/map.js" th:src="@{/js/map/map.js}"></script>
 </section>
 </body>
 </html>
