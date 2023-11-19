@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 public class RealEstateListDto extends RealEstateDto {
 
     public String managerName;
-    public int salePrice;
+    public double salePrice;
     public double revenueRate;
     public double platArea;
     public double totArea;

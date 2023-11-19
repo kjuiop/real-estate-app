@@ -372,7 +372,7 @@
                                                         <button class="btn btn-xs btn-danger pull-right margin-right-5">매매</button>
                                                     </div>
                                                     <div>
-                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.salePrice, 3, 'COMMA') : ''}"></span>만원
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatDecimal(item.salePrice, 0, 'COMMA', 0, 'POINT') : ''}"></span>억원
                                                     </div>
                                                 </div>
                                             </th:block>
@@ -383,7 +383,7 @@
                                                         <button class="btn btn-xs btn-default pull-right margin-right-5">평단가(대)</button>
                                                     </div>
                                                     <div>
-                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.landPyungUnitPrice, 3, 'COMMA') : ''}"></span>원
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.landPyungUnitPrice, 3, 'COMMA') : ''}"></span>만원
                                                     </div>
                                                 </div>
                                             </th:block>
@@ -393,7 +393,7 @@
                                                         <button class="btn btn-xs btn-default pull-right margin-right-5">평단가(연)</button>
                                                     </div>
                                                     <div>
-                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.buildingPyungUnitPrice, 3, 'COMMA') : ''}"></span>원
+                                                        <span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.buildingPyungUnitPrice, 3, 'COMMA') : ''}"></span>만원
                                                     </div>
                                                 </div>
                                             </th:block>
