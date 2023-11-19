@@ -45,7 +45,7 @@ let moveRegister = function(e) {
         return;
     }
 
-    if (!checkNullOrEmptyValue(params.bun) || !checkNullOrEmptyValue(params.ji)) {
+    if (!checkNullOrEmptyValue(params.bun)) {
         twoBtnModal("지번을 입력해주세요.");
         return;
     }
