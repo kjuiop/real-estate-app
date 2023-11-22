@@ -1,5 +1,9 @@
 let onReady = function() {
-    loadKakaoMap('서울특별시 강남구 도산대로 149');
+    let address = '서울특별시 강남구 도산대로 149';
+    if (checkNullOrEmptyValue(condition.address)) {
+        address = condition.address;
+    }
+    loadKakaoMap(address);
 }
 
 let getChildAreaData = function() {
@@ -37,12 +41,45 @@ let getChildAreaData = function() {
                 $frm.find('input[name="bun"]').val('');
                 $frm.find('input[name="ji"]').val('');
             }
+
+            setSearchAddress();
         },
         error:function(error){
             ajaxErrorFieldByText(error);
         }
     });
 
+}
+
+let setSearchAddress = function() {
+    let $frm = $('form[name="frmSearch"]'),
+        $address = $frm.find('input[name="address"]'),
+        sido = $frm.find('select[name="sido"] option:selected').attr('name'),
+        gungu = $frm.find('select[name="gungu"] option:selected').attr('name'),
+        dong = $frm.find('select[name="dong"] option:selected').attr('name'),
+        address = "";
+
+    if (!checkNullOrEmptyValue(sido)) {
+        $address.val(address);
+        return;
+    }
+
+    address = sido;
+
+    if (!checkNullOrEmptyValue(gungu)) {
+        $address.val(address);
+        return;
+    }
+
+    address = sido + " " + gungu;
+
+    if (!checkNullOrEmptyValue(dong)) {
+        $address.val(address);
+        return;
+    }
+
+    address = sido + " " + gungu + " " + dong;
+    $address.val(address);
 }
 
 let drawAreaOption = function(depth, areaList) {
@@ -53,10 +90,11 @@ let drawAreaOption = function(depth, areaList) {
         tag += '<option value="">동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
-        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '" name="' +  item.name + '">' + item.name + '</option>';
     });
     return tag;
 }
 
 $(document).ready(onReady)
-    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);
+    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
+    .on('change', 'select[name="dong"]', setSearchAddress);

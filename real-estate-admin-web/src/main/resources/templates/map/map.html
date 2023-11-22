@@ -18,30 +18,31 @@
     <section class="content no-left-padding">
         <div class="container-fluid no-left-padding">
             <form name="frmSearch">
+                <input type="hidden" name="address" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
                         <option value="">시도 선택</option>
                         <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
-                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:text="${area.name}"></option>
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
                     <select class="form-control col-md-1 select-box margin-right-5 border-none" name="gungu">
                         <option value="">구군 선택</option>
                         <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
-                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:text="${area.name}"></option>
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
                     <select class="form-control col-md-1 select-box margin-right-5 border-none" name="dong">
                         <option value="">동 선택</option>
                         <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
-                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:text="${area.name}"></option>
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <button type="submit" class="btn btn-primary margin-right-20">검색</button>
+                    <button type="submit" class="btn btn-primary margin-right-30">검색</button>
 
                     <select class="form-control col-md-1 select-box margin-right-15 border-none">
                         <option value="">매물용도</option>
@@ -91,6 +92,9 @@
 </div>
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var condition =/*[[${condition}]]*/'';
+        /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>
     <script src="/static/js/map/kakao_map.js" th:src="@{/js/map/kakao_map.js}"></script>

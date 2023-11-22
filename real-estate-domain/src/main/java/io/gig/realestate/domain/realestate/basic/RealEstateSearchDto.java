@@ -19,6 +19,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private ProcessType processType;
 
+    private String address;
+
     private String name;
 
     private String sido;
