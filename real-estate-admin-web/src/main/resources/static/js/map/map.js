@@ -1,4 +1,5 @@
 let onReady = function() {
+    let addressList = [];
     let address = '서울특별시 강남구 도산대로 149';
     if (checkNullOrEmptyValue(condition.address)) {
         address = condition.address;
@@ -6,9 +7,12 @@ let onReady = function() {
 
     if (dataList.length > 0) {
         address = dataList[0].address;
+        $.each(dataList, function(idx, item) {
+            addressList.push(item.address);
+        });
     }
 
-    loadKakaoMap(address);
+    loadKakaoMap(address, addressList);
 }
 
 let searchData = function(e) {

@@ -6,7 +6,7 @@ let mapOption = {
 let map = new kakao.maps.Map(mapContainer, mapOption);
 let geocoder = new kakao.maps.services.Geocoder();
 
-let loadKakaoMap = function(searchAddress) {
+let loadKakaoMap = function(searchAddress, addressList) {
 
     console.log("address", searchAddress)
 
@@ -20,7 +20,57 @@ let loadKakaoMap = function(searchAddress) {
         return
     }
 
-    geocoder.addressSearch(searchAddress, function(result, status) {
+    if (addressList.length === 0) {
+        searchMapByAddress(searchAddress);
+        return;
+    }
+
+    let markers = [];
+    let firstCoords;
+    for (let i=0; i<addressList.length; i++) {
+        geocoder.addressSearch(addressList[i], function(result, status) {
+            // 정상적으로 검색이 완료됐으면
+            if (status !== kakao.maps.services.Status.OK) {
+                console.error('주소 검색 실패:', searchAddress);
+                return;
+            }
+
+            let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            if (i === 0) {
+                firstCoords = coords;
+            }
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            let marker = new kakao.maps.Marker({
+                position: coords,
+            });
+
+            // 마커를 지도에 표시합니다.
+            marker.setMap(map);
+
+            // 마커를 배열에 추가합니다.
+            markers.push(marker);
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            let infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">매물위치</div>'
+            });
+
+            // 마커를 클릭하면 인포윈도우를 엽니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+            if (i === 0) {
+                map.setCenter(coords);
+            }
+        });
+    }
+
+}
+
+let searchMapByAddress = function(address) {
+
+    geocoder.addressSearch(address, function(result, status) {
 
         // 정상적으로 검색이 완료됐으면
         if (status !== kakao.maps.services.Status.OK) {
@@ -28,6 +78,8 @@ let loadKakaoMap = function(searchAddress) {
         }
 
         let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+
         // 결과값으로 받은 위치를 마커로 표시합니다
         let marker = new kakao.maps.Marker({
             map: map,
@@ -47,7 +99,6 @@ let loadKakaoMap = function(searchAddress) {
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         map.setCenter(coords);
     });
-
 }
 
 let moveMapFocus = function(e) {
