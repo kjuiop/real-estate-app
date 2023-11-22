@@ -35,29 +35,3 @@ let loadBasicInfo = function() {
     });
 
 }
-
-let loadImg = function(imgUrl) {
-    if (!checkNullOrEmptyValue(imgUrl)) {
-        return;
-    }
-    let $imagePanel = $('.image-section');
-    let tag = imgDraw(imgUrl);
-    $imagePanel.html(tag);
-}
-
-let imgDraw = function (fullPath) {
-
-    let tag = '' +
-        '<div class="thumbnailInfo ui-state-default">' +
-        '<div class="right-margin">' +
-        '<div class="image-panel" style="width:100%;">' +
-        '<button type="button" class="btn btn-danger pull-right remove-image">' +
-        '<i class="fa fa-times" aria-hidden="true"></i>' +
-        '</button>' +
-        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload"></a>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
-
-    return tag;
-};
