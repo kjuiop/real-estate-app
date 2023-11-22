@@ -310,7 +310,7 @@ let calculateSumField = function(e) {
             totalValue += Number(data);
         }
     });
-    if (totalValue > 0) {
+    if (totalValue > 0 && totalValue % 1 > 0) {
         totalValue = totalValue.toFixed(2);
     }
 
