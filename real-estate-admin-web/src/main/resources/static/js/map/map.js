@@ -3,6 +3,11 @@ let onReady = function() {
     if (checkNullOrEmptyValue(condition.address)) {
         address = condition.address;
     }
+
+    if (dataList.length > 0) {
+        address = dataList[0].address;
+    }
+
     loadKakaoMap(address);
 }
 

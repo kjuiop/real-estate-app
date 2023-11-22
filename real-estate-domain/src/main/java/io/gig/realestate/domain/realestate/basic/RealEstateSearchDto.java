@@ -39,6 +39,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Long realEstateId;
 
+    private Long usageCd;
+
     private String manager;
 
     private String customer;

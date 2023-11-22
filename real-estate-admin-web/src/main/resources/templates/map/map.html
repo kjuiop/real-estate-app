@@ -44,8 +44,11 @@
 
                     <button type="submit" class="btn btn-primary margin-right-30">검색</button>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="usageCd">
                         <option value="">매물용도</option>
+                        <th:block th:each="code : ${usageCds}">
+                            <option th:value="${code.id}" th:selected="${condition.usageCd eq code.id}">[[${code.name}]]</option>
+                        </th:block>
                     </select>
 
                     <select class="form-control col-md-1 select-box margin-right-15 border-none">
@@ -72,7 +75,7 @@
                     </div>
                     <div class="real-estate-section line" style="min-height: 1000px;">
                         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                            <div class="row real-estate-unit" th:address="${item.address + ' ' + item.addressDetail}" style="background-color: #ffffff;">
+                            <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff;">
                                 <div class="col-md-6 image-section padding-10">
                                     <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
                                         <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding"/>
@@ -130,6 +133,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var condition =/*[[${condition}]]*/'';
+        var dataList =/*[[${pages.content}]]*/'';
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>

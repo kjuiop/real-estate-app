@@ -8,6 +8,8 @@ let geocoder = new kakao.maps.services.Geocoder();
 
 let loadKakaoMap = function(searchAddress) {
 
+    console.log("address", searchAddress)
+
     if (typeof kakao === undefined) {
         console.error('Kakao Maps API가 로드되지 않았습니다.');
         return
