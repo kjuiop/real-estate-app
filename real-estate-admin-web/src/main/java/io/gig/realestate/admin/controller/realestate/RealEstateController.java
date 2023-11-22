@@ -62,7 +62,11 @@ public class RealEstateController {
 
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
-        model.addAttribute("pages", pages);
+        if (pages != null) {
+            model.addAttribute("pages", pages);
+            model.addAttribute("totalCount", pages.getTotalElements());
+        }
+
         return "realestate/list";
     }
 

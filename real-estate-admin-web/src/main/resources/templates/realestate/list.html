@@ -301,7 +301,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${pages.content.size()}"></span>개&nbsp;)
+                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>

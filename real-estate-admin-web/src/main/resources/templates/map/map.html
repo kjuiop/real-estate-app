@@ -19,6 +19,7 @@
         <div class="container-fluid no-left-padding">
             <form name="frmSearch">
                 <input type="hidden" name="address" />
+                <input type="hidden" name="page" th:value="${condition.page}" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
@@ -80,7 +81,7 @@
                 </div>
                 <div class="col-md-3 display-flex-column">
                     <div class="row padding-10">
-                        <label class="text-label">매물 <span th:text="${pages.content.size()}">0</span>개</label>
+                        <label class="text-label">매물 <span th:text="${totalCount}">0</span>개</label>
                     </div>
                     <div class="real-estate-section line" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
                         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
