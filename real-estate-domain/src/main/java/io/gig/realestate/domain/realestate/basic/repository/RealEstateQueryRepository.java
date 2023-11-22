@@ -205,6 +205,10 @@ public class RealEstateQueryRepository {
         return StringUtils.hasText(ji) ? realEstate.ji.eq(ji) : null;
     }
 
+    private BooleanExpression eqUsageTypeId(Long usageTypeId) {
+        return usageTypeId != null ? realEstate.usageType.id.eq(usageTypeId) : null;
+    }
+
     private BooleanExpression likeBuildingName(String buildingName) {
         return StringUtils.hasText(buildingName) ? realEstate.buildingName.like("%" + buildingName + "%") : null;
     }
@@ -348,6 +352,7 @@ public class RealEstateQueryRepository {
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(eqUsageTypeId(searchDto.getUsageCd()));
         where.and(eqProcessType(searchDto.getProcessType()));
         where.and(eqSido(searchDto.getSido()));
         where.and(eqGungu(searchDto.getGungu()));

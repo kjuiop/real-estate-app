@@ -5,13 +5,134 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .real-estate-unit:hover {
+            cursor: pointer; /* 올렸을 때 포인터 모양으로 변경 */
+            background-color: #e8e8e8 !important; /* 올렸을 때 배경색 변경 */
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content">
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div id="map" style="width:1200px;height:600px;"></div>
+    <section class="content no-left-padding">
+        <div class="container-fluid no-left-padding">
+            <form name="frmSearch">
+                <input type="hidden" name="address" />
+            <div class="row padding-top-10">
+                <div class="col-md-12 display-flex-row">
+                    <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
+                        <option value="">시도 선택</option>
+                        <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
+                        </th:block>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-5 border-none" name="gungu">
+                        <option value="">구군 선택</option>
+                        <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
+                        </th:block>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-5 border-none" name="dong">
+                        <option value="">동 선택</option>
+                        <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
+                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
+                        </th:block>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary margin-right-30">검색</button>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="usageCd">
+                        <option value="">매물용도</option>
+                        <th:block th:each="code : ${usageCds}">
+                            <option th:value="${code.id}" th:selected="${condition.usageCd eq code.id}">[[${code.name}]]</option>
+                        </th:block>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="processType">
+                        <option value="">진행단계</option>
+                        <option value="Prepare" th:selected="${condition.processType != null && condition.processType.type eq 'prepare'}">준비</option>
+                        <option value="Working" th:selected="${condition.processType != null && condition.processType.type eq 'working'}">작업중</option>
+                        <option value="NotAssign" th:selected="${condition.processType != null && condition.processType.type eq 'notAssign'}">미지정</option>
+                        <option value="Complete" th:selected="${condition.processType != null && condition.processType.type eq 'complete'}">완료</option>
+                        <option value="Impossible" th:selected="${condition.processType != null && condition.processType.type eq 'impossible'}">작업불가</option>
+                        <option value="Pending" th:selected="${condition.processType != null && condition.processType.type eq 'pending'}">보류</option>
+                        <option value="Sell" th:selected="${condition.processType != null && condition.processType.type eq 'sell'}">매각</option>
+                        <option value="R" th:selected="${condition.processType != null && condition.processType.type eq 'r'}">R</option>
+                        <option value="AB" th:selected="${condition.processType != null && condition.processType.type eq 'a-b'}">A-B</option>
+                    </select>
+
+<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
+<!--                        <option value="">가격 대</option>-->
+<!--                    </select>-->
+
+<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
+<!--                        <option value="">면적</option>-->
+<!--                    </select>-->
+                </div>
+            </div>
+            </form>
+            <div class="row margin-top-20" style="border-top: 1px solid #d5caca">
+                <div class="col-md-9 no-left-padding">
+                    <div id="map" style="width:100%;height:1130px;"></div>
+                </div>
+                <div class="col-md-3 display-flex-column">
+                    <div class="row padding-10">
+                        <label class="text-label">매물 <span th:text="${pages.content.size()}">0</span>개</label>
+                    </div>
+                    <div class="real-estate-section line" style="min-height: 1000px;">
+                        <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                            <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff;">
+                                <div class="col-md-6 image-section padding-10">
+                                    <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
+                                        <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding"/>
+                                    </th:block>
+                                    <th:block th:if="${not #strings.isEmpty(item.imgUrl)}">
+                                        <img th:src="${item.imgUrl}" class="col-sm-12 no-left-padding"/>
+                                    </th:block>
+                                </div>
+                                <div class="col-md-6 display-flex-column padding-top-20">
+                                    <label class="text-label margin-bottom-3 font-weight-normal" th:text="${item.usageType != null ? item.usageType.name + ' 매매' : ''}"></label>
+                                    <div class="display-inline-block margin-bottom-3">
+                                        <label class="text-label margin-bottom-3" style="color: red;" th:if="${item.salePrice}">
+                                            <th:block th:if="${item.salePrice > 0 && item.salePrice % 1 > 0}">
+                                                <span th:text="${#numbers.formatDecimal(item.salePrice, 0, 'COMMA', 2, 'POINT')}"></span>억원
+                                            </th:block>
+                                            <th:block th:if="${item.salePrice > 0 && item.salePrice % 1 == 0}">
+                                                <span th:text="${#numbers.formatDecimal(item.salePrice, 0, 'COMMA', 0, 'POINT')}"></span>억원
+                                            </th:block>
+                                        </label>
+                                        <label class="text-label small-text-label font-weight-normal margin-bottom-3" th:if="${item.landPyungUnitPrice > 0}">
+                                            (<span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.landPyungUnitPrice, 3, 'COMMA') : ''}"></span>만원/3.3㎡)
+                                        </label>
+                                    </div>
+                                    <div class="margin-bottom-3 display-flex-column">
+                                        <a th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
+                                            <span class="text-label" style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
+                                        </a>
+                                        <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
+                                            <span class="text-label" th:text="${item.buildingName}"></span>
+                                        </th:block>
+                                        <th:block th:if="${not #strings.isEmpty(item.prposArea1Nm)}">
+                                            <span class="text-label" th:text="${item.prposArea1Nm}"></span>
+                                        </th:block>
+                                    </div>
+                                    <div class="display-flex-row margin-bottom-3">
+                                        <label class="text-label font-weight-normal">대지 [[${item.platArea}]]㎡</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="row" th:if="${not #lists.isEmpty(pages.content)}">
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,13 +141,13 @@
 <section layout:fragment="script">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        var dto =/*[[${dto}]]*/'';
+        var condition =/*[[${condition}]]*/'';
+        var dataList =/*[[${pages.content}]]*/'';
         /*]]>*/
     </script>
-    <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702"></script>
-    <script src="/static/js/realestate/realestate_map.js" th:src="@{/js/realestate/realestate_map.js}"></script>
-    <script src="/static/js/realestate/realestate_editor.js" th:src="@{/js/realestate/realestate_editor.js}"></script>
+    <script th:replace="layouts/fragments :: kakaoMaps"></script>
+    <script src="/static/js/map/kakao_map.js" th:src="@{/js/map/kakao_map.js}"></script>
+    <script src="/static/js/map/map.js" th:src="@{/js/map/map.js}"></script>
 </section>
 </body>
 </html>
