@@ -5,27 +5,73 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .real-estate-unit:hover {
+            cursor: pointer; /* 올렸을 때 포인터 모양으로 변경 */
+            background-color: #e8e8e8 !important; /* 올렸을 때 배경색 변경 */
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content">
-    <section class="content">
-        <div class="container-fluid">
+    <section class="content no-left-padding">
+        <div class="container-fluid no-left-padding">
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
                         <option value="">시도 선택</option>
                     </select>
+
                     <select class="form-control col-md-1 select-box margin-right-5 border-none" name="gungu">
                         <option value="">구군 선택</option>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-4 border-none" name="dong">
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="dong">
                         <option value="">동 선택</option>
                     </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                        <option value="">매물용도</option>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                        <option value="">진행단계</option>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                        <option value="">가격 대</option>
+                    </select>
+
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                        <option value="">면적</option>
+                    </select>
+
                 </div>
             </div>
-            <div class="row padding-top-10">
-                <div class="col-md-12">
-                    <div id="map" style="width:1200px;height:600px;"></div>
+            <div class="row margin-top-20" style="border-top: 1px solid #d5caca">
+                <div class="col-md-9 no-left-padding">
+                    <div id="map" style="width:100%;height:1130px;"></div>
+                </div>
+                <div class="col-md-3 display-flex-column">
+                    <div class="row padding-10">
+                        <label class="text-label">매물 <span>0</span>개</label>
+                    </div>
+                    <div class="row real-estate-unit" style="background-color: #ffffff;">
+                        <div class="col-md-6 image-section padding-10">
+                            <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                        </div>
+                        <div class="col-md-6 display-flex-column padding-top-30">
+                            <label class="text-label margin-bottom-0 font-weight-normal" style="font-weight: normal;">사무실 매매</label>
+                            <div class="display-inline-block margin-bottom-0">
+                                <label class="text-label" style="color: red;">7,000만</label>
+                                <label class="text-label small-text-label font-weight-normal">(79만/3.3㎡)</label>
+                            </div>
+                            <label class="text-label margin-bottom-0 font-weight-normal">대지 292.9㎡</label>
+                            <label class="text-label margin-bottom-0 font-weight-normal">서울 강남구 삼성동</label>
+                            <label class="text-label margin-bottom-0 font-weight-normal">test</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
