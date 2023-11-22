@@ -51,17 +51,26 @@
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="processType">
                         <option value="">진행단계</option>
+                        <option value="Prepare" th:selected="${condition.processType != null && condition.processType.type eq 'prepare'}">준비</option>
+                        <option value="Working" th:selected="${condition.processType != null && condition.processType.type eq 'working'}">작업중</option>
+                        <option value="NotAssign" th:selected="${condition.processType != null && condition.processType.type eq 'notAssign'}">미지정</option>
+                        <option value="Complete" th:selected="${condition.processType != null && condition.processType.type eq 'complete'}">완료</option>
+                        <option value="Impossible" th:selected="${condition.processType != null && condition.processType.type eq 'impossible'}">작업불가</option>
+                        <option value="Pending" th:selected="${condition.processType != null && condition.processType.type eq 'pending'}">보류</option>
+                        <option value="Sell" th:selected="${condition.processType != null && condition.processType.type eq 'sell'}">매각</option>
+                        <option value="R" th:selected="${condition.processType != null && condition.processType.type eq 'r'}">R</option>
+                        <option value="AB" th:selected="${condition.processType != null && condition.processType.type eq 'a-b'}">A-B</option>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
-                        <option value="">가격 대</option>
-                    </select>
+<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
+<!--                        <option value="">가격 대</option>-->
+<!--                    </select>-->
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none">
-                        <option value="">면적</option>
-                    </select>
+<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
+<!--                        <option value="">면적</option>-->
+<!--                    </select>-->
                 </div>
             </div>
             </form>

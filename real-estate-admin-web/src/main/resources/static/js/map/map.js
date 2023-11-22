@@ -11,6 +11,13 @@ let onReady = function() {
     loadKakaoMap(address);
 }
 
+let searchData = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmSearch"]');
+    $frm.submit();
+}
+
 let getChildAreaData = function() {
     let areaId = $(this).find('option:selected').attr('areaId'),
         name = $(this).attr('name');
@@ -103,4 +110,5 @@ let drawAreaOption = function(depth, areaList) {
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('change', 'select[name="dong"]', setSearchAddress)
-    .on('click', '.real-estate-unit', moveMapFocus);
+    .on('click', '.real-estate-unit', moveMapFocus)
+    .on('change', 'select[name="usageCd"], select[name="processType"]', searchData);
