@@ -82,7 +82,7 @@
                     <div class="row padding-10">
                         <label class="text-label">매물 <span th:text="${pages.content.size()}">0</span>개</label>
                     </div>
-                    <div class="real-estate-section line" style="min-height: 1000px;">
+                    <div class="real-estate-section line" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
                         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                             <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff;">
                                 <div class="col-md-6 image-section padding-10">
