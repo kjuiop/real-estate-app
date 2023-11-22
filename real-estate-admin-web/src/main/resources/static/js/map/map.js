@@ -97,4 +97,5 @@ let drawAreaOption = function(depth, areaList) {
 
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
-    .on('change', 'select[name="dong"]', setSearchAddress);
+    .on('change', 'select[name="dong"]', setSearchAddress)
+    .on('click', '.real-estate-unit', moveMapFocus);

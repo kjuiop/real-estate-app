@@ -72,7 +72,7 @@
                     </div>
                     <div class="real-estate-section line" style="min-height: 1000px;">
                         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                            <div class="row real-estate-unit" style="background-color: #ffffff;">
+                            <div class="row real-estate-unit" th:address="${item.address + ' ' + item.addressDetail}" style="background-color: #ffffff;">
                                 <div class="col-md-6 image-section padding-10">
                                     <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
                                         <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding"/>
