@@ -40,6 +40,8 @@ public class MapController {
             model.addAttribute("dongList", dongList);
         }
 
+        model.addAttribute("condition", searchDto);
+
         return "map/map";
     }
 }

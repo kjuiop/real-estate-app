@@ -52,3 +52,11 @@
 --   and `level` = 4
 --   and parent_id is null
 -- ;
+
+-- [출장소] delete area
+
+-- update area a1
+-- set a1.delete_yn = 'Y'
+-- where 1=1
+--   and a1.name like '%출장소%'
+-- ;
