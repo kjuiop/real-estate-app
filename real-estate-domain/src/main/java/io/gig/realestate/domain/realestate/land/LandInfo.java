@@ -55,6 +55,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private String ladUseSittnNm;
 
+    private String etcInfo;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -74,7 +76,6 @@ public class LandInfo extends BaseTimeEntity {
         LandInfo landInfo = LandInfo.builder()
                 .pnu(dto.getPnu())
                 .address(dto.getAddress())
-                .address(dto.getAddress())
                 .commercialYn(dto.getCommercialYn())
                 .lndcgrCodeNm(dto.getLndcgrCodeNm())
                 .lndpclAr(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclAr()) : 0)
@@ -87,6 +88,7 @@ public class LandInfo extends BaseTimeEntity {
                 .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
                 .ladUseSittnNm(dto.getLadUseSittnNm())
                 .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : 0.0)
+                .etcInfo(dto.getEtcInfo())
                 .realEstate(realEstate)
                 .build();
 
