@@ -57,6 +57,36 @@ let loadLandInfoList = function() {
     });
 }
 
+let loadLandUsageInfo = function() {
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let isLandInfo = dto.existLandInfo;
+    if (isLandInfo === true) {
+        return;
+    }
+
+    let url = "/real-estate/land/usage/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("load land usage info", result);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
