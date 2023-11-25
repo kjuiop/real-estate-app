@@ -32,16 +32,12 @@ let moveRegister = function(e) {
     e.preventDefault();
 
     let $frm = $('form[name="frmMoveRegister"]'),
-        params = serializeObject({form:$frm[0]}).json();
+        params = serializeObject({form:$frm[0]}).json(),
+        dongCode = $frm.find('select[name="dong"] option:selected').val();
 
     let usageCdId = $('select[name="usageCd"] option:selected').val();
     if (!checkNullOrEmptyValue(usageCdId)) {
         twoBtnModal("매물 용도를 선택해주세요.");
-        return;
-    }
-
-    if (!checkNullOrEmptyValue(params.address)) {
-        twoBtnModal("주소 검색을 통해 주소를 입력해주세요.");
         return;
     }
 
@@ -50,41 +46,60 @@ let moveRegister = function(e) {
         return;
     }
 
+    if (checkNullOrEmptyValue(dongCode)) {
+        let sido = $frm.find('select[name="sido"] option:selected').attr('name');
+        let gungu = $frm.find('select[name="gungu"] option:selected').attr('name');
+        let dong = $frm.find('select[name="dong"] option:selected').attr('name');
+        let bun = $frm.find('input[name="bun"]').val();
+        let ji = $frm.find('input[name="ji"]').val();
+        params.address = sido + " " + gungu + " " + dong + " " + bun;
+        if (checkNullOrEmptyValue(ji)) {
+            params.address += "-" + ji;
+        }
+    }
+
+    if (!checkNullOrEmptyValue(params.address) && !checkNullOrEmptyValue(dongCode)) {
+        twoBtnModal("주소 검색 또는 주소를 입력해주세요.");
+        return;
+    }
+
     console.log("params : ", params);
 
-    // location.href = "/real-estate/new"
-    //     + "?bCode=" + params.bCode
-    //     + "&landType=" + params.landType
-    //     + "&bun=" + params.bun
-    //     + "&ji=" + params.ji
-    //     + "&address=" + encodeURIComponent(params.address)
-    //     + "&usageCdId=" + usageCdId
-    // ;
+    location.href = "/real-estate/new"
+        + "?bCode=" + params.bCode
+        + "&landType=" + params.landType
+        + "&bun=" + params.bun
+        + "&ji=" + params.ji
+        + "&address=" + encodeURIComponent(params.address)
+        + "&usageCdId=" + usageCdId
+        + "&dongCode=" + dongCode
+    ;
 
-    $.ajax({
-        url: "/real-estate/check-duplicate/" + params.address,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            console.log("result : ", result);
-            if (result.data) {
-                twoBtnModal("이미 등록된 매물 정보입니다.");
-            } else {
-                location.href = "/real-estate/new"
-                    + "?bCode=" + params.bCode
-                    + "&landType=" + params.landType
-                    + "&bun=" + params.bun
-                    + "&ji=" + params.ji
-                    + "&address=" + encodeURIComponent(params.address)
-                    + "&usageCdId=" + usageCdId
-                ;
-            }
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
+    // $.ajax({
+    //     url: "/real-estate/check-duplicate/" + params.address,
+    //     method: "get",
+    //     type: "json",
+    //     contentType: "application/json",
+    //     success: function (result) {
+    //         console.log("result : ", result);
+    //         if (result.data) {
+    //             twoBtnModal("이미 등록된 매물 정보입니다.");
+    //         } else {
+    //             location.href = "/real-estate/new"
+    //                 + "?bCode=" + params.bCode
+    //                 + "&landType=" + params.landType
+    //                 + "&bun=" + params.bun
+    //                 + "&ji=" + params.ji
+    //                 + "&address=" + encodeURIComponent(params.address)
+    //                 + "&usageCdId=" + usageCdId
+    //                 + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
+    //             ;
+    //         }
+    //     },
+    //     error:function(error){
+    //         ajaxErrorFieldByText(error);
+    //     }
+    // });
 
 
 }
@@ -173,6 +188,8 @@ let getChildAreaData = function() {
         return;
     }
 
+    let $frm = $(this).parents('form');
+
     $.ajax({
         url: "/settings/area-manager/" + areaId,
         method: "get",
@@ -181,9 +198,10 @@ let getChildAreaData = function() {
         success: function (result) {
             console.log("area result : ", result);
             let areaList = result.data;
-            let $frm = $('form[name="frmSearch"]'),
-            $gungu = $frm.find('select[name="gungu"]'),
+
+            let $gungu = $frm.find('select[name="gungu"]'),
             $dong = $frm.find('select[name="dong"');
+
             let tag;
             if (name === 'sido') {
                 tag = drawAreaOption("gungu", areaList);
@@ -215,9 +233,26 @@ let drawAreaOption = function(depth, areaList) {
         tag += '<option value="">동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
-        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '" name="' + item.name + '">' + item.name + '</option>';
     });
     return tag;
+}
+
+let toggleAddressType = function(e) {
+    e.preventDefault();
+
+    let type = $(this).val();
+    let $frm = $('form[name="frmMoveRegister"]');
+
+    if (type === 'kakao') {
+        $frm.find('.kakao-section').removeClass('hidden');
+        $frm.find('.direct-section').addClass('hidden');
+    } else if (type === 'direct') {
+        $frm.find('.kakao-section').addClass('hidden');
+        $frm.find('.direct-section').removeClass('hidden');
+    }
+
+    $frm.find('input[name="address"]').val('');
 }
 
 $(document).ready(onReady)
@@ -229,4 +264,5 @@ $(document).ready(onReady)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
-    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);
+    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
+    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType);

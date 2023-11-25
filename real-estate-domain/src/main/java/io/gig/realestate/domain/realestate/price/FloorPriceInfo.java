@@ -32,6 +32,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private String flrNoNm;
 
+    private String roomName;
+
     private Double area;
 
     private double lndpclAr;
@@ -74,6 +76,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
         return FloorPriceInfo.builder()
                 .flrNo(dto.getFlrNo())
                 .flrNoNm(dto.getFlrNoNm())
+                .roomName(dto.getRoomName())
                 .area(dto.getArea())
                 .lndpclAr(dto.getLndpclAr())
                 .lndpclArByPyung(dto.getLndpclArByPyung())

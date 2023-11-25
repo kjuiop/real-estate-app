@@ -28,7 +28,7 @@ public class RealEstateUpdateForm {
 
     private String buildingName;
 
-    private String etcInfo;
+    private String surroundInfo;
 
     private String imgUrl;
 
@@ -49,6 +49,8 @@ public class RealEstateUpdateForm {
     private YnType rYn;
 
     private YnType abYn;
+
+    private String characterInfo;
 
     private PriceCreateForm priceInfo;
 

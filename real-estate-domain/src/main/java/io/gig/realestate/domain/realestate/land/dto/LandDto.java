@@ -82,6 +82,8 @@ public class LandDto {
     /** 도로 너비 **/
     private Double roadWidth;
 
+    private String etcInfo;
+
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
@@ -100,5 +102,6 @@ public class LandDto {
         this.ladUseSittnNm = l.getLadUseSittnNm();
         this.commercialYn = l.getCommercialYn();
         this.roadWidth = l.getRoadWidth();
+        this.etcInfo = l.getEtcInfo();
     }
 }

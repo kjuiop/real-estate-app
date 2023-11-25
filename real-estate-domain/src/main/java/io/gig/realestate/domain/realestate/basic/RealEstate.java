@@ -39,7 +39,7 @@ public class RealEstate extends BaseTimeEntity {
 
     private String buildingName;
 
-    private String etcInfo;
+    private String surroundInfo;
 
     private String legalCode;
 
@@ -54,6 +54,8 @@ public class RealEstate extends BaseTimeEntity {
     private String addressDetail;
 
     private String imgUrl;
+
+    private String characterInfo;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -168,7 +170,7 @@ public class RealEstate extends BaseTimeEntity {
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
-                .etcInfo(createForm.getEtcInfo())
+                .surroundInfo(createForm.getSurroundInfo())
                 .imgUrl(createForm.getImgUrl())
                 .legalCode(createForm.getLegalCode())
                 .landType(createForm.getLandType())
@@ -178,6 +180,7 @@ public class RealEstate extends BaseTimeEntity {
                 .addressDetail(createForm.getAddressDetail())
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .characterInfo(createForm.getCharacterInfo())
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -187,7 +190,7 @@ public class RealEstate extends BaseTimeEntity {
     public static RealEstate createWithUsageType(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
         return RealEstate.builder()
                 .buildingName(createForm.getBuildingName())
-                .etcInfo(createForm.getEtcInfo())
+                .surroundInfo(createForm.getSurroundInfo())
                 .imgUrl(createForm.getImgUrl())
                 .legalCode(createForm.getLegalCode())
                 .landType(createForm.getLandType())
@@ -197,6 +200,7 @@ public class RealEstate extends BaseTimeEntity {
                 .addressDetail(createForm.getAddressDetail())
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .characterInfo(createForm.getCharacterInfo())
                 .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
@@ -206,10 +210,11 @@ public class RealEstate extends BaseTimeEntity {
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
         this.buildingName = updateForm.getBuildingName();
-        this.etcInfo = updateForm.getEtcInfo();
+        this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
         this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
         this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
+        this.characterInfo = updateForm.getCharacterInfo();
         this.usageType = usageType;
         this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;

@@ -39,4 +39,6 @@ public class LandInfoDto {
     private String roadWidth;
 
     private YnType commercialYn;
+
+    private String etcInfo;
 }

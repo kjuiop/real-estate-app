@@ -18,6 +18,8 @@ public class FloorListDto {
 
     private String flrNoNm;
 
+    private String roomName;
+
     // 면적
     private Double area;
 
@@ -50,6 +52,7 @@ public class FloorListDto {
     public FloorListDto (FloorPriceInfo f) {
         this.flrNo = f.getFlrNo();
         this.flrNoNm = f.getFlrNoNm();
+        this.roomName = f.getRoomName();
         this.area = f.getArea();
         this.lndpclAr = f.getLndpclAr();
         this.lndpclArByPyung = f.getLndpclArByPyung();
