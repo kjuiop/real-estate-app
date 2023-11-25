@@ -266,10 +266,27 @@ let applyLandInfo = function(e) {
 
     let $frm = $('form[name="frmLandRegister"]'),
         $modal = $('#landModal'),
-        address = $('#landModal').find('input[name="address"]').val();
+        address = $('#landModal').find('input[name="address"]').val(),
+        bCode = $modal.find('input[name="bCode"]').val();
+
+    if (!checkNullOrEmptyValue(bCode)) {
+        bCode = $modal.find('select[name="dong"] option:selected').val();
+    }
+
+    if (checkNullOrEmptyValue(bCode)) {
+        let sido = $modal.find('select[name="sido"] option:selected').attr('name');
+        let gungu = $modal.find('select[name="gungu"] option:selected').attr('name');
+        let dong = $modal.find('select[name="dong"] option:selected').attr('name');
+        let bun = $modal.find('input[name="bun"]').val();
+        let ji = $modal.find('input[name="ji"]').val();
+        address = sido + " " + gungu + " " + dong + " " + bun;
+        if (checkNullOrEmptyValue(ji)) {
+            address += "-" + ji;
+        }
+    }
 
     let url = "/real-estate/land/ajax/public-data"
-        + "?legalCode=" + $modal.find('input[name="bCode"]').val()
+        + "?legalCode=" + bCode
         + "&landType=" + $modal.find('select[name="landType"] option:selected').val()
         + "&bun=" + $modal.find('input[name="bun"]').val()
         + "&ji=" + $modal.find('input[name="ji"]').val()

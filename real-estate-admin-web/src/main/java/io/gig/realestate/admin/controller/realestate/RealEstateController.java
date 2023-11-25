@@ -82,6 +82,8 @@ public class RealEstateController {
             Model model,
             @CurrentUser LoginUser loginUser) {
 
+        List<AreaListDto> sidoList = areaService.getParentAreaList();
+
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
@@ -89,6 +91,7 @@ public class RealEstateController {
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
         model.addAttribute("usageCds", usageCds);
+        model.addAttribute("sidoList", sidoList);
 
         return "realestate/editor";
     }
@@ -103,10 +106,12 @@ public class RealEstateController {
         dto.checkIsOwnUser(loginUser);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
+        List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         model.addAttribute("dto", dto);
         model.addAttribute("admins", admins);
         model.addAttribute("usageCds", usageCds);
+        model.addAttribute("sidoList", sidoList);
 
         return "realestate/editor";
     }
