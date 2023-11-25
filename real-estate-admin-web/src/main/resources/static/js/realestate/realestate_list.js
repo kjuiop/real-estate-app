@@ -32,7 +32,8 @@ let moveRegister = function(e) {
     e.preventDefault();
 
     let $frm = $('form[name="frmMoveRegister"]'),
-        params = serializeObject({form:$frm[0]}).json();
+        params = serializeObject({form:$frm[0]}).json(),
+        dongCode = $frm.find('select[name="dong"] option:selected').val();
 
     let usageCdId = $('select[name="usageCd"] option:selected').val();
     if (!checkNullOrEmptyValue(usageCdId)) {
@@ -40,13 +41,25 @@ let moveRegister = function(e) {
         return;
     }
 
-    if (!checkNullOrEmptyValue(params.address)) {
-        twoBtnModal("주소 검색을 통해 주소를 입력해주세요.");
+    if (!checkNullOrEmptyValue(params.bun)) {
+        twoBtnModal("지번을 입력해주세요.");
         return;
     }
 
-    if (!checkNullOrEmptyValue(params.bun)) {
-        twoBtnModal("지번을 입력해주세요.");
+    if (checkNullOrEmptyValue(dongCode)) {
+        let sido = $frm.find('select[name="sido"] option:selected').attr('name');
+        let gungu = $frm.find('select[name="gungu"] option:selected').attr('name');
+        let dong = $frm.find('select[name="dong"] option:selected').attr('name');
+        let bun = $frm.find('input[name="bun"]').val();
+        let ji = $frm.find('input[name="ji"]').val();
+        params.address = sido + " " + gungu + " " + dong + " " + bun;
+        if (checkNullOrEmptyValue(ji)) {
+            params.address += "-" + ji;
+        }
+    }
+
+    if (!checkNullOrEmptyValue(params.address) && !checkNullOrEmptyValue(dongCode)) {
+        twoBtnModal("주소 검색 또는 주소를 입력해주세요.");
         return;
     }
 
@@ -59,6 +72,7 @@ let moveRegister = function(e) {
         + "&ji=" + params.ji
         + "&address=" + encodeURIComponent(params.address)
         + "&usageCdId=" + usageCdId
+        + "&dongCode=" + dongCode
     ;
 
     // $.ajax({
@@ -78,6 +92,7 @@ let moveRegister = function(e) {
     //                 + "&ji=" + params.ji
     //                 + "&address=" + encodeURIComponent(params.address)
     //                 + "&usageCdId=" + usageCdId
+    //                 + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
     //             ;
     //         }
     //     },
@@ -173,6 +188,8 @@ let getChildAreaData = function() {
         return;
     }
 
+    let $frm = $(this).parents('form');
+
     $.ajax({
         url: "/settings/area-manager/" + areaId,
         method: "get",
@@ -181,9 +198,10 @@ let getChildAreaData = function() {
         success: function (result) {
             console.log("area result : ", result);
             let areaList = result.data;
-            let $frm = $('form[name="frmSearch"]'),
-            $gungu = $frm.find('select[name="gungu"]'),
+
+            let $gungu = $frm.find('select[name="gungu"]'),
             $dong = $frm.find('select[name="dong"');
+
             let tag;
             if (name === 'sido') {
                 tag = drawAreaOption("gungu", areaList);
@@ -215,7 +233,7 @@ let drawAreaOption = function(depth, areaList) {
         tag += '<option value="">동 선택</option>';
     }
     $.each(areaList, function(idx, item) {
-        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '">' + item.name + '</option>';
+        tag += '<option id="' + item.areaId + '" value="' + item.legalAddressCode + '" areaId="' + item.areaId + '" legalCode="' + item.legalAddressCode + '" name="' + item.name + '">' + item.name + '</option>';
     });
     return tag;
 }

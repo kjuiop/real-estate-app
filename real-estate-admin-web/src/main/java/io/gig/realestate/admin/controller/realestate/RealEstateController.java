@@ -78,10 +78,11 @@ public class RealEstateController {
             @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
             @RequestParam(name = "usageCdId") Long usageCdId,
+            @RequestParam(name = "dongCode") String dongCode,
             Model model,
             @CurrentUser LoginUser loginUser) {
 
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId);
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
 

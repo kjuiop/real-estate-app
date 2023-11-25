@@ -104,7 +104,12 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId, String dongCode) {
+
+        if (!StringUtils.hasText(legalCode)) {
+            legalCode = dongCode;
+        }
+
         return RealEstateDetailDto.builder()
                 .legalCode(legalCode)
                 .landType(landType)

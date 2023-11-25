@@ -282,14 +282,16 @@ let applyLandInfo = function(e) {
         contentType: "application/json",
         success: function(result) {
             console.log("load land info", result);
-            let landList = result.data,
-                landInfo = landList[0];
+            let landList = result.data;
+            if (!checkNullOrEmptyValue(landList)) {
+                return;
+            }
+            let landInfo = landList[0];
             $frm.find('input[name="address"]').val(address);
             $frm.find('input[name="pnu"]').val(landInfo.pnu);
             settingLandInfo(landInfo);
         },
         error: function(error){
-            ajaxErrorFieldByText(error);
         }
     });
 
