@@ -238,6 +238,23 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
+let toggleAddressType = function(e) {
+    e.preventDefault();
+
+    let type = $(this).val();
+    let $frm = $('form[name="frmMoveRegister"]');
+
+    if (type === 'kakao') {
+        $frm.find('.kakao-section').removeClass('hidden');
+        $frm.find('.direct-section').addClass('hidden');
+    } else if (type === 'direct') {
+        $frm.find('.kakao-section').addClass('hidden');
+        $frm.find('.direct-section').removeClass('hidden');
+    }
+
+    $frm.find('input[name="address"]').val('');
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
@@ -247,4 +264,5 @@ $(document).ready(onReady)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
-    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData);
+    .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
+    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType);

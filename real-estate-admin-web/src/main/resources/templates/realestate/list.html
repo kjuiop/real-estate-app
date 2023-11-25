@@ -478,48 +478,58 @@
                                     </tr>
                                     <tr>
                                         <td class="col-md-12 no-left-padding" colspan="12">
-                                            <div class="col-md-12 no-left-padding">
-                                                <label class="text-label">카카오 주소 검색</label>
+                                            <div>
+                                                <label class="radio-label" style="font-weight: normal;">
+                                                    <input type="radio" id="address_kakao" name="toggleAddress" value="kakao" checked>
+                                                    <label class="radio-label" style="font-weight: normal;">kakao 주소검색</label>
+                                                </label>
+                                                <label class="radio-label" style="font-weight: normal;">
+                                                    <input type="radio" id="address_direct" name="toggleAddress" value="direct">
+                                                    <label class="radio-label" style="font-weight: normal;">직접 주소입력</label>
+                                                </label>
                                             </div>
-                                            <div class="col-md-12 display-flex-row no-left-padding">
-                                                <input type="text" class="form-control form-control-sm col-sm-9" readonly name="address" />
-                                                <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
+                                            <div class="kakao-section">
+                                                <div class="col-md-12 no-left-padding">
+                                                    <label class="text-label">카카오 주소 검색</label>
+                                                </div>
+                                                <div class="col-md-12 display-flex-row no-left-padding">
+                                                    <input type="text" class="form-control form-control-sm col-sm-9" readonly name="address" />
+                                                    <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-12 no-left-padding" colspan="12">
-                                            <div class="col-md-12 no-left-padding">
-                                                <label class="text-label">주소 입력</label>
-                                            </div>
-                                            <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
-                                                <select class="form-control custom-select margin-right-5" name="sido">
-                                                    <option value="">시도 선택</option>
-                                                    <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
-                                                        <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
-                                                    </th:block>
-                                                </select>
-                                                <select class="form-control form-control-sm custom-select select-box margin-right-5" name="gungu">
-                                                    <option value="">구군 선택</option>
-                                                    <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
-                                                        <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
-                                                    </th:block>
-                                                </select>
+                                            <div class="direct-section hidden">
+                                                <div class="col-md-12 no-left-padding">
+                                                    <label class="text-label">주소 입력</label>
+                                                </div>
+                                                <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
+                                                    <select class="form-control custom-select margin-right-5" name="sido">
+                                                        <option value="">시도 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-5" name="gungu">
+                                                        <option value="">구군 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
 
-                                                <select class="form-control form-control-sm custom-select select-box margin-right-4" name="dong">
-                                                    <option value="">동 선택</option>
-                                                    <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
-                                                        <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
-                                                    </th:block>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
-                                                <select class="form-control col-md-4 margin-right-4" name="landType">
-                                                    <option value="general">일반</option>
-                                                    <option value="mountain">산</option>
-                                                </select>
-                                                <input type="text" class="form-control col-md-4 margin-right-4" name="bun" placeholder="번" />
-                                                <input type="text" class="form-control col-md-4" name="ji" placeholder="지" />
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-4" name="dong">
+                                                        <option value="">동 선택</option>
+                                                        <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
+                                                            <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
+                                                        </th:block>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
+                                                    <select class="form-control col-md-4 margin-right-4" name="landType">
+                                                        <option value="general">일반</option>
+                                                        <option value="mountain">산</option>
+                                                    </select>
+                                                    <input type="text" class="form-control col-md-4 margin-right-4" name="bun" placeholder="번" />
+                                                    <input type="text" class="form-control col-md-4" name="ji" placeholder="지" />
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
