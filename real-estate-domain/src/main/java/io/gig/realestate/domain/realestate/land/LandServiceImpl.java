@@ -82,8 +82,21 @@ public class LandServiceImpl implements LandService {
     }
 
     @Override
-    @Transactional
     public List<LandDataApiDto> getLandListInfo(String bCode, String landType, String bun, String ji) throws IOException {
+        List<LandDataApiDto> list = callLandListInfo(bCode, landType, bun, ji);
+        if (list.size() == 0) {
+            return list;
+        }
+
+        LandUsageDataApiDto usageData = getLandUsagePublicData(bCode, landType, bun, ji);
+        if (usageData != null) {
+            list.get(0).withUsageData(usageData);
+        }
+        return list;
+    }
+
+    @Transactional
+    public List<LandDataApiDto> callLandListInfo(String bCode, String landType, String bun, String ji) throws IOException {
         LandDataApiDto.Request request = LandDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(landDataProperties.getUrl()); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landDataProperties.getServiceKey()); /*Service Key*/
@@ -111,9 +124,9 @@ public class LandServiceImpl implements LandService {
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
         List<LandDataApiDto> landDataApiDtoList = parseLandInfoJsonData(convertResult);
-
         return landDataApiDtoList;
     }
+
 
     private List<LandDataApiDto> parseLandInfoJsonData(JSONObject data) throws JsonProcessingException {
         JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
@@ -150,6 +163,7 @@ public class LandServiceImpl implements LandService {
 
         return null;
     }
+
 
     @Override
     @Transactional

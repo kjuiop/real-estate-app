@@ -84,6 +84,12 @@ public class LandDto {
 
     private String etcInfo;
 
+    private String prposAreaDstrcNmList;
+
+    private String prposAreaDstrcCodeList;
+
+    private String posList;
+
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
@@ -103,5 +109,8 @@ public class LandDto {
         this.commercialYn = l.getCommercialYn();
         this.roadWidth = l.getRoadWidth();
         this.etcInfo = l.getEtcInfo();
+        this.prposAreaDstrcNmList = l.getPrposAreaDstrcNmList();
+        this.prposAreaDstrcCodeList = l.getPrposAreaDstrcCodeList();
+        this.posList = l.getPosList();
     }
 }

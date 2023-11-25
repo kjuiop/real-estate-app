@@ -156,6 +156,9 @@
                                     <div class="display-flex-row" style="margin-bottom: 5px;">
                                         <label class="text-label margin-right-8">동+지번(주소)</label>
                                         <input type="hidden" name="pnu" />
+                                        <input type="hidden" name="prposAreaDstrcNmList" />
+                                        <input type="hidden" name="prposAreaDstrcCodeList" />
+                                        <input type="hidden" name="posList" />
                                     </div>
                                     <div class="display-flex-row col-md-12 no-left-padding">
                                         <input type="text" class="form-control form-control-sm col-md-7 margin-right-8" name="address" th:value="${dto.address}" style="height: 36px;" readonly />
@@ -252,12 +255,10 @@
                                     <div class="col-md-12 display-flex-column no-left-padding">
                                         <label class="text-label">토지이용규제</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <div class="col-md-4 padding-10 text-alien-center" style="background-color: #4646a1; color: #ffffff; font-size: 12px;">
+                                            <div class="col-md-4 padding-10 text-alien-center line-center" style="background-color: #3a3a7c; color: #ffffff; font-size: 12px;">
                                                 다른 법령 등에<br/>따른 지역,지구들
                                             </div>
-                                            <div class="col-md-8 padding-10" style="background-color: #828a92;">
-
-                                            </div>
+                                            <div class="col-md-8 padding-10 prposAreaDstrcNmList" style="background-color: #d5d9dc; font-size: 12px;"></div>
                                         </div>
                                     </div>
                                 </div>
