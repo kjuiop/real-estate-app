@@ -23,7 +23,7 @@ public class RealEstateDto {
 
     private String buildingName;
 
-    private String etcInfo;
+    private String surroundInfo;
 
     private CategoryDto usageType;
 
@@ -68,7 +68,7 @@ public class RealEstateDto {
         this.bun = r.getBun();
         this.ji = r.getJi();
         this.buildingName = r.getBuildingName();
-        this.etcInfo = r.getEtcInfo();
+        this.surroundInfo = r.getSurroundInfo();
         this.characterInfo = r.getCharacterInfo();
         if (r.getUsageType() != null) {
             this.usageType = new CategoryDto(r.getUsageType());

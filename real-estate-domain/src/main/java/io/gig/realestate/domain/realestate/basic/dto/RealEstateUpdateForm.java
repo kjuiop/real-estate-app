@@ -28,7 +28,7 @@ public class RealEstateUpdateForm {
 
     private String buildingName;
 
-    private String etcInfo;
+    private String surroundInfo;
 
     private String imgUrl;
 
