@@ -51,6 +51,8 @@ public class RealEstateCreateForm {
 
     private String imgUrl;
 
+    private String characterInfo;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;

@@ -55,6 +55,8 @@ public class RealEstate extends BaseTimeEntity {
 
     private String imgUrl;
 
+    private String characterInfo;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -178,6 +180,7 @@ public class RealEstate extends BaseTimeEntity {
                 .addressDetail(createForm.getAddressDetail())
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .characterInfo(createForm.getCharacterInfo())
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -197,6 +200,7 @@ public class RealEstate extends BaseTimeEntity {
                 .addressDetail(createForm.getAddressDetail())
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
+                .characterInfo(createForm.getCharacterInfo())
                 .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
@@ -210,6 +214,7 @@ public class RealEstate extends BaseTimeEntity {
         this.addressDetail = updateForm.getAddressDetail();
         this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
         this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
+        this.characterInfo = updateForm.getCharacterInfo();
         this.usageType = usageType;
         this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;

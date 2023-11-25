@@ -55,6 +55,8 @@ public class RealEstateDto {
 
     private String imgUrl;
 
+    private String characterInfo;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -67,6 +69,7 @@ public class RealEstateDto {
         this.ji = r.getJi();
         this.buildingName = r.getBuildingName();
         this.etcInfo = r.getEtcInfo();
+        this.characterInfo = r.getCharacterInfo();
         if (r.getUsageType() != null) {
             this.usageType = new CategoryDto(r.getUsageType());
         }

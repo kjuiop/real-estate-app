@@ -50,6 +50,8 @@ public class RealEstateUpdateForm {
 
     private YnType abYn;
 
+    private String characterInfo;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
