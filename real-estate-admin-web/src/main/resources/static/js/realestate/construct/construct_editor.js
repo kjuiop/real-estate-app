@@ -40,7 +40,7 @@ let loadConstructInfo = function() {
             $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
             $frm.find('.etcPurps').val(constructInfo.etcPurps);
             $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
-            $frm.find('.useAprDay').val(constructInfo.useAprDay);
+            $frm.find('.useAprDate').val(constructInfo.useAprDate);
             $frm.find('.platArea').val(constructInfo.platArea);
             $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
             $frm.find('.hhldCnt').val(constructInfo.hhldCnt);

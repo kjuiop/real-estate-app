@@ -8,6 +8,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author : JAKE
@@ -29,6 +32,8 @@ public class ConstructInfo extends BaseTimeEntity {
     private int hhldCnt;
 
     private int useAprDay;
+
+    private LocalDateTime useAprDate;
 
     private double platArea;
 
@@ -89,10 +94,16 @@ public class ConstructInfo extends BaseTimeEntity {
     private RealEstate realEstate;
 
     public static ConstructInfo create(ConstructCreateForm createForm, RealEstate realEstate) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(createForm.getUseAprDate(), formatter);
+        LocalDateTime useAprDate = localDate.atStartOfDay();
+
+
         ConstructInfo constructInfo = ConstructInfo.builder()
                 .bldNm(createForm.getBldNm())
                 .hhldCnt(createForm.getHhldCnt())
-                .useAprDay(createForm.getUseAprDay())
+                .useAprDate(useAprDate)
                 .platArea(createForm.getPlatArea())
                 .platAreaByPyung(createForm.getPlatAreaByPyung())
                 .archArea(createForm.getArchArea())
