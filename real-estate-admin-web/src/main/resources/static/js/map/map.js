@@ -123,4 +123,5 @@ $(document).ready(onReady)
     .on('change', 'select[name="dong"]', setSearchAddress)
     .on('click', '.real-estate-unit', moveMapFocus)
     .on('change', 'select[name="usageCd"], select[name="processType"]', searchData)
-    .on('click', '.btnMoveDetail', moveDetailPage);
+    .on('click', '.btnMoveDetail', moveDetailPage)
+    .on('click', '.btnCadastral', showCadastral);
