@@ -504,10 +504,10 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
-let showLandUsageModal = function(e) {
+let showCadastralModal = function(e) {
     e.preventDefault();
-
-    alert("in");
+    let $CadastralModal = $('#landCadastralModal');
+    $CadastralModal.modal('show');
 }
 
 $(document).ready(onReady)
@@ -548,5 +548,5 @@ $(document).ready(onReady)
     .on('click', '.btnRowRemove', floorInfoRowRemove)
     .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
-    .on('click', '.btnLandUsageModal', showLandUsageModal)
+    .on('click', '.btnCadastralModal', showCadastralModal)
 ;
