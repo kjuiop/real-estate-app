@@ -26,6 +26,8 @@ public class ConstructDataApiDto {
     // 세대수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
     private int useAprDay;
 
@@ -123,7 +125,7 @@ public class ConstructDataApiDto {
 
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
-                .hhldCnt(item.has("hhldCnt") ? item.getInt("hhldCnt") : 0)
+                .houseHoldName(item.has("hhldCnt") ? String.valueOf(item.getInt("hhldCnt")) : null)
                 .useAprDay(useAprDay)
                 .useAprDate(useAprDate)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)

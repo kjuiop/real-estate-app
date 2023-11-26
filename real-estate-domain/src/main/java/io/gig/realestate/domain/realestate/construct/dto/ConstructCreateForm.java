@@ -20,6 +20,8 @@ public class ConstructCreateForm {
     // 세대수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
     private int useAprDay;
 

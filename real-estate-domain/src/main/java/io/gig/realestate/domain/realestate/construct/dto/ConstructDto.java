@@ -26,6 +26,8 @@ public class ConstructDto {
     // 세대 수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
     private String useAprDate;
 
@@ -93,6 +95,7 @@ public class ConstructDto {
         this.constructId = c.getId();
         this.bldNm = c.getBldNm();
         this.hhldCnt = c.getHhldCnt();
+        this.houseHoldName = c.getHouseHoldName();
         this.useAprDate = getConvertUseAprDate(c.getUseAprDate());
         this.platArea = c.getPlatArea();
         this.platAreaByPyung = c.getPlatAreaByPyung();

@@ -31,6 +31,8 @@ public class ConstructInfo extends BaseTimeEntity {
 
     private int hhldCnt;
 
+    private String houseHoldName;
+
     private int useAprDay;
 
     private LocalDateTime useAprDate;
@@ -103,6 +105,7 @@ public class ConstructInfo extends BaseTimeEntity {
         ConstructInfo constructInfo = ConstructInfo.builder()
                 .bldNm(createForm.getBldNm())
                 .hhldCnt(createForm.getHhldCnt())
+                .houseHoldName(createForm.getHouseHoldName())
                 .useAprDate(useAprDate)
                 .platArea(createForm.getPlatArea())
                 .platAreaByPyung(createForm.getPlatAreaByPyung())

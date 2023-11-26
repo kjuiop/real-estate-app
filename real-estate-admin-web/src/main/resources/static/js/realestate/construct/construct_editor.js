@@ -43,7 +43,8 @@ let loadConstructInfo = function() {
             $frm.find('.useAprDate').val(constructInfo.useAprDate);
             $frm.find('.platArea').val(constructInfo.platArea);
             $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
-            $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
             $frm.find('.archArea').val(constructInfo.archArea);
             $frm.find('.bcRat').val(constructInfo.bcRat);
             $frm.find('.totArea').val(constructInfo.totArea);
