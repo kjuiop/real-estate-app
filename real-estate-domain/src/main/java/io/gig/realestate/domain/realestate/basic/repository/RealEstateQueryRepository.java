@@ -298,21 +298,6 @@ public class RealEstateQueryRepository {
         );
     }
 
-    private BooleanExpression betweenUseAprDay(Integer startUseAprDay, Integer endUseAprDay) {
-        if (startUseAprDay == null || endUseAprDay == null || startUseAprDay < 0 || endUseAprDay <= 0 || endUseAprDay < startUseAprDay) {
-            return null;
-        }
-
-        startUseAprDay *= 10000;
-        endUseAprDay *= 10000;
-
-        return realEstate.id.in(
-                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
-                        .from(constructInfo)
-                        .where(constructInfo.useAprDay.between(startUseAprDay, endUseAprDay))
-        );
-    }
-
     private BooleanExpression betweenRoadWidth(Integer minRoadWidth, Integer maxRoadWidth) {
         if (minRoadWidth == null || maxRoadWidth == null || minRoadWidth < 0 || maxRoadWidth <= 0 || maxRoadWidth < minRoadWidth) {
             return null;
@@ -370,7 +355,6 @@ public class RealEstateQueryRepository {
         where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
-        where.and(betweenUseAprDay(searchDto.getStartUseAprDay(), searchDto.getEndUseAprDay()));
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
         where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));

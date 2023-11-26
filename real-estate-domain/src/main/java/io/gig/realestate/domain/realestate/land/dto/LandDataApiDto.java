@@ -95,6 +95,10 @@ public class LandDataApiDto {
     private String ldCpsgCode;
     private String prposArea2Nm;
 
+    private String prposAreaDstrcNmList;
+    private String prposAreaDstrcCodeList;
+    private String posList;
+
     public static LandDataApiDto convertData(JSONObject nsdi) {
         int pblntfPclnd = nsdi.getInt("NSDI:PBLNTF_PCLND");
         Double lndpclAr = nsdi.getDouble("NSDI:LNDPCL_AR");
@@ -122,6 +126,12 @@ public class LandDataApiDto {
                 .totalPblntfPclnd(calculate)
                 .stdrYear(nsdi.has("NSDI:STDR_YEAR") ? nsdi.getInt("NSDI:STDR_YEAR") : null)
                 .build();
+    }
+
+    public void withUsageData(LandUsageDataApiDto usageData) {
+        this.prposAreaDstrcNmList = usageData.getPrposAreaDstrcNmList();
+        this.prposAreaDstrcCodeList = usageData.getPrposAreaDstrcCodeList();
+        this.posList = usageData.getPosList();
     }
 
     @Getter

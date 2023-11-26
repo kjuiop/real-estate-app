@@ -16,6 +16,8 @@ public class FloorCreateForm {
 
     private String flrNoNm;
 
+    private String roomName;
+
     // 면적
     private Double area;
 

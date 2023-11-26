@@ -41,7 +41,7 @@ public class RealEstateCreateForm {
 
     private String buildingName;
 
-    private String etcInfo;
+    private String surroundInfo;
 
     private Long usageTypeId;
 
@@ -50,6 +50,8 @@ public class RealEstateCreateForm {
     private String addressDetail;
 
     private String imgUrl;
+
+    private String characterInfo;
 
     private PriceCreateForm priceInfo;
 

@@ -45,6 +45,17 @@ public class LandController {
         return new ResponseEntity<>(ApiResponse.OK(landList), HttpStatus.OK);
     }
 
+    @GetMapping("usage/ajax/public-data")
+    public ResponseEntity<ApiResponse> getLandUsagePublicData(
+            @RequestParam(name = "legalCode") String legalCode,
+            @RequestParam(name = "landType") String landType,
+            @RequestParam(name = "bun") String bun,
+            @RequestParam(name = "ji") String ji
+    ) throws IOException {
+        LandUsageDataApiDto data = landService.getLandUsagePublicData(legalCode, landType, bun, ji);
+        return new ResponseEntity<>(ApiResponse.OK(data), HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody LandCreateForm createForm,

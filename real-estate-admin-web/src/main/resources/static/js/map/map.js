@@ -111,8 +111,16 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
+let moveDetailPage = function(e) {
+    e.preventDefault();
+
+    let url = $(this).attr('href');
+    window.open(url, '_blank');
+}
+
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('change', 'select[name="dong"]', setSearchAddress)
     .on('click', '.real-estate-unit', moveMapFocus)
-    .on('change', 'select[name="usageCd"], select[name="processType"]', searchData);
+    .on('change', 'select[name="usageCd"], select[name="processType"]', searchData)
+    .on('click', '.btnMoveDetail', moveDetailPage);

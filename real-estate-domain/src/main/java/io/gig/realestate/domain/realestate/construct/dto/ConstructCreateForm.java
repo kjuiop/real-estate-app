@@ -4,6 +4,8 @@ import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/10/01
@@ -18,8 +20,12 @@ public class ConstructCreateForm {
     // 세대수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
     private int useAprDay;
+
+    private String useAprDate;
 
     // 대지면적
     private double platArea;
@@ -35,6 +41,8 @@ public class ConstructCreateForm {
 
     // 연면적
     private double totArea;
+
+    private double totAreaByPyung;
 
     // 용적율
     private double vlRat;

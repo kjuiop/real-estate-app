@@ -7,6 +7,8 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,12 @@ public class ConstructDataApiDto {
     // 세대수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
     private int useAprDay;
+
+    private String useAprDate;
 
     // 대지면적
     private double platArea;
@@ -41,6 +47,8 @@ public class ConstructDataApiDto {
 
     // 연면적
     private Double totArea;
+
+    private double totAreaByPyung;
 
     // 용적율
     private Double vlRat;
@@ -92,8 +100,7 @@ public class ConstructDataApiDto {
     public static ConstructDataApiDto convertData(JSONObject item) {
 
         double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
-        double platAreaByPyung = platArea / 3.305785;
-        platAreaByPyung = Math.round(platAreaByPyung * 100.0) / 100.0;
+        double platAreaByPyung = calculatePyung(platArea);
 
         Double bcRat = item.has("bcRat") ? item.getDouble("bcRat") : null;
         Double archArea = item.has("archArea") ? item.getDouble("archArea") : null;
@@ -108,19 +115,31 @@ public class ConstructDataApiDto {
             vlRat = (totArea / platArea) * 100;
             vlRat = Math.round(vlRat * 100.0) / 100.0;
         }
+        double totAreaByPyung = calculatePyung(totArea);
 
         Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.getDouble("vlRatEstmTotArea") : 0;
         Double vlRatEstmTotAreaByPyung = calculatePyung(vlRatEstmTotArea);
 
+        int useAprDay = item.has("useAprDay") ? item.getInt("useAprDay") : 0;
+        String useAprDate = convertUseAprDay(useAprDay);
+
+        int hhldCnt = item.has("hhldCnt") ? item.getInt("hhldCnt") : 0;
+        String houseHoldName = null;
+        if (hhldCnt > 0) {
+            houseHoldName = String.valueOf(hhldCnt);
+        }
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
-                .hhldCnt(item.has("hhldCnt") ? item.getInt("hhldCnt") : 0)
-                .useAprDay(item.has("useAprDay") ? item.getInt("useAprDay") : 0)
+                .houseHoldName(houseHoldName)
+                .useAprDay(useAprDay)
+                .useAprDate(useAprDate)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
                 .platAreaByPyung(platAreaByPyung)
                 .archArea(archArea)
                 .bcRat(bcRat)
                 .totArea(totArea)
+                .totAreaByPyung(totAreaByPyung)
                 .vlRat(vlRat)
                 .heit(item.has("heit") ? item.getDouble("heit") : null)
                 .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.getInt("rideUseElvtCnt") : 0)
@@ -147,6 +166,25 @@ public class ConstructDataApiDto {
         double result = area / 3.305785;
         result = Math.round(result * 100.0) / 100.0;
         return result;
+    }
+
+    private static String convertUseAprDay(int useAprDay) {
+        if (useAprDay == 0) {
+            return null;
+        }
+
+        String useAprDayStr = String.valueOf(useAprDay);
+        if (!StringUtils.hasText(useAprDayStr) || useAprDayStr.length() != 8) {
+            return null;
+        }
+
+        int year = Integer.parseInt(useAprDayStr.substring(0, 4));
+        int month = Integer.parseInt(useAprDayStr.substring(4, 6));
+        int day = Integer.parseInt(useAprDayStr.substring(6));
+
+        LocalDateTime useAprDate = LocalDateTime.of(year, month, day, 0, 0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return useAprDate.format(formatter);
     }
 
 

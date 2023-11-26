@@ -11,6 +11,21 @@
             cursor: pointer; /* 올렸을 때 포인터 모양으로 변경 */
             background-color: #e8e8e8 !important; /* 올렸을 때 배경색 변경 */
         }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            .col-sm-7 {
+                flex: 0 0 65%;
+                max-width: 65%;
+            }
+            .col-sm-5 {
+                flex: 0 0 35%;
+                max-width: 35%;
+            }
+
+            .col-sm-2 {
+                flex: 0 0 10%;
+                max-width: 10%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -19,23 +34,24 @@
         <div class="container-fluid no-left-padding">
             <form name="frmSearch">
                 <input type="hidden" name="address" />
+                <input type="hidden" name="page" th:value="${condition.page}" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
-                    <select class="form-control col-md-1 margin-right-5 border-none" name="sido">
+                    <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none" name="sido">
                         <option value="">시도 선택</option>
                         <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-5 border-none" name="gungu">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none" name="gungu">
                         <option value="">구군 선택</option>
                         <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-5 border-none" name="dong">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none" name="dong">
                         <option value="">동 선택</option>
                         <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
@@ -44,14 +60,14 @@
 
                     <button type="submit" class="btn btn-primary margin-right-30">검색</button>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="usageCd">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none" name="usageCd">
                         <option value="">매물용도</option>
                         <th:block th:each="code : ${usageCds}">
                             <option th:value="${code.id}" th:selected="${condition.usageCd eq code.id}">[[${code.name}]]</option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none" name="processType">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none" name="processType">
                         <option value="">진행단계</option>
                         <option value="Prepare" th:selected="${condition.processType != null && condition.processType.type eq 'prepare'}">준비</option>
                         <option value="Working" th:selected="${condition.processType != null && condition.processType.type eq 'working'}">작업중</option>
@@ -74,17 +90,17 @@
                 </div>
             </div>
             </form>
-            <div class="row margin-top-20" style="border-top: 1px solid #d5caca">
-                <div class="col-md-9 no-left-padding">
-                    <div id="map" style="width:100%;height:1130px;"></div>
+            <div class="row margin-top-20" style="border-top: 1px solid #d5caca;">
+                <div class="col-md-9 col-sm-7 no-left-padding">
+                    <div id="map" style="width:100%;height:100%;"></div>
                 </div>
-                <div class="col-md-3 display-flex-column">
+                <div class="col-md-3 col-sm-5 display-flex-column">
                     <div class="row padding-10">
-                        <label class="text-label">매물 <span th:text="${pages.content.size()}">0</span>개</label>
+                        <label class="text-label">매물 <span th:text="${totalCount}">0</span>개</label>
                     </div>
-                    <div class="real-estate-section line" style="min-height: 1000px;">
+                    <div class="real-estate-section line" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
                         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-                            <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff;">
+                            <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff; min-width: 330px;">
                                 <div class="col-md-6 image-section padding-10">
                                     <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
                                         <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding"/>
@@ -109,7 +125,7 @@
                                         </label>
                                     </div>
                                     <div class="margin-bottom-3 display-flex-column">
-                                        <a th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
+                                        <a class="btnMoveDetail" th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
                                             <span class="text-label" style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
                                         </a>
                                         <th:block th:if="${not #strings.isEmpty(item.buildingName)}">

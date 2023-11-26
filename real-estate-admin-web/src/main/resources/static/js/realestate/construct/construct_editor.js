@@ -40,13 +40,15 @@ let loadConstructInfo = function() {
             $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
             $frm.find('.etcPurps').val(constructInfo.etcPurps);
             $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
-            $frm.find('.useAprDay').val(constructInfo.useAprDay);
+            $frm.find('.useAprDate').val(constructInfo.useAprDate);
             $frm.find('.platArea').val(constructInfo.platArea);
             $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
-            $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+            $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
             $frm.find('.archArea').val(constructInfo.archArea);
             $frm.find('.bcRat').val(constructInfo.bcRat);
             $frm.find('.totArea').val(constructInfo.totArea);
+            $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);
             $frm.find('.vlRat').val(constructInfo.vlRat);
             $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
             $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
@@ -150,11 +152,12 @@ let drawConstructFloorRow = function(item) {
     }
     tag += '</select></td>';
     tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width: 100px;"/></td>';
+    tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 100px;"/></td>';
+    tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 100px;"/></td>';
+    tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
     tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 100px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
-    tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 100px;"/></td>';
-    tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 100px;"/></td>';
     if (item.guaranteePrice > 0) {
         tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="number" class="form-control form-control-sm subGuaranteePrice calSumField" value="' + item.guaranteePrice + '" name="guaranteePrice" sum="totalSubGuaranteePrice" unit="만원" style="min-width: 100px;"/><span style="font-size: 14px; padding: 3px;">만원</span></div></td>';
     } else {
@@ -236,6 +239,7 @@ let assembleFloorParams = function() {
             "underFloorYn" : $(item).find('select[name="underFloorYn"] option:selected').val(),
             "flrNo" : $(item).find('.flrNo').attr('flrNo'),
             "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
+            "roomName" : $(item).find('input[name="roomName"]').val(),
             "area" : $(item).find('.area').attr('data'),
             "lndpclAr" : $(item).find('input[name="lndpclAr"]').val(),
             "lndpclArByPyung" : $(item).find('input[name="lndpclArByPyung"]').val(),
