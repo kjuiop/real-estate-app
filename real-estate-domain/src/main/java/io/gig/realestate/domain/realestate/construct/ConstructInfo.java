@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -97,9 +98,12 @@ public class ConstructInfo extends BaseTimeEntity {
 
     public static ConstructInfo create(ConstructCreateForm createForm, RealEstate realEstate) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(createForm.getUseAprDate(), formatter);
-        LocalDateTime useAprDate = localDate.atStartOfDay();
+        LocalDateTime useAprDate = null;
+        if (StringUtils.hasText(createForm.getUseAprDate())) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(createForm.getUseAprDate(), formatter);
+            useAprDate = localDate.atStartOfDay();
+        }
 
 
         ConstructInfo constructInfo = ConstructInfo.builder()
