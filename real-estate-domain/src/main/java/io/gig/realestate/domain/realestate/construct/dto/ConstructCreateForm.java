@@ -36,6 +36,8 @@ public class ConstructCreateForm {
     // 연면적
     private double totArea;
 
+    private double totAreaByPyung;
+
     // 용적율
     private double vlRat;
 

@@ -42,6 +42,8 @@ public class ConstructDataApiDto {
     // 연면적
     private Double totArea;
 
+    private double totAreaByPyung;
+
     // 용적율
     private Double vlRat;
 
@@ -92,8 +94,7 @@ public class ConstructDataApiDto {
     public static ConstructDataApiDto convertData(JSONObject item) {
 
         double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
-        double platAreaByPyung = platArea / 3.305785;
-        platAreaByPyung = Math.round(platAreaByPyung * 100.0) / 100.0;
+        double platAreaByPyung = calculatePyung(platArea);
 
         Double bcRat = item.has("bcRat") ? item.getDouble("bcRat") : null;
         Double archArea = item.has("archArea") ? item.getDouble("archArea") : null;
@@ -108,6 +109,7 @@ public class ConstructDataApiDto {
             vlRat = (totArea / platArea) * 100;
             vlRat = Math.round(vlRat * 100.0) / 100.0;
         }
+        double totAreaByPyung = calculatePyung(totArea);
 
         Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.getDouble("vlRatEstmTotArea") : 0;
         Double vlRatEstmTotAreaByPyung = calculatePyung(vlRatEstmTotArea);
@@ -121,6 +123,7 @@ public class ConstructDataApiDto {
                 .archArea(archArea)
                 .bcRat(bcRat)
                 .totArea(totArea)
+                .totAreaByPyung(totAreaByPyung)
                 .vlRat(vlRat)
                 .heit(item.has("heit") ? item.getDouble("heit") : null)
                 .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.getInt("rideUseElvtCnt") : 0)

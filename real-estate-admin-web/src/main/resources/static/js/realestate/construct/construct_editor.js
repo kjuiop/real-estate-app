@@ -47,6 +47,7 @@ let loadConstructInfo = function() {
             $frm.find('.archArea').val(constructInfo.archArea);
             $frm.find('.bcRat').val(constructInfo.bcRat);
             $frm.find('.totArea').val(constructInfo.totArea);
+            $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);
             $frm.find('.vlRat').val(constructInfo.vlRat);
             $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
             $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);

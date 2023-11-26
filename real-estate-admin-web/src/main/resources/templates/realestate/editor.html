@@ -470,28 +470,28 @@
                                     </div>
                                     <div class="col-md-6 display-flex-column no-left-padding">
                                         <div class="display-flex-row">
-                                            <label class="text-label">부용도</label>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm etcPurps" name="etcPurps" style="height: 36px;"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
                                             <label class="text-label">구조</label>
                                         </div>
                                         <div class="display-flex-row">
                                             <input type="text" class="form-control form-control-sm strctCdNm" name="strctCdNm" style="height: 36px;"/>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-6 display-flex-column no-left-padding">
                                         <div class="display-flex-row">
                                             <label class="text-label">사용승인일</label>
                                         </div>
                                         <div class="display-flex-row">
                                             <input type="text" class="form-control form-control-sm useAprDay" name="useAprDay" style="height: 36px;"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-column no-left-padding">
+                                        <div class="display-flex-row">
+                                            <label class="text-label">호수/가구수/세대수</label>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm hhldCnt" name="hhldCnt" style="height: 36px;"/>
                                         </div>
                                     </div>
                                 </div>
@@ -513,20 +513,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
-                                            <label class="text-label">총 세대수</label>
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column no-left-padding margin-right-4">
+                                            <label class="text-label">연면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm col-md-8 totArea" name="totArea" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm hhldCnt" name="hhldCnt" style="height: 36px;"/>
-                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;수&nbsp;&nbsp;</button>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm col-md-8 totAreaByPyung" name="totAreaByPyung" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;평&nbsp;&nbsp;</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row line">
                                     <div class="col-md-6 display-flex-row no-left-padding">
                                         <div class="display-flex-column margin-right-4">
-                                            <label class="text-label">건물면적</label>
+                                            <label class="text-label">건축면적</label>
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm col-md-8 archArea" name="archArea" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
@@ -544,7 +551,7 @@
                                         <div class="display-flex-column no-left-padding margin-right-4">
                                             <label class="text-label">연면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totArea" name="totArea" style="height: 36px;"/>
+                                                <input type="text" class="form-control form-control-sm col-md-8 totArea" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -564,14 +571,16 @@
                                             <label class="text-label">규모(층수)</label>
 <!--                                            <label class="text-label">규모(층수, 지상/지하)</label>-->
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 grndFlrCnt" name="grndFlrCnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지상</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 grndFlrCnt" name="grndFlrCnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 ugrndFlrCnt" name="ugrndFlrCnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지하</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 ugrndFlrCnt" name="ugrndFlrCnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -581,14 +590,16 @@
                                             <label class="text-label">엘레베이터</label>
 <!--                                            <label class="text-label">엘레베이터(승용/긴급)</label>-->
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 rideUseElvtCnt" name="rideUseElvtCnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">승용</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 rideUseElvtCnt" name="rideUseElvtCnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 emgenUseElvtCnt" name="emgenUseElvtCnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">비상용</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 emgenUseElvtCnt" name="emgenUseElvtCnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -602,14 +613,16 @@
 <!--                                            <label class="text-label">주차(자주식, 옥내/옥외)</label>-->
                                             <label class="text-label">주차(자주식)</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 indrAutoUtcnt" name="indrAutoUtcnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 indrAutoUtcnt" name="indrAutoUtcnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 oudrAutoUtcnt" name="oudrAutoUtcnt" style="height: 36px;"/>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 oudrAutoUtcnt" name="oudrAutoUtcnt" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -619,14 +632,16 @@
 <!--                                            <label class="text-label">주차(기계식, 옥내/옥외)</label>-->
                                             <label class="text-label">주차(기계식)</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 indrMechUtcnt" name="indrMechUtcnt" style="height: 36px;" />
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 indrMechUtcnt" name="indrMechUtcnt" style="height: 36px;" />
                                                 <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 oudrMechUtcnt" name="oudrMechUtcnt" style="height: 36px;" />
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm col-md-4 oudrMechUtcnt" name="oudrMechUtcnt" style="height: 36px;" />
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
