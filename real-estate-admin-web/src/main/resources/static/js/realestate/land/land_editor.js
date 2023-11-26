@@ -57,6 +57,44 @@ let loadLandInfoList = function() {
     });
 }
 
+// let loadLandUsageInfo = function() {
+//     if (!checkNullOrEmptyValue(dto)) {
+//         return;
+//     }
+//
+//     let isLandInfo = dto.existLandInfo;
+//     if (isLandInfo === true) {
+//         return;
+//     }
+//
+//     let url = "/real-estate/land/usage/ajax/public-data"
+//         + "?legalCode=" + dto.legalCode
+//         + "&landType=" + dto.landType
+//         + "&bun=" + dto.bun
+//         + "&ji=" + dto.ji
+//
+//     $.ajax({
+//         url: url,
+//         method: "get",
+//         type: "json",
+//         contentType: "application/json",
+//         success: function(result) {
+//             console.log("load land usage info", result);
+//             let $frm = $('form[name="frmLandRegister"]');
+//             let usageData = result.data;
+//             if (!checkNullOrEmptyValue(usageData)) {
+//                 return;
+//             }
+//
+//             $frm.find('.prposAreaDstrcNmList').text(usageData.prposAreaDstrcNmList);
+//
+//         },
+//         error: function(error){
+//             ajaxErrorFieldByText(error);
+//         }
+//     });
+// }
+
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
@@ -77,6 +115,11 @@ let settingLandInfo = function(landInfo) {
     } else {
         $frm.find('input[name="commercialYn"]').iCheck('uncheck');
     }
+
+    $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+    $frm.find('input[name="posList"]').val(landInfo.posList);
 }
 
 let landInfoAdd = function(e) {
@@ -186,6 +229,10 @@ let loadLandInfoById = function(e) {
     $frm.find('.roadWidth').val(landInfo.roadWidth);
     $frm.find('.textarea[name="etcInfo"]').val(landInfo.etcInfo);
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
+    $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+    $frm.find('input[name="posList"]').val(landInfo.posList);
 }
 
 let assembleLandParams = function() {
@@ -273,7 +320,7 @@ let applyLandInfo = function(e) {
         bCode = $modal.find('select[name="dong"] option:selected').val();
     }
 
-    if (checkNullOrEmptyValue(bCode)) {
+    if (!checkNullOrEmptyValue(address) && checkNullOrEmptyValue(bCode)) {
         let sido = $modal.find('select[name="sido"] option:selected').attr('name');
         let gungu = $modal.find('select[name="gungu"] option:selected').attr('name');
         let dong = $modal.find('select[name="dong"] option:selected').attr('name');

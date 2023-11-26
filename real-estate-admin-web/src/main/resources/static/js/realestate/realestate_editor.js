@@ -2,6 +2,7 @@ let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
     loadLandInfoList();
+    // loadLandUsageInfo();
     loadPriceInfo();
     loadConstructInfo();
     loadConstructFloorInfo();
@@ -503,6 +504,12 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
+let showLandUsageModal = function(e) {
+    e.preventDefault();
+
+    alert("in");
+}
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
@@ -541,4 +548,5 @@ $(document).ready(onReady)
     .on('click', '.btnRowRemove', floorInfoRowRemove)
     .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
+    .on('click', '.btnLandUsageModal', showLandUsageModal)
 ;

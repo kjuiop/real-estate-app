@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author : JAKE
  * @date : 2023/10/01
@@ -23,8 +26,10 @@ public class ConstructDto {
     // 세대 수
     private int hhldCnt;
 
+    private String houseHoldName;
+
     // 사용승인일
-    private int useAprDay;
+    private String useAprDate;
 
     // 대지 면적
     private Double platArea;
@@ -90,7 +95,8 @@ public class ConstructDto {
         this.constructId = c.getId();
         this.bldNm = c.getBldNm();
         this.hhldCnt = c.getHhldCnt();
-        this.useAprDay = c.getUseAprDay();
+        this.houseHoldName = c.getHouseHoldName();
+        this.useAprDate = getConvertUseAprDate(c.getUseAprDate());
         this.platArea = c.getPlatArea();
         this.platAreaByPyung = c.getPlatAreaByPyung();
         this.archArea = c.getArchArea();
@@ -114,5 +120,14 @@ public class ConstructDto {
         this.illegalConstructYn = c.getIllegalConstructYn();
         this.vlRatEstmTotArea = c.getVlRatEstmTotArea();
         this.vlRatEstmTotAreaByPyung = c.getVlRatEstmTotAreaByPyung();
+    }
+
+    private String getConvertUseAprDate(LocalDateTime useAprDay) {
+        if (useAprDay == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return useAprDay.format(formatter);
     }
 }
