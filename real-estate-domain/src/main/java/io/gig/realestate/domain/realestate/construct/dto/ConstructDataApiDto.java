@@ -123,9 +123,15 @@ public class ConstructDataApiDto {
         int useAprDay = item.has("useAprDay") ? item.getInt("useAprDay") : 0;
         String useAprDate = convertUseAprDay(useAprDay);
 
+        int hhldCnt = item.has("hhldCnt") ? item.getInt("hhldCnt") : 0;
+        String houseHoldName = null;
+        if (hhldCnt > 0) {
+            houseHoldName = String.valueOf(hhldCnt);
+        }
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
-                .houseHoldName(item.has("hhldCnt") ? String.valueOf(item.getInt("hhldCnt")) : null)
+                .houseHoldName(houseHoldName)
                 .useAprDay(useAprDay)
                 .useAprDate(useAprDate)
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
