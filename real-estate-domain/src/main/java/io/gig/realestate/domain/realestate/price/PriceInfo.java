@@ -81,7 +81,8 @@ public class PriceInfo extends BaseTimeEntity {
             return 0;
         }
         salePrice *= 10000;
-        return (int) (salePrice / lndpclAr);
+        double pyungUnit = salePrice / lndpclAr;
+        return (int) Math.round(pyungUnit);
     }
 
     private static int calculateBuildingPyungUnit(double salePrice, double totArea) {
@@ -89,6 +90,7 @@ public class PriceInfo extends BaseTimeEntity {
             return 0;
         }
         salePrice *= 10000;
-        return (int) (salePrice / totArea);
+        double pyungUnit = salePrice / totArea;
+        return (int) Math.round(pyungUnit);
     }
 }
