@@ -5,7 +5,6 @@ let loadBasicInfo = function() {
     }
 
     loadKakaoMap(dto.address);
-    loadCadastralMap(dto.address);
     loadImg(dto.imgUrl);
 
     let $frm = $('form[name="frmBasicRegister"]'),
