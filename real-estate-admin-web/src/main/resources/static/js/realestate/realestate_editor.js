@@ -550,4 +550,6 @@ $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('click', '.btnCadastralModal', showCadastralModal)
     .on('blur', '.calAreaPyung', calculateAreaPyung)
+    .on('blur', '.calAreaBcRate', calculateAreaBcRate)
+    .on('blur', '.calculateAreaVlRate', calculateAreaVlRate)
 ;
