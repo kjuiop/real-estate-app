@@ -34,4 +34,6 @@ public class PriceCreateForm {
     private double totalLndpclArByPyung;
 
     private double totArea;
+
+    private double totAreaByPyung;
 }
