@@ -343,3 +343,20 @@ let floorInfoRowRemove = function(e) {
     let $this = $(this);
     $this.parents('.floor-unit').remove();
 }
+
+let calculateAreaPyung = function(e) {
+    e.preventDefault();
+
+    let $frm = $(this).parents('form'),
+        name = $(this).attr('name'),
+        pyung = name + 'ByPyung',
+        lndpclAr = $(this).val();
+    if (isNaN(lndpclAr)) {
+       return;
+    }
+
+    lndpclAr = Number(lndpclAr)
+    lndpclAr = lndpclAr / 3.305785;
+    lndpclAr = Math.round(lndpclAr * 100) / 100;
+    $frm.find('input[name="' + pyung + '"]').val(lndpclAr);
+}

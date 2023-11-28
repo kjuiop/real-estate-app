@@ -549,4 +549,5 @@ $(document).ready(onReady)
     .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('click', '.btnCadastralModal', showCadastralModal)
+    .on('blur', '.calAreaPyung', calculateAreaPyung)
 ;
