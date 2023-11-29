@@ -30,7 +30,7 @@ public class TeamController {
     public String register(AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
 
         TeamDetailDto dto = TeamDetailDto.emptyDto();
-        Page<AdministratorListDto> teamMembers = administratorService.getAdminByTeamId(searchDto, loginUser.getLoginUser().getTeam().getId());
+        Page<AdministratorListDto> teamMembers = administratorService.getAdminByTeamId(searchDto, loginUser.getUsername());
 
         model.addAttribute("dto", dto);
         model.addAttribute("searchDto", searchDto);

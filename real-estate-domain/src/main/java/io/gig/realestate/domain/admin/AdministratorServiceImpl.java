@@ -177,8 +177,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
-        return administratorReader.getAdminByTeamId(searchDto, teamId);
+    public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, String username) {
+        Administrator administrator = administratorReader.getAdminEntityByUsername(username);
+        return administratorReader.getAdminByTeamId(searchDto, administrator.getTeam().getId());
     }
 
     @Override
