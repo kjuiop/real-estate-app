@@ -4,6 +4,13 @@ let mapOption = {
     level: 3 // 지도의 확대 레벨
 };
 let map = new kakao.maps.Map(mapContainer, mapOption);
+let mapTypes = {
+    terrain : kakao.maps.MapTypeId.TERRAIN,
+    traffic :  kakao.maps.MapTypeId.TRAFFIC,
+    bicycle : kakao.maps.MapTypeId.BICYCLE,
+    useDistrict : kakao.maps.MapTypeId.USE_DISTRICT
+};
+
 let geocoder = new kakao.maps.services.Geocoder();
 
 let loadKakaoMap = function(searchAddress, addressList) {
@@ -132,4 +139,26 @@ let moveMapFocus = function(e) {
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         map.setCenter(coords);
     });
+}
+
+let showCadastral = function(e) {
+    e.preventDefault();
+
+    let toggleYn = $(this).attr('toggleYn');
+
+    for (let type in mapTypes) {
+        map.removeOverlayMapTypeId(mapTypes[type]);
+    }
+
+    if (toggleYn === 'N') {
+        map.addOverlayMapTypeId(mapTypes.useDistrict);
+        $(this).removeClass('btn-default');
+        $(this).addClass('btn-primary');
+        $(this).attr('toggleYn', 'Y');
+        return;
+    }
+
+    $(this).addClass('btn-default');
+    $(this).removeClass('btn-primary');
+    $(this).attr('toggleYn', 'N');
 }

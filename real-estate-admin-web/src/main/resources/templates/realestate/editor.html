@@ -117,7 +117,7 @@
                                     <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
-                                    <div id="map" class="col-md-12" style="height:180px;"></div>
+                                    <div id="map" class="col-md-12" style="height:220px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 <div class="form-group col-md-12 display-flex-column" style="border-bottom: 1px solid #eeeeee">
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 no-left-padding">
-<!--                                            <button type="button" class="btn btn-sm btn-default btnLandUsageModal" style="margin-right: 5px;"> 토지이용계획확인원</button>-->
+<!--                                            <button type="button" class="btn btn-sm btn-default btnCadastralModal" style="margin-right: 5px;"> 지적편집도</button>-->
                                         </div>
                                         <div class="col-md-6 right-align">
                                             <label class="control-label right-align margin-top-5" style="font-weight: normal; font-size: 12px;">
@@ -251,6 +251,12 @@
                                         </div>
                                     </div>
                                 </div>
+<!--                                <div class="form-group col-md-12">-->
+<!--                                    <div class="col-md-12 display-flex-column no-left-padding">-->
+<!--                                        <label class="text-label">지적편집도</label>-->
+<!--                                        <div id="cadastralMap" class="com-md-12 display-flex-row" style="height: 180px;"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12 display-flex-column no-left-padding">
                                         <label class="text-label">토지이용규제</label>
@@ -500,7 +506,7 @@
                                         <div class="display-flex-column margin-right-4">
                                             <label class="text-label">대지면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm platArea" name="platArea" style="height: 36px;"/>
+                                                <input type="text" class="form-control form-control-sm platArea calAreaPyung" name="platArea" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -517,7 +523,7 @@
                                         <div class="display-flex-column no-left-padding margin-right-4">
                                             <label class="text-label">연면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totArea" name="totArea" style="height: 36px;"/>
+                                                <input type="text" class="form-control form-control-sm col-md-8 totArea calAreaPyung" name="totArea" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -535,7 +541,7 @@
                                         <div class="display-flex-column margin-right-4">
                                             <label class="text-label">건축면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 archArea" name="archArea" style="height: 36px;"/>
+                                                <input type="text" class="form-control form-control-sm col-md-8 archArea calAreaBcRate" name="archArea" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -551,7 +557,7 @@
                                         <div class="display-flex-column no-left-padding margin-right-4">
                                             <label class="text-label">연면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totArea" style="height: 36px;"/>
+                                                <input type="text" class="form-control form-control-sm col-md-8 totArea calculateAreaVlRate" style="height: 36px;"/>
                                                 <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
@@ -828,25 +834,6 @@
                                 주소를 입력해주세요.
                             </p>
                         </div>
-                    </div>
-                    <div class="form-horizontal margin-top-20">
-                        <button type="button" class="btn btn-primary btnApplyLand pull-right">토지 적용</button>
-                    </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="landUsageModal">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title control-label" style="font-weight: bold;">토지 이요계획 확인원</h4>
-                    <button type="button" class="btnModalClose close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; height: 100%; overflow: auto;">
-                    <div class="form-horizontal col-md-12 no-left-padding display-flex-row">
-
                     </div>
                     <div class="form-horizontal margin-top-20">
                         <button type="button" class="btn btn-primary btnApplyLand pull-right">토지 적용</button>

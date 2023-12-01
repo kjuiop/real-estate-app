@@ -343,3 +343,66 @@ let floorInfoRowRemove = function(e) {
     let $this = $(this);
     $this.parents('.floor-unit').remove();
 }
+
+let calculateAreaPyung = function(e) {
+    e.preventDefault();
+
+    let $frm = $(this).parents('form'),
+        name = $(this).attr('name'),
+        pyung = name + 'ByPyung',
+        lndpclAr = $(this).val();
+    if (isNaN(lndpclAr)) {
+       return;
+    }
+
+    lndpclAr = Number(lndpclAr)
+    lndpclAr = lndpclAr / 3.305785;
+    lndpclAr = Math.round(lndpclAr * 100) / 100;
+    $frm.find('input[name="' + pyung + '"]').val(lndpclAr);
+}
+
+let calculateAreaBcRate = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmConstructRegister"]');
+    let archArea = $frm.find('input[name="archArea"]').val(),
+        platArea = $frm.find('input[name="platArea"]').val();
+
+    if (isNaN(archArea) || isNaN(platArea)) {
+        return;
+    }
+
+    archArea = Number(archArea);
+    platArea = Number(platArea);
+
+    if (archArea === 0 || platArea === 0) {
+        return;
+    }
+
+    let bcRat = (archArea / platArea) * 100;
+    bcRat = Math.round(bcRat * 100) / 100;
+    $frm.find('input[name="bcRat"]').val(bcRat);
+}
+
+let calculateAreaVlRate = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmConstructRegister"]');
+    let totArea = $frm.find('input[name="totArea"]').val(),
+        platArea = $frm.find('input[name="platArea"]').val();
+
+    if (isNaN(totArea) || isNaN(platArea)) {
+        return;
+    }
+
+    totArea = Number(totArea);
+    platArea = Number(platArea);
+
+    if (totArea === 0 || platArea === 0) {
+        return;
+    }
+
+    let vlRate = (totArea / platArea) * 100;
+    vlRate = Math.round(vlRate * 100) / 100;
+    $frm.find('input[name="vlRat"]').val(vlRate);
+}

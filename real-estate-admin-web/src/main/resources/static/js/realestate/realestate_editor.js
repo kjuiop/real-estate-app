@@ -56,6 +56,7 @@ let realEstateSave = function(e) {
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
+    params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -133,6 +134,7 @@ let realEstateUpdate = function(e) {
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
+    params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -504,10 +506,10 @@ let drawAreaOption = function(depth, areaList) {
     return tag;
 }
 
-let showLandUsageModal = function(e) {
+let showCadastralModal = function(e) {
     e.preventDefault();
-
-    alert("in");
+    let $CadastralModal = $('#landCadastralModal');
+    $CadastralModal.modal('show');
 }
 
 $(document).ready(onReady)
@@ -548,5 +550,8 @@ $(document).ready(onReady)
     .on('click', '.btnRowRemove', floorInfoRowRemove)
     .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
-    .on('click', '.btnLandUsageModal', showLandUsageModal)
+    .on('click', '.btnCadastralModal', showCadastralModal)
+    .on('blur', '.calAreaPyung', calculateAreaPyung)
+    .on('blur', '.calAreaBcRate', calculateAreaBcRate)
+    .on('blur', '.calculateAreaVlRate', calculateAreaVlRate)
 ;
