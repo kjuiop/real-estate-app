@@ -28,11 +28,7 @@
                                     <tbody>
                                         <tr>
                                             <td colspan="9" class="search-title" style="width: 100%;">
-                                                <label class="control-label line-center margin-bottom-0" style="font-weight: normal;">
-                                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                                    물건 정보 검색
-                                                </label>
-                                                <div class="pull-right processUnitSection" style="display: inline-block;">
+                                                <div class="processUnitSection" style="display: inline-block;">
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
@@ -43,6 +39,9 @@
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" processType="R">R</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" processType="AB">A-B</button>
+                                                </div>
+                                                <div class="pull-right">
+                                                    <button type="button" class="btn btn-default btnShowExcelModal">엑셀 업로드</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -549,6 +548,36 @@
                     <div class="form-horizontal margin-top-20">
                         <button type="button" id="btnMoveRegister" class="btn btn-primary pull-right">계속 등록</button>
                     </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="excelUploadModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 600px;">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;">엑셀 업로드</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; min-height: 120px;">
+                    <div class="form-horizontal">
+                        <form name="frmExcelUpload" method="post" th:action="@{/settings/area-manager/excel/read}" enctype="multipart/form-data">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+                            <div class="form-group display-flex-column">
+                                <div class="form-group display-flex-row">
+                                    <input id="filename" class="form-control col-md-9 margin-right-5" placeholder="첨부파일" readonly>
+                                    <button type="button" id="btnSearchFile" class="btn btn-default">파일찾기</button>
+                                    <input type="file" id="file" class="hidden" name="file" accept=".xls,.xlsx">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-right margin-right-5">양식받기</button>
+                    <button type="button" class="btn btn-primary pull-right">엑셀업로드</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

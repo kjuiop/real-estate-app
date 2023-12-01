@@ -255,6 +255,12 @@ let toggleAddressType = function(e) {
     $frm.find('input[name="address"]').val('');
 }
 
+let showExcelModal = function(e) {
+    e.preventDefault();
+
+    $('#excelUploadModal').modal('show');
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
@@ -265,4 +271,6 @@ $(document).ready(onReady)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
-    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType);
+    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
+    .on('click', '.btnShowExcelModal', showExcelModal)
+;
