@@ -563,7 +563,7 @@
                 </div>
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; min-height: 120px;">
                     <div class="form-horizontal">
-                        <form name="frmExcelUpload" method="post" th:action="@{/settings/area-manager/excel/read}" enctype="multipart/form-data">
+                        <form name="frmExcelUpload" method="post" enctype="multipart/form-data">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
                             <div class="form-group display-flex-column">
                                 <div class="form-group display-flex-row">
@@ -577,7 +577,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success pull-right margin-right-5">양식받기</button>
-                    <button type="button" class="btn btn-primary pull-right">엑셀업로드</button>
+                    <button type="button" class="btn btn-primary btnExcelUpload pull-right">엑셀업로드</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -591,6 +591,8 @@
     </script>
     <script th:replace="layouts/fragments :: postcode"></script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>
+    <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
     <script src="/static/js/realestate/realestate_list.js" th:src="@{/js/realestate/realestate_list.js}"></script>
 </section>
 </body>

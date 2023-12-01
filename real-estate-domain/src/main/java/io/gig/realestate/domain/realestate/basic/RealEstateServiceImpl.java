@@ -22,11 +22,21 @@ import io.gig.realestate.domain.realestate.print.PrintInfo;
 import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
 import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,6 +226,39 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public boolean checkDuplicateAddress(String address, LoginUser loginUser) {
         return realEstateReader.isExistAddress(address);
+    }
+
+    @Override
+    @Transactional
+    public void excelUpload(MultipartFile file) throws IOException {
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            throw new IOException("엑셀파일만 업로드 해주세요.");
+        }
+
+        Workbook workbook = null;
+        if (extension.equals("xlsx")) {
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } else if (extension.equals("xls")) {
+            workbook = new HSSFWorkbook(file.getInputStream());
+        }
+
+        Sheet worksheet = workbook.getSheetAt(0);
+        for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
+            Row row = worksheet.getRow(j);
+            String agentName = row.getCell(0).getStringCellValue();
+            String sido = row.getCell(1).getStringCellValue();
+            String gungu = row.getCell(2).getStringCellValue();
+            String dong = row.getCell(3).getStringCellValue();
+            String bun = row.getCell(4).getStringCellValue();
+            double salePrice = row.getCell(5).getNumericCellValue();
+            if (salePrice > 0) {
+                salePrice = salePrice / 10000000;
+            }
+            String step = row.getCell(6).getStringCellValue();
+        }
+
     }
 
     @Override

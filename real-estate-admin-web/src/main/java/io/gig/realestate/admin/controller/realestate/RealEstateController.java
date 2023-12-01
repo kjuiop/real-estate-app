@@ -20,10 +20,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -195,5 +197,11 @@ public class RealEstateController {
         return "realestate/print";
     }
 
+    @PostMapping("excel/read")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+        realEstateService.excelUpload(file);
+        return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
+    }
 
 }

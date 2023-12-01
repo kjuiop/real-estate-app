@@ -57,6 +57,8 @@ public class RealEstate extends BaseTimeEntity {
 
     private String characterInfo;
 
+    private String agentName;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
