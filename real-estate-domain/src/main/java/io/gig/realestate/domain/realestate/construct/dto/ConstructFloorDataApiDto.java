@@ -37,8 +37,6 @@ public class ConstructFloorDataApiDto {
                 .flrNo(item.has("flrNo") ? item.optInt("flrNo") : 0)
                 .flrNoNm(item.has("flrNoNm") ? item.optString("flrNoNm") : null)
                 .area(item.has("area") ? item.optDouble("area") : null)
-                .lndpclAr(item.has("area") ? item.optDouble("area") : 0.0)
-                .lndpclArByPyung(item.has("area") ? calculatePyung(item.optDouble("area")) : 0.0)
                 .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.optString("mainPurpsCdNm") : null)
                 .etcPurps(item.has("etcPurps") ? item.optString("etcPurps") : null)
                 .build();
