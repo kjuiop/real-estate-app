@@ -14,6 +14,9 @@ import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
@@ -59,6 +62,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final RealEstateStore realEstateStore;
 
     private final AreaService areaService;
+    private final ExcelRealEstateService excelRealEstateService;
 
     @Override
     @Transactional(readOnly = true)
@@ -232,7 +236,6 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public void excelUpload(MultipartFile file, String username) throws IOException {
-        Administrator manager = administratorService.getAdminEntityByUsername(username);
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
@@ -246,7 +249,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             workbook = new HSSFWorkbook(file.getInputStream());
         }
 
-        List<RealEstate> realEstateList = new ArrayList<>();
+        List<ExcelRealEstateDto> excelRealEstateList = new ArrayList<>();
 
         Sheet worksheet = workbook.getSheetAt(0);
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
@@ -291,20 +294,16 @@ public class RealEstateServiceImpl implements RealEstateService {
 
             String legalCode = dongArea.getLegalAddressCode();
 
-            RealEstate realEstate = RealEstate.createByExcelUpload(agentName, address, legalCode, bun, ji, manager);
-
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
                 salePrice = salePrice / 10000000;
             }
 
-            PriceInfo priceInfo = PriceInfo.createByUpload(salePrice, realEstate);
-            realEstate.addPriceInfo(priceInfo);
-
-            realEstateList.add(realEstate);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(legalCode, agentName, address, sido, gungu, dong, bunJi, bun, ji, salePrice);
+            excelRealEstateList.add(dto);
         }
 
-        realEstateStore.storeAll(realEstateList);
+        excelRealEstateService.create(excelRealEstateList, username);
     }
 
     @Override
