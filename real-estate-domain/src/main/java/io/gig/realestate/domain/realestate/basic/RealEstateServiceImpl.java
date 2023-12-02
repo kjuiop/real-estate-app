@@ -302,6 +302,12 @@ public class RealEstateServiceImpl implements RealEstateService {
 
             String legalCode = dongArea.getLegalAddressCode();
 
+            boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
+            if (isExist) {
+                log.info("skip data : " + address);
+                continue;
+            }
+
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
                 salePrice = salePrice / 10000000;

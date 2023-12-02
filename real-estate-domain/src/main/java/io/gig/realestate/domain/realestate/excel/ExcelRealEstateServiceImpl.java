@@ -1,10 +1,12 @@
 package io.gig.realestate.domain.realestate.excel;
 
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.event.RealEstateEvent;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.List;
  * @author : JAKE
  * @date : 2023/12/02
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
@@ -23,8 +26,8 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
     private final ExcelRealEstateStore excelRealEstateStore;
     private final ApplicationEventPublisher eventPublisher;
 
-    @SneakyThrows
     @Override
+    @Transactional
     public void create(List<ExcelRealEstateDto> excelRealEstateList, String username) {
 
         List<RealEstateEvent> eventList = new ArrayList<>();

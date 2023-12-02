@@ -29,4 +29,6 @@ public interface RealEstateReader {
     List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto);
 
     RealEstateDetailAllDto getRealEstateDetailAllInfo(Long realEstateId);
+
+    boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji);
 }

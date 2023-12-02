@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +21,7 @@ public class RealEstateEventListener implements ApplicationListener<RealEstateEv
     private final RealEstateService realEstateService;
 
     @SneakyThrows
+    @Async
     @Override
     public void onApplicationEvent(RealEstateEvent event) {
         log.info("event : " + event.getQueueName());

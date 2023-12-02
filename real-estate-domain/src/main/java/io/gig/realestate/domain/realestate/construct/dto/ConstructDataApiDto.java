@@ -101,11 +101,11 @@ public class ConstructDataApiDto {
 
     public static ConstructDataApiDto convertData(JSONObject item) {
 
-        double platArea = item.has("platArea") ? item.getDouble("platArea") : 0;
+        double platArea = item.has("platArea") ? item.optDouble("platArea") : 0;
         double platAreaByPyung = calculatePyung(platArea);
 
-        Double bcRat = item.has("bcRat") ? item.getDouble("bcRat") : null;
-        Double archArea = item.has("archArea") ? item.getDouble("archArea") : null;
+        Double bcRat = item.has("bcRat") ? item.optDouble("bcRat") : null;
+        Double archArea = item.has("archArea") ? item.optDouble("archArea") : null;
         if (bcRat == null && archArea != null && platArea > 0) {
             bcRat = (archArea / platArea) * 100;
             bcRat = Math.round(bcRat * 100.0) / 100.0;
@@ -113,21 +113,21 @@ public class ConstructDataApiDto {
 
         double archAreaByPyung = calculatePyung(archArea);
 
-        Double vlRat = item.has("vlRat") ? item.getDouble("vlRat") : null;
-        Double totArea = item.has("totArea") ? item.getDouble("totArea") : null;
+        Double vlRat = item.has("vlRat") ? item.optDouble("vlRat") : null;
+        Double totArea = item.has("totArea") ? item.optDouble("totArea") : null;
         if (vlRat == null && totArea != null && platArea > 0) {
             vlRat = (totArea / platArea) * 100;
             vlRat = Math.round(vlRat * 100.0) / 100.0;
         }
         double totAreaByPyung = calculatePyung(totArea);
 
-        Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.getDouble("vlRatEstmTotArea") : 0;
+        Double vlRatEstmTotArea = item.has("vlRatEstmTotArea") ? item.optDouble("vlRatEstmTotArea") : 0;
         Double vlRatEstmTotAreaByPyung = calculatePyung(vlRatEstmTotArea);
 
-        int useAprDay = item.has("useAprDay") ? item.getInt("useAprDay") : 0;
+        int useAprDay = item.has("useAprDay") ? item.optInt("useAprDay") : 0;
         String useAprDate = convertUseAprDay(useAprDay);
 
-        int hhldCnt = item.has("hhldCnt") ? item.getInt("hhldCnt") : 0;
+        int hhldCnt = item.has("hhldCnt") ? item.optInt("hhldCnt") : 0;
         String houseHoldName = null;
         if (hhldCnt > 0) {
             houseHoldName = String.valueOf(hhldCnt);
@@ -136,11 +136,11 @@ public class ConstructDataApiDto {
 
 
         return ConstructDataApiDto.builder()
-                .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
+                .bldNm(item.has("bldNm") ? item.optString("bldNm") : null)
                 .houseHoldName(houseHoldName)
                 .useAprDay(useAprDay)
                 .useAprDate(useAprDate)
-                .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
+                .platArea(item.has("platArea") ? item.optDouble("platArea") : 0)
                 .platAreaByPyung(platAreaByPyung)
                 .archArea(archArea)
                 .archAreaByPyung(archAreaByPyung)
@@ -149,17 +149,17 @@ public class ConstructDataApiDto {
                 .totAreaByPyung(totAreaByPyung)
                 .vlRat(vlRat)
                 .heit(item.has("heit") ? item.getDouble("heit") : null)
-                .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.getInt("rideUseElvtCnt") : 0)
-                .emgenUseElvtCnt(item.has("emgenUseElvtCnt") ? item.getInt("emgenUseElvtCnt") : 0)
-                .grndFlrCnt(item.has("grndFlrCnt") ? item.getInt("grndFlrCnt") : 0)
-                .ugrndFlrCnt(item.has("ugrndFlrCnt") ? item.getInt("ugrndFlrCnt") : 0)
-                .indrAutoUtcnt(item.has("indrAutoUtcnt") ? item.getInt("indrAutoUtcnt") : 0)
-                .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.getInt("oudrAutoUtcnt") : 0)
-                .indrMechUtcnt(item.has("indrMechUtcnt") ? item.getInt("indrMechUtcnt") : 0)
-                .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.getInt("oudrAutoUtcnt") : 0)
-                .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.getString("mainPurpsCdNm") : null)
-                .etcPurps(item.has("etcPurps") ? item.getString("etcPurps") : null)
-                .strctCdNm(item.has("strctCdNm") ? item.getString("strctCdNm") : null)
+                .rideUseElvtCnt(item.has("rideUseElvtCnt") ? item.optInt("rideUseElvtCnt") : 0)
+                .emgenUseElvtCnt(item.has("emgenUseElvtCnt") ? item.optInt("emgenUseElvtCnt") : 0)
+                .grndFlrCnt(item.has("grndFlrCnt") ? item.optInt("grndFlrCnt") : 0)
+                .ugrndFlrCnt(item.has("ugrndFlrCnt") ? item.optInt("ugrndFlrCnt") : 0)
+                .indrAutoUtcnt(item.has("indrAutoUtcnt") ? item.optInt("indrAutoUtcnt") : 0)
+                .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.optInt("oudrAutoUtcnt") : 0)
+                .indrMechUtcnt(item.has("indrMechUtcnt") ? item.optInt("indrMechUtcnt") : 0)
+                .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.optInt("oudrAutoUtcnt") : 0)
+                .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.optString("mainPurpsCdNm") : null)
+                .etcPurps(item.has("etcPurps") ? item.optString("etcPurps") : null)
+                .strctCdNm(item.has("strctCdNm") ? item.optString("strctCdNm") : null)
                 .vlRatEstmTotArea(vlRatEstmTotArea)
                 .vlRatEstmTotAreaByPyung(vlRatEstmTotAreaByPyung)
                 .build();

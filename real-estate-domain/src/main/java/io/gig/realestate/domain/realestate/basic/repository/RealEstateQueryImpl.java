@@ -94,4 +94,10 @@ public class RealEstateQueryImpl implements RealEstateReader {
 
         return findRealEstate.get();
     }
+
+    @Override
+    public boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji) {
+        Long count = queryRepository.isExistLegalCodeAndBunJi(legalCode, bun, ji);
+        return count > 0;
+    }
 }
