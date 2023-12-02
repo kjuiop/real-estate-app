@@ -23,4 +23,9 @@ public class ExcelRealEstateStoreImpl implements ExcelRealEstateStore {
     public void storeAll(List<ExcelRealEstate> data) {
         excelRealEstateStoreRepository.saveAll(data);
     }
+
+    @Override
+    public void store(ExcelRealEstate data) {
+        excelRealEstateStoreRepository.save(data);
+    }
 }

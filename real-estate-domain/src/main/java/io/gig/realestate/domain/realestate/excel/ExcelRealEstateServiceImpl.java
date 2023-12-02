@@ -39,9 +39,17 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
         excelRealEstateStore.storeAll(data);
 
+        int i=0;
         for (RealEstateEvent event : eventList) {
-            Thread.sleep(1000);
+            i++;
+            event.setTimeSleep(i);
             eventPublisher.publishEvent(event);
         }
+    }
+
+    @Override
+    @Transactional
+    public void createData(ExcelRealEstate data) {
+        excelRealEstateStore.store(data);
     }
 }

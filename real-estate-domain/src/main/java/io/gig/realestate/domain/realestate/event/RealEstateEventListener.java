@@ -24,7 +24,8 @@ public class RealEstateEventListener implements ApplicationListener<RealEstateEv
     public void onApplicationEvent(RealEstateEvent event) {
         log.info("event : " + event.getQueueName());
         ExcelRealEstate data = (ExcelRealEstate) event.getSource();
-        Thread.sleep(1000);
+        int timeWait = 1000 + (100 * event.getTimeSleep());
+        Thread.sleep(timeWait);
         realEstateService.createByExcelUpload(data);
     }
 }

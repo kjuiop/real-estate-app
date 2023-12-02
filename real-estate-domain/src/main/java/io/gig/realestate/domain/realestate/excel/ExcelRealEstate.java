@@ -72,4 +72,9 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .build();
     }
 
+    public void isComplete() {
+        this.publishYn = YnType.Y;
+        this.completeYn = YnType.Y;
+    }
+
 }

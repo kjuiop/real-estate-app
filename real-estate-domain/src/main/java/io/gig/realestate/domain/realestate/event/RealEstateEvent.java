@@ -12,6 +12,8 @@ public class RealEstateEvent extends ApplicationEvent {
 
     private String queueName;
 
+    private int timeSleep;
+
     public RealEstateEvent(Object source) {
         super(source);
     }
@@ -20,4 +22,9 @@ public class RealEstateEvent extends ApplicationEvent {
         super(source);
         this.queueName = queueName;
     }
+
+    public void setTimeSleep(int i) {
+        this.timeSleep = i;
+    }
+
 }

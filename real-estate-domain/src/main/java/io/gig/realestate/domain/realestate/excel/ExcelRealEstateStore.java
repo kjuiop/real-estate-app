@@ -8,4 +8,6 @@ import java.util.List;
  */
 public interface ExcelRealEstateStore {
     void storeAll(List<ExcelRealEstate> data);
+
+    void store(ExcelRealEstate data);
 }

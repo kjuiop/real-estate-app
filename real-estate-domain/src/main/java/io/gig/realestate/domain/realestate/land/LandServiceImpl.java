@@ -129,6 +129,10 @@ public class LandServiceImpl implements LandService {
 
 
     private List<LandDataApiDto> parseLandInfoJsonData(JSONObject data) throws JsonProcessingException {
+        if (!data.has("wfs:FeatureCollection")) {
+            return null;
+        }
+
         JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
 
         if (!wfs.has("gml:featureMember")) {
@@ -201,6 +205,9 @@ public class LandServiceImpl implements LandService {
 
 
     private LandUsageDataApiDto parseLandUsageJsonData(JSONObject data) throws JsonProcessingException {
+        if (!data.has("wfs:FeatureCollection")) {
+            return null;
+        }
         JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
 
         if (!wfs.has("gml:featureMember")) {

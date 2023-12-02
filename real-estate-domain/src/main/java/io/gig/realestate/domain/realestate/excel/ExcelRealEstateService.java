@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ExcelRealEstateService {
     void create(List<ExcelRealEstateDto> excelRealEstateList, String username);
+
+    void createData(ExcelRealEstate data);
 }

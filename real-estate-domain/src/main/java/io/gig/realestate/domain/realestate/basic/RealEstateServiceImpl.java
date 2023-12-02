@@ -243,7 +243,6 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    @Transactional
     public void excelUpload(MultipartFile file, String username) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -328,22 +327,30 @@ public class RealEstateServiceImpl implements RealEstateService {
         newRealEstate.addPriceInfo(priceInfo);
 
         List<LandDataApiDto> landList =  landService.getLandListInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
-        for (LandDataApiDto dto : landList) {
-            LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
-            newRealEstate.addLandInfo(landInfo);
+        if (landList != null && landList.size() > 0) {
+            for (LandDataApiDto dto : landList) {
+                LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
+                newRealEstate.addLandInfo(landInfo);
+            }
         }
 
         ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
-        ConstructInfo constructInfo = ConstructInfo.createByExcelUpload(constructDto, newRealEstate);
-        newRealEstate.addConstructInfo(constructInfo);
+        if (constructDto != null) {
+            ConstructInfo constructInfo = ConstructInfo.createByExcelUpload(constructDto, newRealEstate);
+            newRealEstate.addConstructInfo(constructInfo);
+        }
 
         List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
-        for (ConstructFloorDataApiDto dto : floorInfo) {
-            FloorPriceInfo floorPriceInfo = FloorPriceInfo.createByExcelUpload(dto, newRealEstate);
-            newRealEstate.addFloorInfo(floorPriceInfo);
+        if (floorInfo != null && floorInfo.size() > 0) {
+            for (ConstructFloorDataApiDto dto : floorInfo) {
+                FloorPriceInfo floorPriceInfo = FloorPriceInfo.createByExcelUpload(dto, newRealEstate);
+                newRealEstate.addFloorInfo(floorPriceInfo);
+            }
         }
 
         realEstateStore.store(newRealEstate);
+        data.isComplete();
+        excelRealEstateService.createData(data);
     }
 
     @Override
