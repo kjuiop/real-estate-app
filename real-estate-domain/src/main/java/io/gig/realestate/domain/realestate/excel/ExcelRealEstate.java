@@ -50,6 +50,12 @@ public class ExcelRealEstate extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType publishYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType completeYn = YnType.N;
+
+
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .legalCode(dto.getLegalCode())

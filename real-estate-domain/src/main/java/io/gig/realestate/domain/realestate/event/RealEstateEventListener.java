@@ -1,11 +1,12 @@
 package io.gig.realestate.domain.realestate.event;
 
+import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author : JAKE
@@ -13,18 +14,17 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RealEstateEventListener implements ApplicationListener<RealEstateEvent> {
 
+    private final RealEstateService realEstateService;
+
+    @SneakyThrows
     @Override
     public void onApplicationEvent(RealEstateEvent event) {
         log.info("event : " + event.getQueueName());
-        List<ExcelRealEstate> list = (List<ExcelRealEstate>) event.getSource();
-        if (list.size() == 0) {
-            return;
-        }
-
-        for (ExcelRealEstate excelRealEstate : list) {
-            log.info("address : " + excelRealEstate.getAddress());
-        }
+        ExcelRealEstate data = (ExcelRealEstate) event.getSource();
+        Thread.sleep(1000);
+        realEstateService.createByExcelUpload(data);
     }
 }

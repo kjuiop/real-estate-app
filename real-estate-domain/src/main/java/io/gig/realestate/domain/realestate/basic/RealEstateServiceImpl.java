@@ -11,6 +11,9 @@ import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
+import io.gig.realestate.domain.realestate.construct.ConstructService;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
@@ -20,6 +23,8 @@ import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
@@ -28,6 +33,7 @@ import io.gig.realestate.domain.realestate.print.PrintInfo;
 import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
 import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.format.CellFormatType;
@@ -49,6 +55,7 @@ import java.util.*;
  * @author : JAKE
  * @date : 2023/09/18
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RealEstateServiceImpl implements RealEstateService {
@@ -62,6 +69,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final RealEstateStore realEstateStore;
 
     private final AreaService areaService;
+    private final LandService landService;
+    private final ConstructService constructService;
     private final ExcelRealEstateService excelRealEstateService;
 
     @Override
@@ -304,6 +313,37 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         excelRealEstateService.create(excelRealEstateList, username);
+    }
+
+    @Override
+    @Transactional
+    public void createByExcelUpload(ExcelRealEstate data) throws IOException {
+        log.info("address : " + data.getAddress());
+        String landType = "general";
+
+        Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
+        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), loginUser);
+
+        PriceInfo priceInfo = PriceInfo.createByUpload(data.getSalePrice(), newRealEstate);
+        newRealEstate.addPriceInfo(priceInfo);
+
+        List<LandDataApiDto> landList =  landService.getLandListInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
+        for (LandDataApiDto dto : landList) {
+            LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
+            newRealEstate.addLandInfo(landInfo);
+        }
+
+        ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
+        ConstructInfo constructInfo = ConstructInfo.createByExcelUpload(constructDto, newRealEstate);
+        newRealEstate.addConstructInfo(constructInfo);
+
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
+        for (ConstructFloorDataApiDto dto : floorInfo) {
+            FloorPriceInfo floorPriceInfo = FloorPriceInfo.createByExcelUpload(dto, newRealEstate);
+            newRealEstate.addFloorInfo(floorPriceInfo);
+        }
+
+        realEstateStore.store(newRealEstate);
     }
 
     @Override

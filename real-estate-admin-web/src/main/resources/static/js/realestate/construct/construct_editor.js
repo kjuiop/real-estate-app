@@ -46,6 +46,7 @@ let loadConstructInfo = function() {
             // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
             $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
             $frm.find('.archArea').val(constructInfo.archArea);
+            $frm.find('input[name="archAreaByPyung"]').val(constructInfo.archAreaByPyung);
             $frm.find('.bcRat').val(constructInfo.bcRat);
             $frm.find('.totArea').val(constructInfo.totArea);
             $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);

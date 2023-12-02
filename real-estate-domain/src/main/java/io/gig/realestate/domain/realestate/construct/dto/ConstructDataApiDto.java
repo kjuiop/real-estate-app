@@ -42,6 +42,8 @@ public class ConstructDataApiDto {
     // 건물면적
     private Double archArea;
 
+    private double archAreaByPyung;
+
     // 건폐율
     private Double bcRat;
 
@@ -109,6 +111,8 @@ public class ConstructDataApiDto {
             bcRat = Math.round(bcRat * 100.0) / 100.0;
         }
 
+        double archAreaByPyung = calculatePyung(archArea);
+
         Double vlRat = item.has("vlRat") ? item.getDouble("vlRat") : null;
         Double totArea = item.has("totArea") ? item.getDouble("totArea") : null;
         if (vlRat == null && totArea != null && platArea > 0) {
@@ -129,6 +133,8 @@ public class ConstructDataApiDto {
             houseHoldName = String.valueOf(hhldCnt);
         }
 
+
+
         return ConstructDataApiDto.builder()
                 .bldNm(item.has("bldNm") ? item.getString("bldNm") : null)
                 .houseHoldName(houseHoldName)
@@ -137,6 +143,7 @@ public class ConstructDataApiDto {
                 .platArea(item.has("platArea") ? item.getDouble("platArea") : 0)
                 .platAreaByPyung(platAreaByPyung)
                 .archArea(archArea)
+                .archAreaByPyung(archAreaByPyung)
                 .bcRat(bcRat)
                 .totArea(totArea)
                 .totAreaByPyung(totAreaByPyung)
