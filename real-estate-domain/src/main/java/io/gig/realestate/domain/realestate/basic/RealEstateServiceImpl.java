@@ -291,7 +291,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
             String legalCode = dongArea.getLegalAddressCode();
 
-            RealEstate realEstate = RealEstate.createByExcelUpload(agentName, address, legalCode, manager);
+            RealEstate realEstate = RealEstate.createByExcelUpload(agentName, address, legalCode, bun, ji, manager);
 
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
@@ -304,8 +304,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstateList.add(realEstate);
         }
 
-        System.out.println("dd");
-
+        realEstateStore.storeAll(realEstateList);
     }
 
     @Override

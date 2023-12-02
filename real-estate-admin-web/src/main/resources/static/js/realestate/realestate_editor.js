@@ -129,6 +129,10 @@ let realEstateUpdate = function(e) {
     params.subImages = subImages;
 
     let landInfoList = assembleLandParams();
+    if (landInfoList.length === 0) {
+        return;
+    }
+    
     params.landInfoList = landInfoList;
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
