@@ -3,6 +3,9 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.area.Area;
+import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
@@ -33,13 +36,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author : JAKE
@@ -57,7 +58,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
 
-    private final PrintStoreRepository printStoreRepository;
+    private final AreaService areaService;
 
     @Override
     @Transactional(readOnly = true)
@@ -230,9 +231,10 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional
-    public void excelUpload(MultipartFile file) throws IOException {
+    public void excelUpload(MultipartFile file, String username) throws IOException {
+        Administrator manager = administratorService.getAdminEntityByUsername(username);
 
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
             throw new IOException("엑셀파일만 업로드 해주세요.");
         }
@@ -244,6 +246,8 @@ public class RealEstateServiceImpl implements RealEstateService {
             workbook = new HSSFWorkbook(file.getInputStream());
         }
 
+        List<RealEstate> realEstateList = new ArrayList<>();
+
         Sheet worksheet = workbook.getSheetAt(0);
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j);
@@ -251,13 +255,56 @@ public class RealEstateServiceImpl implements RealEstateService {
             String sido = row.getCell(1).getStringCellValue();
             String gungu = row.getCell(2).getStringCellValue();
             String dong = row.getCell(3).getStringCellValue();
-            String bun = row.getCell(4).getStringCellValue();
+
+            if (!StringUtils.hasText(sido) || !StringUtils.hasText(gungu) || !StringUtils.hasText(dong)) {
+                continue;
+            }
+
+            Optional<Area> findDong = areaService.getAreaLikeNameAndArea(dong, sido, gungu, dong);
+            if (findDong.isEmpty()) {
+                continue;
+            }
+
+            String bunJi = row.getCell(4).getStringCellValue();
+            if (!StringUtils.hasText(bunJi)) {
+                continue;
+            }
+
+            String[] bunJiArray = bunJi.split(",");
+            String representBunJi = bunJiArray[0];
+
+            String bun = "";
+            String ji = "";
+            String[] strArray = representBunJi.split("-");
+            if (strArray.length > 1) {
+                bun = strArray[0];
+                ji = strArray[1];
+            } else {
+                bun = strArray[0];
+            }
+
+            Area dongArea = findDong.get();
+            String address = sido + " " + gungu + " " + dong + " " + bun;
+            if (StringUtils.hasText(ji)) {
+                address += "-" + ji;
+            }
+
+            String legalCode = dongArea.getLegalAddressCode();
+
+            RealEstate realEstate = RealEstate.createByExcelUpload(agentName, address, legalCode, manager);
+
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
                 salePrice = salePrice / 10000000;
             }
-            String step = row.getCell(6).getStringCellValue();
+
+            PriceInfo priceInfo = PriceInfo.createByUpload(salePrice, realEstate);
+            realEstate.addPriceInfo(priceInfo);
+
+            realEstateList.add(realEstate);
         }
+
+        System.out.println("dd");
 
     }
 

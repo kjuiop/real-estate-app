@@ -199,8 +199,9 @@ public class RealEstateController {
 
     @PostMapping("excel/read")
     @ResponseBody
-    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
-        realEstateService.excelUpload(file);
+    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file,
+                                                 @CurrentUser LoginUser loginUser) throws IOException {
+        realEstateService.excelUpload(file, loginUser.getUsername());
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
     }
 

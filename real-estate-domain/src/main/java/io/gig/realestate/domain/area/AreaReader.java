@@ -3,6 +3,7 @@ package io.gig.realestate.domain.area;
 import io.gig.realestate.domain.area.dto.AreaListDto;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -16,4 +17,6 @@ public interface AreaReader {
     List<AreaListDto> getAreaListBySido(String sido);
 
     List<AreaListDto> getAreaListByGungu(String gungu);
+
+    Optional<Area> getAreaLikeNameAndArea(String name, String sido, String gungu, String dong);
 }

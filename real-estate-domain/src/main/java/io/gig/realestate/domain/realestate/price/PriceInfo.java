@@ -76,6 +76,13 @@ public class PriceInfo extends BaseTimeEntity {
         return priceInfo;
     }
 
+    public static PriceInfo createByUpload(double salePrice, RealEstate realEstate) {
+        return PriceInfo.builder()
+                .salePrice(salePrice)
+                .realEstate(realEstate)
+                .build();
+    }
+
     private static int calculateLandPyungUnit(double salePrice, double lndpclAr) {
         if (salePrice == 0.0 || lndpclAr == 0.0) {
             return 0;

@@ -35,5 +35,5 @@ public interface RealEstateService {
 
     RealEstateDetailAllDto getDetailAllInfo(Long realEstateId);
 
-    void excelUpload(MultipartFile file) throws IOException;
+    void excelUpload(MultipartFile file, String username) throws IOException;
 }

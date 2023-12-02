@@ -210,6 +210,18 @@ public class RealEstate extends BaseTimeEntity {
                 .build();
     }
 
+    public static RealEstate createByExcelUpload(String agentName, String address, String legalCode, Administrator loginUser) {
+        return RealEstate.builder()
+                .agentName(agentName)
+                .address(address)
+                .legalCode(legalCode)
+                .landType("general")
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .manager(loginUser)
+                .build();
+    }
+
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
         this.buildingName = updateForm.getBuildingName();
         this.surroundInfo = updateForm.getSurroundInfo();
