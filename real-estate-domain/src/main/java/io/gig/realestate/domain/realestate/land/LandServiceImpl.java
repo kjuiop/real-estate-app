@@ -228,4 +228,86 @@ public class LandServiceImpl implements LandService {
 
         return null;
     }
+
+    @Override
+    public LandDataApiDto getLandPublicInfo(String legalCode, String landType, String bun, String ji) throws IOException {
+        LandDataApiDto dto = callLandPublicInfo(legalCode, landType, bun, ji);
+        if (dto == null) {
+            return null;
+        }
+
+        LandUsageDataApiDto usageData = getLandUsagePublicData(legalCode, landType, bun, ji);
+        if (usageData != null) {
+            dto.withUsageData(usageData);
+        }
+
+        return dto;
+    }
+
+    @Transactional
+    public LandDataApiDto callLandPublicInfo(String bCode, String landType, String bun, String ji) throws IOException {
+        LandDataApiDto.Request request = LandDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
+        StringBuilder urlBuilder = new StringBuilder(landDataProperties.getUrl()); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landDataProperties.getServiceKey()); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+
+        log.debug(sb.toString());
+
+        JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
+        return parseLandPublicInfoJsonData(convertResult);
+    }
+
+    private LandDataApiDto parseLandPublicInfoJsonData(JSONObject data) throws JsonProcessingException {
+        if (!data.has("wfs:FeatureCollection")) {
+            return null;
+        }
+
+        JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
+
+        if (!wfs.has("gml:featureMember")) {
+            return null;
+        }
+
+        Object object = wfs.get("gml:featureMember");
+        if (object == null) {
+            return null;
+        }
+
+        List<LandDataApiDto> result = new ArrayList<>();
+
+        if (object instanceof JSONObject) {
+            JSONObject gml = (JSONObject) object;
+            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
+            return LandDataApiDto.convertData(nsdi);
+        }
+
+        if (object instanceof JSONArray) {
+            // 이런 케이스도 있나?
+            JSONArray jsonArray = (JSONArray) object;
+            log.debug("land data is array : " + jsonArray.toString());
+            JSONObject gml = jsonArray.getJSONObject(0);
+            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
+            return LandDataApiDto.convertData(nsdi);
+        }
+
+        return null;
+    }
 }

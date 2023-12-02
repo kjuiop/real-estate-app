@@ -262,6 +262,9 @@ public class RealEstateServiceImpl implements RealEstateService {
         Sheet worksheet = workbook.getSheetAt(0);
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j);
+            if (row.getCell(0) == null) {
+                continue;
+            }
             String agentName = row.getCell(0).getStringCellValue();
             String sido = row.getCell(1).getStringCellValue();
             String gungu = row.getCell(2).getStringCellValue();
@@ -281,7 +284,23 @@ public class RealEstateServiceImpl implements RealEstateService {
                 continue;
             }
 
+            StringBuilder cleanBunJi = new StringBuilder();
             String[] bunJiArray = bunJi.split(",");
+            for (int i=0; i<bunJiArray.length; i++) {
+                if (!StringUtils.hasText(bunJiArray[i])) {
+                    continue;
+                }
+                bunJiArray[i] = bunJiArray[i].replaceAll(" ", "");
+                String regex = "[0-9-]+";
+                if (!bunJiArray[i].matches(regex)) {
+                    continue;
+                }
+
+                cleanBunJi.append(bunJiArray[i]);
+                if (i != bunJiArray.length-1) {
+                    cleanBunJi.append(",");
+                }
+            }
             String representBunJi = bunJiArray[0];
 
             String bun = "";
@@ -313,11 +332,11 @@ public class RealEstateServiceImpl implements RealEstateService {
                 salePrice = salePrice / 10000000;
             }
 
-            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(legalCode, agentName, address, sido, gungu, dong, bunJi, bun, ji, salePrice);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice);
             excelRealEstateList.add(dto);
         }
 
-        excelRealEstateService.create(excelRealEstateList, username);
+        excelRealEstateService.createAndPublish(excelRealEstateList, username);
     }
 
     @Override
@@ -332,12 +351,25 @@ public class RealEstateServiceImpl implements RealEstateService {
         PriceInfo priceInfo = PriceInfo.createByUpload(data.getSalePrice(), newRealEstate);
         newRealEstate.addPriceInfo(priceInfo);
 
-        List<LandDataApiDto> landList =  landService.getLandListInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
-        if (landList != null && landList.size() > 0) {
-            for (LandDataApiDto dto : landList) {
-                LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
-                newRealEstate.addLandInfo(landInfo);
+        String[] bunJiList = data.getBunJiStr().split(",");
+        for (String bunji : bunJiList) {
+            String bun = "";
+            String ji = "";
+            String[] strArray = bunji.split("-");
+            if (strArray.length > 1) {
+                bun = strArray[0];
+                ji = strArray[1];
+            } else {
+                bun = strArray[0];
             }
+
+            if (!StringUtils.hasText(bun)) {
+                continue;
+            }
+
+            LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), landType, bun, ji);
+            LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
+            newRealEstate.addLandInfo(landInfo);
         }
 
         ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());

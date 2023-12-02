@@ -1,11 +1,8 @@
 package io.gig.realestate.domain.realestate.excel;
 
-import io.gig.realestate.domain.realestate.basic.RealEstate;
-import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.event.RealEstateEvent;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -28,7 +25,7 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
     @Override
     @Transactional
-    public void create(List<ExcelRealEstateDto> excelRealEstateList, String username) {
+    public void createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username) {
 
         List<RealEstateEvent> eventList = new ArrayList<>();
         List<ExcelRealEstate> data = new ArrayList<>();

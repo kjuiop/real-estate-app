@@ -58,6 +58,7 @@ public class LandInfo extends BaseTimeEntity {
 
     private String etcInfo;
 
+    @Lob
     private String prposAreaDstrcNmList;
 
     private String prposAreaDstrcCodeList;
