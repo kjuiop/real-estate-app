@@ -1,17 +1,12 @@
 package io.gig.realestate.domain.realestate.excel;
 
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author : JAKE
@@ -49,6 +44,11 @@ public class ExcelRealEstate extends BaseTimeEntity {
     private String legalCode;
 
     private String username;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType publishYn = YnType.N;
 
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()

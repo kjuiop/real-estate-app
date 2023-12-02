@@ -1,7 +1,9 @@
 package io.gig.realestate.domain.realestate.excel;
 
+import io.gig.realestate.domain.realestate.event.RealEstateEvent;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
     private final ExcelRealEstateStore excelRealEstateStore;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -29,5 +32,8 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
         }
 
         excelRealEstateStore.storeAll(data);
+
+        RealEstateEvent event = new RealEstateEvent(data, "excel-parser");
+        eventPublisher.publishEvent(event);
     }
 }
