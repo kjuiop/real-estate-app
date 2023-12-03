@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.excel.dto;
 
+import io.gig.realestate.domain.common.YnType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,8 @@ import lombok.Setter;
 public class ExcelRealEstateDto {
 
     private Long id;
+
+    private int rowIndex;
 
     private String agentName;
 
@@ -35,10 +38,15 @@ public class ExcelRealEstateDto {
 
     private String legalCode;
 
-    public static ExcelRealEstateDto excelCreate(String legalCode, String agentName, String address, String sido, String gungu, String dong,
+    private YnType completeYn;
+
+    private String skipReason;
+
+    public static ExcelRealEstateDto excelCreate(int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
                               String bunJiStr, String bun, String ji, double salePrice) {
 
         return ExcelRealEstateDto.builder()
+                .rowIndex(rowIndex)
                 .legalCode(legalCode)
                 .agentName(agentName)
                 .address(address)
@@ -49,6 +57,17 @@ public class ExcelRealEstateDto {
                 .bun(bun)
                 .ji(ji)
                 .salePrice(salePrice)
+                .completeYn(YnType.N)
+                .build();
+    }
+
+    public static ExcelRealEstateDto excelFailResponse(int rowIndex, String address, String skipReason) {
+
+        return ExcelRealEstateDto.builder()
+                .rowIndex(rowIndex)
+                .address(address)
+                .completeYn(YnType.N)
+                .skipReason(skipReason)
                 .build();
     }
 }

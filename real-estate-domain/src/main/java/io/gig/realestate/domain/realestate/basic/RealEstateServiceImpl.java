@@ -262,25 +262,34 @@ public class RealEstateServiceImpl implements RealEstateService {
         Sheet worksheet = workbook.getSheetAt(0);
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j);
+            String skipReason = "";
             if (row.getCell(0) == null) {
                 continue;
             }
-            String agentName = row.getCell(0).getStringCellValue();
-            String sido = row.getCell(1).getStringCellValue();
-            String gungu = row.getCell(2).getStringCellValue();
-            String dong = row.getCell(3).getStringCellValue();
+            String agentName = row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String sido = row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String gungu = row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String dong = row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String bunJi = row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
             if (!StringUtils.hasText(sido) || !StringUtils.hasText(gungu) || !StringUtils.hasText(dong)) {
-                continue;
+                break;
             }
 
             Optional<Area> findDong = areaService.getAreaLikeNameAndArea(dong, sido, gungu, dong);
             if (findDong.isEmpty()) {
+                skipReason = "시군구 데이터가 올바르지 않습니다.";
+                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(j-1, address, skipReason);
+                excelRealEstateList.add(dto);
                 continue;
             }
 
-            String bunJi = row.getCell(4).getStringCellValue();
             if (!StringUtils.hasText(bunJi)) {
+                skipReason = "지번 데이터가 올바르지 않습니다.";
+                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(j-1, address, skipReason);
+                excelRealEstateList.add(dto);
                 continue;
             }
 
@@ -288,11 +297,19 @@ public class RealEstateServiceImpl implements RealEstateService {
             String[] bunJiArray = bunJi.split(",");
             for (int i=0; i<bunJiArray.length; i++) {
                 if (!StringUtils.hasText(bunJiArray[i])) {
+                    skipReason = "지번 데이터가 올바르지 않습니다.";
+                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(j-1, address, skipReason);
+                    excelRealEstateList.add(dto);
                     continue;
                 }
                 bunJiArray[i] = bunJiArray[i].replaceAll(" ", "");
                 String regex = "[0-9-]+";
                 if (!bunJiArray[i].matches(regex)) {
+                    skipReason = "지번 데이터가 올바르지 않습니다.";
+                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(j-1, address, skipReason);
+                    excelRealEstateList.add(dto);
                     continue;
                 }
 
@@ -321,22 +338,22 @@ public class RealEstateServiceImpl implements RealEstateService {
 
             String legalCode = dongArea.getLegalAddressCode();
 
-            boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
-            if (isExist) {
-                log.info("skip data : " + address);
-                continue;
-            }
+//            boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
+//            if (isExist) {
+//                log.info("skip data : " + address);
+//                continue;
+//            }
 
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
                 salePrice = salePrice / 10000000;
             }
 
-            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(j-1, legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice);
             excelRealEstateList.add(dto);
         }
 
-        excelRealEstateService.createAndPublish(excelRealEstateList, username);
+//        excelRealEstateService.createAndPublish(excelRealEstateList, username);
 
         return excelRealEstateList;
     }

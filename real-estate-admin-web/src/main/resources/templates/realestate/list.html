@@ -4,14 +4,6 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
-<head>
-    <style>
-        table thead, table tbody tr {
-            display: table;
-            width: 100%;
-        }
-    </style>
-</head>
 <body>
 <div layout:fragment="content">
     <div th:replace="layouts/utilFragments::navigator('/real-estate', '매물 관리', '매물 목록')"></div>
@@ -582,21 +574,16 @@
                             </div>
                         </form>
                     </div>
-                    <div class="form-horizontal uploadDash">
-                        <table class="table table-borderless">
+                    <div class="form-horizontal uploadDash hidden" style="max-height: 225px; overflow-y: auto;">
+                        <table class="excelTable table table-borderless">
                             <thead>
                             <tr>
-                                <th style="width: 5%;">No</th>
-                                <th style="width: 70%;">주소</th>
-                                <th style="width: 25%;">업로드 여부</th>
+                                <th>No</th>
+                                <th>주소</th>
+                                <th>업로드 여부</th>
                             </tr>
                             </thead>
-                            <tbody style="display: block; max-height: 225px; overflow-y: auto;">
-                            <tr>
-                                <td>1</td>
-                                <td>서울 특별시 강남구 삼성동 115-3</td>
-                                <td>완료</td>
-                            </tr>
+                            <tbody class="excelProgressSection">
                             </tbody>
                         </table>
                     </div>

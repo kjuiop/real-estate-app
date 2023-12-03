@@ -288,16 +288,38 @@ let excelUpload = function(e) {
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
-            console.log("response", response);
-            twoBtnModal("excel 데이터를 성공적으로 업로드하였습니다.", function() {
-                location.reload();
-            });
+        success: function(result) {
+            console.log("response", result);
+            let excelData = result.data;
+            if (!checkNullOrEmptyValue(excelData)) {
+                return;
+            }
+            let tag = drawExcelUploadData(excelData);
+            $('.excelProgressSection').html(tag);
+            $('.uploadDash').removeClass('hidden');
         },
         error: function() {
             twoBtnModal("excel 데이터 업로드를 실패하였습니다.");
         }
     });
+}
+
+let drawExcelUploadData = function(excelList) {
+
+    let $modal = $('#excelUploadModal'),
+        $tbody = $modal.find('tbody');
+
+    let tag = '';
+    $.each(excelList, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.rowIndex + '</td>';
+        tag += '<td>' + item.address + '</td>';
+        tag += '<td>' + (item.completeYn === 'Y' ? '완료' : '미완료') + '</td>';
+        tag += '</tr>';
+    });
+
+    $tbody.html(tag);
+
 }
 
 $(document).ready(onReady)
