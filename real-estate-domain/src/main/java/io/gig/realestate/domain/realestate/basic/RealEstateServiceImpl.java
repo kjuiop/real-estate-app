@@ -243,7 +243,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    public void excelUpload(MultipartFile file, String username) throws IOException {
+    public List<ExcelRealEstateDto> excelUpload(MultipartFile file, String username) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
@@ -337,6 +337,8 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         excelRealEstateService.createAndPublish(excelRealEstateList, username);
+
+        return excelRealEstateList;
     }
 
     @Override

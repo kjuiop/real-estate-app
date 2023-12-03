@@ -289,6 +289,7 @@ let excelUpload = function(e) {
         processData: false,
         contentType: false,
         success: function(response) {
+            console.log("response", response);
             twoBtnModal("excel 데이터를 성공적으로 업로드하였습니다.", function() {
                 location.reload();
             });
