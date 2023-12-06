@@ -99,7 +99,15 @@ public class ConstructServiceImpl implements ConstructService {
     }
 
     private ConstructDataApiDto parseConstructJsonData(JSONObject data) throws JsonProcessingException {
+        if (!data.has("response")) {
+            return null;
+        }
+
         JSONObject response = data.getJSONObject("response");
+        if (!response.has("body")) {
+            return null;
+        }
+
         JSONObject body = response.getJSONObject("body");
 
         if (body.getInt("totalCount") == 0) {
@@ -167,7 +175,15 @@ public class ConstructServiceImpl implements ConstructService {
 
     private List<ConstructFloorDataApiDto> parseFloorJsonData(JSONObject data) throws JsonProcessingException {
         List<ConstructFloorDataApiDto> list = new ArrayList<>();
+
+        if (!data.has("response")) {
+            return null;
+        }
         JSONObject response = data.getJSONObject("response");
+
+        if (!response.has("body")) {
+            return null;
+        }
         JSONObject body = response.getJSONObject("body");
 
         if (body.getInt("totalCount") == 0) {

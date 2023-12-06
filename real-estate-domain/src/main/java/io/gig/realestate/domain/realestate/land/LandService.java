@@ -21,4 +21,6 @@ public interface LandService {
     Long update(LandCreateForm updateForm, LoginUser loginUser);
 
     LandUsageDataApiDto getLandUsagePublicData(String legalCode, String landType, String bun, String ji) throws IOException;
+
+    LandDataApiDto getLandPublicInfo(String legalCode, String landType, String bun, String ji) throws IOException;
 }

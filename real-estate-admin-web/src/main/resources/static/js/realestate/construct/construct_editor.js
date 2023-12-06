@@ -46,6 +46,7 @@ let loadConstructInfo = function() {
             // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
             $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
             $frm.find('.archArea').val(constructInfo.archArea);
+            $frm.find('input[name="archAreaByPyung"]').val(constructInfo.archAreaByPyung);
             $frm.find('.bcRat').val(constructInfo.bcRat);
             $frm.find('.totArea').val(constructInfo.totArea);
             $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);
@@ -83,7 +84,7 @@ let loadConstructFloorInfo = function() {
     }
 
     let url;
-    if (dto.existPriceInfo === true) {
+    if (dto.existFloorInfo === true) {
         url = "/real-estate/construct/floor/" + dto.realEstateId;
     } else {
         url = "/real-estate/construct/floor/ajax/public-data"
@@ -113,7 +114,7 @@ let loadConstructFloorInfo = function() {
             if (floorData.length === 0) {
                 let tag = '';
                 tag += '<tr>';
-                tag += '<td class="text-center" colspan="7">해당 건물의 층별 정보가 없습니다.</td>';
+                tag += '<td class="text-center" colspan="14">해당 건물의 층별 정보가 없습니다.</td>';
                 tag += '</tr>';
                 $tbody.html(tag);
                 $tfoot.addClass('hidden');

@@ -47,7 +47,7 @@ let loadLandInfoList = function() {
                 calculateLandInfo();
             }
 
-            if (!checkNullOrEmptyValue(dto.realEstateId)) {
+            if (!checkNullOrEmptyValue(dto.realEstateId) || !dto.existLandInfo) {
                 $frm.find('.btnLandAdd').trigger('click');
             }
         },

@@ -255,6 +255,138 @@ let toggleAddressType = function(e) {
     $frm.find('input[name="address"]').val('');
 }
 
+let showExcelModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#excelUploadModal'),
+        $tbody = $modal.find('tbody');
+
+    $modal.find('#filename').val('');
+    $modal.find('#file').val('');
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td class="text-alien-center" colSpan="4">매물 데이터를 업로드 해주세요.</td>';
+    tag += '</tr>';
+    $tbody.html(tag);
+
+    $modal.modal('show');
+}
+
+let fileSearch = function(e) {
+    e.preventDefault();
+
+    let $frm = $(`form[name="frmExcelUpload"]`);
+    $frm.find('input[name="file"]').trigger('click');
+}
+
+let applyFilename = function(e) {
+    e.preventDefault();
+
+    let $frm = $(`form[name="frmExcelUpload"]`);
+    let filename = $(this).val().split('\\').pop();
+    $frm.find('#filename').val(filename);
+}
+
+let excelUpload = function(e) {
+    e.preventDefault();
+
+    let formData = new FormData();
+    formData.append('file', $('#file')[0].files[0]);
+
+    $.ajax({
+        url: '/real-estate/excel/read',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            console.log("response", result);
+            let excelData = result.data;
+            if (!checkNullOrEmptyValue(excelData)) {
+                return;
+            }
+
+            if (excelData.length === 0) {
+                return;
+            }
+            let tag = drawExcelUploadData(excelData);
+            $('.excelProgressSection').html(tag);
+
+            let uploadId = excelData[0].uploadId;
+            let timeoutLimit = excelData[0].timeoutLimit;
+            checkUploadProgress(uploadId, timeoutLimit);
+        },
+        error: function() {
+            twoBtnModal("excel 데이터 업로드를 실패하였습니다.");
+        }
+    });
+}
+
+let checkUploadProgress = function (uploadId, timeoutLimit) {
+    let startTime = Date.now();
+    let endTime = startTime + timeoutLimit;
+
+    function pollUploadStatus() {
+        $.ajax({
+            url: "/real-estate/excel/upload-check/" + uploadId,
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (res) {
+                console.log("업로드 프로세스 결과", res);
+
+                let result = res.data;
+                if (!checkNullOrEmptyValue(result)) {
+                    return;
+                }
+
+                let tag = drawExcelUploadData(result.data);
+                $('.excelProgressSection').html(tag);
+
+                // 업로드가 완료되었는지 확인
+                if (result.completeYn === 'Y') {
+                    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.", function() {
+                        location.reload();
+                    });
+                } else if (Date.now() < endTime) {
+                    // 아직 완료되지 않았고 타임아웃 시간 내라면 계속 체크
+                    setTimeout(pollUploadStatus, 5000); // 5초마다 체크
+                } else {
+                    // 타임아웃 시간이 초과되었을 때 처리
+                    console.error("업로드가 타임아웃되었습니다.");
+                }
+            },
+            error: function (error) {
+                ajaxErrorFieldByText(error);
+            }
+        });
+    }
+
+    // 최초 체크 수행
+    pollUploadStatus();
+};
+
+
+let drawExcelUploadData = function(excelList) {
+
+    let tag = '';
+    $.each(excelList, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.rowIndex + '</td>';
+        tag += '<td>' + item.address + '</td>';
+        if (item.uploadStatus === '완료') {
+            tag += '<td style="color: darkblue; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else if (item.uploadStatus === '실패') {
+            tag += '<td style="color: darkred; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else {
+            tag += '<td>' + item.uploadStatus + '</td>';
+        }
+        tag += '<td>' + convertNullOrEmptyValue(item.skipReason) + '</td>';
+        tag += '</tr>';
+    });
+    return tag;
+}
+
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
@@ -265,4 +397,9 @@ $(document).ready(onReady)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
-    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType);
+    .on('ifToggled', 'input[name="toggleAddress"]', toggleAddressType)
+    .on('click', '.btnShowExcelModal', showExcelModal)
+    .on('click', '#btnSearchFile', fileSearch)
+    .on('change', '#file', applyFilename)
+    .on('click', '.btnExcelUpload', excelUpload)
+;

@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
-import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
@@ -93,5 +92,11 @@ public class RealEstateQueryImpl implements RealEstateReader {
         }
 
         return findRealEstate.get();
+    }
+
+    @Override
+    public boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji) {
+        Long count = queryRepository.isExistLegalCodeAndBunJi(legalCode, bun, ji);
+        return count > 0;
     }
 }

@@ -76,6 +76,18 @@ public class PriceInfo extends BaseTimeEntity {
         return priceInfo;
     }
 
+    public static PriceInfo createByUpload(double salePrice, RealEstate realEstate) {
+        return PriceInfo.builder()
+                .salePrice(salePrice)
+                .realEstate(realEstate)
+                .build();
+    }
+
+    public void calculatePyung(double salePrice, int totalLndpclArByPyung, int totalTotAreaByPyung) {
+        this.landPyungUnitPrice = calculateLandPyungUnit(salePrice, totalLndpclArByPyung);
+        this.buildingPyungUnitPrice = calculateBuildingPyungUnit(salePrice, totalTotAreaByPyung);
+    }
+
     private static int calculateLandPyungUnit(double salePrice, double lndpclAr) {
         if (salePrice == 0.0 || lndpclAr == 0.0) {
             return 0;
@@ -93,4 +105,6 @@ public class PriceInfo extends BaseTimeEntity {
         double pyungUnit = salePrice / totArea;
         return (int) Math.round(pyungUnit);
     }
+
+
 }

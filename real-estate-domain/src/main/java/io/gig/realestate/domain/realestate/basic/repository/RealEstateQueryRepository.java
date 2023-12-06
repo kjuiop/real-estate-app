@@ -134,6 +134,18 @@ public class RealEstateQueryRepository {
         return result;
     }
 
+    public Long isExistLegalCodeAndBunJi(String legalCode, String bun, String ji) {
+        Long result = this.queryFactory
+                .select(realEstate.count())
+                .from(realEstate)
+                .where(eqLegalCode(legalCode))
+                .where(eqBun(bun))
+                .where(eqJi(ji))
+                .fetchOne();
+
+        return result;
+    }
+
     public Optional<RealEstate> getPrevRealEstateId(Long currentId) {
         Optional<RealEstate> fetch = Optional.ofNullable(this.queryFactory
                 .selectFrom(realEstate)
@@ -332,6 +344,14 @@ public class RealEstateQueryRepository {
                 JPAExpressions.selectDistinct(customerInfo.realEstate.id)
                         .from(customerInfo)
                         .where(customerInfo.phone.eq(phone)));
+    }
+
+    private BooleanExpression eqLegalCode(String legalCode) {
+        if (!StringUtils.hasText(legalCode)) {
+            return null;
+        }
+
+        return realEstate.legalCode.eq(legalCode);
     }
 
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {

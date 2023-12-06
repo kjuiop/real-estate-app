@@ -3,17 +3,28 @@ package io.gig.realestate.domain.realestate.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.area.Area;
+import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
+import io.gig.realestate.domain.realestate.construct.ConstructService;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
@@ -22,19 +33,30 @@ import io.gig.realestate.domain.realestate.print.PrintInfo;
 import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
 import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author : JAKE
  * @date : 2023/09/18
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RealEstateServiceImpl implements RealEstateService {
@@ -47,7 +69,10 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final RealEstateReader realEstateReader;
     private final RealEstateStore realEstateStore;
 
-    private final PrintStoreRepository printStoreRepository;
+    private final AreaService areaService;
+    private final LandService landService;
+    private final ConstructService constructService;
+    private final ExcelRealEstateService excelRealEstateService;
 
     @Override
     @Transactional(readOnly = true)
@@ -219,6 +244,203 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
+    public List<ExcelRealEstateDto> excelUpload(MultipartFile file, String username) throws IOException {
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            throw new IOException("엑셀파일만 업로드 해주세요.");
+        }
+
+        Workbook workbook = null;
+        if (extension.equals("xlsx")) {
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } else if (extension.equals("xls")) {
+            workbook = new HSSFWorkbook(file.getInputStream());
+        }
+
+        List<ExcelRealEstateDto> excelRealEstateList = new ArrayList<>();
+
+        Sheet worksheet = workbook.getSheetAt(0);
+
+        String uploadTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        String uploadId = generateUniqueIdentifier(uuid, uploadTime);
+        int timeoutLimit = 300 * 1000;
+
+        for (int j=1; j< worksheet.getPhysicalNumberOfRows(); j++) {
+            Row row = worksheet.getRow(j+1);
+            String skipReason = "";
+            if (row.getCell(0) == null) {
+                continue;
+            }
+            String agentName = row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String sido = row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String gungu = row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String dong = row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String bunJi = row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+
+            if (!StringUtils.hasText(sido) || !StringUtils.hasText(gungu) || !StringUtils.hasText(dong)) {
+                break;
+            }
+
+            sido = sido.trim();
+            gungu = gungu.trim();
+            dong = dong.trim();
+            bunJi = bunJi.trim();
+
+            Optional<Area> findDong = areaService.getAreaLikeNameAndArea(dong, sido, gungu, dong);
+            if (findDong.isEmpty()) {
+                skipReason = "시군구 데이터가 올바르지 않습니다.";
+                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                excelRealEstateList.add(dto);
+                continue;
+            }
+
+            if (!StringUtils.hasText(bunJi)) {
+                skipReason = "지번 데이터가 올바르지 않습니다.";
+                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                excelRealEstateList.add(dto);
+                continue;
+            }
+
+            StringBuilder cleanBunJi = new StringBuilder();
+            String[] bunJiArray = bunJi.split(",");
+            for (int i=0; i<bunJiArray.length; i++) {
+                if (!StringUtils.hasText(bunJiArray[i])) {
+                    skipReason = "지번 데이터가 올바르지 않습니다.";
+                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                    excelRealEstateList.add(dto);
+                    continue;
+                }
+                bunJiArray[i] = bunJiArray[i].replaceAll(" ", "");
+                String regex = "[0-9-]+";
+                if (!bunJiArray[i].matches(regex)) {
+                    skipReason = "지번 데이터가 올바르지 않습니다.";
+                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                    excelRealEstateList.add(dto);
+                    continue;
+                }
+
+                cleanBunJi.append(bunJiArray[i]);
+                if (i != bunJiArray.length-1) {
+                    cleanBunJi.append(",");
+                }
+            }
+            String representBunJi = bunJiArray[0];
+
+            String bun = "";
+            String ji = "";
+            String[] strArray = representBunJi.split("-");
+            if (strArray.length > 1) {
+                bun = strArray[0];
+                ji = strArray[1];
+            } else {
+                bun = strArray[0];
+            }
+
+            Area dongArea = findDong.get();
+            String address = sido + " " + gungu + " " + dong + " " + bun;
+            if (StringUtils.hasText(ji)) {
+                address += "-" + ji;
+            }
+
+            String legalCode = dongArea.getLegalAddressCode();
+
+            boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
+            if (isExist) {
+                skipReason = "이미 등록된 매물 주소입니다.";
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                excelRealEstateList.add(dto);
+                continue;
+            }
+
+            double salePrice = row.getCell(5).getNumericCellValue();
+            if (salePrice > 0) {
+                salePrice = salePrice / 10000000;
+            }
+
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j-1, legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice);
+            excelRealEstateList.add(dto);
+        }
+
+        excelRealEstateService.createAndPublish(excelRealEstateList, username);
+
+        return excelRealEstateList;
+    }
+
+    @Override
+    @Transactional
+    public void createByExcelUpload(ExcelRealEstate data) throws IOException {
+        log.info("address : " + data.getAddress());
+        String landType = "general";
+
+        ExcelRealEstate excelRealEstate = excelRealEstateService.findById(data.getId());
+        if (excelRealEstate.getFailYn() == YnType.Y) {
+            return;
+        }
+
+        Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
+        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), loginUser);
+
+        if (!StringUtils.hasText(data.getBunJiStr())) {
+            return;
+        }
+
+        int totalLndpclArByPyung = 0;
+        String[] bunJiList = data.getBunJiStr().split(",");
+        for (String bunji : bunJiList) {
+            String bun = "";
+            String ji = "";
+            String[] strArray = bunji.split("-");
+            if (strArray.length > 1) {
+                bun = strArray[0];
+                ji = strArray[1];
+            } else {
+                bun = strArray[0];
+            }
+
+            if (!StringUtils.hasText(bun)) {
+                continue;
+            }
+
+            LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), landType, bun, ji);
+            LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
+            newRealEstate.addLandInfo(landInfo);
+
+            totalLndpclArByPyung += landInfo.getLndpclArByPyung();
+        }
+
+        int totalTotAreaByPyung = 0;
+        ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
+        if (constructDto != null) {
+            ConstructInfo constructInfo = ConstructInfo.createByExcelUpload(constructDto, newRealEstate);
+            newRealEstate.addConstructInfo(constructInfo);
+
+            totalTotAreaByPyung += constructInfo.getTotArea();
+        }
+
+        PriceInfo priceInfo = PriceInfo.createByUpload(data.getSalePrice(), newRealEstate);
+        priceInfo.calculatePyung(priceInfo.getSalePrice(), totalLndpclArByPyung, totalTotAreaByPyung);
+        newRealEstate.addPriceInfo(priceInfo);
+
+        List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
+        if (floorInfo != null && floorInfo.size() > 0) {
+            for (ConstructFloorDataApiDto dto : floorInfo) {
+                FloorPriceInfo floorPriceInfo = FloorPriceInfo.createByExcelUpload(dto, newRealEstate);
+                newRealEstate.addFloorInfo(floorPriceInfo);
+            }
+        }
+
+        realEstateStore.store(newRealEstate);
+        excelRealEstate.isComplete();
+    }
+
+    @Override
     @Transactional
     public Long getPrevRealEstateId(Long realEstateId) {
         return realEstateReader.getPrevRealEstateId(realEstateId);
@@ -229,4 +451,10 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Long getNextRealEstateId(Long realEstateId) {
         return realEstateReader.getNextRealEstateId(realEstateId);
     }
+
+    private String generateUniqueIdentifier(String uuid, String uploadTime) {
+        // 파일명, 사용자명, 업로드 시점, UUID를 합쳐서 식별자 생성
+        return uuid + "_" + uploadTime;
+    }
+
 }

@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -21,4 +22,6 @@ public interface AreaService {
     List<AreaListDto> getAreaListBySido(String sido);
 
     List<AreaListDto> getAreaListByGungu(String gungu);
+
+    Optional<Area> getAreaLikeNameAndArea(String name, String sido, String gungu, String dong);
 }

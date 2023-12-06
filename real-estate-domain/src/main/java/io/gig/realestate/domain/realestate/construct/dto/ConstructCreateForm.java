@@ -36,6 +36,8 @@ public class ConstructCreateForm {
     // 건물면적
     private double archArea;
 
+    private double archAreaByPyung;
+
     // 건폐율
     private double bcRat;
 
