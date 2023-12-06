@@ -297,11 +297,46 @@ let excelUpload = function(e) {
             let tag = drawExcelUploadData(excelData);
             $('.excelProgressSection').html(tag);
             $('.uploadDash').removeClass('hidden');
+
+            let uploadId = excelData[0].uploadId;
+            let timeoutLimit = excelData[0].timeoutLimit;
+            checkUploadProgress(uploadId, timeoutLimit);
         },
         error: function() {
             twoBtnModal("excel 데이터 업로드를 실패하였습니다.");
         }
     });
+}
+
+let checkUploadProgress = function(uploadId, timeoutLimit) {
+
+    let startTime = Date.now();
+    let endTime = startTime + timeoutLimit;
+
+    while (Date.now() < endTime) {
+
+        $.ajax({
+            url: "/real-estate/excel/upload-check/" + uploadId,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(res) {
+                console.log("result", res);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+
+        sleep(3000);
+    }
+
+    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.");
+}
+
+function sleep(ms) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) {}
 }
 
 let drawExcelUploadData = function(excelList) {

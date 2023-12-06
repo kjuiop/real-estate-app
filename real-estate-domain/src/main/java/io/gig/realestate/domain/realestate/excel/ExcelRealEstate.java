@@ -24,9 +24,11 @@ public class ExcelRealEstate extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int rowIndex;
-
     private String uploadId;
+
+    private int timeoutLimit;
+
+    private int rowIndex;
 
     private String agentName;
 
@@ -70,6 +72,7 @@ public class ExcelRealEstate extends BaseTimeEntity {
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .uploadId(dto.getUploadId())
+                .timeoutLimit(dto.getTimeoutLimit())
                 .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())
