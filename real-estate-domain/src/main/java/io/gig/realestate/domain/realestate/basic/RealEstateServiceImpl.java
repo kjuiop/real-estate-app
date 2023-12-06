@@ -266,7 +266,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
         String uploadId = generateUniqueIdentifier(uuid, uploadTime);
-        int timeoutLimit = 300 * 1000;
+        int timeoutLimit = 180 * 1000;
 
         for (int j=1; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j+1);
