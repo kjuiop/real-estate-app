@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,5 +29,10 @@ public class ExcelRealEstateQueryImpl implements ExcelRealEstateReader {
         }
 
         return findExcelRealEstate.get();
+    }
+
+    @Override
+    public List<ExcelRealEstate> findByUploadId(String uploadId) {
+        return excelRealEstateQueryRepository.findAllByUploadIdOrderByRowIndexAsc(uploadId);
     }
 }

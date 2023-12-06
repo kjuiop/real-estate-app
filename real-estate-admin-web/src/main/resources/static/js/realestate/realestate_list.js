@@ -300,6 +300,8 @@ let excelUpload = function(e) {
 
             let uploadId = excelData[0].uploadId;
             let timeoutLimit = excelData[0].timeoutLimit;
+
+
             checkUploadProgress(uploadId, timeoutLimit);
         },
         error: function() {
@@ -308,53 +310,61 @@ let excelUpload = function(e) {
     });
 }
 
-let checkUploadProgress = function(uploadId, timeoutLimit) {
-
+let checkUploadProgress = function (uploadId, timeoutLimit) {
     let startTime = Date.now();
     let endTime = startTime + timeoutLimit;
 
-    while (Date.now() < endTime) {
-
+    function pollUploadStatus() {
         $.ajax({
             url: "/real-estate/excel/upload-check/" + uploadId,
-            method: "get",
-            type: "json",
+            method: "GET",
+            dataType: "json",
             contentType: "application/json",
-            success: function(res) {
-                console.log("result", res);
+            success: function (res) {
+                console.log("업로드 프로세스 결과", res);
+
+                let result = res.data;
+                if (!checkNullOrEmptyValue(result)) {
+                    return;
+                }
+
+                let tag = drawExcelUploadData(result.data);
+                $('.excelProgressSection').html(tag);
+
+
+                // 업로드가 완료되었는지 확인
+                if (result.completeYn === 'Y') {
+                    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.");
+                } else if (Date.now() < endTime) {
+                    // 아직 완료되지 않았고 타임아웃 시간 내라면 계속 체크
+                    setTimeout(pollUploadStatus, 5000); // 5초마다 체크
+                } else {
+                    // 타임아웃 시간이 초과되었을 때 처리
+                    console.error("업로드가 타임아웃되었습니다.");
+                }
             },
-            error: function(error){
+            error: function (error) {
                 ajaxErrorFieldByText(error);
             }
         });
-
-        sleep(3000);
     }
 
-    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.");
-}
+    // 최초 체크 수행
+    pollUploadStatus();
+};
 
-function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) {}
-}
 
 let drawExcelUploadData = function(excelList) {
-
-    let $modal = $('#excelUploadModal'),
-        $tbody = $modal.find('tbody');
 
     let tag = '';
     $.each(excelList, function(idx, item) {
         tag += '<tr>';
         tag += '<td>' + item.rowIndex + '</td>';
         tag += '<td>' + item.address + '</td>';
-        tag += '<td>' + (item.completeYn === 'Y' ? '완료' : '미완료') + '</td>';
+        tag += '<td>' + item.uploadStatus + '</td>';
         tag += '</tr>';
     });
-
-    $tbody.html(tag);
-
+    return tag;
 }
 
 $(document).ready(onReady)

@@ -3,9 +3,9 @@ package io.gig.realestate.domain.realestate.excel;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -56,13 +56,13 @@ public class ExcelRealEstate extends BaseTimeEntity {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType publishYn = YnType.N;
+    @Column(length = 50)
+    private UploadStatus uploadStatus = UploadStatus.PENDING;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType completeYn = YnType.N;
+    private YnType publishYn = YnType.N;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -85,8 +85,28 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
                 .username(username)
-                .failYn(StringUtils.hasText(dto.getSkipReason()) ? YnType.Y : YnType.N)
+                .build();
+    }
+
+    public static ExcelRealEstate failData(ExcelRealEstateDto dto, String username) {
+        return ExcelRealEstate.builder()
+                .uploadId(dto.getUploadId())
+                .timeoutLimit(dto.getTimeoutLimit())
+                .rowIndex(dto.getRowIndex())
+                .legalCode(dto.getLegalCode())
+                .agentName(dto.getAgentName())
+                .address(dto.getAddress())
+                .sido(dto.getSido())
+                .gungu(dto.getGungu())
+                .dong(dto.getDong())
+                .bunJiStr(dto.getBunJiStr())
+                .bun(dto.getBun())
+                .ji(dto.getJi())
+                .salePrice(dto.getSalePrice())
+                .username(username)
+                .failYn(YnType.Y)
                 .skipReason(dto.getSkipReason())
+                .uploadStatus(UploadStatus.FAIL)
                 .build();
     }
 
@@ -95,7 +115,7 @@ public class ExcelRealEstate extends BaseTimeEntity {
     }
 
     public void isComplete() {
-        this.completeYn = YnType.Y;
+        this.uploadStatus = UploadStatus.COMPLETE;
     }
 
 }

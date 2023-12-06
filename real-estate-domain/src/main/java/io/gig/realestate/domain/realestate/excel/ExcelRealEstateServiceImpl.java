@@ -1,7 +1,13 @@
 package io.gig.realestate.domain.realestate.excel;
 
+import io.gig.realestate.domain.admin.AdministratorRole;
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.event.RealEstateEvent;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
+import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
+import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -10,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -31,7 +38,15 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
         List<RealEstateEvent> eventList = new ArrayList<>();
         List<ExcelRealEstate> data = new ArrayList<>();
         for (ExcelRealEstateDto dto : excelRealEstateList) {
-            ExcelRealEstate excelRealEstate = ExcelRealEstate.excelCreate(dto, username);
+
+            ExcelRealEstate excelRealEstate;
+
+            if (dto.getFailYn() == YnType.Y) {
+                excelRealEstate = ExcelRealEstate.failData(dto, username);
+            } else {
+                excelRealEstate = ExcelRealEstate.excelCreate(dto, username);
+            }
+
             excelRealEstate.isPublish();
             data.add(excelRealEstate);
 
@@ -53,5 +68,21 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
     @Transactional(readOnly = true)
     public ExcelRealEstate findById(Long id) {
         return excelRealEstateReader.findById(id);
+    }
+
+    @Override
+    public ExcelUploadCheckDto checkExcelUploadProgress(String uploadId) {
+        YnType isComplete = YnType.Y;
+
+        List<ExcelRealEstateDto> excelData = new ArrayList<>();
+        List<ExcelRealEstate> excelRealEstates = excelRealEstateReader.findByUploadId(uploadId);
+        for (ExcelRealEstate data : excelRealEstates) {
+            if (data.getUploadStatus() == UploadStatus.PENDING) {
+                isComplete = YnType.N;
+            }
+            excelData.add(ExcelRealEstateDto.entityToDto(data));
+        }
+
+        return ExcelUploadCheckDto.uploadCheck(isComplete, excelData);
     }
 }

@@ -11,7 +11,9 @@ import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.*;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,7 @@ public class RealEstateController {
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
     private final AreaService areaService;
+    private final ExcelRealEstateService excelRealEstateService;
 
     @GetMapping
     public String index(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
@@ -203,6 +206,13 @@ public class RealEstateController {
     public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file,
                                                  @CurrentUser LoginUser loginUser) throws IOException {
         List<ExcelRealEstateDto> result = realEstateService.excelUpload(file, loginUser.getUsername());
+        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
+    }
+
+    @GetMapping("excel/upload-check/{uploadId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkUploadProgress(@PathVariable("uploadId") String uploadId) {
+        ExcelUploadCheckDto result = excelRealEstateService.checkExcelUploadProgress(uploadId);
         return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 

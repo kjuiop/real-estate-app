@@ -1,6 +1,8 @@
 package io.gig.realestate.domain.realestate.excel.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
+import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,9 +46,33 @@ public class ExcelRealEstateDto {
 
     private YnType completeYn;
 
-    private YnType failYn;
+    @Builder.Default
+    private YnType failYn = YnType.N;
 
     private String skipReason;
+
+    private String uploadStatus;
+
+    public static ExcelRealEstateDto entityToDto(ExcelRealEstate data) {
+        return ExcelRealEstateDto.builder()
+                .id(data.getId())
+                .uploadId(data.getUploadId())
+                .timeoutLimit(data.getTimeoutLimit())
+                .rowIndex(data.getRowIndex())
+                .agentName(data.getAgentName())
+                .sido(data.getSido())
+                .gungu(data.getGungu())
+                .dong(data.getDong())
+                .bunJiStr(data.getBunJiStr())
+                .bun(data.getBun())
+                .ji(data.getJi())
+                .salePrice(data.getSalePrice())
+                .address(data.getAddress())
+                .legalCode(data.getLegalCode())
+                .skipReason(data.getSkipReason())
+                .uploadStatus((data.getUploadStatus().getDescription()))
+                .build();
+    }
 
     public static ExcelRealEstateDto excelCreate(String uploadId, int timeoutLimit, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
                               String bunJiStr, String bun, String ji, double salePrice) {
@@ -66,6 +92,7 @@ public class ExcelRealEstateDto {
                 .ji(ji)
                 .salePrice(salePrice)
                 .completeYn(YnType.N)
+                .uploadStatus(UploadStatus.PENDING.getDescription())
                 .build();
     }
 
@@ -78,6 +105,7 @@ public class ExcelRealEstateDto {
                 .completeYn(YnType.N)
                 .skipReason(skipReason)
                 .failYn(YnType.Y)
+                .uploadStatus(UploadStatus.PENDING.getDescription())
                 .build();
     }
 }

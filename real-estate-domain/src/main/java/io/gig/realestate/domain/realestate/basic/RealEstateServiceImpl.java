@@ -263,8 +263,10 @@ public class RealEstateServiceImpl implements RealEstateService {
         Sheet worksheet = workbook.getSheetAt(0);
 
         String uploadTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String uploadId = generateUniqueIdentifier(username, file.getOriginalFilename(), uploadTime);
-        int timeoutLimit = worksheet.getPhysicalNumberOfRows() * 2000;
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        String uploadId = generateUniqueIdentifier(uuid, uploadTime);
+        int timeoutLimit = 60 * 1000;
 
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j);
@@ -350,12 +352,12 @@ public class RealEstateServiceImpl implements RealEstateService {
             String legalCode = dongArea.getLegalAddressCode();
 
             boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
-            if (isExist) {
-                skipReason = "이미 등록된 매물 주소입니다.";
-                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
-                excelRealEstateList.add(dto);
-                continue;
-            }
+//            if (isExist) {
+//                skipReason = "이미 등록된 매물 주소입니다.";
+//                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+//                excelRealEstateList.add(dto);
+//                continue;
+//            }
 
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {
@@ -442,8 +444,8 @@ public class RealEstateServiceImpl implements RealEstateService {
         return realEstateReader.getNextRealEstateId(realEstateId);
     }
 
-    private String generateUniqueIdentifier(String username, String fileName, String uploadTime) {
+    private String generateUniqueIdentifier(String uuid, String uploadTime) {
         // 파일명, 사용자명, 업로드 시점, UUID를 합쳐서 식별자 생성
-        return fileName + "_" + username + "_" + uploadTime;
+        return uuid + "_" + uploadTime;
     }
 }
