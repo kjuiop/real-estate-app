@@ -258,7 +258,15 @@ let toggleAddressType = function(e) {
 let showExcelModal = function(e) {
     e.preventDefault();
 
-    $('#excelUploadModal').modal('show');
+    let $modal = $('#excelUploadModal'),
+        $tbody = $modal.find('tbody');
+
+    $modal.find('#filename').val('');
+    $modal.find('#file').val('');
+    $tbody.html('');
+    $modal.find('.uploadDash').addClass('hidden');
+
+    $modal.modal('show');
 }
 
 let fileSearch = function(e) {
@@ -331,7 +339,6 @@ let checkUploadProgress = function (uploadId, timeoutLimit) {
                 let tag = drawExcelUploadData(result.data);
                 $('.excelProgressSection').html(tag);
 
-
                 // 업로드가 완료되었는지 확인
                 if (result.completeYn === 'Y') {
                     twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.");
@@ -361,7 +368,13 @@ let drawExcelUploadData = function(excelList) {
         tag += '<tr>';
         tag += '<td>' + item.rowIndex + '</td>';
         tag += '<td>' + item.address + '</td>';
-        tag += '<td>' + item.uploadStatus + '</td>';
+        if (item.uploadStatus === '완료') {
+            tag += '<td style="color: darkblue; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else if (item.uploadStatus === '실패') {
+            tag += '<td style="color: darkred; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else {
+            tag += '<td>' + item.uploadStatus + '</td>';
+        }
         tag += '</tr>';
     });
     return tag;

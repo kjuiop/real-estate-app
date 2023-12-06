@@ -266,7 +266,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
         String uploadId = generateUniqueIdentifier(uuid, uploadTime);
-        int timeoutLimit = 60 * 1000;
+        int timeoutLimit = 300 * 1000;
 
         for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j);
@@ -352,12 +352,12 @@ public class RealEstateServiceImpl implements RealEstateService {
             String legalCode = dongArea.getLegalAddressCode();
 
             boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
-//            if (isExist) {
-//                skipReason = "이미 등록된 매물 주소입니다.";
-//                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
-//                excelRealEstateList.add(dto);
-//                continue;
-//            }
+            if (isExist) {
+                skipReason = "이미 등록된 매물 주소입니다.";
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j-1, address, skipReason);
+                excelRealEstateList.add(dto);
+                continue;
+            }
 
             double salePrice = row.getCell(5).getNumericCellValue();
             if (salePrice > 0) {

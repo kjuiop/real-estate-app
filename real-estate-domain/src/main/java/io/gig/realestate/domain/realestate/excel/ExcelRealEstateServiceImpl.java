@@ -39,14 +39,13 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
         List<ExcelRealEstate> data = new ArrayList<>();
         for (ExcelRealEstateDto dto : excelRealEstateList) {
 
-            ExcelRealEstate excelRealEstate;
-
             if (dto.getFailYn() == YnType.Y) {
-                excelRealEstate = ExcelRealEstate.failData(dto, username);
-            } else {
-                excelRealEstate = ExcelRealEstate.excelCreate(dto, username);
+                ExcelRealEstate excelRealEstate = ExcelRealEstate.failData(dto, username);
+                data.add(excelRealEstate);
+                continue;
             }
 
+            ExcelRealEstate excelRealEstate = ExcelRealEstate.excelCreate(dto, username);
             excelRealEstate.isPublish();
             data.add(excelRealEstate);
 
