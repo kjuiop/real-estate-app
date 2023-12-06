@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -155,5 +156,11 @@ public class AreaServiceImpl implements AreaService {
         }
 
         return true;
+    }
+
+    @Override
+    @Transactional
+    public Optional<Area> getAreaLikeNameAndArea(String name, String sido, String gungu, String dong) {
+        return areaReader.getAreaLikeNameAndArea(name, sido, gungu, dong);
     }
 }

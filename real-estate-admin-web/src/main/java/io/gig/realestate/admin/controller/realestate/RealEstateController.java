@@ -11,6 +11,9 @@ import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.*;
+import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,10 +23,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -39,6 +44,7 @@ public class RealEstateController {
     private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
     private final AreaService areaService;
+    private final ExcelRealEstateService excelRealEstateService;
 
     @GetMapping
     public String index(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
@@ -195,5 +201,19 @@ public class RealEstateController {
         return "realestate/print";
     }
 
+    @PostMapping("excel/read")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file,
+                                                 @CurrentUser LoginUser loginUser) throws IOException {
+        List<ExcelRealEstateDto> result = realEstateService.excelUpload(file, loginUser.getUsername());
+        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
+    }
+
+    @GetMapping("excel/upload-check/{uploadId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkUploadProgress(@PathVariable("uploadId") String uploadId) {
+        ExcelUploadCheckDto result = excelRealEstateService.checkExcelUploadProgress(uploadId);
+        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
+    }
 
 }

@@ -3,6 +3,7 @@ package io.gig.realestate.domain.area.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.area.Area;
 import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.gig.realestate.domain.area.QArea.area;
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
@@ -70,6 +72,22 @@ public class AreaQueryRepository {
                 .fetch();
     }
 
+    public Optional<Area> getAreaLikeNameAndArea(String name, String sido, String gungu, String dong) {
+        Optional<Area> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(area)
+                .where(defaultCondition())
+                .where(likeName(name))
+                .where(likeSidoName(sido))
+                .where(likeGunguName(gungu))
+                .where(likeDongName(dong))
+                .where(eqLevel(3))
+                .limit(1)
+                .fetchFirst()
+        );
+
+        return fetch;
+    }
+
     private BooleanExpression defaultCondition() {
         return area.deleteYn.eq(YnType.N);
     }
@@ -102,5 +120,33 @@ public class AreaQueryRepository {
 
         String legalCode = gungu.substring(0, 5);
         return area.legalAddressCode.startsWith(legalCode);
+    }
+
+    private BooleanExpression likeSidoName(String sido) {
+        if (!StringUtils.hasText(sido)) {
+            return null;
+        }
+
+        return area.sido.like("%" + sido + "%");
+    }
+
+    private BooleanExpression likeGunguName(String gungu) {
+        if (!StringUtils.hasText(gungu)) {
+            return null;
+        }
+
+        return area.gungu.like("%" + gungu + "%");
+    }
+
+    private BooleanExpression likeDongName(String dong) {
+        if (!StringUtils.hasText(dong)) {
+            return null;
+        }
+
+        return area.dong.like("%" + dong + "%");
+    }
+
+    private BooleanExpression likeName(String name) {
+        return StringUtils.hasText(name) ? area.name.like("%" + name + "%") : null;
     }
 }

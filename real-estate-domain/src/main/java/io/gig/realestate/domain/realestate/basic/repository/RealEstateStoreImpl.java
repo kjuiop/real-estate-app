@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/09/18
@@ -20,5 +22,10 @@ public class RealEstateStoreImpl implements RealEstateStore {
     @Override
     public RealEstate store(RealEstate newRealEstate) {
         return storeRepository.save(newRealEstate);
+    }
+
+    @Override
+    public void storeAll(List<RealEstate> realEstateList) {
+        storeRepository.saveAll(realEstateList);
     }
 }

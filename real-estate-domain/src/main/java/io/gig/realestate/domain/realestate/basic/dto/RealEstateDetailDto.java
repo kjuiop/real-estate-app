@@ -57,6 +57,9 @@ public class RealEstateDetailDto extends RealEstateDto {
     private boolean existPriceInfo = false;
 
     @Builder.Default
+    private boolean existFloorInfo = false;
+
+    @Builder.Default
     private boolean existConstructInfo = false;
 
     @Builder.Default
@@ -88,6 +91,10 @@ public class RealEstateDetailDto extends RealEstateDto {
 
         if (r.getCustomerInfoList().size() > 0) {
             this.existCustomerInfo = true;
+        }
+
+        if (r.getFloorPriceInfo().size() > 0) {
+            this.existFloorInfo = true;
         }
 
         if (r.getManager() != null) {

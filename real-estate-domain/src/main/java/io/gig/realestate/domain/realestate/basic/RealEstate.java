@@ -57,6 +57,8 @@ public class RealEstate extends BaseTimeEntity {
 
     private String characterInfo;
 
+    private String agentName;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -205,6 +207,20 @@ public class RealEstate extends BaseTimeEntity {
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
+                .build();
+    }
+
+    public static RealEstate createByExcelUpload(String agentName, String address, String legalCode, String bun, String ji, Administrator loginUser) {
+        return RealEstate.builder()
+                .agentName(agentName)
+                .address(address)
+                .legalCode(legalCode)
+                .landType("general")
+                .bun(bun)
+                .ji(ji)
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .manager(loginUser)
                 .build();
     }
 

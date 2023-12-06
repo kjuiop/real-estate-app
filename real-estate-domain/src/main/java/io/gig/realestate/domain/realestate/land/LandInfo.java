@@ -4,6 +4,7 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.land.dto.LandUpdateForm;
 import lombok.*;
@@ -57,6 +58,7 @@ public class LandInfo extends BaseTimeEntity {
 
     private String etcInfo;
 
+    @Lob
     private String prposAreaDstrcNmList;
 
     private String prposAreaDstrcCodeList;
@@ -111,5 +113,26 @@ public class LandInfo extends BaseTimeEntity {
     }
 
     public static void update(String address, YnType commercialYn, LandUpdateForm.LandInfoDto dto) {
+    }
+
+    public static LandInfo createByExcelUpload(LandDataApiDto dto, String address, RealEstate newRealEstate) {
+        return LandInfo.builder()
+                .pnu(dto.getPnuStr())
+                .address(address)
+                .lndcgrCodeNm(dto.getLndcgrCodeNm())
+                .lndpclAr(dto.getLndpclAr() != null ? dto.getLndpclAr().doubleValue() : 0.0)
+                .lndpclArByPyung(dto.getLndpclArByPyung() != null ? dto.getLndpclArByPyung().doubleValue() : 0.0)
+                .pblntfPclnd(dto.getPblntfPclnd() != null ? dto.getPblntfPclnd().doubleValue() : 0.0)
+                .totalPblntfPclnd(dto.getTotalPblntfPclnd())
+                .prposArea1Nm(dto.getPrposArea1Nm())
+                .roadSideCodeNm(dto.getRoadSideCodeNm())
+                .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
+                .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
+                .ladUseSittnNm(dto.getLadUseSittnNm())
+                .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
+                .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
+                .posList(dto.getPosList())
+                .realEstate(newRealEstate)
+                .build();
     }
 }

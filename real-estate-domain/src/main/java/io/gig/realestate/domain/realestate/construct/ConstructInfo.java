@@ -4,6 +4,7 @@ import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructCreateForm;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.util.StringUtils;
@@ -114,8 +115,10 @@ public class ConstructInfo extends BaseTimeEntity {
                 .platArea(createForm.getPlatArea())
                 .platAreaByPyung(createForm.getPlatAreaByPyung())
                 .archArea(createForm.getArchArea())
+                .archAreaByPyung(createForm.getArchAreaByPyung())
                 .bcRat(createForm.getBcRat())
                 .totArea(createForm.getTotArea())
+                .totAreaByPyung(createForm.getTotAreaByPyung())
                 .vlRat(createForm.getVlRat())
                 .heit(createForm.getHeit())
                 .grndFlrCnt(createForm.getGrndFlrCnt())
@@ -136,10 +139,50 @@ public class ConstructInfo extends BaseTimeEntity {
                 .realEstate(realEstate)
                 .build();
 
-        constructInfo.totAreaByPyung = calculatePyung(constructInfo.getTotArea());
-        constructInfo.archAreaByPyung = calculatePyung(constructInfo.getArchArea());
+//        constructInfo.totAreaByPyung = calculatePyung(constructInfo.getTotArea());
+//        constructInfo.archAreaByPyung = calculatePyung(constructInfo.getArchArea());
 
         return constructInfo;
+    }
+
+    public static ConstructInfo createByExcelUpload(ConstructDataApiDto constructDto, RealEstate realEstate) {
+
+        LocalDateTime useAprDate = null;
+        if (StringUtils.hasText(constructDto.getUseAprDate())) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(constructDto.getUseAprDate(), formatter);
+            useAprDate = localDate.atStartOfDay();
+        }
+
+        return ConstructInfo.builder()
+                .bldNm(constructDto.getBldNm())
+                .hhldCnt(constructDto.getHhldCnt())
+                .houseHoldName(constructDto.getHouseHoldName())
+                .useAprDate(useAprDate)
+                .platArea(constructDto.getPlatArea())
+                .platAreaByPyung(constructDto.getPlatAreaByPyung())
+                .archArea(constructDto.getArchArea())
+                .archAreaByPyung(constructDto.getArchAreaByPyung())
+                .totArea(constructDto.getTotArea())
+                .totAreaByPyung(constructDto.getTotAreaByPyung())
+                .bcRat(constructDto.getBcRat())
+                .vlRat(constructDto.getVlRat())
+                .heit(constructDto.getHeit())
+                .vlRatEstmTotArea(constructDto.getVlRatEstmTotArea())
+                .vlRatEstmTotAreaByPyung(constructDto.getVlRatEstmTotAreaByPyung())
+                .grndFlrCnt(constructDto.getGrndFlrCnt())
+                .ugrndFlrCnt(constructDto.getUgrndFlrCnt())
+                .rideUseElvtCnt(constructDto.getRideUseElvtCnt())
+                .emgenUseElvtCnt(constructDto.getEmgenUseElvtCnt())
+                .indrAutoUtcnt(constructDto.getIndrAutoUtcnt())
+                .oudrAutoUtcnt(constructDto.getOudrAutoUtcnt())
+                .indrMechUtcnt(constructDto.getIndrMechUtcnt())
+                .oudrMechUtcnt(constructDto.getOudrMechUtcnt())
+                .mainPurpsCdNm(constructDto.getMainPurpsCdNm())
+                .etcPurps(constructDto.getEtcPurps())
+                .strctCdNm(constructDto.getStrctCdNm())
+                .realEstate(realEstate)
+                .build();
     }
 
     private static Double calculatePyung(Double area) {

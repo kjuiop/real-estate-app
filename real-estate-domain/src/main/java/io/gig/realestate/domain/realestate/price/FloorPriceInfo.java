@@ -3,6 +3,7 @@ package io.gig.realestate.domain.realestate.price;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.price.dto.PriceUpdateForm;
@@ -109,4 +110,14 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .build();
     }
 
+    public static FloorPriceInfo createByExcelUpload(ConstructFloorDataApiDto dto, RealEstate realEstate) {
+        return FloorPriceInfo.builder()
+                .flrNo(dto.getFlrNo())
+                .flrNoNm(dto.getFlrNoNm())
+                .area(dto.getArea())
+                .mainPurpsCdNm(dto.getMainPurpsCdNm())
+                .etcPurps(dto.getEtcPurps())
+                .realEstate(realEstate)
+                .build();
+    }
 }
