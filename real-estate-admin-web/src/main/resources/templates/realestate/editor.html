@@ -20,7 +20,7 @@
     <section class="content" th:with="isModify = ${dto.realEstateId != null}">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
+                <div class="col-md-6 col-sm-6 display-flex-column">
                     <form class="form-horizontal" name="frmBasicRegister" method="post">
                         <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
                         <input type="hidden" name="legalCode" th:value="${dto.legalCode}" />
@@ -80,16 +80,25 @@
                                     <input type="text" class="form-control form-control-sm" name="surroundInfo" th:value="${dto.surroundInfo}" style="height: 36px;"/>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">대분류</label>
-                                </div>
-                                <div class="col-md-7 col-sm-8 display-flex-row">
-                                    <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
-                                        <th:block th:each="code : ${usageCds.child}">
-                                            <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
-                                        </th:block>
-                                    </select>
+
+                            <div class="form-group col-md-12 line">
+                                <div class="display-flex-row">
+                                    <div class="col-md-6 display-flex-column">
+                                        <label class="text-label">대분류</label>
+                                        <div class="col-md-11 display-flex-row no-left-padding">
+                                            <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                                <th:block th:each="code : ${usageCds.child}">
+                                                    <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-column">
+                                        <label class="text-label">소유 부동산</label>
+                                        <div class="col-md-12 no-left-padding">
+                                            <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" style="height: 36px;"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column line">
@@ -305,7 +314,7 @@
                     </div>
                     <!-- /.card -->
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 display-flex-column">
+                <div class="col-md-6 col-sm-6 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title">금액정보</h3>
@@ -659,7 +668,7 @@
                     </div>
                     <!-- /.card -->
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title margin-right-4">고객정보</h3>

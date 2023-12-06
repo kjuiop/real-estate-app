@@ -345,7 +345,9 @@ let checkUploadProgress = function (uploadId, timeoutLimit) {
 
                 // 업로드가 완료되었는지 확인
                 if (result.completeYn === 'Y') {
-                    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.");
+                    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.", function() {
+                        location.reload();
+                    });
                 } else if (Date.now() < endTime) {
                     // 아직 완료되지 않았고 타임아웃 시간 내라면 계속 체크
                     setTimeout(pollUploadStatus, 5000); // 5초마다 체크

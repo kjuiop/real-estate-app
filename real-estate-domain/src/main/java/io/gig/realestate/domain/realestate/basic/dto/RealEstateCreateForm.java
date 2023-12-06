@@ -53,6 +53,8 @@ public class RealEstateCreateForm {
 
     private String characterInfo;
 
+    private String agentName;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
