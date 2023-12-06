@@ -263,8 +263,11 @@ let showExcelModal = function(e) {
 
     $modal.find('#filename').val('');
     $modal.find('#file').val('');
-    $tbody.html('');
-    $modal.find('.uploadDash').addClass('hidden');
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td class="text-alien-center" colSpan="4">매물 데이터를 업로드 해주세요.</td>';
+    tag += '</tr>';
+    $tbody.html(tag);
 
     $modal.modal('show');
 }
@@ -304,12 +307,9 @@ let excelUpload = function(e) {
             }
             let tag = drawExcelUploadData(excelData);
             $('.excelProgressSection').html(tag);
-            $('.uploadDash').removeClass('hidden');
 
             let uploadId = excelData[0].uploadId;
             let timeoutLimit = excelData[0].timeoutLimit;
-
-
             checkUploadProgress(uploadId, timeoutLimit);
         },
         error: function() {
@@ -375,6 +375,7 @@ let drawExcelUploadData = function(excelList) {
         } else {
             tag += '<td>' + item.uploadStatus + '</td>';
         }
+        tag += '<td>' + item.skipReason + '</td>';
         tag += '</tr>';
     });
     return tag;

@@ -555,7 +555,7 @@
 
     <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="excelUploadModal">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 600px;">
+            <div class="modal-content" style="width: 800px;">
                 <div class="modal-header">
                     <h4 class="modal-title control-label" style="font-weight: bold;">엑셀 업로드</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -574,16 +574,20 @@
                             </div>
                         </form>
                     </div>
-                    <div class="form-horizontal uploadDash hidden" style="max-height: 400px; overflow-y: auto;">
-                        <table class="excelTable table table-borderless">
+                    <div class="form-horizontal uploadDash" style="max-width: 800px; max-height: 400px; overflow: auto;">
+                        <table class="excelTable table">
                             <thead style="position: sticky; top:0; background-color: #ffffff;">
                             <tr>
                                 <th>No</th>
                                 <th>주소</th>
                                 <th>업로드 여부</th>
+                                <th>실패 사유</th>
                             </tr>
                             </thead>
                             <tbody class="excelProgressSection">
+                            <tr>
+                                <td class="text-alien-center" colspan="4">매물 데이터를 업로드 해주세요.</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
