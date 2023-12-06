@@ -5,9 +5,9 @@ let onReady = function() {
         address = condition.address;
     }
 
-    if (dataList.length > 0) {
-        address = dataList[0].address;
-        $.each(dataList, function(idx, item) {
+    if (coordinateList.length > 0) {
+        address = coordinateList[0].address;
+        $.each(coordinateList, function(idx, item) {
             addressList.push(item.address);
         });
     }

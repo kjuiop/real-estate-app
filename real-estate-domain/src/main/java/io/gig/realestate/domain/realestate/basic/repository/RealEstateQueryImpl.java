@@ -4,6 +4,7 @@ import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
@@ -98,5 +99,10 @@ public class RealEstateQueryImpl implements RealEstateReader {
     public boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji) {
         Long count = queryRepository.isExistLegalCodeAndBunJi(legalCode, bun, ji);
         return count > 0;
+    }
+
+    @Override
+    public List<CoordinateDto> getCoordinateList() {
+        return queryRepository.getCoordinateList();
     }
 }

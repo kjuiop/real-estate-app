@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
+import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
@@ -52,7 +53,7 @@ public class RealEstateQueryRepository {
                 ))
                 .from(realEstate)
                 .where(where)
-                .orderBy(realEstate.id.desc())
+                .orderBy(realEstate.createdAt.desc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
@@ -166,6 +167,15 @@ public class RealEstateQueryRepository {
                 .fetchFirst());
 
         return fetch;
+    }
+
+    public List<CoordinateDto> getCoordinateList() {
+        return this.queryFactory
+                .select(Projections.constructor(CoordinateDto.class, realEstate))
+                .from(realEstate)
+                .where(defaultCondition())
+                .orderBy(realEstate.createdAt.desc())
+                .fetch();
     }
 
     private BooleanExpression defaultCondition() {

@@ -6,6 +6,7 @@ import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
+import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,11 @@ public class MapController {
 
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
         List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
+        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList();
 
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
+        model.addAttribute("coordinateList", coordinateList);
         if (pages != null) {
             model.addAttribute("pages", pages);
             model.addAttribute("totalCount", pages.getTotalElements());

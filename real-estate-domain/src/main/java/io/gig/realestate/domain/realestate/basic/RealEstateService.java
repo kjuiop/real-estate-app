@@ -41,4 +41,6 @@ public interface RealEstateService {
     List<ExcelRealEstateDto> excelUpload(MultipartFile file, String username) throws IOException;
 
     void createByExcelUpload(ExcelRealEstate data) throws IOException;
+
+    List<CoordinateDto> getCoordinateList();
 }
