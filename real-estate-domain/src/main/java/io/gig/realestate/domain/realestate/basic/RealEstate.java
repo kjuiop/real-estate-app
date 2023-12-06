@@ -226,6 +226,7 @@ public class RealEstate extends BaseTimeEntity {
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
         this.buildingName = updateForm.getBuildingName();
+        this.agentName = updateForm.getAgentName();
         this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
         this.ownExclusiveYn = updateForm.getOwnExclusiveYn();

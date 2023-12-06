@@ -57,6 +57,8 @@ public class RealEstateDto {
 
     private String characterInfo;
 
+    private String agentName;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -78,6 +80,7 @@ public class RealEstateDto {
         this.ownExclusiveYn = r.getOwnExclusiveYn();
         this.otherExclusiveYn = r.getOtherExclusiveYn();
         this.imgUrl = r.getImgUrl();
+        this.agentName = r.getAgentName();
         this.processType = r.getProcessType();
         this.rYn = r.getRYn();
         this.abYn = r.getAbYn();
