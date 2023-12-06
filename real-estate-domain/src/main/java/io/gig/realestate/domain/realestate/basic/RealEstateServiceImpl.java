@@ -387,12 +387,11 @@ public class RealEstateServiceImpl implements RealEstateService {
         Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
         RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), loginUser);
 
-        PriceInfo priceInfo = PriceInfo.createByUpload(data.getSalePrice(), newRealEstate);
-        newRealEstate.addPriceInfo(priceInfo);
-
         if (!StringUtils.hasText(data.getBunJiStr())) {
             return;
         }
+
+        int totalLndpclArByPyung = 0;
         String[] bunJiList = data.getBunJiStr().split(",");
         for (String bunji : bunJiList) {
             String bun = "";
@@ -412,13 +411,22 @@ public class RealEstateServiceImpl implements RealEstateService {
             LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), landType, bun, ji);
             LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
             newRealEstate.addLandInfo(landInfo);
+
+            totalLndpclArByPyung += landInfo.getLndpclArByPyung();
         }
 
+        int totalTotAreaByPyung = 0;
         ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
         if (constructDto != null) {
             ConstructInfo constructInfo = ConstructInfo.createByExcelUpload(constructDto, newRealEstate);
             newRealEstate.addConstructInfo(constructInfo);
+
+            totalTotAreaByPyung += constructInfo.getTotArea();
         }
+
+        PriceInfo priceInfo = PriceInfo.createByUpload(data.getSalePrice(), newRealEstate);
+        priceInfo.calculatePyung(priceInfo.getSalePrice(), totalLndpclArByPyung, totalTotAreaByPyung);
+        newRealEstate.addPriceInfo(priceInfo);
 
         List<ConstructFloorDataApiDto> floorInfo = constructService.getConstructFloorInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());
         if (floorInfo != null && floorInfo.size() > 0) {
@@ -448,4 +456,5 @@ public class RealEstateServiceImpl implements RealEstateService {
         // 파일명, 사용자명, 업로드 시점, UUID를 합쳐서 식별자 생성
         return uuid + "_" + uploadTime;
     }
+
 }
