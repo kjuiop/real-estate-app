@@ -11,5 +11,5 @@ import java.util.List;
 public interface ExcelRealEstateService {
     void createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username);
 
-    void createData(ExcelRealEstate data);
+    ExcelRealEstate findById(Long id);
 }

@@ -5,6 +5,7 @@ import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -22,6 +23,10 @@ public class ExcelRealEstate extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private int rowIndex;
+
+    private String uploadId;
 
     private String agentName;
 
@@ -45,6 +50,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
 
     private String username;
 
+    private String skipReason;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -55,9 +62,15 @@ public class ExcelRealEstate extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType completeYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType failYn = YnType.N;
 
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
+                .uploadId(dto.getUploadId())
+                .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())
                 .address(dto.getAddress())
@@ -69,11 +82,16 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
                 .username(username)
+                .failYn(StringUtils.hasText(dto.getSkipReason()) ? YnType.Y : YnType.N)
+                .skipReason(dto.getSkipReason())
                 .build();
     }
 
-    public void isComplete() {
+    public void isPublish() {
         this.publishYn = YnType.Y;
+    }
+
+    public void isComplete() {
         this.completeYn = YnType.Y;
     }
 

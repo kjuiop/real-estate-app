@@ -40,12 +40,17 @@ public class ExcelRealEstateDto {
 
     private YnType completeYn;
 
+    private YnType failYn;
+
     private String skipReason;
 
-    public static ExcelRealEstateDto excelCreate(int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
+    private String uploadId;
+
+    public static ExcelRealEstateDto excelCreate(String uploadId, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
                               String bunJiStr, String bun, String ji, double salePrice) {
 
         return ExcelRealEstateDto.builder()
+                .uploadId(uploadId)
                 .rowIndex(rowIndex)
                 .legalCode(legalCode)
                 .agentName(agentName)
@@ -61,13 +66,14 @@ public class ExcelRealEstateDto {
                 .build();
     }
 
-    public static ExcelRealEstateDto excelFailResponse(int rowIndex, String address, String skipReason) {
-
+    public static ExcelRealEstateDto excelFailResponse(String uploadId, int rowIndex, String address, String skipReason) {
         return ExcelRealEstateDto.builder()
+                .uploadId(uploadId)
                 .rowIndex(rowIndex)
                 .address(address)
                 .completeYn(YnType.N)
                 .skipReason(skipReason)
+                .failYn(YnType.Y)
                 .build();
     }
 }

@@ -20,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
+    private final ExcelRealEstateReader excelRealEstateReader;
     private final ExcelRealEstateStore excelRealEstateStore;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -31,6 +32,7 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
         List<ExcelRealEstate> data = new ArrayList<>();
         for (ExcelRealEstateDto dto : excelRealEstateList) {
             ExcelRealEstate excelRealEstate = ExcelRealEstate.excelCreate(dto, username);
+            excelRealEstate.isPublish();
             data.add(excelRealEstate);
 
             RealEstateEvent event = new RealEstateEvent(excelRealEstate, "[excel-parser]-" + dto.getAddress());
@@ -48,8 +50,8 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
     }
 
     @Override
-    @Transactional
-    public void createData(ExcelRealEstate data) {
-        excelRealEstateStore.store(data);
+    @Transactional(readOnly = true)
+    public ExcelRealEstate findById(Long id) {
+        return excelRealEstateReader.findById(id);
     }
 }
