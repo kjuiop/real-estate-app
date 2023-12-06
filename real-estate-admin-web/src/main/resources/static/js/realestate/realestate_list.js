@@ -305,6 +305,10 @@ let excelUpload = function(e) {
             if (!checkNullOrEmptyValue(excelData)) {
                 return;
             }
+
+            if (excelData.length === 0) {
+                return;
+            }
             let tag = drawExcelUploadData(excelData);
             $('.excelProgressSection').html(tag);
 
@@ -375,7 +379,7 @@ let drawExcelUploadData = function(excelList) {
         } else {
             tag += '<td>' + item.uploadStatus + '</td>';
         }
-        tag += '<td>' + item.skipReason + '</td>';
+        tag += '<td>' + convertNullOrEmptyValue(item.skipReason) + '</td>';
         tag += '</tr>';
     });
     return tag;

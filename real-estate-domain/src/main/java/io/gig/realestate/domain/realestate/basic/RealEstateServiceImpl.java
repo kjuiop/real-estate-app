@@ -268,8 +268,8 @@ public class RealEstateServiceImpl implements RealEstateService {
         String uploadId = generateUniqueIdentifier(uuid, uploadTime);
         int timeoutLimit = 300 * 1000;
 
-        for (int j=2; j< worksheet.getPhysicalNumberOfRows(); j++) {
-            Row row = worksheet.getRow(j);
+        for (int j=1; j< worksheet.getPhysicalNumberOfRows(); j++) {
+            Row row = worksheet.getRow(j+1);
             String skipReason = "";
             if (row.getCell(0) == null) {
                 continue;
