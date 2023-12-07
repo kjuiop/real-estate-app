@@ -80,9 +80,36 @@
                         <option value="AB" th:selected="${condition.processType != null && condition.processType.type eq 'a-b'}">A-B</option>
                     </select>
 
-<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
-<!--                        <option value="">가격 대</option>-->
-<!--                    </select>-->
+                    <select class="form-control col-md-1 select-box margin-right-15 border-none btnSearchPrice">
+                        <option value="">가격 대</option>
+                    </select>
+
+                    <div style="position: relative;">
+                        <div class="padding-10 display-flex-column" style="position: absolute; top: 45px; left: -130px; width: 350px; z-index: 3; background-color: #ffffff;">
+                            <div class="priceAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">매매가, 전세가</b>
+                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                            <div class="depositAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">보증금</b>
+                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                            <div class="rentAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">임대료</b>
+                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                        </div>
+                    </div>
+
 
 <!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
 <!--                        <option value="">면적</option>-->
@@ -92,7 +119,7 @@
             </form>
             <div class="row margin-top-20" style="border-top: 1px solid #d5caca;">
                 <div class="col-md-9 col-sm-7 no-left-padding" style="position: relative;">
-                    <button class="btn btn-default btnCadastral" toggleYn="N" style="position: absolute; top: 5px; right: 16px; z-index: 999;">지적편집도</button>
+                    <button class="btn btn-default btnCadastral" toggleYn="N" style="position: absolute; top: 5px; right: 16px; z-index: 2;">지적도</button>
                     <div id="map" style="width:100%;height:100%;"></div>
                 </div>
                 <div class="col-md-3 col-sm-5 display-flex-column">

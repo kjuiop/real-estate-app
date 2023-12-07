@@ -12,9 +12,12 @@ import lombok.Setter;
 @Setter
 public class CoordinateDto {
 
+    private Long realEstateId;
+
     private String address;
 
     public CoordinateDto(RealEstate r) {
+        this.realEstateId = r.getId();
         this.address = r.getAddress();
     }
 }

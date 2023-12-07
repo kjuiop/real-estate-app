@@ -1,5 +1,4 @@
 let onReady = function() {
-    let addressList = [];
     let address = '서울특별시 강남구 도산대로 149';
     if (checkNullOrEmptyValue(condition.address)) {
         address = condition.address;
@@ -7,12 +6,12 @@ let onReady = function() {
 
     if (coordinateList.length > 0) {
         address = coordinateList[0].address;
-        $.each(coordinateList, function(idx, item) {
-            addressList.push(item.address);
-        });
     }
 
-    loadKakaoMap(address, addressList);
+    loadKakaoMap(address, coordinateList);
+    priceSlider($('.priceAmountUnit'));
+    priceSlider($('.depositAmountUnit'));
+    priceSlider($('.rentAmountUnit'));
 }
 
 let searchData = function(e) {
@@ -118,10 +117,43 @@ let moveDetailPage = function(e) {
     window.open(url, '_blank');
 }
 
+let removeCoordinate = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    $this.parents('.mark-unit').parent().parent().addClass('hidden');
+}
+
+let showSearchBlock = function(e) {
+    e.preventDefault();
+}
+
+let priceSlider = function($priceSlider) {
+
+    let $sliderRange = $priceSlider.find('.slider-range');
+
+    $priceSlider.find('.slider-range').slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 0, 500 ],
+        slide: function( event, ui ) {
+            $priceSlider.find('.amount').val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        }
+    });
+
+    $priceSlider.find('.amount').val( "$" + $sliderRange.slider( "values", 0 ) +
+        " - $" + $sliderRange.slider( "values", 1 ) );
+
+}
+
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('change', 'select[name="dong"]', setSearchAddress)
     .on('click', '.real-estate-unit', moveMapFocus)
     .on('change', 'select[name="usageCd"], select[name="processType"]', searchData)
     .on('click', '.btnMoveDetail', moveDetailPage)
-    .on('click', '.btnCadastral', showCadastral);
+    .on('click', '.btnCadastral', showCadastral)
+    .on('click', '.btnRemove', removeCoordinate)
+    .on('click',  '.btnSearchPrice', showSearchBlock)
+;
