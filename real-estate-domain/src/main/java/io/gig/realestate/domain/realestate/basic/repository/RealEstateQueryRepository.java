@@ -272,6 +272,30 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenDepositPrice(Integer minDepositPrice, Integer maxDepositPrice) {
+        if (minDepositPrice == null || maxDepositPrice == null || minDepositPrice < 0 || maxDepositPrice <= 0 || maxDepositPrice < minDepositPrice) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(priceInfo.realEstate.id)
+                        .from(priceInfo)
+                        .where(priceInfo.depositPrice.between(minDepositPrice, maxDepositPrice))
+        );
+    }
+
+    private BooleanExpression betweenRentPrice(Integer minRentPrice, Integer maxRentPrice) {
+        if (minRentPrice == null || maxRentPrice == null || minRentPrice < 0 || maxRentPrice <= 0 || maxRentPrice < minRentPrice) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(priceInfo.realEstate.id)
+                        .from(priceInfo)
+                        .where(priceInfo.rentMonth.between(minRentPrice, maxRentPrice))
+        );
+    }
+
     private BooleanExpression betweenLndpclAr(Integer minLnpclAr, Integer maxLnpclAr) {
         if (minLnpclAr == null || maxLnpclAr == null || minLnpclAr < 0 || maxLnpclAr <= 0 || maxLnpclAr < minLnpclAr) {
             return null;
@@ -281,6 +305,18 @@ public class RealEstateQueryRepository {
                 JPAExpressions.selectDistinct(landInfo.realEstate.id)
                         .from(landInfo)
                         .where(landInfo.lndpclAr.between(minLnpclAr, maxLnpclAr))
+        );
+    }
+
+    private BooleanExpression betweenLndpclArByPyung(Integer minLnpclArByPyung, Integer maxLnpclArByPyung) {
+        if (minLnpclArByPyung == null || maxLnpclArByPyung == null || minLnpclArByPyung < 0 || maxLnpclArByPyung <= 0 || maxLnpclArByPyung < minLnpclArByPyung) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(landInfo.realEstate.id)
+                        .from(landInfo)
+                        .where(landInfo.lndpclArByPyung.between(minLnpclArByPyung, maxLnpclArByPyung))
         );
     }
 
@@ -381,8 +417,11 @@ public class RealEstateQueryRepository {
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
+        where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
+        where.and(betweenRentPrice(searchDto.getMinRentPrice(), searchDto.getMaxRentPrice()));
         where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
         where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
+        where.and(betweenLndpclArByPyung(searchDto.getMinLndpclArByPyung(), searchDto.getMaxLndpclArByPyung()));
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
         where.and(likeCustomerName(searchDto.getCustomer()));
