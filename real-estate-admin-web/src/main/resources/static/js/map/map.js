@@ -173,9 +173,10 @@ let salePriceSlider = function($priceSlider) {
         }
     });
 
-    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
-        "억원 - 제한없음");
+    let displayMin = convertNullOrEmptyValue(condition.minSalePrice),
+        displayMax = checkNullOrEmptyValue(condition.maxSalePrice) ? convertNullOrEmptyValue(condition.maxSalePrice) + '만원' : '제한없음';
 
+    $priceSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
 }
 
 let depositPriceSlider = function($priceSlider) {
@@ -202,9 +203,10 @@ let depositPriceSlider = function($priceSlider) {
         }
     });
 
-    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
-        "만원 - 제한없음");
+    let displayMin = convertNullOrEmptyValue(condition.minDepositPrice),
+        displayMax = checkNullOrEmptyValue(condition.maxDepositPrice) ? convertNullOrEmptyValue(condition.maxDepositPrice) + '만원' : '제한없음';
 
+    $priceSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
 }
 
 let rentPriceSlider = function($priceSlider) {
@@ -231,9 +233,11 @@ let rentPriceSlider = function($priceSlider) {
         }
     });
 
-    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
-        "만원 - 제한없음");
 
+    let displayMin = convertNullOrEmptyValue(condition.minRentPrice),
+        displayMax = checkNullOrEmptyValue(condition.maxRentPrice) ? convertNullOrEmptyValue(condition.maxRentPrice) + '만원' : '제한없음';
+
+    $priceSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
 }
 
 let areaSlider = function($areaSlider) {
@@ -258,9 +262,10 @@ let areaSlider = function($areaSlider) {
         }
     });
 
-    $areaSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
-        "평 - 제한없음");
+    let displayMin = convertNullOrEmptyValue(condition.minLndpclArByPyung),
+        displayMax = checkNullOrEmptyValue(condition.maxLndpclArByPyung) ? convertNullOrEmptyValue(condition.maxLndpclArByPyung) + '평' : '제한없음';
 
+    $areaSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
 }
 
 let applyPriceRange = function(e) {

@@ -42,14 +42,14 @@
             <form name="frmSearch">
                 <input type="hidden" name="address" />
                 <input type="hidden" name="page" th:value="${condition.page}" />
-                <input type="hidden" name="minSalePrice" />
-                <input type="hidden" name="maxSalePrice" />
-                <input type="hidden" name="minDepositPrice" />
-                <input type="hidden" name="maxDepositPrice" />
-                <input type="hidden" name="minRentPrice" />
-                <input type="hidden" name="maxRentPrice" />
-                <input type="hidden" name="minLndpclArByPyung" />
-                <input type="hidden" name="maxLndpclArByPyung" />
+                <input type="hidden" name="minSalePrice" th:value="${condition.minSalePrice}" />
+                <input type="hidden" name="maxSalePrice" th:value="${condition.maxSalePrice}" />
+                <input type="hidden" name="minDepositPrice" th:value="${condition.minDepositPrice}" />
+                <input type="hidden" name="maxDepositPrice" th:value="${condition.maxDepositPrice}" />
+                <input type="hidden" name="minRentPrice" th:value="${condition.minRentPrice}" />
+                <input type="hidden" name="maxRentPrice" th:value="${condition.maxRentPrice}" />
+                <input type="hidden" name="minLndpclArByPyung" th:value="${condition.minLndpclArByPyung}" />
+                <input type="hidden" name="maxLndpclArByPyung" th:value="${condition.maxLndpclArByPyung}" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none" name="sido">
