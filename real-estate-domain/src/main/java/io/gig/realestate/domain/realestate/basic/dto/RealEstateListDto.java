@@ -2,7 +2,12 @@ package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.vertex.dto.VertexDto;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -20,6 +25,7 @@ public class RealEstateListDto extends RealEstateDto {
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
     public int roadWidth;
+    public List<VertexDto> vertexDtoList = new ArrayList<>();
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -53,6 +59,9 @@ public class RealEstateListDto extends RealEstateDto {
                 }
             }
             this.prposArea1Nm = prposArea1Nm.toString();
+        }
+        if (r.getVertexInfoList() != null && r.getVertexInfoList().size() > 0) {
+            this.vertexDtoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
         }
     }
 }
