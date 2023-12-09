@@ -26,9 +26,16 @@
                 max-width: 10%;
             }
         }
+        .slider-red .slider-selection {
+            background: #ff0000; /* 빨간색 배경 */
+        }
+
+        .ui-slider-range {
+            background-color: #007CFF !important;
+        }
     </style>
 </head>
-<body>
+<body class="sidebar-collapse">
 <div layout:fragment="content">
     <section class="content no-left-padding">
         <div class="container-fluid no-left-padding">
@@ -80,40 +87,58 @@
                         <option value="AB" th:selected="${condition.processType != null && condition.processType.type eq 'a-b'}">A-B</option>
                     </select>
 
-                    <select class="form-control col-md-1 select-box margin-right-15 border-none btnSearchPrice">
-                        <option value="">가격 대</option>
-                    </select>
-
-                    <div style="position: relative;">
-                        <div class="padding-10 display-flex-column" style="position: absolute; top: 45px; left: -130px; width: 350px; z-index: 3; background-color: #ffffff;">
+                    <div class="col-md-1" style="position: relative;">
+                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchPrice">가격 대</div>
+                        <div class="searchPriceBox padding-10 display-flex-column hidden" style="position: absolute; top: 45px; left: 10px; width: 350px; z-index: 3; background-color: #ffffff;">
                             <div class="priceAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
                                     <b class="font-size-14 margin-right-5">매매가, 전세가</b>
-                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    <input type="text" class="amount" readonly style="border:0; font-weight: bold; font-size: 12px;">
                                 </div>
                                 <div class="slider-range"></div>
                             </div>
                             <div class="depositAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
                                     <b class="font-size-14 margin-right-5">보증금</b>
-                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    <input type="text" class="amount" readonly style="border:0; font-weight: bold; font-size: 12px;">
                                 </div>
                                 <div class="slider-range"></div>
                             </div>
                             <div class="rentAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
                                     <b class="font-size-14 margin-right-5">임대료</b>
-                                    <input type="text" class="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    <input type="text" class="amount" readonly style="border:0; font-weight: bold; font-size: 12px;">
                                 </div>
                                 <div class="slider-range"></div>
+                            </div>
+                            <div class="padding-10 display-flex-column margin-bottom-10">
+                                <div class="slider slider-horizontal slider-red">
+                                    <input type="text" value="-100,100" class="slider form-control" data-slider-min="-200" data-slider-max="200" data-slider-step="5" data-slider-value="[-100,100]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-value="-100,100" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="padding-10">
+                                <button type="button" class="btn btn-sm btn-primary pull-right">적용</button>
+                                <button type="button" class="btn btn-sm btn-default pull-right margin-right-3 btnCancelPrice">취소</button>
                             </div>
                         </div>
                     </div>
 
-
-<!--                    <select class="form-control col-md-1 select-box margin-right-15 border-none">-->
-<!--                        <option value="">면적</option>-->
-<!--                    </select>-->
+                    <div class="col-md-1" style="position: relative;">
+                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchArea">면적</div>
+                        <div class="searchAreaBox padding-10 display-flex-column hidden" style="position: absolute; top: 45px; left: 10px; width: 350px; z-index: 3; background-color: #ffffff;">
+                            <div class="areaAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">전용, 공급면적</b>
+                                    <input type="text" class="amount" readonly style="border:0; font-weight: bold; font-size: 12px;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                            <div class="padding-10">
+                                <button type="button" class="btn btn-sm btn-primary pull-right">적용</button>
+                                <button type="button" class="btn btn-sm btn-default pull-right margin-right-3 btnCancelArea">취소</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </form>

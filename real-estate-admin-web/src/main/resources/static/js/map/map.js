@@ -8,10 +8,13 @@ let onReady = function() {
         address = coordinateList[0].address;
     }
 
+    $(".slider-red .slider").slider();
+
     loadKakaoMap(address, coordinateList);
-    priceSlider($('.priceAmountUnit'));
-    priceSlider($('.depositAmountUnit'));
-    priceSlider($('.rentAmountUnit'));
+    salePriceSlider($('.priceAmountUnit'));
+    depositPriceSlider($('.depositAmountUnit'));
+    rentPriceSlider($('.rentAmountUnit'));
+    areaSlider($('.areaAmountUnit'));
 }
 
 let searchData = function(e) {
@@ -124,11 +127,49 @@ let removeCoordinate = function(e) {
     $this.parents('.mark-unit').parent().parent().addClass('hidden');
 }
 
-let showSearchBlock = function(e) {
+let showSearchPriceBox = function(e) {
     e.preventDefault();
+    $('.searchPriceBox').removeClass('hidden');
+    $('.searchAreaBox').addClass('hidden');
 }
 
-let priceSlider = function($priceSlider) {
+let cancelPriceBox = function(e) {
+    e.preventDefault();
+    $('.searchPriceBox').addClass('hidden');
+}
+
+let showSearchAreaBox = function(e) {
+    e.preventDefault();
+    $('.searchAreaBox').removeClass('hidden');
+    $('.searchPriceBox').addClass('hidden');
+}
+
+let cancelAreaBox = function(e) {
+    e.preventDefault();
+    $('.searchAreaBox').addClass('hidden');
+}
+
+let salePriceSlider = function($priceSlider) {
+
+    let $sliderRange = $priceSlider.find('.slider-range');
+
+    $priceSlider.find('.slider-range').slider({
+        range: true,
+        min: 0,
+        max: 500,
+        step: 20,
+        values: [ 0, 500 ],
+        slide: function( event, ui ) {
+            $priceSlider.find('.amount').val(ui.values[ 0 ] + "억원 - " + ui.values[ 1 ] + "억원");
+        }
+    });
+
+    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
+        "억원 - " + $sliderRange.slider( "values", 1 ) + "억원");
+
+}
+
+let depositPriceSlider = function($priceSlider) {
 
     let $sliderRange = $priceSlider.find('.slider-range');
 
@@ -138,12 +179,50 @@ let priceSlider = function($priceSlider) {
         max: 500,
         values: [ 0, 500 ],
         slide: function( event, ui ) {
-            $priceSlider.find('.amount').val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
         }
     });
 
-    $priceSlider.find('.amount').val( "$" + $sliderRange.slider( "values", 0 ) +
-        " - $" + $sliderRange.slider( "values", 1 ) );
+    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
+        "만원 - " + $sliderRange.slider( "values", 1 ) + "만원");
+
+}
+
+let rentPriceSlider = function($priceSlider) {
+
+    let $sliderRange = $priceSlider.find('.slider-range');
+
+    $priceSlider.find('.slider-range').slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 0, 500 ],
+        slide: function( event, ui ) {
+            $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
+        }
+    });
+
+    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
+        "만원 - " + $sliderRange.slider( "values", 1 ) + "만원");
+
+}
+
+let areaSlider = function($priceSlider) {
+
+    let $sliderRange = $priceSlider.find('.slider-range');
+
+    $priceSlider.find('.slider-range').slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 0, 500 ],
+        slide: function( event, ui ) {
+            $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
+        }
+    });
+
+    $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
+        "만원 - " + $sliderRange.slider( "values", 1 ) + "만원");
 
 }
 
@@ -155,5 +234,8 @@ $(document).ready(onReady)
     .on('click', '.btnMoveDetail', moveDetailPage)
     .on('click', '.btnCadastral', showCadastral)
     .on('click', '.btnRemove', removeCoordinate)
-    .on('click',  '.btnSearchPrice', showSearchBlock)
+    .on('click',  '.btnSearchPrice', showSearchPriceBox)
+    .on('click', '.btnCancelPrice', cancelPriceBox)
+    .on('click', '.btnSearchArea', showSearchAreaBox)
+    .on('click', '.btnCancelArea', cancelAreaBox)
 ;
