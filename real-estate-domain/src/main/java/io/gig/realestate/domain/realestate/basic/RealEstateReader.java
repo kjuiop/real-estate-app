@@ -33,5 +33,5 @@ public interface RealEstateReader {
 
     boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji);
 
-    List<CoordinateDto> getCoordinateList();
+    List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition);
 }

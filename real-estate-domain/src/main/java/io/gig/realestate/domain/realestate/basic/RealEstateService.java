@@ -42,5 +42,5 @@ public interface RealEstateService {
 
     void createByExcelUpload(ExcelRealEstate data) throws IOException;
 
-    List<CoordinateDto> getCoordinateList();
+    List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition);
 }

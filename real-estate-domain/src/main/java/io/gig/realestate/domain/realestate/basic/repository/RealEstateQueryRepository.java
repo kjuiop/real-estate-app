@@ -169,11 +169,13 @@ public class RealEstateQueryRepository {
         return fetch;
     }
 
-    public List<CoordinateDto> getCoordinateList() {
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
+        BooleanBuilder where = getSearchCondition(condition);
+
         return this.queryFactory
                 .select(Projections.constructor(CoordinateDto.class, realEstate))
                 .from(realEstate)
-                .where(defaultCondition())
+                .where(where)
                 .orderBy(realEstate.createdAt.desc())
                 .fetch();
     }

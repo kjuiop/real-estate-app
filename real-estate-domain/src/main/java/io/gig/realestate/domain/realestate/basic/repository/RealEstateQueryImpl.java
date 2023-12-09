@@ -102,7 +102,7 @@ public class RealEstateQueryImpl implements RealEstateReader {
     }
 
     @Override
-    public List<CoordinateDto> getCoordinateList() {
-        return queryRepository.getCoordinateList();
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
+        return queryRepository.getCoordinateList(condition);
     }
 }

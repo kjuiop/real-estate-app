@@ -454,8 +454,8 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CoordinateDto> getCoordinateList() {
-        return realEstateReader.getCoordinateList();
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
+        return realEstateReader.getCoordinateList(condition);
     }
 
     private String generateUniqueIdentifier(String uuid, String uploadTime) {

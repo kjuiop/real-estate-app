@@ -54,7 +54,7 @@ public class MapController {
 
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
         List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
-        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList();
+        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto);
 
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
