@@ -159,9 +159,9 @@ let salePriceSlider = function($priceSlider) {
     $priceSlider.find('.slider-range').slider({
         range: true,
         min: 0,
-        max: 1000,
-        step: 20,
-        values: [ 0, 1000 ],
+        max: 5000,
+        step: 50,
+        values: [ 0, 5000 ],
         slide: function( event, ui ) {
             $priceSlider.find('.amount').val(ui.values[ 0 ] + "억원 - " + ui.values[ 1 ] + "억원");
             $frm.find('input[name="minSalePrice"]').val(ui.values[0]);
