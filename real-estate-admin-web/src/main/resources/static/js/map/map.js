@@ -176,8 +176,9 @@ let depositPriceSlider = function($priceSlider) {
     $priceSlider.find('.slider-range').slider({
         range: true,
         min: 0,
-        max: 500,
-        values: [ 0, 500 ],
+        max: 30000,
+        step: 500,
+        values: [ 0, 30000 ],
         slide: function( event, ui ) {
             $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
         }
@@ -196,6 +197,7 @@ let rentPriceSlider = function($priceSlider) {
         range: true,
         min: 0,
         max: 500,
+        step: 10,
         values: [ 0, 500 ],
         slide: function( event, ui ) {
             $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
@@ -217,13 +219,23 @@ let areaSlider = function($priceSlider) {
         max: 500,
         values: [ 0, 500 ],
         slide: function( event, ui ) {
-            $priceSlider.find('.amount').val(ui.values[ 0 ] + "만원 - " + ui.values[ 1 ] + "만원");
+            $priceSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
         }
     });
 
     $priceSlider.find('.amount').val($sliderRange.slider( "values", 0 ) +
-        "만원 - " + $sliderRange.slider( "values", 1 ) + "만원");
+        "평 - " + $sliderRange.slider( "values", 1 ) + "평");
 
+}
+
+let applyPriceRange = function(e) {
+    e.preventDefault();
+    $('.searchPriceBox').addClass('hidden');
+}
+
+let applyAreaRange = function(e) {
+    e.preventDefault();
+    $('.searchAreaBox').addClass('hidden');
 }
 
 $(document).ready(onReady)
@@ -238,4 +250,6 @@ $(document).ready(onReady)
     .on('click', '.btnCancelPrice', cancelPriceBox)
     .on('click', '.btnSearchArea', showSearchAreaBox)
     .on('click', '.btnCancelArea', cancelAreaBox)
+    .on('click', '.btnApplyPriceRange', applyPriceRange)
+    .on('click', '.btnApplyAreaRange', applyAreaRange)
 ;
