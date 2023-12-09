@@ -55,6 +55,18 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer maxSalePrice;
 
+    private Integer minDepositPrice;
+
+    private Integer maxDepositPrice;
+
+    private Integer minRentPrice;
+
+    private Integer maxRentPrice;
+
+    private Integer minLndpclArByPyung;
+
+    private Integer maxLndpclArByPyung;
+
     private Integer minLndpclAr;
 
     private Integer maxLndpclAr;

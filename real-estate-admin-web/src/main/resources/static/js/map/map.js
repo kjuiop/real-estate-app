@@ -249,11 +249,11 @@ let areaSlider = function($areaSlider) {
         values: [ 0, 1000 ],
         slide: function( event, ui ) {
             $areaSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
-            $frm.find('input[name="minArea"]').val(ui.values[0]);
-            $frm.find('input[name="maxArea"]').val(ui.values[1]);
+            $frm.find('input[name="minLndpclArByPyung"]').val(ui.values[0]);
+            $frm.find('input[name="maxLndpclArByPyung"]').val(ui.values[1]);
             if (ui.values[1] === 1000) {
                 $areaSlider.find('.amount').val(ui.values[ 0 ] + "평 - 제한없음");
-                $frm.find('input[name="maxRentPrice"]').val('');
+                $frm.find('input[name="maxLndpclArByPyung"]').val('');
             }
         }
     });
