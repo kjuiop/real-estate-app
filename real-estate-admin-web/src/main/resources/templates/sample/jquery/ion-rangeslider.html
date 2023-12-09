@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminLTE Multi-Range Slider Example</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="path/to/adminlte/css/AdminLTE.min.css">
+
+    <!-- Ion.RangeSlider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- AdminLTE JS -->
+    <script src="path/to/adminlte/js/adminlte.min.js"></script>
+
+    <!-- Ion.RangeSlider JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+</head>
+<body>
+<div class="form-group">
+    <label for="multi-range-slider">Multi-Range Slider:</label>
+    <input type="text" id="multi-range-slider" name="multi-range-slider" />
+</div>
+<!-- Your content goes here -->
+
+<!-- Initialize the RangeSlider -->
+<script>
+    $(document).ready(function() {
+        $("#multi-range-slider").ionRangeSlider({
+            type: "double",
+            grid: true,
+            min: 0,
+            max: 1000,
+            from: 200,
+            to: 800,
+            step: 50
+        });
+    });
+</script>
+</body>
+</html>

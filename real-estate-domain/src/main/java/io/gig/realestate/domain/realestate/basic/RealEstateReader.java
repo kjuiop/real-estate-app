@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
@@ -31,4 +32,6 @@ public interface RealEstateReader {
     RealEstateDetailAllDto getRealEstateDetailAllInfo(Long realEstateId);
 
     boolean isExistLegalCodeAndBunJi(String legalCode, String bun, String ji);
+
+    List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition);
 }

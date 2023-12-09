@@ -34,6 +34,16 @@ public class SampleController {
         return "sample/realestate/sample2";
     }
 
+    @GetMapping("mdm")
+    public String sampleMdm(Model model) {
+        return "sample/mdm/index";
+    }
+
+    @GetMapping("jquery")
+    public String sampleJQuery(Model model) {
+        return "sample/jquery/index";
+    }
+
     @GetMapping("modal")
     public String modal() {
         return "sample/modal/modal";

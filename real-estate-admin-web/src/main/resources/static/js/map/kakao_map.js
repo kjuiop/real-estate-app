@@ -15,7 +15,8 @@ let geocoder = new kakao.maps.services.Geocoder();
 
 let loadKakaoMap = function(searchAddress, addressList) {
 
-    console.log("address", searchAddress)
+    console.log("address", searchAddress);
+    console.log("coordinate", addressList);
 
     if (typeof kakao === undefined) {
         console.error('Kakao Maps API가 로드되지 않았습니다.');
@@ -35,7 +36,10 @@ let loadKakaoMap = function(searchAddress, addressList) {
     let markers = [];
     let firstCoords;
     for (let i=0; i<addressList.length; i++) {
-        geocoder.addressSearch(addressList[i], function(result, status) {
+        geocoder.addressSearch(addressList[i].address, function(result, status) {
+
+            let data = addressList[i];
+
             // 정상적으로 검색이 완료됐으면
             if (status !== kakao.maps.services.Status.OK) {
                 console.error('주소 검색 실패:', searchAddress);
@@ -54,24 +58,38 @@ let loadKakaoMap = function(searchAddress, addressList) {
 
             // 마커를 지도에 표시합니다.
             marker.setMap(map);
-
             // 마커를 배열에 추가합니다.
             markers.push(marker);
 
+            let tag = '';
+            tag += '<div class="mark-unit" style="padding: 8px; width:400px; height:150px;">';
+            tag += '<a href="/real-estate/' + data.realEstateId + '/edit" target="_blank">' + data.address + '</a>';
+            tag += '<i class="fa fa-times btnCloseInfo" onclick="closeOverlay()" aria-hidden="true" style="position: absolute; top: 5px; right: 10px;"></i>';
+            tag += '</div>';
+
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             let infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">매물위치</div>'
+                content: tag
             });
 
             // 마커를 클릭하면 인포윈도우를 엽니다
             kakao.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map, marker);
+                // infowindow.open(map, marker);
             });
+
             if (i === 0) {
                 map.setCenter(coords);
             }
         });
     }
+
+    let clusterer = new kakao.maps.MarkerClusterer({
+        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+        minLevel: 5, // 클러스터 할 최소 지도 레벨
+        markers: markers // 클러스터에 마커 추가
+    });
+
 
 }
 
@@ -161,4 +179,8 @@ let showCadastral = function(e) {
     $(this).addClass('btn-default');
     $(this).removeClass('btn-primary');
     $(this).attr('toggleYn', 'N');
+}
+
+let closeOverlay = function() {
+    overlay.setMap(null);
 }
