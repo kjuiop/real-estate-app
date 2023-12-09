@@ -42,6 +42,14 @@
             <form name="frmSearch">
                 <input type="hidden" name="address" />
                 <input type="hidden" name="page" th:value="${condition.page}" />
+                <input type="hidden" name="minSalePrice" />
+                <input type="hidden" name="maxSalePrice" />
+                <input type="hidden" name="minDepositPrice" />
+                <input type="hidden" name="maxDepositPrice" />
+                <input type="hidden" name="minRentPrice" />
+                <input type="hidden" name="maxRentPrice" />
+                <input type="hidden" name="minArea" />
+                <input type="hidden" name="maxArea" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none" name="sido">
@@ -117,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="padding-10">
-                                <button type="button" class="btn btn-sm btnApplyPriceRange btn-primary pull-right">적용</button>
+                                <button type="submit" class="btn btn-sm btnApplyPriceRange btn-primary pull-right">적용</button>
                                 <button type="button" class="btn btn-sm btn-default pull-right margin-right-5 btnCancelPrice">취소</button>
                             </div>
                         </div>
@@ -134,7 +142,7 @@
                                 <div class="slider-range"></div>
                             </div>
                             <div class="padding-10">
-                                <button type="button" class="btn btn-sm btnApplyAreaRange btn-primary pull-right">적용</button>
+                                <button type="submit" class="btn btn-sm btnApplyAreaRange btn-primary pull-right">적용</button>
                                 <button type="button" class="btn btn-sm btn-default pull-right margin-right-5 btnCancelArea">취소</button>
                             </div>
                         </div>
