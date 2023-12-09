@@ -452,6 +452,12 @@ public class RealEstateServiceImpl implements RealEstateService {
         return realEstateReader.getNextRealEstateId(realEstateId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
+        return realEstateReader.getCoordinateList(condition);
+    }
+
     private String generateUniqueIdentifier(String uuid, String uploadTime) {
         // 파일명, 사용자명, 업로드 시점, UUID를 합쳐서 식별자 생성
         return uuid + "_" + uploadTime;
