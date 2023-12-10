@@ -11,10 +11,17 @@ let onReady = function() {
     $(".slider-red .slider").slider();
 
     loadKakaoMap(address, coordinateList);
+    executeSlider();
+}
+
+let executeSlider = function() {
     salePriceSlider($('.priceAmountUnit'));
     depositPriceSlider($('.depositAmountUnit'));
     rentPriceSlider($('.rentAmountUnit'));
-    areaSlider($('.areaAmountUnit'));
+
+    lndpclArSlider($('.lndpclArAmountUnit'));
+    totAreaSlider($('.totAreaAmountUnit'));
+    archAreaSlider($('.archAreaAmountUnit'));
 }
 
 let searchData = function(e) {
@@ -151,12 +158,12 @@ let cancelAreaBox = function(e) {
 
 let salePriceSlider = function($priceSlider) {
 
-    let $frm = $('form[name="frmSearch"]');
-    let $sliderRange = $priceSlider.find('.slider-range');
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $priceSlider.find('.slider-range');
 
-    $frm.find('.priceAmountUnit').find('.amount').val('0 - 제한없음');
+    $priceSlider.find('.amount').val('0 - 제한없음');
 
-    $priceSlider.find('.slider-range').slider({
+    $sliderRange.slider({
         range: true,
         min: 0,
         max: 5000,
@@ -183,12 +190,12 @@ let salePriceSlider = function($priceSlider) {
 
 let depositPriceSlider = function($priceSlider) {
 
-    let $frm = $('form[name="frmSearch"]');
-    let $sliderRange = $priceSlider.find('.slider-range');
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $priceSlider.find('.slider-range');
 
-    $frm.find('.depositAmountUnit').find('.amount').val('0 - 제한없음');
+    $priceSlider.find('.amount').val('0 - 제한없음');
 
-    $priceSlider.find('.slider-range').slider({
+    $sliderRange.slider({
         range: true,
         min: 0,
         max: 50000,
@@ -215,12 +222,12 @@ let depositPriceSlider = function($priceSlider) {
 
 let rentPriceSlider = function($priceSlider) {
 
-    let $frm = $('form[name="frmSearch"]');
-    let $sliderRange = $priceSlider.find('.slider-range');
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $priceSlider.find('.slider-range');
 
-    $frm.find('.rentAmountUnit').find('.amount').val('0 - 제한없음');
+    $priceSlider.find('.amount').val('0 - 제한없음');
 
-    $priceSlider.find('.slider-range').slider({
+    $sliderRange.slider({
         range: true,
         min: 0,
         max: 500,
@@ -246,34 +253,85 @@ let rentPriceSlider = function($priceSlider) {
     // $priceSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
 }
 
-let areaSlider = function($areaSlider) {
+let lndpclArSlider = function($lndpclArSlider) {
 
-    let $frm = $('form[name="frmSearch"]');
-    let $sliderRange = $areaSlider.find('.slider-range');
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $lndpclArSlider.find('.slider-range');
 
-    $areaSlider.find('.slider-range').slider({
+    $lndpclArSlider.find('.amount').val('0 - 제한없음');
+
+    $sliderRange.slider({
         range: true,
         min: 0,
         max: 1000,
         step: 20,
         values: [ 0, 1000 ],
         slide: function( event, ui ) {
-            $areaSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
+            $lndpclArSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
             $frm.find('input[name="minLndpclArByPyung"]').val(ui.values[0]);
             $frm.find('input[name="maxLndpclArByPyung"]').val(ui.values[1]);
             if (ui.values[1] === 1000) {
-                $areaSlider.find('.amount').val(ui.values[ 0 ] + "평 - 제한없음");
+                $lndpclArSlider.find('.amount').val(ui.values[ 0 ] + "평 - 제한없음");
                 $frm.find('input[name="maxLndpclArByPyung"]').val('');
             }
         }
     });
 
-    $areaSlider.find('.amount').val("0평 - 제한없음");
+    $lndpclArSlider.find('.amount').val("0평 - 제한없음");
+}
 
-    // let displayMin = convertNullOrEmptyValue(condition.minLndpclArByPyung),
-    //     displayMax = checkNullOrEmptyValue(condition.maxLndpclArByPyung) ? convertNullOrEmptyValue(condition.maxLndpclArByPyung) + '평' : '제한없음';
-    //
-    // $areaSlider.find('.amount').val(displayMin + "만원 - " + displayMax);
+let totAreaSlider = function($totAreaSlider) {
+
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $totAreaSlider.find('.slider-range');
+
+    $totAreaSlider.find('.amount').val('0 - 제한없음');
+
+    $sliderRange.slider({
+        range: true,
+        min: 0,
+        max: 1000,
+        step: 20,
+        values: [ 0, 1000 ],
+        slide: function( event, ui ) {
+            $totAreaSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
+            $frm.find('input[name="minLndpclArByPyung"]').val(ui.values[0]);
+            $frm.find('input[name="maxLndpclArByPyung"]').val(ui.values[1]);
+            if (ui.values[1] === 1000) {
+                $totAreaSlider.find('.amount').val(ui.values[ 0 ] + "평 - 제한없음");
+                $frm.find('input[name="maxLndpclArByPyung"]').val('');
+            }
+        }
+    });
+
+    $totAreaSlider.find('.amount').val("0평 - 제한없음");
+}
+
+let archAreaSlider = function($archAreaSlider) {
+
+    let $frm = $('form[name="frmSearch"]'),
+        $sliderRange = $archAreaSlider.find('.slider-range');
+
+    $archAreaSlider.find('.amount').val('0 - 제한없음');
+
+    $sliderRange.slider({
+        range: true,
+        min: 0,
+        max: 1000,
+        step: 20,
+        values: [ 0, 1000 ],
+        slide: function( event, ui ) {
+            $archAreaSlider.find('.amount').val(ui.values[ 0 ] + "평 - " + ui.values[ 1 ] + "평");
+            $frm.find('input[name="minLndpclArByPyung"]').val(ui.values[0]);
+            $frm.find('input[name="maxLndpclArByPyung"]').val(ui.values[1]);
+            if (ui.values[1] === 1000) {
+                $archAreaSlider.find('.amount').val(ui.values[ 0 ] + "평 - 제한없음");
+                $frm.find('input[name="maxLndpclArByPyung"]').val('');
+            }
+        }
+    });
+
+    $archAreaSlider.find('.amount').val("0평 - 제한없음");
 }
 
 let applyPriceRange = function(e) {

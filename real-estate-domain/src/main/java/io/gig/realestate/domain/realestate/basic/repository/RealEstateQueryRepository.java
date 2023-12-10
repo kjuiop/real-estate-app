@@ -334,6 +334,18 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenArchAreaByPyung(Integer minArchAreaByPyung, Integer maxArchAreaByPyung) {
+        if (minArchAreaByPyung == null || maxArchAreaByPyung == null || minArchAreaByPyung < 0 || maxArchAreaByPyung <= 0 || maxArchAreaByPyung < minArchAreaByPyung) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
+                        .from(constructInfo)
+                        .where(constructInfo.archArea.between(minArchAreaByPyung, maxArchAreaByPyung))
+        );
+    }
+
     private BooleanExpression betweenTotArea(Integer minTotArea, Integer maxTotArea) {
         if (minTotArea == null || maxTotArea == null || minTotArea < 0 || maxTotArea <= 0 || maxTotArea < minTotArea) {
             return null;
@@ -343,6 +355,18 @@ public class RealEstateQueryRepository {
                 JPAExpressions.selectDistinct(constructInfo.realEstate.id)
                         .from(constructInfo)
                         .where(constructInfo.totArea.between(minTotArea, maxTotArea))
+        );
+    }
+
+    private BooleanExpression betweenTotAreaByPyung(Integer minTotAreaByPyung, Integer maxTotAreaByPyung) {
+        if (minTotAreaByPyung == null || maxTotAreaByPyung == null || minTotAreaByPyung < 0 || maxTotAreaByPyung <= 0 || maxTotAreaByPyung < minTotAreaByPyung) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(constructInfo.realEstate.id)
+                        .from(constructInfo)
+                        .where(constructInfo.totAreaByPyung.between(minTotAreaByPyung, maxTotAreaByPyung))
         );
     }
 
@@ -422,9 +446,11 @@ public class RealEstateQueryRepository {
         where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
         where.and(betweenRentPrice(searchDto.getMinRentPrice(), searchDto.getMaxRentPrice()));
         where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
+        where.and(betweenArchAreaByPyung(searchDto.getMinArchAreaByPyung(), searchDto.getMaxArchAreaByPyung()));
         where.and(betweenLndpclAr(searchDto.getMinLndpclAr(), searchDto.getMaxLndpclAr()));
         where.and(betweenLndpclArByPyung(searchDto.getMinLndpclArByPyung(), searchDto.getMaxLndpclArByPyung()));
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
+        where.and(betweenTotAreaByPyung(searchDto.getMinTotAreaByPyung(), searchDto.getMaxTotAreaByPyung()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
