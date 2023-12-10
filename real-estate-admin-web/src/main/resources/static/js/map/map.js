@@ -12,6 +12,22 @@ let onReady = function() {
 
     loadKakaoMap(address, coordinateList);
     executeSlider();
+    searchBoxHide();
+}
+
+let searchBoxHide = function() {
+    $(document).mouseup(function(event) {
+        let $searchPriceBox = $('.searchPriceBox'),
+            $searchAreaBox = $('.searchAreaBox');
+
+        if (!$searchPriceBox.is(event.target)) {
+            $searchPriceBox.addClass('hidden');
+        }
+
+        if (!$searchAreaBox.is(event.target)) {
+            $searchAreaBox.addClass('hidden');
+        }
+    });
 }
 
 let executeSlider = function() {
