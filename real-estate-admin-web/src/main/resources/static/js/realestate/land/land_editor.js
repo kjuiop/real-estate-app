@@ -130,7 +130,7 @@ let settingLandInfo = function(landInfo) {
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
     $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
-    $frm.find('.totalPblntfPclndByPyung').val(landInfo.totalPblntfPclndByPyung);
+    $frm.find('input[name="totalPblntfPclndByPyung"]').val(landInfo.totalPblntfPclndByPyung);
     $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
     $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
     $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);
