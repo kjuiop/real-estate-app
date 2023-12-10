@@ -214,8 +214,14 @@
                                             <span class="text-label" th:text="${item.prposArea1Nm}"></span>
                                         </th:block>
                                     </div>
-                                    <div class="display-flex-row margin-bottom-3">
-                                        <label class="text-label font-weight-normal">대지 [[${item.platArea}]]㎡</label>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.lndpclArByPyung > 0}" style="margin-bottom: 0;">대지 [[${item.lndpclArByPyung}]]평</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.totAreaByPyung > 0}" style="margin-bottom: 0;">연면적 [[${item.totAreaByPyung}]]평</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.archAreaByPyung > 0}" style="margin-bottom: 0;">건축면적 [[${item.archAreaByPyung}]]평</label>
                                     </div>
                                 </div>
                             </div>
