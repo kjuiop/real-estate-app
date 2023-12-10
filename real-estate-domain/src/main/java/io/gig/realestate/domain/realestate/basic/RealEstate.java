@@ -15,6 +15,7 @@ import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import io.gig.realestate.domain.realestate.print.PrintInfo;
+import io.gig.realestate.domain.realestate.vertex.Vertex;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -128,6 +129,10 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<PrintInfo> printInfoList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<Vertex> vertexInfoList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
