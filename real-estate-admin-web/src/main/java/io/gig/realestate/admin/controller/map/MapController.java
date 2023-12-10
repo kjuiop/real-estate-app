@@ -7,7 +7,6 @@ import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

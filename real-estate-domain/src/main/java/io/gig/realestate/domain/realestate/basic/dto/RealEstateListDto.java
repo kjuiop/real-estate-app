@@ -2,7 +2,12 @@ package io.gig.realestate.domain.realestate.basic.dto;
 
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.vertex.dto.VertexDto;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
