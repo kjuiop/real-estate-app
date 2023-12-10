@@ -46,7 +46,9 @@ let loadKakaoMap = function(searchAddress, addressList) {
             }
 
             let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
+            if (i === 0) {
+                map.setCenter(coords);
+            }
             // let polygonPath = [];
             // $.each(data.vertexInfoList, function(idx, item) {
             //     polygonPath.push(new kakao.maps.LatLng(item.x, item.y));
@@ -124,10 +126,6 @@ let loadKakaoMap = function(searchAddress, addressList) {
             kakao.maps.event.addListener(marker, 'click', function() {
                 // infowindow.open(map, marker);
             });
-
-            if (i === 0) {
-                map.setCenter(coords);
-            }
         });
     }
 
