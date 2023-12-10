@@ -138,6 +138,7 @@
                         <form class="form-horizontal" name="frmLandRegister" method="post">
                             <input type="hidden" name="totalLndpclArByPyung" value="0" />
                             <input type="hidden" name="totalLndpclAr" value="0" />
+                            <input type="hidden" name="totalPblntfPclndByPyung" value="0" />
                             <div class="card-header">
                                 <h3 class="card-title">토지정보</h3>
                                 <div class="card-tools"></div>
@@ -277,37 +278,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--
-                                <div class="row" style="overflow-x: auto;">
-                                    <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
-                                        <thead>
+                                <div class="form-group col-md-12 padding-10" style="overflow-x: auto;">
+                                    <table class="table table-sm table-bordered land-table" style="white-space: nowrap;">
+                                        <thead class="thead-light">
                                         <tr>
-                                            <td>지번</td>
-                                            <td>지목</td>
-                                            <td rowspan="2">토지면적</td>
-                                            <td rowspan="2">공시지가</td>
-                                            <td>필지당 공시지가</td>
+                                            <th class="text-alien-center">지번</th>
+                                            <th class="text-alien-center">지목</th>
+                                            <th class="text-alien-center" colspan="2">토지면적</th>
+                                            <th class="text-alien-center" colspan="2">공시지가</th>
+                                            <th class="text-alien-center" colspan="2">필지당 공시지가</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
                                         </tbody>
-                                        <tfoot>
+                                        <tfoot class="hidden">
                                         <tr>
-                                            <td colspan="7">현재 필지에 없습니다.</td>
+                                            <td colspan="2">합계</td>
+                                            <td class="text-alien-center calLndpclAr"></td>
+                                            <td class="text-alien-center calLndpclArByPyung"></td>
+                                            <td class="text-alien-center calPblntfPclnd"></td>
+                                            <td class="text-alien-center calPblntfPclndByPyung"></td>
+                                            <td class="text-alien-center calTotalPblntfPclnd"></td>
+                                            <td class="text-alien-center calTotalPblntFPclndByPyung"></td>
                                         </tr>
                                         </tfoot>
                                     </table>
                                 </div>
-                                -->
                             </div>
                             <!-- /.card-body -->
                         </form>
@@ -433,7 +429,8 @@
                                                 <th class="center-text" scope="col"></th>
                                             </tr>
                                             </thead>
-                                            <tbody></tbody>
+                                            <tbody>
+                                            </tbody>
                                             <tfoot class="hidden">
                                             <tr>
                                                 <td colspan="5" style="text-align: left; padding-left: 10px;">합계</td>

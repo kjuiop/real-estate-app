@@ -65,9 +65,13 @@ public class LandDataApiDto {
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
     private Integer pblntfPclnd;
 
+    private double pblntfPclndByPyung;
+
     /** 토지면적당 공시지가 합계 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
     private double totalPblntfPclnd;
+
+    private double totalPblntfPclndByPyung;
 
     /** 공시지가 년도 **/
     // 공시 기준년도
@@ -100,10 +104,11 @@ public class LandDataApiDto {
     private String posList;
 
     public static LandDataApiDto convertData(JSONObject nsdi) {
-        int pblntfPclnd = nsdi.getInt("NSDI:PBLNTF_PCLND");
-        Double lndpclAr = nsdi.getDouble("NSDI:LNDPCL_AR");
-        double calculate = pblntfPclnd * lndpclAr;
-
+        double lndpclAr = nsdi.optDouble("NSDI:LNDPCL_AR");
+        int pblntfPclnd = nsdi.optInt("NSDI:PBLNTF_PCLND");
+        double totalPblntfPclnd = pblntfPclnd * lndpclAr;
+        double pblntfPclndByPyung = pblntfPclnd * 3.305785;
+        double totalPblntfPclndByPyung = pblntfPclndByPyung * 3.305785;
 
         double areaInPyung = lndpclAr / 3.305785;
         BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
@@ -122,8 +127,10 @@ public class LandDataApiDto {
                 .tpgrphHgCodeNm(nsdi.has("NSDI:TPGRPH_HG_CODE_NM") ? nsdi.getString("NSDI:TPGRPH_HG_CODE_NM") : null)
                 .tpgrphFrmCodeNm(nsdi.has("NSDI:TPGRPH_FRM_CODE_NM") ? nsdi.getString("NSDI:TPGRPH_FRM_CODE_NM") : null)
                 .roadSideCodeNm(nsdi.has("NSDI:ROAD_SIDE_CODE_NM") ? nsdi.getString("NSDI:ROAD_SIDE_CODE_NM") : null)
-                .pblntfPclnd(nsdi.has("NSDI:PBLNTF_PCLND") ? nsdi.getInt("NSDI:PBLNTF_PCLND") : null)
-                .totalPblntfPclnd(calculate)
+                .pblntfPclnd(pblntfPclnd)
+                .totalPblntfPclnd(totalPblntfPclnd)
+                .pblntfPclndByPyung(pblntfPclndByPyung)
+                .totalPblntfPclndByPyung(totalPblntfPclndByPyung)
                 .stdrYear(nsdi.has("NSDI:STDR_YEAR") ? nsdi.getInt("NSDI:STDR_YEAR") : null)
                 .build();
     }

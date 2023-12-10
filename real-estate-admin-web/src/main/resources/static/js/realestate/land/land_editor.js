@@ -24,17 +24,25 @@ let loadLandInfoList = function() {
         contentType: "application/json",
         success: function(result) {
             console.log("load land info", result);
-            let $frm = $('form[name="frmLandRegister"]');
             let landList = result.data;
+            let $frm = $('form[name="frmLandRegister"]');
+            let $table = $frm.find('.land-table');
 
             if (!checkNullOrEmptyValue(landList)) {
                 $frm.find('.btnLandAdd').trigger('click');
+                let tag = '';
+                tag += '<tr>';
+                tag += '<td class="text-center" colspan="8">현재 등록된 필지가 없습니다.</td>';
+                tag += '</tr>';
+                $table.find('tbody').html(tag);
+                $table.find('tfoot').addClass('hidden')
                 return;
             }
 
             let landInfo = landList[0];
 
             settingLandInfo(landInfo);
+            drawLandTable($table, landList);
 
             if (isLandInfo === true) {
                 $frm.find('.btnLandSection').html('');
@@ -57,43 +65,64 @@ let loadLandInfoList = function() {
     });
 }
 
-// let loadLandUsageInfo = function() {
-//     if (!checkNullOrEmptyValue(dto)) {
-//         return;
-//     }
-//
-//     let isLandInfo = dto.existLandInfo;
-//     if (isLandInfo === true) {
-//         return;
-//     }
-//
-//     let url = "/real-estate/land/usage/ajax/public-data"
-//         + "?legalCode=" + dto.legalCode
-//         + "&landType=" + dto.landType
-//         + "&bun=" + dto.bun
-//         + "&ji=" + dto.ji
-//
-//     $.ajax({
-//         url: url,
-//         method: "get",
-//         type: "json",
-//         contentType: "application/json",
-//         success: function(result) {
-//             console.log("load land usage info", result);
-//             let $frm = $('form[name="frmLandRegister"]');
-//             let usageData = result.data;
-//             if (!checkNullOrEmptyValue(usageData)) {
-//                 return;
-//             }
-//
-//             $frm.find('.prposAreaDstrcNmList').text(usageData.prposAreaDstrcNmList);
-//
-//         },
-//         error: function(error){
-//             ajaxErrorFieldByText(error);
-//         }
-//     });
-// }
+let drawLandTable = function($table, landList) {
+
+    let calLndpclAr = 0,
+        calLndpclArByPyung = 0,
+        calPblntfPclnd = 0,
+        calPblntfPclndByPyung = 0,
+        calTotalPblntfPclnd = 0,
+        calTotalPblntfPclndByPyung = 0;
+
+    let tag = '';
+    $.each(landList, function(idx, item) {
+
+        let pblndfPclndByPyung = convertNullOrEmptyValue(item.pblndfPclndByPyung);
+        if (pblndfPclndByPyung === 0) {
+            pblndfPclndByPyung = item.pblntfPclnd * 3.305785
+            pblndfPclndByPyung = pblndfPclndByPyung.toFixed(0);
+        }
+        let totalPblntfPclnd = convertNullOrEmptyValue(item.totalPblntfPclnd);
+        if (totalPblntfPclnd === 0) {
+            totalPblntfPclnd = item.pblntfPclnd * item.lndpclAr;
+            totalPblntfPclnd = totalPblntfPclnd.toFixed(0);
+        }
+        let totalPblntfPclndByPyung = convertNullOrEmptyValue(item.totalPblntfPclndByPyung);
+        if (totalPblntfPclndByPyung === 0) {
+            totalPblntfPclndByPyung = pblndfPclndByPyung * item.lndpclArByPyung;
+            totalPblntfPclndByPyung = totalPblntfPclndByPyung.toFixed(0);
+        }
+
+        console.log("drawLandTable", item);
+
+        tag += '<tr>';
+        tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        tag += '<td class="text-alien-center" style="min-width:70px;">' + item.lndcgrCodeNm + '</td>';
+        tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclAr + '㎡</td>';
+        tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclArByPyung + '평</td>';
+        tag += '<td class="text-alien-center min-width-130">' + addCommasToNumber(item.pblntfPclnd) + '원/㎡</td>';
+        tag += '<td class="text-alien-center min-width-130">' + addCommasToNumber(pblndfPclndByPyung) + '원/평</td>';
+        tag += '<td class="text-alien-center min-width-130">' + addCommasToNumber(totalPblntfPclnd) + '원/㎡</td>';
+        tag += '<td class="text-alien-center min-width-130">' + addCommasToNumber(totalPblntfPclndByPyung) + '원/평</td>';
+        tag += '</tr>';
+
+        calLndpclAr += item.lndpclAr;
+        calLndpclArByPyung += item.lndpclArByPyung;
+        calPblntfPclnd += item.pblntfPclnd;
+        calPblntfPclndByPyung += pblndfPclndByPyung;
+        calTotalPblntfPclnd += totalPblntfPclnd;
+        calTotalPblntfPclndByPyung += totalPblntfPclndByPyung;
+    });
+
+    $table.find('tbody').html(tag);
+    $table.find('tfoot .calLndpclAr').text(calLndpclAr + '㎡');
+    $table.find('tfoot .calLndpclArByPyung').text(calLndpclArByPyung + '평');
+    $table.find('tfoot .calPblntfPclnd').text(addCommasToNumber(calPblntfPclnd) + '원/㎡');
+    $table.find('tfoot .calPblntfPclndByPyung').text(addCommasToNumber(calPblntfPclndByPyung) + '원/평');
+    $table.find('tfoot .calTotalPblntfPclnd').text(addCommasToNumber(calTotalPblntfPclnd) + '원/㎡');
+    $table.find('tfoot .calTotalPblntFPclndByPyung').text(addCommasToNumber(calTotalPblntfPclndByPyung) + '원/평');
+    $table.find('tfoot').removeClass('hidden');
+}
 
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
@@ -101,6 +130,7 @@ let settingLandInfo = function(landInfo) {
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
     $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
+    $frm.find('.totalPblntfPclndByPyung').val(landInfo.totalPblntfPclndByPyung);
     $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
     $frm.find('.prposArea1Nm').val(landInfo.prposArea1Nm);
     $frm.find('.ladUseSittnNm').val(landInfo.ladUseSittnNm);

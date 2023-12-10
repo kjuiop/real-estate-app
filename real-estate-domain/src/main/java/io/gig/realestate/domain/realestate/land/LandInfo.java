@@ -44,6 +44,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private double totalPblntfPclnd;
 
+    private double totalPblntfPclndByPyung;
+
     private double roadWidth;
 
     private String prposArea1Nm;
@@ -92,6 +94,7 @@ public class LandInfo extends BaseTimeEntity {
                 .lndpclArByPyung(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclArByPyung()) : 0)
                 .pblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getPblntfPclnd()) : 0)
                 .totalPblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getTotalPblntfPclnd()) : 0)
+                .totalPblntfPclndByPyung(StringUtils.hasText(dto.getTotalPblntfPclndByPyung()) ? Double.parseDouble(dto.getTotalPblntfPclndByPyung()) : 0)
                 .prposArea1Nm(dto.getPrposArea1Nm())
                 .roadSideCodeNm(dto.getRoadSideCodeNm())
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
@@ -125,6 +128,7 @@ public class LandInfo extends BaseTimeEntity {
                 .lndpclArByPyung(dto.getLndpclArByPyung() != null ? dto.getLndpclArByPyung().doubleValue() : 0.0)
                 .pblntfPclnd(dto.getPblntfPclnd() != null ? dto.getPblntfPclnd().doubleValue() : 0.0)
                 .totalPblntfPclnd(dto.getTotalPblntfPclnd())
+                .totalPblntfPclndByPyung(dto.getTotalPblntfPclndByPyung())
                 .prposArea1Nm(dto.getPrposArea1Nm())
                 .roadSideCodeNm(dto.getRoadSideCodeNm())
                 .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
