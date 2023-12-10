@@ -25,7 +25,6 @@ public class RealEstateListDto extends RealEstateDto {
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
     public int roadWidth;
-    public List<VertexDto> vertexDtoList = new ArrayList<>();
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -59,9 +58,6 @@ public class RealEstateListDto extends RealEstateDto {
                 }
             }
             this.prposArea1Nm = prposArea1Nm.toString();
-        }
-        if (r.getVertexInfoList() != null && r.getVertexInfoList().size() > 0) {
-            this.vertexDtoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
         }
     }
 }
