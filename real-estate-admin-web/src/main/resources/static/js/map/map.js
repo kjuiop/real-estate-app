@@ -20,11 +20,11 @@ let searchBoxHide = function() {
         let $searchPriceBox = $('.searchPriceBox'),
             $searchAreaBox = $('.searchAreaBox');
 
-        if (!$searchPriceBox.is(event.target)) {
+        if (!$searchPriceBox.is(event.target) && !$searchPriceBox.has(event.target).length) {
             $searchPriceBox.addClass('hidden');
         }
 
-        if (!$searchAreaBox.is(event.target)) {
+        if (!$searchAreaBox.is(event.target) && !$searchAreaBox.has(event.target).length) {
             $searchAreaBox.addClass('hidden');
         }
     });
