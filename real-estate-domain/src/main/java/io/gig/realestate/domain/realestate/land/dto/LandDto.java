@@ -73,6 +73,8 @@ public class LandDto {
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
     private Double totalPblntfPclnd;
 
+    private double totalPblntfPclndByPyung;
+
     /** 공시지가 년도 **/
     // 공시 기준년도
     private Integer stdrYear;
@@ -105,6 +107,7 @@ public class LandDto {
         this.pblntfPclnd = l.getPblntfPclnd();
         this.pblndfPclndByPyung = l.getPblndfPclndByPyung();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
+        this.totalPblntfPclndByPyung = l.getPblndfPclndByPyung();
         this.ladUseSittnNm = l.getLadUseSittnNm();
         this.commercialYn = l.getCommercialYn();
         this.roadWidth = l.getRoadWidth();
