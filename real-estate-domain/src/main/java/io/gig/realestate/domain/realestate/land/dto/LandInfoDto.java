@@ -26,6 +26,8 @@ public class LandInfoDto {
 
     private String totalPblntfPclnd;
 
+    private String totalPblntfPclndByPyung;
+
     private String prposArea1Nm;
 
     private String roadSideCodeNm;

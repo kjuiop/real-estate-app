@@ -50,6 +50,10 @@
                 <input type="hidden" name="maxRentPrice" th:value="${condition.maxRentPrice}" />
                 <input type="hidden" name="minLndpclArByPyung" th:value="${condition.minLndpclArByPyung}" />
                 <input type="hidden" name="maxLndpclArByPyung" th:value="${condition.maxLndpclArByPyung}" />
+                <input type="hidden" name="minArchAreaByPyung" th:value="${condition.minArchAreaByPyung}" />
+                <input type="hidden" name="maxArchAreaByPyung" th:value="${condition.maxArchAreaByPyung}" />
+                <input type="hidden" name="minTotAreaByPyung" th:value="${condition.minTotAreaByPyung}" />
+                <input type="hidden" name="maxTotAreaByPyung" th:value="${condition.maxTotAreaByPyung}" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
                     <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none" name="sido">
@@ -134,9 +138,23 @@
                     <div class="col-md-1" style="position: relative;">
                         <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchArea">면적</div>
                         <div class="searchAreaBox padding-10 display-flex-column hidden" style="position: absolute; top: 45px; left: 10px; width: 350px; z-index: 3; background-color: #ffffff;">
-                            <div class="areaAmountUnit padding-10 display-flex-column">
+                            <div class="lndpclArAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
-                                    <b class="font-size-14 margin-right-5">전용, 공급면적</b>
+                                    <b class="font-size-14 margin-right-5">대지 면적</b>
+                                    <input type="text" class="amount" readonly style="border:0; font-size: 12px;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                            <div class="totAreaAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">연 면적</b>
+                                    <input type="text" class="amount" readonly style="border:0; font-size: 12px;">
+                                </div>
+                                <div class="slider-range"></div>
+                            </div>
+                            <div class="archAreaAmountUnit padding-10 display-flex-column">
+                                <div class="display-flex-row" style="margin-bottom: 15px;">
+                                    <b class="font-size-14 margin-right-5">건축 면적</b>
                                     <input type="text" class="amount" readonly style="border:0; font-size: 12px;">
                                 </div>
                                 <div class="slider-range"></div>
@@ -196,8 +214,14 @@
                                             <span class="text-label" th:text="${item.prposArea1Nm}"></span>
                                         </th:block>
                                     </div>
-                                    <div class="display-flex-row margin-bottom-3">
-                                        <label class="text-label font-weight-normal">대지 [[${item.platArea}]]㎡</label>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.lndpclArByPyung > 0}" style="margin-bottom: 0;">대지 [[${item.lndpclArByPyung}]]평</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.totAreaByPyung > 0}" style="margin-bottom: 0;">연면적 [[${item.totAreaByPyung}]]평</label>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <label class="text-label font-weight-normal" th:if="${item.archAreaByPyung > 0}" style="margin-bottom: 0;">건축면적 [[${item.archAreaByPyung}]]평</label>
                                     </div>
                                 </div>
                             </div>

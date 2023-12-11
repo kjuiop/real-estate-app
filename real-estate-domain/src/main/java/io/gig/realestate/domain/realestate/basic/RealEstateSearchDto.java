@@ -75,9 +75,17 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer maxTotArea;
 
+    private Integer minTotAreaByPyung;
+
+    private Integer maxTotAreaByPyung;
+
     private Integer minArchArea;
 
     private Integer maxArchArea;
+
+    private Integer minArchAreaByPyung;
+
+    private Integer maxArchAreaByPyung;
 
     private Integer minRevenueRate;
 

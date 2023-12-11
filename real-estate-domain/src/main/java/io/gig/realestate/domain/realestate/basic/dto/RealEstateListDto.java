@@ -20,6 +20,9 @@ public class RealEstateListDto extends RealEstateDto {
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
     public int roadWidth;
+    public double lndpclArByPyung;
+    public double totAreaByPyung;
+    public double archAreaByPyung;
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -35,7 +38,9 @@ public class RealEstateListDto extends RealEstateDto {
         if (r.getConstructInfoList().size() > 0) {
             this.platArea = r.getConstructInfoList().get(0).getPlatArea();
             this.totArea = r.getConstructInfoList().get(0).getTotArea();
+            this.totAreaByPyung = r.getConstructInfoList().get(0).getTotAreaByPyung();
             this.archArea = r.getConstructInfoList().get(0).getArchArea();
+            this.archAreaByPyung = r.getConstructInfoList().get(0).getArchAreaByPyung();
         }
         if (r.getLandInfoList().size() > 0) {
             StringBuilder prposArea1Nm = new StringBuilder();
@@ -50,6 +55,10 @@ public class RealEstateListDto extends RealEstateDto {
 
                 if (landInfo.getRoadWidth() > 0 && i == 0) {
                     this.roadWidth += landInfo.getRoadWidth();
+                }
+
+                if (landInfo.getLndpclArByPyung() > 0) {
+                    this.lndpclArByPyung += landInfo.getLndpclArByPyung();
                 }
             }
             this.prposArea1Nm = prposArea1Nm.toString();
