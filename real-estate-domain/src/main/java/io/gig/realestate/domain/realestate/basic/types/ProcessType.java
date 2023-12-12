@@ -18,7 +18,8 @@ public enum ProcessType {
     Complete("complete", "작업완료", 3),
     Impossible("impossible", "작업불가", 5),
     Pending("pending", "매각보류", 4),
-    Sell("sell", "매각", 5);
+    Sell("sell", "매각", 5),
+    SellCancel("sell-cancel", "매각취소", 5);
 
     final private String type;
     final private String description;
