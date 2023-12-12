@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.excel.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.Builder;
@@ -53,6 +54,10 @@ public class ExcelRealEstateDto {
 
     private String uploadStatus;
 
+    private ProcessType processType;
+
+    private String characterInfo;
+
     public static ExcelRealEstateDto entityToDto(ExcelRealEstate data) {
         return ExcelRealEstateDto.builder()
                 .id(data.getId())
@@ -75,7 +80,7 @@ public class ExcelRealEstateDto {
     }
 
     public static ExcelRealEstateDto excelCreate(String uploadId, int timeoutLimit, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
-                              String bunJiStr, String bun, String ji, double salePrice) {
+                              String bunJiStr, String bun, String ji, double salePrice, String processValue, String characterInfo) {
 
         return ExcelRealEstateDto.builder()
                 .uploadId(uploadId)
@@ -93,6 +98,8 @@ public class ExcelRealEstateDto {
                 .salePrice(salePrice)
                 .completeYn(YnType.N)
                 .uploadStatus(UploadStatus.PENDING.getDescription())
+                .processType(ProcessType.convertStringValue(processValue))
+                .characterInfo(characterInfo)
                 .build();
     }
 

@@ -215,7 +215,7 @@ public class RealEstate extends BaseTimeEntity {
                 .build();
     }
 
-    public static RealEstate createByExcelUpload(String agentName, String address, String legalCode, String bun, String ji, Administrator loginUser) {
+    public static RealEstate createByExcelUpload(String agentName, String address, String legalCode, String bun, String ji, ProcessType processType, String characterInfo, Administrator loginUser) {
         return RealEstate.builder()
                 .agentName(agentName)
                 .address(address)
@@ -223,6 +223,8 @@ public class RealEstate extends BaseTimeEntity {
                 .landType("general")
                 .bun(bun)
                 .ji(ji)
+                .processType(processType)
+                .characterInfo(characterInfo)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .manager(loginUser)

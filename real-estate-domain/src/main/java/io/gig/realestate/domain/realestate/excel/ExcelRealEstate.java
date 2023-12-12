@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.excel;
 
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.*;
@@ -54,6 +55,10 @@ public class ExcelRealEstate extends BaseTimeEntity {
 
     private String skipReason;
 
+    private String characterInfo;
+
+    private ProcessType processType;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
@@ -85,6 +90,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
                 .username(username)
+                .processType(dto.getProcessType())
+                .characterInfo(dto.getCharacterInfo())
                 .build();
     }
 
@@ -107,6 +114,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .failYn(YnType.Y)
                 .skipReason(dto.getSkipReason())
                 .uploadStatus(UploadStatus.FAIL)
+                .processType(dto.getProcessType())
+                .characterInfo(dto.getCharacterInfo())
                 .build();
     }
 

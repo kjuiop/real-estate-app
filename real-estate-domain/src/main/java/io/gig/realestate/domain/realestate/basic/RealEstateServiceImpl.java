@@ -5,7 +5,6 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.Area;
 import io.gig.realestate.domain.area.AreaService;
-import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.common.YnType;
@@ -30,18 +29,15 @@ import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
 import io.gig.realestate.domain.realestate.print.PrintInfo;
-import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
-import io.gig.realestate.domain.realestate.print.repository.PrintStoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -279,6 +275,9 @@ public class RealEstateServiceImpl implements RealEstateService {
             String gungu = row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
             String dong = row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
             String bunJi = row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            double salePrice = Optional.ofNullable(row.getCell(5, Row.CREATE_NULL_AS_BLANK)).map(Cell::getNumericCellValue).orElse(0.0);
+            String processValue = row.getCell(6, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String etcInfo = row.getCell(7, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
             if (!StringUtils.hasText(sido) || !StringUtils.hasText(gungu) || !StringUtils.hasText(dong)) {
                 break;
@@ -359,12 +358,12 @@ public class RealEstateServiceImpl implements RealEstateService {
                 continue;
             }
 
-            double salePrice = row.getCell(5).getNumericCellValue();
+
             if (salePrice > 0) {
                 salePrice = salePrice / 10000000;
             }
 
-            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j-1, legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j-1, legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice, processValue, etcInfo);
             excelRealEstateList.add(dto);
         }
 
@@ -385,7 +384,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
-        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), loginUser);
+        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), data.getProcessType(), data.getCharacterInfo(), loginUser);
 
         if (!StringUtils.hasText(data.getBunJiStr())) {
             return;

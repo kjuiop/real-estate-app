@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.basic.types;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 /**
  * @author : JAKE
@@ -22,4 +23,16 @@ public enum ProcessType {
     final private String type;
     final private String description;
     final private int level;
+
+    public static ProcessType convertStringValue(String value) {
+        for (ProcessType type : ProcessType.values()) {
+            if (!StringUtils.hasText(value)) {
+                continue;
+            }
+            if (type.getDescription().equals(value)) {
+                return type;
+            }
+        }
+        return ProcessType.Prepare;
+    }
 }
