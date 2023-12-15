@@ -83,21 +83,19 @@
 
                             <div class="form-group col-md-12 line">
                                 <div class="display-flex-row">
-                                    <div class="col-md-6 display-flex-column">
+                                    <div class="col-md-4 display-flex-column">
                                         <label class="text-label">대분류</label>
-                                        <div class="col-md-11 display-flex-row no-left-padding">
-                                            <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
-                                                <th:block th:each="code : ${usageCds.child}">
-                                                    <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
-                                                </th:block>
-                                            </select>
-                                        </div>
+                                        <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                            <th:block th:each="code : ${usageCds.child}">
+                                                <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+                                            </th:block>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6 display-flex-column">
+                                    <div class="col-md-4 display-flex-column">
                                         <label class="text-label">소유 부동산</label>
-                                        <div class="col-md-12 no-left-padding">
-                                            <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" style="height: 36px;"/>
-                                        </div>
+                                        <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" style="height: 36px;"/>
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
                                     </div>
                                 </div>
                             </div>
