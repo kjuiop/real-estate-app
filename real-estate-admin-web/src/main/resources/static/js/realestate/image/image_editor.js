@@ -42,6 +42,14 @@ let multiImgUpload = function(e) {
             console.log("res", res);
             let attachments = res.data;
             let $imagePanel = $frm.find('.image-sub-section');
+            if (!checkNullOrEmptyValue(attachments) || attachments.length === 0) {
+                return;
+            }
+            let mainImgUrl = attachments[0].fullPath;
+            if (checkNullOrEmptyValue(mainImgUrl)) {
+                $frm.find('.main-section img').attr('src', mainImgUrl);
+            }
+
             $.each(attachments, function(idx, item) {
                 let tag = drawSubImageTag(idx, item.fullPath);
                 $imagePanel.append(tag);
