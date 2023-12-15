@@ -187,9 +187,9 @@ let drawBtnUsageCode = function(categories) {
     let tags = "";
     $.each(categories, function (idx, item) {
         if (dto.usageCdId === item.id || (dto.usageType != null && dto.usageType.id === item.id)) {
-            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-sm btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         } else {
-            tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-sm btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
     });
 
