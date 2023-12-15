@@ -24,7 +24,7 @@ let realEstateSave = function(e) {
         params = serializeObject({form:$frmBasic[0]}).json();
 
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
@@ -108,7 +108,7 @@ let realEstateUpdate = function(e) {
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
