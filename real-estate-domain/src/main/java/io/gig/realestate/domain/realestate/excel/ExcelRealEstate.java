@@ -39,7 +39,9 @@ public class ExcelRealEstate extends BaseTimeEntity {
 
     private String dong;
 
-    private String bunJiStr;
+    private String bunJiGeneral;
+
+    private String bunJiMountain;
 
     private String bun;
 
@@ -85,7 +87,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .sido(dto.getSido())
                 .gungu(dto.getGungu())
                 .dong(dto.getDong())
-                .bunJiStr(dto.getBunJiStr())
+                .bunJiGeneral(dto.getBunJiGeneral())
+                .bunJiMountain(dto.getBunJiMountain())
                 .bun(dto.getBun())
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
@@ -106,7 +109,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .sido(dto.getSido())
                 .gungu(dto.getGungu())
                 .dong(dto.getDong())
-                .bunJiStr(dto.getBunJiStr())
+                .bunJiGeneral(dto.getBunJiGeneral())
+                .bunJiMountain(dto.getBunJiMountain())
                 .bun(dto.getBun())
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())

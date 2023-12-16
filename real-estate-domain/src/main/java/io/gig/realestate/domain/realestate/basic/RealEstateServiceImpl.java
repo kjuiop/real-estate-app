@@ -274,14 +274,15 @@ public class RealEstateServiceImpl implements RealEstateService {
             String sido = row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
             String gungu = row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
             String dong = row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
-            String bunJi = row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String bunJiGeneral = row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String bunJiMountain = row.getCell(5, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
             double salePrice = 0;
-            String salePriceStr = String.valueOf(row.getCell(5, Row.CREATE_NULL_AS_BLANK));
+            String salePriceStr = String.valueOf(row.getCell(6, Row.CREATE_NULL_AS_BLANK));
             if (isNumeric(salePriceStr)) {
                 salePrice = Double.parseDouble(salePriceStr);
             }
-            String processValue = row.getCell(6, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
-            String etcInfo = row.getCell(7, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String processValue = row.getCell(7, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+            String etcInfo = row.getCell(8, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
             if (!StringUtils.hasText(sido) || !StringUtils.hasText(gungu) || !StringUtils.hasText(dong)) {
                 break;
@@ -290,31 +291,34 @@ public class RealEstateServiceImpl implements RealEstateService {
             sido = sido.trim();
             gungu = gungu.trim();
             dong = dong.trim();
-            bunJi = bunJi.trim();
+            bunJiGeneral = bunJiGeneral.trim();
+            if (StringUtils.hasText(bunJiMountain)) {
+                bunJiMountain = bunJiMountain.trim();
+            }
 
             Optional<Area> findDong = areaService.getAreaLikeNameAndArea(dong, sido, gungu, dong);
             if (findDong.isEmpty()) {
                 skipReason = "시군구 데이터가 올바르지 않습니다.";
-                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
                 ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
                 excelRealEstateList.add(dto);
                 continue;
             }
 
-            if (!StringUtils.hasText(bunJi)) {
+            if (!StringUtils.hasText(bunJiGeneral)) {
                 skipReason = "지번 데이터가 올바르지 않습니다.";
-                String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
                 ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
                 excelRealEstateList.add(dto);
                 continue;
             }
 
-            StringBuilder cleanBunJi = new StringBuilder();
-            String[] bunJiArray = bunJi.split(",");
+            StringBuilder cleanBunJiGeneral = new StringBuilder();
+            String[] bunJiArray = bunJiGeneral.split(",");
             for (int i=0; i<bunJiArray.length; i++) {
                 if (!StringUtils.hasText(bunJiArray[i])) {
                     skipReason = "지번 데이터가 올바르지 않습니다.";
-                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
                     ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
                     excelRealEstateList.add(dto);
                     continue;
@@ -323,18 +327,47 @@ public class RealEstateServiceImpl implements RealEstateService {
                 String regex = "[0-9-]+";
                 if (!bunJiArray[i].matches(regex)) {
                     skipReason = "지번 데이터가 올바르지 않습니다.";
-                    String address = sido + " " + gungu + " " + dong + " " + bunJi;
+                    String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
                     ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
                     excelRealEstateList.add(dto);
                     continue;
                 }
 
-                cleanBunJi.append(bunJiArray[i]);
+                cleanBunJiGeneral.append(bunJiArray[i]);
                 if (i != bunJiArray.length-1) {
-                    cleanBunJi.append(",");
+                    cleanBunJiGeneral.append(",");
                 }
             }
             String representBunJi = bunJiArray[0];
+
+
+            StringBuilder cleanBunJiMountain = new StringBuilder();
+            if (StringUtils.hasText(bunJiMountain)) {
+                String[] bunJiMountainArray = bunJiMountain.split(",");
+                for (int i=0; i<bunJiMountainArray.length; i++) {
+                    if (!StringUtils.hasText(bunJiMountainArray[i])) {
+                        skipReason = "지번 데이터가 올바르지 않습니다.";
+                        String address = sido + " " + gungu + " " + dong + " " + bunJiMountain;
+                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                        excelRealEstateList.add(dto);
+                        continue;
+                    }
+                    bunJiMountainArray[i] = bunJiMountainArray[i].replaceAll(" ", "");
+                    String regex = "[0-9-]+";
+                    if (!bunJiMountainArray[i].matches(regex)) {
+                        skipReason = "지번 데이터가 올바르지 않습니다.";
+                        String address = sido + " " + gungu + " " + dong + " " + bunJiMountain;
+                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                        excelRealEstateList.add(dto);
+                        continue;
+                    }
+
+                    cleanBunJiMountain.append(bunJiMountainArray[i]);
+                    if (i != bunJiMountainArray.length-1) {
+                        cleanBunJiMountain.append(",");
+                    }
+                }
+            }
 
             String bun = "";
             String ji = "";
@@ -367,7 +400,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                 salePrice = salePrice / 10000000;
             }
 
-            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j, legalCode, agentName, address, sido, gungu, dong, cleanBunJi.toString(), bun, ji, salePrice, processValue, etcInfo);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j, legalCode, agentName, address, sido, gungu, dong, cleanBunJiGeneral.toString(), cleanBunJiMountain.toString(), bun, ji, salePrice, processValue, etcInfo);
             excelRealEstateList.add(dto);
         }
 
@@ -390,13 +423,13 @@ public class RealEstateServiceImpl implements RealEstateService {
         Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
         RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), data.getProcessType(), data.getCharacterInfo(), loginUser);
 
-        if (!StringUtils.hasText(data.getBunJiStr())) {
+        if (!StringUtils.hasText(data.getBunJiGeneral())) {
             return;
         }
 
         int totalLndpclArByPyung = 0;
-        String[] bunJiList = data.getBunJiStr().split(",");
-        for (String bunji : bunJiList) {
+        String[] bunJiGeneralList = data.getBunJiGeneral().split(",");
+        for (String bunji : bunJiGeneralList) {
             String bun = "";
             String ji = "";
             String[] strArray = bunji.split("-");
@@ -411,12 +444,52 @@ public class RealEstateServiceImpl implements RealEstateService {
                 continue;
             }
 
-            LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), landType, bun, ji);
-            LandInfo landInfo = LandInfo.createByExcelUpload(dto, data.getAddress(), newRealEstate);
-            newRealEstate.addLandInfo(landInfo);
+            String address = data.getSido() + " " + data.getGungu() + " " + data.getDong() + " " + bun;
+            if (StringUtils.hasText(ji)) {
+                address += "-" + ji;
+            }
 
-            totalLndpclArByPyung += landInfo.getLndpclArByPyung();
+
+            LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), landType, bun, ji);
+            if (dto != null) {
+                LandInfo landInfo = LandInfo.createByExcelUpload(dto, address, newRealEstate);
+                newRealEstate.addLandInfo(landInfo);
+
+                totalLndpclArByPyung += landInfo.getLndpclArByPyung();
+            }
         }
+        String[] bunJiMountainList = data.getBunJiMountain().split(",");
+        if (bunJiMountainList.length > 0) {
+            for (String bunji : bunJiMountainList) {
+                String bun = "";
+                String ji = "";
+                String[] strArray = bunji.split("-");
+                if (strArray.length > 1) {
+                    bun = strArray[0];
+                    ji = strArray[1];
+                } else {
+                    bun = strArray[0];
+                }
+
+                if (!StringUtils.hasText(bun)) {
+                    continue;
+                }
+
+                String address = data.getSido() + " " + data.getGungu() + " " + data.getDong() + " " + bun;
+                if (StringUtils.hasText(ji)) {
+                    address += "-" + ji;
+                }
+
+                LandDataApiDto dto = landService.getLandPublicInfo(data.getLegalCode(), "mountain", bun, ji);
+                if (dto != null) {
+                    LandInfo landInfo = LandInfo.createByExcelUpload(dto, address, newRealEstate);
+                    newRealEstate.addLandInfo(landInfo);
+
+                    totalLndpclArByPyung += landInfo.getLndpclArByPyung();
+                }
+            }
+        }
+
 
         int totalTotAreaByPyung = 0;
         ConstructDataApiDto constructDto = constructService.getConstructInfo(data.getLegalCode(), landType, data.getBun(), data.getJi());

@@ -33,7 +33,9 @@ public class ExcelRealEstateDto {
 
     private String dong;
 
-    private String bunJiStr;
+    private String bunJiGeneral;
+
+    private String bunJiMountain;
 
     private String bun;
 
@@ -68,7 +70,8 @@ public class ExcelRealEstateDto {
                 .sido(data.getSido())
                 .gungu(data.getGungu())
                 .dong(data.getDong())
-                .bunJiStr(data.getBunJiStr())
+                .bunJiGeneral(data.getBunJiGeneral())
+                .bunJiMountain(data.getBunJiMountain())
                 .bun(data.getBun())
                 .ji(data.getJi())
                 .salePrice(data.getSalePrice())
@@ -80,7 +83,7 @@ public class ExcelRealEstateDto {
     }
 
     public static ExcelRealEstateDto excelCreate(String uploadId, int timeoutLimit, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
-                              String bunJiStr, String bun, String ji, double salePrice, String processValue, String characterInfo) {
+                              String bunJiGeneral, String bunJiMountain, String bun, String ji, double salePrice, String processValue, String characterInfo) {
 
         return ExcelRealEstateDto.builder()
                 .uploadId(uploadId)
@@ -92,7 +95,8 @@ public class ExcelRealEstateDto {
                 .sido(sido)
                 .gungu(gungu)
                 .dong(dong)
-                .bunJiStr(bunJiStr)
+                .bunJiGeneral(bunJiGeneral)
+                .bunJiMountain(bunJiMountain)
                 .bun(bun)
                 .ji(ji)
                 .salePrice(salePrice)
