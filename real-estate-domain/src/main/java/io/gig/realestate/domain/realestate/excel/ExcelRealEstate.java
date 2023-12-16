@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.excel;
 
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.*;
@@ -38,7 +39,9 @@ public class ExcelRealEstate extends BaseTimeEntity {
 
     private String dong;
 
-    private String bunJiStr;
+    private String bunJiGeneral;
+
+    private String bunJiMountain;
 
     private String bun;
 
@@ -53,6 +56,10 @@ public class ExcelRealEstate extends BaseTimeEntity {
     private String username;
 
     private String skipReason;
+
+    private String characterInfo;
+
+    private ProcessType processType;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -72,7 +79,6 @@ public class ExcelRealEstate extends BaseTimeEntity {
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .uploadId(dto.getUploadId())
-                .timeoutLimit(dto.getTimeoutLimit())
                 .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())
@@ -80,18 +86,20 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .sido(dto.getSido())
                 .gungu(dto.getGungu())
                 .dong(dto.getDong())
-                .bunJiStr(dto.getBunJiStr())
+                .bunJiGeneral(dto.getBunJiGeneral())
+                .bunJiMountain(dto.getBunJiMountain())
                 .bun(dto.getBun())
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
                 .username(username)
+                .processType(dto.getProcessType())
+                .characterInfo(dto.getCharacterInfo())
                 .build();
     }
 
     public static ExcelRealEstate failData(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .uploadId(dto.getUploadId())
-                .timeoutLimit(dto.getTimeoutLimit())
                 .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())
@@ -99,7 +107,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .sido(dto.getSido())
                 .gungu(dto.getGungu())
                 .dong(dto.getDong())
-                .bunJiStr(dto.getBunJiStr())
+                .bunJiGeneral(dto.getBunJiGeneral())
+                .bunJiMountain(dto.getBunJiMountain())
                 .bun(dto.getBun())
                 .ji(dto.getJi())
                 .salePrice(dto.getSalePrice())
@@ -107,6 +116,8 @@ public class ExcelRealEstate extends BaseTimeEntity {
                 .failYn(YnType.Y)
                 .skipReason(dto.getSkipReason())
                 .uploadStatus(UploadStatus.FAIL)
+                .processType(dto.getProcessType())
+                .characterInfo(dto.getCharacterInfo())
                 .build();
     }
 

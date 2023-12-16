@@ -24,7 +24,7 @@ let realEstateSave = function(e) {
         params = serializeObject({form:$frmBasic[0]}).json();
 
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
@@ -108,7 +108,7 @@ let realEstateUpdate = function(e) {
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.thumbnailInfo').find('img').attr('src');
+    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
     if (!checkNullOrEmptyValue(params.managerUsername)) {
         twoBtnModal("담당자를 선택해주세요.");
@@ -187,9 +187,9 @@ let drawBtnUsageCode = function(categories) {
     let tags = "";
     $.each(categories, function (idx, item) {
         if (dto.usageCdId === item.id || (dto.usageType != null && dto.usageType.id === item.id)) {
-            tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-sm btn-primary btnUsageCode selected" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         } else {
-            tags += '<button type="button" class="btn btn-xs btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
+            tags += '<button type="button" class="btn btn-sm btn-default btnUsageCode" usageTypeId="' + item.id + '" name="usageTypeId" style="margin-right: 5px;"> ' + item.name + '</button>';
         }
     });
 

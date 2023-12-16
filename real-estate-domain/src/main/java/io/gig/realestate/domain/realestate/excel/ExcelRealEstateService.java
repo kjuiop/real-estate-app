@@ -10,7 +10,7 @@ import java.util.List;
  * @date : 2023/12/02
  */
 public interface ExcelRealEstateService {
-    void createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username);
+    int createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username);
 
     ExcelRealEstate findById(Long id);
 

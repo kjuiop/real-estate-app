@@ -1,6 +1,13 @@
 let onReady = function() {
     initICheck();
     settingExceptionMsg();
+
+    let $frm = $('form[name="loginForm"]');
+    $('form[name="loginForm"] *').keydown(function (e) {
+        if (e.keyCode === 13) {
+            $frm.submit();
+        }
+    })
 }
 
 let settingExceptionMsg = function() {
