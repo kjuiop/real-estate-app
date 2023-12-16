@@ -19,6 +19,7 @@ import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
@@ -240,7 +241,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    public List<ExcelRealEstateDto> excelUpload(MultipartFile file, String username) throws IOException {
+    public ExcelUploadDto excelUpload(MultipartFile file, String username) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
@@ -262,7 +263,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
         String uploadId = generateUniqueIdentifier(uuid, uploadTime);
-        int timeoutLimit = 180 * 1000;
+//        int timeoutLimit = 180 * 1000;
 
         for (int j=1; j< worksheet.getPhysicalNumberOfRows(); j++) {
             Row row = worksheet.getRow(j+1);
@@ -300,7 +301,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             if (findDong.isEmpty()) {
                 skipReason = "시군구 데이터가 올바르지 않습니다.";
                 String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
-                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                 excelRealEstateList.add(dto);
                 continue;
             }
@@ -308,7 +309,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             if (!StringUtils.hasText(bunJiGeneral)) {
                 skipReason = "지번 데이터가 올바르지 않습니다.";
                 String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
-                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                 excelRealEstateList.add(dto);
                 continue;
             }
@@ -319,7 +320,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                 if (!StringUtils.hasText(bunJiArray[i])) {
                     skipReason = "지번 데이터가 올바르지 않습니다.";
                     String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
-                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                     excelRealEstateList.add(dto);
                     continue;
                 }
@@ -328,7 +329,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                 if (!bunJiArray[i].matches(regex)) {
                     skipReason = "지번 데이터가 올바르지 않습니다.";
                     String address = sido + " " + gungu + " " + dong + " " + bunJiGeneral;
-                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                    ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                     excelRealEstateList.add(dto);
                     continue;
                 }
@@ -348,7 +349,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                     if (!StringUtils.hasText(bunJiMountainArray[i])) {
                         skipReason = "지번 데이터가 올바르지 않습니다.";
                         String address = sido + " " + gungu + " " + dong + " " + bunJiMountain;
-                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                         excelRealEstateList.add(dto);
                         continue;
                     }
@@ -357,7 +358,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                     if (!bunJiMountainArray[i].matches(regex)) {
                         skipReason = "지번 데이터가 올바르지 않습니다.";
                         String address = sido + " " + gungu + " " + dong + " " + bunJiMountain;
-                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                        ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                         excelRealEstateList.add(dto);
                         continue;
                     }
@@ -390,7 +391,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             boolean isExist = realEstateReader.isExistLegalCodeAndBunJi(legalCode, bun, ji);
             if (isExist) {
                 skipReason = "이미 등록된 매물 주소입니다.";
-                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, timeoutLimit, j, address, skipReason);
+                ExcelRealEstateDto dto = ExcelRealEstateDto.excelFailResponse(uploadId, j, address, skipReason);
                 excelRealEstateList.add(dto);
                 continue;
             }
@@ -400,13 +401,12 @@ public class RealEstateServiceImpl implements RealEstateService {
                 salePrice = salePrice / 10000000;
             }
 
-            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, timeoutLimit, j, legalCode, agentName, address, sido, gungu, dong, cleanBunJiGeneral.toString(), cleanBunJiMountain.toString(), bun, ji, salePrice, processValue, etcInfo);
+            ExcelRealEstateDto dto = ExcelRealEstateDto.excelCreate(uploadId, j, legalCode, agentName, address, sido, gungu, dong, cleanBunJiGeneral.toString(), cleanBunJiMountain.toString(), bun, ji, salePrice, processValue, etcInfo);
             excelRealEstateList.add(dto);
         }
 
-        excelRealEstateService.createAndPublish(excelRealEstateList, username);
-
-        return excelRealEstateList;
+        int timeout = excelRealEstateService.createAndPublish(excelRealEstateList, username);
+        return new ExcelUploadDto(excelRealEstateList, timeout);
     }
 
     @Override
@@ -546,6 +546,18 @@ public class RealEstateServiceImpl implements RealEstateService {
             return false;  // 숫자로 변환할 수 없는 경우
         }
         return true;
+    }
+
+    private int calculateTimeout(int dataSize) {
+        int timeoutLimit = 2 * 1000 * dataSize;
+        if (timeoutLimit <= 6000) {
+            timeoutLimit = 6000;
+        }
+        if (timeoutLimit >= 180000) {
+            timeoutLimit = 180000;
+        }
+
+        return timeoutLimit;
     }
 
 }

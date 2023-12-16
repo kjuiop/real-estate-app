@@ -3,11 +3,14 @@ package io.gig.realestate.domain.realestate.land.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -38,6 +41,16 @@ public class LandUsageDataApiDto {
 
         JSONObject multiSurface = shape.has("gml:MultiSurface") ? shape.getJSONObject("gml:MultiSurface") : null;
         if (multiSurface == null) {
+            return null;
+        }
+
+        // json object 에러남
+        Object object = multiSurface.has("gml:surfaceMember") ? multiSurface.get("gml:surfaceMember") : null;
+        if (object == null) {
+            return null;
+        }
+
+        if (!(object instanceof JSONObject)) {
             return null;
         }
 

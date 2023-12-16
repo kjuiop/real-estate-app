@@ -79,7 +79,6 @@ public class ExcelRealEstate extends BaseTimeEntity {
     public static ExcelRealEstate excelCreate(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .uploadId(dto.getUploadId())
-                .timeoutLimit(dto.getTimeoutLimit())
                 .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())
@@ -101,7 +100,6 @@ public class ExcelRealEstate extends BaseTimeEntity {
     public static ExcelRealEstate failData(ExcelRealEstateDto dto, String username) {
         return ExcelRealEstate.builder()
                 .uploadId(dto.getUploadId())
-                .timeoutLimit(dto.getTimeoutLimit())
                 .rowIndex(dto.getRowIndex())
                 .legalCode(dto.getLegalCode())
                 .agentName(dto.getAgentName())

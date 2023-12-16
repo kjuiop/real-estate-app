@@ -14,6 +14,7 @@ import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -205,7 +206,7 @@ public class RealEstateController {
     @ResponseBody
     public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file,
                                                  @CurrentUser LoginUser loginUser) throws IOException {
-        List<ExcelRealEstateDto> result = realEstateService.excelUpload(file, loginUser.getUsername());
+        ExcelUploadDto result = realEstateService.excelUpload(file, loginUser.getUsername());
         return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 

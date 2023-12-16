@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
+import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +39,7 @@ public interface RealEstateService {
 
     RealEstateDetailAllDto getDetailAllInfo(Long realEstateId);
 
-    List<ExcelRealEstateDto> excelUpload(MultipartFile file, String username) throws IOException;
+    ExcelUploadDto excelUpload(MultipartFile file, String username) throws IOException;
 
     void createByExcelUpload(ExcelRealEstate data) throws IOException;
 
