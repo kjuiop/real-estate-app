@@ -4,11 +4,13 @@ import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
+import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import io.gig.realestate.domain.realestate.print.dto.PrintDto;
+import io.gig.realestate.domain.realestate.vertex.dto.VertexDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,6 +55,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private List<FloorListDto> floorUnderList;
 
+    private List<ImageDto> imgList;
+
     static {
         EMPTY = RealEstateDetailAllDto.builder()
                 .build();
@@ -95,6 +99,17 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
             this.floorUpList = floorUpList;
             this.floorUnderList = floorUnderList;
+        }
+
+        if (r.getSubImgInfoList() != null && r.getSubImgInfoList().size() > 0)  {
+            List<ImageDto> imgs = new ArrayList<>();
+            for (int i=0; i<r.getSubImgInfoList().size(); i++) {
+                if (i == 0) {
+                    continue;
+                }
+                imgs.add(new ImageDto(r.getSubImgInfoList().get(i)));
+            }
+            this.imgList = imgs;
         }
     }
 }
