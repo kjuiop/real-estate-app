@@ -11,7 +11,7 @@ let onReady = function() {
         calculateLandInfo(landInfoList);
     }
 
-    // loadKakaoMap('강남구 삼성동 115-3');
+    loadKakaoMap(dto.address);
 }
 
 let calculateFloorInfo = function(floorUpList, floorUnderList) {
