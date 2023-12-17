@@ -510,7 +510,7 @@
                     <div id="landMap" style="width: 500px; height: 500px;"></div>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-20">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered line">
                         <tr>
                             <td class="table-head" style="background-color: darkblue; color: #ffffff;">구분</td>
                             <td class="table-head" style="background-color: darkblue; color: #ffffff;">지번</td>
@@ -540,6 +540,25 @@
                             <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">15,179</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">소재지</td>
+                            <td style="text-align: left;">[[${landInfo.address}]]</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">지목</td>
+                            <td style="text-align: left;">[[${landInfo.lndcgrCodeNm}]]</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">대지면적</td>
+                            <td style="text-align: left;">[[${landInfo.lndpclAr}]]㎡</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">다른 법령 등에 따른 지역 지구 등</td>
+                            <td style="text-align: left;">[[${landInfo.prposAreaDstrcNmList}]]</td>
                         </tr>
                     </table>
                 </div>
