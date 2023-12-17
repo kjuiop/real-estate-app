@@ -19,7 +19,7 @@ let loadImageInfo = function() {
                 let tag = drawSubImageTag(idx, item.fullPath);
                 $imagePanel.append(tag);
             });
-            $( ".sortable-section" ).sortable().disableSelection();
+            updateSortable();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -42,14 +42,35 @@ let multiImgUpload = function(e) {
             console.log("res", res);
             let attachments = res.data;
             let $imagePanel = $frm.find('.image-sub-section');
+            if (!checkNullOrEmptyValue(attachments) || attachments.length === 0) {
+                return;
+            }
+            let mainImgUrl = attachments[0].fullPath;
+            if (checkNullOrEmptyValue(mainImgUrl)) {
+                $frm.find('.main-section img').attr('src', mainImgUrl);
+            }
+
             $.each(attachments, function(idx, item) {
                 let tag = drawSubImageTag(idx, item.fullPath);
                 $imagePanel.append(tag);
             });
 
-            $( ".sortable-section" ).sortable().disableSelection();
+            updateSortable();
         }
     });
+}
+
+let updateSortable = function() {
+    let $frm = $('form[name="frmPriceRegister"]');
+    $(".sortable-section").sortable({
+        update: function(event, ui) {
+            let mainImgUrl = $('.image-sub-section img:first').attr('src');
+            if (checkNullOrEmptyValue(mainImgUrl)) {
+                console.log("mainImgUrl", mainImgUrl);
+                $frm.find('.main-section img').attr('src', mainImgUrl);
+            }
+        }
+    }).disableSelection();
 }
 
 let drawSubImageTag = function(idx, fullPath) {
@@ -116,7 +137,7 @@ let imgDraw = function (fullPath) {
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default">' +
         '<div class="right-margin">' +
-        '<div class="image-panel" style="width:100%;">' +
+        '<div class="image-panel" style="width:430px; height: 430px;">' +
         '<button type="button" class="btn btn-danger pull-right remove-image">' +
         '<i class="fa fa-times" aria-hidden="true"></i>' +
         '</button>' +

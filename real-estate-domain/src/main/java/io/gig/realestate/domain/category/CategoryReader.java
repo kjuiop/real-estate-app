@@ -23,4 +23,6 @@ public interface CategoryReader {
     List<CategoryDto> getChildrenCategoryDtosByName(String name);
 
     CategoryDto getCategoryDtoByName(String name);
+
+    Category getCategoryByCode(String code);
 }

@@ -93,6 +93,16 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
+    public Optional<Category> getCategoryByCode(String code) {
+        Optional<Category> fetch = Optional.ofNullable(this.queryFactory
+                .selectFrom(category)
+                .where(defaultCondition())
+                .where(category.code.eq(code))
+                .limit(1)
+                .fetchFirst());
+        return fetch;
+    }
+
     public Long getCountCategoryData() {
         return this.queryFactory
                 .select(category.count())

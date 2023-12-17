@@ -1,13 +1,10 @@
 package io.gig.realestate.domain.realestate.excel;
 
-import io.gig.realestate.domain.admin.AdministratorRole;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.event.RealEstateEvent;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
 import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
-import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -33,10 +29,12 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
     @Override
     @Transactional
-    public void createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username) {
+    public int createAndPublish(List<ExcelRealEstateDto> excelRealEstateList, String username) {
 
         List<RealEstateEvent> eventList = new ArrayList<>();
         List<ExcelRealEstate> data = new ArrayList<>();
+
+        int successCnt = 0;
         for (ExcelRealEstateDto dto : excelRealEstateList) {
 
             if (dto.getFailYn() == YnType.Y) {
@@ -51,6 +49,7 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
 
             RealEstateEvent event = new RealEstateEvent(excelRealEstate, "[excel-parser]-" + dto.getAddress());
             eventList.add(event);
+            successCnt++;
         }
 
         excelRealEstateStore.storeAll(data);
@@ -61,6 +60,8 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
             event.setTimeSleep(i);
             eventPublisher.publishEvent(event);
         }
+
+        return calculateTimeout(successCnt, excelRealEstateList.size());
     }
 
     @Override
@@ -83,5 +84,18 @@ public class ExcelRealEstateServiceImpl implements ExcelRealEstateService {
         }
 
         return ExcelUploadCheckDto.uploadCheck(isComplete, excelData);
+    }
+
+    private int calculateTimeout(int successCnt, int dataSize) {
+        int timeoutLimit = 2 * 1000 * successCnt;
+        timeoutLimit += 500 * dataSize;
+        if (timeoutLimit <= 6000) {
+            timeoutLimit = 6000;
+        }
+        if (timeoutLimit >= 180000) {
+            timeoutLimit = 180000;
+        }
+
+        return timeoutLimit;
     }
 }

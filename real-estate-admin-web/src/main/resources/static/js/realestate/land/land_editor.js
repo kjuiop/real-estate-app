@@ -78,19 +78,26 @@ let drawLandTable = function($table, landList) {
     $.each(landList, function(idx, item) {
 
         let pblndfPclndByPyung = convertNullOrEmptyValue(item.pblndfPclndByPyung);
+        if (isNaN(item.pblntfPclnd)) {
+            return;
+        }
+
         if (pblndfPclndByPyung === 0) {
-            pblndfPclndByPyung = item.pblntfPclnd * 3.305785
-            pblndfPclndByPyung = pblndfPclndByPyung.toFixed(0);
+            pblndfPclndByPyung = Number(item.pblntfPclnd) * 3.305785
         }
         let totalPblntfPclnd = convertNullOrEmptyValue(item.totalPblntfPclnd);
+        if (isNaN(item.totalPblntfPclnd) || isNaN(item.lndpclAr)) {
+            return;
+        }
         if (totalPblntfPclnd === 0) {
-            totalPblntfPclnd = item.pblntfPclnd * item.lndpclAr;
-            totalPblntfPclnd = totalPblntfPclnd.toFixed(0);
+            totalPblntfPclnd = Number(item.pblntfPclnd) * Number(item.lndpclAr);
         }
         let totalPblntfPclndByPyung = convertNullOrEmptyValue(item.totalPblntfPclndByPyung);
+        if (isNaN(item.totalPblntfPclndByPyung) || isNaN(item.lndpclArByPyung)) {
+            return;
+        }
         if (totalPblntfPclndByPyung === 0) {
-            totalPblntfPclndByPyung = pblndfPclndByPyung * item.lndpclArByPyung;
-            totalPblntfPclndByPyung = totalPblntfPclndByPyung.toFixed(0);
+            totalPblntfPclndByPyung = pblndfPclndByPyung * Number(item.lndpclArByPyung);
         }
 
         console.log("drawLandTable", item);
@@ -106,13 +113,32 @@ let drawLandTable = function($table, landList) {
         tag += '<td class="text-alien-center min-width-130">' + addCommasToNumber(totalPblntfPclndByPyung) + '원/평</td>';
         tag += '</tr>';
 
-        calLndpclAr += item.lndpclAr;
-        calLndpclArByPyung += item.lndpclArByPyung;
-        calPblntfPclnd += item.pblntfPclnd;
+        calLndpclAr += Number(item.lndpclAr);
+        calLndpclArByPyung += Number(item.lndpclArByPyung);
+        calPblntfPclnd += Number(item.pblntfPclnd);
         calPblntfPclndByPyung += pblndfPclndByPyung;
         calTotalPblntfPclnd += totalPblntfPclnd;
         calTotalPblntfPclndByPyung += totalPblntfPclndByPyung;
     });
+    
+    if (calLndpclAr > 0) {
+        calLndpclAr = calLndpclAr.toFixed(2);
+    }
+    if (calLndpclArByPyung > 0) {
+        calLndpclArByPyung = calLndpclArByPyung.toFixed(2);
+    }
+    if (calPblntfPclnd > 0) {
+        calPblntfPclnd = calPblntfPclnd.toFixed(2);
+    }
+    if (calPblntfPclndByPyung > 0) {
+        calPblntfPclndByPyung = calPblntfPclndByPyung.toFixed(0);
+    }
+    if (calTotalPblntfPclnd > 0) {
+        calTotalPblntfPclnd = calTotalPblntfPclnd.toFixed(0);
+    }
+    if (calTotalPblntfPclndByPyung > 0) {
+        calTotalPblntfPclndByPyung = calTotalPblntfPclndByPyung.toFixed(0);
+    }
 
     $table.find('tbody').html(tag);
     $table.find('tfoot .calLndpclAr').text(calLndpclAr + '㎡');

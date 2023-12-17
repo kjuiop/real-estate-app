@@ -65,41 +65,41 @@ let moveRegister = function(e) {
 
     console.log("params : ", params);
 
-    location.href = "/real-estate/new"
-        + "?bCode=" + params.bCode
-        + "&landType=" + params.landType
-        + "&bun=" + params.bun
-        + "&ji=" + params.ji
-        + "&address=" + encodeURIComponent(params.address)
-        + "&usageCdId=" + usageCdId
-        + "&dongCode=" + dongCode
-    ;
+    // location.href = "/real-estate/new"
+    //     + "?bCode=" + params.bCode
+    //     + "&landType=" + params.landType
+    //     + "&bun=" + params.bun
+    //     + "&ji=" + params.ji
+    //     + "&address=" + encodeURIComponent(params.address)
+    //     + "&usageCdId=" + usageCdId
+    //     + "&dongCode=" + dongCode
+    // ;
 
-    // $.ajax({
-    //     url: "/real-estate/check-duplicate/" + params.address,
-    //     method: "get",
-    //     type: "json",
-    //     contentType: "application/json",
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         if (result.data) {
-    //             twoBtnModal("이미 등록된 매물 정보입니다.");
-    //         } else {
-    //             location.href = "/real-estate/new"
-    //                 + "?bCode=" + params.bCode
-    //                 + "&landType=" + params.landType
-    //                 + "&bun=" + params.bun
-    //                 + "&ji=" + params.ji
-    //                 + "&address=" + encodeURIComponent(params.address)
-    //                 + "&usageCdId=" + usageCdId
-    //                 + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
-    //             ;
-    //         }
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
+    $.ajax({
+        url: "/real-estate/check-duplicate/" + params.address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("result : ", result);
+            if (result.data) {
+                twoBtnModal("이미 등록된 매물 정보입니다.");
+            } else {
+                location.href = "/real-estate/new"
+                    + "?bCode=" + params.bCode
+                    + "&landType=" + params.landType
+                    + "&bun=" + params.bun
+                    + "&ji=" + params.ji
+                    + "&address=" + encodeURIComponent(params.address)
+                    + "&usageCdId=" + usageCdId
+                    + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
+                ;
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 
 
 }
@@ -299,21 +299,24 @@ let excelUpload = function(e) {
         data: formData,
         processData: false,
         contentType: false,
-        success: function(result) {
-            console.log("response", result);
-            let excelData = result.data;
-            if (!checkNullOrEmptyValue(excelData)) {
+        success: function(response) {
+            console.log("response", response);
+            let result = response.data;
+            if (!checkNullOrEmptyValue(result)) {
                 return;
             }
 
-            if (excelData.length === 0) {
+            let estateList = result.estateList;
+
+            if (estateList.length === 0) {
                 return;
             }
-            let tag = drawExcelUploadData(excelData);
+
+            let tag = drawExcelUploadData(estateList);
             $('.excelProgressSection').html(tag);
 
-            let uploadId = excelData[0].uploadId;
-            let timeoutLimit = excelData[0].timeoutLimit;
+            let uploadId = estateList[0].uploadId;
+            let timeoutLimit = result.timeout;
             checkUploadProgress(uploadId, timeoutLimit);
         },
         error: function() {
@@ -325,6 +328,8 @@ let excelUpload = function(e) {
 let checkUploadProgress = function (uploadId, timeoutLimit) {
     let startTime = Date.now();
     let endTime = startTime + timeoutLimit;
+
+    console.log("endTime", endTime);
 
     function pollUploadStatus() {
         $.ajax({
@@ -352,8 +357,12 @@ let checkUploadProgress = function (uploadId, timeoutLimit) {
                     // 아직 완료되지 않았고 타임아웃 시간 내라면 계속 체크
                     setTimeout(pollUploadStatus, 5000); // 5초마다 체크
                 } else {
+                    twoBtnModal("매물정보 업데이트가 모두 완료되었습니다.", function() {
+                        location.reload();
+                    });
                     // 타임아웃 시간이 초과되었을 때 처리
-                    console.error("업로드가 타임아웃되었습니다.");
+                    let tag = drawProgressFail(result.data);
+                    $('.excelProgressSection').html(tag);
                 }
             },
             error: function (error) {
@@ -366,6 +375,25 @@ let checkUploadProgress = function (uploadId, timeoutLimit) {
     pollUploadStatus();
 };
 
+let drawProgressFail = function(excelList) {
+    let tag = '';
+    $.each(excelList, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.rowIndex + '</td>';
+        tag += '<td>' + item.address + '</td>';
+        if (item.uploadStatus === '완료') {
+            tag += '<td style="color: #206724; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else if (item.uploadStatus === '실패') {
+            tag += '<td style="color: darkred; font-weight: bold;">' + item.uploadStatus + '</td>';
+        } else {
+            tag += '<td style="color: darkred; font-weight: bold;">' + item.uploadStatus + '</td>';
+        }
+        tag += '<td>' + convertNullOrEmptyValue(item.skipReason) + '</td>';
+        tag += '</tr>';
+    });
+    return tag;
+}
+
 
 let drawExcelUploadData = function(excelList) {
 
@@ -375,7 +403,7 @@ let drawExcelUploadData = function(excelList) {
         tag += '<td>' + item.rowIndex + '</td>';
         tag += '<td>' + item.address + '</td>';
         if (item.uploadStatus === '완료') {
-            tag += '<td style="color: darkblue; font-weight: bold;">' + item.uploadStatus + '</td>';
+            tag += '<td style="color: #206724; font-weight: bold;">' + item.uploadStatus + '</td>';
         } else if (item.uploadStatus === '실패') {
             tag += '<td style="color: darkred; font-weight: bold;">' + item.uploadStatus + '</td>';
         } else {

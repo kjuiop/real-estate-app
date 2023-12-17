@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.excel.dto;
 
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.types.UploadStatus;
 import lombok.Builder;
@@ -32,7 +33,9 @@ public class ExcelRealEstateDto {
 
     private String dong;
 
-    private String bunJiStr;
+    private String bunJiGeneral;
+
+    private String bunJiMountain;
 
     private String bun;
 
@@ -53,6 +56,10 @@ public class ExcelRealEstateDto {
 
     private String uploadStatus;
 
+    private ProcessType processType;
+
+    private String characterInfo;
+
     public static ExcelRealEstateDto entityToDto(ExcelRealEstate data) {
         return ExcelRealEstateDto.builder()
                 .id(data.getId())
@@ -63,7 +70,8 @@ public class ExcelRealEstateDto {
                 .sido(data.getSido())
                 .gungu(data.getGungu())
                 .dong(data.getDong())
-                .bunJiStr(data.getBunJiStr())
+                .bunJiGeneral(data.getBunJiGeneral())
+                .bunJiMountain(data.getBunJiMountain())
                 .bun(data.getBun())
                 .ji(data.getJi())
                 .salePrice(data.getSalePrice())
@@ -74,12 +82,11 @@ public class ExcelRealEstateDto {
                 .build();
     }
 
-    public static ExcelRealEstateDto excelCreate(String uploadId, int timeoutLimit, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
-                              String bunJiStr, String bun, String ji, double salePrice) {
+    public static ExcelRealEstateDto excelCreate(String uploadId, int rowIndex, String legalCode, String agentName, String address, String sido, String gungu, String dong,
+                              String bunJiGeneral, String bunJiMountain, String bun, String ji, double salePrice, String processValue, String characterInfo) {
 
         return ExcelRealEstateDto.builder()
                 .uploadId(uploadId)
-                .timeoutLimit(timeoutLimit)
                 .rowIndex(rowIndex)
                 .legalCode(legalCode)
                 .agentName(agentName)
@@ -87,19 +94,21 @@ public class ExcelRealEstateDto {
                 .sido(sido)
                 .gungu(gungu)
                 .dong(dong)
-                .bunJiStr(bunJiStr)
+                .bunJiGeneral(bunJiGeneral)
+                .bunJiMountain(bunJiMountain)
                 .bun(bun)
                 .ji(ji)
                 .salePrice(salePrice)
                 .completeYn(YnType.N)
                 .uploadStatus(UploadStatus.PENDING.getDescription())
+                .processType(ProcessType.convertStringValue(processValue))
+                .characterInfo(characterInfo)
                 .build();
     }
 
-    public static ExcelRealEstateDto excelFailResponse(String uploadId, int timeoutLimit, int rowIndex, String address, String skipReason) {
+    public static ExcelRealEstateDto excelFailResponse(String uploadId, int rowIndex, String address, String skipReason) {
         return ExcelRealEstateDto.builder()
                 .uploadId(uploadId)
-                .timeoutLimit(timeoutLimit)
                 .rowIndex(rowIndex)
                 .address(address)
                 .completeYn(YnType.N)

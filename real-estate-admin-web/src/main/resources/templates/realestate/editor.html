@@ -13,6 +13,13 @@
                 max-width: 50%;
             }
         }
+
+        @media (min-width: 1900px) {
+            .main-section img {
+                width: 430px !important;
+                height: 430px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -83,21 +90,19 @@
 
                             <div class="form-group col-md-12 line">
                                 <div class="display-flex-row">
-                                    <div class="col-md-6 display-flex-column">
+                                    <div class="col-md-4 display-flex-column">
                                         <label class="text-label">대분류</label>
-                                        <div class="col-md-11 display-flex-row no-left-padding">
-                                            <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
-                                                <th:block th:each="code : ${usageCds.child}">
-                                                    <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
-                                                </th:block>
-                                            </select>
-                                        </div>
+                                        <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                            <th:block th:each="code : ${usageCds.child}">
+                                                <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+                                            </th:block>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6 display-flex-column">
+                                    <div class="col-md-4 display-flex-column">
                                         <label class="text-label">소유 부동산</label>
-                                        <div class="col-md-12 no-left-padding">
-                                            <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" style="height: 36px;"/>
-                                        </div>
+                                        <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" style="height: 36px;"/>
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +131,7 @@
                                     <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
                                 </div>
                                 <div class="col-md-12" style="margin-top: 10px;">
-                                    <div id="map" class="col-md-12" style="height:220px;"></div>
+                                    <div id="map" class="col-md-12" style="height:350px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +283,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12 padding-10" style="overflow-x: auto;">
+                                <div class="form-group col-md-12 padding-10" style="overflow-x: auto; font-size: 14px;">
                                     <table class="table table-sm table-bordered land-table" style="white-space: nowrap;">
                                         <thead class="thead-light">
                                         <tr>
@@ -323,8 +328,8 @@
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
-                                            <div class="image-section">
-                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
+                                            <div class="image-section main-section">
+                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo" style="width: 430px; height: 430px;"/>
                                             </div>
                                             <div class="margin-top-5" style="overflow-x: auto;">
                                                 <div style="white-space: nowrap;">
@@ -335,7 +340,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 display-flex-column">
+                                        <div class="col-md-6 display-flex-column" style="padding-top: 25px;">
                                             <div class="display-flex-row no-right-padding">
                                                 <div class="col-md-6 display-flex-column no-right-padding">
                                                     <label class="text-label">매매가</label>
@@ -415,10 +420,10 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 <th class="center-text" scope="col">지상/지하</th>
-                                                <th class="center-text" scope="col">층수</th>
-                                                <th class="center-text" scope="col">호실</th>
-                                                <th class="center-text" scope="col">용도</th>
-                                                <th class="center-text" scope="col">입점업체</th>
+                                                <th class="center-text" scope="col" style="width: 70px;">층수</th>
+                                                <th class="center-text" scope="col" style="width: 70px;">호실</th>
+                                                <th class="center-text" scope="col" style="width: 190px;">용도</th>
+                                                <th class="center-text" scope="col" style="width: 130px;">입점업체</th>
                                                 <th class="center-text" scope="col">대장상 면적</th>
                                                 <th class="center-text" scope="col" colspan="2">임대 면적</th>
                                                 <th class="center-text" scope="col">보증금</th>
@@ -510,69 +515,69 @@
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column margin-right-4">
+                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
                                             <label class="text-label">대지면적</label>
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm platArea calAreaPyung" name="platArea" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
-                                        <div class="display-flex-column">
+                                        <div class="col-sm-6 display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm platAreaByPyung" name="platAreaByPyung" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;평&nbsp;&nbsp;</button>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;평&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column no-left-padding margin-right-4">
+                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
                                             <label class="text-label">연면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totArea calAreaPyung" name="totArea" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 totArea calAreaPyung" name="totArea" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
-                                        <div class="display-flex-column">
+                                        <div class="col-md-6 display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totAreaByPyung" name="totAreaByPyung" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;평&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 totAreaByPyung" name="totAreaByPyung" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;평&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row line">
                                     <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column margin-right-4">
+                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
                                             <label class="text-label">건축면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 archArea calAreaBcRate" name="archArea" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 archArea calAreaBcRate" name="archArea" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
-                                        <div class="display-flex-column">
+                                        <div class="col-md-6 display-flex-column">
                                             <label class="text-label">건폐율</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 bcRat" name="bcRat" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;%&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 bcRat" name="bcRat" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;%&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column no-left-padding margin-right-4">
+                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
                                             <label class="text-label">연면적</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 totArea calculateAreaVlRate" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 totArea calculateAreaVlRate" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
-                                        <div class="display-flex-column">
+                                        <div class="col-md-6 display-flex-column">
                                             <label class="text-label">용적율</label>
                                             <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm col-md-8 vlRat" name="vlRat" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;%&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-10 vlRat" name="vlRat" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;%&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
@@ -585,16 +590,16 @@
 <!--                                            <label class="text-label">규모(층수, 지상/지하)</label>-->
                                             <div class="display-flex-row">
                                                 <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지상</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 grndFlrCnt" name="grndFlrCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-6 grndFlrCnt" name="grndFlrCnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;층&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지하</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 ugrndFlrCnt" name="ugrndFlrCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;층&nbsp;&nbsp;</button>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 12px; min-width: 50px;">지하</div>
+                                                <input type="text" class="form-control form-control-sm col-md-6 ugrndFlrCnt" name="ugrndFlrCnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;층&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
@@ -604,16 +609,16 @@
 <!--                                            <label class="text-label">엘레베이터(승용/긴급)</label>-->
                                             <div class="display-flex-row">
                                                 <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">승용</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 rideUseElvtCnt" name="rideUseElvtCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-6 rideUseElvtCnt" name="rideUseElvtCnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">비상용</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 emgenUseElvtCnt" name="emgenUseElvtCnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 12px; min-width: 50px;">비상용</div>
+                                                <input type="text" class="form-control form-control-sm col-md-6 emgenUseElvtCnt" name="emgenUseElvtCnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
@@ -627,16 +632,16 @@
                                             <label class="text-label">주차(자주식)</label>
                                             <div class="display-flex-row">
                                                 <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 indrAutoUtcnt" name="indrAutoUtcnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-6 indrAutoUtcnt" name="indrAutoUtcnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥외</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 oudrAutoUtcnt" name="oudrAutoUtcnt" style="height: 36px;"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm col-md-6 oudrAutoUtcnt" name="oudrAutoUtcnt" style="height: 36px;"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>
@@ -646,16 +651,16 @@
                                             <label class="text-label">주차(기계식)</label>
                                             <div class="display-flex-row">
                                                 <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 indrMechUtcnt" name="indrMechUtcnt" style="height: 36px;" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-4 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <input type="text" class="form-control form-control-sm col-md-6 indrMechUtcnt" name="indrMechUtcnt" style="height: 36px;" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                         <div class="display-flex-column">
                                             <label class="text-label">&nbsp;</label>
                                             <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥외</div>
-                                                <input type="text" class="form-control form-control-sm col-md-4 oudrMechUtcnt" name="oudrMechUtcnt" style="height: 36px;" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-4" disabled>&nbsp;대&nbsp;&nbsp;</button>
+                                                <div class="col-md-4 vertical-center" style="font-size: 14px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm col-md-6 oudrMechUtcnt" name="oudrMechUtcnt" style="height: 36px;" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;대&nbsp;&nbsp;</button>
                                             </div>
                                         </div>
                                     </div>

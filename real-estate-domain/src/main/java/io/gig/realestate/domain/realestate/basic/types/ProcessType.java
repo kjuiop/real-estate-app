@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.basic.types;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 /**
  * @author : JAKE
@@ -17,9 +18,22 @@ public enum ProcessType {
     Complete("complete", "작업완료", 3),
     Impossible("impossible", "작업불가", 5),
     Pending("pending", "매각보류", 4),
-    Sell("sell", "매각", 5);
+    Sell("sell", "매각", 5),
+    SellCancel("sell-cancel", "매각취소", 5);
 
     final private String type;
     final private String description;
     final private int level;
+
+    public static ProcessType convertStringValue(String value) {
+        for (ProcessType type : ProcessType.values()) {
+            if (!StringUtils.hasText(value)) {
+                continue;
+            }
+            if (type.getDescription().equals(value)) {
+                return type;
+            }
+        }
+        return ProcessType.Prepare;
+    }
 }

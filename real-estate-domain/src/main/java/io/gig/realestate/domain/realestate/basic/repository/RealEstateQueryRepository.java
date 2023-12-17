@@ -26,6 +26,9 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 
+import static io.gig.realestate.domain.admin.QAdministrator.administrator;
+import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
+import static io.gig.realestate.domain.category.QCategory.category;
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
 import static io.gig.realestate.domain.realestate.customer.QCustomerInfo.customerInfo;
@@ -106,6 +109,7 @@ public class RealEstateQueryRepository {
                         realEstate
                 ))
                 .from(realEstate)
+                .join(realEstate.usageType, category).fetchJoin()
                 .where(defaultCondition())
                 .where(eqRealEstateId(realEstateId))
                 .limit(1)
