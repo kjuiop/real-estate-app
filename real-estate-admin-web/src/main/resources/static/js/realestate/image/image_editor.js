@@ -135,7 +135,7 @@ let loadImg = function(imgUrl) {
 let imgDraw = function (fullPath) {
 
     let tag = '' +
-        '<div class="width-fix-430 thumbnailInfo ui-state-default">' +
+        '<div class="width-fix-430 thumbnailInfo ui-state-default" style="border:0;">' +
         '<div class="right-margin">' +
         '<div class="width-fix-430 image-panel">' +
         '<button type="button" class="btn btn-danger pull-right remove-image">' +

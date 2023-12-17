@@ -54,6 +54,8 @@ public class RealEstateUpdateForm {
 
     private String agentName;
 
+    private String tradingAt;
+
     private PriceCreateForm priceInfo;
 
     private ConstructCreateForm constructInfo;
