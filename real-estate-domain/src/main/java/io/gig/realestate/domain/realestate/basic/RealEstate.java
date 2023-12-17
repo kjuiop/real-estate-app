@@ -20,6 +20,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class RealEstate extends BaseTimeEntity {
     private String characterInfo;
 
     private String agentName;
+
+    private String tradingAt;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -188,6 +191,8 @@ public class RealEstate extends BaseTimeEntity {
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
                 .characterInfo(createForm.getCharacterInfo())
+                .agentName(createForm.getAgentName())
+                .tradingAt(createForm.getTradingAt())
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -208,6 +213,8 @@ public class RealEstate extends BaseTimeEntity {
                 .ownExclusiveYn(createForm.getOwnExclusiveYn())
                 .otherExclusiveYn(createForm.getOtherExclusiveYn())
                 .characterInfo(createForm.getCharacterInfo())
+                .agentName(createForm.getAgentName())
+                .tradingAt(createForm.getTradingAt())
                 .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
@@ -240,6 +247,7 @@ public class RealEstate extends BaseTimeEntity {
         this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
         this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.characterInfo = updateForm.getCharacterInfo();
+        this.tradingAt = updateForm.getTradingAt();
         this.usageType = usageType;
         this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;

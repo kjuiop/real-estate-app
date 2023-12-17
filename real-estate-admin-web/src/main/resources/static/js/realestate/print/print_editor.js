@@ -202,5 +202,11 @@ let print = function(e) {
     window.print();
 }
 
+let removeTable = function(e) {
+    e.preventDefault();
+    $(this).parents('.table-unit').remove();
+}
+
 $(document).ready(onReady)
-    .on('click', '.btnPrint', print);
+    .on('click', '.btnPrint', print)
+    .on('click', '.btnRemoveTable', removeTable);

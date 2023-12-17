@@ -21,6 +21,11 @@
                 margin-top: 30px !important;
             }
 
+            .print-hidden {
+                display: none !important;
+                visibility: hidden;
+            }
+
             .floor-info-section .table-head {
                 background-color:orange !important; -webkit-print-color-adjust:exact;
             }
@@ -254,7 +259,10 @@
                     </th:block>
                 </div>
                 <div class="col-md-6 display-flex-column height-100">
-                    <div class="display-flex-row table-unit">
+                    <div class="display-flex-row table-unit" style="position: relative;">
+                        <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
+                            <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
+                        </div>
                         <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
                             토
                             지
@@ -299,7 +307,10 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit margin-top-8">
+                    <div class="display-flex-row table-unit margin-top-8" style="position: relative;">
+                        <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
+                            <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
+                        </div>
                         <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
                             건
                             축
@@ -357,7 +368,10 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit margin-top-8">
+                    <div class="display-flex-row table-unit margin-top-8" style="position: relative;">
+                        <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
+                            <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
+                        </div>
                         <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
                             금
                             액
@@ -368,25 +382,25 @@
                             <table class="table table-bordered min-width-table" style="margin-bottom: 0;">
                                 <tr>
                                     <td>보증금</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.guaranteePrice, 0, 'COMMA', 0, 'POINT')}]]만원</td>
+                                    <td>[[${priceInfo.guaranteePrice > 0 ? #numbers.formatDecimal(priceInfo.guaranteePrice, 0, 'COMMA', 0, 'POINT') + '만원' : '-'}]]</td>
                                     <td>수익률(관포)</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.revenueRate, 0, 'COMMA', 0, 'POINT')}]]%</td>
+                                    <td>[[${priceInfo.revenueRate > 0 ? #numbers.formatDecimal(priceInfo.revenueRate, 0, 'COMMA', 0, 'POINT') + '%' : '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>임대료</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.rentMonth, 0, 'COMMA', 0, 'POINT')}]]만원</td>
+                                    <td>[[${priceInfo.rentMonth > 0 ? #numbers.formatDecimal(priceInfo.rentMonth, 0, 'COMMA', 0, 'POINT') + '만원' : '-'}]]</td>
                                     <td>관리비</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.management, 0, 'COMMA', 0, 'POINT')}]]만원</td>
+                                    <td>[[${priceInfo.management > 0 ? #numbers.formatDecimal(priceInfo.management, 0, 'COMMA', 0, 'POINT') + '만원' : '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>연면적 평단가</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT')}]]원 / 평</td>
+                                    <td>[[${priceInfo.buildingPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '원 / 평' : '-'}]]</td>
                                     <td>토지 평단가</td>
-                                    <td>[[${#numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT')}]]원 / 평</td>
+                                    <td>[[${priceInfo.landPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '원 / 평': '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>매매가</td>
-                                    <td colspan="3">[[${#numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT')}]] 억원</td>
+                                    <td colspan="3">[[${priceInfo.salePrice > 0 ? #numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT') + '억원' : ''}]]</td>
                                 </tr>
                                 <tr>
                                     <td>비고</td>
@@ -444,8 +458,8 @@
                         <th:block th:unless="${#lists.isEmpty(floorUpList)}">
                             <tr>
                                 <td style="background-color: #E6E6E6; font-weight: bold;">지상층 소계</td>
-                                <td class="totalUpFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;">15,306.17</td>
-                                <td class="totalUpFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;">4,630.12</td>
+                                <td class="totalUpFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;"></td>
+                                <td class="totalUpFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;"></td>
                                 <td style="background-color: #E6E6E6; font-weight: bold;">-</td>
                             </tr>
                         </th:block>
@@ -545,23 +559,23 @@
 
                     <table class="table table-bordered">
                         <tr>
-                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">소재지</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">소재지</td>
                             <td style="text-align: left;">[[${landInfo.address}]]</td>
                         </tr>
                         <tr>
-                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">지목</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">지목</td>
                             <td style="text-align: left;">[[${landInfo.lndcgrCodeNm}]]</td>
                         </tr>
                         <tr>
-                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">대지면적</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">대지면적</td>
                             <td style="text-align: left;">[[${landInfo.lndpclAr}]]㎡</td>
                         </tr>
                         <tr>
-                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">공시지가</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">공시지가</td>
                             <td style="text-align: left;">[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
                         </tr>
                         <tr>
-                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">다른 법령 등에 따른 지역 지구 등</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">다른 법령 등에 따른 지역 지구 등</td>
                             <td style="text-align: left;">[[${landInfo.prposAreaDstrcNmList}]]</td>
                         </tr>
                     </table>
@@ -589,47 +603,47 @@
                     </th:block>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-20">
-                    <table class="table table-bordered develop-info-section" style="border-top: 2px solid gray; border-bottom: 2px solid gray;">
+                    <table class="table table-bordered develop-info-section">
                         <tr>
-                            <td>위 치</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">위 치</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">[[${dto.address}]]</td>
                         </tr>
                         <tr>
-                            <td>지 역</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">지 역</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">
                                 [[${landInfo.prposArea1Nm}]]
                             </td>
                         </tr>
                         <tr>
-                            <td>대지면적</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">대지면적</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">
                                 [[${landInfo.lndpclAr}]]㎡ ([[${landInfo.lndpclArByPyung}]]평)
                             </td>
                         </tr>
                         <tr>
-                            <td>건 폐 율</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">건 폐 율</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">[[${constructInfo.bcRat}]]%</td>
                         </tr>
                         <tr>
-                            <td>용 적 율</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">용 적 율</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">[[${constructInfo.vlRat}]]%</td>
                         </tr>
                         <tr>
-                            <td>규 모</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">규 모</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">지상 [[${constructInfo.grndFlrCnt}]]층 / 지하 [[${constructInfo.ugrndFlrCnt}]]층</td>
                         </tr>
                         <tr>
-                            <td>최고높이</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">최고높이</td>
                             <td colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;">
                                 [[${constructInfo.heit}]]m
                             </td>
                         </tr>
                         <tr>
-                            <td>주 용 도</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">주 용 도</td>
                             <td colspan="2" style="text-align: left; padding-left: 15px;">[[${landInfo.lndcgrCodeNm}]]</td>
                         </tr>
                         <tr>
-                            <td rowspan="4" style="vertical-align: middle; width: 18%;">연 면 적</td>
+                            <td class="table-head" rowspan="4" style="vertical-align: middle; width: 18%; background-color: darkblue; color: #ffffff;">연 면 적</td>
                             <td style="width: 15%;" contenteditable="true">오피스</td>
                             <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
@@ -646,11 +660,11 @@
                             <td style="width: 55%; text-align: left; padding-left: 15px;" contenteditable="true"></td>
                         </tr>
                         <tr>
-                            <td>주 차</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">주 차</td>
                             <td class="text-alien-left" colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;">자주식 [[${constructInfo.oudrAutoUtcnt}]]대</td>
                         </tr>
                         <tr>
-                            <td>비 고</td>
+                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">비 고</td>
                             <td class="text-alien-left" colspan="2" contenteditable="true" style="text-align: left; padding-left: 15px;"></td>
                         </tr>
                     </table>
