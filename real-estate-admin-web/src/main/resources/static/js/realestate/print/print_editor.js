@@ -73,6 +73,13 @@ let calculateLandInfo = function(landInfoList) {
        totalLndpclArByPyung += item.lndpclArByPyung;
     });
 
+    if (totalLndpclAr > 0) {
+        totalLndpclAr = totalLndpclAr.toFixed(2);
+    }
+    if (totalLndpclArByPyung > 0) {
+        totalLndpclArByPyung = totalLndpclArByPyung.toFixed(2);
+    }
+
     $section.find('.totalLndpclAr').text(totalLndpclAr);
     $section.find('.totalLndpclArByPyung').text(totalLndpclArByPyung);
 }
