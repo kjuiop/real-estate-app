@@ -49,56 +49,65 @@ let loadKakaoMap = function(searchAddress, addressList) {
             if (i === 0) {
                 map.setCenter(coords);
             }
-            // let polygonPath = [];
+
+                // let polygonPath = [];
+            let polygonPath = [
+                new kakao.maps.LatLng(37.511602562001109, 127.05009673359973),
+                new kakao.maps.LatLng(37.511691793941253, 127.05023478115433),
+                new kakao.maps.LatLng(37.511559383629383, 127.050365219573536),
+                new kakao.maps.LatLng(37.511470782817113, 127.050226493881937),
+                new kakao.maps.LatLng(37.511602562001109, 127.05009673359973),
+            ];
+
             // $.each(data.vertexInfoList, function(idx, item) {
             //     polygonPath.push(new kakao.maps.LatLng(item.x, item.y));
             // })
-            //
-            // let polygon = new kakao.maps.Polygon({
-            //     path:polygonPath, // 그려질 다각형의 좌표 배열입니다
-            //     strokeWeight: 3, // 선의 두께입니다
-            //     strokeColor: '#39DE2A', // 선의 색깔입니다
-            //     strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-            //     strokeStyle: 'solid', // 선의 스타일입니다
-            //     fillColor: '#A2FF99', // 채우기 색깔입니다
-            //     fillOpacity: 0.7 // 채우기 불투명도 입니다
-            // });
-            //
-            // polygon.setMap(map);
-            //
-            // // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
-            // let mouseoverOption = {
-            //     fillColor: '#EFFFED', // 채우기 색깔입니다
-            //     fillOpacity: 0.8 // 채우기 불투명도 입니다
-            // };
-            //
-            // // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
-            // let mouseoutOption = {
-            //     fillColor: '#A2FF99', // 채우기 색깔입니다
-            //     fillOpacity: 0.7 // 채우기 불투명도 입니다
-            // };
-            //
-            // // 다각형에 마우스오버 이벤트를 등록합니다
-            // kakao.maps.event.addListener(polygon, 'mouseover', function() {
-            //
-            //     // 다각형의 채우기 옵션을 변경합니다
-            //     polygon.setOptions(mouseoverOption);
-            //
-            // });
-            //
-            // kakao.maps.event.addListener(polygon, 'mouseout', function() {
-            //
-            //     // 다각형의 채우기 옵션을 변경합니다
-            //     polygon.setOptions(mouseoutOption);
-            //
-            // });
-            //
-            // let downCount = 0;
-            // kakao.maps.event.addListener(polygon, 'mousedown', function() {
-            //     console.log(event);
-            //     let resultDiv = document.getElementById('result');
-            //     resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
-            // });
+
+            let polygon = new kakao.maps.Polygon({
+                path:polygonPath, // 그려질 다각형의 좌표 배열입니다
+                strokeWeight: 3, // 선의 두께입니다
+                strokeColor: '#39DE2A', // 선의 색깔입니다
+                strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                strokeStyle: 'solid', // 선의 스타일입니다
+                fillColor: '#A2FF99', // 채우기 색깔입니다
+                fillOpacity: 0.7 // 채우기 불투명도 입니다
+            });
+
+            polygon.setMap(map);
+
+            // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+            let mouseoverOption = {
+                fillColor: '#EFFFED', // 채우기 색깔입니다
+                fillOpacity: 0.8 // 채우기 불투명도 입니다
+            };
+
+            // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+            let mouseoutOption = {
+                fillColor: '#A2FF99', // 채우기 색깔입니다
+                fillOpacity: 0.7 // 채우기 불투명도 입니다
+            };
+
+            // 다각형에 마우스오버 이벤트를 등록합니다
+            kakao.maps.event.addListener(polygon, 'mouseover', function() {
+
+                // 다각형의 채우기 옵션을 변경합니다
+                polygon.setOptions(mouseoverOption);
+
+            });
+
+            kakao.maps.event.addListener(polygon, 'mouseout', function() {
+
+                // 다각형의 채우기 옵션을 변경합니다
+                polygon.setOptions(mouseoutOption);
+
+            });
+
+            let downCount = 0;
+            kakao.maps.event.addListener(polygon, 'mousedown', function() {
+                console.log(event);
+                let resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
+            });
 
 
             // 결과값으로 받은 위치를 마커로 표시합니다

@@ -162,6 +162,7 @@
             height: 5px;
         }
     </style>
+    <title>[[${dto.pdfTitle}]]</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -178,9 +179,9 @@
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="line-center right-align margin-top-250">
-                        <h1 class="building-name" contenteditable="true" >신대방동 신축부지</h1>
+                        <h1 class="building-name" contenteditable="true" >[[${not #strings.isEmpty(dto.buildingName) ? dto.buildingName : '건물명'}]]</h1>
                         <div class="address-line"></div>
-                        <h5 style="margin-top: 22px;" contenteditable="true" >서울시 동작구 신대방동 686-44번지</h5>
+                        <h5 style="margin-top: 22px;" contenteditable="true" >[[${dto.address}]]</h5>
                     </div>
                 </div>
             </div>
@@ -245,10 +246,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.propertyImgUrl)}">
-                        <img th:src="${printInfo.propertyImgUrl}" style="width: 100%; height: 100%;">
+                    <th:block th:if="${not #strings.isEmpty(dto.imgUrl)}">
+                        <img th:src="${dto.imgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.propertyImgUrl)}">
+                    <th:block th:unless="${not #strings.isEmpty(dto.imgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
                     </th:block>
                 </div>
@@ -300,9 +301,8 @@
 
                     <div class="display-flex-row table-unit margin-top-8">
                         <div class="col-md-1 table-label" style="background-color: #E6E6E6; border: 1px solid #D8D8D8;">
-                            기
-                            존
                             건
+                            축
                             물
                             정
                             보
@@ -391,7 +391,7 @@
                                 <tr>
                                     <td>비고</td>
                                     <td colspan="3" contenteditable="true">
-                                        현재 주유소 운영중이며 평도 협의 가능
+                                        [[${dto.characterInfo}]]
                                     </td>
                                 </tr>
                             </table>
@@ -486,12 +486,12 @@
                 <span>Location</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row padding-20" style="height: 600px; padding-top: 10px;">
+            <div class="cover-body print-body row padding-20" style="height: 600px; padding-top: 30px;">
                 <div class="col-md-12 padding-10 height-100">
                     <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.locationImgUrl)}">
                         <img th:src="${printInfo.locationImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <!--                <div id="map" style="width: 500px; height: 500px;"></div>-->
+                    <div id="map" style="width: 1050px; height: 500px; margin: auto 0;"></div>
                 </div>
             </div>
             <div class="print-footer text-alien-center"></div>
@@ -507,15 +507,10 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100">
-                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.landDecreeImgUrl)}">
-                        <img th:src="${printInfo.landDecreeImgUrl}" style="width: 100%; height: 100%;">
-                    </th:block>
-                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.landDecreeImgUrl)}">
-                        <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
-                    </th:block>
+                    <div id="landMap" style="width: 500px; height: 500px;"></div>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-20">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered line">
                         <tr>
                             <td class="table-head" style="background-color: darkblue; color: #ffffff;">구분</td>
                             <td class="table-head" style="background-color: darkblue; color: #ffffff;">지번</td>
@@ -540,12 +535,34 @@
                             </tr>
                         </th:block>
                         <tr>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">[[${landInfoList.size()}]]개 필지</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>
+                            <td colspan="2" style="background-color: #A9D0F5; font-weight: bold;">합계</td>
                             <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">50,179</td>
                             <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">15,179</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
                             <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">소재지</td>
+                            <td style="text-align: left;">[[${landInfo.address}]]</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">지목</td>
+                            <td style="text-align: left;">[[${landInfo.lndcgrCodeNm}]]</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">대지면적</td>
+                            <td style="text-align: left;">[[${landInfo.lndpclAr}]]㎡</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">공시지가</td>
+                            <td style="text-align: left;">[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: darkblue; color: #ffffff; font-weight: bold;">다른 법령 등에 따른 지역 지구 등</td>
+                            <td style="text-align: left;">[[${landInfo.prposAreaDstrcNmList}]]</td>
                         </tr>
                     </table>
                 </div>
@@ -642,6 +659,25 @@
 
             <div class="print-footer text-alien-center"></div>
         </div>
+
+        <th:block th:if="${not #lists.isEmpty(imgList)}" th:each="item, status : ${imgList}">
+            <div class="print-line"></div>
+            <div class="print-line"></div>
+
+            <div class="print-content">
+                <div class="row print-content-title">
+                    <h3 contenteditable="true">사진</h3>
+                    <span contenteditable="true">photo</span>
+                </div>
+                <div class="print-title-line"></div>
+                <div class="cover-body print-body row padding-20" style="height: 600px; padding-top: 10px;">
+                    <div class="col-md-12 padding-10 height-100">
+                        <img th:src="${item.fullPath}" style="width: 100%; height: 100%;">
+                    </div>
+                </div>
+                <div class="print-footer text-alien-center"></div>
+            </div>
+        </th:block>
 
         <div class="print-line"></div>
     </div>

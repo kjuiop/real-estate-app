@@ -97,18 +97,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Category initCategory(String code, String name, YnType activeYn, int level, int sortOrder) {
         Category newCategory = Category.initCategory(code, name, activeYn, level, sortOrder);
         return categoryStore.store(newCategory);
     }
 
     @Override
+    @Transactional
     public Category initChildCategory(String code, String parentCodePath, String name, YnType activeYn, int level, int sortOrder, Category parentCategory) {
         Category newCategory = Category.initChildCategory(code, parentCodePath, name, activeYn, level, sortOrder);
         newCategory.addParent(parentCategory);
         return categoryStore.store(newCategory);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Category getCategoryByCode(String code) {
+        return categoryReader.getCategoryByCode(code);
+    }
+
+    @Transactional(readOnly = true)
     public Category getCategoryById(Long id) {
         Optional<Category> foundCategory = categoryReader.findById(id);
         if (foundCategory.isEmpty()) {
