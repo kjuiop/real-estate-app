@@ -57,6 +57,15 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public Category getCategoryByCode(String code) {
+        Optional<Category> foundCategory = queryRepository.getCategoryByCode(code);
+        if (foundCategory.isEmpty()) {
+            throw new NotFoundException(">>> 카테고리가 존재하지 않습니다.");
+        }
+        return foundCategory.get();
+    }
+
+    @Override
     public Optional<Category> findById(Long id) {
         return queryRepository.findById(id);
     }

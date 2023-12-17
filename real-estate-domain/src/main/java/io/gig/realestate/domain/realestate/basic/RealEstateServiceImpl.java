@@ -421,7 +421,8 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         Administrator loginUser = administratorService.getAdminEntityByUsername(data.getUsername());
-        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), data.getProcessType(), data.getCharacterInfo(), loginUser);
+        Category usageType = categoryService.getCategoryByCode("CD_USAGE_01_01");
+        RealEstate newRealEstate = RealEstate.createByExcelUpload(data.getAgentName(), data.getAddress(), data.getLegalCode(), data.getBun(), data.getJi(), data.getProcessType(), data.getCharacterInfo(), usageType, loginUser);
 
         if (!StringUtils.hasText(data.getBunJiGeneral())) {
             return;
@@ -546,18 +547,6 @@ public class RealEstateServiceImpl implements RealEstateService {
             return false;  // 숫자로 변환할 수 없는 경우
         }
         return true;
-    }
-
-    private int calculateTimeout(int dataSize) {
-        int timeoutLimit = 2 * 1000 * dataSize;
-        if (timeoutLimit <= 6000) {
-            timeoutLimit = 6000;
-        }
-        if (timeoutLimit >= 180000) {
-            timeoutLimit = 180000;
-        }
-
-        return timeoutLimit;
     }
 
 }

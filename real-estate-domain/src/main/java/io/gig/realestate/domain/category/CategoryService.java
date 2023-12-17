@@ -36,4 +36,6 @@ public interface CategoryService {
     CategoryDto getCategoryDtoWithChildrenByName(String name);
 
     Category getCategoryById(Long usageTypeId);
+
+    Category getCategoryByCode(String cd_usage_01_01);
 }
