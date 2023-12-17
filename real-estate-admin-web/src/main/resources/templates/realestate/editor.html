@@ -15,7 +15,7 @@
         }
 
         @media (min-width: 1900px) {
-            .main-section img {
+            .width-fix-430 {
                 width: 430px !important;
                 height: 430px !important;
             }
@@ -328,8 +328,8 @@
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
-                                            <div class="image-section main-section">
-                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo" style="width: 430px; height: 430px;"/>
+                                            <div class="image-section main-section width-fix-430">
+                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo width-fix-430"/>
                                             </div>
                                             <div class="margin-top-5" style="overflow-x: auto;">
                                                 <div style="white-space: nowrap;">
@@ -714,41 +714,17 @@
                             <div class="form-group col-md-12 display-flex-column">
                                 <form name="frmPrintImage">
                                     <div class="row">
-                                        <div class="col-md-6 no-left-padding margin-top-5">
-                                            <label class="text-label" style="padding-left: 20px;">자산 개요 이미지</label>
-                                            <div id="propertyImgUrl" class="image-section">
-                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
-                                            </div>
-                                        </div>
                                         <div class="col-md-6 margin-top-5">
                                             <label class="text-label" style="padding-left: 20px;">건축물 개요 이미지</label>
                                             <div id="buildingImgUrl" class="image-section">
                                                 <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 no-left-padding margin-top-5">
-                                            <label class="text-label" style="padding-left: 20px;">위치 이미지</label>
-                                            <div id="locationImgUrl" class="image-section">
-                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 margin-top-5">
-                                            <label class="text-label" style="padding-left: 20px;">토지 조서 이미지</label>
-                                            <div id="landDecreeImgUrl" class="image-section">
-                                                <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6 no-left-padding margin-top-5">
                                             <label class="text-label" style="padding-left: 20px;">개발 개요 이미지</label>
                                             <div id="developPlanImgUrl" class="image-section">
                                                 <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 margin-top-5">
                                         </div>
                                     </div>
                                 </form>
