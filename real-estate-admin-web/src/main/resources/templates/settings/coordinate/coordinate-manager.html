@@ -22,16 +22,16 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <form name="frmExcelUpload" method="post" th:action="@{/settings/area-manager/excel/read}" enctype="multipart/form-data">
+                            <form name="frmUpload" method="post" th:action="@{/settings/coordinate-manager/file/read}" enctype="multipart/form-data">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
                                 <div class="form-group col-md-6 display-flex-column">
                                     <div class="form-group col-md-12 display-flex-row">
                                         <input id="filename" class="form-control col-md-9 margin-right-5" placeholder="첨부파일" readonly>
                                         <button type="button" id="btnSearchFile" class="btn btn-default">파일찾기</button>
-                                        <input type="file" id="file" class="hidden" name="file" accept=".xls,.xlsx">
+                                        <input type="file" id="file" class="hidden" name="file" accept=".geojson">
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="button" id="btnExcelUpload" class="btn btn-primary">엑셀 업로드</button>
+                                        <button type="button" id="btnFileUpload" class="btn btn-primary">파일 업로드</button>
                                     </div>
                                 </div>
                                 <div class="col-md-6"></div>
@@ -48,7 +48,7 @@
     <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
     <script th:inline="javascript" type="application/javascript">
     </script>
-    <script src="/static/js/settings/area/area-manager.js" th:src="@{/js/settings/area/area-manager.js}"></script>
+    <script src="/static/js/settings/coordinate/coordinate-manager.js" th:src="@{/js/settings/coordinate/coordinate-manager.js}"></script>
 </section>
 </body>
 </html>
