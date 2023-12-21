@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.coordinate.CoordinateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CoordinateManagerController {
 
+    private final CoordinateService coordinateService;
+
     @GetMapping
     public String index() {
         return "settings/coordinate/coordinate-manager";
@@ -26,7 +29,8 @@ public class CoordinateManagerController {
 
     @PostMapping("file/read")
     @ResponseBody
-    public ResponseEntity<ApiResponse> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ApiResponse> readFile(@RequestParam("file") MultipartFile file) throws IOException {
+        coordinateService.readJsonFile(file);
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
     }
 }
