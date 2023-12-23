@@ -13,13 +13,6 @@
                 max-width: 50%;
             }
         }
-
-        @media (min-width: 1900px) {
-            .width-fix-430 {
-                width: 430px !important;
-                height: 430px !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -330,8 +323,8 @@
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
-                                            <div class="image-section main-section width-fix-430">
-                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo width-fix-430"/>
+                                            <div class="image-section main-section" style="width:100%; height:auto;">
+                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo"/>
                                             </div>
                                             <div class="margin-top-5" style="overflow-x: auto;">
                                                 <div style="white-space: nowrap;">
