@@ -26,7 +26,7 @@
                 visibility: visible !important;
             }
 
-            .card-property .cover-body {
+            .cover-body {
                 padding: 50px 0 !important;
             }
 
@@ -51,12 +51,12 @@
             }
 
             .card-location #map {
-                height: 680px !important;
+                height: 650px !important;
             }
 
-            /*.land-info-section #landMap {*/
-            /*    height: 600px !important;*/
-            /*}*/
+            .land-info-section #landMap {
+                height: 650px !important;
+            }
 
             .print-hidden {
                 display: none !important;
@@ -75,6 +75,10 @@
         @page {
             size: landscape; /* 페이지 방향을 가로(landscape)로 설정합니다. */
             margin: 0;
+        }
+
+        .cover-body {
+            padding: 30px 20px;
         }
 
         .print-content {
@@ -243,13 +247,13 @@
         <div class="print-content print-distribute-line">
             <div class="print-header"></div>
             <div class="cover-body print-body row col-md-12 padding-20">
-                <div class="col-md-6 right-align padding-top-50">
+                <div class="col-md-6 right-align" style="padding-top: 20px;">
                     <span class="two-section-header">
                         <span class="font-size-30">Disclaimer</span>
                         <span class="font-size-30" style="font-weight: normal;">|</span>
                     </span>
                 </div>
-                <div class="col-md-6 padding-top-50">
+                <div class="col-md-6" style="padding-top: 20px;">
                     <div class="padding-10 font-size-13" contenteditable="true" style="height: 90%; color: #828a92;">
                         본 Teaster Memorandum(이하 "TM) 은 본 건 매각에 매입 또는 투자를 검토하고 있는 잠재적 매수자에게
                         투자 결정 등의 행위에 참고가 될 수 있는 기본적 정보를 제공할 목적으로 작성되었습니다.
@@ -348,7 +352,7 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 17px;">
+                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 16px;">
                         <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
                             <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
                         </div>
@@ -409,7 +413,7 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit table-unit-3" style="position: relative; margin-top: 17px;">
+                    <div class="display-flex-row table-unit table-unit-3" style="position: relative; margin-top: 16px;">
                         <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
                             <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
                         </div>
