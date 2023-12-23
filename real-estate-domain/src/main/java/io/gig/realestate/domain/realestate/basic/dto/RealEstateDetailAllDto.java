@@ -83,7 +83,9 @@ public class RealEstateDetailAllDto extends RealEstateDto {
             PriceDto priceDto = new PriceDto(r.getPriceInfoList().get(0));
             this.priceInfo = priceDto;
             if (priceDto.getSalePrice() > 0) {
-                pdfTitle.append(priceDto.getSalePrice());
+                int salePrice = (int) priceDto.getSalePrice();
+                pdfTitle.append(salePrice);
+                pdfTitle.append("억");
                 pdfTitle.append("_");
             }
         }
