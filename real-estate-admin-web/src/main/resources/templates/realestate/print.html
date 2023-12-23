@@ -22,6 +22,11 @@
                 height: 820px !important;
             }
 
+            .print-hidden {
+                display: none !important;
+                visibility: hidden;
+            }
+
             .logo {
                 visibility: visible !important;
             }
@@ -58,11 +63,6 @@
             .land-info-section #landMap {
                 width: 100% !important;
                 height: 650px !important;
-            }
-
-            .print-hidden {
-                display: none !important;
-                visibility: hidden;
             }
 
             .floor-info-section .table-head {
@@ -564,7 +564,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content print-distribute-line land-info-section" style="margin-bottom: 10px;">
+        <div class="print-content land-info-section" style="margin-bottom: 10px;">
             <div class="row print-content-title">
                 <h3>토지 조서</h3>
                 <span>Land decree</span>
@@ -636,7 +636,7 @@
             <div class="print-footer text-alien-center"></div>
         </div>
 
-        <div class="print-line"></div>
+        <div class="print-line print-hidden"></div>
 
         <th:block th:if="${not #lists.isEmpty(imgList)}" th:each="item, status : ${imgList}">
             <div class="print-line"></div>
