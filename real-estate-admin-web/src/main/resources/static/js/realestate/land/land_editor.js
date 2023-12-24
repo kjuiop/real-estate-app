@@ -112,15 +112,15 @@ let drawPriceTable = function(priceInfo) {
 
     $.each(priceInfo, function(idx, item) {
         tag += '<tr>';
-        tag += '<th class="text-alien-center thead-light">' + item.pclndStdrYear + '</th>';
-        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
-        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
+        tag += '<th class="text-alien-center thead-light pclndStdrYear" pclndStdrYear="' + item.pclndStdrYear + '">' + item.pclndStdrYear + '</th>';
+        tag += '<td class="text-alien-center pblntfPclnd" pblntfPclnd="' + item.pblntfPclnd + '">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
+        tag += '<td class="text-alien-center pblntfPclndPy" pblntfPclndPy="' + item.pblntfPclndPy + '">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
         if (item.changeRate > 0) {
-            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkred;">▲</span></td>';
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%<span style="color: darkred;">▲</span></td>';
         } else if (item.changeRate < 0) {
-            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkblue;">▼</span></td>';
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%<span style="color: darkblue;">▼</span></td>';
         } else {
-            tag += '<td class="text-alien-center">' + item.changeRate + '%</td>';
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%</td>';
         }
         tag += '</tr>';
     });
@@ -166,7 +166,7 @@ let drawLandTable = function($table, landList) {
         console.log("drawLandTable", item);
 
         tag += '<tr>';
-        tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        tag += '<td class="text-alien-center min-width-130">' + dto.address + '</td>';
         tag += '<td class="text-alien-center" style="min-width:70px;">' + item.lndcgrCodeNm + '</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclAr + '㎡</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclArByPyung + '평</td>';
