@@ -130,6 +130,8 @@ let drawPriceTable = function(priceInfo) {
 
 let drawLandTable = function($table, landList) {
 
+    console.log("drawLandTable", landList);
+
     let calLndpclAr = 0,
         calLndpclArByPyung = 0,
         calPblntfPclnd = 0,
@@ -140,7 +142,13 @@ let drawLandTable = function($table, landList) {
     let tag = '';
     $.each(landList, function(idx, item) {
 
-        let pblndfPclndByPyung = convertNullOrEmptyValue(item.pblndfPclndByPyung);
+        console.log("drawLandTable item", item);
+
+        let pblndfPclndByPyung = 0;
+        if (checkNullOrEmptyValue(item.pblntfPclndByPyung)) {
+            pblndfPclndByPyung = item.pblntfPclndByPyung;
+        }
+
         if (isNaN(item.pblntfPclnd)) {
             return;
         }

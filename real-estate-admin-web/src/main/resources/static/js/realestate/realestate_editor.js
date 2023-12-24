@@ -78,6 +78,19 @@ let realEstateSave = function(e) {
     }
     params.printInfo = printInfo;
 
+    let $pblntTable = $('.pblnt-table tbody');
+    let landPriceInfoList = [];
+    $pblntTable.find('tr').each(function(idx, item) {
+       let pblntPrice = {
+           "pclndStdrYear": item.find('.pclndStdrYear').attr('pclndStdrYear'),
+           "pblntfPclnd": item.find('.pblntfPclnd').attr('pblntfPclnd'),
+           "pblntfPclndPy": item.find('.pblntfPclndPy').attr('pblntfPclndPy'),
+           "changeRate": item.find('.changeRate').attr('changeRate')
+       }
+        landPriceInfoList.push(pblntPrice);
+    });
+    params.landPriceInfoList = landPriceInfoList;
+
     console.log("save params", params);
 
     twoBtnModal("매물 정보를 일괄 저장하시겠습니까?", function () {
@@ -159,6 +172,19 @@ let realEstateUpdate = function(e) {
         "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl .thumbnailInfo').find('img').attr('src'),
     }
     params.printInfo = printInfo;
+
+    let $pblntTable = $('.pblnt-table tbody');
+    let landPriceInfoList = [];
+    $pblntTable.find('tr').each(function(idx, item) {
+        let pblntPrice = {
+            "pclndStdrYear": item.find('.pclndStdrYear').attr('pclndStdrYear'),
+            "pblntfPclnd": item.find('.pblntfPclnd').attr('pblntfPclnd'),
+            "pblntfPclndPy": item.find('.pblntfPclndPy').attr('pblntfPclndPy'),
+            "changeRate": item.find('.changeRate').attr('changeRate')
+        }
+        landPriceInfoList.push(pblntPrice);
+    });
+    params.landPriceInfoList = landPriceInfoList;
 
     console.log("update params", params);
 
