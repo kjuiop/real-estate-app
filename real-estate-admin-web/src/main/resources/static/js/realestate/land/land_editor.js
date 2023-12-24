@@ -65,6 +65,38 @@ let loadLandInfoList = function() {
     });
 }
 
+let loadLandPriceInfoList = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+    let isLandPriceInfo = dto.existLandPriceInfo;
+    if (isLandPriceInfo === true) {
+        url = "/real-estate/land/price/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/price/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("land price result", result);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 let drawLandTable = function($table, landList) {
 
     let calLndpclAr = 0,

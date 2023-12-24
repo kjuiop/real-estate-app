@@ -54,6 +54,9 @@ public class RealEstateDetailDto extends RealEstateDto {
     private boolean existLandInfo = false;
 
     @Builder.Default
+    private boolean existLandPriceInfo = false;
+
+    @Builder.Default
     private boolean existPriceInfo = false;
 
     @Builder.Default

@@ -2,6 +2,7 @@ let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
     loadLandInfoList();
+    loadLandPriceInfoList();
     // loadLandUsageInfo();
     loadPriceInfo();
     loadConstructInfo();
