@@ -65,7 +65,7 @@ public class LandController {
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji
     ) throws IOException {
-        LandPriceDataApiDto priceInfo = landPriceService.getLandPriceListInfo(legalCode, landType, bun, ji);
+        List<LandPriceDataApiDto> priceInfo = landPriceService.getLandPriceListInfo(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(priceInfo), HttpStatus.OK);
     }
 

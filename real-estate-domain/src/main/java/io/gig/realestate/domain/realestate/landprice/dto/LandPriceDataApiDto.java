@@ -6,6 +6,11 @@ import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/12/24
@@ -20,24 +25,38 @@ public class LandPriceDataApiDto {
 
     private int pblntfPclnd;
 
-    private int pblntfPclnd1;
+    private int pblntfPclndPy;
 
-    private int pblntfPclnd2;
+    public static List<LandPriceDataApiDto> convertData(JSONObject nsdi) {
 
-    private int pblntfPclnd3;
+        long pnu = nsdi.optLong("NSDI:PNU");
+        int pclndStdrYear = nsdi.optInt("NSDI:PBLNTF_PCLND_STDR_YEAR");
 
-    private int pblntfPclnd4;
+        List<LandPriceDataApiDto> result = new ArrayList<>();
 
-    public static LandPriceDataApiDto convertData(JSONObject nsdi) {
-        return LandPriceDataApiDto.builder()
-                .pnu(nsdi.optLong("NSDI:PNU"))
-                .pclndStdrYear(nsdi.optInt("NSDI:PBLNTF_PCLND_STDR_YEAR"))
-                .pblntfPclnd(nsdi.optInt("NSDI:PBLNTF_PCLND"))
-                .pblntfPclnd1(nsdi.optInt("NSDI:PSTYR_1_PBLNTF_PCLND"))
-                .pblntfPclnd2(nsdi.optInt("NSDI:PSTYR_2_PBLNTF_PCLND"))
-                .pblntfPclnd3(nsdi.optInt("NSDI:PSTYR_3_PBLNTF_PCLND"))
-                .pblntfPclnd4(nsdi.optInt("NSDI:PSTYR_4_PBLNTF_PCLND"))
-                .build();
+        for (int i=0; i<5; i++) {
+            LandPriceDataApiDto price;
+            if (i == 0) {
+                int pblntfPclnd = nsdi.optInt("NSDI:PBLNTF_PCLND");
+                price = LandPriceDataApiDto.builder()
+                        .pnu(pnu)
+                        .pblntfPclnd(pblntfPclnd)
+                        .pblntfPclndPy(calculatePyung(pblntfPclnd))
+                        .pclndStdrYear(pclndStdrYear)
+                        .build();
+            } else {
+                int pblntfPclnd = nsdi.optInt("NSDI:PSTYR_" + i + "_PBLNTF_PCLND");
+                pclndStdrYear--;
+                price = LandPriceDataApiDto.builder()
+                        .pnu(pnu)
+                        .pblntfPclnd(pblntfPclnd)
+                        .pblntfPclndPy(calculatePyung(pblntfPclnd))
+                        .pclndStdrYear(pclndStdrYear)
+                        .build();
+            }
+            result.add(price);
+        }
+        return result;
     }
 
     @Getter
@@ -68,5 +87,16 @@ public class LandPriceDataApiDto {
                     .pnu(pnuBuilder.toString())
                     .build();
         }
+    }
+
+    private static int calculatePyung(int area) {
+        if (area == 0) {
+            return 0;
+        }
+
+        double price = area * 3.305785;
+        BigDecimal bigDecimal = new BigDecimal(price);
+        BigDecimal rounded = bigDecimal.setScale(-4, RoundingMode.HALF_UP);
+        return rounded.intValue();
     }
 }

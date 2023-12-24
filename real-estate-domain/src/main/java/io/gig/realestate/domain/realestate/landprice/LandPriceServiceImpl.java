@@ -5,8 +5,10 @@ import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandPriceDataProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -27,7 +31,8 @@ public class LandPriceServiceImpl implements LandPriceService {
     private final LandPriceDataProperties dataProperties;
 
     @Override
-    public LandPriceDataApiDto getLandPriceListInfo(String bCode, String landType, String bun, String ji) throws IOException {
+    @Transactional(readOnly = true)
+    public List<LandPriceDataApiDto> getLandPriceListInfo(String bCode, String landType, String bun, String ji) throws IOException {
 
         LandPriceDataApiDto.Request request = LandPriceDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(dataProperties.getUrl()); /*URL*/
@@ -58,7 +63,7 @@ public class LandPriceServiceImpl implements LandPriceService {
         return parseLandPriceInfoJsonData(convertResult);
     }
 
-    private LandPriceDataApiDto parseLandPriceInfoJsonData(JSONObject data) {
+    private List<LandPriceDataApiDto> parseLandPriceInfoJsonData(JSONObject data) {
         if (!data.has("wfs:FeatureCollection")) {
             return null;
         }
@@ -76,7 +81,6 @@ public class LandPriceServiceImpl implements LandPriceService {
 
         JSONObject gml = (JSONObject) object;
         JSONObject nsdi = gml.getJSONObject("NSDI:F166");
-
         return LandPriceDataApiDto.convertData(nsdi);
     }
 }

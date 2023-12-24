@@ -90,11 +90,36 @@ let loadLandPriceInfoList = function() {
         contentType: "application/json",
         success: function(result) {
             console.log("land price result", result);
+            let priceInfo = result.data,
+                $frm = $('form[name="frmLandRegister"]'),
+                $table = $frm.find('.pblnt-table tbody')
+            ;
+            if (!checkNullOrEmptyValue(priceInfo)) {
+                return;
+            }
+
+            let tag = drawPriceTable(priceInfo);
+            $table.html(tag);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let drawPriceTable = function(priceInfo) {
+    let tag = '';
+
+    $.each(priceInfo, function(idx, item) {
+        tag += '<tr>';
+        tag += '<th class="text-alien-center thead-light">' + item.pclndStdrYear + '</th>';
+        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
+        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
+        tag += '<td class="text-alien-center">0%</td>';
+        tag += '</tr>';
+    });
+
+    return tag;
 }
 
 let drawLandTable = function($table, landList) {
