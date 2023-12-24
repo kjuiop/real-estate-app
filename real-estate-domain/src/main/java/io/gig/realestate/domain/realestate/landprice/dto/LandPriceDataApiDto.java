@@ -27,6 +27,8 @@ public class LandPriceDataApiDto {
 
     private int pblntfPclndPy;
 
+    private double changeRate;
+
     public static List<LandPriceDataApiDto> convertData(JSONObject nsdi) {
 
         long pnu = nsdi.optLong("NSDI:PNU");
@@ -34,7 +36,8 @@ public class LandPriceDataApiDto {
 
         List<LandPriceDataApiDto> result = new ArrayList<>();
 
-        for (int i=0; i<5; i++) {
+        int prevPrice = 0;
+        for (int i=4; i>=0; i--) {
             LandPriceDataApiDto price;
             if (i == 0) {
                 int pblntfPclnd = nsdi.optInt("NSDI:PBLNTF_PCLND");
@@ -43,16 +46,21 @@ public class LandPriceDataApiDto {
                         .pblntfPclnd(pblntfPclnd)
                         .pblntfPclndPy(calculatePyung(pblntfPclnd))
                         .pclndStdrYear(pclndStdrYear)
+                        .changeRate(calculateChangeRate(pblntfPclnd, prevPrice))
                         .build();
             } else {
                 int pblntfPclnd = nsdi.optInt("NSDI:PSTYR_" + i + "_PBLNTF_PCLND");
-                pclndStdrYear--;
+                int year = pclndStdrYear - i;
+
                 price = LandPriceDataApiDto.builder()
                         .pnu(pnu)
                         .pblntfPclnd(pblntfPclnd)
                         .pblntfPclndPy(calculatePyung(pblntfPclnd))
-                        .pclndStdrYear(pclndStdrYear)
+                        .pclndStdrYear(year)
+                        .changeRate(calculateChangeRate(pblntfPclnd, prevPrice))
                         .build();
+
+                prevPrice = pblntfPclnd;
             }
             result.add(price);
         }
@@ -98,5 +106,15 @@ public class LandPriceDataApiDto {
         BigDecimal bigDecimal = new BigDecimal(price);
         BigDecimal rounded = bigDecimal.setScale(-4, RoundingMode.HALF_UP);
         return rounded.intValue();
+    }
+
+    private static double calculateChangeRate(double currentYearValue, double previousYearValue) {
+        if (previousYearValue == 0) {
+            return 0.0;
+        }
+
+        double changeRate = ((currentYearValue - previousYearValue) / previousYearValue) * 100;
+        changeRate = Math.round(changeRate * 10.0) / 10.0;
+        return changeRate;
     }
 }

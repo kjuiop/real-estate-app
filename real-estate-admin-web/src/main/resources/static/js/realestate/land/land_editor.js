@@ -115,7 +115,13 @@ let drawPriceTable = function(priceInfo) {
         tag += '<th class="text-alien-center thead-light">' + item.pclndStdrYear + '</th>';
         tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
         tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
-        tag += '<td class="text-alien-center">0%</td>';
+        if (item.changeRate > 0) {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkred;">▲</span></td>';
+        } else if (item.changeRate < 0) {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkblue;">▼</span></td>';
+        } else {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%</td>';
+        }
         tag += '</tr>';
     });
 
