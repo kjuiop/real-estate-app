@@ -112,7 +112,7 @@ let drawPriceTable = function(priceInfo) {
 
     $.each(priceInfo, function(idx, item) {
         tag += '<tr>';
-        tag += '<th class="text-alien-center thead-light pclndStdrYear" pclndStdrYear="' + item.pclndStdrYear + '">' + item.pclndStdrYear + '</th>';
+        tag += '<th class="text-alien-center thead-light pclndStdrYear pnu" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '">' + item.pclndStdrYear + '</th>';
         tag += '<td class="text-alien-center pblntfPclnd" pblntfPclnd="' + item.pblntfPclnd + '">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
         tag += '<td class="text-alien-center pblntfPclndPy" pblntfPclndPy="' + item.pblntfPclndPy + '">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
         if (item.changeRate > 0) {
@@ -130,8 +130,6 @@ let drawPriceTable = function(priceInfo) {
 
 let drawLandTable = function($table, landList) {
 
-    console.log("drawLandTable", landList);
-
     let calLndpclAr = 0,
         calLndpclArByPyung = 0,
         calPblntfPclnd = 0,
@@ -141,8 +139,6 @@ let drawLandTable = function($table, landList) {
 
     let tag = '';
     $.each(landList, function(idx, item) {
-
-        console.log("drawLandTable item", item);
 
         let pblndfPclndByPyung = 0;
         if (checkNullOrEmptyValue(item.pblntfPclndByPyung)) {

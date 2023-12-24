@@ -81,12 +81,13 @@ let realEstateSave = function(e) {
     let $pblntTable = $('.pblnt-table tbody');
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
-       let pblntPrice = {
-           "pclndStdrYear": item.find('.pclndStdrYear').attr('pclndStdrYear'),
-           "pblntfPclnd": item.find('.pblntfPclnd').attr('pblntfPclnd'),
-           "pblntfPclndPy": item.find('.pblntfPclndPy').attr('pblntfPclndPy'),
-           "changeRate": item.find('.changeRate').attr('changeRate')
-       }
+        let pblntPrice = {
+            "pnu": $(item).find('.pnu').attr('pnu'),
+            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
+            "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
+            "changeRate": $(item).find('.changeRate').attr('changeRate')
+        }
         landPriceInfoList.push(pblntPrice);
     });
     params.landPriceInfoList = landPriceInfoList;
@@ -177,10 +178,11 @@ let realEstateUpdate = function(e) {
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
         let pblntPrice = {
-            "pclndStdrYear": item.find('.pclndStdrYear').attr('pclndStdrYear'),
-            "pblntfPclnd": item.find('.pblntfPclnd').attr('pblntfPclnd'),
-            "pblntfPclndPy": item.find('.pblntfPclndPy').attr('pblntfPclndPy'),
-            "changeRate": item.find('.changeRate').attr('changeRate')
+            "pnu": $(item).find('.pnu').attr('pnu'),
+            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
+            "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
+            "changeRate": $(item).find('.changeRate').attr('changeRate')
         }
         landPriceInfoList.push(pblntPrice);
     });

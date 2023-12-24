@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 public class LandPriceCreateForm {
 
+    private String pnu;
+
     private int pclndStdrYear;
 
     private int pblntfPclnd;

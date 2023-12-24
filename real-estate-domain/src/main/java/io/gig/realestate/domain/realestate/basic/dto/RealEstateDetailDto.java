@@ -83,6 +83,9 @@ public class RealEstateDetailDto extends RealEstateDto {
         if (r.getLandInfoList().size() > 0) {
             this.existLandInfo = true;
         }
+        if (r.getLandPriceInfoList().size() > 0) {
+            this.existLandPriceInfo = true;
+        }
 
         if (r.getPriceInfoList().size() > 0) {
             this.existPriceInfo = true;
