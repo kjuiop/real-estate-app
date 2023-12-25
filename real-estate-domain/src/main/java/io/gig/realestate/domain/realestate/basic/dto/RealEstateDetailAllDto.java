@@ -7,6 +7,7 @@ import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.dto.PriceDto;
 import io.gig.realestate.domain.realestate.print.dto.PrintDto;
@@ -43,6 +44,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private Long usageCdId;
 
+    private String pdfTitle;
+
     private LandDto landInfo;
 
     private PriceDto priceInfo;
@@ -59,7 +62,7 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private List<ImageDto> imgList;
 
-    private String pdfTitle;
+    private List<LandPriceListDto> landPriceList;
 
     static {
         EMPTY = RealEstateDetailAllDto.builder()
@@ -112,6 +115,10 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
             this.floorUpList = floorUpList;
             this.floorUnderList = floorUnderList;
+        }
+
+        if (r.getLandPriceInfoList().size() > 0) {
+            this.landPriceList = r.getLandPriceInfoList().stream().map(LandPriceListDto::new).collect(Collectors.toList());
         }
 
         if (r.getSubImgInfoList() != null && r.getSubImgInfoList().size() > 0)  {

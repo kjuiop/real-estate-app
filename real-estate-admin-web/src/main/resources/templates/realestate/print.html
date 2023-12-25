@@ -630,6 +630,19 @@
                             <td style="text-align: left;">[[${landInfo.prposAreaDstrcNmList}]]</td>
                         </tr>
                     </table>
+
+                    <table class="table table-sm table-bordered pblnt-table padding-top-20 font-size-10" style="white-space: nowrap;" th:unless="${#lists.isEmpty(landPriceList)}">
+                        <thead>
+                        <tr>
+                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">기준년도</th>
+                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">개별공시지가<span class="font-size-8">(원/m)</span></th>
+                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">개별공시지가<span class="font-size-8">(원/py)</span></th>
+                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">증가율<span class="font-size-8">(%)</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -666,6 +679,7 @@
         var landInfoList =/*[[${landInfoList}]]*/'';
         var floorUpList =/*[[${floorUpList}]]*/'';
         var floorUnderList =/*[[${floorUnderList}]]*/'';
+        var landPriceList =/*[[${landPriceList}]]*/'';
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: kakaoMaps"></script>
