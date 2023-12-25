@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.*;
 import io.gig.realestate.domain.realestate.landprice.LandPriceService;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceDataApiDto;
+import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,14 @@ public class LandController {
         return new ResponseEntity<>(ApiResponse.OK(data), HttpStatus.OK);
     }
 
+    @GetMapping("price/{realEstateId}")
+    public ResponseEntity<ApiResponse> getLandPrice(
+            @PathVariable(name = "realEstateId") Long realEstateId
+    ) throws IOException {
+        List<LandPriceListDto> priceInfo = landPriceService.getLandPriceListInfo(realEstateId);
+        return new ResponseEntity<>(ApiResponse.OK(priceInfo), HttpStatus.OK);
+    }
+
     @GetMapping("price/ajax/public-data")
     public ResponseEntity<ApiResponse> getLandPricePublicData(
             @RequestParam(name = "legalCode") String legalCode,
@@ -65,7 +74,7 @@ public class LandController {
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji
     ) throws IOException {
-        List<LandPriceDataApiDto> priceInfo = landPriceService.getLandPriceListInfo(legalCode, landType, bun, ji);
+        List<LandPriceDataApiDto> priceInfo = landPriceService.getLandPricePublicData(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(priceInfo), HttpStatus.OK);
     }
 

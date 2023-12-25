@@ -2,12 +2,10 @@ package io.gig.realestate.domain.realestate.landprice;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -36,6 +34,11 @@ public class LandPriceInfo extends BaseTimeEntity  {
     private int pblntfPclndPy;
 
     private double changeRate;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")

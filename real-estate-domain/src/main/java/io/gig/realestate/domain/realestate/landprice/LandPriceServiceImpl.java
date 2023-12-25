@@ -1,11 +1,11 @@
 package io.gig.realestate.domain.realestate.landprice;
 
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceDataApiDto;
+import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandPriceDataProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,10 +28,11 @@ import java.util.List;
 public class LandPriceServiceImpl implements LandPriceService {
 
     private final LandPriceDataProperties dataProperties;
+    private final LandPriceReader landPriceReader;
 
     @Override
     @Transactional(readOnly = true)
-    public List<LandPriceDataApiDto> getLandPriceListInfo(String bCode, String landType, String bun, String ji) throws IOException {
+    public List<LandPriceDataApiDto> getLandPricePublicData(String bCode, String landType, String bun, String ji) throws IOException {
 
         LandPriceDataApiDto.Request request = LandPriceDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(dataProperties.getUrl()); /*URL*/
@@ -61,6 +61,12 @@ public class LandPriceServiceImpl implements LandPriceService {
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
         return parseLandPriceInfoJsonData(convertResult);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LandPriceListDto> getLandPriceListInfo(Long realEstateId) {
+        return landPriceReader.getLandPriceInfoByRealEstateId(realEstateId);
     }
 
     private List<LandPriceDataApiDto> parseLandPriceInfoJsonData(JSONObject data) {
