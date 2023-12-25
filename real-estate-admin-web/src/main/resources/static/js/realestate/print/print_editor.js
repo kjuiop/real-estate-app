@@ -11,7 +11,7 @@ let onReady = function() {
         calculateLandInfo(landInfoList);
     }
 
-    if (landPriceList.length > 0) {
+    if (checkNullOrEmptyValue(landPriceList) && landPriceList.length > 0) {
         loadLandPriceTable(landPriceList);
     }
 
