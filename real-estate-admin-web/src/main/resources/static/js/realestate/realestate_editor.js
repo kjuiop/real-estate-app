@@ -2,6 +2,7 @@ let onReady = function() {
     console.log("dto", dto);
     loadBasicInfo();
     loadLandInfoList();
+    loadLandPriceInfoList();
     // loadLandUsageInfo();
     loadPriceInfo();
     loadConstructInfo();
@@ -76,6 +77,20 @@ let realEstateSave = function(e) {
         "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl').find('img').attr('src'),
     }
     params.printInfo = printInfo;
+
+    let $pblntTable = $('.pblnt-table tbody');
+    let landPriceInfoList = [];
+    $pblntTable.find('tr').each(function(idx, item) {
+        let pblntPrice = {
+            "pnu": $(item).find('.pnu').attr('pnu'),
+            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
+            "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
+            "changeRate": $(item).find('.changeRate').attr('changeRate')
+        }
+        landPriceInfoList.push(pblntPrice);
+    });
+    params.landPriceInfoList = landPriceInfoList;
 
     console.log("save params", params);
 
@@ -158,6 +173,20 @@ let realEstateUpdate = function(e) {
         "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl .thumbnailInfo').find('img').attr('src'),
     }
     params.printInfo = printInfo;
+
+    let $pblntTable = $('.pblnt-table tbody');
+    let landPriceInfoList = [];
+    $pblntTable.find('tr').each(function(idx, item) {
+        let pblntPrice = {
+            "pnu": $(item).find('.pnu').attr('pnu'),
+            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
+            "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
+            "changeRate": $(item).find('.changeRate').attr('changeRate')
+        }
+        landPriceInfoList.push(pblntPrice);
+    });
+    params.landPriceInfoList = landPriceInfoList;
 
     console.log("update params", params);
 

@@ -13,13 +13,6 @@
                 max-width: 50%;
             }
         }
-
-        @media (min-width: 1900px) {
-            .width-fix-430 {
-                width: 430px !important;
-                height: 430px !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -119,7 +112,7 @@
                                     <label class="text-label">매물 특징</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <textarea class="form-control form-control-sm" name="characterInfo">[[${dto.characterInfo}]]</textarea>
+                                    <textarea class="form-control form-control-sm" name="characterInfo" style="height: 80px;">[[${dto.characterInfo}]]</textarea>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-column">
@@ -311,6 +304,20 @@
                                         </tfoot>
                                     </table>
                                 </div>
+                                <div class="form-group col-md-12 padding-10" style="overflow-x: auto; font-size: 14px; margin-top: 10px;">
+                                    <table class="table table-sm table-bordered pblnt-table" style="white-space: nowrap;">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-alien-center">기준년도</th>
+                                            <th class="text-alien-center">개별공시지가<span class="font-size-12">(원/m)</span></th>
+                                            <th class="text-alien-center">개별공시지가<span class="font-size-12">(원/py)</span></th>
+                                            <th class="text-alien-center">증가율<span class="font-size-12">(%)</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <!-- /.card-body -->
                         </form>
@@ -330,8 +337,8 @@
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
-                                            <div class="image-section main-section width-fix-430">
-                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo width-fix-430"/>
+                                            <div class="image-section main-section" style="width:100%; height:auto;">
+                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo"/>
                                             </div>
                                             <div class="margin-top-5" style="overflow-x: auto;">
                                                 <div style="white-space: nowrap;">

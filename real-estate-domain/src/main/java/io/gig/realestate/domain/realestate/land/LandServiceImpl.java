@@ -123,8 +123,7 @@ public class LandServiceImpl implements LandService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        List<LandDataApiDto> landDataApiDtoList = parseLandInfoJsonData(convertResult);
-        return landDataApiDtoList;
+        return parseLandInfoJsonData(convertResult);
     }
 
 
