@@ -140,7 +140,7 @@ let imgDraw = function (fullPath) {
         '<button type="button" class="btn btn-danger pull-right remove-image">' +
         '<i class="fa fa-times" aria-hidden="true"></i>' +
         '</button>' +
-        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload"></a>' +
+        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload" style="max-height: 400px;"></a>' +
         '</div>' +
         '</div>';
 
