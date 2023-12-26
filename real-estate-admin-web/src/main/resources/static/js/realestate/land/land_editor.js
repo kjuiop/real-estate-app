@@ -65,6 +65,69 @@ let loadLandInfoList = function() {
     });
 }
 
+let loadLandPriceInfoList = function() {
+
+    if (!checkNullOrEmptyValue(dto)) {
+        return;
+    }
+
+    let url;
+    let isLandPriceInfo = dto.existLandPriceInfo;
+    if (isLandPriceInfo === true) {
+        url = "/real-estate/land/price/" + dto.realEstateId;
+    } else {
+        url = "/real-estate/land/price/ajax/public-data"
+            + "?legalCode=" + dto.legalCode
+            + "&landType=" + dto.landType
+            + "&bun=" + dto.bun
+            + "&ji=" + dto.ji
+    }
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("land price result", result);
+            let priceInfo = result.data,
+                $frm = $('form[name="frmLandRegister"]'),
+                $table = $frm.find('.pblnt-table tbody')
+            ;
+            if (!checkNullOrEmptyValue(priceInfo)) {
+                return;
+            }
+
+            let tag = drawPriceTable(priceInfo);
+            $table.html(tag);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawPriceTable = function(priceInfo) {
+    let tag = '';
+
+    $.each(priceInfo, function(idx, item) {
+        tag += '<tr>';
+        tag += '<th class="text-alien-center thead-light pclndStdrYear pnu" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '">' + item.pclndStdrYear + '</th>';
+        tag += '<td class="text-alien-center pblntfPclnd" pblntfPclnd="' + item.pblntfPclnd + '">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
+        tag += '<td class="text-alien-center pblntfPclndPy" pblntfPclndPy="' + item.pblntfPclndPy + '">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
+        if (item.changeRate > 0) {
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%<span style="color: darkred;">▲</span></td>';
+        } else if (item.changeRate < 0) {
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%<span style="color: darkblue;">▼</span></td>';
+        } else {
+            tag += '<td class="text-alien-center changeRate" changeRate="' + item.changeRate + '">' + item.changeRate + '%</td>';
+        }
+        tag += '</tr>';
+    });
+
+    return tag;
+}
+
 let drawLandTable = function($table, landList) {
 
     let calLndpclAr = 0,
@@ -77,7 +140,11 @@ let drawLandTable = function($table, landList) {
     let tag = '';
     $.each(landList, function(idx, item) {
 
-        let pblndfPclndByPyung = convertNullOrEmptyValue(item.pblndfPclndByPyung);
+        let pblndfPclndByPyung = 0;
+        if (checkNullOrEmptyValue(item.pblntfPclndByPyung)) {
+            pblndfPclndByPyung = item.pblntfPclndByPyung;
+        }
+
         if (isNaN(item.pblntfPclnd)) {
             return;
         }
@@ -103,7 +170,7 @@ let drawLandTable = function($table, landList) {
         console.log("drawLandTable", item);
 
         tag += '<tr>';
-        tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        tag += '<td class="text-alien-center min-width-130">' + dto.address + '</td>';
         tag += '<td class="text-alien-center" style="min-width:70px;">' + item.lndcgrCodeNm + '</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclAr + '㎡</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclArByPyung + '평</td>';

@@ -4,6 +4,13 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .content * {
+            font-size: 14px;
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content">
     <div th:replace="layouts/utilFragments::navigator('/real-estate', '매물 관리', '매물 목록')"></div>
@@ -16,7 +23,12 @@
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processType" />
-                            <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-building"></i> 매물관리</h5></div>
+                            <div class="col-md-12" style="margin-bottom: 25px;">
+                                <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
+                                <div class="col-md-3 pull-right">
+                                    <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
+                                </div>
+                            </div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
                                 <table class="table projects search-table spacing-table">
                                     <thead>
@@ -433,9 +445,9 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">
-                            <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
-                        </div>
+<!--                        <div class="col-md-12" style="padding: 10px; margin-top: 10px;">-->
+<!--                            <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>-->
+<!--                        </div>-->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="text-center">

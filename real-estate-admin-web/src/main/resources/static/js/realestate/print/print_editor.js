@@ -11,8 +11,39 @@ let onReady = function() {
         calculateLandInfo(landInfoList);
     }
 
+    if (checkNullOrEmptyValue(landPriceList) && landPriceList.length > 0) {
+        loadLandPriceTable(landPriceList);
+    }
+
     loadKakaoMap(dto.address);
     loadLandMap(dto.address);
+}
+
+let loadLandPriceTable = function(landPriceList) {
+    let $table = $('.pblnt-table tbody');
+    let tag = drawPriceTable(landPriceList);
+    $table.html(tag);
+}
+
+let drawPriceTable = function(priceInfo) {
+    let tag = '';
+
+    $.each(priceInfo, function(idx, item) {
+        tag += '<tr>';
+        tag += '<th class="text-alien-center table-head">' + item.pclndStdrYear + '</th>';
+        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
+        tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
+        if (item.changeRate > 0) {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkred;">▲</span></td>';
+        } else if (item.changeRate < 0) {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%<span style="color: darkblue;">▼</span></td>';
+        } else {
+            tag += '<td class="text-alien-center">' + item.changeRate + '%</td>';
+        }
+        tag += '</tr>';
+    });
+
+    return tag;
 }
 
 let calculateFloorInfo = function(floorUpList, floorUnderList) {

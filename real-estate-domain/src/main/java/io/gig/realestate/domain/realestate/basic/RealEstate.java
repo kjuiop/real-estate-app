@@ -11,6 +11,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -137,6 +138,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Vertex> vertexInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<LandPriceInfo> landPriceInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -175,6 +180,10 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addPrintInfo(PrintInfo printInfo) {
         this.printInfoList.add(printInfo);
+    }
+
+    public void addLandPriceInfo(LandPriceInfo landPriceInfo) {
+        this.landPriceInfoList.add(landPriceInfo);
     }
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {

@@ -54,6 +54,9 @@ public class RealEstateDetailDto extends RealEstateDto {
     private boolean existLandInfo = false;
 
     @Builder.Default
+    private boolean existLandPriceInfo = false;
+
+    @Builder.Default
     private boolean existPriceInfo = false;
 
     @Builder.Default
@@ -79,6 +82,9 @@ public class RealEstateDetailDto extends RealEstateDto {
         super(r);
         if (r.getLandInfoList().size() > 0) {
             this.existLandInfo = true;
+        }
+        if (r.getLandPriceInfoList().size() > 0) {
+            this.existLandPriceInfo = true;
         }
 
         if (r.getPriceInfoList().size() > 0) {
