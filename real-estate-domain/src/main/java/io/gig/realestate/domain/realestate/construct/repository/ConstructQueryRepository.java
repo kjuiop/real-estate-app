@@ -54,6 +54,7 @@ public class ConstructQueryRepository {
                 .from(floorPriceInfo)
                 .where(floorPriceInfo.deleteYn.eq(YnType.N))
                 .where(floorPriceInfo.realEstate.id.eq(realEstateId))
+                .orderBy(floorPriceInfo.id.asc())
                 ;
 
         return contentQuery.fetch();
