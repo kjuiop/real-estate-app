@@ -26,6 +26,8 @@ import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
+import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
+import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -142,6 +144,11 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addImageInfo(imageInfo);
         }
 
+        for (LandPriceCreateForm dto : createForm.getLandPriceInfoList()) {
+            LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, newRealEstate, loginUser.getLoginUser());
+            newRealEstate.addLandPriceInfo(landPriceInfo);
+        }
+
         return realEstateStore.store(newRealEstate).getId();
     }
 
@@ -192,6 +199,12 @@ public class RealEstateServiceImpl implements RealEstateService {
         realEstate.getPrintInfoList().clear();
         PrintInfo printInfo = PrintInfo.create(updateForm.getPrintInfo(), realEstate);
         realEstate.addPrintInfo(printInfo);
+
+        realEstate.getLandPriceInfoList().clear();
+        for (LandPriceCreateForm dto : updateForm.getLandPriceInfoList()) {
+            LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
+            realEstate.addLandPriceInfo(landPriceInfo);
+        }
 
         return realEstateStore.store(realEstate).getId();
     }
