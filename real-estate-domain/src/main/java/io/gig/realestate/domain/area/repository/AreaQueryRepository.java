@@ -36,7 +36,7 @@ public class AreaQueryRepository {
                 .where(defaultCondition())
                 .where(isNullParent())
                 .where(eqLevel(1))
-                .orderBy(area.sortOrder.asc())
+                .orderBy(area.name.asc())
                 .fetch();
     }
 
@@ -46,7 +46,7 @@ public class AreaQueryRepository {
                 .from(area)
                 .where(defaultCondition())
                 .where(eqParentId(areaId))
-                .orderBy(area.sortOrder.asc())
+                .orderBy(area.name.asc())
                 .fetch();
     }
 
@@ -57,7 +57,7 @@ public class AreaQueryRepository {
                 .where(defaultCondition())
                 .where(eqSido(sido))
                 .where(eqLevel(2))
-                .orderBy(area.sortOrder.asc())
+                .orderBy(area.name.asc())
                 .fetch();
     }
 
@@ -68,7 +68,7 @@ public class AreaQueryRepository {
                 .where(defaultCondition())
                 .where(eqGungu(gungu))
                 .where(eqLevel(3))
-                .orderBy(area.sortOrder.asc())
+                .orderBy(area.name.asc())
                 .fetch();
     }
 

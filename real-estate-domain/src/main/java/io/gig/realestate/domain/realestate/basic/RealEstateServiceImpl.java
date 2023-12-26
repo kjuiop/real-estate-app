@@ -200,6 +200,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         PrintInfo printInfo = PrintInfo.create(updateForm.getPrintInfo(), realEstate);
         realEstate.addPrintInfo(printInfo);
 
+        realEstate.getLandPriceInfoList().clear();
         for (LandPriceCreateForm dto : updateForm.getLandPriceInfoList()) {
             LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
             realEstate.addLandPriceInfo(landPriceInfo);
