@@ -19,7 +19,7 @@
             .print-content {
                 display: block;
                 visibility: visible;
-                height: 820px !important;
+                height: 760px !important;
             }
 
             .print-hidden {
@@ -32,7 +32,7 @@
             }
 
             .cover-body {
-                padding: 50px 0 !important;
+                padding: 40px 0 !important;
                 width: 100% !important;
             }
 
@@ -57,16 +57,24 @@
             }
 
             .card-location #map {
-                height: 650px !important;
+                height: 600px !important;
             }
 
             .land-info-section #landMap {
                 width: 100% !important;
-                height: 550px !important;
+                height: 600px !important;
             }
 
-            .table-head {
+            .floor-info-section .table-head {
                 background-color:#E2E6ED !important; -webkit-print-color-adjust:exact;
+            }
+
+            .land-info-section .table-head {
+                background-color:#E2E6ED !important; -webkit-print-color-adjust:exact;
+            }
+
+            .land-info-section {
+                vertical-align: middle !important;
             }
         }
 
@@ -580,9 +588,9 @@
                         <table class="table table-bordered min-width-table construct-table">
                             <tbody>
                             <tr>
-                                <th>대지위치</th>
+                                <th class="table-head">대지위치</th>
                                 <td colspan="3">[[${dto.address}]]</td>
-                                <th>지번</th>
+                                <th class="table-head">지번</th>
                                 <td>
                                     [[${dto.bun}]]
                                     <th:block th:if="${not #strings.isEmpty(dto.ji)}">
@@ -591,63 +599,63 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>용도지역</th>
+                                <th class="table-head">용도지역</th>
                                 <td>
                                     <th:block th:if="${landInfo != null}">
                                         [[${landInfo.prposArea1Nm}]]
                                     </th:block>
                                 </td>
-                                <th>용도지구</th>
+                                <th class="table-head">용도지구</th>
                                 <td></td>
-                                <th>구역</th>
+                                <th class="table-head">구역</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>대지면적</th>
+                                <th class="table-head">대지면적</th>
                                 <td>
                                     <th:block th:if="${landInfo != null}">
                                         [[${landInfo.lndpclAr}]]㎡
                                     </th:block>
                                 </td>
-                                <th>연면적</th>
+                                <th class="table-head">연면적</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.totArea}]]㎡
                                     </th:block>
                                 </td>
-                                <th>명칭및번호</th>
+                                <th class="table-head">명칭및번호</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>건축면적</th>
+                                <th class="table-head">건축면적</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.archArea}]]㎡
                                     </th:block>
                                 </td>
-                                <th>용적률 산정용<br />연면적</th>
+                                <th class="table-head">용적률 산정용<br />연면적</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.totArea}]]㎡
                                     </th:block>
                                 </td>
-                                <th>건축물수</th>
+                                <th class="table-head">건축물수</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>건폐율</th>
+                                <th class="table-head">건폐율</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.bcRat}]]㎡
                                     </th:block>
                                 </td>
-                                <th>용적률</th>
+                                <th class="table-head">용적률</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.vlRat}]]㎡
                                     </th:block>
                                 </td>
-                                <th>층호수</th>
+                                <th class="table-head">층호수</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.houseHoldName}]]
@@ -655,27 +663,27 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>주용도</th>
+                                <th class="table-head">주용도</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.mainPurpsCdNm}]]
                                     </th:block>
                                 </td>
-                                <th>주구조<br />지붕구조</th>
+                                <th class="table-head">주구조<br />지붕구조</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.strctCdNm}]]
                                     </th:block>
                                 </td>
-                                <th>부속건축물</th>
+                                <th class="table-head">부속건축물</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>허가일자</th>
+                                <th class="table-head">허가일자</th>
                                 <td></td>
-                                <th>착공일자</th>
+                                <th class="table-head">착공일자</th>
                                 <td></td>
-                                <th>사용승인일자</th>
+                                <th class="table-head">사용승인일자</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.useAprDate}]]
@@ -683,7 +691,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>특이사항</th>
+                                <th class="table-head">특이사항</th>
                                 <td colspan="5"></td>
                             </tr>
                             </tbody>
@@ -698,25 +706,25 @@
                         <table class="table table-bordered park-table">
                             <tbody>
                             <tr>
-                                <th>옥내<br />기계식</th>
+                                <th class="table-head">옥내<br />기계식</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.indrMechUtcnt}]]
                                     </th:block>
                                 </td>
-                                <th>옥내<br />자주식</th>
+                                <th class="table-head">옥내<br />자주식</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.indrAutoUtcnt}]]
                                     </th:block>
                                 </td>
-                                <th>옥외<br />기계식</th>
+                                <th class="table-head">옥외<br />기계식</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.oudrMechUtcnt}]]
                                     </th:block>
                                 </td>
-                                <th>옥외<br />자주식</th>
+                                <th class="table-head">옥외<br />자주식</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.oudrAutoUtcnt}]]
@@ -735,13 +743,13 @@
                         <table class="table table-bordered elv-table">
                             <tbody>
                             <tr>
-                                <th>승용</th>
+                                <th class="table-head">승용</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.indrMechUtcnt}]]대
                                     </th:block>
                                 </td>
-                                <th>비상용</th>
+                                <th class="table-head">비상용</th>
                                 <td>
                                     <th:block th:if="${constructInfo != null}">
                                         [[${constructInfo.indrAutoUtcnt}]]대
