@@ -30,7 +30,7 @@ let drawPriceTable = function(priceInfo) {
 
     $.each(priceInfo, function(idx, item) {
         tag += '<tr>';
-        tag += '<th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">' + item.pclndStdrYear + '</th>';
+        tag += '<th class="text-alien-center table-head">' + item.pclndStdrYear + '</th>';
         tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
         tag += '<td class="text-alien-center">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
         if (item.changeRate > 0) {

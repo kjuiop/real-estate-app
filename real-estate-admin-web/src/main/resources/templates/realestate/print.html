@@ -62,15 +62,11 @@
 
             .land-info-section #landMap {
                 width: 100% !important;
-                height: 650px !important;
+                height: 550px !important;
             }
 
-            .floor-info-section .table-head {
-                background-color:#FEB30B !important; -webkit-print-color-adjust:exact;
-            }
-
-            .land-info-section .table-head {
-                background-color:darkblue !important; -webkit-print-color-adjust:exact;
+            .table-head {
+                background-color:#E2E6ED !important; -webkit-print-color-adjust:exact;
             }
         }
 
@@ -213,6 +209,57 @@
         .print-title-line {
             background-color: darkblue;
             height: 5px;
+        }
+
+        .construct-table th {
+            text-align: center;
+            width: 90px;
+            font-size: 10px;
+            background-color: #E2E6ED;
+            padding: 8px;
+        }
+
+        .construct-table td {
+            text-align: center;
+            width: 90px;
+            font-size: 10px;
+            padding: 8px;
+        }
+
+        .park-table th {
+            text-align: center;
+            width: 50px !important;
+            font-size: 10px;
+            background-color: #E2E6ED;
+            padding: 8px;
+        }
+
+        .park-table td {
+            text-align: center;
+            font-size: 10px;
+            padding: 8px;
+        }
+
+        .elv-table th {
+            text-align: center;
+            width: 100px !important;
+            font-size: 10px;
+            background-color: #E2E6ED;
+            padding: 8px;
+        }
+
+        .elv-table td {
+            text-align: center;
+            font-size: 10px;
+            padding: 8px;
+        }
+
+        .table-head {
+            background-color: #E2E6ED;
+        }
+
+        th, td {
+            vertical-align: middle !important; /* 세로 가운데 정렬을 지정합니다. */
         }
     </style>
     <title>[[${dto.pdfTitle}]]</title>
@@ -477,66 +524,294 @@
             </div>
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12" style="height: 600px; padding-top: 10px;">
-                <div class="col-md-6 padding-20 height-100 card-content">
-                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">
-                        <img th:src="${printInfo.buildingImgUrl}" style="width: 100%; height: 100%;">
-                    </th:block>
-                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">
-                        <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">
-                    </th:block>
+                <div class="col-md-7 padding-20 height-100 card-content">
+<!--                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">-->
+<!--                        <img th:src="${printInfo.buildingImgUrl}" style="width: 100%; height: 100%;">-->
+<!--                    </th:block>-->
+<!--                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">-->
+<!--                        <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">-->
+<!--                    </th:block>-->
+
+<!--                    <div class="display-flex-row margin-bottom-10">-->
+<!--                        <h5 class="col-md-9" contenteditable="true" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">고유번호 : </h5>-->
+<!--                        <div class="pull-right col-md-3 no-left-padding" style="text-align: right;">-->
+<!--                            <span style="font-size: 11px; margin-top:6px;">(단위 : ㎡)</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="margin-bottom-10" style="white-space: nowrap; overflow-x: auto; max-width: 578px;">-->
+<!--                        <table class="table table-bordered min-width-table construct-table">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th>대장종류</th>-->
+<!--                                <th>대지위치</th>-->
+<!--                                <th>건축물명칭</th>-->
+<!--                                <th>동명칭및번호</th>-->
+<!--                                <th>주용도</th>-->
+<!--                                <th>연면적</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr>-->
+<!--                                <td>표제부<br />(주건축물)</td>-->
+<!--                                <td>[[${dto.address}]]</td>-->
+<!--                                <td>[[${dto.buildingName}]]</td>-->
+<!--                                <td></td>-->
+<!--                                <td>-->
+<!--                                    <th:block th:if="${constructInfo != null}">-->
+<!--                                        [[${constructInfo.mainPurpsCdNm}]]-->
+<!--                                    </th:block>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <th:block th:if="${constructInfo != null}">-->
+<!--                                        [[${constructInfo.totArea}]]㎡-->
+<!--                                    </th:block>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+
+                    <div class="margin-bottom-10">
+                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">집합건축물[표제부]</h5>
+                    </div>
+
+                    <div class="margin-bottom-10">
+                        <table class="table table-bordered min-width-table construct-table">
+                            <tbody>
+                            <tr>
+                                <th>대지위치</th>
+                                <td colspan="3">[[${dto.address}]]</td>
+                                <th>지번</th>
+                                <td>
+                                    [[${dto.bun}]]
+                                    <th:block th:if="${not #strings.isEmpty(dto.ji)}">
+                                        -[[${dto.ji}]]
+                                    </th:block>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>용도지역</th>
+                                <td>
+                                    <th:block th:if="${landInfo != null}">
+                                        [[${landInfo.prposArea1Nm}]]
+                                    </th:block>
+                                </td>
+                                <th>용도지구</th>
+                                <td></td>
+                                <th>구역</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>대지면적</th>
+                                <td>
+                                    <th:block th:if="${landInfo != null}">
+                                        [[${landInfo.lndpclAr}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>연면적</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.totArea}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>명칭및번호</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>건축면적</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.archArea}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>용적률 산정용<br />연면적</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.totArea}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>건축물수</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>건폐율</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.bcRat}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>용적률</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.vlRat}]]㎡
+                                    </th:block>
+                                </td>
+                                <th>층호수</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.houseHoldName}]]
+                                    </th:block>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>주용도</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.mainPurpsCdNm}]]
+                                    </th:block>
+                                </td>
+                                <th>주구조<br />지붕구조</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.strctCdNm}]]
+                                    </th:block>
+                                </td>
+                                <th>부속건축물</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>허가일자</th>
+                                <td></td>
+                                <th>착공일자</th>
+                                <td></td>
+                                <th>사용승인일자</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.useAprDate}]]
+                                    </th:block>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>특이사항</th>
+                                <td colspan="5"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="display-flex-row">
+                        <h5 class="col-md-12 no-left-padding" contenteditable="true" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">주차장</h5>
+                    </div>
+
+                    <div class="no-left-padding margin-bottom-10 col-md-12">
+                        <table class="table table-bordered park-table">
+                            <tbody>
+                            <tr>
+                                <th>옥내<br />기계식</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.indrMechUtcnt}]]
+                                    </th:block>
+                                </td>
+                                <th>옥내<br />자주식</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.indrAutoUtcnt}]]
+                                    </th:block>
+                                </td>
+                                <th>옥외<br />기계식</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.oudrMechUtcnt}]]
+                                    </th:block>
+                                </td>
+                                <th>옥외<br />자주식</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.oudrAutoUtcnt}]]
+                                    </th:block>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="display-flex-row">
+                        <h5 class="col-md-12 no-left-padding" contenteditable="true" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">승강기</h5>
+                    </div>
+
+                    <div class="no-left-padding col-md-12">
+                        <table class="table table-bordered elv-table">
+                            <tbody>
+                            <tr>
+                                <th>승용</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.indrMechUtcnt}]]대
+                                    </th:block>
+                                </td>
+                                <th>비상용</th>
+                                <td>
+                                    <th:block th:if="${constructInfo != null}">
+                                        [[${constructInfo.indrAutoUtcnt}]]대
+                                    </th:block>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
-                    <table class="table table-bordered min-width-table">
-                        <tr>
-                            <td class="table-head" style="background-color: orange; color: #fff;">층 수</td>
-                            <td class="table-head" style="background-color: orange; color: #fff;">면 적 (㎡)</td>
-                            <td class="table-head" style="background-color: orange; color: #fff;">면 적 (평)</td>
-                            <td class="table-head" style="background-color: orange; color: #fff;">주 용 도</td>
-                        </tr>
-                        <th:block th:if="${#lists.isEmpty(floorUpList) && #lists.isEmpty(floorUnderList)}">
+                <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content">
+                    <div class="margin-bottom-3">
+                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
+                    </div>
+
+                    <div class="no-left-padding col-md-12">
+                        <table class="table table-bordered min-width-table">
+                            <tbody>
                             <tr>
-                                <td class="text-alien-center" colspan="4">층별정보가 없습니다.</td>
+                                <td class="table-head">층별</td>
+                                <td class="table-head">용도</td>
+                                <td class="table-head">면 적 (㎡)</td>
+                                <td class="table-head">면 적 (평)</td>
                             </tr>
-                        </th:block>
-                        <th:block th:unless="${#lists.isEmpty(floorUpList)}" th:each="floor, status : ${floorUpList}">
-                            <tr>
-                                <td>[[${floor.flrNoNm}]]</td>
-                                <td>[[${floor.lndpclAr}]]</td>
-                                <td>[[${floor.lndpclArByPyung}]]</td>
-                                <td>[[${floor.etcPurps}]]</td>
-                            </tr>
-                        </th:block>
-                        <th:block th:unless="${#lists.isEmpty(floorUpList)}">
-                            <tr>
-                                <td style="background-color: #E6E6E6; font-weight: bold;">지상층 소계</td>
-                                <td class="totalUpFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;"></td>
-                                <td class="totalUpFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;"></td>
-                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>
-                            </tr>
-                        </th:block>
-                        <th:block th:unless="${#lists.isEmpty(floorUnderList)}" th:each="floor, status : ${floorUnderList}">
-                            <tr>
-                                <td>[[${floor.flrNoNm}]]</td>
-                                <td>[[${floor.lndpclAr}]]</td>
-                                <td>[[${floor.lndpclArByPyung}]]</td>
-                                <td>[[${floor.etcPurps}]]</td>
-                            </tr>
-                        </th:block>
-                        <th:block th:unless="${#lists.isEmpty(floorUnderList)}">
-                            <tr>
-                                <td style="background-color: #E6E6E6; font-weight: bold;">지하층 소계</td>
-                                <td class="totalUnderFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;">15,306.17</td>
-                                <td class="totalUnderFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;">4,630.12</td>
-                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>
-                            </tr>
-                        </th:block>
-                        <tr>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>
-                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">56,334.26</td>
-                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">17,041.11</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
-                        </tr>
-                    </table>
+                            <th:block th:if="${#lists.isEmpty(floorUpList) && #lists.isEmpty(floorUnderList)}">
+                                <tr>
+                                    <td class="text-alien-center" colspan="4">층별정보가 없습니다.</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(floorUpList)}" th:each="floor, status : ${floorUpList}">
+                                <tr>
+                                    <td>[[${floor.flrNoNm}]]</td>
+                                    <td>[[${floor.etcPurps}]]</td>
+                                    <td>[[${floor.lndpclAr}]]</td>
+                                    <td>[[${floor.lndpclArByPyung}]]</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(floorUpList)}">
+                                <!--                            <tr>-->
+                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">지상층 소계</td>-->
+                                <!--                                <td class="totalUpFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;"></td>-->
+                                <!--                                <td class="totalUpFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;"></td>-->
+                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>-->
+                                <!--                            </tr>-->
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(floorUnderList)}" th:each="floor, status : ${floorUnderList}">
+                                <!--                            <tr>-->
+                                <!--                                <td>[[${floor.flrNoNm}]]</td>-->
+                                <!--                                <td>[[${floor.lndpclAr}]]</td>-->
+                                <!--                                <td>[[${floor.lndpclArByPyung}]]</td>-->
+                                <!--                                <td>[[${floor.etcPurps}]]</td>-->
+                                <!--                            </tr>-->
+                            </th:block>
+                            <th:block th:unless="${#lists.isEmpty(floorUnderList)}">
+                                <!--                            <tr>-->
+                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">지하층 소계</td>-->
+                                <!--                                <td class="totalUnderFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;">15,306.17</td>-->
+                                <!--                                <td class="totalUnderFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;">4,630.12</td>-->
+                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>-->
+                                <!--                            </tr>-->
+                            </th:block>
+                            <!--                        <tr>-->
+                            <!--                            <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>-->
+                            <!--                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">56,334.26</td>-->
+                            <!--                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">17,041.11</td>-->
+                            <!--                            <td style="background-color: #A9D0F5; font-weight: bold;">-</td>-->
+                            <!--                        </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -571,18 +846,18 @@
             </div>
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
-                <div class="col-md-6 padding-10 height-100">
+                <div class="col-md-6 padding-10 height-100" style="padding-top:20px;">
                     <div id="landMap" style="width: 100%; height: 550px;"></div>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-10">
                     <table class="table table-bordered line">
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">구분</td>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">지번</td>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">면적(㎡)</td>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">면적(평)</td>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">지목</td>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">공시지가(원/㎡)</td>
+                            <td class="table-head">구분</td>
+                            <td class="table-head">지번</td>
+                            <td class="table-head">면적(㎡)</td>
+                            <td class="table-head">면적(평)</td>
+                            <td class="table-head">지목</td>
+                            <td class="table-head">공시지가(원/㎡)</td>
                         </tr>
                         <th:block th:unless="${#lists.isEmpty(landInfoList)}" th:each="land, status : ${landInfoList}">
                             <tr>
@@ -610,23 +885,23 @@
 
                     <table class="table table-bordered">
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">소재지</td>
+                            <td class="table-head">소재지</td>
                             <td style="text-align: left;">[[${landInfo.address}]]</td>
                         </tr>
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">지목</td>
+                            <td class="table-head">지목</td>
                             <td style="text-align: left;">[[${landInfo.lndcgrCodeNm}]]</td>
                         </tr>
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">대지면적</td>
+                            <td class="table-head">대지면적</td>
                             <td style="text-align: left;">[[${landInfo.lndpclAr}]]㎡</td>
                         </tr>
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">공시지가</td>
+                            <td class="table-head">공시지가</td>
                             <td style="text-align: left;">[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
                         </tr>
                         <tr>
-                            <td class="table-head" style="background-color: darkblue; color: #ffffff;">다른 법령 등에 따른 지역 지구 등</td>
+                            <td class="table-head">다른 법령 등에 따른 지역 지구 등</td>
                             <td style="text-align: left;">[[${landInfo.prposAreaDstrcNmList}]]</td>
                         </tr>
                     </table>
@@ -634,10 +909,10 @@
                     <table class="table table-sm table-bordered pblnt-table padding-top-20 font-size-10" style="white-space: nowrap;" th:unless="${#lists.isEmpty(landPriceList)}">
                         <thead>
                         <tr>
-                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">기준년도</th>
-                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">개별공시지가<span class="font-size-8">(원/m)</span></th>
-                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">개별공시지가<span class="font-size-8">(원/py)</span></th>
-                            <th class="text-alien-center table-head" style="background-color: darkblue; color: #ffffff;">증가율<span class="font-size-8">(%)</span></th>
+                            <th class="text-alien-center table-head">기준년도</th>
+                            <th class="text-alien-center table-head">개별공시지가<span class="font-size-8">(원/m)</span></th>
+                            <th class="text-alien-center table-head">개별공시지가<span class="font-size-8">(원/py)</span></th>
+                            <th class="text-alien-center table-head">증가율<span class="font-size-8">(%)</span></th>
                         </tr>
                         </thead>
                         <tbody>
