@@ -25,9 +25,8 @@ public class Vertex extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double x;
-
-    private double y;
+    @Lob
+    private String jsonStr;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
