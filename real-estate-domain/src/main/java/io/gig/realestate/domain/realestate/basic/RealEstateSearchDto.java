@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.common.BaseSearchDto;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -98,6 +99,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
     private Integer minRoadWidth;
 
     private Integer maxRoadWidth;
+
+    private YnType rYn;
+
+    private YnType abYn;
 
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
