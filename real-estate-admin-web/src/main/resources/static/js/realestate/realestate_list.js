@@ -11,7 +11,14 @@ let search = function(e) {
 
     let processType = $(this).attr('processType');
     if (checkNullOrEmptyValue(processType)) {
-        $frm.find('input[name="processType"]').val(processType);
+
+        if (processType === 'r') {
+            $frm.find('input[name="rYn"]').val("Y");
+        } else if (processType === 'ab') {
+            $frm.find('input[name="abYn"]').val("Y");
+        } else {
+            $frm.find('input[name="processType"]').val(processType);
+        }
     }
     console.log("process Type : ", processType)
     $frm.submit();

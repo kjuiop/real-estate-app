@@ -23,6 +23,8 @@
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processType" />
+                            <input type="hidden" name="rYn" />
+                            <input type="hidden" name="abYn" />
                             <div class="col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -49,8 +51,8 @@
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" processType="R">R</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" processType="AB">A-B</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.rYn != null && condition.rYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="r">R</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.abYn != null && condition.abYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="ab">A-B</button>
                                                 </div>
                                                 <div class="pull-right">
                                                     <button type="button" class="btn btn-default btnShowExcelModal">엑셀 업로드</button>
