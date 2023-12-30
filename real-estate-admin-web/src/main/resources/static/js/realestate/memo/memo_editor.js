@@ -1,4 +1,7 @@
+let preventDoubleEnter = false;
+
 let loadMemoInfo = function() {
+    preventDoubleEnter = false;
 
     if (!checkNullOrEmptyValue(dto.realEstateId)) {
         return;
@@ -41,6 +44,12 @@ let addMemo = function(e) {
 
     e.preventDefault();
 
+    if (preventDoubleEnter) {
+        return;
+    }
+
+    preventDoubleEnter = true;
+
     let params = {
         "realEstateId" : dto.realEstateId,
         "memo" : $(this).val(),
@@ -65,6 +74,10 @@ let addMemo = function(e) {
             ajaxErrorFieldByText(error);
         }
     });
+
+    setTimeout(function() {
+        preventDoubleEnter = false;
+    }, 1000);
 
 }
 
