@@ -25,6 +25,6 @@ public class CoordinateDto {
     public CoordinateDto(RealEstate r) {
         this.realEstateId = r.getId();
         this.address = r.getAddress();
-        this.vertexInfoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
+//        this.vertexInfoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
     }
 }
