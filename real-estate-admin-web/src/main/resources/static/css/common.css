@@ -276,8 +276,9 @@
 }
 
 .search-double-field input, .input-label + input{
-    height: 64px;
-    padding-top: 30px;
+    height: 54px;
+    padding-top: 35px;
+    padding-bottom: 18px;
     border: 0;
 }
 
@@ -307,7 +308,17 @@
 }
 
 .input-label .search-text {
-    font-size: 0.9rem;
+    font-size: 13px;
+    font-weight: normal;
+    color: #828a92;
+    white-space: nowrap;
+}
+
+.input-label .search-bottom-text {
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    font-size: 12px;
     font-weight: normal;
     color: #828a92;
     white-space: nowrap;
@@ -325,10 +336,10 @@
     position: relative;
 }
 
-.input-div span{
+.input-div span {
     font-size: 1.2rem;
     position: absolute;
-    bottom: 8px;
+    bottom: 3px;
 }
 
 .text-alien-center {
