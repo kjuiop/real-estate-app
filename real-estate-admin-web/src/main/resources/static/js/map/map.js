@@ -380,8 +380,6 @@ let applyAreaRange = function(e) {
 
 
 
-
-
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
     .on('change', 'select[name="dong"]', setSearchAddress)

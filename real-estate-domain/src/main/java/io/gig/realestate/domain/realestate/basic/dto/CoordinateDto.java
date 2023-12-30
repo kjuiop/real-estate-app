@@ -20,10 +20,13 @@ public class CoordinateDto {
 
     private String address;
 
+    private String buildingName;
+
     private List<VertexDto> vertexInfoList;
 
     public CoordinateDto(RealEstate r) {
         this.realEstateId = r.getId();
+        this.buildingName = r.getBuildingName();
         this.address = r.getAddress();
 //        this.vertexInfoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
     }
