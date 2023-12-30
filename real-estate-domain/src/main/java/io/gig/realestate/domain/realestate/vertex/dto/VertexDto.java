@@ -12,15 +12,12 @@ import lombok.Setter;
 @Setter
 public class VertexDto {
 
-    private double x;
-
-    private double y;
+    private String jsonStr;
 
     private Long realEstateId;
 
     public VertexDto(Vertex v) {
-        this.x = v.getX();
-        this.y = v.getY();
+        this.jsonStr = v.getJsonStr();
         this.realEstateId = v.getRealEstate().getId();
     }
 }
