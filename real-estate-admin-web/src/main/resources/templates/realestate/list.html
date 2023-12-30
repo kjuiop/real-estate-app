@@ -7,7 +7,11 @@
 <head>
     <style>
         .content * {
-            font-size: 14px;
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
         }
     </style>
 </head>
@@ -23,10 +27,12 @@
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processType" />
-                            <div class="col-md-12" style="margin-bottom: 25px;">
+                            <input type="hidden" name="rYn" />
+                            <input type="hidden" name="abYn" />
+                            <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
-                                    <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
+                                    <button id="btnRealEstateModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> 신규매물등록</button>
                                 </div>
                             </div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
@@ -39,7 +45,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td colspan="9" class="search-title" style="width: 100%;">
+                                            <td colspan="9" class="search-title no-left-padding" style="width: 100%;">
                                                 <div class="processUnitSection" style="display: inline-block;">
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
@@ -49,8 +55,8 @@
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'r' ? 'btn-primary' : 'btn-default'}" processType="R">R</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'a-b' ? 'btn-primary' : 'btn-default'}" processType="AB">A-B</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.rYn != null && condition.rYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="r">R</button>
+                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.abYn != null && condition.abYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="ab">A-B</button>
                                                 </div>
                                                 <div class="pull-right">
                                                     <button type="button" class="btn btn-default btnShowExcelModal">엑셀 업로드</button>
@@ -157,7 +163,7 @@
                                                     <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
-                                                           <div class="search-text">만원</div>
+                                                           <div class="search-bottom-text">만원</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -174,7 +180,7 @@
                                                     <input type="text" id="maxArchArea" name="maxArchArea" class="form-control search-input center-align" th:value="${condition.maxArchArea > 0 ? condition.maxArchArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxArchArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -191,7 +197,7 @@
                                                     <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr > 0 ? condition.maxLndpclAr : ''}">
                                                     <div class="input-label">
                                                         <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -234,7 +240,7 @@
                                                     <input type="text" id="maxRateOfReturn" name="maxRevenueRate" class="form-control search-input center-align" th:value="${condition.maxRevenueRate > 0 ? condition.maxRevenueRate : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRateOfReturn" class="bottom-label">
-                                                            <div class="search-text">%</div>
+                                                            <div class="search-bottom-text">%</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -251,7 +257,7 @@
                                                     <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea > 0 ? condition.maxTotArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -268,7 +274,7 @@
                                                     <input type="text" id="maxRoadWidth" name="maxRoadWidth" class="form-control search-input center-align" th:value="${condition.maxRoadWidth > 0 ? condition.maxRoadWidth : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRoadWidth" class="bottom-label">
-                                                            <div class="search-text">m</div>
+                                                            <div class="search-bottom-text">m</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -329,19 +335,19 @@
                                 <table class="table table-striped projects">
                                     <thead>
                                     <tr>
-                                        <th style="width: 3%;">
+                                        <th style="width: 5%;">
                                             No
                                         </th>
-                                        <th style="width: 8%;">사진</th>
-                                        <th style="width: 15%;">주소</th>
-                                        <th style="width: 7%;">진행단계</th>
-                                        <th style="width: 7%;">용도</th>
-                                        <th class="text-center" style="width: 12%;">금액</th>
+                                        <th style="width: 5%;">사진</th>
+                                        <th style="width: 20%;">주소</th>
+                                        <th style="width: 5%;">진행단계</th>
+                                        <th style="width: 5%;">용도</th>
+                                        <th class="text-center" style="width: 15%;">금액</th>
                                         <th style="width: 5%;">수익</th>
-                                        <th style="width: 8%;">면적</th>
+                                        <th style="width: 15%;">면적</th>
                                         <th style="width: 5%;">도로너비</th>
-                                        <th style="width: 5%;">담당자</th>
-                                        <th style="width: 9%;">등록일</th>
+                                        <th style="width: 10%;">담당자</th>
+                                        <th style="width: 10%;">등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>

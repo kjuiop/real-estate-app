@@ -430,9 +430,27 @@ public class RealEstateQueryRepository {
         return realEstate.legalCode.eq(legalCode);
     }
 
+    private BooleanExpression eqRYn(YnType rYn) {
+        if (rYn == null) {
+            return null;
+        }
+
+        return rYn == YnType.Y ? realEstate.rYn.eq(YnType.Y) : realEstate.rYn.eq(YnType.N) ;
+    }
+
+    private BooleanExpression eqABYn(YnType abYn) {
+        if (abYn == null) {
+            return null;
+        }
+
+        return abYn == YnType.Y ? realEstate.abYn.eq(YnType.Y) : realEstate.abYn.eq(YnType.N) ;
+    }
+
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(eqRYn(searchDto.getRYn()));
+        where.and(eqABYn(searchDto.getAbYn()));
         where.and(eqUsageTypeId(searchDto.getUsageCd()));
         where.and(eqProcessType(searchDto.getProcessType()));
         where.and(eqSido(searchDto.getSido()));
