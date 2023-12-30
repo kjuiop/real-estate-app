@@ -68,10 +68,11 @@ let loadKakaoMap = function(searchAddress, addressList) {
             // 마커를 배열에 추가합니다.
             markers.push(marker);
 
-            let tag = '';
+            let overlayId = "overlay-" + i;
 
-            tag += '<div class="customoverlay">';
-            tag += '<a href="/real-estate/' + data.realEstateId + '/edit" target="_blank">';
+            let tag = '';
+            tag += '<div id="' + overlayId + '" class="customoverlay" toggle="on">';
+            tag += '<a href="#" realEstateId="' + data.realEstateId + '">';
             if (checkNullOrEmptyValue(data.buildingName)) {
                 tag += '<span class="title">' + data.buildingName + '</span>';
             } else {
@@ -91,7 +92,15 @@ let loadKakaoMap = function(searchAddress, addressList) {
             });
 
             kakao.maps.event.addListener(marker, 'click', function() {
-                customOverlay.setMap(map);
+                let $overlay = $('#' + overlayId),
+                    toggle = $overlay.attr('toggle');
+                if (toggle === 'on') {
+                    $overlay.addClass('hidden');
+                    $overlay.attr('toggle', 'off');
+                } else {
+                    $overlay.removeClass('hidden');
+                    $overlay.attr('toggle', 'on');
+                }
             });
 
             // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다

@@ -378,7 +378,21 @@ let applyAreaRange = function(e) {
     $frm.submit();
 }
 
+let moveDetail = function(e) {
+    e.preventDefault();
 
+    let id = $(this).attr('id'),
+        url = "/real-estate/" + id + "/edit";
+
+    alert(url);
+    // window.open(url, '_blank');
+}
+
+let searchById = function(e) {
+    e.preventDefault();
+
+    alert("in");
+}
 
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
@@ -394,4 +408,6 @@ $(document).ready(onReady)
     .on('click', '.btnCancelArea', cancelAreaBox)
     .on('click', '.btnApplyPriceRange', applyPriceRange)
     .on('click', '.btnApplyAreaRange', applyAreaRange)
+    .on('click', '.btnMoveDetail', moveDetail)
+    .on('click', '.btnSearchById', searchById)
 ;
