@@ -7,7 +7,11 @@
 <head>
     <style>
         .content * {
-            font-size: 14px;
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
         }
     </style>
 </head>
@@ -159,7 +163,7 @@
                                                     <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
                                                     <div class="input-label">
                                                         <label for="maxCharge" class="bottom-label">
-                                                           <div class="search-text">만원</div>
+                                                           <div class="search-bottom-text">만원</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -176,7 +180,7 @@
                                                     <input type="text" id="maxArchArea" name="maxArchArea" class="form-control search-input center-align" th:value="${condition.maxArchArea > 0 ? condition.maxArchArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxArchArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -193,7 +197,7 @@
                                                     <input type="text" id="maxSiteArea" name="maxLndpclAr" class="form-control search-input center-align" th:value="${condition.maxLndpclAr > 0 ? condition.maxLndpclAr : ''}">
                                                     <div class="input-label">
                                                         <label for="maxSiteArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -236,7 +240,7 @@
                                                     <input type="text" id="maxRateOfReturn" name="maxRevenueRate" class="form-control search-input center-align" th:value="${condition.maxRevenueRate > 0 ? condition.maxRevenueRate : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRateOfReturn" class="bottom-label">
-                                                            <div class="search-text">%</div>
+                                                            <div class="search-bottom-text">%</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -253,7 +257,7 @@
                                                     <input type="text" id="maxGrossFloorArea" name="maxTotArea" class="form-control search-input center-align" th:value="${condition.maxTotArea > 0 ? condition.maxTotArea : ''}">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-text">㎡</div>
+                                                            <div class="search-bottom-text">㎡</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -270,7 +274,7 @@
                                                     <input type="text" id="maxRoadWidth" name="maxRoadWidth" class="form-control search-input center-align" th:value="${condition.maxRoadWidth > 0 ? condition.maxRoadWidth : ''}">
                                                     <div class="input-label">
                                                         <label for="maxRoadWidth" class="bottom-label">
-                                                            <div class="search-text">m</div>
+                                                            <div class="search-bottom-text">m</div>
                                                         </label>
                                                     </div>
                                                 </div>
