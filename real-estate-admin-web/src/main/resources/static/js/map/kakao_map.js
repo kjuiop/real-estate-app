@@ -50,9 +50,17 @@ let loadKakaoMap = function(searchAddress, addressList) {
                 map.setCenter(coords);
             }
 
+            let imageSrc = '/images/marker/marker.png', // 마커이미지의 주소입니다
+                imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
             // 결과값으로 받은 위치를 마커로 표시합니다
             let marker = new kakao.maps.Marker({
                 position: coords,
+                image: markerImage,
             });
 
             // 마커를 지도에 표시합니다.
@@ -60,17 +68,46 @@ let loadKakaoMap = function(searchAddress, addressList) {
             // 마커를 배열에 추가합니다.
             markers.push(marker);
 
-            let tag = drawMarkContent(data);
+            let tag = '';
 
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            let infowindow = new kakao.maps.InfoWindow({
+            tag += '<div class="customoverlay">';
+            tag += '<a href="/real-estate/' + data.realEstateId + '/edit" target="_blank">';
+            if (checkNullOrEmptyValue(data.buildingName)) {
+                tag += '<span class="title">' + data.buildingName + '</span>';
+            } else {
+                tag += '<span class="title">' + data.address + '</span>';
+            }
+            tag += '</a>';
+            tag += '</div>';
+
+            // let tag = drawMarkContent(data);
+
+            // 커스텀 오버레이를 생성합니다
+            let customOverlay = new kakao.maps.CustomOverlay({
+                map: map,
+                position: coords,
                 content: tag,
-                removable: true,
+                yAnchor: 1
             });
 
-            // 마커를 클릭하면 인포윈도우를 엽니다
             kakao.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map, marker);
+                customOverlay.setMap(map);
+            });
+
+            // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+            function closeOverlay() {
+                customOverlay.setMap(null);
+            }
+
+            kakao.maps.event.addListener(map, 'zoom_changed', function() {
+
+                const currentZoomLevel = map.getLevel();
+
+                if (currentZoomLevel > 3) {
+                    customOverlay.setMap(null);  // 오버레이 숨기기
+                } else {
+                    customOverlay.setMap(map);   // 오버레이 보이기
+                }
             });
         });
     }
@@ -81,8 +118,6 @@ let loadKakaoMap = function(searchAddress, addressList) {
         minLevel: 5, // 클러스터 할 최소 지도 레벨
         markers: markers // 클러스터에 마커 추가
     });
-
-
 }
 
 let searchMapByAddress = function(address) {
@@ -221,10 +256,25 @@ let makePolygonVertex = function() {
 }
 
 let drawMarkContent = function(data) {
-    let tag = '';
-    tag += '<div class="mark-unit" style="padding: 8px; width:400px; height:150px;">';
-    tag += '<a href="/real-estate/' + data.realEstateId + '/edit" target="_blank">' + data.address + '</a>';
-    tag += '</div>';
+    let tag = '<div class="wrap">' +
+        '    <div class="info">' +
+        '        <div class="title">' +
+        '            카카오 스페이스닷원' +
+        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+        '        </div>' +
+        '        <div class="body">' +
+        '            <div class="img">' +
+        '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">' +
+        '           </div>' +
+        '            <div class="desc">' +
+        '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
+        '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
+        '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
+        '            </div>' +
+        '        </div>' +
+        '    </div>' +
+        '</div>';
+
     return tag;
 }
 

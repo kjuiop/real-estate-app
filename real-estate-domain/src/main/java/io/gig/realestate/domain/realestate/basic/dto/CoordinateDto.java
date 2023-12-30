@@ -22,12 +22,19 @@ public class CoordinateDto {
 
     private String buildingName;
 
+    private double salePrice;
+
     private List<VertexDto> vertexInfoList;
 
     public CoordinateDto(RealEstate r) {
         this.realEstateId = r.getId();
         this.buildingName = r.getBuildingName();
         this.address = r.getAddress();
+
+        if (r.getPriceInfoList() != null && r.getPrintInfoList().size() > 0) {
+            this.salePrice = r.getPriceInfoList().get(0).getSalePrice();
+        }
+
 //        this.vertexInfoList = r.getVertexInfoList().stream().map(VertexDto::new).collect(Collectors.toList());
     }
 }
