@@ -37,7 +37,7 @@
 }
 
 .line {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .sub-line {
@@ -495,4 +495,8 @@
 
 .min-width-130 {
     min-width: 130px;
+}
+
+.input-height-30 {
+    height: 30px;
 }
