@@ -29,10 +29,10 @@
                             <input type="hidden" name="processType" />
                             <input type="hidden" name="rYn" />
                             <input type="hidden" name="abYn" />
-                            <div class="col-md-12" style="margin-bottom: 25px;">
+                            <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
-                                    <button id="btnRealEstateModal" class="btn btn-primary float-right" style="margin-right: 20px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 신규매물등록</button>
+                                    <button id="btnRealEstateModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> 신규매물등록</button>
                                 </div>
                             </div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
@@ -45,7 +45,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td colspan="9" class="search-title" style="width: 100%;">
+                                            <td colspan="9" class="search-title no-left-padding" style="width: 100%;">
                                                 <div class="processUnitSection" style="display: inline-block;">
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
                                                     <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
