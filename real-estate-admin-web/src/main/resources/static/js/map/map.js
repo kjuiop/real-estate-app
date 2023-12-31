@@ -381,6 +381,23 @@ let applyAreaRange = function(e) {
 let searchById = function(e) {
     e.preventDefault();
     let realEstateId = $(this).attr('realEstateId');
+    let condition = {
+        "realEstateId" : realEstateId,
+    }
+    $.ajax({
+        url: '/map/real-estate',
+        type: "post",
+        data: condition,
+        dataType: "html",
+        success: function (data) {
+            console.log("data", data);
+            // 서버에서 받은 HTML을 적절한 위치에 삽입
+            $('#realEstateSection').html(data);
+        },
+        error: function () {
+            alert('Ajax request failed');
+        }
+    });
 }
 
 $(document).ready(onReady)
