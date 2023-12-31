@@ -72,7 +72,7 @@ let loadKakaoMap = function(searchAddress, addressList) {
 
             let tag = '';
             tag += '<div id="' + overlayId + '" class="customoverlay" toggle="on">';
-            tag += '<a href="#" realEstateId="' + data.realEstateId + '">';
+            tag += '<a href="#" class="btnSearchById" realEstateId="' + data.realEstateId + '">';
             if (checkNullOrEmptyValue(data.buildingName)) {
                 tag += '<span class="title">' + data.buildingName + '</span>';
             } else {
