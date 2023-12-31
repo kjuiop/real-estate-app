@@ -109,9 +109,7 @@ let loadKakaoMap = function(searchAddress, addressList) {
             }
 
             kakao.maps.event.addListener(map, 'zoom_changed', function() {
-
-                const currentZoomLevel = map.getLevel();
-
+                let currentZoomLevel = map.getLevel();
                 if (currentZoomLevel > 3) {
                     customOverlay.setMap(null);  // 오버레이 숨기기
                 } else {
@@ -126,6 +124,42 @@ let loadKakaoMap = function(searchAddress, addressList) {
         averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
         minLevel: 5, // 클러스터 할 최소 지도 레벨
         markers: markers // 클러스터에 마커 추가
+    });
+
+
+    kakao.maps.event.addListener(map, 'zoom_changed', function() {
+
+        let currentZoomLevel = map.getLevel();
+
+        console.log("current zoom level", currentZoomLevel);
+
+        if (currentZoomLevel < 4) {
+            return;
+        }
+
+        let $frm = $('form[name="frmSearch"]'),
+            params = serializeObject({form:$frm[0]}).json();
+
+        $.ajax({
+            url: '/map/real-estate',
+            type: "post",
+            data: params,
+            dataType: "html",
+            cache: false,
+            async : false,
+            success: function (data) {
+                console.log("data", data);
+                // 서버에서 받은 HTML을 적절한 위치에 삽입
+                $('#realEstateSection').html(data);
+            },
+            error: function () {
+                alert('Ajax request failed');
+            }
+        });
+
+        // let bounds = map.getBounds();
+        // let swLatLng = bounds.getSouthWest();
+        // let neLatLng = bounds.getNorthEast();
     });
 }
 
