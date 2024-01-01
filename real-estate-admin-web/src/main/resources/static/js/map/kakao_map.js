@@ -133,7 +133,7 @@ let loadKakaoMap = function(searchAddress, addressList) {
 
         console.log("current zoom level", currentZoomLevel);
 
-        if (currentZoomLevel < 4) {
+        if (currentZoomLevel !== 4) {
             return;
         }
 
