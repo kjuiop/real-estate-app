@@ -152,8 +152,6 @@ let loadKakaoMap = function(searchAddress, addressList) {
             cache: false,
             async : false,
             success: function (data) {
-                console.log("data", data);
-                // 서버에서 받은 HTML을 적절한 위치에 삽입
                 $('#realEstateSection').html(data);
             },
             error: function () {
@@ -205,22 +203,13 @@ let moveMapFocus = function(e) {
 
     let address = $(this).attr('address'),
         realEstateId = $(this).attr('realEstateId');
-    let overlayId = overlayMap[realEstateId];
     geocoder.addressSearch(address, function(result, status) {
         if (status !== kakao.maps.services.Status.OK) {
             return
         }
         let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
         map.setCenter(coords);
-
-
-        $('.overlay-title').css('background-color', '#ffffff');
-        $('.overlay-title').css('color', 'black');
-
-        let $overlay = $('#' + overlayId),
-            $span = $overlay.find('.title');
-        $span.css('background-color', '#d95050');
-        $span.css('color', '#ffffff');
+        selectOverlay(realEstateId);
     });
 }
 

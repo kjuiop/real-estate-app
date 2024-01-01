@@ -393,11 +393,23 @@ let searchById = function(e) {
         async : false,
         success: function (data) {
             $('#realEstateSection').html(data);
+            selectOverlay(realEstateId);
         },
         error: function () {
             alert('Ajax request failed');
         }
     });
+}
+
+let selectOverlay = function(realEstateId) {
+    let overlayId = overlayMap[realEstateId];
+    $('.overlay-title').css('background-color', '#ffffff');
+    $('.overlay-title').css('color', 'black');
+
+    let $overlay = $('#' + overlayId),
+        $span = $overlay.find('.title');
+    $span.css('background-color', '#d95050');
+    $span.css('color', '#ffffff');
 }
 
 $(document).ready(onReady)
