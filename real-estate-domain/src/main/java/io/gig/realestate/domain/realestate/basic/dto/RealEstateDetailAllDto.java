@@ -5,6 +5,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
+import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.dto.LandDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
@@ -18,6 +19,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -45,6 +48,14 @@ public class RealEstateDetailAllDto extends RealEstateDto {
     private Long usageCdId;
 
     private String pdfTitle;
+
+    private double sumUnitPblntfPclnd;
+
+    private double sumUnitPblndfPclndByPyung;
+
+    private double sumLndpclAr;
+
+    private double sumLndpclArByPyung;
 
     private LandDto landInfo;
 
@@ -79,7 +90,30 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         StringBuilder pdfTitle = new StringBuilder();
         if (r.getLandInfoList().size() > 0) {
             this.landInfo = new LandDto(r.getLandInfoList().get(0));
-            this.landInfoList = r.getLandInfoList().stream().map(LandListDto::new).collect(Collectors.toList());
+            List<LandListDto> landList = new ArrayList<>();
+            double sumUnitPblntfPclnd = 0;
+            double sumUnitPblndfPclndByPyung = 0;
+            double sumLndpclAr = 0;
+            double sumLndpclArByPyung = 0;
+            for (int i=0; i<r.getLandInfoList().size(); i++) {
+                sumUnitPblntfPclnd += r.getLandInfoList().get(i).getPblntfPclnd();
+                sumUnitPblndfPclndByPyung += r.getLandInfoList().get(i).getPblndfPclndByPyung();
+                sumLndpclAr += r.getLandInfoList().get(i).getLndpclAr();
+                sumLndpclArByPyung += r.getLandInfoList().get(i).getLndpclArByPyung();
+                landList.add(new LandListDto(r.getLandInfoList().get(i)));
+            }
+
+            BigDecimal pblntfPclnd = BigDecimal.valueOf(sumUnitPblntfPclnd);
+            sumUnitPblntfPclnd = pblntfPclnd.setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+            BigDecimal pblndfPclndByPyung = BigDecimal.valueOf(sumUnitPblndfPclndByPyung);
+            sumUnitPblndfPclndByPyung = pblndfPclndByPyung.setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+            this.sumUnitPblntfPclnd = sumUnitPblntfPclnd;
+            this.sumUnitPblndfPclndByPyung = sumUnitPblndfPclndByPyung;
+            this.sumLndpclAr = sumLndpclAr;
+            this.sumLndpclArByPyung = sumLndpclArByPyung;
+            this.landInfoList = landList;
         }
 
         if (r.getPriceInfoList().size() > 0) {

@@ -379,7 +379,12 @@
                             <table class="table table-bordered min-width-table" style="margin-bottom: 0; height: 100%;">
                                 <tr>
                                     <td>소재지</td>
-                                    <td colspan="2">[[${landInfo.address}]]</td>
+                                    <td colspan="2">
+                                        [[${landInfo.address}]]
+                                        <th:block th:if="${landInfoList.size() > 1}">
+                                            &nbsp;외 [[${landInfoList.size()}]]
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>용도지역</td>
@@ -394,20 +399,20 @@
                                 <tr>
                                     <td>공시지가</td>
                                     <td>
-                                        <th:block th:if="${landInfo.pblntfPclnd != null && landInfo.pblntfPclnd > 0}">
-                                            [[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡
+                                        <th:block th:if="${dto.sumUnitPblntfPclnd != null && dto.sumUnitPblntfPclnd > 0}">
+                                            [[${#numbers.formatDecimal(dto.sumUnitPblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡
                                         </th:block>
                                     </td>
                                     <td>
-                                        <th:block th:if="${landInfo.pblndfPclndByPyung != null && landInfo.pblndfPclndByPyung > 0}">
-                                            [[${#numbers.formatDecimal(landInfo.pblndfPclndByPyung / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/평
+                                        <th:block th:if="${dto.sumUnitPblndfPclndByPyung != null && dto.sumUnitPblndfPclndByPyung > 0}">
+                                            [[${#numbers.formatDecimal(dto.sumUnitPblndfPclndByPyung / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/평
                                         </th:block>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>대지면적</td>
-                                    <td>[[${landInfo.lndpclAr}]]㎡</td>
-                                    <td>[[${landInfo.lndpclArByPyung}]]평</td>
+                                    <td>[[${#numbers.formatDecimal(dto.sumLndpclAr, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
+                                    <td>[[${#numbers.formatDecimal(dto.sumLndpclArByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
                                 </tr>
                             </table>
                         </div>
