@@ -433,23 +433,23 @@
                             <table class="table table-bordered min-width-table" style="margin-bottom: 0; height: 100%;">
                                 <tr>
                                     <td style="width: 20%;">대장상 대지면적</td>
-                                    <td style="width: 40%;">[[${constructInfo.platArea}]]㎡</td>
-                                    <td style="width: 40%;">[[${constructInfo.platAreaByPyung}]]평</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.platArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.platAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">연 면 적</td>
-                                    <td style="width: 40%;">[[${constructInfo.totArea}]]㎡</td>
-                                    <td style="width: 40%;">[[${constructInfo.totAreaByPyung}]]평</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.totArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.totAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">지상면적</td>
-                                    <td style="width: 40%;">[[${constructInfo.vlRatEstmTotArea}]]㎡</td>
-                                    <td style="width: 40%;">[[${constructInfo.vlRatEstmTotAreaByPyung}]]평</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.vlRatEstmTotArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.vlRatEstmTotAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">건축면적</td>
-                                    <td style="width: 40%;">[[${constructInfo.archArea}]]㎡</td>
-                                    <td style="width: 40%;">[[${constructInfo.archAreaByPyung}]]평</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.archArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
+                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.archAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">준공년도</td>
@@ -467,13 +467,19 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">주차 / 승강기</td>
-                                    <td style="width: 40%;">[[${constructInfo.oudrAutoUtcnt}]]대(옥외자주식)</td>
-                                    <td style="width: 40%;">[[${constructInfo.indrMechUtcnt}]]대</td>
+                                    <td style="width: 40%;">
+                                        자주식 [[${constructInfo.sumAutoUtCnt}]]대 /
+                                        기계식 [[${constructInfo.sumMechUtCnt}]]대
+                                    </td>
+                                    <td style="width: 40%;">
+                                        승용 [[${constructInfo.rideUseElvtCnt}]]대 /
+                                        비상용 [[${constructInfo.emgenUseElvtCnt}]]대
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">구조</td>
+                                    <td style="width: 40%;">[[${constructInfo.strctCdNm}]]</td>
                                     <td style="width: 40%;">[[${constructInfo.mainPurpsCdNm}]]</td>
-                                    <td style="width: 40%;">[[${constructInfo.etcPurps}]]</td>
                                 </tr>
                             </table>
                         </div>
@@ -505,9 +511,9 @@
                                 </tr>
                                 <tr>
                                     <td>연면적 평단가</td>
-                                    <td>[[${priceInfo.buildingPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '원 / 평' : '-'}]]</td>
+                                    <td>[[${priceInfo.buildingPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원 / 평' : '-'}]]</td>
                                     <td>토지 평단가</td>
-                                    <td>[[${priceInfo.landPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '원 / 평': '-'}]]</td>
+                                    <td>[[${priceInfo.landPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원 / 평': '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>매매가</td>
@@ -515,7 +521,7 @@
                                 </tr>
                                 <tr>
                                     <td>비고</td>
-                                    <td colspan="3" contenteditable="true">
+                                    <td id="characterInfo" colspan="3" contenteditable="true">
                                         [[${dto.characterInfo}]]
                                     </td>
                                 </tr>

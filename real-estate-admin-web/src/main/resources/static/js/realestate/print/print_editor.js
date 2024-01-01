@@ -17,6 +17,8 @@ let onReady = function() {
 
     loadKakaoMap(dto.address);
     loadLandMap(dto.address);
+
+    $('#characterInfo').html(dto.characterInfo);
 }
 
 let loadLandPriceTable = function(landPriceList) {
