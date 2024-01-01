@@ -204,13 +204,13 @@
                                 <div class="row real-estate-unit" th:address="${item.address}" th:realEstateId="${item.realEstateId}" style="background-color: #ffffff; min-width: 330px;">
                                     <div class="col-md-6 image-section padding-10">
                                         <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
-                                            <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding" style="height: 100%;" />
+                                            <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12" style="height: 100%; max-height: 200px;" />
                                         </th:block>
                                         <th:block th:if="${not #strings.isEmpty(item.imgUrl)}">
-                                            <img th:src="${item.imgUrl}" class="col-sm-12 no-left-padding" style="height: 100%;" />
+                                            <img th:src="${item.imgUrl}" class="col-sm-12" style="height: 100%; max-height: 200px;" />
                                         </th:block>
                                     </div>
-                                    <div class="col-md-6 display-flex-column padding-top-20">
+                                    <div class="col-md-6 display-flex-column padding-20">
                                         <label class="text-label margin-bottom-3 font-weight-normal" th:text="${item.usageType != null ? item.usageType.name + ' 매매' : ''}"></label>
                                         <div class="display-inline-block margin-bottom-3">
                                             <label class="text-label margin-bottom-3" style="color: red;" th:if="${item.salePrice}">
