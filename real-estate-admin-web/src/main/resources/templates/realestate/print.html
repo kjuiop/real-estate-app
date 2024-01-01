@@ -418,7 +418,7 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 16px;">
+                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 10px;">
                         <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
                             <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
                         </div>
@@ -485,7 +485,7 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit table-unit-3" style="position: relative; margin-top: 16px;">
+                    <div class="display-flex-row table-unit table-unit-3" style="position: relative; margin-top: 10px;">
                         <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
                             <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
                         </div>
@@ -511,17 +511,17 @@
                                 </tr>
                                 <tr>
                                     <td>연면적 평단가</td>
-                                    <td>[[${priceInfo.buildingPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원 / 평' : '-'}]]</td>
+                                    <td style="color: darkred; font-weight: bold;">[[${priceInfo.buildingPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.buildingPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원/평' : '-'}]]</td>
                                     <td>토지 평단가</td>
-                                    <td>[[${priceInfo.landPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원 / 평': '-'}]]</td>
+                                    <td style="color: darkred; font-weight: bold;">[[${priceInfo.landPyungUnitPrice > 0 ? #numbers.formatDecimal(priceInfo.landPyungUnitPrice, 0, 'COMMA', 0, 'POINT') + '만원/평': '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>매매가</td>
-                                    <td colspan="3">[[${priceInfo.salePrice > 0 ? #numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT') + '억원' : ''}]]</td>
+                                    <td colspan="3" style="color: darkblue; font-weight: bold; font-size: 13px;">[[${priceInfo.salePrice > 0 ? #numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT') + '억원' : ''}]]</td>
                                 </tr>
                                 <tr>
-                                    <td>비고</td>
-                                    <td id="characterInfo" colspan="3" contenteditable="true">
+                                    <td style="height: 56px; max-height: 56px; resize: none;">비고</td>
+                                    <td id="characterInfo" colspan="3" contenteditable="true" style="color: darkblue; font-weight: bold; text-align: left; height: 56px; max-height: 56px; resize: none;">
                                         [[${dto.characterInfo}]]
                                     </td>
                                 </tr>

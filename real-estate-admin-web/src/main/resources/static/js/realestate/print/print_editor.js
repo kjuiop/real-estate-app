@@ -17,8 +17,9 @@ let onReady = function() {
 
     loadKakaoMap(dto.address);
     loadLandMap(dto.address);
-
-    $('#characterInfo').html(dto.characterInfo);
+    if (checkNullOrEmptyValue(dto.characterInfo)) {
+        $('#characterInfo').html(dto.characterInfo.replace(/\n/g, '<br>'));
+    }
 }
 
 let loadLandPriceTable = function(landPriceList) {
