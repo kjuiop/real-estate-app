@@ -4,7 +4,7 @@
     </div>
     <div class="real-estate-section line" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
         <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
-            <div class="row real-estate-unit" th:address="${item.address}" style="background-color: #ffffff; min-width: 330px;">
+            <div class="row real-estate-unit" th:address="${item.address}" th:realEstateId="${item.realEstateId}" style="background-color: #ffffff; min-width: 330px;">
                 <div class="col-md-6 image-section padding-10">
                     <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
                         <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding" style="height: 100%;" />

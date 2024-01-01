@@ -1,3 +1,4 @@
+let overlayMap = {};
 let mapContainer = document.getElementById('map');
 let mapOption = {
     center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -50,7 +51,7 @@ let loadKakaoMap = function(searchAddress, addressList) {
                 map.setCenter(coords);
             }
 
-            let imageSrc = '/images/marker/marker.png', // 마커이미지의 주소입니다
+            let imageSrc = '/images/marker/marker-icon.png', // 마커이미지의 주소입니다
                 imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
                 imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -69,14 +70,15 @@ let loadKakaoMap = function(searchAddress, addressList) {
             markers.push(marker);
 
             let overlayId = "overlay-" + i;
+            overlayMap[addressList[i].realEstateId] = overlayId;
 
             let tag = '';
             tag += '<div id="' + overlayId + '" class="customoverlay" toggle="on">';
             tag += '<a href="#" class="btnSearchById" realEstateId="' + data.realEstateId + '">';
             if (checkNullOrEmptyValue(data.buildingName)) {
-                tag += '<span class="title">' + data.buildingName + '</span>';
+                tag += '<span class="title overlay-title">' + data.buildingName + '</span>';
             } else {
-                tag += '<span class="title">' + data.address + '</span>';
+                tag += '<span class="title overlay-title">' + data.address + '</span>';
             }
             tag += '</a>';
             tag += '</div>';
@@ -125,6 +127,8 @@ let loadKakaoMap = function(searchAddress, addressList) {
         minLevel: 5, // 클러스터 할 최소 지도 레벨
         markers: markers // 클러스터에 마커 추가
     });
+
+    console.log("overlayMap", overlayMap);
 
 
     kakao.maps.event.addListener(map, 'zoom_changed', function() {
@@ -199,33 +203,24 @@ let searchMapByAddress = function(address) {
 let moveMapFocus = function(e) {
     e.preventDefault();
 
-    let address = $(this).attr('address');
+    let address = $(this).attr('address'),
+        realEstateId = $(this).attr('realEstateId');
+    let overlayId = overlayMap[realEstateId];
     geocoder.addressSearch(address, function(result, status) {
-
-        // 정상적으로 검색이 완료됐으면
         if (status !== kakao.maps.services.Status.OK) {
             return
         }
-
         let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        let marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        /**
-         *
-         * @type {kakao.maps.InfoWindow}
-         */
-        let infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">매물위치</div>'
-        });
-        // infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         map.setCenter(coords);
+
+
+        $('.overlay-title').css('background-color', '#ffffff');
+        $('.overlay-title').css('color', 'black');
+
+        let $overlay = $('#' + overlayId),
+            $span = $overlay.find('.title');
+        $span.css('background-color', '#d95050');
+        $span.css('color', '#ffffff');
     });
 }
 

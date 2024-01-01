@@ -392,8 +392,6 @@ let searchById = function(e) {
         cache: false,
         async : false,
         success: function (data) {
-            console.log("data", data);
-            // 서버에서 받은 HTML을 적절한 위치에 삽입
             $('#realEstateSection').html(data);
         },
         error: function () {
