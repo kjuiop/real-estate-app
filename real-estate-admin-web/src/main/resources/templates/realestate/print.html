@@ -287,12 +287,10 @@
             </div>
             <div class="print-header"></div>
             <div class="cover-body row col-md-12 padding-20">
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="line-center right-align margin-top-250">
-                        <h1 class="building-name" contenteditable="true" >[[${not #strings.isEmpty(dto.buildingName) ? dto.buildingName : '건물명'}]]</h1>
-                        <div class="address-line" style="width: 97%;"></div>
-                        <h5 style="margin-top: 22px;" contenteditable="true" >[[${dto.address}]]</h5>
+                        <h4 class="building-name" contenteditable="true" style="width: auto; display: inline-block; border-bottom: 4px solid #FEB30B; padding-bottom: 10px;">[[${not #strings.isEmpty(dto.buildingName) ? dto.buildingName : '건물명'}]]</h4>
+                        <h5 style="margin-top: 10px;" contenteditable="true" >[[${dto.address}]]</h5>
                     </div>
                 </div>
             </div>
