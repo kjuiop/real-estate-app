@@ -723,7 +723,7 @@
                     </div>
                 </div>
                 <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content">
-                    <th:block th:if="${constructFloorList.size() < 17}">
+                    <th:block th:if="${constructFloorList.size() <= 17}">
                         <div class="margin-bottom-3">
                             <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
                         </div>
@@ -760,6 +760,73 @@
                             </table>
                         </div>
                     </th:block>
+                </div>
+            </div>
+
+            <div class="print-footer text-alien-center"></div>
+        </div>
+
+
+        <div class="print-content print-distribute-line floor-info-section" th:if="${constructFloorList.size() > 17}">
+            <div class="row print-content-title">
+                <h3>건축물 개요</h3>
+                <span>Building Information</span>
+            </div>
+            <div class="print-title-line"></div>
+            <div class="cover-body print-body row col-md-12" style="height: 600px; padding-top: 10px;">
+                <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
+                    <div class="margin-bottom-3">
+                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-1</h5>
+                    </div>
+
+                    <div class="no-left-padding col-md-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td class="table-head" style="width: 10%;">층별</td>
+                                <td class="table-head" style="width: 40%;">용도</td>
+                                <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
+                                <td class="table-head" style="width: 25%;">면 적 (평)</td>
+                            </tr>
+                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index <= 17}" th:each="floor, status : ${constructFloorList}">
+                                <tr>
+                                    <td>[[${floor.flrNoNm}]]</td>
+                                    <td>[[${floor.etcPurps}]]</td>
+                                    <td>[[${floor.lndpclAr}]]</td>
+                                    <td>[[${floor.lndpclArByPyung}]]</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
+                    <div class="margin-bottom-3">
+                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-2</h5>
+                    </div>
+
+                    <div class="no-left-padding col-md-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td class="table-head" style="width: 10%;">층별</td>
+                                <td class="table-head" style="width: 40%;">용도</td>
+                                <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
+                                <td class="table-head" style="width: 25%;">면 적 (평)</td>
+                            </tr>
+                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 17}" th:each="floor, status : ${constructFloorList}">
+                                <th:block th:if="${status.index > 17}">
+                                    <tr>
+                                        <td>[[${floor.flrNoNm}]]</td>
+                                        <td>[[${floor.etcPurps}]]</td>
+                                        <td>[[${floor.lndpclAr}]]</td>
+                                        <td>[[${floor.lndpclArByPyung}]]</td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -823,11 +890,11 @@
                             </tr>
                         </th:block>
                         <tr>
-                            <td colspan="2" style="background-color: #A9D0F5; font-weight: bold;">합계</td>
-                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">50,179</td>
-                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">15,179</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
-                            <td style="background-color: #A9D0F5; font-weight: bold;">-</td>
+                            <td colspan="2" style="font-weight: bold;">합계</td>
+                            <td class="totalLndpclAr" style="font-weight: bold;">50,179</td>
+                            <td class="totalLndpclArByPyung" style="font-weight: bold;">15,179</td>
+                            <td style="font-weight: bold;">-</td>
+                            <td style="font-weight: bold;">-</td>
                         </tr>
                     </table>
 
