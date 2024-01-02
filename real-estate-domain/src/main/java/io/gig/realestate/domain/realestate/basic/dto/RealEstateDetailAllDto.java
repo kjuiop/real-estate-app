@@ -67,9 +67,7 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private List<LandListDto> landInfoList;
 
-    private List<FloorListDto> floorUpList;
-
-    private List<FloorListDto> floorUnderList;
+    private List<FloorListDto> constructFloorList;
 
     private List<ImageDto> imgList;
 
@@ -136,19 +134,11 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         }
 
         if (r.getFloorPriceInfo().size() > 0) {
-            List<FloorListDto> floorUpList = new ArrayList<>();
-            List<FloorListDto> floorUnderList = new ArrayList<>();
-
+            List<FloorListDto> constructFloorList = new ArrayList<>();
             for (FloorPriceInfo floor : r.getFloorPriceInfo()) {
-                if (floor.getUnderFloorYn().equals(YnType.N)) {
-                    floorUpList.add(new FloorListDto(floor));
-                } else {
-                    floorUnderList.add(new FloorListDto(floor));
-                }
+                constructFloorList.add(new FloorListDto(floor));
             }
-
-            this.floorUpList = floorUpList;
-            this.floorUnderList = floorUnderList;
+            this.constructFloorList = constructFloorList;
         }
 
         if (r.getLandPriceInfoList().size() > 0) {

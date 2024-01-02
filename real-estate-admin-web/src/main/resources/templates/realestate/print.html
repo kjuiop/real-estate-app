@@ -542,53 +542,6 @@
             <div class="print-title-line"></div>
             <div class="cover-body print-body row col-md-12" style="height: 600px; padding-top: 10px;">
                 <div class="col-md-7 padding-20 height-100 card-content">
-<!--                    <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">-->
-<!--                        <img th:src="${printInfo.buildingImgUrl}" style="width: 100%; height: 100%;">-->
-<!--                    </th:block>-->
-<!--                    <th:block th:unless="${printInfo != null && not #strings.isEmpty(printInfo.buildingImgUrl)}">-->
-<!--                        <img th:src="@{/images/no-image-found.jpeg}" style="width: 100%; height: 100%;">-->
-<!--                    </th:block>-->
-
-<!--                    <div class="display-flex-row margin-bottom-10">-->
-<!--                        <h5 class="col-md-9" contenteditable="true" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">고유번호 : </h5>-->
-<!--                        <div class="pull-right col-md-3 no-left-padding" style="text-align: right;">-->
-<!--                            <span style="font-size: 11px; margin-top:6px;">(단위 : ㎡)</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="margin-bottom-10" style="white-space: nowrap; overflow-x: auto; max-width: 578px;">-->
-<!--                        <table class="table table-bordered min-width-table construct-table">-->
-<!--                            <thead>-->
-<!--                            <tr>-->
-<!--                                <th>대장종류</th>-->
-<!--                                <th>대지위치</th>-->
-<!--                                <th>건축물명칭</th>-->
-<!--                                <th>동명칭및번호</th>-->
-<!--                                <th>주용도</th>-->
-<!--                                <th>연면적</th>-->
-<!--                            </tr>-->
-<!--                            </thead>-->
-<!--                            <tbody>-->
-<!--                            <tr>-->
-<!--                                <td>표제부<br />(주건축물)</td>-->
-<!--                                <td>[[${dto.address}]]</td>-->
-<!--                                <td>[[${dto.buildingName}]]</td>-->
-<!--                                <td></td>-->
-<!--                                <td>-->
-<!--                                    <th:block th:if="${constructInfo != null}">-->
-<!--                                        [[${constructInfo.mainPurpsCdNm}]]-->
-<!--                                    </th:block>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <th:block th:if="${constructInfo != null}">-->
-<!--                                        [[${constructInfo.totArea}]]㎡-->
-<!--                                    </th:block>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            </tbody>-->
-<!--                        </table>-->
-<!--                    </div>-->
-
                     <div class="margin-bottom-10">
                         <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">집합건축물[표제부]</h5>
                     </div>
@@ -770,65 +723,43 @@
                     </div>
                 </div>
                 <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content">
-                    <div class="margin-bottom-3">
-                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
-                    </div>
+                    <th:block th:if="${constructFloorList.size() < 17}">
+                        <div class="margin-bottom-3">
+                            <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
+                        </div>
 
-                    <div class="no-left-padding col-md-12">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="table-head" style="width: 10%;">층별</td>
-                                <td class="table-head" style="width: 40%;">용도</td>
-                                <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
-                                <td class="table-head" style="width: 25%;">면 적 (평)</td>
-                            </tr>
-                            <th:block th:if="${#lists.isEmpty(floorUpList) && #lists.isEmpty(floorUnderList)}">
+                        <div class="no-left-padding col-md-12">
+                            <table class="table table-bordered">
+                                <tbody>
                                 <tr>
-                                    <td class="text-alien-center" colspan="4">층별정보가 없습니다.</td>
+                                    <td class="table-head" style="width: 10%;">층별</td>
+                                    <td class="table-head" style="width: 40%;">용도</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (평)</td>
                                 </tr>
-                            </th:block>
-                            <th:block th:unless="${#lists.isEmpty(floorUpList)}" th:each="floor, status : ${floorUpList}">
+                                <th:block th:if="${#lists.isEmpty(constructFloorList)}">
+                                    <tr>
+                                        <td class="text-alien-center" colspan="4">층별정보가 없습니다.</td>
+                                    </tr>
+                                </th:block>
+                                <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:each="floor, status : ${constructFloorList}">
+                                    <tr>
+                                        <td>[[${floor.flrNoNm}]]</td>
+                                        <td>[[${floor.etcPurps}]]</td>
+                                        <td>[[${floor.lndpclAr}]]</td>
+                                        <td>[[${floor.lndpclArByPyung}]]</td>
+                                    </tr>
+                                </th:block>
                                 <tr>
-                                    <td>[[${floor.flrNoNm}]]</td>
-                                    <td>[[${floor.etcPurps}]]</td>
-                                    <td>[[${floor.lndpclAr}]]</td>
-                                    <td>[[${floor.lndpclArByPyung}]]</td>
+                                    <td style="font-weight: bold;">합계</td>
+                                    <td style="font-weight: bold;">-</td>
+                                    <td class="totalLndpclAr" style="font-weight: bold;">0</td>
+                                    <td class="totalLndpclArByPyung" style="font-weight: bold;">0</td>
                                 </tr>
-                            </th:block>
-                            <th:block th:unless="${#lists.isEmpty(floorUpList)}">
-                                <!--                            <tr>-->
-                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">지상층 소계</td>-->
-                                <!--                                <td class="totalUpFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;"></td>-->
-                                <!--                                <td class="totalUpFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;"></td>-->
-                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>-->
-                                <!--                            </tr>-->
-                            </th:block>
-                            <th:block th:unless="${#lists.isEmpty(floorUnderList)}" th:each="floor, status : ${floorUnderList}">
-                                <!--                            <tr>-->
-                                <!--                                <td>[[${floor.flrNoNm}]]</td>-->
-                                <!--                                <td>[[${floor.lndpclAr}]]</td>-->
-                                <!--                                <td>[[${floor.lndpclArByPyung}]]</td>-->
-                                <!--                                <td>[[${floor.etcPurps}]]</td>-->
-                                <!--                            </tr>-->
-                            </th:block>
-                            <th:block th:unless="${#lists.isEmpty(floorUnderList)}">
-                                <!--                            <tr>-->
-                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">지하층 소계</td>-->
-                                <!--                                <td class="totalUnderFloorLndpclAr" style="background-color: #E6E6E6; font-weight: bold;">15,306.17</td>-->
-                                <!--                                <td class="totalUnderFloorLndpclArByPyung" style="background-color: #E6E6E6; font-weight: bold;">4,630.12</td>-->
-                                <!--                                <td style="background-color: #E6E6E6; font-weight: bold;">-</td>-->
-                                <!--                            </tr>-->
-                            </th:block>
-                            <!--                        <tr>-->
-                            <!--                            <td style="background-color: #A9D0F5; font-weight: bold;">합계</td>-->
-                            <!--                            <td class="totalLndpclAr" style="background-color: #A9D0F5; font-weight: bold;">56,334.26</td>-->
-                            <!--                            <td class="totalLndpclArByPyung" style="background-color: #A9D0F5; font-weight: bold;">17,041.11</td>-->
-                            <!--                            <td style="background-color: #A9D0F5; font-weight: bold;">-</td>-->
-                            <!--                        </tr>-->
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
                 </div>
             </div>
 
@@ -969,8 +900,7 @@
         /*<![CDATA[*/
         var dto =/*[[${dto}]]*/'';
         var landInfoList =/*[[${landInfoList}]]*/'';
-        var floorUpList =/*[[${floorUpList}]]*/'';
-        var floorUnderList =/*[[${floorUnderList}]]*/'';
+        var constructFloorList =/*[[${constructFloorList}]]*/'';
         var landPriceList =/*[[${landPriceList}]]*/'';
         /*]]>*/
     </script>

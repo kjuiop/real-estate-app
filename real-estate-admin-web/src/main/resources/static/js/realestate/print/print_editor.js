@@ -3,8 +3,8 @@ let onReady = function() {
     console.log("dto", dto);
     console.log("landInfoList", landInfoList);
 
-    if (floorUpList.length > 0 || floorUnderList.length > 0) {
-        calculateFloorInfo(floorUpList, floorUnderList);
+    if (constructFloorList.length > 0) {
+        calculateFloorInfo(constructFloorList);
     }
 
     if (landInfoList.length > 0) {
@@ -49,44 +49,29 @@ let drawPriceTable = function(priceInfo) {
     return tag;
 }
 
-let calculateFloorInfo = function(floorUpList, floorUnderList) {
+let calculateFloorInfo = function(constructFloorList) {
 
-    if (floorUpList.length === 0 && floorUnderList.length === 0) {
+    if (constructFloorList.length === 0) {
         return;
     }
 
     let $section = $('.floor-info-section'),
         totalUpFloorLndpclAr = 0,
         totalUpFloorLndpclArByPyung = 0,
-        totalUnderFloorLndpclAr = 0,
-        totalUnderFloorLndpclArByPyung = 0,
         totalLndpclAr = 0,
         totalLndpclArByPyung = 0;
 
-    if (floorUpList.length > 0) {
-        $.each(floorUpList, function(idx, item) {
-            totalUpFloorLndpclAr += item.lndpclAr;
-            totalUpFloorLndpclArByPyung += item.lndpclArByPyung;
-        });
-        totalUpFloorLndpclAr = totalUpFloorLndpclAr.toFixed(2);
-        totalUpFloorLndpclArByPyung = totalUpFloorLndpclArByPyung.toFixed(2);
-        $section.find('.totalUpFloorLndpclAr').text(addCommasToNumber(totalUpFloorLndpclAr));
-        $section.find('.totalUpFloorLndpclArByPyung').text(addCommasToNumber(totalUpFloorLndpclArByPyung));
-    }
+    $.each(constructFloorList, function(idx, item) {
+        totalUpFloorLndpclAr += item.lndpclAr;
+        totalUpFloorLndpclArByPyung += item.lndpclArByPyung;
+    });
+    totalUpFloorLndpclAr = totalUpFloorLndpclAr.toFixed(2);
+    totalUpFloorLndpclArByPyung = totalUpFloorLndpclArByPyung.toFixed(2);
+    $section.find('.totalUpFloorLndpclAr').text(addCommasToNumber(totalUpFloorLndpclAr));
+    $section.find('.totalUpFloorLndpclArByPyung').text(addCommasToNumber(totalUpFloorLndpclArByPyung));
 
-    if (floorUnderList.length > 0) {
-        $.each(floorUpList, function(idx, item) {
-            totalUnderFloorLndpclAr += item.lndpclAr;
-            totalUnderFloorLndpclArByPyung += item.lndpclArByPyung;
-        });
-        totalUnderFloorLndpclAr = totalUnderFloorLndpclAr.toFixed(2);
-        totalUnderFloorLndpclArByPyung = totalUnderFloorLndpclArByPyung.toFixed(2);
-        $section.find('.totalUnderFloorLndpclAr').text(addCommasToNumber(totalUnderFloorLndpclAr));
-        $section.find('.totalUnderFloorLndpclArByPyung').text(addCommasToNumber(totalUnderFloorLndpclArByPyung));
-    }
-
-    totalLndpclAr = Number(totalUpFloorLndpclAr) + Number(totalUnderFloorLndpclAr);
-    totalLndpclArByPyung = Number(totalUpFloorLndpclArByPyung) + Number(totalUnderFloorLndpclArByPyung);
+    totalLndpclAr = Number(totalUpFloorLndpclAr);
+    totalLndpclArByPyung = Number(totalUpFloorLndpclArByPyung);
 
     $section.find('.totalLndpclAr').text(addCommasToNumber(totalLndpclAr));
     $section.find('.totalLndpclArByPyung').text(addCommasToNumber(totalLndpclArByPyung));
