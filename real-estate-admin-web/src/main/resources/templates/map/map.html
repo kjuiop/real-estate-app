@@ -7,6 +7,10 @@
       layout:decorate="~{layouts/layout}">
 <head>
     <style>
+        .content * {
+            font-size: 12px;
+        }
+
         .real-estate-unit:hover {
             cursor: pointer; /* 올렸을 때 포인터 모양으로 변경 */
             background-color: #e8e8e8 !important; /* 올렸을 때 배경색 변경 */
@@ -77,37 +81,37 @@
                 <input type="hidden" name="maxTotAreaByPyung" th:value="${condition.maxTotAreaByPyung}" />
             <div class="row padding-top-10">
                 <div class="col-md-12 display-flex-row">
-                    <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none" name="sido">
+                    <select class="form-control col-md-1 col-sm-2 margin-right-5 border-none select-height-33" name="sido">
                         <option value="">시도 선택</option>
                         <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.sido eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none" name="gungu">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none select-height-33" name="gungu">
                         <option value="">구군 선택</option>
                         <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.gungu eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none" name="dong">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-5 border-none select-height-33" name="dong">
                         <option value="">동 선택</option>
                         <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:selected="${condition.dong eq area.legalAddressCode}" th:name="${area.name}" th:text="${area.name}"></option>
                         </th:block>
                     </select>
 
-                    <button type="submit" class="btn btn-primary margin-right-30">검색</button>
+                    <button type="submit" class="btn btn-primary margin-right-30 select-height-33">검색</button>
 
-                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none" name="usageCd">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none select-height-33" name="usageCd">
                         <option value="">매물용도</option>
                         <th:block th:each="code : ${usageCds}">
                             <option th:value="${code.id}" th:selected="${condition.usageCd eq code.id}">[[${code.name}]]</option>
                         </th:block>
                     </select>
 
-                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none" name="processType">
+                    <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none select-height-33" name="processType">
                         <option value="">진행단계</option>
                         <option value="Prepare" th:selected="${condition.processType != null && condition.processType.type eq 'prepare'}">준비</option>
                         <option value="Working" th:selected="${condition.processType != null && condition.processType.type eq 'working'}">작업중</option>
@@ -121,7 +125,7 @@
                     </select>
 
                     <div class="col-md-1" style="position: relative;">
-                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchPrice">가격 대</div>
+                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchPrice select-height-33" style="padding-top: 8px;">가격 대</div>
                         <div class="searchPriceBox padding-10 display-flex-column hidden" style="position: absolute; top: 45px; left: 10px; width: 350px; z-index: 3; background-color: #ffffff;">
                             <div class="priceAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
@@ -157,7 +161,7 @@
                     </div>
 
                     <div class="col-md-1" style="position: relative;">
-                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchArea">면적</div>
+                        <div class="form-control col-md-12 select-box margin-right-15 border-none btnSearchArea select-height-33" style="padding-top: 8px;">면적</div>
                         <div class="searchAreaBox padding-10 display-flex-column hidden" style="position: absolute; top: 45px; left: 10px; width: 350px; z-index: 3; background-color: #ffffff;">
                             <div class="lndpclArAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
