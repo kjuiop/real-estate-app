@@ -39,6 +39,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private static final RealEstateDetailAllDto EMPTY;
 
+    private String addressStr;
+
     private Long managerId;
 
     private Long managerTeamId;
@@ -86,6 +88,7 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         super(r);
 
         StringBuilder pdfTitle = new StringBuilder();
+        StringBuilder addressStrBuilder = new StringBuilder();
         if (r.getLandInfoList().size() > 0) {
             this.landInfo = new LandDto(r.getLandInfoList().get(0));
             List<LandListDto> landList = new ArrayList<>();
@@ -93,12 +96,26 @@ public class RealEstateDetailAllDto extends RealEstateDto {
             double sumUnitPblndfPclndByPyung = 0;
             double sumLndpclAr = 0;
             double sumLndpclArByPyung = 0;
+
             for (int i=0; i<r.getLandInfoList().size(); i++) {
                 sumUnitPblntfPclnd += r.getLandInfoList().get(i).getPblntfPclnd();
                 sumUnitPblndfPclndByPyung += r.getLandInfoList().get(i).getPblndfPclndByPyung();
                 sumLndpclAr += r.getLandInfoList().get(i).getLndpclAr();
                 sumLndpclArByPyung += r.getLandInfoList().get(i).getLndpclArByPyung();
                 landList.add(new LandListDto(r.getLandInfoList().get(i)));
+
+                String input = r.getLandInfoList().get(i).getAddress();
+                int lastIndex = input.lastIndexOf(" ");
+                if (lastIndex == -1) {
+                    continue;
+                }
+                if (i == 0) {
+                    addressStrBuilder.append(input);
+                    continue;
+                }
+                addressStrBuilder.append(", ");
+                String lastWord = input.substring(lastIndex + 1);
+                addressStrBuilder.append(lastWord);
             }
 
             BigDecimal pblntfPclnd = BigDecimal.valueOf(sumUnitPblntfPclnd);
@@ -112,6 +129,7 @@ public class RealEstateDetailAllDto extends RealEstateDto {
             this.sumLndpclAr = sumLndpclAr;
             this.sumLndpclArByPyung = sumLndpclArByPyung;
             this.landInfoList = landList;
+            this.addressStr = addressStrBuilder.toString();
         }
 
         if (r.getPriceInfoList().size() > 0) {

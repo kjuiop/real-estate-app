@@ -378,10 +378,7 @@
                                 <tr>
                                     <td>소재지</td>
                                     <td colspan="2">
-                                        [[${landInfo.address}]]
-                                        <th:block th:if="${landInfoList.size() > 1}">
-                                            &nbsp;외 [[${landInfoList.size()}]]
-                                        </th:block>
+                                        [[${dto.addressStr}]]
                                     </td>
                                 </tr>
                                 <tr>
