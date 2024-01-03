@@ -248,7 +248,7 @@ public class AdministratorQueryRepository {
                 .join(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
                 .where(defaultCondition())
-                .where(administratorRole.role.name.eq("ROLE_MEMBER"))
+                .where(administratorRole.role.name.eq("ROLE_MANAGER").or(administratorRole.role.name.eq("ROLE_MEMBER")))
                 .where(eqTeamId(teamId))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());

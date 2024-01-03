@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,5 +65,19 @@ public class MapController {
         }
 
         return "map/map";
+    }
+
+    @PostMapping("/real-estate")
+    public String getAjaxData(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+
+        HttpSession session = request.getSession();
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
+        model.addAttribute("condition", searchDto);
+        if (pages != null) {
+            model.addAttribute("pages", pages);
+            model.addAttribute("totalCount", pages.getTotalElements());
+        }
+
+        return "fragments/realEstateFragment :: #realEstateFragmentContent";
     }
 }

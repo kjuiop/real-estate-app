@@ -378,9 +378,39 @@ let applyAreaRange = function(e) {
     $frm.submit();
 }
 
+let searchById = function(e) {
+    e.preventDefault();
+    let realEstateId = $(this).attr('realEstateId');
+    let condition = {
+        "realEstateId" : realEstateId,
+    }
+    $.ajax({
+        url: '/map/real-estate',
+        type: "post",
+        data: condition,
+        dataType: "html",
+        cache: false,
+        async : false,
+        success: function (data) {
+            $('#realEstateSection').html(data);
+            selectOverlay(realEstateId);
+        },
+        error: function () {
+            alert('Ajax request failed');
+        }
+    });
+}
 
+let selectOverlay = function(realEstateId) {
+    let overlayId = overlayMap[realEstateId];
+    $('.overlay-title').css('background-color', '#ffffff');
+    $('.overlay-title').css('color', 'black');
 
-
+    let $overlay = $('#' + overlayId),
+        $span = $overlay.find('.title');
+    $span.css('background-color', '#d95050');
+    $span.css('color', '#ffffff');
+}
 
 $(document).ready(onReady)
     .on('change', 'select[name="sido"], select[name="gungu"]', getChildAreaData)
@@ -396,4 +426,5 @@ $(document).ready(onReady)
     .on('click', '.btnCancelArea', cancelAreaBox)
     .on('click', '.btnApplyPriceRange', applyPriceRange)
     .on('click', '.btnApplyAreaRange', applyAreaRange)
+    .on('click', '.btnSearchById', searchById)
 ;

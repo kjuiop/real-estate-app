@@ -91,6 +91,10 @@ public class ConstructDto {
 
     private YnType illegalConstructYn;
 
+    private int sumAutoUtCnt;
+
+    private int sumMechUtCnt;
+
     public ConstructDto(ConstructInfo c) {
         this.constructId = c.getId();
         this.bldNm = c.getBldNm();
@@ -120,6 +124,8 @@ public class ConstructDto {
         this.illegalConstructYn = c.getIllegalConstructYn();
         this.vlRatEstmTotArea = c.getVlRatEstmTotArea();
         this.vlRatEstmTotAreaByPyung = c.getVlRatEstmTotAreaByPyung();
+        this.sumAutoUtCnt = c.getIndrAutoUtcnt() + c.getOudrAutoUtcnt();
+        this.sumMechUtCnt = c.getIndrMechUtcnt() + c.getOudrMechUtcnt();
     }
 
     private String getConvertUseAprDate(LocalDateTime useAprDay) {

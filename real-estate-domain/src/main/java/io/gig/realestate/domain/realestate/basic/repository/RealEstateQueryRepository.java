@@ -133,6 +133,7 @@ public class RealEstateQueryRepository {
         Long result = this.queryFactory
                 .select(realEstate.count())
                 .from(realEstate)
+                .where(defaultCondition())
                 .where(realEstate.address.eq(address))
                 .fetchOne();
 

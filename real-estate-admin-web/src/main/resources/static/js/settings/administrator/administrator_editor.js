@@ -220,7 +220,8 @@ let save = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             console.log("result : ", result);
-            twoBtnModal('정상적으로 수정되었습니다.', function() {
+            let message = isModify($frm, 'adminId') ? '정상적으로 수정되었습니다.' : '정상적으로 저장되었습니다.';
+            twoBtnModal(message, function() {
                 location.href = '/settings/administrators/' + result.data + '/edit';
             });
         },
