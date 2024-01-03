@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdminSearchDto;
 import io.gig.realestate.domain.admin.dto.AdministratorListDto;
+import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamDetailDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,12 @@ import java.util.List;
 public class TeamController {
 
     private final AdministratorService administratorService;
+    private final TeamService teamService;
 
     @GetMapping
     public String register(AdminSearchDto searchDto, Model model, @CurrentUser LoginUser loginUser) {
 
-        TeamDetailDto dto = TeamDetailDto.emptyDto();
+        TeamDetailDto dto = teamService.getDetail(loginUser.getTeamId());
         Page<AdministratorListDto> teamMembers = administratorService.getAdminByTeamId(searchDto, loginUser.getUsername());
 
         model.addAttribute("dto", dto);

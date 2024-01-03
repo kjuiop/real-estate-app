@@ -1,0 +1,62 @@
+<div id="realEstateFragmentContent">
+    <div class="row padding-10">
+        <label class="text-label">매물 <span th:text="${totalCount}">0</span>개</label>
+    </div>
+    <div class="real-estate-section line" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
+        <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+            <div class="row real-estate-unit" th:address="${item.address}" th:realEstateId="${item.realEstateId}" style="background-color: #ffffff; min-width: 330px;">
+                <div class="col-md-6 image-section padding-10">
+                    <th:block th:if="${#strings.isEmpty(item.imgUrl)}">
+                        <img th:src="@{/images/no-image-found.jpeg}" class="col-sm-12" style="height: 100%; max-height: 200px;" />
+                    </th:block>
+                    <th:block th:if="${not #strings.isEmpty(item.imgUrl)}">
+                        <img th:src="${item.imgUrl}" class="col-sm-12" style="height: 100%; max-height: 200px;" />
+                    </th:block>
+                </div>
+                <div class="col-md-6 display-flex-column padding-20">
+                    <label class="text-label margin-bottom-3 font-weight-normal" th:text="${item.usageType != null ? item.usageType.name + ' 매매' : ''}"></label>
+                    <div class="display-inline-block margin-bottom-3">
+                        <label class="text-label margin-bottom-3" style="color: red;" th:if="${item.salePrice}">
+                            <th:block th:if="${item.salePrice > 0 && item.salePrice % 1 > 0}">
+                                <span th:text="${#numbers.formatDecimal(item.salePrice, 0, 'COMMA', 2, 'POINT')}"></span>억원
+                            </th:block>
+                            <th:block th:if="${item.salePrice > 0 && item.salePrice % 1 == 0}">
+                                <span th:text="${#numbers.formatDecimal(item.salePrice, 0, 'COMMA', 0, 'POINT')}"></span>억원
+                            </th:block>
+                        </label>
+                        <label class="text-label small-text-label font-weight-normal margin-bottom-3" th:if="${item.landPyungUnitPrice > 0}">
+                            (<span th:text="${item.salePrice > 0 ? #numbers.formatInteger(item.landPyungUnitPrice, 3, 'COMMA') : ''}"></span>만원/3.3㎡)
+                        </label>
+                    </div>
+                    <div class="margin-bottom-3 display-flex-column">
+                        <a class="btnMoveDetail" th:href="|/real-estate/${item.realEstateId}/edit|" target="_blank">
+                            <span class="text-label" style="cursor: pointer;">[[${item.address + ' ' + (item.addressDetail != null ? item.addressDetail : '')}]]</span>
+                        </a>
+                        <th:block th:if="${not #strings.isEmpty(item.buildingName)}">
+                            <span class="text-label" th:text="${item.buildingName}"></span>
+                        </th:block>
+                        <th:block th:if="${not #strings.isEmpty(item.prposArea1Nm)}">
+                            <span class="text-label" th:text="${item.prposArea1Nm}"></span>
+                        </th:block>
+                    </div>
+                    <div class="display-flex-row">
+                        <label class="text-label font-weight-normal" th:if="${item.lndpclArByPyung > 0}" style="margin-bottom: 0;">대지 [[${item.lndpclArByPyung}]]평</label>
+                    </div>
+                    <div class="display-flex-row">
+                        <label class="text-label font-weight-normal" th:if="${item.totAreaByPyung > 0}" style="margin-bottom: 0;">연면적 [[${item.totAreaByPyung}]]평</label>
+                    </div>
+                    <div class="display-flex-row">
+                        <label class="text-label font-weight-normal" th:if="${item.archAreaByPyung > 0}" style="margin-bottom: 0;">건축면적 [[${item.archAreaByPyung}]]평</label>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+    <div class="row" th:if="${not #lists.isEmpty(pages.content)}">
+        <div class="col-md-12">
+            <div class="text-center">
+                <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
+            </div>
+        </div>
+    </div>
+</div>

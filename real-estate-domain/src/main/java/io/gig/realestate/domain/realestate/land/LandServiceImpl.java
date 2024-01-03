@@ -84,6 +84,9 @@ public class LandServiceImpl implements LandService {
     @Override
     public List<LandDataApiDto> getLandListInfo(String bCode, String landType, String bun, String ji) throws IOException {
         List<LandDataApiDto> list = callLandListInfo(bCode, landType, bun, ji);
+        if (list == null) {
+            return null;
+        }
         if (list.size() == 0) {
             return list;
         }

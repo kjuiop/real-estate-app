@@ -1,3 +1,4 @@
+let overlayMap = {};
 let mapContainer = document.getElementById('map');
 let mapOption = {
     center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -50,69 +51,17 @@ let loadKakaoMap = function(searchAddress, addressList) {
                 map.setCenter(coords);
             }
 
-            let polygonList = makePolygonVertex();
+            let imageSrc = '/images/marker/marker-icon.png', // 마커이미지의 주소입니다
+                imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-
-            $.each(polygonList, function(idx, item) {
-
-                let polygon = new kakao.maps.Polygon({
-                    path:item, // 그려질 다각형의 좌표 배열입니다
-                    strokeWeight: 3, // 선의 두께입니다
-                    strokeColor: '#39DE2A', // 선의 색깔입니다
-                    strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                    strokeStyle: 'solid', // 선의 스타일입니다
-                    fillColor: '#A2FF99', // 채우기 색깔입니다
-                    fillOpacity: 0.7 // 채우기 불투명도 입니다
-                });
-
-                polygon.setMap(map);
-
-            });
-
-            // $.each(data.vertexInfoList, function(idx, item) {
-            //     polygonPath.push(new kakao.maps.LatLng(item.x, item.y));
-            // })
-
-
-
-            // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
-            // let mouseoverOption = {
-            //     fillColor: '#EFFFED', // 채우기 색깔입니다
-            //     fillOpacity: 0.8 // 채우기 불투명도 입니다
-            // };
-            //
-            // // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
-            // let mouseoutOption = {
-            //     fillColor: '#A2FF99', // 채우기 색깔입니다
-            //     fillOpacity: 0.7 // 채우기 불투명도 입니다
-            // };
-            //
-            // // 다각형에 마우스오버 이벤트를 등록합니다
-            // kakao.maps.event.addListener(polygon, 'mouseover', function() {
-            //
-            //     // 다각형의 채우기 옵션을 변경합니다
-            //     polygon.setOptions(mouseoverOption);
-            //
-            // });
-            //
-            // kakao.maps.event.addListener(polygon, 'mouseout', function() {
-            //
-            //     // 다각형의 채우기 옵션을 변경합니다
-            //     polygon.setOptions(mouseoutOption);
-            //
-            // });
-
-            // let downCount = 0;
-            // kakao.maps.event.addListener(polygon, 'mousedown', function() {
-            //     console.log(event);
-            //     let resultDiv = document.getElementById('result');
-            //     resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
-            // });
-
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
             // 결과값으로 받은 위치를 마커로 표시합니다
             let marker = new kakao.maps.Marker({
                 position: coords,
+                image: markerImage,
             });
 
             // 마커를 지도에 표시합니다.
@@ -120,20 +69,54 @@ let loadKakaoMap = function(searchAddress, addressList) {
             // 마커를 배열에 추가합니다.
             markers.push(marker);
 
+            let overlayId = "overlay-" + i;
+            overlayMap[addressList[i].realEstateId] = overlayId;
+
             let tag = '';
-            tag += '<div class="mark-unit" style="padding: 8px; width:400px; height:150px;">';
-            tag += '<a href="/real-estate/' + data.realEstateId + '/edit" target="_blank">' + data.address + '</a>';
-            tag += '<i class="fa fa-times btnCloseInfo" onclick="closeOverlay()" aria-hidden="true" style="position: absolute; top: 5px; right: 10px;"></i>';
+            tag += '<div id="' + overlayId + '" class="customoverlay" toggle="on">';
+            tag += '<a href="#" class="btnSearchById" realEstateId="' + data.realEstateId + '">';
+            if (checkNullOrEmptyValue(data.buildingName)) {
+                tag += '<span class="title overlay-title">' + data.buildingName + '</span>';
+            } else {
+                tag += '<span class="title overlay-title">' + data.address + '</span>';
+            }
+            tag += '</a>';
             tag += '</div>';
 
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            let infowindow = new kakao.maps.InfoWindow({
-                content: tag
+            // let tag = drawMarkContent(data);
+
+            // 커스텀 오버레이를 생성합니다
+            let customOverlay = new kakao.maps.CustomOverlay({
+                map: map,
+                position: coords,
+                content: tag,
+                yAnchor: 1
             });
 
-            // 마커를 클릭하면 인포윈도우를 엽니다
             kakao.maps.event.addListener(marker, 'click', function() {
-                // infowindow.open(map, marker);
+                let $overlay = $('#' + overlayId),
+                    toggle = $overlay.attr('toggle');
+                if (toggle === 'on') {
+                    $overlay.addClass('hidden');
+                    $overlay.attr('toggle', 'off');
+                } else {
+                    $overlay.removeClass('hidden');
+                    $overlay.attr('toggle', 'on');
+                }
+            });
+
+            // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+            function closeOverlay() {
+                customOverlay.setMap(null);
+            }
+
+            kakao.maps.event.addListener(map, 'zoom_changed', function() {
+                let currentZoomLevel = map.getLevel();
+                if (currentZoomLevel > 3) {
+                    customOverlay.setMap(null);  // 오버레이 숨기기
+                } else {
+                    customOverlay.setMap(map);   // 오버레이 보이기
+                }
             });
         });
     }
@@ -145,7 +128,41 @@ let loadKakaoMap = function(searchAddress, addressList) {
         markers: markers // 클러스터에 마커 추가
     });
 
+    console.log("overlayMap", overlayMap);
 
+
+    kakao.maps.event.addListener(map, 'zoom_changed', function() {
+
+        let currentZoomLevel = map.getLevel();
+
+        console.log("current zoom level", currentZoomLevel);
+
+        if (currentZoomLevel !== 4) {
+            return;
+        }
+
+        let $frm = $('form[name="frmSearch"]'),
+            params = serializeObject({form:$frm[0]}).json();
+
+        $.ajax({
+            url: '/map/real-estate',
+            type: "post",
+            data: params,
+            dataType: "html",
+            cache: false,
+            async : false,
+            success: function (data) {
+                $('#realEstateSection').html(data);
+            },
+            error: function () {
+                alert('Ajax request failed');
+            }
+        });
+
+        // let bounds = map.getBounds();
+        // let swLatLng = bounds.getSouthWest();
+        // let neLatLng = bounds.getNorthEast();
+    });
 }
 
 let searchMapByAddress = function(address) {
@@ -184,33 +201,15 @@ let searchMapByAddress = function(address) {
 let moveMapFocus = function(e) {
     e.preventDefault();
 
-    let address = $(this).attr('address');
+    let address = $(this).attr('address'),
+        realEstateId = $(this).attr('realEstateId');
     geocoder.addressSearch(address, function(result, status) {
-
-        // 정상적으로 검색이 완료됐으면
         if (status !== kakao.maps.services.Status.OK) {
             return
         }
-
         let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        let marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        /**
-         *
-         * @type {kakao.maps.InfoWindow}
-         */
-        let infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">매물위치</div>'
-        });
-        // infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         map.setCenter(coords);
+        selectOverlay(realEstateId);
     });
 }
 
@@ -234,10 +233,6 @@ let showCadastral = function(e) {
     $(this).addClass('btn-default');
     $(this).removeClass('btn-primary');
     $(this).attr('toggleYn', 'N');
-}
-
-let closeOverlay = function() {
-    overlay.setMap(null);
 }
 
 let makePolygonVertex = function() {
@@ -285,4 +280,89 @@ let makePolygonVertex = function() {
     polygonList.push(polygonPath2);
 
     return polygonList;
+}
+
+let drawMarkContent = function(data) {
+    let tag = '<div class="wrap">' +
+        '    <div class="info">' +
+        '        <div class="title">' +
+        '            카카오 스페이스닷원' +
+        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+        '        </div>' +
+        '        <div class="body">' +
+        '            <div class="img">' +
+        '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">' +
+        '           </div>' +
+        '            <div class="desc">' +
+        '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
+        '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
+        '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
+        '            </div>' +
+        '        </div>' +
+        '    </div>' +
+        '</div>';
+
+    return tag;
+}
+
+
+let polygonFunc = function() {
+    // let polygonList = makePolygonVertex();
+    //
+    //
+    // $.each(polygonList, function(idx, item) {
+    //
+    //     let polygon = new kakao.maps.Polygon({
+    //         path:item, // 그려질 다각형의 좌표 배열입니다
+    //         strokeWeight: 3, // 선의 두께입니다
+    //         strokeColor: '#39DE2A', // 선의 색깔입니다
+    //         strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    //         strokeStyle: 'solid', // 선의 스타일입니다
+    //         fillColor: '#A2FF99', // 채우기 색깔입니다
+    //         fillOpacity: 0.7 // 채우기 불투명도 입니다
+    //     });
+    //
+    //     polygon.setMap(map);
+    //
+    // });
+
+    // $.each(data.vertexInfoList, function(idx, item) {
+    //     polygonPath.push(new kakao.maps.LatLng(item.x, item.y));
+    // })
+
+
+
+    // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    // let mouseoverOption = {
+    //     fillColor: '#EFFFED', // 채우기 색깔입니다
+    //     fillOpacity: 0.8 // 채우기 불투명도 입니다
+    // };
+    //
+    // // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    // let mouseoutOption = {
+    //     fillColor: '#A2FF99', // 채우기 색깔입니다
+    //     fillOpacity: 0.7 // 채우기 불투명도 입니다
+    // };
+    //
+    // // 다각형에 마우스오버 이벤트를 등록합니다
+    // kakao.maps.event.addListener(polygon, 'mouseover', function() {
+    //
+    //     // 다각형의 채우기 옵션을 변경합니다
+    //     polygon.setOptions(mouseoverOption);
+    //
+    // });
+    //
+    // kakao.maps.event.addListener(polygon, 'mouseout', function() {
+    //
+    //     // 다각형의 채우기 옵션을 변경합니다
+    //     polygon.setOptions(mouseoutOption);
+    //
+    // });
+
+    // let downCount = 0;
+    // kakao.maps.event.addListener(polygon, 'mousedown', function() {
+    //     console.log(event);
+    //     let resultDiv = document.getElementById('result');
+    //     resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
+    // });
 }

@@ -47,9 +47,11 @@ public class AdminManagerController {
 
         List<RoleDto> roles = roleService.getAllRoles();
         AdministratorDetailDto dto = AdministratorDetailDto.emptyDto();
+        List<TeamListDto> teams = teamService.getTeamList();
 
         model.addAttribute("roles", roles);
         model.addAttribute("dto", dto);
+        model.addAttribute("teams", teams);
 
         return "settings/administrator/editor";
     }
