@@ -19,6 +19,8 @@ public class LoginUser extends User implements Serializable {
 
     private Long id;
 
+    private Long teamId;
+
     private Administrator loginUser;
     @Setter
     private Map<String, Object> attributes;
@@ -28,6 +30,7 @@ public class LoginUser extends User implements Serializable {
     public LoginUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, Administrator loginUser) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.loginUser = loginUser;
+        this.teamId = loginUser.getTeam().getId();
     }
 
     public String getName() {
