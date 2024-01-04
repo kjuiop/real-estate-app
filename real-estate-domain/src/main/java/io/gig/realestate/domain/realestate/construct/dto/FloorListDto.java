@@ -47,8 +47,6 @@ public class FloorListDto {
 
     private String etcInfo;
 
-    private YnType underFloorYn;
-
     public FloorListDto (FloorPriceInfo f) {
         this.flrNo = f.getFlrNo();
         this.flrNoNm = f.getFlrNoNm();
@@ -65,6 +63,5 @@ public class FloorListDto {
         this.termStartDate = f.getTermStartDate();
         this.termEndDate = f.getTermEndDate();
         this.etcInfo = f.getEtcInfo();
-        this.underFloorYn = f.getUnderFloorYn();
     }
 }
