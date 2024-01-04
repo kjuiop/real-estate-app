@@ -102,8 +102,10 @@ public class LandServiceImpl implements LandService {
     public List<LandDataApiDto> callLandListInfo(String bCode, String landType, String bun, String ji) throws IOException {
         LandDataApiDto.Request request = LandDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(landDataProperties.getUrl()); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landDataProperties.getServiceKey()); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("key","UTF-8") + "=" + landDataProperties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        urlBuilder.append("&" + URLEncoder.encode("domain","UTF-8") + "=" + landDataProperties.getDomain());
+
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -141,33 +143,17 @@ public class LandServiceImpl implements LandService {
             return null;
         }
 
-        Object object = wfs.get("gml:featureMember");
-        if (object == null) {
+        JSONObject gml = wfs.getJSONObject("gml:featureMember");
+        if (!gml.has("sop:dt_d194")) {
             return null;
         }
 
+        JSONObject sop = gml.getJSONObject("sop:dt_d194");
+
         List<LandDataApiDto> result = new ArrayList<>();
-
-        if (object instanceof JSONObject) {
-            JSONObject gml = (JSONObject) object;
-            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
-            LandDataApiDto dataApiDto = LandDataApiDto.convertData(nsdi);
-            result.add(dataApiDto);
-            return result;
-        }
-
-        if (object instanceof JSONArray) {
-            JSONArray jsonArray = (JSONArray) object;
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject gml = jsonArray.getJSONObject(i);
-                JSONObject nsdi = gml.getJSONObject("NSDI:F251");
-                LandDataApiDto dataApiDto = LandDataApiDto.convertData(nsdi);
-                result.add(dataApiDto);
-            }
-            return result;
-        }
-
-        return null;
+        LandDataApiDto dataApiDto = LandDataApiDto.convertData(sop);
+        result.add(dataApiDto);
+        return result;
     }
 
 
