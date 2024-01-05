@@ -36,8 +36,9 @@ public class LandPriceServiceImpl implements LandPriceService {
 
         LandPriceDataApiDto.Request request = LandPriceDataApiDto.Request.assembleParam(bCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(dataProperties.getUrl()); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + dataProperties.getServiceKey()); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("key","UTF-8") + "=" + dataProperties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        urlBuilder.append("&" + URLEncoder.encode("domain","UTF-8") + "=" + dataProperties.getDomain());
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -86,7 +87,7 @@ public class LandPriceServiceImpl implements LandPriceService {
         }
 
         JSONObject gml = (JSONObject) object;
-        JSONObject nsdi = gml.getJSONObject("NSDI:F166");
-        return LandPriceDataApiDto.convertData(nsdi);
+        JSONObject sop = gml.getJSONObject("sop:dt_d150");
+        return LandPriceDataApiDto.convertData(sop);
     }
 }

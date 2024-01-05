@@ -29,10 +29,10 @@ public class LandPriceDataApiDto {
 
     private double changeRate;
 
-    public static List<LandPriceDataApiDto> convertData(JSONObject nsdi) {
+    public static List<LandPriceDataApiDto> convertData(JSONObject sop) {
 
-        long pnu = nsdi.optLong("NSDI:PNU");
-        int pclndStdrYear = nsdi.optInt("NSDI:PBLNTF_PCLND_STDR_YEAR");
+        long pnu = sop.optLong("sop:pnu");
+        int pclndStdrYear = sop.optInt("sop:pblntf_pclnd_stdr_year");
 
         List<LandPriceDataApiDto> result = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class LandPriceDataApiDto {
         for (int i=4; i>=0; i--) {
             LandPriceDataApiDto price;
             if (i == 0) {
-                int pblntfPclnd = nsdi.optInt("NSDI:PBLNTF_PCLND");
+                int pblntfPclnd = sop.optInt("sop:pblntf_pclnd");
                 price = LandPriceDataApiDto.builder()
                         .pnu(pnu)
                         .pblntfPclnd(pblntfPclnd)
@@ -49,7 +49,7 @@ public class LandPriceDataApiDto {
                         .changeRate(calculateChangeRate(pblntfPclnd, prevPrice))
                         .build();
             } else {
-                int pblntfPclnd = nsdi.optInt("NSDI:PSTYR_" + i + "_PBLNTF_PCLND");
+                int pblntfPclnd = sop.optInt("sop:pstyr_" + i + "_pblntf_pclnd");
                 int year = pclndStdrYear - i;
 
                 price = LandPriceDataApiDto.builder()
