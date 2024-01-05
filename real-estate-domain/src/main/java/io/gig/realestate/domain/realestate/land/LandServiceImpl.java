@@ -162,10 +162,12 @@ public class LandServiceImpl implements LandService {
     public LandUsageDataApiDto getLandUsagePublicData(String legalCode, String landType, String bun, String ji) throws IOException {
         LandUsageDataApiDto.Request request = LandUsageDataApiDto.Request.assembleParam(legalCode, landType, bun, ji);
         StringBuilder urlBuilder = new StringBuilder(landUsageDataProperties.getUrl()); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landUsageDataProperties.getServiceKey()); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("key","UTF-8") + "=" + landUsageDataProperties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("typeName","UTF-8") + "=" + URLEncoder.encode("F176", "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("srsName","UTF-8") + "=" + URLEncoder.encode("EPSG:5174", "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+//        urlBuilder.append("&" + URLEncoder.encode("typename","UTF-8") + "=" + URLEncoder.encode("dt_d154", "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+//        urlBuilder.append("&" + URLEncoder.encode("srsName","UTF-8") + "=" + URLEncoder.encode("EPSG:4326", "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        urlBuilder.append("&" + URLEncoder.encode("domain","UTF-8") + "=" + landDataProperties.getDomain());
+
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -209,8 +211,8 @@ public class LandServiceImpl implements LandService {
 
         if (object instanceof JSONObject) {
             JSONObject gml = (JSONObject) object;
-            JSONObject nsdi = gml.getJSONObject("NSDI:F176");
-            LandUsageDataApiDto usageData = LandUsageDataApiDto.convertData(nsdi);
+            JSONObject sop = gml.getJSONObject("sop:dt_d154");
+            LandUsageDataApiDto usageData = LandUsageDataApiDto.convertData(sop);
             return usageData;
         }
 

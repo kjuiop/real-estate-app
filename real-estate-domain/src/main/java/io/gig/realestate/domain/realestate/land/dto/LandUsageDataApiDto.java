@@ -24,12 +24,10 @@ public class LandUsageDataApiDto {
     private String prposAreaDstrcCodeList;
     private String posList;
 
-    public static LandUsageDataApiDto convertData(JSONObject nsdi) {
-        String posList = parsePosList(nsdi);
+    public static LandUsageDataApiDto convertData(JSONObject sop) {
         return LandUsageDataApiDto.builder()
-                .prposAreaDstrcNmList(nsdi.has("NSDI:PRPOS_AREA_DSTRC_NM_LIST") ? nsdi.getString("NSDI:PRPOS_AREA_DSTRC_NM_LIST") : null)
-                .prposAreaDstrcCodeList(nsdi.has("NSDI:PRPOS_AREA_DSTRC_CODE_LIST") ? nsdi.getString("NSDI:PRPOS_AREA_DSTRC_CODE_LIST") : null)
-                .posList(posList)
+                .prposAreaDstrcNmList(sop.has("sop:prpos_area_dstrc_nm_list") ? sop.getString("sop:prpos_area_dstrc_nm_list") : null)
+                .prposAreaDstrcCodeList(sop.has("sop:prpos_area_dstrc_code_list") ? sop.getString("sop:prpos_area_dstrc_code_list") : null)
                 .build();
     }
 
