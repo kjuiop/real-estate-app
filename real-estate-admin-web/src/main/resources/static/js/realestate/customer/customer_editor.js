@@ -158,7 +158,7 @@ let drawCustomerInfo = function(item) {
 
     tag +=         '</div>';
     tag +=     '</div>';
-    tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line">';
+    tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line" style="padding-right: 0;">';
     tag +=         '<input type="text" class="form-control form-control-sm" name="etcInfo" value="' +  item.etcInfo + '" placeholder="비고"/>';
     tag +=     '</div>';
 
