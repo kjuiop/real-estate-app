@@ -20,8 +20,11 @@ public class FloorListDto {
 
     private String roomName;
 
-    // 면적
-    private Double area;
+    // 대장상 면적
+    private double area;
+
+    // 대장상 면적 평
+    private double areaPy;
 
     private double lndpclAr;
 
@@ -52,6 +55,7 @@ public class FloorListDto {
         this.flrNoNm = f.getFlrNoNm();
         this.roomName = f.getRoomName();
         this.area = f.getArea();
+        this.areaPy = calculatePy(f.getArea());
         this.lndpclAr = f.getLndpclAr();
         this.lndpclArByPyung = f.getLndpclArByPyung();
         this.mainPurpsCdNm = f.getMainPurpsCdNm();
@@ -63,5 +67,15 @@ public class FloorListDto {
         this.termStartDate = f.getTermStartDate();
         this.termEndDate = f.getTermEndDate();
         this.etcInfo = f.getEtcInfo();
+    }
+
+    private static double calculatePy(double area) {
+        if (area == 0) {
+            return 0.0;
+        }
+
+        double result = area / 3.305785;
+        result = Math.round(result * 100.0) / 100.0;
+        return result;
     }
 }

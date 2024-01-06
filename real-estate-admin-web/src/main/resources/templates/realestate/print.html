@@ -720,7 +720,7 @@
                     </div>
                 </div>
                 <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content">
-                    <th:block th:if="${constructFloorList.size() <= 17}">
+                    <th:block th:if="${constructFloorList.size() <= 15}">
                         <div class="margin-bottom-3">
                             <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
                         </div>
@@ -729,8 +729,8 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <td class="table-head" style="width: 10%;">층별</td>
-                                    <td class="table-head" style="width: 40%;">용도</td>
+                                    <td class="table-head" style="width: 15%;">층별</td>
+                                    <td class="table-head" style="width: 35%;">용도</td>
                                     <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
                                     <td class="table-head" style="width: 25%;">면 적 (평)</td>
                                 </tr>
@@ -743,8 +743,8 @@
                                     <tr>
                                         <td>[[${floor.flrNoNm}]]</td>
                                         <td>[[${floor.etcPurps}]]</td>
-                                        <td th:text="${floor.lndpclAr == 0 ? 0 : #numbers.formatDecimal(floor.lndpclAr, 0, 'COMMA', 2, 'POINT')}"></td>
-                                        <td th:text="${floor.lndpclArByPyung == 0 ? 0 : #numbers.formatDecimal(floor.lndpclArByPyung, 0, 'COMMA', 2, 'POINT')}"></td>
+                                        <td th:text="${floor.area == 0 ? 0 : #numbers.formatDecimal(floor.area, 0, 'COMMA', 2, 'POINT')}"></td>
+                                        <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
                                     </tr>
                                 </th:block>
                                 <tr>
@@ -764,7 +764,7 @@
         </div>
 
 
-        <div class="print-content print-distribute-line floor-info-section" th:if="${constructFloorList.size() > 17}">
+        <div class="print-content print-distribute-line floor-info-section" th:if="${constructFloorList.size() > 15}">
             <div class="row print-content-title">
                 <h3>건축물 개요</h3>
                 <span>Building Information</span>
@@ -780,17 +780,17 @@
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
-                                <td class="table-head" style="width: 10%;">층별</td>
-                                <td class="table-head" style="width: 40%;">용도</td>
+                                <td class="table-head" style="width: 15%;">층별</td>
+                                <td class="table-head" style="width: 35%;">용도</td>
                                 <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
                                 <td class="table-head" style="width: 25%;">면 적 (평)</td>
                             </tr>
-                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index <= 17}" th:each="floor, status : ${constructFloorList}">
+                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index <= 15}" th:each="floor, status : ${constructFloorList}">
                                 <tr>
                                     <td>[[${floor.flrNoNm}]]</td>
                                     <td>[[${floor.etcPurps}]]</td>
-                                    <td>[[${floor.lndpclAr}]]</td>
-                                    <td>[[${floor.lndpclArByPyung}]]</td>
+                                    <td th:text="${floor.area == 0 ? 0 : #numbers.formatDecimal(floor.area, 0, 'COMMA', 2, 'POINT')}"></td>
+                                    <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -806,18 +806,18 @@
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
-                                <td class="table-head" style="width: 10%;">층별</td>
-                                <td class="table-head" style="width: 40%;">용도</td>
+                                <td class="table-head" style="width: 15%;">층별</td>
+                                <td class="table-head" style="width: 35%;">용도</td>
                                 <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
                                 <td class="table-head" style="width: 25%;">면 적 (평)</td>
                             </tr>
-                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 17}" th:each="floor, status : ${constructFloorList}">
+                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 15}" th:each="floor, status : ${constructFloorList}">
                                 <th:block th:if="${status.index > 17}">
                                     <tr>
                                         <td>[[${floor.flrNoNm}]]</td>
                                         <td>[[${floor.etcPurps}]]</td>
-                                        <td>[[${floor.lndpclAr}]]</td>
-                                        <td>[[${floor.lndpclArByPyung}]]</td>
+                                        <td th:text="${floor.area == 0 ? 0 : #numbers.formatDecimal(floor.area, 0, 'COMMA', 2, 'POINT')}"></td>
+                                        <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
                                     </tr>
                                 </th:block>
                             </th:block>
