@@ -57,12 +57,12 @@
             }
 
             .card-location #map {
-                height: 600px !important;
+                /*height: 600px !important;*/
             }
 
             .land-info-section #landMap {
                 width: 100% !important;
-                height: 600px !important;
+                /*height: 600px !important;*/
             }
 
             .floor-info-section .table-head {
@@ -763,56 +763,33 @@
             <div class="print-footer text-alien-center"></div>
         </div>
 
+        <th:block th:if="${constructFloorList.size() > 15}">
 
-        <div class="print-content print-distribute-line floor-info-section" th:if="${constructFloorList.size() > 15}">
-            <div class="row print-content-title">
-                <h3>건축물 개요</h3>
-                <span>Building Information</span>
-            </div>
-            <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12" style="height: 600px; padding-top: 10px;">
-                <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
-                    <div class="margin-bottom-3">
-                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-1</h5>
-                    </div>
+            <div class="print-line"></div>
 
-                    <div class="no-left-padding col-md-12">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="table-head" style="width: 15%;">층별</td>
-                                <td class="table-head" style="width: 35%;">용도</td>
-                                <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
-                                <td class="table-head" style="width: 25%;">면 적 (평)</td>
-                            </tr>
-                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index <= 15}" th:each="floor, status : ${constructFloorList}">
-                                <tr>
-                                    <td>[[${floor.flrNoNm}]]</td>
-                                    <td>[[${floor.etcPurps}]]</td>
-                                    <td th:text="${floor.area == 0 ? 0 : #numbers.formatDecimal(floor.area, 0, 'COMMA', 2, 'POINT')}"></td>
-                                    <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
-                                </tr>
-                            </th:block>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="print-content print-distribute-line floor-info-section" >
+
+                <div class="row print-content-title">
+                    <h3>건축물 개요</h3>
+                    <span>Building Information</span>
                 </div>
-                <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
-                    <div class="margin-bottom-3">
-                        <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-2</h5>
-                    </div>
+                <div class="print-title-line"></div>
+                <div class="cover-body print-body row col-md-12" style="height: 600px; padding-top: 10px;">
+                    <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
+                        <div class="margin-bottom-3">
+                            <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-1</h5>
+                        </div>
 
-                    <div class="no-left-padding col-md-12">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="table-head" style="width: 15%;">층별</td>
-                                <td class="table-head" style="width: 35%;">용도</td>
-                                <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
-                                <td class="table-head" style="width: 25%;">면 적 (평)</td>
-                            </tr>
-                            <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 15}" th:each="floor, status : ${constructFloorList}">
-                                <th:block th:if="${status.index > 17}">
+                        <div class="no-left-padding col-md-12">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="table-head" style="width: 15%;">층별</td>
+                                    <td class="table-head" style="width: 35%;">용도</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (평)</td>
+                                </tr>
+                                <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index <= 15}" th:each="floor, status : ${constructFloorList}">
                                     <tr>
                                         <td>[[${floor.flrNoNm}]]</td>
                                         <td>[[${floor.etcPurps}]]</td>
@@ -820,19 +797,48 @@
                                         <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
                                     </tr>
                                 </th:block>
-                            </th:block>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
+                        <div class="margin-bottom-3">
+                            <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-2</h5>
+                        </div>
+
+                        <div class="no-left-padding col-md-12">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="table-head" style="width: 15%;">층별</td>
+                                    <td class="table-head" style="width: 35%;">용도</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (㎡)</td>
+                                    <td class="table-head" style="width: 25%;">면 적 (평)</td>
+                                </tr>
+                                <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 15}" th:each="floor, status : ${constructFloorList}">
+                                    <th:block th:if="${status.index > 17}">
+                                        <tr>
+                                            <td>[[${floor.flrNoNm}]]</td>
+                                            <td>[[${floor.etcPurps}]]</td>
+                                            <td th:text="${floor.area == 0 ? 0 : #numbers.formatDecimal(floor.area, 0, 'COMMA', 2, 'POINT')}"></td>
+                                            <td th:text="${floor.areaPy == 0 ? 0 : #numbers.formatDecimal(floor.areaPy, 0, 'COMMA', 2, 'POINT')}"></td>
+                                        </tr>
+                                    </th:block>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+                <div class="print-footer text-alien-center"></div>
             </div>
 
-            <div class="print-footer text-alien-center"></div>
-        </div>
+        </th:block>
 
         <div class="print-line"></div>
 
-        <div class="print-content print-distribute-line card-location">
+        <div class="print-content print-distribute-line card-location" style="height: 750px;">
             <div class="row print-content-title">
                 <h3>위치</h3>
                 <span>Location</span>
@@ -843,7 +849,7 @@
                     <th:block th:if="${printInfo != null && not #strings.isEmpty(printInfo.locationImgUrl)}">
                         <img th:src="${printInfo.locationImgUrl}" style="width: 100%; height: 100%;">
                     </th:block>
-                    <div id="map" style="width: 1050px; height: 500px; margin: auto 0;"></div>
+                    <div id="map" style="width: 1050px; height: 600px; margin: auto 0;"></div>
                 </div>
             </div>
             <div class="print-footer text-alien-center"></div>
@@ -851,15 +857,15 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content land-info-section" style="margin-bottom: 10px;">
+        <div class="print-content land-info-section" style="margin-bottom: 10px; height: 700px; ">
             <div class="row print-content-title">
                 <h3>토지 조서</h3>
                 <span>Land decree</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+            <div class="cover-body print-body row col-md-12 padding-20" style="padding-top: 10px;">
                 <div class="col-md-6 padding-10 height-100" style="padding-top:20px;">
-                    <div id="landMap" style="width: 100%; height: 550px;"></div>
+                    <div id="landMap" style="width: 100%; height: 600px;"></div>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-10">
                     <table class="table table-bordered line">
@@ -936,7 +942,7 @@
             <div class="print-footer text-alien-center"></div>
         </div>
 
-        <div class="print-line print-hidden"></div>
+<!--        <div class="print-line print-hidden"></div>-->
 
         <th:block th:if="${not #lists.isEmpty(imgList)}" th:each="item, status : ${imgList}">
             <div class="print-line"></div>
