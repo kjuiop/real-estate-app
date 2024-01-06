@@ -60,6 +60,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer maxDepositPrice;
 
+    private Integer minGuaranteePrice;
+
+    private Integer maxGuaranteePrice;
+
     private Integer minRentPrice;
 
     private Integer maxRentPrice;

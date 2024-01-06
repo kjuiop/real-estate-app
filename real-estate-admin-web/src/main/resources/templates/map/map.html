@@ -69,8 +69,8 @@
                 <input type="hidden" name="realEstateId" />
                 <input type="hidden" name="minSalePrice" th:value="${condition.minSalePrice}" />
                 <input type="hidden" name="maxSalePrice" th:value="${condition.maxSalePrice}" />
-                <input type="hidden" name="minDepositPrice" th:value="${condition.minDepositPrice}" />
-                <input type="hidden" name="maxDepositPrice" th:value="${condition.maxDepositPrice}" />
+                <input type="hidden" name="minGuaranteePrice" th:value="${condition.minGuaranteePrice}" />
+                <input type="hidden" name="maxGuaranteePrice" th:value="${condition.maxGuaranteePrice}" />
                 <input type="hidden" name="minRentPrice" th:value="${condition.minRentPrice}" />
                 <input type="hidden" name="maxRentPrice" th:value="${condition.maxRentPrice}" />
                 <input type="hidden" name="minLndpclArByPyung" th:value="${condition.minLndpclArByPyung}" />
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="slider-range"></div>
                             </div>
-                            <div class="depositAmountUnit padding-10 display-flex-column">
+                            <div class="guaranteeAmountUnit padding-10 display-flex-column">
                                 <div class="display-flex-row" style="margin-bottom: 15px;">
                                     <b class="font-size-14 margin-right-5">보증금</b>
                                     <input type="text" class="amount" readonly style="border:0; font-size: 12px;">
