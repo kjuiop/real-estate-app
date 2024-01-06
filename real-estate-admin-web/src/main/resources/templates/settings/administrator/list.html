@@ -41,7 +41,7 @@
                                 <div class="col-10">
                                     <label class="margin-right-10" for="AdminStatus_All" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_All" value="" th:checked="${condition.adminStatus eq null}">&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
                                     <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL" th:checked="${condition.adminStatus eq AdminStatus.NORMAL}">&nbsp;&nbsp;&nbsp;활성</label>
-                                    <label class="margin-right-10" for="AdminStatus_Pending" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Pending" value="PENDING" th:checked="${condition.adminStatus eq AdminStatus.PENDING}">&nbsp;&nbsp;&nbsp;보류</label>
+                                    <label class="margin-right-10" for="AdminStatus_Pending" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Pending" value="PENDING" th:checked="${condition.adminStatus eq AdminStatus.PENDING}">&nbsp;&nbsp;&nbsp;대기</label>
                                     <label class="margin-right-10" for="AdminStatus_Withdraw" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Withdraw" value="WITHDRAW" th:checked="${condition.adminStatus eq AdminStatus.WITHDRAW}">&nbsp;&nbsp;&nbsp;탈퇴</label>
                                     <label class="margin-right-10" for="AdminStatus_Rejected" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Rejected" value="INACTIVE" th:checked="${condition.adminStatus eq AdminStatus.INACTIVE}">&nbsp;&nbsp;&nbsp;비활성화</label> &nbsp;
                                 </div>
@@ -124,7 +124,7 @@
                             <div class="pull-left margin-left-20">
                                 <label for="statusType">
                                     <select class="form-control" id="statusType">
-                                        <option value="NORMAL">정상</option>
+                                        <option value="NORMAL">활성</option>
                                         <option value="PENDING">대기</option>
                                         <option value="WITHDRAW">탈퇴</option>
                                         <option value="INACTIVE">비활성화</option>

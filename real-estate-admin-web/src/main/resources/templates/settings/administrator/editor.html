@@ -97,19 +97,19 @@
                                     <div class="col-md-10">
                                         <label class="radio-label" style="font-weight: normal;">
                                             <input type="radio" id="userStatus_Pending" name="status" value="PENDING" th:checked="${dto.status eq AdminStatus.PENDING}">
-                                            <label class="radio-label" style="font-weight: normal;">보류</label>
+                                            <label class="radio-label" style="font-weight: normal;">대기</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
                                             <input type="radio" id="userStatus_Normal" name="status" value="NORMAL" th:checked="${dto.status eq AdminStatus.NORMAL}">
-                                            <label class="radio-label" style="font-weight: normal;">정상</label>
-                                        </label>
-                                        <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="userStatus_Withdraw" name="status" value="WITHDRAW" th:checked="${dto.status eq AdminStatus.WITHDRAW}">
-                                            <label class="radio-label" style="font-weight: normal;">탈퇴</label>
+                                            <label class="radio-label" style="font-weight: normal;">활성</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
                                             <input type="radio" id="userStatus_Rejected" name="status" value="INACTIVE" th:checked="${dto.status eq AdminStatus.INACTIVE}">
                                             <label class="radio-label" style="font-weight: normal;">비활성</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Withdraw" name="status" value="WITHDRAW" th:checked="${dto.status eq AdminStatus.WITHDRAW}">
+                                            <label class="radio-label" style="font-weight: normal;">탈퇴</label>
                                         </label>
                                     </div>
                                 </div>
