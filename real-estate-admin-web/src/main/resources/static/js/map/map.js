@@ -294,7 +294,7 @@ let lndpclArSlider = function($areaSlider) {
 
     if (condition.minLndpclArByPyung > 0 || condition.maxLndpclArByPyung > 0) {
         let displayMin = convertNullOrEmptyValue(condition.minLndpclArByPyung),
-            displayMax = checkNullOrEmptyValue(condition.maxLndpclArByPyung) ? convertNullOrEmptyValue(condition.maxLndpclArByPyung) + '만원' : '제한없음';
+            displayMax = checkNullOrEmptyValue(condition.maxLndpclArByPyung) ? convertNullOrEmptyValue(condition.maxLndpclArByPyung) + '평' : '제한없음';
         $areaSlider.find('.amount').val(displayMin + " - " + displayMax);
         $sliderRange.slider("values", [condition.minLndpclArByPyung, condition.maxLndpclArByPyung]);
     }
@@ -326,7 +326,7 @@ let totAreaSlider = function($areaSlider) {
 
     if (condition.minTotAreaByPyung > 0 || condition.maxTotAreaByPyung > 0) {
         let displayMin = convertNullOrEmptyValue(condition.minTotAreaByPyung),
-            displayMax = checkNullOrEmptyValue(condition.maxTotAreaByPyung) ? convertNullOrEmptyValue(condition.maxTotAreaByPyung) + '만원' : '제한없음';
+            displayMax = checkNullOrEmptyValue(condition.maxTotAreaByPyung) ? convertNullOrEmptyValue(condition.maxTotAreaByPyung) + '평' : '제한없음';
         $areaSlider.find('.amount').val(displayMin + " - " + displayMax);
         $sliderRange.slider("values", [condition.minTotAreaByPyung, condition.maxTotAreaByPyung]);
     }
@@ -358,7 +358,7 @@ let archAreaSlider = function($areaSlider) {
 
     if (condition.minArchAreaByPyung > 0 || condition.maxArchAreaByPyung > 0) {
         let displayMin = convertNullOrEmptyValue(condition.minArchAreaByPyung),
-            displayMax = checkNullOrEmptyValue(condition.maxArchAreaByPyung) ? convertNullOrEmptyValue(condition.maxArchAreaByPyung) + '만원' : '제한없음';
+            displayMax = checkNullOrEmptyValue(condition.maxArchAreaByPyung) ? convertNullOrEmptyValue(condition.maxArchAreaByPyung) + '평' : '제한없음';
         $areaSlider.find('.amount').val(displayMin + " - " + displayMax);
         $sliderRange.slider("values", [condition.minArchAreaByPyung, condition.maxArchAreaByPyung]);
     }

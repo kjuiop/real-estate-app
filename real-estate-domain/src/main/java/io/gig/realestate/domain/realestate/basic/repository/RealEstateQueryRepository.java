@@ -359,7 +359,7 @@ public class RealEstateQueryRepository {
         return realEstate.id.in(
                 JPAExpressions.selectDistinct(constructInfo.realEstate.id)
                         .from(constructInfo)
-                        .where(constructInfo.archArea.between(minArchAreaByPyung, maxArchAreaByPyung))
+                        .where(constructInfo.archAreaByPyung.between(minArchAreaByPyung, maxArchAreaByPyung))
         );
     }
 
