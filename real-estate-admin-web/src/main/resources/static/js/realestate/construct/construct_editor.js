@@ -145,13 +145,6 @@ let drawConstructFloorInfo = function(data) {
 let drawConstructFloorRow = function(item) {
     let tag = '';
     tag += '<tr class="floor-unit">';
-    tag += '<td class="center-text padding-8"><select class="form-control form-control-sm" style="min-width: 70px;" name="underFloorYn">';
-    if (item.underFloorYn === 'Y') {
-        tag += '<option value="N">지상</option><option value="Y" selected>지하</option>';
-    } else {
-        tag += '<option value="N" selected>지상</option><option value="Y">지하</option>';
-    }
-    tag += '</select></td>';
     tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width:70px;"/></td>';
     tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 70px;"/></td>';
     tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 190px;"/></td>';
@@ -237,7 +230,6 @@ let assembleFloorParams = function() {
     let floorInfoList = [];
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
-            "underFloorYn" : $(item).find('select[name="underFloorYn"] option:selected').val(),
             "flrNo" : $(item).find('.flrNo').attr('flrNo'),
             "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
             "roomName" : $(item).find('input[name="roomName"]').val(),
@@ -327,7 +319,6 @@ let floorInfoRowAdd = function(e) {
 
     let data = {
         "flrNo" : 999,
-        "underFloorYn" : 'N',
         "area" : 0,
         "lndpclAr" : 0,
         "lndpclArByPyung" : 0,

@@ -44,6 +44,4 @@ public class FloorCreateForm {
     private String termEndDate;
 
     private String etcInfo;
-
-    private YnType underFloorYn;
 }

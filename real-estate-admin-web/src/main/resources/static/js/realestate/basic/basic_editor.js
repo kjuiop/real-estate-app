@@ -35,3 +35,27 @@ let loadBasicInfo = function() {
     });
 
 }
+
+let changeUsageCode = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmBasicRegister"]'),
+        usageCodeId = $(this).val();
+
+    $.ajax({
+        url: "/settings/category-manager/children-categories?parentId=" + usageCodeId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let categories = result.data;
+
+            let tags = drawBtnUsageCode(categories);
+            $frm.find('.usageCdsSection').html(tags);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}

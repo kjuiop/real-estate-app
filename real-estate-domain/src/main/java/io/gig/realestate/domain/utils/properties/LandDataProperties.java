@@ -19,4 +19,5 @@ import org.springframework.stereotype.Component;
 public class LandDataProperties {
     String url;
     String serviceKey;
+    String domain;
 }

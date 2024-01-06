@@ -12,4 +12,5 @@ yarn.lock
 
 # credentials
 application-credentials.yml
+application-credentials-local.yml
 application-dev.yml

@@ -177,7 +177,7 @@ public class AdministratorQueryRepository {
                 .fetchFirst());
     }
 
-    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername) {
+    public Page<AdministratorListDto> getCandidateMembers(AdminSearchDto searchDto, String loginUsername, Long teamId) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
         where.and(excludeSuperAdmin());
@@ -194,7 +194,7 @@ public class AdministratorQueryRepository {
                 .from(administrator)
                 .leftJoin(administrator.administratorRoles, administratorRole).fetchJoin()
                 .where(where)
-                .orderBy(sortOrder.asc())
+                .orderBy(administrator.team.name.asc())
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
