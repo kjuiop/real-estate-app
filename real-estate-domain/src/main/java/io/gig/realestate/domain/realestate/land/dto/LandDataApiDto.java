@@ -103,9 +103,9 @@ public class LandDataApiDto {
     private String prposAreaDstrcCodeList;
     private String posList;
 
-    public static LandDataApiDto convertData(JSONObject nsdi) {
-        double lndpclAr = nsdi.optDouble("NSDI:LNDPCL_AR");
-        int pblntfPclnd = nsdi.optInt("NSDI:PBLNTF_PCLND");
+    public static LandDataApiDto convertData(JSONObject sop) {
+        double lndpclAr = sop.optDouble("sop:lndpcl_ar");
+        int pblntfPclnd = sop.optInt("sop:pblntf_pclnd");
         double totalPblntfPclnd = pblntfPclnd * lndpclAr;
         double pblntfPclndByPyung = pblntfPclnd * 3.305785;
         double totalPblntfPclndByPyung = pblntfPclndByPyung * 3.305785;
@@ -113,25 +113,25 @@ public class LandDataApiDto {
         double areaInPyung = lndpclAr / 3.305785;
         BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
 
-        long pnu = nsdi.getLong("NSDI:PNU");
+        long pnu = sop.optLong("sop:pnu");
         String pnuStr = String.valueOf(pnu);
 
         return LandDataApiDto.builder()
                 .pnu(pnu)
                 .pnuStr(pnuStr)
-                .lndpclAr(nsdi.has("NSDI:LNDPCL_AR") ? nsdi.getBigDecimal("NSDI:LNDPCL_AR") : null)
+                .lndpclAr(sop.has("sop:lndpcl_ar") ? sop.getBigDecimal("sop:lndpcl_ar") : null)
                 .lndpclArByPyung(lndpclArByPyung)
-                .lndcgrCodeNm(nsdi.has("NSDI:LNDCGR_CODE_NM") ? nsdi.getString("NSDI:LNDCGR_CODE_NM") : null)
-                .prposArea1Nm(nsdi.has("NSDI:PRPOS_AREA_1_NM") ? nsdi.getString("NSDI:PRPOS_AREA_1_NM") : null)
-                .ladUseSittnNm(nsdi.has("NSDI:LAD_USE_SITTN_NM") ? nsdi.getString("NSDI:LAD_USE_SITTN_NM") : null)
-                .tpgrphHgCodeNm(nsdi.has("NSDI:TPGRPH_HG_CODE_NM") ? nsdi.getString("NSDI:TPGRPH_HG_CODE_NM") : null)
-                .tpgrphFrmCodeNm(nsdi.has("NSDI:TPGRPH_FRM_CODE_NM") ? nsdi.getString("NSDI:TPGRPH_FRM_CODE_NM") : null)
-                .roadSideCodeNm(nsdi.has("NSDI:ROAD_SIDE_CODE_NM") ? nsdi.getString("NSDI:ROAD_SIDE_CODE_NM") : null)
+                .lndcgrCodeNm(sop.has("sop:lndcgr_code_nm") ? sop.getString("sop:lndcgr_code_nm") : null)
+                .prposArea1Nm(sop.has("sop:prpos_area_1_nm") ? sop.getString("sop:prpos_area_1_nm") : null)
+                .ladUseSittnNm(sop.has("sop:lad_use_sittn_nm") ? sop.getString("sop:lad_use_sittn_nm") : null)
+                .tpgrphHgCodeNm(sop.has("sop:tpgrph_hg_code_nm") ? sop.getString("sop:tpgrph_hg_code_nm") : null)
+                .tpgrphFrmCodeNm(sop.has("sop:tpgrph_frm_code_nm") ? sop.getString("sop:tpgrph_frm_code_nm") : null)
+                .roadSideCodeNm(sop.has("sop:road_side_code_nm") ? sop.getString("sop:road_side_code_nm") : null)
                 .pblntfPclnd(pblntfPclnd)
                 .totalPblntfPclnd(totalPblntfPclnd)
                 .pblntfPclndByPyung(pblntfPclndByPyung)
                 .totalPblntfPclndByPyung(totalPblntfPclndByPyung)
-                .stdrYear(nsdi.has("NSDI:STDR_YEAR") ? nsdi.getInt("NSDI:STDR_YEAR") : null)
+                .stdrYear(sop.has("sop:stdr_year") ? sop.getInt("sop:stdr_year") : null)
                 .build();
     }
 

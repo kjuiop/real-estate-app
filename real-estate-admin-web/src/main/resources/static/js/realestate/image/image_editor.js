@@ -136,8 +136,8 @@ let imgDraw = function (fullPath) {
 
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default" style="border:0;">' +
-        '<div class="image-panel" style="width: 100%; height: auto;">' +
-        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload" style="max-height: 400px;"></a>' +
+        '<div class="image-panel" style="width: 100%; height: auto; background-color: #fff;">' +
+        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload" style="max-height: 430px;"></a>' +
         '</div>' +
         '</div>';
 

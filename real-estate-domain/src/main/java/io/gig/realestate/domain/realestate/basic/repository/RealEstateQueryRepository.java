@@ -291,6 +291,18 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenGuaranteePrice(Integer minGuaranteePrice, Integer maxGuaranteePrice) {
+        if (minGuaranteePrice == null || maxGuaranteePrice == null || minGuaranteePrice < 0 || maxGuaranteePrice <= 0 || maxGuaranteePrice < minGuaranteePrice) {
+            return null;
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(priceInfo.realEstate.id)
+                        .from(priceInfo)
+                        .where(priceInfo.guaranteePrice.between(minGuaranteePrice, maxGuaranteePrice))
+        );
+    }
+
     private BooleanExpression betweenRentPrice(Integer minRentPrice, Integer maxRentPrice) {
         if (minRentPrice == null || maxRentPrice == null || minRentPrice < 0 || maxRentPrice <= 0 || maxRentPrice < minRentPrice) {
             return null;
@@ -347,7 +359,7 @@ public class RealEstateQueryRepository {
         return realEstate.id.in(
                 JPAExpressions.selectDistinct(constructInfo.realEstate.id)
                         .from(constructInfo)
-                        .where(constructInfo.archArea.between(minArchAreaByPyung, maxArchAreaByPyung))
+                        .where(constructInfo.archAreaByPyung.between(minArchAreaByPyung, maxArchAreaByPyung))
         );
     }
 
@@ -467,6 +479,7 @@ public class RealEstateQueryRepository {
         where.and(likeTeamName(searchDto.getTeam()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
         where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
+        where.and(betweenGuaranteePrice(searchDto.getMinGuaranteePrice(), searchDto.getMaxGuaranteePrice()));
         where.and(betweenRentPrice(searchDto.getMinRentPrice(), searchDto.getMaxRentPrice()));
         where.and(betweenArchArea(searchDto.getMinArchArea(), searchDto.getMaxArchArea()));
         where.and(betweenArchAreaByPyung(searchDto.getMinArchAreaByPyung(), searchDto.getMaxArchAreaByPyung()));

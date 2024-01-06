@@ -13,9 +13,11 @@
                 max-width: 50%;
             }
         }
+
         .container-fluid * {
             font-size: 12px;
         }
+
         label * {
             font-size: 12px;
         }
@@ -26,6 +28,10 @@
 
         .container-fluid select {
             height: 30px;
+        }
+
+        .image-panel img {
+            aspect-ratio: 1/1;
         }
     </style>
 </head>
@@ -339,7 +345,7 @@
                     <!-- /.card -->
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
-                            <h3 class="card-title margin-right-4">고객정보</h3>
+                            <h3 class="card-title margin-right-4" style="padding-top: 5px;">고객정보</h3>
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
                             <label class="text-label">총 <span id="customerCnt">1</span>명</label>
                             <div class="card-tools"></div>
@@ -350,13 +356,13 @@
                                     <div id="customerInfoSection"></div>
                                 </form>
                                 <div th:if="${dto.existCustomerInfo}">
-                                    <div class="col-md-12 no-left-padding margin-top-5">
+                                    <div class="col-md-12 no-left-padding margin-top-5" style="padding-right: 0;">
                                         <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
                                         <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
                                         <button type="button" class="btn btn-sm btn-warning" style="margin-right: 5px;"> 삭제항목 보이기</button>
-                                        <button type="button" class="btn btn-sm btn-danger pull-right btnRemoveAllMemo" style="margin-right: 5px;"> 삭제</button>
+                                        <button type="button" class="btn btn-sm btn-danger pull-right btnRemoveAllMemo"> 삭제</button>
                                     </div>
-                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5">
+                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5" style="padding-right: 0;">
                                         <input type="text" id="memoInput" class="form-control form-control-sm" placeholder="내용을 입력하세요." />
                                     </div>
                                     <div class="col-md-12 display-flex-column margin-top-5">
@@ -477,7 +483,6 @@
                                         <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
                                             <thead class="thead-light">
                                             <tr>
-                                                <th class="center-text" scope="col">지상/지하</th>
                                                 <th class="center-text" scope="col" style="width: 70px;">층수</th>
                                                 <th class="center-text" scope="col" style="width: 70px;">호실</th>
                                                 <th class="center-text" scope="col" style="width: 190px;">용도</th>
@@ -496,7 +501,7 @@
                                             </tbody>
                                             <tfoot class="hidden">
                                             <tr>
-                                                <td colspan="5" style="text-align: left; padding-left: 10px;">합계</td>
+                                                <td colspan="4" style="text-align: left; padding-left: 10px;">합계</td>
                                                 <td class="right-align totalArea"></td>
                                                 <td class="right-align totalLndpclAr"></td>
                                                 <td class="right-align totalLndpclArByPyung"></td>
@@ -625,7 +630,7 @@
                                     </div>
                                     <div class="col-md-6 display-flex-row no-left-padding">
                                         <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
-                                            <label class="text-label">연면적</label>
+                                            <label class="text-label">지상면적</label>
                                             <div class="display-flex-row">
                                                 <input type="text" class="form-control form-control-sm col-md-10 totArea calculateAreaVlRate" />
                                                 <button type="button" class="btn btn-xs btn-default col-md-2" disabled>&nbsp;㎡&nbsp;&nbsp;</button>
