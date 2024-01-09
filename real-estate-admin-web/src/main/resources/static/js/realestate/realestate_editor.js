@@ -68,16 +68,6 @@ let realEstateSave = function(e) {
     let customerInfoList = assembleCustomerParam();
     params.customerInfoList = customerInfoList;
 
-    let $frmPrint = $('form[name="frmPrintImage"]');
-    let printInfo = {
-        "propertyImgUrl": $frmPrint.find('#propertyImgurl').find('img').attr('src'),
-        "buildingImgUrl": $frmPrint.find('#buildingImgUrl').find('img').attr('src'),
-        "locationImgUrl": $frmPrint.find('#locationImgUrl').find('img').attr('src'),
-        "landDecreeImgUrl": $frmPrint.find('#landDecreeImgUrl').find('img').attr('src'),
-        "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl').find('img').attr('src'),
-    }
-    params.printInfo = printInfo;
-
     let $pblntTable = $('.pblnt-table tbody');
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
@@ -163,16 +153,6 @@ let realEstateUpdate = function(e) {
 
     let customerInfoList = assembleCustomerParam();
     params.customerInfoList = customerInfoList;
-
-    let $frmPrint = $('form[name="frmPrintImage"]');
-    let printInfo = {
-        "propertyImgUrl": $frmPrint.find('#propertyImgUrl .thumbnailInfo').find('img').attr('src'),
-        "buildingImgUrl": $frmPrint.find('#buildingImgUrl .thumbnailInfo').find('img').attr('src'),
-        "locationImgUrl": $frmPrint.find('#locationImgUrl .thumbnailInfo').find('img').attr('src'),
-        "landDecreeImgUrl": $frmPrint.find('#landDecreeImgUrl .thumbnailInfo').find('img').attr('src'),
-        "developPlanImgUrl": $frmPrint.find('#developPlanImgUrl .thumbnailInfo').find('img').attr('src'),
-    }
-    params.printInfo = printInfo;
 
     let $pblntTable = $('.pblnt-table tbody');
     let landPriceInfoList = [];

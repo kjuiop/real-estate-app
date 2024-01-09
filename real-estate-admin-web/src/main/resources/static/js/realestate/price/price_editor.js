@@ -87,10 +87,16 @@ let calculateAveragePrice = function() {
         return;
     }
 
+    console.log("lndpclArByPyung", lndpclArByPyung);
+    console.log("salePrice", salePrice);
+
     lndpclArByPyung = Number(lndpclArByPyung);
     salePrice = Number(salePrice) * 100000000;
 
     let averageUnitPrice = salePrice / lndpclArByPyung;
+
+    console.log("averageUnitPrice", averageUnitPrice);
+
     averageUnitPrice = averageUnitPrice / 10000;
     averageUnitPrice = Math.round(averageUnitPrice);
 

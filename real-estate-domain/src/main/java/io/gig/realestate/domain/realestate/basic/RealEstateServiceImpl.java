@@ -31,12 +31,10 @@ import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
-import io.gig.realestate.domain.realestate.print.PrintInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -191,14 +189,16 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
 
         realEstate.getSubImgInfoList().clear();
-        for (ImageCreateForm dto : updateForm.getSubImages()) {
+        String imageUrl = "";
+        for (int i=0; i<updateForm.getSubImages().size(); i++) {
+            ImageCreateForm dto = updateForm.getSubImages().get(i);
+            if (i == 0) {
+                imageUrl = dto.getFullPath();
+            }
             ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
             realEstate.addImageInfo(imageInfo);
         }
-
-        realEstate.getPrintInfoList().clear();
-        PrintInfo printInfo = PrintInfo.create(updateForm.getPrintInfo(), realEstate);
-        realEstate.addPrintInfo(printInfo);
+        realEstate.updateImageFullPath(imageUrl);
 
         realEstate.getLandPriceInfoList().clear();
         for (LandPriceCreateForm dto : updateForm.getLandPriceInfoList()) {
