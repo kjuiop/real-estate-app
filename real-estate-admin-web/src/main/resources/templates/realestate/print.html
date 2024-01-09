@@ -816,7 +816,7 @@
                                     <td class="table-head" style="width: 25%;">면 적 (평)</td>
                                 </tr>
                                 <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 15}" th:each="floor, status : ${constructFloorList}">
-                                    <th:block th:if="${status.index > 17}">
+                                    <th:block th:if="${status.index > 15}">
                                         <tr>
                                             <td>[[${floor.flrNoNm}]]</td>
                                             <td>[[${floor.etcPurps}]]</td>
