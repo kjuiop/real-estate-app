@@ -16,6 +16,8 @@ let loadConstructInfo = function() {
             + "&ji=" + dto.ji
     }
 
+    console.log("url ", url);
+
     $.ajax({
         url: url,
         method: "get",
@@ -26,55 +28,57 @@ let loadConstructInfo = function() {
             if (!checkNullOrEmptyValue(constructInfo)) {
                 return;
             }
-
             console.log("constructInfo result", constructInfo);
-
-            let $basicFrm = $('form[name="frmBasicRegister"]'),
-                $buildingName = $basicFrm.find('input[name="buildingName"]');
-
-            if (checkNullOrEmptyValue(constructInfo.bldNm)) {
-                $buildingName.val(constructInfo.bldNm);
-            }
-
-            let $frm = $('form[name="frmConstructRegister"]');
-            $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
-            $frm.find('.etcPurps').val(constructInfo.etcPurps);
-            $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
-            $frm.find('.useAprDate').val(constructInfo.useAprDate);
-            $frm.find('.platArea').val(constructInfo.platArea);
-            $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
-            // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
-            $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
-            $frm.find('.archArea').val(constructInfo.archArea);
-            $frm.find('input[name="archAreaByPyung"]').val(constructInfo.archAreaByPyung);
-            $frm.find('.bcRat').val(constructInfo.bcRat);
-            $frm.find('.totArea').val(constructInfo.totArea);
-            $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);
-            $frm.find('.vlRat').val(constructInfo.vlRat);
-            $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
-            $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
-            $frm.find('.rideUseElvtCnt').val(constructInfo.rideUseElvtCnt);
-            $frm.find('.emgenUseElvtCnt').val(constructInfo.emgenUseElvtCnt);
-            $frm.find('.indrAutoUtcnt').val(constructInfo.indrAutoUtcnt);
-            $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
-            $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
-            $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
-            $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
-            $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
-            $frm.find('input[name="heit"]').val(constructInfo.heit);
-
-            if (constructInfo.illegalConstructYn === 'Y') {
-                $frm.find('input[name="illegalConstructYn"]').iCheck('check');
-            } else {
-                $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
-            }
-
-            // calculateConstructInfo(constructInfo);
+            settingPublicApi(constructInfo);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let settingPublicApi = function(constructInfo) {
+    let $basicFrm = $('form[name="frmBasicRegister"]'),
+        $buildingName = $basicFrm.find('input[name="buildingName"]');
+
+    if (checkNullOrEmptyValue(constructInfo.bldNm)) {
+        $buildingName.val(constructInfo.bldNm);
+    }
+
+    let $frm = $('form[name="frmConstructRegister"]');
+    $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
+    $frm.find('.etcPurps').val(constructInfo.etcPurps);
+    $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
+    $frm.find('.useAprDate').val(constructInfo.useAprDate);
+    $frm.find('.platArea').val(constructInfo.platArea);
+    $frm.find('.platAreaByPyung').val(constructInfo.platAreaByPyung);
+    // $frm.find('.hhldCnt').val(constructInfo.hhldCnt);
+    $frm.find('.houseHoldName').val(constructInfo.houseHoldName);
+    $frm.find('.archArea').val(constructInfo.archArea);
+    $frm.find('input[name="archAreaByPyung"]').val(constructInfo.archAreaByPyung);
+    $frm.find('.bcRat').val(constructInfo.bcRat);
+    $frm.find('.totArea').val(constructInfo.totArea);
+    $frm.find('.totAreaByPyung').val(constructInfo.totAreaByPyung);
+    $frm.find('.vlRat').val(constructInfo.vlRat);
+    $frm.find('.grndFlrCnt').val(constructInfo.grndFlrCnt);
+    $frm.find('.ugrndFlrCnt').val(constructInfo.ugrndFlrCnt);
+    $frm.find('.rideUseElvtCnt').val(constructInfo.rideUseElvtCnt);
+    $frm.find('.emgenUseElvtCnt').val(constructInfo.emgenUseElvtCnt);
+    $frm.find('.indrAutoUtcnt').val(constructInfo.indrAutoUtcnt);
+    $frm.find('.oudrAutoUtcnt').val(constructInfo.oudrAutoUtcnt);
+    $frm.find('.indrMechUtcnt').val(constructInfo.indrMechUtcnt);
+    $frm.find('.oudrMechUtcnt').val(constructInfo.oudrMechUtcnt);
+    $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
+    $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
+    $frm.find('input[name="heit"]').val(constructInfo.heit);
+
+    if (constructInfo.illegalConstructYn === 'Y') {
+        $frm.find('input[name="illegalConstructYn"]').iCheck('check');
+    } else {
+        $frm.find('input[name="illegalConstructYn"]').iCheck('uncheck');
+    }
+
+    // calculateConstructInfo(constructInfo);
 }
 
 let loadConstructFloorInfo = function() {
@@ -93,6 +97,8 @@ let loadConstructFloorInfo = function() {
             + "&bun=" + dto.bun
             + "&ji=" + dto.ji
     }
+
+    console.log("url ", url);
 
     $.ajax({
         url: url,
@@ -132,6 +138,37 @@ let loadConstructFloorInfo = function() {
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let constructInfoReload = function(e) {
+    e.preventDefault();
+
+    let url = "/real-estate/construct/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            let constructInfo = result.data;
+            if (!checkNullOrEmptyValue(constructInfo)) {
+                return;
+            }
+            console.log("constructInfo result", constructInfo);
+            settingPublicApi(constructInfo);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+
 }
 
 let drawConstructFloorInfo = function(data) {
