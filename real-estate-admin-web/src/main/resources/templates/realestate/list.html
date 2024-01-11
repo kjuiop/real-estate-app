@@ -427,17 +427,35 @@
                                         </td>
                                         <td>
                                             <th:block th:if="${not #strings.isEmpty(item.totArea)}">
-                                                연&nbsp;<span th:text="${item.totArea}"></span>㎡&nbsp;
-                                                <br />
+                                                <th:block th:if="${item.totArea == 0}">
+                                                    연&nbsp;<span th:text="${'0'}"></span>㎡&nbsp;/&nbsp;<span th:text="${'0'}"></span>평
+                                                    <br />
+                                                </th:block>
+                                                <th:block th:if="${item.totArea > 0}">
+                                                    연&nbsp;<span th:text="${#numbers.formatDecimal(item.totArea, 0, 'COMMA', 2, 'POINT')}"></span>㎡&nbsp;/&nbsp;<span th:text="${#numbers.formatDecimal(item.totAreaByPyung, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                    <br />
+                                                </th:block>
                                             </th:block>
-                                            <th:block th:if="${not #strings.isEmpty(item.platArea)}">
-                                                대&nbsp;<span th:text="${item.platArea}"></span>㎡&nbsp;
-                                                <br />
+                                            <th:block th:if="${not #strings.isEmpty(item.lndpclAr)}">
+                                                <th:block th:if="${item.lndpclAr == 0}">
+                                                    대&nbsp;<span th:text="${'0'}"></span>㎡&nbsp;/&nbsp;<span th:text="${'0'}"></span>평
+                                                    <br />
+                                                </th:block>
+                                                <th:block th:if="${item.lndpclAr > 0}">
+                                                    대&nbsp;<span th:text="${#numbers.formatDecimal(item.lndpclAr, 0, 'COMMA', 2, 'POINT')}"></span>㎡&nbsp;/&nbsp;<span th:text="${#numbers.formatDecimal(item.lndpclArByPyung, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                    <br />
+                                                </th:block>
                                             </th:block>
                                             <th:block th:if="${not #strings.isEmpty(item.archArea)}">
-                                                <div>
-                                                    건&nbsp;<span th:text="${item.archArea}"></span>㎡
-                                                </div>
+                                                <th:block th:if="${item.archArea == 0}">
+                                                    건&nbsp;<span th:text="${'0'}"></span>㎡&nbsp;/&nbsp;<span th:text="${'0'}"></span>평
+                                                    <br />
+                                                </th:block>
+                                                <th:block th:if="${item.archArea > 0}">
+                                                    <div>
+                                                        건&nbsp;<span th:text="${#numbers.formatDecimal(item.archArea, 0, 'COMMA', 2, 'POINT')}"></span>㎡/&nbsp;<span th:text="${#numbers.formatDecimal(item.archAreaByPyung, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                    </div>
+                                                </th:block>
                                             </th:block>
                                         </td>
                                         <td class="text-alien-center" th:text="${item.roadWidth > 0 ? item.roadWidth + 'm' : ''}"></td>

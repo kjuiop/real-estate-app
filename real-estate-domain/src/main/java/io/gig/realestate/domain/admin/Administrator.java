@@ -11,6 +11,7 @@ import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.team.Team;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -92,15 +93,20 @@ public class Administrator extends BaseTimeEntity {
 
 
     public static Administrator create(AdministratorCreateForm createForm, String encodedPassword, Team team) {
-        return Administrator.builder()
+        Administrator administrator = Administrator.builder()
                 .username(createForm.getUsername())
                 .name(createForm.getName())
-                .password(encodedPassword)
                 .passwordFailureCount(0)
                 .phone(createForm.getPhone())
                 .status(createForm.getStatus())
                 .team(team)
                 .build();
+
+        if (StringUtils.hasText(encodedPassword)) {
+            administrator.password = encodedPassword;
+        }
+
+        return administrator;
     }
 
     public static Administrator signUp(AdministratorSignUpForm signUpForm, String encodedPassword, Team team) {
@@ -160,10 +166,12 @@ public class Administrator extends BaseTimeEntity {
     }
 
     public void update(AdministratorUpdateForm form, String encodedPassword, Team team) {
-        this.password = encodedPassword;
         this.status = form.getStatus();
         this.phone = form.getPhone();
         this.team = team;
+        if (StringUtils.hasText(encodedPassword)) {
+            this.password = encodedPassword;
+        }
     }
 
     public void updateStatus(AdminStatus status) {

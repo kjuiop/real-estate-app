@@ -55,23 +55,22 @@ let calculateFloorInfo = function(constructFloorList) {
         return;
     }
 
-    let $section = $('.floor-info-section'),
-        totalUpFloorLndpclAr = 0,
-        totalUpFloorLndpclArByPyung = 0,
+    let $section = $('.floor-price-section'),
         totalLndpclAr = 0,
         totalLndpclArByPyung = 0;
 
     $.each(constructFloorList, function(idx, item) {
-        totalUpFloorLndpclAr += item.lndpclAr;
-        totalUpFloorLndpclArByPyung += item.lndpclArByPyung;
+        totalLndpclAr += item.area;
+        totalLndpclArByPyung += item.areaPy;
     });
-    totalUpFloorLndpclAr = totalUpFloorLndpclAr.toFixed(2);
-    totalUpFloorLndpclArByPyung = totalUpFloorLndpclArByPyung.toFixed(2);
-    $section.find('.totalUpFloorLndpclAr').text(addCommasToNumber(totalUpFloorLndpclAr));
-    $section.find('.totalUpFloorLndpclArByPyung').text(addCommasToNumber(totalUpFloorLndpclArByPyung));
 
-    totalLndpclAr = Number(totalUpFloorLndpclAr);
-    totalLndpclArByPyung = Number(totalUpFloorLndpclArByPyung);
+    totalLndpclAr = Number(totalLndpclAr);
+    totalLndpclArByPyung = Number(totalLndpclArByPyung);
+    console.log("calculateFloorInfo totalLndpclAr", totalLndpclAr);
+    console.log("calculateFloorInfo totalLndpclArByPyung", totalLndpclArByPyung);
+
+    totalLndpclAr = totalLndpclAr.toFixed(2);
+    totalLndpclArByPyung = totalLndpclArByPyung.toFixed(2);
 
     $section.find('.totalLndpclAr').text(addCommasToNumber(totalLndpclAr));
     $section.find('.totalLndpclArByPyung').text(addCommasToNumber(totalLndpclArByPyung));

@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,6 +65,7 @@ public class LandPriceDataApiDto {
             }
             result.add(price);
         }
+        Collections.reverse(result);
         return result;
     }
 

@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -58,6 +59,10 @@ public class RealEstateDetailAllDto extends RealEstateDto {
     private double sumLndpclAr;
 
     private double sumLndpclArByPyung;
+
+    private String useAprYear;
+
+    private String useAprMonth;
 
     private LandDto landInfo;
 
@@ -144,7 +149,14 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         }
 
         if (r.getConstructInfoList().size() > 0) {
-            this.constructInfo = new ConstructDto(r.getConstructInfoList().get(0));
+            ConstructDto constructDto = new ConstructDto(r.getConstructInfoList().get(0));
+            if (StringUtils.hasText(constructDto.getUseAprDate())) {
+                String[] strArray = constructDto.getUseAprDate().split("-");
+                this.useAprYear = strArray[0];
+                this.useAprMonth = strArray[1];
+            }
+
+            this.constructInfo = constructDto;
         }
 
         if (r.getPrintInfoList().size() > 0) {

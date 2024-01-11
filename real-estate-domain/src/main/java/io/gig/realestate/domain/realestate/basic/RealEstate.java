@@ -285,4 +285,8 @@ public class RealEstate extends BaseTimeEntity {
     public void updateABStatus(YnType abYn) {
         this.abYn = abYn;
     }
+
+    public void updateImageFullPath(String imageUrl) {
+        this.imgUrl = imageUrl;
+    }
 }

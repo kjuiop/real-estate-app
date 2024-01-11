@@ -355,7 +355,7 @@
                                 <form name="frmCustomerRegister">
                                     <div id="customerInfoSection"></div>
                                 </form>
-                                <div th:if="${dto.existCustomerInfo}">
+                                <div>
                                     <div class="col-md-12 no-left-padding margin-top-5" style="padding-right: 0;">
                                         <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
                                         <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
@@ -430,7 +430,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">평단가</label>
+                                                    <label class="text-label">토지 평단가</label>
                                                     <div class="com-md-12 no-left-padding display-flex-row">
                                                         <input type="number" class="form-control form-control-sm averageUnitPrice" name="averageUnitPrice" value="0"/>
                                                         <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
@@ -523,12 +523,15 @@
                     <div class="card" style="margin-top: 5px;">
                         <form class="form-horizontal" name="frmConstructRegister" method="post">
                             <div class="card-header">
-                                <h3 class="card-title">건축물 대장 정보</h3>
+                                <h3 class="card-title" style="padding-top: 5px;">건축물 대장 정보</h3>
                                 <div class="card-tools">
                                     <input type="hidden" value="" name="vlRatEstmTotArea" />
                                     <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
                                     <input type="hidden" value="" name="heit" />
                                     <input type="hidden" value="" name="archAreaByPyung" />
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-sm btn-default btnConstructReload hidden">조회</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">

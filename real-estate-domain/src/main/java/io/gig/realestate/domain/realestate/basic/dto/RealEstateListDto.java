@@ -19,6 +19,7 @@ public class RealEstateListDto extends RealEstateDto {
     public int landPyungUnitPrice;
     public int buildingPyungUnitPrice;
     public int roadWidth;
+    public double lndpclAr;
     public double lndpclArByPyung;
     public double totAreaByPyung;
     public double archAreaByPyung;
@@ -42,6 +43,7 @@ public class RealEstateListDto extends RealEstateDto {
             this.archAreaByPyung = r.getConstructInfoList().get(0).getArchAreaByPyung();
         }
         if (r.getLandInfoList().size() > 0) {
+            double lndpclAr = 0;
             double lndpclArPy = 0;
             for (int i=0; i<r.getLandInfoList().size(); i++) {
                 LandInfo landInfo = r.getLandInfoList().get(i);
@@ -49,12 +51,17 @@ public class RealEstateListDto extends RealEstateDto {
                     this.roadWidth += landInfo.getRoadWidth();
                 }
 
+                if (landInfo.getLndpclAr() > 0) {
+                    lndpclAr += landInfo.getLndpclAr();
+                }
                 if (landInfo.getLndpclArByPyung() > 0) {
                     lndpclArPy += landInfo.getLndpclArByPyung();
                 }
             }
             this.prposArea1Nm = r.getLandInfoList().get(0).getPrposArea1Nm();
-            lndpclArPy = Math.round((lndpclArPy * 100) / 100);
+//            lndpclAr = Math.round((lndpclAr * 100) / 100);
+//            lndpclArPy = Math.round((lndpclArPy * 100) / 100);
+            this.lndpclAr = lndpclAr;
             this.lndpclArByPyung = lndpclArPy;
         }
     }
