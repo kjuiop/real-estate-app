@@ -62,7 +62,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Transactional
     public Long create(@NotNull AdministratorCreateForm createForm) {
         Team team = teamService.getTeamById(createForm.getTeamId());
-        Administrator newAdmin = Administrator.create(createForm, passwordEncoder.encode(createForm.getPassword()), team);
+        String password = StringUtils.hasText(createForm.getPassword()) ? passwordEncoder.encode(createForm.getPassword()) : "";
+        Administrator newAdmin = Administrator.create(createForm, password, team);
         List<Role> roles = roleService.findByRoleNamesIn(createForm.getRoleNames());
         newAdmin.createAdministratorRoles(roles);
         return administratorStore.store(newAdmin).getId();

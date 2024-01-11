@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -67,7 +68,9 @@ public class LandPriceServiceImpl implements LandPriceService {
     @Override
     @Transactional(readOnly = true)
     public List<LandPriceListDto> getLandPriceListInfo(Long realEstateId) {
-        return landPriceReader.getLandPriceInfoByRealEstateId(realEstateId);
+        List<LandPriceListDto> list = landPriceReader.getLandPriceInfoByRealEstateId(realEstateId);
+        Collections.reverse(list);
+        return list;
     }
 
     private List<LandPriceDataApiDto> parseLandPriceInfoJsonData(JSONObject data) {

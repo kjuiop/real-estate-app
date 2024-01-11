@@ -156,7 +156,7 @@ public class ConstructDataApiDto {
                 .indrAutoUtcnt(item.has("indrAutoUtcnt") ? item.optInt("indrAutoUtcnt") : 0)
                 .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.optInt("oudrAutoUtcnt") : 0)
                 .indrMechUtcnt(item.has("indrMechUtcnt") ? item.optInt("indrMechUtcnt") : 0)
-                .oudrAutoUtcnt(item.has("oudrAutoUtcnt") ? item.optInt("oudrAutoUtcnt") : 0)
+                .oudrMechUtcnt(item.has("oudrMechUtcnt") ? item.optInt("oudrMechUtcnt") : 0)
                 .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.optString("mainPurpsCdNm") : null)
                 .etcPurps(item.has("etcPurps") ? item.optString("etcPurps") : null)
                 .strctCdNm(item.has("strctCdNm") ? item.optString("strctCdNm") : null)

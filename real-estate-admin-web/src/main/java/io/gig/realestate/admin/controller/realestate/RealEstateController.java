@@ -15,6 +15,7 @@ import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
+import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -198,7 +201,10 @@ public class RealEstateController {
         model.addAttribute("constructInfo", dto.getConstructInfo());
         model.addAttribute("constructFloorList", dto.getConstructFloorList());
         model.addAttribute("imgList", dto.getImgList());
-        model.addAttribute("landPriceList", dto.getLandPriceList());
+
+        List<LandPriceListDto> priceList = dto.getLandPriceList();
+        Collections.reverse(priceList);
+        model.addAttribute("landPriceList", priceList);
 
         return "realestate/print";
     }

@@ -448,8 +448,8 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">준공년도</td>
-                                    <td style="width: 40%;">[[${#strings.substring(constructInfo.useAprDate, 0, 4)}]]년</td>
-                                    <td style="width: 40%;">[[${#strings.substring(constructInfo.useAprDate, 6, 7)}]]월</td>
+                                    <td style="width: 40%;">[[${dto.useAprYear}]]년</td>
+                                    <td style="width: 40%;">[[${dto.useAprMonth}]]월</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">건물규모</td>
@@ -496,7 +496,7 @@
                                     <td>보증금</td>
                                     <td>[[${priceInfo.guaranteePrice > 0 ? #numbers.formatDecimal(priceInfo.guaranteePrice, 0, 'COMMA', 0, 'POINT') + '만원' : '-'}]]</td>
                                     <td>수익률(관포)</td>
-                                    <td>[[${priceInfo.revenueRate > 0 ? #numbers.formatDecimal(priceInfo.revenueRate, 0, 'COMMA', 0, 'POINT') + '%' : '-'}]]</td>
+                                    <td>[[${priceInfo.revenueRate > 0 ? #numbers.formatDecimal(priceInfo.revenueRate, 0, 'COMMA', 2, 'POINT') + '%' : '-'}]]</td>
                                 </tr>
                                 <tr>
                                     <td>임대료</td>
@@ -719,7 +719,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content">
+                <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content floor-price-section">
                     <th:block th:if="${constructFloorList.size() <= 15}">
                         <div class="margin-bottom-3">
                             <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
@@ -767,7 +767,7 @@
 
             <div class="print-line"></div>
 
-            <div class="print-content print-distribute-line floor-info-section" >
+            <div class="print-content print-distribute-line floor-price-section" >
 
                 <div class="row print-content-title">
                     <h3>건축물 개요</h3>
@@ -816,7 +816,7 @@
                                     <td class="table-head" style="width: 25%;">면 적 (평)</td>
                                 </tr>
                                 <th:block th:unless="${#lists.isEmpty(constructFloorList)}" th:if="${status.index > 15}" th:each="floor, status : ${constructFloorList}">
-                                    <th:block th:if="${status.index > 17}">
+                                    <th:block th:if="${status.index > 15}">
                                         <tr>
                                             <td>[[${floor.flrNoNm}]]</td>
                                             <td>[[${floor.etcPurps}]]</td>
@@ -825,6 +825,12 @@
                                         </tr>
                                     </th:block>
                                 </th:block>
+                                <tr>
+                                    <td style="font-weight: bold;">합계</td>
+                                    <td style="font-weight: bold;">-</td>
+                                    <td class="totalLndpclAr" style="font-weight: bold;">0</td>
+                                    <td class="totalLndpclArByPyung" style="font-weight: bold;">0</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -946,7 +952,6 @@
 
         <th:block th:if="${not #lists.isEmpty(imgList)}" th:each="item, status : ${imgList}">
             <div class="print-line"></div>
-            <div class="print-line"></div>
 
             <div class="print-content">
                 <div class="row print-content-title">
@@ -961,6 +966,8 @@
                 </div>
                 <div class="print-footer text-alien-center"></div>
             </div>
+
+            <div class="print-line"></div>
         </th:block>
 
     </div>

@@ -27,7 +27,7 @@ let loadPriceInfo = function() {
             $frm.find('.management').val(priceInfo.management);
             $frm.find('.managementExpense').val(priceInfo.managementExpense);
 
-            // calculateRevenueRateRate();
+            calculateRevenueRateRate();
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -87,10 +87,16 @@ let calculateAveragePrice = function() {
         return;
     }
 
+    console.log("lndpclArByPyung", lndpclArByPyung);
+    console.log("salePrice", salePrice);
+
     lndpclArByPyung = Number(lndpclArByPyung);
     salePrice = Number(salePrice) * 100000000;
 
     let averageUnitPrice = salePrice / lndpclArByPyung;
+
+    console.log("averageUnitPrice", averageUnitPrice);
+
     averageUnitPrice = averageUnitPrice / 10000;
     averageUnitPrice = Math.round(averageUnitPrice);
 
@@ -105,18 +111,34 @@ let calculateRevenueRateRate = function() {
     let rentMonth = Number($frm.find('input[name="rentMonth"]').val()),
         managementExpense = Number($frm.find('input[name="managementExpense"]').val()),
         management = Number($frm.find('input[name="management"]').val()),
-        guaranteePrice = Number($frm.find('input[name="guaranteePrice"]').val());
+        guaranteePrice = Number($frm.find('input[name="guaranteePrice"]').val()),
+        salePrice = Number($frm.find('input[name="salePrice"]').val());
 
-    if (guaranteePrice === 0) {
+    if (salePrice === 0 || guaranteePrice === 0) {
         return;
     }
 
-    let rentYear = rentMonth * 12,
-        managementYear = management * 12,
-        revenue = rentYear + managementYear - managementExpense;
+    let rentYear = rentMonth * 12 * 10000,
+        managementYear = management * 12 * 10000;
+    salePrice = salePrice * 100000000;
+    guaranteePrice = guaranteePrice * 10000;
 
-    let revenueRate = (revenue / guaranteePrice) * 100;
+    console.log("revenueRate rentYear : ", rentYear);
+    console.log("revenueRate managementYear : ", managementYear);
+    console.log("revenueRate salePrice : ", salePrice);
+    console.log("revenueRate guaranteePrice : ", guaranteePrice);
+
+    let revenue = rentYear + managementYear - managementExpense;
+    let bunmo = salePrice - guaranteePrice;
+
+    console.log("revenueRate revenue : ", revenue);
+    console.log("revenueRate bunmo : ", bunmo);
+
+    let revenueRate = (revenue / bunmo) * 100;
     revenueRate = revenueRate.toFixed(2);
+
+    console.log("revenueRate : ", revenueRate);
+
     $frm.find('input[name="revenueRate"]').val(revenueRate);
 }
 
