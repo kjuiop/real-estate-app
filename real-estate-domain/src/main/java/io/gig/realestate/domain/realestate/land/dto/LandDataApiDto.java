@@ -107,11 +107,12 @@ public class LandDataApiDto {
         double lndpclAr = sop.optDouble("sop:lndpcl_ar");
         int pblntfPclnd = sop.optInt("sop:pblntf_pclnd");
         double totalPblntfPclnd = pblntfPclnd * lndpclAr;
-        double pblntfPclndByPyung = pblntfPclnd * 3.305785;
-        double totalPblntfPclndByPyung = pblntfPclndByPyung * 3.305785;
 
         double areaInPyung = lndpclAr / 3.305785;
         BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
+
+        double pblntfPclndByPyung = pblntfPclnd * 3.305785;
+        double totalPblntfPclndByPyung = pblntfPclndByPyung * lndpclArByPyung.doubleValue();
 
         long pnu = sop.optLong("sop:pnu");
         String pnuStr = String.valueOf(pnu);
