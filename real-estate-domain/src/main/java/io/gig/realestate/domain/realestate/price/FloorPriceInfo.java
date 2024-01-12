@@ -70,6 +70,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     public static FloorPriceInfo create(FloorCreateForm dto, RealEstate realEstate) {
         return FloorPriceInfo.builder()
+                .id(dto.getFloorId())
                 .flrNo(dto.getFlrNo())
                 .flrNoNm(dto.getFlrNoNm())
                 .roomName(dto.getRoomName())

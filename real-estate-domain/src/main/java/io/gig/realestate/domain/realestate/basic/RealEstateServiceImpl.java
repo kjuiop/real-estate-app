@@ -164,7 +164,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         realEstate.getLandInfoList().clear();
         for (LandInfoDto dto : updateForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(dto, realEstate);
+            LandInfo landInfo = LandInfo.update(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
 

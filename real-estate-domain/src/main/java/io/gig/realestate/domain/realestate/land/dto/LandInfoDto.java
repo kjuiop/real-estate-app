@@ -12,6 +12,8 @@ import lombok.Getter;
 @Builder
 public class LandInfoDto {
 
+    private Long landId;
+
     private String address;
 
     private String pnu;

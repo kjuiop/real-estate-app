@@ -16,7 +16,7 @@ let loadImageInfo = function() {
             let images = res.data;
             let $imagePanel = $frm.find('.image-sub-section');
             $.each(images, function(idx, item) {
-                let tag = drawSubImageTag(idx, item.fullPath);
+                let tag = drawSubImageTag(idx, item);
                 $imagePanel.append(tag);
             });
             updateSortable();
@@ -51,7 +51,7 @@ let multiImgUpload = function(e) {
             }
 
             $.each(attachments, function(idx, item) {
-                let tag = drawSubImageTag(idx, item.fullPath);
+                let tag = drawSubImageTag(idx, item);
                 $imagePanel.append(tag);
             });
 
@@ -73,10 +73,10 @@ let updateSortable = function() {
     }).disableSelection();
 }
 
-let drawSubImageTag = function(idx, fullPath) {
+let drawSubImageTag = function(idx, item) {
     let tag = '';
     tag += '<div class="display-inline-block sub-img-unit">';
-    tag += '<a href="#"><img id="sub-image-' + idx + '" src="' + fullPath + '" class="col-sm-12 no-left-padding thumbnailInfo sub-image" style="cursor: pointer; width: 50px; height: 50px;"/></a>';
+    tag += '<a href="#"><img id="sub-image-' + idx + '" imageId="' + convertNullOrEmptyValue(item.imageId) + '" src="' + item.fullPath + '" class="col-sm-12 no-left-padding thumbnailInfo sub-image" style="cursor: pointer; width: 50px; height: 50px;"/></a>';
     tag += '</div>';
     return tag;
 }

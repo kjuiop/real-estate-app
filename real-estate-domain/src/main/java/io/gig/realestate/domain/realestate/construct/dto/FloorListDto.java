@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FloorListDto {
 
+    private Long floorId;
+
     private int flrNo;
 
     private String flrNoNm;
@@ -51,6 +53,7 @@ public class FloorListDto {
     private String etcInfo;
 
     public FloorListDto (FloorPriceInfo f) {
+        this.floorId = f.getId();
         this.flrNo = f.getFlrNo();
         this.flrNoNm = f.getFlrNoNm();
         this.roomName = f.getRoomName();

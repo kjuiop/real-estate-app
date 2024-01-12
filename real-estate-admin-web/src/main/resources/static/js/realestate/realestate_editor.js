@@ -40,6 +40,7 @@ let realEstateSave = function(e) {
     let $imgSubImgSection = $('.image-sub-section');
     $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
        let image = {
+           "imageId" : $(item).find('.sub-image').attr('imageId'),
            "fullPath" : $(item).find('.sub-image').attr('src'),
        }
        subImages.push(image);
@@ -72,6 +73,7 @@ let realEstateSave = function(e) {
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
         let pblntPrice = {
+            "landPriceId": $(item).find('.landPriceId').attr('landPriceId'),
             "pnu": $(item).find('.pnu').attr('pnu'),
             "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
             "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
@@ -127,6 +129,7 @@ let realEstateUpdate = function(e) {
     let $imgSubImgSection = $('.image-sub-section');
     $imgSubImgSection.find('.sub-img-unit').each(function(idx, item) {
         let image = {
+            "imageId" : $(item).find('.sub-image').attr('imageId'),
             "fullPath" : $(item).find('.sub-image').attr('src'),
         }
         subImages.push(image);
@@ -158,6 +161,7 @@ let realEstateUpdate = function(e) {
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
         let pblntPrice = {
+            "landPriceId": $(item).find('.landPriceId').attr('landPriceId'),
             "pnu": $(item).find('.pnu').attr('pnu'),
             "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
             "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),

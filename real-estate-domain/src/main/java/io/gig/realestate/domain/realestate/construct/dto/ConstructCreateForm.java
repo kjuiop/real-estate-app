@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Setter
 public class ConstructCreateForm {
 
+    private Long constructId;
+
     // 건물명
     private String bldNm;
 

@@ -13,6 +13,8 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class LandPriceDto {
 
+    private Long landPriceId;
+
     private String pnu;
 
     private Integer pclndStdrYear;
@@ -24,6 +26,7 @@ public class LandPriceDto {
     private double changeRate;
 
     public LandPriceDto(LandPriceInfo l) {
+        this.landPriceId = l.getId();
         this.pnu = l.getPnu();
         this.pclndStdrYear = l.getPclndStdrYear();
         this.pblntfPclnd = l.getPblntfPclnd();

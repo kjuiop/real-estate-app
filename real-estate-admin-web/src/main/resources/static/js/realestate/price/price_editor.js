@@ -18,6 +18,7 @@ let loadPriceInfo = function() {
             let priceList = result.data,
                 priceInfo = priceList[0];
             let $frm = $('form[name="frmPriceRegister"]');
+            $frm.find('input[name="priceId"]').val(priceInfo.priceId)
             $frm.find('.salePrice').val(priceInfo.salePrice);
             $frm.find('.depositPrice').val(priceInfo.depositPrice);
             $frm.find('.revenueRate').val(priceInfo.revenueRate);
