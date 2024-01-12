@@ -132,6 +132,7 @@ public class LandDataApiDto {
                 .totalPblntfPclnd(totalPblntfPclnd)
                 .pblntfPclndByPyung(pblntfPclndByPyung)
                 .totalPblntfPclndByPyung(totalPblntfPclndByPyung)
+                .lnmLndcgrSmbol(sop.has("sop:lnm_lndcgr_smbol") ? sop.getString("sop:lnm_lndcgr_smbol") : null)
                 .stdrYear(sop.has("sop:stdr_year") ? sop.getInt("sop:stdr_year") : null)
                 .build();
     }

@@ -170,7 +170,11 @@ let drawLandTable = function($table, landList) {
         console.log("drawLandTable", item);
 
         tag += '<tr>';
-        tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        if (checkNullOrEmptyValue(dto.realEstateId)) {
+            tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        } else {
+            tag += '<td class="text-alien-center min-width-130">' + item.lnmLndcgrSmbol + '</td>';
+        }
         tag += '<td class="text-alien-center" style="min-width:70px;">' + item.lndcgrCodeNm + '</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclAr + '㎡</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclArByPyung + '평</td>';
