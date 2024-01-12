@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,8 +64,9 @@ public class LandController {
     public ResponseEntity<ApiResponse> getLandPrice(
             @PathVariable(name = "realEstateId") Long realEstateId
     ) throws IOException {
-        List<LandPriceListDto> priceInfo = landPriceService.getLandPriceListInfo(realEstateId);
-        return new ResponseEntity<>(ApiResponse.OK(priceInfo), HttpStatus.OK);
+        List<LandPriceListDto> priceList = landPriceService.getLandPriceListInfo(realEstateId);
+        Collections.reverse(priceList);
+        return new ResponseEntity<>(ApiResponse.OK(priceList), HttpStatus.OK);
     }
 
     @GetMapping("price/ajax/public-data")
