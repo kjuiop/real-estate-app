@@ -59,6 +59,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private String etcInfo;
 
+    private int sortOrder;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -68,7 +70,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static FloorPriceInfo create(FloorCreateForm dto, RealEstate realEstate) {
+    public static FloorPriceInfo create(FloorCreateForm dto, RealEstate realEstate, int sortOrder) {
         return FloorPriceInfo.builder()
                 .id(dto.getFloorId())
                 .flrNo(dto.getFlrNo())
@@ -86,6 +88,7 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .termStartDate(dto.getTermStartDate())
                 .termEndDate(dto.getTermEndDate())
                 .etcInfo(dto.getEtcInfo())
+                .sortOrder(sortOrder)
                 .realEstate(realEstate)
                 .build();
     }
