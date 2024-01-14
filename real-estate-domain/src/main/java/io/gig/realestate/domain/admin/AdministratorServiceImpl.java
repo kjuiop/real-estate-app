@@ -74,10 +74,11 @@ public class AdministratorServiceImpl implements AdministratorService {
     public Long update(AdministratorUpdateForm updateForm) {
         Team team = teamService.getTeamById(updateForm.getTeamId());
         Administrator administrator = getAdminEntityByUsername(updateForm.getUsername());
-        if (!StringUtils.hasText(updateForm.getPassword())) {
+        if (StringUtils.hasText(updateForm.getPassword())) {
             validPassword(administrator, updateForm.getPassword());
         }
-        administrator.update(updateForm, passwordEncoder.encode(updateForm.getPassword()), team);
+        String password = StringUtils.hasText(updateForm.getPassword()) ? passwordEncoder.encode(updateForm.getPassword()) : "";
+        administrator.update(updateForm, password, team);
         List<Role> roles = roleService.findByRoleNamesIn(updateForm.getRoleNames());
         administrator.updateAdministratorRoles(roles);
         return administratorStore.store(administrator).getId();
