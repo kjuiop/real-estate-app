@@ -116,7 +116,7 @@ let uploadImage = function(e) {
 let removeImage = function() {
     let $this = $(this),
         $imagePanel = $this.parents('.image-section');
-    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
+    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding thumbnailInfo" style="cursor: pointer;"/>';
     $imagePanel.html(tag);
 }
 
@@ -137,7 +137,7 @@ let imgDraw = function (fullPath) {
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default" style="border:0;">' +
         '<div class="image-panel" style="width: 100%; height: auto; background-color: #fff;">' +
-        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload" style="max-height: 430px;"></a>' +
+        '<a href="#"><img src="' + fullPath + '" class="" style="max-height: 430px;"></a>' +
         '</div>' +
         '</div>';
 
