@@ -19,7 +19,7 @@
             .print-content {
                 display: block;
                 visibility: visible;
-                height: 760px !important;
+                height: 710px !important;
             }
 
             .print-hidden {
@@ -32,16 +32,20 @@
             }
 
             .cover-body {
-                padding: 40px 0 !important;
+                padding-top : 10px !important;
                 width: 100% !important;
             }
 
+            .card-property {
+                padding-bottom: 20px !important;
+            }
+
             .card-property .card-img {
-                height: 650px !important;
+                height: 630px !important;
             }
 
             .card-property .card-content {
-                height: 650px !important;
+                height: 630px !important;
             }
 
             .card-property .table-unit-1 {
@@ -319,7 +323,7 @@
 
         <div class="print-content print-distribute-line">
             <div class="print-header"></div>
-            <div class="cover-body print-body row col-md-12 padding-20">
+            <div class="cover-body print-body row col-md-12 padding-20" style="padding-top: 50px;">
                 <div class="col-md-6 right-align" style="padding-top: 20px;">
                     <span class="two-section-header">
                         <span class="font-size-30">Disclaimer</span>
@@ -367,7 +371,7 @@
                 <span>Property overview</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 padding-20" style="height: 600px; padding-top: 10px;">
+            <div class="cover-body print-body row col-md-12 padding-20" style="height: 570px; padding-top: 10px;">
                 <div class="col-md-6 height-100 padding-10 card-img">
                     <th:block th:if="${not #strings.isEmpty(dto.imgUrl)}">
                         <img th:src="${dto.imgUrl}" style="width: 100%; height: 100%;">
@@ -551,7 +555,7 @@
                 <span>Building Information</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 640px; padding-top: 10px;">
+            <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 640px;">
                 <div class="col-md-7 padding-20 height-100 card-content">
                     <div class="margin-bottom-10">
                         <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">집합건축물[표제부]</h5>
@@ -788,7 +792,7 @@
                     <span>Building Information</span>
                 </div>
                 <div class="print-title-line"></div>
-                <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 620px; padding-top: 10px;">
+                <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 620px;">
                     <div class="col-md-6 display-flex-column height-100 padding-top-20 card-content">
                         <div class="margin-bottom-3">
                             <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보-1</h5>
