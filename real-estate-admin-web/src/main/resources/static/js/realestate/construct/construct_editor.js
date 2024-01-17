@@ -46,6 +46,7 @@ let settingPublicApi = function(constructInfo) {
     }
 
     let $frm = $('form[name="frmConstructRegister"]');
+    $frm.find('input[name="constructId"]').val(constructInfo.constructId);
     $frm.find('.mainPurpsCdNm').val(constructInfo.mainPurpsCdNm);
     $frm.find('.etcPurps').val(constructInfo.etcPurps);
     $frm.find('.strctCdNm').val(constructInfo.strctCdNm);
@@ -182,7 +183,7 @@ let drawConstructFloorInfo = function(data) {
 let drawConstructFloorRow = function(item) {
     let tag = '';
     tag += '<tr class="floor-unit">';
-    tag += '<td class="center-text padding-8 flrNo" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width:70px;"/></td>';
+    tag += '<td class="center-text padding-8 flrNo floorId" floorId="' + convertNullOrEmptyValue(item.floorId) + '" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width:70px;"/></td>';
     tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 70px;"/></td>';
     tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 190px;"/></td>';
     tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 130px;"/></td>';
@@ -267,6 +268,7 @@ let assembleFloorParams = function() {
     let floorInfoList = [];
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
+            "floorId" : $(item).find('.floorId').attr('floorId'),
             "flrNo" : $(item).find('.flrNo').attr('flrNo'),
             "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
             "roomName" : $(item).find('input[name="roomName"]').val(),

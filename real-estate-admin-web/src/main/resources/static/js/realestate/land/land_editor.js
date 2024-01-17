@@ -112,7 +112,7 @@ let drawPriceTable = function(priceInfo) {
 
     $.each(priceInfo, function(idx, item) {
         tag += '<tr>';
-        tag += '<th class="text-alien-center thead-light pclndStdrYear pnu" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '">' + item.pclndStdrYear + '</th>';
+        tag += '<th class="text-alien-center thead-light pclndStdrYear pnu landPriceId" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '" landPriceId="' + convertNullOrEmptyValue(item.landPriceId) + '">' + item.pclndStdrYear + '</th>';
         tag += '<td class="text-alien-center pblntfPclnd" pblntfPclnd="' + item.pblntfPclnd + '">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
         tag += '<td class="text-alien-center pblntfPclndPy" pblntfPclndPy="' + item.pblntfPclndPy + '">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
         if (item.changeRate > 0) {
@@ -170,7 +170,11 @@ let drawLandTable = function($table, landList) {
         console.log("drawLandTable", item);
 
         tag += '<tr>';
-        tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        if (checkNullOrEmptyValue(dto.realEstateId)) {
+            tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
+        } else {
+            tag += '<td class="text-alien-center min-width-130">' + item.lnmLndcgrSmbol + '</td>';
+        }
         tag += '<td class="text-alien-center" style="min-width:70px;">' + item.lndcgrCodeNm + '</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclAr + '㎡</td>';
         tag += '<td class="text-alien-center" style="min-width:90px;">' + item.lndpclArByPyung + '평</td>';
@@ -317,7 +321,7 @@ let drawLandButton = function(data) {
     let tag = '';
 
     if (checkNullOrEmptyValue(data.landId)) {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + data.landId + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + convertNullOrEmptyValue(data.landId ) + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     } else {
         tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     }

@@ -103,6 +103,7 @@ let drawCustomerInfo = function(item) {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="customerId" value="' + convertNullOrEmptyValue(item.customerId) + '" />';
     tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="CUSTOMER" />';
     tag +=                         '<span class="toggleCustomer text-blue button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer" type="company">법인</span>' ;
@@ -187,6 +188,7 @@ let drawCompanyInfo = function(item) {
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
+    tag +=                      '<input type="hidden" class="form-control form-control-sm" name="customerId" value="' + convertNullOrEmptyValue(item.customerId) + '" />';
     tag +=                      '<input type="hidden" class="form-control form-control-sm" name="type" value="COMPANY" />';
     tag +=                         '<span class="toggleCustomer button-pointer" type="customer">개인</span>  | ';
     tag +=                         '<span class="toggleCustomer button-pointer text-blue" type="company">법인</span>' ;
@@ -245,6 +247,7 @@ let assembleCustomerParam = function() {
         let param;
         if (type === 'CUSTOMER') {
             param = {
+                "customerId" : $(item).find('input[name="customerId"]').val(),
                 "type" : type,
                 "customerName" : $(item).find('input[name="customerName"]').val(),
                 "gender" : $(item).find('select[name="gender"]').val(),
@@ -255,6 +258,7 @@ let assembleCustomerParam = function() {
             }
         } else if (type === 'COMPANY') {
             param = {
+                "customerId" : $(item).find('input[name="customerId"]').val(),
                 "type" : type,
                 "companyName" : $(item).find('input[name="companyName"]').val(),
                 "representName" : $(item).find('input[name="representName"]').val(),

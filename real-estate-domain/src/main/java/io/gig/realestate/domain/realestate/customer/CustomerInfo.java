@@ -64,6 +64,7 @@ public class CustomerInfo extends BaseTimeEntity {
 
     public static CustomerInfo create(CustomerCreateForm dto, RealEstate realEstate) {
         return CustomerInfo.builder()
+                .id(dto.getCustomerId())
                 .type(dto.getType())
                 .birth(dto.getBirth())
                 .customerName(dto.getCustomerName())

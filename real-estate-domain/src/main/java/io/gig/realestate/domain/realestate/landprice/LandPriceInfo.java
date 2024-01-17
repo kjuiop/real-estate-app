@@ -54,6 +54,7 @@ public class LandPriceInfo extends BaseTimeEntity  {
 
     public static LandPriceInfo create(LandPriceCreateForm dto, RealEstate realEstate, Administrator createdBy) {
         return LandPriceInfo.builder()
+                .id(dto.getLandPriceId())
                 .pnu(dto.getPnu())
                 .pclndStdrYear(dto.getPclndStdrYear())
                 .pblntfPclnd(dto.getPblntfPclnd())

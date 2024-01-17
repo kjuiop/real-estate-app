@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.realestate.construct.dto;
 
-import io.gig.realestate.domain.common.YnType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,6 +10,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class FloorCreateForm {
+
+    private Long floorId;
 
     private int flrNo;
 

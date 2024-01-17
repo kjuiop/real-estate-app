@@ -14,6 +14,13 @@
             }
         }
 
+        @media (min-width: 1900px) and (max-width: 1950px) {
+            #mainImg {
+                width: 430px;
+                height: 430px;
+            }
+        }
+
         .container-fluid * {
             font-size: 12px;
         }
@@ -55,7 +62,7 @@
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 display-flex-row">
-                                    <label class="text-label col-md-3 no-left-padding" th:if="${isModify}">진행구분</label>
+                                    <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <label class="control-label right-align margin-top-5 margin-right-5" style="font-weight: normal; font-size: 12px;">
                                             <input type="checkbox" class="checkElement" name="ownExclusiveYn" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;제이디부동산 전속
@@ -389,6 +396,7 @@
                             <div class="form-group col-md-12 display-flex-column line">
                                 <form class="form-horizontal" name="frmPriceRegister" method="post">
                                     <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
+                                    <input type="hidden" name="priceId" />
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
                                             <label class="text-label">대표이미지</label>
@@ -525,6 +533,7 @@
                             <div class="card-header">
                                 <h3 class="card-title" style="padding-top: 5px;">건축물 대장 정보</h3>
                                 <div class="card-tools">
+                                    <input type="hidden" name="constructId" />
                                     <input type="hidden" value="" name="vlRatEstmTotArea" />
                                     <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
                                     <input type="hidden" value="" name="heit" />

@@ -108,6 +108,7 @@ public class ConstructInfo extends BaseTimeEntity {
 
 
         ConstructInfo constructInfo = ConstructInfo.builder()
+                .id(createForm.getConstructId())
                 .bldNm(createForm.getBldNm())
                 .hhldCnt(createForm.getHhldCnt())
                 .houseHoldName(createForm.getHouseHoldName())

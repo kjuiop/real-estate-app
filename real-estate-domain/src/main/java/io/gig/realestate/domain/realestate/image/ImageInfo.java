@@ -44,6 +44,7 @@ public class ImageInfo extends BaseTimeEntity {
 
     public static ImageInfo create(ImageCreateForm dto, RealEstate realEstate, Administrator createdBy) {
         return ImageInfo.builder()
+                .id(dto.getImageId())
                 .fullPath(dto.getFullPath())
                 .realEstate(realEstate)
                 .createdBy(createdBy)

@@ -124,8 +124,9 @@ public class RealEstateServiceImpl implements RealEstateService {
         PriceInfo priceInfo = PriceInfo.create(createForm.getPriceInfo(), newRealEstate);
         newRealEstate.addPriceInfo(priceInfo);
 
-        for (FloorCreateForm dto : createForm.getFloorInfoList()) {
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate);
+        for (int i=0; i<createForm.getFloorInfoList().size(); i++) {
+            FloorCreateForm dto = createForm.getFloorInfoList().get(i);
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i);
             newRealEstate.addFloorInfo(floorInfo);
         }
 
@@ -164,7 +165,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         realEstate.getLandInfoList().clear();
         for (LandInfoDto dto : updateForm.getLandInfoList()) {
-            LandInfo landInfo = LandInfo.create(dto, realEstate);
+            LandInfo landInfo = LandInfo.update(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
 
@@ -173,8 +174,9 @@ public class RealEstateServiceImpl implements RealEstateService {
         realEstate.addPriceInfo(priceInfo);
 
         realEstate.getFloorPriceInfo().clear();
-        for (FloorCreateForm dto : updateForm.getFloorInfoList()) {
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
+        for (int i=0; i<updateForm.getFloorInfoList().size(); i++) {
+            FloorCreateForm dto = updateForm.getFloorInfoList().get(i);
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate, i);
             realEstate.addFloorInfo(floorInfo);
         }
 
