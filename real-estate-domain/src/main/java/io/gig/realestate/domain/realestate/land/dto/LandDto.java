@@ -107,7 +107,7 @@ public class LandDto {
         this.pblntfPclnd = l.getPblntfPclnd();
         this.pblndfPclndByPyung = l.getPblndfPclndByPyung();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
-        this.totalPblntfPclndByPyung = l.getPblndfPclndByPyung();
+        this.totalPblntfPclndByPyung = l.getTotalPblntfPclndByPyung();
         this.ladUseSittnNm = l.getLadUseSittnNm();
         this.commercialYn = l.getCommercialYn();
         this.roadWidth = l.getRoadWidth();

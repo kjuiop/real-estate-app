@@ -14,3 +14,5 @@ yarn.lock
 application-credentials.yml
 application-credentials-local.yml
 application-dev.yml
+application-stage.yml
+application-hanshin.yml

@@ -11,5 +11,7 @@ import lombok.Setter;
 @Getter
 public class ImageCreateForm {
 
+    private Long imageId;
+
     private String fullPath;
 }

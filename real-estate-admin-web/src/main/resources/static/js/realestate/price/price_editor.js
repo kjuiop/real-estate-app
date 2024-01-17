@@ -18,6 +18,7 @@ let loadPriceInfo = function() {
             let priceList = result.data,
                 priceInfo = priceList[0];
             let $frm = $('form[name="frmPriceRegister"]');
+            $frm.find('input[name="priceId"]').val(priceInfo.priceId)
             $frm.find('.salePrice').val(priceInfo.salePrice);
             $frm.find('.depositPrice').val(priceInfo.depositPrice);
             $frm.find('.revenueRate').val(priceInfo.revenueRate);
@@ -102,8 +103,11 @@ let calculateAveragePrice = function() {
 
     let $frm = $('form[name="frmPriceRegister"]');
     $frm.find('input[name="averageUnitPrice"]').val(averageUnitPrice);
+
+    calculateRevenueRateRate()
 }
 
+// 수익률=((월임대료+관리비의 XX%)*12)/(매매가-보증금)
 let calculateRevenueRateRate = function() {
     // 수익률 = 임대료 수익 - 연간 비용 / 보증금   * 100
 

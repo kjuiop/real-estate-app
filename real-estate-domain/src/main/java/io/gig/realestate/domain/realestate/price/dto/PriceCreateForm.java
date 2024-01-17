@@ -15,6 +15,8 @@ import java.util.List;
 @Setter
 public class PriceCreateForm {
 
+    private Long priceId;
+
     private double salePrice;
 
     private double depositPrice;

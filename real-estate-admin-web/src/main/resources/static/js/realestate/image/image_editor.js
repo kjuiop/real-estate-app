@@ -16,7 +16,7 @@ let loadImageInfo = function() {
             let images = res.data;
             let $imagePanel = $frm.find('.image-sub-section');
             $.each(images, function(idx, item) {
-                let tag = drawSubImageTag(idx, item.fullPath);
+                let tag = drawSubImageTag(idx, item);
                 $imagePanel.append(tag);
             });
             updateSortable();
@@ -51,7 +51,7 @@ let multiImgUpload = function(e) {
             }
 
             $.each(attachments, function(idx, item) {
-                let tag = drawSubImageTag(idx, item.fullPath);
+                let tag = drawSubImageTag(idx, item);
                 $imagePanel.append(tag);
             });
 
@@ -73,10 +73,10 @@ let updateSortable = function() {
     }).disableSelection();
 }
 
-let drawSubImageTag = function(idx, fullPath) {
+let drawSubImageTag = function(idx, item) {
     let tag = '';
     tag += '<div class="display-inline-block sub-img-unit">';
-    tag += '<a href="#"><img id="sub-image-' + idx + '" src="' + fullPath + '" class="col-sm-12 no-left-padding thumbnailInfo sub-image" style="cursor: pointer; width: 50px; height: 50px;"/></a>';
+    tag += '<a href="#"><img id="sub-image-' + idx + '" imageId="' + convertNullOrEmptyValue(item.imageId) + '" src="' + item.fullPath + '" class="col-sm-12 no-left-padding thumbnailInfo sub-image" style="cursor: pointer; width: 50px; height: 50px;"/></a>';
     tag += '</div>';
     return tag;
 }
@@ -116,7 +116,7 @@ let uploadImage = function(e) {
 let removeImage = function() {
     let $this = $(this),
         $imagePanel = $this.parents('.image-section');
-    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding btnImageUpload thumbnailInfo" style="cursor: pointer;"/>';
+    let tag = '<img src="/images/no-image-found.jpeg" class="col-sm-12 no-left-padding thumbnailInfo" style="cursor: pointer;"/>';
     $imagePanel.html(tag);
 }
 
@@ -137,7 +137,7 @@ let imgDraw = function (fullPath) {
     let tag = '' +
         '<div class="thumbnailInfo ui-state-default" style="border:0;">' +
         '<div class="image-panel" style="width: 100%; height: auto; background-color: #fff;">' +
-        '<a href="#"><img src="' + fullPath + '" class="btnImageUpload" style="max-height: 430px;"></a>' +
+        '<a href="#"><img src="' + fullPath + '" class="" style="max-height: 430px;"></a>' +
         '</div>' +
         '</div>';
 
