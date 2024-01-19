@@ -419,7 +419,7 @@ let calculateAreaVlRate = function(e) {
     e.preventDefault();
 
     let $frm = $('form[name="frmConstructRegister"]');
-    let totArea = $frm.find('input[name="totArea"]').val(),
+    let totArea = $frm.find('input[name="vlRatEstmTotArea"]').val(),
         platArea = $frm.find('input[name="platArea"]').val();
 
     if (isNaN(totArea) || isNaN(platArea)) {
