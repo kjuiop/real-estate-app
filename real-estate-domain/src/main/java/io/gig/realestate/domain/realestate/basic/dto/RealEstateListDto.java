@@ -16,8 +16,8 @@ public class RealEstateListDto extends RealEstateDto {
     public double totArea;
     public double archArea;
     public String prposArea1Nm = "";
-    public int landPyungUnitPrice;
-    public int buildingPyungUnitPrice;
+    public double landPyungUnitPrice;
+    public double buildingPyungUnitPrice;
     public int roadWidth;
     public double lndpclAr;
     public double lndpclArByPyung;
