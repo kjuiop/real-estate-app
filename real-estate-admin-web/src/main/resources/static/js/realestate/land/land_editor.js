@@ -107,7 +107,8 @@ let loadLandPriceInfoList = function() {
     });
 }
 
-let landUsageInfoReload = function() {
+let landUsageInfoReload = function(e) {
+    e.preventDefault();
 
     let url = "/real-estate/land/usage/ajax/public-data"
         + "?legalCode=" + dto.legalCode
@@ -137,8 +138,43 @@ let landUsageInfoReload = function() {
             }
         });
     });
+}
 
+let pblntInfoReload = function(e) {
+    e.preventDefault();
 
+    let url = "/real-estate/land/price/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("land price result", result);
+
+                let priceInfo = result.data,
+                    $frm = $('form[name="frmLandRegister"]'),
+                    $table = $frm.find('.pblnt-table tbody')
+                ;
+                if (!checkNullOrEmptyValue(priceInfo)) {
+                    return;
+                }
+
+                let tag = drawPriceTable(priceInfo);
+                $table.html(tag);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
 }
 
 
