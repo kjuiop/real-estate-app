@@ -107,6 +107,41 @@ let loadLandPriceInfoList = function() {
     });
 }
 
+let landUsageInfoReload = function() {
+
+    let url = "/real-estate/land/usage/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("load land usage info", result);
+                let data = result.data;
+                if (!checkNullOrEmptyValue(data)) {
+                    return;
+                }
+
+                let $frm = $('form[name="frmLandRegister"]');
+                $frm.find('.prposAreaDstrcNmList').html(data.prposAreaDstrcNmList);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+
+
+}
+
+
 let drawPriceTable = function(priceInfo) {
     let tag = '';
 
