@@ -5,7 +5,6 @@ let loadConstructInfo = function() {
     }
 
     let url;
-
     if (dto.existConstructInfo === true) {
         url = "/real-estate/construct/" + dto.realEstateId;
     } else {
@@ -15,8 +14,6 @@ let loadConstructInfo = function() {
             + "&bun=" + dto.bun
             + "&ji=" + dto.ji
     }
-
-    console.log("url ", url);
 
     $.ajax({
         url: url,
@@ -99,8 +96,6 @@ let loadConstructFloorInfo = function() {
             + "&ji=" + dto.ji
     }
 
-    console.log("url ", url);
-
     $.ajax({
         url: url,
         method: "get",
@@ -119,10 +114,7 @@ let loadConstructFloorInfo = function() {
             }
 
             if (floorData.length === 0) {
-                let tag = '';
-                tag += '<tr>';
-                tag += '<td class="text-center" colspan="14">해당 건물의 층별 정보가 없습니다.</td>';
-                tag += '</tr>';
+                let tag = drawEmptyFloorTable();
                 $tbody.html(tag);
                 $tfoot.addClass('hidden');
                 return;
@@ -151,26 +143,78 @@ let constructInfoReload = function(e) {
         + "&ji=" + dto.ji
     ;
 
-    $.ajax({
-        url: url,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            let constructInfo = result.data;
-            if (!checkNullOrEmptyValue(constructInfo)) {
-                return;
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                let constructInfo = result.data;
+                if (!checkNullOrEmptyValue(constructInfo)) {
+                    return;
+                }
+                console.log("constructInfo result", constructInfo);
+                settingPublicApi(constructInfo);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
             }
-            console.log("constructInfo result", constructInfo);
-            settingPublicApi(constructInfo);
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
+        });
     });
 
-
 }
+
+let constructFloorInfoReload = function(e) {
+    e.preventDefault();
+
+    let url = "/real-estate/construct/floor/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("floor result", result);
+                let floorData = result.data;
+                let $tbody = $('.construct-floor-table tbody'),
+                    $tfoot = $('.construct-floor-table tfoot');
+
+                if (!checkNullOrEmptyValue(floorData)) {
+                    $tfoot.removeClass('hidden');
+                    $('.btnRowAdd').trigger('click');
+                    return;
+                }
+
+                if (floorData.length === 0) {
+                    let tag = drawEmptyFloorTable();
+                    $tbody.html(tag);
+                    $tfoot.addClass('hidden');
+                    return;
+                }
+
+                let tag = drawConstructFloorInfo(floorData);
+                $tbody.html(tag);
+                $tfoot.removeClass('hidden');
+
+                calculateFloorInfo();
+                $(".construct-floor-table tbody").sortable().disableSelection();
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 
 let drawConstructFloorInfo = function(data) {
     let tag = '';
@@ -436,4 +480,12 @@ let calculateAreaVlRate = function(e) {
     let vlRate = (totArea / platArea) * 100;
     vlRate = Math.round(vlRate * 100) / 100;
     $frm.find('input[name="vlRat"]').val(vlRate);
+}
+
+let drawEmptyFloorTable = function()  {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td class="text-center" colspan="14">해당 건물의 층별 정보가 없습니다.</td>';
+    tag += '</tr>';
+    return tag;
 }

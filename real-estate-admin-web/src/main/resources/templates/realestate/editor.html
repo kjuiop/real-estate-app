@@ -493,10 +493,13 @@
                                     </div>
                                 </form>
                                 <div class="col-md-12 display-flex-column" style="margin-top: 20px;">
-                                    <div class="row margin-bottom-10">
+                                    <div class="row margin-bottom-10" style="position: relative;">
                                         <label class="control-label" style="padding-top: 3px;">층별 임대차 현황 정보</label>
                                         <div style="padding-left: 10px;">
                                             <button class="btn btn-sm btn-default btnRowAdd">행 추가</button>
+                                        </div>
+                                        <div class="pull-right" style="position: absolute; right: 0;">
+                                            <button class="btn btn-sm btn-success btnConstructFloorReload">조회</button>
                                         </div>
                                     </div>
                                     <div class="row" style="overflow-x: auto;">
@@ -551,7 +554,7 @@
                                     <input type="hidden" value="" name="archAreaByPyung" />
                                 </div>
                                 <div class="pull-right">
-                                    <button class="btn btn-sm btn-default btnConstructReload">조회</button>
+                                    <button class="btn btn-sm btn-success btnConstructReload">조회</button>
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 10px;">
