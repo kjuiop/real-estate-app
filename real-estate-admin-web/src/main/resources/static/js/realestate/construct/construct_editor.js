@@ -231,7 +231,7 @@ let drawConstructFloorRow = function(item) {
     tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 70px;"/></td>';
     tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 190px;"/></td>';
     tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 130px;"/></td>';
-    tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
+    tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px; min-width: 70px;">㎡</span></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 85px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 50px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
     if (item.guaranteePrice > 0) {
@@ -414,7 +414,6 @@ let floorInfoRowAdd = function(e) {
 
 let floorInfoRowRemove = function(e) {
     e.preventDefault();
-
     let $this = $(this);
     $this.parents('.floor-unit').remove();
 }
