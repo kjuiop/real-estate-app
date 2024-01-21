@@ -98,4 +98,7 @@ public class ConstructCreateForm {
 
     private double vlRatEstmTotAreaByPyung;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
 }

@@ -69,6 +69,8 @@ let settingPublicApi = function(constructInfo) {
     $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
     $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
     $frm.find('input[name="heit"]').val(constructInfo.heit);
+    $frm.find('input[name="responseCode"]').val(constructInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(constructInfo.lastCurlApiAt);
 
     if (constructInfo.illegalConstructYn === 'Y') {
         $frm.find('input[name="illegalConstructYn"]').iCheck('check');

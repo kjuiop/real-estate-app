@@ -14,6 +14,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
+import io.gig.realestate.domain.realestate.curltraffic.types.TrafficType;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
@@ -116,7 +117,12 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
         }
 
+        TrafficType landTrafficType = TrafficType.Success;
         for (LandInfoDto dto : createForm.getLandInfoList()) {
+            if (dto.getResponseCode() != 200) {
+                landTrafficType = TrafficType.Fail;
+            }
+
             LandInfo landInfo = LandInfo.create(dto, newRealEstate);
             newRealEstate.addLandInfo(landInfo);
         }
