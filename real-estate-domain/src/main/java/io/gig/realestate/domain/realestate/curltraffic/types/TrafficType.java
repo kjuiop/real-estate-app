@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 public enum TrafficType {
 
     Success("success", "성공"),
-    RetryNeed("retryNeed", "재시도필요"),
     Fail("fail", "실패"),
     NotYet("notYet", "대기");
 
