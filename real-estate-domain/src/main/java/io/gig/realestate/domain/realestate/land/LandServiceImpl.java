@@ -5,13 +5,15 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
-import io.gig.realestate.domain.realestate.land.dto.*;
+import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
+import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
+import io.gig.realestate.domain.realestate.land.dto.LandListDto;
+import io.gig.realestate.domain.realestate.land.dto.LandUsageDataApiDto;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.LandDataProperties;
 import io.gig.realestate.domain.utils.properties.LandUsageDataProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -128,34 +129,15 @@ public class LandServiceImpl implements LandService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        return parseLandInfoJsonData(convertResult);
+        return convertLandInfoDtoToList(conn.getResponseCode(), convertResult);
     }
 
-
-    private List<LandDataApiDto> parseLandInfoJsonData(JSONObject data) throws JsonProcessingException {
-        if (!data.has("wfs:FeatureCollection")) {
-            return null;
-        }
-
-        JSONObject wfs = data.getJSONObject("wfs:FeatureCollection");
-
-        if (!wfs.has("gml:featureMember")) {
-            return null;
-        }
-
-        JSONObject gml = wfs.getJSONObject("gml:featureMember");
-        if (!gml.has("sop:dt_d194")) {
-            return null;
-        }
-
-        JSONObject sop = gml.getJSONObject("sop:dt_d194");
-
+    private List<LandDataApiDto> convertLandInfoDtoToList(int responseCode, JSONObject data) throws JsonProcessingException {
         List<LandDataApiDto> result = new ArrayList<>();
-        LandDataApiDto dataApiDto = LandDataApiDto.convertData(sop);
+        LandDataApiDto dataApiDto = parseLandPublicInfoJsonData(responseCode, data);
         result.add(dataApiDto);
         return result;
     }
-
 
     @Override
     @Transactional
@@ -240,6 +222,8 @@ public class LandServiceImpl implements LandService {
         StringBuilder urlBuilder = new StringBuilder(landDataProperties.getUrl()); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + landDataProperties.getServiceKey()); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(request.getPnu(), "UTF-8")); /*각 필지를 서로 구별하기 위하여 필지마다 붙이는 고유한 번호*/
+        urlBuilder.append("&" + URLEncoder.encode("domain","UTF-8") + "=" + landDataProperties.getDomain());
+
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -262,10 +246,10 @@ public class LandServiceImpl implements LandService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        return parseLandPublicInfoJsonData(convertResult);
+        return parseLandPublicInfoJsonData(conn.getResponseCode(), convertResult);
     }
 
-    private LandDataApiDto parseLandPublicInfoJsonData(JSONObject data) throws JsonProcessingException {
+    private LandDataApiDto parseLandPublicInfoJsonData(int responseCode, JSONObject data) throws JsonProcessingException {
         if (!data.has("wfs:FeatureCollection")) {
             return null;
         }
@@ -276,28 +260,12 @@ public class LandServiceImpl implements LandService {
             return null;
         }
 
-        Object object = wfs.get("gml:featureMember");
-        if (object == null) {
+        JSONObject gml = wfs.getJSONObject("gml:featureMember");
+        if (!gml.has("sop:dt_d194")) {
             return null;
         }
 
-        List<LandDataApiDto> result = new ArrayList<>();
-
-        if (object instanceof JSONObject) {
-            JSONObject gml = (JSONObject) object;
-            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
-            return LandDataApiDto.convertData(nsdi);
-        }
-
-        if (object instanceof JSONArray) {
-            // 이런 케이스도 있나?
-            JSONArray jsonArray = (JSONArray) object;
-            log.debug("land data is array : " + jsonArray.toString());
-            JSONObject gml = jsonArray.getJSONObject(0);
-            JSONObject nsdi = gml.getJSONObject("NSDI:F251");
-            return LandDataApiDto.convertData(nsdi);
-        }
-
-        return null;
+        JSONObject sop = gml.getJSONObject("sop:dt_d194");
+        return LandDataApiDto.convertData(responseCode, sop);
     }
 }

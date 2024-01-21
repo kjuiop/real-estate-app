@@ -318,6 +318,8 @@ let settingLandInfo = function(landInfo) {
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
 }
 
 let landInfoAdd = function(e) {
@@ -431,6 +433,8 @@ let loadLandInfoById = function(e) {
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
 }
 
 let assembleLandParams = function() {

@@ -4,6 +4,8 @@ import io.gig.realestate.domain.common.YnType;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/10/13
@@ -51,4 +53,8 @@ public class LandInfoDto {
     private String prposAreaDstrcCodeList;
 
     private String posList;
+
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
 }

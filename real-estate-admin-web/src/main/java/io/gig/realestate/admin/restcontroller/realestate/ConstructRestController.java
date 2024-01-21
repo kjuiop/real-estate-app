@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("rest/real-estate/construct")
 @RequiredArgsConstructor
-public class ConstructController {
+public class ConstructRestController {
 
     @PostMapping
     @ResponseBody
