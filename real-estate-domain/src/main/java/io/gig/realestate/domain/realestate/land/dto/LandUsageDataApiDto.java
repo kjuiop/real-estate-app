@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 public class LandUsageDataApiDto {
 
+    private String pnu;
     private String prposAreaDstrcNmList;
     private String prposAreaDstrcCodeList;
     private String posList;
@@ -24,6 +25,7 @@ public class LandUsageDataApiDto {
 
     public static LandUsageDataApiDto convertData(int responseCode, JSONObject sop) {
         return LandUsageDataApiDto.builder()
+                .pnu(sop.has("sop:pnu") ? String.valueOf(sop.getLong("sop:pnu")) : null)
                 .prposAreaDstrcNmList(sop.has("sop:prpos_area_dstrc_nm_list") ? sop.getString("sop:prpos_area_dstrc_nm_list") : null)
                 .prposAreaDstrcCodeList(sop.has("sop:prpos_area_dstrc_code_list") ? sop.getString("sop:prpos_area_dstrc_code_list") : null)
                 .responseCode(responseCode)

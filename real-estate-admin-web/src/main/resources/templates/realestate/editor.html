@@ -174,21 +174,22 @@
                     </form>
                     <!-- /.card -->
                     <div class="card" style="margin-top: 5px;">
-                        <form class="form-horizontal" name="frmLandRegister" method="post">
-                            <input type="hidden" name="totalLndpclArByPyung" value="0" />
-                            <input type="hidden" name="totalLndpclAr" value="0" />
-                            <input type="hidden" name="totalPblntfPclndByPyung" value="0" />
-                            <input type="hidden" name="responseCode" />
-                            <input type="hidden" name="lastCurlApiAt" />
-                            <div class="card-header">
-                                <h3 class="card-title">토지정보</h3>
-                                <div class="card-tools"></div>
-                            </div>
-                            <div class="card-body" style="padding: 10px;">
+                        <div class="card-header">
+                            <h3 class="card-title">토지정보</h3>
+                            <div class="card-tools"></div>
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <form class="form-horizontal" name="frmLandRegister" method="post">
+                                <input type="hidden" name="totalLndpclArByPyung" value="0" />
+                                <input type="hidden" name="totalLndpclAr" value="0" />
+                                <input type="hidden" name="totalPblntfPclndByPyung" value="0" />
+                                <input type="hidden" name="responseCode" />
+                                <input type="hidden" name="lastCurlApiAt" />
+
                                 <div class="form-group col-md-12 display-flex-column" style="border-bottom: 1px solid #eeeeee">
                                     <div class="col-md-12 display-flex-row no-left-padding">
                                         <div class="col-md-6 no-left-padding">
-<!--                                            <button type="button" class="btn btn-sm btn-default btnCadastralModal" style="margin-right: 5px;"> 지적편집도</button>-->
+                                            <!--                                            <button type="button" class="btn btn-sm btn-default btnCadastralModal" style="margin-right: 5px;"> 지적편집도</button>-->
                                         </div>
                                         <div class="col-md-6 right-align">
                                             <label class="control-label right-align margin-top-5" style="font-weight: normal; font-size: 12px;">
@@ -302,12 +303,20 @@
                                         </div>
                                     </div>
                                 </div>
-<!--                                <div class="form-group col-md-12">-->
-<!--                                    <div class="col-md-12 display-flex-column no-left-padding">-->
-<!--                                        <label class="text-label">지적편집도</label>-->
-<!--                                        <div id="cadastralMap" class="com-md-12 display-flex-row" style="height: 180px;"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                            </form>
+
+                            <!--                                <div class="form-group col-md-12">-->
+                            <!--                                    <div class="col-md-12 display-flex-column no-left-padding">-->
+                            <!--                                        <label class="text-label">지적편집도</label>-->
+                            <!--                                        <div id="cadastralMap" class="com-md-12 display-flex-row" style="height: 180px;"></div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <form name="frmLandUsageRegister" method="post">
+                                <input type="hidden" name="pnu" />
+                                <input type="hidden" name="prposAreaDstrcNmList" />
+                                <input type="hidden" name="prposAreaDstrcCodeList" />
+                                <input type="hidden" name="posList" />
+
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12 display-flex-column no-left-padding">
                                         <div class="row padding-10" style="position: relative;">
@@ -324,32 +333,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12 padding-10" style="overflow-x: auto; font-size: 14px;">
-                                    <table class="table table-sm table-bordered land-table" style="white-space: nowrap;">
-                                        <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-alien-center">지번</th>
-                                            <th class="text-alien-center">지목</th>
-                                            <th class="text-alien-center" colspan="2">토지면적</th>
-                                            <th class="text-alien-center" colspan="2">공시지가</th>
-                                            <th class="text-alien-center" colspan="2">필지당 공시지가</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot class="hidden">
-                                        <tr>
-                                            <td colspan="2">합계</td>
-                                            <td class="text-alien-center calLndpclAr"></td>
-                                            <td class="text-alien-center calLndpclArByPyung"></td>
-                                            <td class="text-alien-center calPblntfPclnd"></td>
-                                            <td class="text-alien-center calPblntfPclndByPyung"></td>
-                                            <td class="text-alien-center calTotalPblntfPclnd"></td>
-                                            <td class="text-alien-center calTotalPblntFPclndByPyung"></td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                            </form>
+                            <div class="form-group col-md-12 padding-10" style="overflow-x: auto; font-size: 14px;">
+                                <table class="table table-sm table-bordered land-table" style="white-space: nowrap;">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-alien-center">지번</th>
+                                        <th class="text-alien-center">지목</th>
+                                        <th class="text-alien-center" colspan="2">토지면적</th>
+                                        <th class="text-alien-center" colspan="2">공시지가</th>
+                                        <th class="text-alien-center" colspan="2">필지당 공시지가</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot class="hidden">
+                                    <tr>
+                                        <td colspan="2">합계</td>
+                                        <td class="text-alien-center calLndpclAr"></td>
+                                        <td class="text-alien-center calLndpclArByPyung"></td>
+                                        <td class="text-alien-center calPblntfPclnd"></td>
+                                        <td class="text-alien-center calPblntfPclndByPyung"></td>
+                                        <td class="text-alien-center calTotalPblntfPclnd"></td>
+                                        <td class="text-alien-center calTotalPblntFPclndByPyung"></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <form name="frmLandPriceRegister" method="post">
                                 <div class="form-group col-md-12 padding-10" style="margin-top: 10px;">
                                     <div class="row padding-10" style="position: relative;">
                                         <label class="text-label">5개년 공시지가</label>
@@ -370,9 +381,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </form>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                     <div class="card" style="margin-top: 10px;">

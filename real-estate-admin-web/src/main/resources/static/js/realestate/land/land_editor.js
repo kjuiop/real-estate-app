@@ -26,7 +26,7 @@ let loadLandInfoList = function() {
             console.log("load land info", result);
             let landList = result.data;
             let $frm = $('form[name="frmLandRegister"]');
-            let $table = $frm.find('.land-table');
+            let $table = $('.land-table');
 
             if (!checkNullOrEmptyValue(landList)) {
                 $frm.find('.btnLandAdd').trigger('click');
@@ -39,9 +39,11 @@ let loadLandInfoList = function() {
                 return;
             }
 
+            // 대표필지가 바뀔 가능성이 존재
             let landInfo = landList[0];
 
             settingLandInfo(landInfo);
+            settingLandUsageInfo(landInfo.landUsageInfo);
             drawLandTable($table, landList);
 
             if (isLandInfo === true) {
@@ -91,7 +93,7 @@ let loadLandPriceInfoList = function() {
         success: function(result) {
             console.log("land price result", result);
             let priceInfo = result.data,
-                $frm = $('form[name="frmLandRegister"]'),
+                $frm = $('form[name="frmLandPriceRegister"]'),
                 $table = $frm.find('.pblnt-table tbody')
             ;
             if (!checkNullOrEmptyValue(priceInfo)) {
@@ -238,8 +240,6 @@ let drawLandTable = function($table, landList) {
             totalPblntfPclndByPyung = pblndfPclndByPyung * Number(item.lndpclArByPyung);
         }
 
-        console.log("drawLandTable", item);
-
         tag += '<tr>';
         if (checkNullOrEmptyValue(dto.realEstateId)) {
             tag += '<td class="text-alien-center min-width-130">' + item.address + '</td>';
@@ -320,6 +320,17 @@ let settingLandInfo = function(landInfo) {
     $frm.find('input[name="posList"]').val(landInfo.posList);
     $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
     $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+}
+
+let settingLandUsageInfo = function(landInfo) {
+    let $frm = $('form[name="frmLandUsageRegister"]');
+    $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+    $frm.find('input[name="posList"]').val(landInfo.posList);
+    $frm.find('input[name="pnu"]').val(landInfo.pnu);
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+    $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
 }
 
 let landInfoAdd = function(e) {

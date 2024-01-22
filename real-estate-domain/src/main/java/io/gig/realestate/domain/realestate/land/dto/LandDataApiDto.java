@@ -106,7 +106,7 @@ public class LandDataApiDto {
     private String prposAreaDstrcNmList;
     private String prposAreaDstrcCodeList;
     private String posList;
-    private LandUsageDataApiDto usageDataDto;
+    private LandUsageDataApiDto landUsageInfo;
 
     public static LandDataApiDto convertData(int responseCode, JSONObject sop) {
         double lndpclAr = sop.optDouble("sop:lndpcl_ar");
@@ -148,7 +148,7 @@ public class LandDataApiDto {
         this.prposAreaDstrcNmList = usageData.getPrposAreaDstrcNmList();
         this.prposAreaDstrcCodeList = usageData.getPrposAreaDstrcCodeList();
         this.posList = usageData.getPosList();
-        this.usageDataDto = usageData;
+        this.landUsageInfo = usageData;
     }
 
     @Getter
