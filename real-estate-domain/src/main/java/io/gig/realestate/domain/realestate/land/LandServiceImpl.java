@@ -172,11 +172,11 @@ public class LandServiceImpl implements LandService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        return parseLandUsageJsonData(convertResult);
+        return parseLandUsageJsonData(conn.getResponseCode(), convertResult);
     }
 
 
-    private LandUsageDataApiDto parseLandUsageJsonData(JSONObject data) throws JsonProcessingException {
+    private LandUsageDataApiDto parseLandUsageJsonData(int responseCode, JSONObject data) throws JsonProcessingException {
         if (!data.has("wfs:FeatureCollection")) {
             return null;
         }
@@ -194,7 +194,7 @@ public class LandServiceImpl implements LandService {
         if (object instanceof JSONObject) {
             JSONObject gml = (JSONObject) object;
             JSONObject sop = gml.getJSONObject("sop:dt_d154");
-            LandUsageDataApiDto usageData = LandUsageDataApiDto.convertData(sop);
+            LandUsageDataApiDto usageData = LandUsageDataApiDto.convertData(responseCode, sop);
             return usageData;
         }
 
