@@ -4,6 +4,8 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.landusage.dto.LandUsageCreateForm;
+import io.gig.realestate.domain.realestate.landusage.dto.LandUsageUpdateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -24,6 +26,8 @@ public class LandUsageInfo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String pnu;
 
     @Lob
     private String posList;
@@ -54,4 +58,30 @@ public class LandUsageInfo extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
+
+    public static LandUsageInfo create(LandUsageCreateForm dto, RealEstate newRealEstate, Administrator loginUser) {
+        return LandUsageInfo.builder()
+                .pnu(dto.getPnu())
+                .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
+                .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .realEstate(newRealEstate)
+                .build();
+    }
+
+    public static LandUsageInfo update(LandUsageUpdateForm dto, RealEstate realEstate, Administrator loginUser) {
+        return LandUsageInfo.builder()
+                .id(dto.getLandUsageId())
+                .pnu(dto.getPnu())
+                .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
+                .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
+                .updatedBy(loginUser)
+                .realEstate(realEstate)
+                .build();
+    }
 }

@@ -29,6 +29,7 @@ import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
+import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -127,6 +128,9 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addLandInfo(landInfo);
         }
 
+        LandUsageInfo landUsageInfo = LandUsageInfo.create(createForm.getLandUsageInfo(), newRealEstate, loginUser.getLoginUser());
+        newRealEstate.addLandUsageInfo(landUsageInfo);
+
         PriceInfo priceInfo = PriceInfo.create(createForm.getPriceInfo(), newRealEstate);
         newRealEstate.addPriceInfo(priceInfo);
 
@@ -174,6 +178,10 @@ public class RealEstateServiceImpl implements RealEstateService {
             LandInfo landInfo = LandInfo.update(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
+
+        realEstate.getLandUsageInfoList().clear();
+        LandUsageInfo landUsageInfo = LandUsageInfo.update(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
+        realEstate.addLandUsageInfo(landUsageInfo);
 
         realEstate.getPriceInfoList().clear();
         PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);

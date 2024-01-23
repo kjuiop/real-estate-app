@@ -43,7 +43,9 @@ let loadLandInfoList = function() {
             let landInfo = landList[0];
 
             settingLandInfo(landInfo);
-            settingLandUsageInfo(landInfo.landUsageInfo);
+            if (checkNullOrEmptyValue(landInfo.landUsageInfo)) {
+                settingLandUsageInfo(landInfo.landUsageInfo);
+            }
             drawLandTable($table, landList);
 
             if (isLandInfo === true) {
@@ -60,6 +62,29 @@ let loadLandInfoList = function() {
             if (!checkNullOrEmptyValue(dto.realEstateId) || !dto.existLandInfo) {
                 $frm.find('.btnLandAdd').trigger('click');
             }
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadLandUsageInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
+    let url = "/real-estate/land/usage/" + dto.realEstateId;
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("load land usage info", result);
+            let usageData = result.data;
+            settingLandUsageInfo(usageData);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -313,17 +338,27 @@ let settingLandInfo = function(landInfo) {
     } else {
         $frm.find('input[name="commercialYn"]').iCheck('uncheck');
     }
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+
 
     $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
-    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
-    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+
+    if (!checkNullOrEmptyValue(landInfo.landUsageInfo)) {
+        let $usageFrm = $('form[name="frmLandUsageRegister"]');
+        $usageFrm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
+        $usageFrm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+        $usageFrm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+        $usageFrm.find('input[name="posList"]').val(landInfo.posList);
+    }
 }
 
 let settingLandUsageInfo = function(landInfo) {
     let $frm = $('form[name="frmLandUsageRegister"]');
+    $frm.find('input[name="landUsageId"]').val(landInfo.landUsageId);
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
