@@ -446,28 +446,80 @@
                             <table class="table table-bordered min-width-table" style="margin-bottom: 0; height: 100%;">
                                 <tr>
                                     <td style="width: 20%;">대장상 대지면적</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.platArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.platAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.platArea eq 0}">
+                                            -
+                                        </th:block>
+                                        <th:block th:if="${constructInfo.platArea > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.platArea, 0, 'COMMA', 2, 'POINT')}]]㎡
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.platAreaByPyung eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.platAreaByPyung > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.platAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">연 면 적</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.totArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.totAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.totArea eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.totArea > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.totArea, 0, 'COMMA', 2, 'POINT')}]]㎡
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.totAreaByPyung eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.totAreaByPyung > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.totAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">지상면적</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.vlRatEstmTotArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.vlRatEstmTotAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.vlRatEstmTotArea eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.vlRatEstmTotArea > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.vlRatEstmTotArea, 0, 'COMMA', 2, 'POINT')}]]㎡
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.vlRatEstmTotAreaByPyung eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.vlRatEstmTotAreaByPyung > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.vlRatEstmTotAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">건축면적</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.archArea, 0, 'COMMA', 2, 'POINT')}]]㎡</td>
-                                    <td style="width: 40%;">[[${#numbers.formatDecimal(constructInfo.archAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.archArea eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.archArea > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.archArea, 0, 'COMMA', 2, 'POINT')}]]㎡
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.archAreaByPyung eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.archAreaByPyung > 0}">
+                                            [[${#numbers.formatDecimal(constructInfo.archAreaByPyung, 0, 'COMMA', 2, 'POINT')}]]평
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">준공년도</td>
-                                    <td style="width: 40%;">[[${dto.useAprYear}]]년</td>
-                                    <td style="width: 40%;">[[${dto.useAprMonth}]]월</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${#strings.isEmpty(dto.useAprYear)}">-</th:block>
+                                        <th:block th:if="${not #strings.isEmpty(dto.useAprYear)}">
+                                            [[${dto.useAprYear}]]년
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${#strings.isEmpty(dto.useAprMonth)}">-</th:block>
+                                        <th:block th:if="${not #strings.isEmpty(dto.useAprMonth)}">
+                                            [[${dto.useAprMonth}]]월
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">건물규모</td>
@@ -475,8 +527,18 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">건폐 / 용적율</td>
-                                    <td style="width: 40%;">[[${constructInfo.bcRat}]]%</td>
-                                    <td style="width: 40%;">[[${constructInfo.vlRat}]]%</td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.bcRat eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.bcRat > 0}">
+                                            [[${constructInfo.bcRat}]]%
+                                        </th:block>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <th:block th:if="${constructInfo.vlRat eq 0}">-</th:block>
+                                        <th:block th:if="${constructInfo.vlRat > 0}">
+                                            [[${constructInfo.vlRat}]]%
+                                        </th:block>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">주차 / 승강기</td>
@@ -533,8 +595,8 @@
                                     <td colspan="3" style="color: darkblue; font-weight: bold; font-size: 13px;">[[${priceInfo.salePrice > 0 ? #numbers.formatDecimal(priceInfo.salePrice, 0, 'COMMA', 0, 'POINT') + '억원' : ''}]]</td>
                                 </tr>
                                 <tr>
-                                    <td style="height: 56px; max-height: 56px; resize: none;">비고</td>
-                                    <td id="characterInfo" colspan="3" contenteditable="true" style="color: darkblue; font-weight: bold; text-align: left; height: 56px; max-height: 56px; resize: none;">
+                                    <td style="height: 36px; max-height: 36px; resize: none;">비고</td>
+                                    <td id="characterInfo" colspan="3" contenteditable="true" style="color: darkblue; font-weight: bold; text-align: left; height: 36px; max-height: 36px; resize: none;">
                                         [[${dto.characterInfo}]]
                                     </td>
                                 </tr>
@@ -738,7 +800,7 @@
                     </div>
                 </div>
                 <div class="col-md-5 display-flex-column height-100 padding-top-20 card-content floor-price-section">
-                    <th:block th:if="${constructFloorList.size() <= 18}">
+                    <th:block th:if="${constructFloorList.size() <= 18 && !dto.notExistConstructFloor}">
                         <div class="margin-bottom-3">
                             <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">층별정보</h5>
                         </div>

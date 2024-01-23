@@ -80,6 +80,9 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private List<LandPriceListDto> landPriceList;
 
+    @Builder.Default
+    private boolean notExistConstructFloor = false;
+
     static {
         EMPTY = RealEstateDetailAllDto.builder()
                 .build();
@@ -164,6 +167,9 @@ public class RealEstateDetailAllDto extends RealEstateDto {
         }
 
         if (r.getFloorPriceInfo().size() > 0) {
+            if (r.getFloorPriceInfo().get(0).getFlrNo() == 999) {
+                this.notExistConstructFloor = true;
+            }
             List<FloorListDto> constructFloorList = new ArrayList<>();
             for (FloorPriceInfo floor : r.getFloorPriceInfo()) {
                 constructFloorList.add(new FloorListDto(floor));
