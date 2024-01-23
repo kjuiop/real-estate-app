@@ -951,38 +951,40 @@
                     <div id="landMap" style="width: 100%; height: 600px;"></div>
                 </div>
                 <div class="col-md-6 display-flex-column height-100 padding-top-10">
-                    <table class="table table-bordered line">
-                        <tr>
-                            <td class="table-head">구분</td>
-                            <td class="table-head">지번</td>
-                            <td class="table-head">면적(㎡)</td>
-                            <td class="table-head">면적(평)</td>
-                            <td class="table-head">지목</td>
-                            <td class="table-head">공시지가(원/㎡)</td>
-                        </tr>
-                        <th:block th:unless="${#lists.isEmpty(landInfoList)}" th:each="land, status : ${landInfoList}">
+                    <th:block th:if="${landInfoList.size() <= 7}">
+                        <table class="table table-bordered line">
                             <tr>
-                                <td>[[${status.index + 1}]]</td>
-                                <td>[[${land.address}]]</td>
-                                <td>[[${land.lndpclAr}]]</td>
-                                <td>[[${land.lndpclArByPyung}]]</td>
-                                <td>[[${land.prposArea1Nm}]]</td>
-                                <td>[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
+                                <td class="table-head">구분</td>
+                                <td class="table-head">지번</td>
+                                <td class="table-head">면적(㎡)</td>
+                                <td class="table-head">면적(평)</td>
+                                <td class="table-head">지목</td>
+                                <td class="table-head">공시지가(원/㎡)</td>
                             </tr>
-                        </th:block>
-                        <th:block th:if="${#lists.isEmpty(landInfoList)}">
+                            <th:block th:unless="${#lists.isEmpty(landInfoList)}" th:each="land, status : ${landInfoList}">
+                                <tr>
+                                    <td>[[${status.index + 1}]]</td>
+                                    <td>[[${land.address}]]</td>
+                                    <td>[[${land.lndpclAr}]]</td>
+                                    <td>[[${land.lndpclArByPyung}]]</td>
+                                    <td>[[${land.prposArea1Nm}]]</td>
+                                    <td>[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(landInfoList)}">
+                                <tr>
+                                    <td class="text-alien-center" colspan="6">토지정보가 없습니다.</td>
+                                </tr>
+                            </th:block>
                             <tr>
-                                <td class="text-alien-center" colspan="6">토지정보가 없습니다.</td>
+                                <td colspan="2" style="font-weight: bold;">합계</td>
+                                <td class="totalLndpclAr" style="font-weight: bold;">50,179</td>
+                                <td class="totalLndpclArByPyung" style="font-weight: bold;">15,179</td>
+                                <td style="font-weight: bold;">-</td>
+                                <td style="font-weight: bold;">-</td>
                             </tr>
-                        </th:block>
-                        <tr>
-                            <td colspan="2" style="font-weight: bold;">합계</td>
-                            <td class="totalLndpclAr" style="font-weight: bold;">50,179</td>
-                            <td class="totalLndpclArByPyung" style="font-weight: bold;">15,179</td>
-                            <td style="font-weight: bold;">-</td>
-                            <td style="font-weight: bold;">-</td>
-                        </tr>
-                    </table>
+                        </table>
+                    </th:block>
 
                     <table class="table table-bordered">
                         <tr>
@@ -1024,6 +1026,57 @@
 
             <div class="print-footer text-alien-center"></div>
         </div>
+
+        <th:block th:if="${landInfoList.size() > 7}">
+            <div class="print-line"></div>
+
+            <div class="print-content land-info-section" style="margin-bottom: 10px; height: 700px; ">
+                <div class="row print-content-title">
+                    <h3>토지 조서-2</h3>
+                    <span>Land decree</span>
+                </div>
+                <div class="print-title-line"></div>
+                <div class="cover-body print-body row col-md-12 padding-20" style="padding-top: 10px;">
+                    <div class="col-md-6 display-flex-column height-100 padding-top-10">
+                        <table class="table table-bordered line">
+                            <tr>
+                                <td class="table-head">구분</td>
+                                <td class="table-head">지번</td>
+                                <td class="table-head">면적(㎡)</td>
+                                <td class="table-head">면적(평)</td>
+                                <td class="table-head">지목</td>
+                                <td class="table-head">공시지가(원/㎡)</td>
+                            </tr>
+                            <th:block th:unless="${#lists.isEmpty(landInfoList)}" th:each="land, status : ${landInfoList}">
+                                <tr>
+                                    <td>[[${status.index + 1}]]</td>
+                                    <td>[[${land.address}]]</td>
+                                    <td>[[${land.lndpclAr}]]</td>
+                                    <td>[[${land.lndpclArByPyung}]]</td>
+                                    <td>[[${land.prposArea1Nm}]]</td>
+                                    <td>[[${#numbers.formatDecimal(landInfo.pblntfPclnd / 10000, 0, 'COMMA', 0, 'POINT')}]]만원/㎡</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(landInfoList)}">
+                                <tr>
+                                    <td class="text-alien-center" colspan="6">토지정보가 없습니다.</td>
+                                </tr>
+                            </th:block>
+                            <tr>
+                                <td colspan="2" style="font-weight: bold;">합계</td>
+                                <td class="totalLndpclAr" style="font-weight: bold;">50,179</td>
+                                <td class="totalLndpclArByPyung" style="font-weight: bold;">15,179</td>
+                                <td style="font-weight: bold;">-</td>
+                                <td style="font-weight: bold;">-</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6 padding-10 height-100" style="padding-top:20px;"></div>
+                </div>
+
+                <div class="print-footer text-alien-center"></div>
+            </div>
+        </th:block>
 
 <!--        <div class="print-line print-hidden"></div>-->
 
