@@ -84,7 +84,9 @@ let loadLandUsageInfo = function() {
         success: function(result) {
             console.log("load land usage info", result);
             let usageData = result.data;
-            settingLandUsageInfo(usageData);
+            if (checkNullOrEmptyValue(usageData)) {
+                settingLandUsageInfo(usageData);
+            }
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -440,9 +442,9 @@ let drawLandButton = function(data) {
     let tag = '';
 
     if (checkNullOrEmptyValue(data.landId)) {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + convertNullOrEmptyValue(data.landId ) + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + convertNullOrEmptyValue(data.landId ) + '" style="display: inline-block; min-width: 120px; margin-bottom: 5px;">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     } else {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="" style="display: inline-block; min-width: 120px; margin-bottom: 5px;">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     }
 
     return tag;
