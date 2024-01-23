@@ -617,7 +617,7 @@
                 <span>Building Information</span>
             </div>
             <div class="print-title-line"></div>
-            <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 640px;">
+            <div class="cover-body print-body row col-md-12 floor-content-height" style="height: 640px; padding: 10px;">
                 <div class="col-md-7 padding-20 height-100 card-content">
                     <div class="margin-bottom-10">
                         <h5 class="col-md-9 no-left-padding" style="color: #445FB9; vertical-align: bottom; font-size:15px; font-weight:bold;">집합건축물[표제부]</h5>
@@ -940,7 +940,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content land-info-section" style="margin-bottom: 10px; height: 700px; ">
+        <div class="print-content land-info-section" th:classappend="${landInfoList.size() > 7 ? 'print-distribute-line' : ''}" style="margin-bottom: 10px; height: 700px; ">
             <div class="row print-content-title">
                 <h3>토지 조서</h3>
                 <span>Land decree</span>
@@ -1028,6 +1028,7 @@
         </div>
 
         <th:block th:if="${landInfoList.size() > 7}">
+
             <div class="print-line"></div>
 
             <div class="print-content land-info-section" style="margin-bottom: 10px; height: 700px; ">
