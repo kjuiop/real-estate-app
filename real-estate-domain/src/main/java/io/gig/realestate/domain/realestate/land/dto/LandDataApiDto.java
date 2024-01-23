@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 
 /**
  * @author : JAKE
@@ -18,6 +19,9 @@ import java.math.RoundingMode;
 public class LandDataApiDto {
 
     // 데이터 검증 필요
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
 
     /** 토지 필지 번호 **/
     // 고유번호
@@ -102,8 +106,9 @@ public class LandDataApiDto {
     private String prposAreaDstrcNmList;
     private String prposAreaDstrcCodeList;
     private String posList;
+    private LandUsageDataApiDto landUsageInfo;
 
-    public static LandDataApiDto convertData(JSONObject sop) {
+    public static LandDataApiDto convertData(int responseCode, JSONObject sop) {
         double lndpclAr = sop.optDouble("sop:lndpcl_ar");
         int pblntfPclnd = sop.optInt("sop:pblntf_pclnd");
         double totalPblntfPclnd = pblntfPclnd * lndpclAr;
@@ -134,6 +139,8 @@ public class LandDataApiDto {
                 .totalPblntfPclndByPyung(totalPblntfPclndByPyung)
                 .lnmLndcgrSmbol(sop.has("sop:lnm_lndcgr_smbol") ? sop.getString("sop:lnm_lndcgr_smbol") : null)
                 .stdrYear(sop.has("sop:stdr_year") ? sop.getInt("sop:stdr_year") : null)
+                .responseCode(responseCode)
+                .lastCurlApiAt(LocalDateTime.now())
                 .build();
     }
 
@@ -141,6 +148,7 @@ public class LandDataApiDto {
         this.prposAreaDstrcNmList = usageData.getPrposAreaDstrcNmList();
         this.prposAreaDstrcCodeList = usageData.getPrposAreaDstrcCodeList();
         this.posList = usageData.getPosList();
+        this.landUsageInfo = usageData;
     }
 
     @Getter

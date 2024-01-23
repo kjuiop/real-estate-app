@@ -93,6 +93,10 @@ public class ConstructInfo extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType illegalConstructYn = YnType.N;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
@@ -137,6 +141,8 @@ public class ConstructInfo extends BaseTimeEntity {
                 .vlRatEstmTotArea(createForm.getVlRatEstmTotArea())
                 .vlRatEstmTotAreaByPyung(createForm.getVlRatEstmTotAreaByPyung())
                 .heit(createForm.getHeit())
+                .responseCode(createForm.getResponseCode())
+                .lastCurlApiAt(createForm.getLastCurlApiAt())
                 .realEstate(realEstate)
                 .build();
 

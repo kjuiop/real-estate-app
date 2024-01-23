@@ -47,11 +47,11 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private String companyName;
 
-    private int guaranteePrice;
+    private double guaranteePrice;
 
-    private int rent;
+    private double rent;
 
-    private int management;
+    private double management;
 
     private String termStartDate;
 

@@ -5,7 +5,6 @@ let loadConstructInfo = function() {
     }
 
     let url;
-
     if (dto.existConstructInfo === true) {
         url = "/real-estate/construct/" + dto.realEstateId;
     } else {
@@ -15,8 +14,6 @@ let loadConstructInfo = function() {
             + "&bun=" + dto.bun
             + "&ji=" + dto.ji
     }
-
-    console.log("url ", url);
 
     $.ajax({
         url: url,
@@ -72,6 +69,8 @@ let settingPublicApi = function(constructInfo) {
     $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
     $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
     $frm.find('input[name="heit"]').val(constructInfo.heit);
+    $frm.find('input[name="responseCode"]').val(constructInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(constructInfo.lastCurlApiAt);
 
     if (constructInfo.illegalConstructYn === 'Y') {
         $frm.find('input[name="illegalConstructYn"]').iCheck('check');
@@ -99,8 +98,6 @@ let loadConstructFloorInfo = function() {
             + "&ji=" + dto.ji
     }
 
-    console.log("url ", url);
-
     $.ajax({
         url: url,
         method: "get",
@@ -119,10 +116,7 @@ let loadConstructFloorInfo = function() {
             }
 
             if (floorData.length === 0) {
-                let tag = '';
-                tag += '<tr>';
-                tag += '<td class="text-center" colspan="14">해당 건물의 층별 정보가 없습니다.</td>';
-                tag += '</tr>';
+                let tag = drawEmptyFloorTable();
                 $tbody.html(tag);
                 $tfoot.addClass('hidden');
                 return;
@@ -151,26 +145,78 @@ let constructInfoReload = function(e) {
         + "&ji=" + dto.ji
     ;
 
-    $.ajax({
-        url: url,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            let constructInfo = result.data;
-            if (!checkNullOrEmptyValue(constructInfo)) {
-                return;
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                let constructInfo = result.data;
+                if (!checkNullOrEmptyValue(constructInfo)) {
+                    return;
+                }
+                console.log("constructInfo result", constructInfo);
+                settingPublicApi(constructInfo);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
             }
-            console.log("constructInfo result", constructInfo);
-            settingPublicApi(constructInfo);
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
+        });
     });
 
-
 }
+
+let constructFloorInfoReload = function(e) {
+    e.preventDefault();
+
+    let url = "/real-estate/construct/floor/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("floor result", result);
+                let floorData = result.data;
+                let $tbody = $('.construct-floor-table tbody'),
+                    $tfoot = $('.construct-floor-table tfoot');
+
+                if (!checkNullOrEmptyValue(floorData)) {
+                    $tfoot.removeClass('hidden');
+                    $('.btnRowAdd').trigger('click');
+                    return;
+                }
+
+                if (floorData.length === 0) {
+                    let tag = drawEmptyFloorTable();
+                    $tbody.html(tag);
+                    $tfoot.addClass('hidden');
+                    return;
+                }
+
+                let tag = drawConstructFloorInfo(floorData);
+                $tbody.html(tag);
+                $tfoot.removeClass('hidden');
+
+                calculateFloorInfo();
+                $(".construct-floor-table tbody").sortable().disableSelection();
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 
 let drawConstructFloorInfo = function(data) {
     let tag = '';
@@ -187,7 +233,7 @@ let drawConstructFloorRow = function(item) {
     tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 70px;"/></td>';
     tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 190px;"/></td>';
     tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 130px;"/></td>';
-    tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px;">㎡</span></td>';
+    tag += '<td class="center-text padding-8 area" data="' + item.area + '">' + item.area + '<span style="font-size: 15px; padding: 3px; min-width: 70px;">㎡</span></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclAr calSumField" value="' + convertNullOrEmptyValue(item.lndpclAr) + '" name="lndpclAr"  sum="totalLndpclAr" unit="㎡" style="min-width: 85px;"/><span style="font-size: 15px; padding: 3px;">㎡</span></div></td>';
     tag += '<td class="center-text padding-6"><div class="display-flex-row"><input type="text" class="form-control form-control-sm lndpclArByPyung calSumField" value="' +  convertNullOrEmptyValue(item.lndpclArByPyung) + '" name="lndpclArByPyung" sum="totalLndpclArByPyung" unit="평" style="min-width: 50px;"/><span style="font-size: 14px; padding: 3px;">평</span></div></td>';
     if (item.guaranteePrice > 0) {
@@ -370,7 +416,6 @@ let floorInfoRowAdd = function(e) {
 
 let floorInfoRowRemove = function(e) {
     e.preventDefault();
-
     let $this = $(this);
     $this.parents('.floor-unit').remove();
 }
@@ -419,7 +464,7 @@ let calculateAreaVlRate = function(e) {
     e.preventDefault();
 
     let $frm = $('form[name="frmConstructRegister"]');
-    let totArea = $frm.find('input[name="totArea"]').val(),
+    let totArea = $frm.find('input[name="vlRatEstmTotArea"]').val(),
         platArea = $frm.find('input[name="platArea"]').val();
 
     if (isNaN(totArea) || isNaN(platArea)) {
@@ -436,4 +481,12 @@ let calculateAreaVlRate = function(e) {
     let vlRate = (totArea / platArea) * 100;
     vlRate = Math.round(vlRate * 100) / 100;
     $frm.find('input[name="vlRat"]').val(vlRate);
+}
+
+let drawEmptyFloorTable = function()  {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td class="text-center" colspan="14">해당 건물의 층별 정보가 없습니다.</td>';
+    tag += '</tr>';
+    return tag;
 }

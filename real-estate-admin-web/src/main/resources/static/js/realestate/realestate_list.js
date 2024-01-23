@@ -1,9 +1,13 @@
+let preventDoubleEnter = false;
+
 let onReady = function() {
     console.log("condition", condition);
 };
 
 let search = function(e) {
     e.preventDefault();
+
+    console.log("preventDoubleEnter", preventDoubleEnter);
 
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
@@ -72,41 +76,41 @@ let moveRegister = function(e) {
 
     console.log("params : ", params);
 
-    location.href = "/real-estate/new"
-        + "?bCode=" + params.bCode
-        + "&landType=" + params.landType
-        + "&bun=" + params.bun
-        + "&ji=" + params.ji
-        + "&address=" + encodeURIComponent(params.address)
-        + "&usageCdId=" + usageCdId
-        + "&dongCode=" + dongCode
-    ;
+    // location.href = "/real-estate/new"
+    //     + "?bCode=" + params.bCode
+    //     + "&landType=" + params.landType
+    //     + "&bun=" + params.bun
+    //     + "&ji=" + params.ji
+    //     + "&address=" + encodeURIComponent(params.address)
+    //     + "&usageCdId=" + usageCdId
+    //     + "&dongCode=" + dongCode
+    // ;
 
-    // $.ajax({
-    //     url: "/real-estate/check-duplicate/" + params.address,
-    //     method: "get",
-    //     type: "json",
-    //     contentType: "application/json",
-    //     success: function (result) {
-    //         console.log("result : ", result);
-    //         if (result.data) {
-    //             twoBtnModal("이미 등록된 매물 정보입니다.");
-    //         } else {
-    //             location.href = "/real-estate/new"
-    //                 + "?bCode=" + params.bCode
-    //                 + "&landType=" + params.landType
-    //                 + "&bun=" + params.bun
-    //                 + "&ji=" + params.ji
-    //                 + "&address=" + encodeURIComponent(params.address)
-    //                 + "&usageCdId=" + usageCdId
-    //                 + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
-    //             ;
-    //         }
-    //     },
-    //     error:function(error){
-    //         ajaxErrorFieldByText(error);
-    //     }
-    // });
+    $.ajax({
+        url: "/real-estate/check-duplicate/" + params.address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("result : ", result);
+            if (result.data) {
+                twoBtnModal("이미 등록된 매물 정보입니다.");
+            } else {
+                location.href = "/real-estate/new"
+                    + "?bCode=" + params.bCode
+                    + "&landType=" + params.landType
+                    + "&bun=" + params.bun
+                    + "&ji=" + params.ji
+                    + "&address=" + encodeURIComponent(params.address)
+                    + "&usageCdId=" + usageCdId
+                    + "&dongCode=" + $frm.find('select[name="dong"] option:selected').val()
+                ;
+            }
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
 
 
 }
@@ -426,6 +430,7 @@ $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch, .btnProcessType', search)
+    // .on('submit', 'form[name="frmSearch"]', search)
     .on('change', '#limit', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('ifToggled', '.chkAll', selectedChkAll)

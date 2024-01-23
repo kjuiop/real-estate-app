@@ -31,23 +31,23 @@ public class PriceInfo extends BaseTimeEntity {
 
     private double revenueRate;
 
-    private int averageUnitPrice;
+    private double averageUnitPrice;
 
-    private int guaranteePrice;
+    private double guaranteePrice;
 
-    private int rentMonth;
+    private double rentMonth;
 
-    private int management;
+    private double management;
 
-    private int managementExpense;
-
-    @Builder.Default
-    @Column(columnDefinition = "int default '0'")
-    private int landPyungUnitPrice = 0;
+    private double managementExpense;
 
     @Builder.Default
     @Column(columnDefinition = "int default '0'")
-    private int buildingPyungUnitPrice = 0;
+    private double landPyungUnitPrice = 0;
+
+    @Builder.Default
+    @Column(columnDefinition = "int default '0'")
+    private double buildingPyungUnitPrice = 0;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

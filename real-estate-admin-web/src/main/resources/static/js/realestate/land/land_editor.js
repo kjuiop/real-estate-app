@@ -26,7 +26,7 @@ let loadLandInfoList = function() {
             console.log("load land info", result);
             let landList = result.data;
             let $frm = $('form[name="frmLandRegister"]');
-            let $table = $frm.find('.land-table');
+            let $table = $('.land-table');
 
             if (!checkNullOrEmptyValue(landList)) {
                 $frm.find('.btnLandAdd').trigger('click');
@@ -39,9 +39,13 @@ let loadLandInfoList = function() {
                 return;
             }
 
+            // 대표필지가 바뀔 가능성이 존재
             let landInfo = landList[0];
 
             settingLandInfo(landInfo);
+            if (checkNullOrEmptyValue(landInfo.landUsageInfo)) {
+                settingLandUsageInfo(landInfo.landUsageInfo);
+            }
             drawLandTable($table, landList);
 
             if (isLandInfo === true) {
@@ -57,6 +61,31 @@ let loadLandInfoList = function() {
 
             if (!checkNullOrEmptyValue(dto.realEstateId) || !dto.existLandInfo) {
                 $frm.find('.btnLandAdd').trigger('click');
+            }
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let loadLandUsageInfo = function() {
+
+    if (!checkNullOrEmptyValue(dto.realEstateId)) {
+        return;
+    }
+
+    let url = "/real-estate/land/usage/" + dto.realEstateId;
+    $.ajax({
+        url: url,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("load land usage info", result);
+            let usageData = result.data;
+            if (checkNullOrEmptyValue(usageData)) {
+                settingLandUsageInfo(usageData);
             }
         },
         error: function(error){
@@ -91,7 +120,7 @@ let loadLandPriceInfoList = function() {
         success: function(result) {
             console.log("land price result", result);
             let priceInfo = result.data,
-                $frm = $('form[name="frmLandRegister"]'),
+                $frm = $('form[name="frmLandPriceRegister"]'),
                 $table = $frm.find('.pblnt-table tbody')
             ;
             if (!checkNullOrEmptyValue(priceInfo)) {
@@ -106,6 +135,77 @@ let loadLandPriceInfoList = function() {
         }
     });
 }
+
+let landUsageInfoReload = function(e) {
+    e.preventDefault();
+
+    let url = "/real-estate/land/usage/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("load land usage info", result);
+                let data = result.data;
+                if (!checkNullOrEmptyValue(data)) {
+                    return;
+                }
+
+                let $frm = $('form[name="frmLandRegister"]');
+                $frm.find('.prposAreaDstrcNmList').html(data.prposAreaDstrcNmList);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let pblntInfoReload = function(e) {
+    e.preventDefault();
+
+    let url = "/real-estate/land/price/ajax/public-data"
+        + "?legalCode=" + dto.legalCode
+        + "&landType=" + dto.landType
+        + "&bun=" + dto.bun
+        + "&ji=" + dto.ji
+    ;
+
+    twoBtnModal("공공데이터를 불러오겠습니까?", function () {
+        $.ajax({
+            url: url,
+            method: "get",
+            type: "json",
+            contentType: "application/json",
+            success: function(result) {
+                console.log("land price result", result);
+
+                let priceInfo = result.data,
+                    $frm = $('form[name="frmLandRegister"]'),
+                    $table = $frm.find('.pblnt-table tbody')
+                ;
+                if (!checkNullOrEmptyValue(priceInfo)) {
+                    return;
+                }
+
+                let tag = drawPriceTable(priceInfo);
+                $table.html(tag);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 
 let drawPriceTable = function(priceInfo) {
     let tag = '';
@@ -166,8 +266,6 @@ let drawLandTable = function($table, landList) {
         if (totalPblntfPclndByPyung === 0) {
             totalPblntfPclndByPyung = pblndfPclndByPyung * Number(item.lndpclArByPyung);
         }
-
-        console.log("drawLandTable", item);
 
         tag += '<tr>';
         if (checkNullOrEmptyValue(dto.realEstateId)) {
@@ -242,11 +340,34 @@ let settingLandInfo = function(landInfo) {
     } else {
         $frm.find('input[name="commercialYn"]').iCheck('uncheck');
     }
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+
 
     $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
+
+    if (!checkNullOrEmptyValue(landInfo.landUsageInfo)) {
+        let $usageFrm = $('form[name="frmLandUsageRegister"]');
+        $usageFrm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
+        $usageFrm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+        $usageFrm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+        $usageFrm.find('input[name="posList"]').val(landInfo.posList);
+    }
+}
+
+let settingLandUsageInfo = function(landInfo) {
+    let $frm = $('form[name="frmLandUsageRegister"]');
+    $frm.find('input[name="landUsageId"]').val(landInfo.landUsageId);
+    $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
+    $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
+    $frm.find('input[name="posList"]').val(landInfo.posList);
+    $frm.find('input[name="pnu"]').val(landInfo.pnu);
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+    $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
 }
 
 let landInfoAdd = function(e) {
@@ -321,9 +442,9 @@ let drawLandButton = function(data) {
     let tag = '';
 
     if (checkNullOrEmptyValue(data.landId)) {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + convertNullOrEmptyValue(data.landId ) + '">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="' + convertNullOrEmptyValue(data.landId ) + '" style="display: inline-block; min-width: 120px; margin-bottom: 5px;">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     } else {
-        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
+        tag += '<button class="btn btn-sm btn-default btnLandLoad margin-right-3" pnu="' + data.pnu + '" landId="" style="display: inline-block; min-width: 120px; margin-bottom: 5px;">' + data.address + '&nbsp;&nbsp;<i class="fa fa-times removeLandBtn" aria-hidden="true"></i></button>'
     }
 
     return tag;
@@ -360,6 +481,8 @@ let loadLandInfoById = function(e) {
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
+    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
+    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
 }
 
 let assembleLandParams = function() {

@@ -94,11 +94,11 @@ public class ConstructServiceImpl implements ConstructService {
         conn.disconnect();
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        ConstructDataApiDto dto = parseConstructJsonData(convertResult);
+        ConstructDataApiDto dto = parseConstructJsonData(conn.getResponseCode(), convertResult);
         return dto;
     }
 
-    private ConstructDataApiDto parseConstructJsonData(JSONObject data) throws JsonProcessingException {
+    private ConstructDataApiDto parseConstructJsonData(int responseCode, JSONObject data) throws JsonProcessingException {
         if (!data.has("response")) {
             return null;
         }
@@ -123,13 +123,13 @@ public class ConstructServiceImpl implements ConstructService {
 
         if (object instanceof JSONObject) {
             JSONObject item = items.getJSONObject("item");
-            return ConstructDataApiDto.convertData(item);
+            return ConstructDataApiDto.convertData(responseCode, item);
         }
 
         if (object instanceof JSONArray) {
             JSONArray jsonArray = (JSONArray) object;
             JSONObject item = (JSONObject) jsonArray.get(0);
-            return ConstructDataApiDto.convertData(item);
+            return ConstructDataApiDto.convertData(responseCode, item);
         }
         return null;
     }
