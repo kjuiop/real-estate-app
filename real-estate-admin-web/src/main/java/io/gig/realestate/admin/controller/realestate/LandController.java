@@ -7,6 +7,8 @@ import io.gig.realestate.domain.realestate.land.dto.*;
 import io.gig.realestate.domain.realestate.landprice.LandPriceService;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceDataApiDto;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
+import io.gig.realestate.domain.realestate.landusage.LandUsageService;
+import io.gig.realestate.domain.realestate.landusage.dto.LandUsageDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class LandController {
 
     private final LandService landService;
     private final LandPriceService landPriceService;
+    private final LandUsageService landUsageService;
 
     @GetMapping("{realEstateId}")
     public ResponseEntity<ApiResponse> getLandData(
@@ -57,6 +60,14 @@ public class LandController {
             @RequestParam(name = "ji") String ji
     ) throws IOException {
         LandUsageDataApiDto data = landService.getLandUsagePublicData(legalCode, landType, bun, ji);
+        return new ResponseEntity<>(ApiResponse.OK(data), HttpStatus.OK);
+    }
+
+    @GetMapping("usage/{realEstateId}")
+    public ResponseEntity<ApiResponse> getLandUsage(
+            @PathVariable(name = "realEstateId") Long realEstateId
+    ) throws IOException {
+        LandUsageDto data = landUsageService.getLandUsageInfo(realEstateId);
         return new ResponseEntity<>(ApiResponse.OK(data), HttpStatus.OK);
     }
 

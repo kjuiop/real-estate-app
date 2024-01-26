@@ -14,6 +14,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
+import io.gig.realestate.domain.realestate.curltraffic.types.TrafficType;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
@@ -28,6 +29,7 @@ import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
+import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -116,10 +118,18 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
         }
 
+        TrafficType landTrafficType = TrafficType.Success;
         for (LandInfoDto dto : createForm.getLandInfoList()) {
+            if (dto.getResponseCode() != 200) {
+                landTrafficType = TrafficType.Fail;
+            }
+
             LandInfo landInfo = LandInfo.create(dto, newRealEstate);
             newRealEstate.addLandInfo(landInfo);
         }
+
+        LandUsageInfo landUsageInfo = LandUsageInfo.create(createForm.getLandUsageInfo(), newRealEstate, loginUser.getLoginUser());
+        newRealEstate.addLandUsageInfo(landUsageInfo);
 
         PriceInfo priceInfo = PriceInfo.create(createForm.getPriceInfo(), newRealEstate);
         newRealEstate.addPriceInfo(priceInfo);
@@ -168,6 +178,10 @@ public class RealEstateServiceImpl implements RealEstateService {
             LandInfo landInfo = LandInfo.update(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
+
+        realEstate.getLandUsageInfoList().clear();
+        LandUsageInfo landUsageInfo = LandUsageInfo.update(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
+        realEstate.addLandUsageInfo(landUsageInfo);
 
         realEstate.getPriceInfoList().clear();
         PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);

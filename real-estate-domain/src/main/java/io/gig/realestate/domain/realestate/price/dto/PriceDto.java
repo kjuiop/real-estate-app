@@ -24,15 +24,15 @@ public class PriceDto {
 
     private double revenueRate;
 
-    private int averageUnitPrice;
+    private double averageUnitPrice;
 
-    private int guaranteePrice;
+    private double guaranteePrice;
 
-    private int rentMonth;
+    private double rentMonth;
 
-    private int management;
+    private double management;
 
-    private int managementExpense;
+    private double managementExpense;
 
     private double landPyungUnitPrice;
 

@@ -99,7 +99,11 @@ public class ConstructDataApiDto {
     // 구조
     private String strctCdNm;
 
-    public static ConstructDataApiDto convertData(JSONObject item) {
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
+    public static ConstructDataApiDto convertData(int responseCode, JSONObject item) {
 
         double platArea = item.has("platArea") ? item.optDouble("platArea") : 0;
         double platAreaByPyung = calculatePyung(platArea);
@@ -162,6 +166,8 @@ public class ConstructDataApiDto {
                 .strctCdNm(item.has("strctCdNm") ? item.optString("strctCdNm") : null)
                 .vlRatEstmTotArea(vlRatEstmTotArea)
                 .vlRatEstmTotAreaByPyung(vlRatEstmTotAreaByPyung)
+                .responseCode(responseCode)
+                .lastCurlApiAt(LocalDateTime.now())
                 .build();
     }
 

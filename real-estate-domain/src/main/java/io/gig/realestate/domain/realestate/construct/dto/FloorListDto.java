@@ -40,11 +40,11 @@ public class FloorListDto {
     // 부용도
     private String etcPurps;
 
-    private int guaranteePrice;
+    private double guaranteePrice;
 
-    private int rent;
+    private double rent;
 
-    private int management;
+    private double management;
 
     private String termStartDate;
 

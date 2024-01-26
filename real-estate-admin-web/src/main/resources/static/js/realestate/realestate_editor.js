@@ -3,7 +3,7 @@ let onReady = function() {
     loadBasicInfo();
     loadLandInfoList();
     loadLandPriceInfoList();
-    // loadLandUsageInfo();
+    loadLandUsageInfo();
     loadPriceInfo();
     loadConstructInfo();
     loadConstructFloorInfo();
@@ -13,7 +13,6 @@ let onReady = function() {
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     loadPrintInfo();
     onlyNumberKeyEvent({className: "only-number"});
-    // loadMoveOtherPage();
 }
 
 let realEstateSave = function(e) {
@@ -22,6 +21,7 @@ let realEstateSave = function(e) {
     let $frmBasic = $('form[name="frmBasicRegister"]'),
         $frmPrice = $('form[name="frmPriceRegister"]'),
         $frmConstruct = $('form[name="frmConstructRegister"]'),
+        $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$frmBasic[0]}).json();
 
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
@@ -47,13 +47,13 @@ let realEstateSave = function(e) {
     });
     params.subImages = subImages;
 
-
     let landInfoList = assembleLandParams();
     if (landInfoList.length === 0) {
         return;
     }
 
     params.landInfoList = landInfoList;
+    params.landUsageInfo = serializeObject({form:$frmLandUsage[0]}).json();
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
@@ -112,6 +112,7 @@ let realEstateUpdate = function(e) {
     let $basicFrm = $('form[name="frmBasicRegister"]'),
         $frmPrice = $('form[name="frmPriceRegister"]'),
         $frmConstruct = $('form[name="frmConstructRegister"]'),
+        $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
@@ -142,6 +143,7 @@ let realEstateUpdate = function(e) {
     }
     
     params.landInfoList = landInfoList;
+    params.landUsageInfo = serializeObject({form:$frmLandUsage[0]}).json();
 
     params.priceInfo = serializeObject({form:$frmPrice[0]}).json();
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
@@ -539,7 +541,10 @@ $(document).ready(onReady)
     .on('click', '.btnCustomerAdd', addCustomerInfo)
     .on('click', '.btnCustomerSave', addCustomerSave)
     .on('keydown', '#memoInput', addMemo)
+    .on('click', '.btnLandUsageReload', landUsageInfoReload)
+    .on('click', '.btnPblntReload', pblntInfoReload)
     .on('click', '.btnConstructReload', constructInfoReload)
+    .on('click', '.btnConstructFloorReload', constructFloorInfoReload)
     .on('click', '.btnImageUpload', uploadImage)
     .on('click', '.remove-image', removeImage)
     .on('click', '.btnLandLoad', loadLandInfoById)

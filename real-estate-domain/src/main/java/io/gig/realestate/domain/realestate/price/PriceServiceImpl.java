@@ -23,8 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PriceServiceImpl implements PriceService {
 
-    private final RealEstateReader realEstateReader;
-    private final RealEstateStore realEstateStore;
     private final PriceReader priceReader;
 
     @Override
@@ -36,24 +34,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     @Transactional
     public Long create(PriceCreateForm createForm, LoginUser loginUser) {
-
         return null;
-//        RealEstate realEstate;
-//        if (createForm.getRealEstateId() == null) {
-//            realEstate = RealEstate.initialInfoWithImg(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi(), createForm.getImgUrl());
-//        } else {
-//            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-//            realEstate.updateImgUrl(createForm.getImgUrl());
-//        }
-//        PriceInfo priceInfo = PriceInfo.create(createForm, realEstate);
-//        realEstate.addPriceInfo(priceInfo);
-//
-//        realEstate.getFloorPriceInfo().clear();
-//        for (PriceCreateForm.FloorDto dto : createForm.getFloorInfo()) {
-//            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate);
-//            realEstate.addFloorInfo(floorInfo);
-//        }
-//        return realEstateStore.store(realEstate).getId();
     }
 
     @Override

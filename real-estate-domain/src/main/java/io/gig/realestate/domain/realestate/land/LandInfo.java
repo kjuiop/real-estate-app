@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author : JAKE
@@ -69,6 +70,10 @@ public class LandInfo extends BaseTimeEntity {
     @Lob
     private String posList;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -105,6 +110,8 @@ public class LandInfo extends BaseTimeEntity {
                 .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
                 .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
                 .posList(dto.getPosList())
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
                 .realEstate(realEstate)
                 .build();
 
@@ -138,6 +145,8 @@ public class LandInfo extends BaseTimeEntity {
                 .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
                 .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
                 .posList(dto.getPosList())
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
                 .realEstate(realEstate)
                 .build();
 

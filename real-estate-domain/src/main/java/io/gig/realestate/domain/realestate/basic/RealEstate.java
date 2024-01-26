@@ -12,6 +12,7 @@ import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
+import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -108,6 +109,10 @@ public class RealEstate extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<LandUsageInfo> landUsageInfoList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<PriceInfo> priceInfoList = new ArrayList<>();
 
     @Builder.Default
@@ -152,6 +157,10 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addLandInfo(LandInfo landInfo) {
         this.landInfoList.add(landInfo);
+    }
+
+    public void addLandUsageInfo(LandUsageInfo landUsageInfo) {
+        this.landUsageInfoList.add(landUsageInfo);
     }
 
     public void addPriceInfo(PriceInfo priceInfo) {
