@@ -166,7 +166,7 @@ public class ConstructServiceImpl implements ConstructService {
         conn.disconnect();
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        List<ConstructFloorDataApiDto> dto = parseFloorJsonData(convertResult);
+        List<ConstructFloorDataApiDto> dto = parseFloorJsonData(conn.getResponseCode(), convertResult);
         if (dto != null && dto.size() > 0) {
             Comparator<ConstructFloorDataApiDto> comparator = Comparator.comparingInt(ConstructFloorDataApiDto::getFlrNo).reversed();
             dto.sort(comparator);
@@ -174,7 +174,7 @@ public class ConstructServiceImpl implements ConstructService {
         return dto;
     }
 
-    private List<ConstructFloorDataApiDto> parseFloorJsonData(JSONObject data) throws JsonProcessingException {
+    private List<ConstructFloorDataApiDto> parseFloorJsonData(int responseCode, JSONObject data) throws JsonProcessingException {
         List<ConstructFloorDataApiDto> list = new ArrayList<>();
 
         if (!data.has("response")) {
@@ -201,7 +201,7 @@ public class ConstructServiceImpl implements ConstructService {
         if (object instanceof JSONObject) {
             // json array 또는 object
             JSONObject item = items.getJSONObject("item");
-            ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(item);
+            ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(responseCode, item);
             list.add(dto);
 
         } else if (object instanceof JSONArray) {
@@ -209,7 +209,7 @@ public class ConstructServiceImpl implements ConstructService {
             JSONArray item = items.getJSONArray("item");
             for (Object jData : item) {
                 JSONObject json = (JSONObject) jData;
-                ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(json);
+                ConstructFloorDataApiDto dto = ConstructFloorDataApiDto.convertData(responseCode, json);
                 list.add(dto);
             }
         }

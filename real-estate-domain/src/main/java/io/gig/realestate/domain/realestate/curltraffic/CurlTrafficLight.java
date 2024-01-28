@@ -25,59 +25,58 @@ public class CurlTrafficLight extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, columnDefinition = "varchar(50) default 'NotYet'")
-    private TrafficType landDataApi = TrafficType.NotYet;
+    private int landDataResCode;
 
     private LocalDateTime lastCurlLandApiAt;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, columnDefinition = "varchar(50) default 'NotYet'")
-    private TrafficType landUsageDataApi = TrafficType.NotYet;
+    private int landUsageDataResCode;
 
     private LocalDateTime lastCurlLandUsageApiAt;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, columnDefinition = "varchar(50) default 'NotYet'")
-    private TrafficType landPriceDataApi = TrafficType.NotYet;
+    private int landPriceDataResCode;
 
     private LocalDateTime lastCurlLandPriceApiAt;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, columnDefinition = "varchar(50) default 'NotYet'")
-    private TrafficType constructDataApi = TrafficType.NotYet;
+    private int constructDataResCode;
 
     private LocalDateTime lastConstructApiAt;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, columnDefinition = "varchar(50) default 'NotYet'")
-    private TrafficType constructFloorDataApi = TrafficType.NotYet;
+    private int constructFloorResCode;
 
     private LocalDateTime lastConstructFloorApiAt;
-
-    private String pnu;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static CurlTrafficLight createByLand(int statusCode, String pnu) {
+    public static CurlTrafficLight initTrafficLight(RealEstate realEstate) {
         return CurlTrafficLight.builder()
-                .pnu(pnu)
-                .landDataApi(setTrafficType(statusCode))
-                .lastCurlLandApiAt(LocalDateTime.now())
+                .realEstate(realEstate)
                 .build();
     }
 
-    private static TrafficType setTrafficType(int statusCode) {
-        if (statusCode >= 200 && statusCode < 300) {
-            return TrafficType.Success;
-        }
-        return TrafficType.Fail;
+    public void setLandDataApiResult(int resCode, LocalDateTime lastCurlLandApiAt) {
+        this.landDataResCode = resCode;
+        this.lastCurlLandApiAt = lastCurlLandApiAt;
+    }
+
+    public void setLandUsageDataApiResult(int resCode, LocalDateTime lastCurlLandUsageApiAt) {
+        this.landUsageDataResCode = resCode;
+        this.lastCurlLandUsageApiAt = lastCurlLandUsageApiAt;
+    }
+
+    public void setFloorDataApiResult(int resCode, LocalDateTime lastCurlFloorApiAt) {
+        this.constructFloorResCode = resCode;
+        this.lastConstructFloorApiAt = lastCurlFloorApiAt;
+    }
+
+    public void setConstructDataApiResult(int resCode, LocalDateTime lastCurlApiAt) {
+        this.constructDataResCode = resCode;
+        this.lastConstructApiAt = lastCurlApiAt;
+    }
+
+    public void setLandPriceDataApiResult(int landPriceResCode, LocalDateTime landPriceLastCurlApiAt) {
+        this.landPriceDataResCode = landPriceResCode;
+        this.lastCurlLandPriceApiAt = landPriceLastCurlApiAt;
     }
 }

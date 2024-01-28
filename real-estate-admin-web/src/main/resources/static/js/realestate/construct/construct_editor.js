@@ -69,8 +69,8 @@ let settingPublicApi = function(constructInfo) {
     $frm.find('input[name="vlRatEstmTotArea"]').val(constructInfo.vlRatEstmTotArea);
     $frm.find('input[name="vlRatEstmTotAreaByPyung"]').val(constructInfo.vlRatEstmTotAreaByPyung);
     $frm.find('input[name="heit"]').val(constructInfo.heit);
-    $frm.find('input[name="responseCode"]').val(constructInfo.responseCode);
-    $frm.find('input[name="lastCurlApiAt"]').val(constructInfo.lastCurlApiAt);
+    $frm.find('input[name="responseCode"]').val(convertNullOrEmptyValue(constructInfo.responseCode));
+    $frm.find('input[name="lastCurlApiAt"]').val(convertNullOrEmptyValue(constructInfo.lastCurlApiAt));
 
     if (constructInfo.illegalConstructYn === 'Y') {
         $frm.find('input[name="illegalConstructYn"]').iCheck('check');
@@ -229,7 +229,11 @@ let drawConstructFloorInfo = function(data) {
 let drawConstructFloorRow = function(item) {
     let tag = '';
     tag += '<tr class="floor-unit">';
-    tag += '<td class="center-text padding-8 flrNo floorId" floorId="' + convertNullOrEmptyValue(item.floorId) + '" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '"><input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width:70px;"/></td>';
+    tag += '<td class="center-text padding-8 flrNo floorId" floorId="' + convertNullOrEmptyValue(item.floorId) + '" flrNo="' + item.flrNo + '" data="' + item.flrNoNm + '">';
+    tag += '<input type="hidden" name="responseCode" value="' + convertNullOrEmptyValue(item.responseCode) + '" />';
+    tag += '<input type="hidden" name="lastCurlApiAt" value="' + convertNullOrEmptyValue(item.lastCurlApiAt) + '" />';
+    tag += '<input type="text" class="form-control form-control-sm flrNoNm" value="' + convertNullOrEmptyValue(item.flrNoNm) + '" name="flrNoNm" style="min-width:70px;"/>';
+    tag += '</td>';
     tag += '<td class="center-text padding-8"><input type="text" class="form-control form-control-sm roomName" value="' + convertNullOrEmptyValue(item.roomName) + '" name="roomName" style="min-width: 70px;"/></td>';
     tag += '<td class="center-text padding-6" data="' + item.etcPurps + '"><input type="text" class="form-control form-control-sm etcPurps" value="' + convertNullOrEmptyValue(item.etcPurps) + '" name="etcPurps" style="min-width: 190px;"/></td>';
     tag += '<td class="center-text padding-6"><input type="text" class="form-control form-control-sm companyName" value="' + convertNullOrEmptyValue(item.companyName) + '" name="companyName" style="min-width: 130px;"/></td>';
@@ -315,6 +319,8 @@ let assembleFloorParams = function() {
     $('.construct-floor-table tbody tr').each(function(idx, item) {
         let param = {
             "floorId" : $(item).find('.floorId').attr('floorId'),
+            "responseCode" : $(item).find('input[name="responseCode"]').val(),
+            "lastCurlApiAt" : $(item).find('input[name="lastCurlApiAt"]').val(),
             "flrNo" : $(item).find('.flrNo').attr('flrNo'),
             "flrNoNm" : $(item).find('input[name="flrNoNm"]').val(),
             "roomName" : $(item).find('input[name="roomName"]').val(),

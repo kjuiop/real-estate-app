@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate.landprice.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/12/25
@@ -22,4 +24,8 @@ public class LandPriceCreateForm {
     private int pblntfPclndPy;
 
     private double changeRate;
+
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
 }

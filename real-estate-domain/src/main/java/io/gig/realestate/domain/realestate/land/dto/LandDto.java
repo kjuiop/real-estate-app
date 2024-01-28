@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * @author : JAKE
@@ -92,6 +93,10 @@ public class LandDto {
 
     private String posList;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     public LandDto(LandInfo l) {
         this.landId = l.getId();
         this.pnu = l.getPnu();
@@ -115,5 +120,7 @@ public class LandDto {
         this.prposAreaDstrcNmList = l.getPrposAreaDstrcNmList();
         this.prposAreaDstrcCodeList = l.getPrposAreaDstrcCodeList();
         this.posList = l.getPosList();
+        this.responseCode = l.getResponseCode();
+        this.lastCurlApiAt = l.getLastCurlApiAt();
     }
 }

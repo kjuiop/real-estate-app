@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,11 @@ public class LandPriceDataApiDto {
 
     private double changeRate;
 
-    public static List<LandPriceDataApiDto> convertData(JSONObject sop) {
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
+    public static List<LandPriceDataApiDto> convertData(int responseCode, JSONObject sop) {
 
         long pnu = sop.optLong("sop:pnu");
         int pclndStdrYear = sop.optInt("sop:pblntf_pclnd_stdr_year");
@@ -48,6 +53,8 @@ public class LandPriceDataApiDto {
                         .pblntfPclndPy(calculatePyung(pblntfPclnd))
                         .pclndStdrYear(pclndStdrYear)
                         .changeRate(calculateChangeRate(pblntfPclnd, prevPrice))
+                        .responseCode(responseCode)
+                        .lastCurlApiAt(LocalDateTime.now())
                         .build();
             } else {
                 int pblntfPclnd = sop.optInt("sop:pstyr_" + i + "_pblntf_pclnd");
@@ -59,6 +66,8 @@ public class LandPriceDataApiDto {
                         .pblntfPclndPy(calculatePyung(pblntfPclnd))
                         .pclndStdrYear(year)
                         .changeRate(calculateChangeRate(pblntfPclnd, prevPrice))
+                        .responseCode(responseCode)
+                        .lastCurlApiAt(LocalDateTime.now())
                         .build();
 
                 prevPrice = pblntfPclnd;

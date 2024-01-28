@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author : JAKE
@@ -35,6 +36,10 @@ public class LandPriceInfo extends BaseTimeEntity  {
 
     private double changeRate;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -60,6 +65,8 @@ public class LandPriceInfo extends BaseTimeEntity  {
                 .pblntfPclnd(dto.getPblntfPclnd())
                 .pblntfPclndPy(dto.getPblntfPclndPy())
                 .changeRate(dto.getChangeRate())
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
                 .realEstate(realEstate)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)

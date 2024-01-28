@@ -8,6 +8,7 @@ import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateUpdateForm;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import io.gig.realestate.domain.realestate.construct.ConstructInfo;
+import io.gig.realestate.domain.realestate.curltraffic.CurlTrafficLight;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
@@ -147,6 +148,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<LandPriceInfo> landPriceInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<CurlTrafficLight> curlTrafficInfoList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -193,6 +198,10 @@ public class RealEstate extends BaseTimeEntity {
 
     public void addLandPriceInfo(LandPriceInfo landPriceInfo) {
         this.landPriceInfoList.add(landPriceInfo);
+    }
+
+    public void addCurlTrafficInfo(CurlTrafficLight curlTrafficLight) {
+        this.curlTrafficInfoList.add(curlTrafficLight);
     }
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
