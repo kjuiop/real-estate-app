@@ -62,7 +62,7 @@ public class LandPriceServiceImpl implements LandPriceService {
         log.debug(sb.toString());
 
         JSONObject convertResult = CommonUtils.convertXmlToJson(sb.toString());
-        return parseLandPriceInfoJsonData(convertResult);
+        return parseLandPriceInfoJsonData(conn.getResponseCode(), convertResult);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class LandPriceServiceImpl implements LandPriceService {
         return list;
     }
 
-    private List<LandPriceDataApiDto> parseLandPriceInfoJsonData(JSONObject data) {
+    private List<LandPriceDataApiDto> parseLandPriceInfoJsonData(int responseCode, JSONObject data) {
         if (!data.has("wfs:FeatureCollection")) {
             return null;
         }
@@ -91,6 +91,6 @@ public class LandPriceServiceImpl implements LandPriceService {
 
         JSONObject gml = (JSONObject) object;
         JSONObject sop = gml.getJSONObject("sop:dt_d150");
-        return LandPriceDataApiDto.convertData(sop);
+        return LandPriceDataApiDto.convertData(responseCode, sop);
     }
 }
