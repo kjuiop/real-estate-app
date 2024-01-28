@@ -14,6 +14,7 @@ import io.gig.realestate.domain.realestate.construct.ConstructService;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
+import io.gig.realestate.domain.realestate.curltraffic.CurlTrafficLight;
 import io.gig.realestate.domain.realestate.curltraffic.types.TrafficType;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
@@ -25,6 +26,7 @@ import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.LandService;
+import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
@@ -49,6 +51,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -118,30 +121,51 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
         }
 
-        TrafficType landTrafficType = TrafficType.Success;
-        for (LandInfoDto dto : createForm.getLandInfoList()) {
+        CurlTrafficLight trafficLight = CurlTrafficLight.initTrafficLight(newRealEstate);
+        int landDataResCode = 200;
+        LocalDateTime lastCurlLandApiAt = null;
+        for (int i=0; i<createForm.getLandInfoList().size(); i++) {
+            LandInfoDto dto = createForm.getLandInfoList().get(i);
+            if (i == 0) {
+                lastCurlLandApiAt = dto.getLastCurlApiAt();
+            }
             if (dto.getResponseCode() != 200) {
-                landTrafficType = TrafficType.Fail;
+                landDataResCode = dto.getResponseCode();
             }
 
             LandInfo landInfo = LandInfo.create(dto, newRealEstate);
             newRealEstate.addLandInfo(landInfo);
         }
+        trafficLight.setLandDataApiResult(landDataResCode, lastCurlLandApiAt);
+
 
         LandUsageInfo landUsageInfo = LandUsageInfo.create(createForm.getLandUsageInfo(), newRealEstate, loginUser.getLoginUser());
         newRealEstate.addLandUsageInfo(landUsageInfo);
+        trafficLight.setLandUsageDataApiResult(landUsageInfo.getResponseCode(), landUsageInfo.getLastCurlApiAt());
 
         PriceInfo priceInfo = PriceInfo.create(createForm.getPriceInfo(), newRealEstate);
         newRealEstate.addPriceInfo(priceInfo);
 
+        int floorDataResCode = 200;
+        LocalDateTime lastCurlFloorApiAt = null;
         for (int i=0; i<createForm.getFloorInfoList().size(); i++) {
             FloorCreateForm dto = createForm.getFloorInfoList().get(i);
+
+            if (i == 0) {
+                lastCurlFloorApiAt = dto.getLastCurlApiAt();
+            }
+            if (dto.getResponseCode() != 200) {
+                floorDataResCode = dto.getResponseCode();
+            }
+
             FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i);
             newRealEstate.addFloorInfo(floorInfo);
         }
+        trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
         ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate);
         newRealEstate.addConstructInfo(constructInfo);
+        trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
         for (CustomerCreateForm dto : createForm.getCustomerInfoList()) {
             CustomerInfo customerInfo = CustomerInfo.create(dto, newRealEstate);
@@ -153,11 +177,21 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addImageInfo(imageInfo);
         }
 
-        for (LandPriceCreateForm dto : createForm.getLandPriceInfoList()) {
+        int landPriceResCode = 200;
+        LocalDateTime landPriceLastCurlApiAt = null;
+        for (int i=0; i<createForm.getLandPriceInfoList().size(); i++) {
+            LandPriceCreateForm dto = createForm.getLandPriceInfoList().get(i);
+            if (i==0) {
+                landPriceLastCurlApiAt = dto.getLastCurlApiAt();
+            }
+            if (dto.getResponseCode() != 200) {
+                landPriceResCode = dto.getResponseCode();
+            }
             LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, newRealEstate, loginUser.getLoginUser());
             newRealEstate.addLandPriceInfo(landPriceInfo);
         }
-
+        trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
+        newRealEstate.addCurlTrafficInfo(trafficLight);
         return realEstateStore.store(newRealEstate).getId();
     }
 
