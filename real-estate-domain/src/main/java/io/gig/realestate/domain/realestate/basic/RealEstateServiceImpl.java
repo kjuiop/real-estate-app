@@ -207,30 +207,60 @@ public class RealEstateServiceImpl implements RealEstateService {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
         realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
 
+        CurlTrafficLight trafficLight;
+        if (realEstate.getCurlTrafficInfoList().size() > 0) {
+            trafficLight = realEstate.getCurlTrafficInfoList().get(0);
+        } else {
+            trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
+        }
+
+        int landDataResCode = 200;
+        LocalDateTime lastCurlLandApiAt = null;
         realEstate.getLandInfoList().clear();
-        for (LandInfoDto dto : updateForm.getLandInfoList()) {
+        for (int i=0; i<updateForm.getLandInfoList().size(); i++) {
+            LandInfoDto dto = updateForm.getLandInfoList().get(0);
+            if (i == 0) {
+                lastCurlLandApiAt = dto.getLastCurlApiAt();
+            }
+            if (dto.getResponseCode() != 200) {
+                landDataResCode = dto.getResponseCode();
+            }
+
             LandInfo landInfo = LandInfo.update(dto, realEstate);
             realEstate.addLandInfo(landInfo);
         }
+        trafficLight.setLandDataApiResult(landDataResCode, lastCurlLandApiAt);
 
         realEstate.getLandUsageInfoList().clear();
         LandUsageInfo landUsageInfo = LandUsageInfo.update(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
         realEstate.addLandUsageInfo(landUsageInfo);
+        trafficLight.setLandUsageDataApiResult(landUsageInfo.getResponseCode(), landUsageInfo.getLastCurlApiAt());
 
         realEstate.getPriceInfoList().clear();
         PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
         realEstate.addPriceInfo(priceInfo);
 
+        int floorDataResCode = 200;
+        LocalDateTime lastCurlFloorApiAt = null;
         realEstate.getFloorPriceInfo().clear();
         for (int i=0; i<updateForm.getFloorInfoList().size(); i++) {
             FloorCreateForm dto = updateForm.getFloorInfoList().get(i);
+            if (i == 0) {
+                lastCurlFloorApiAt = dto.getLastCurlApiAt();
+            }
+            if (dto.getResponseCode() != 200) {
+                floorDataResCode = dto.getResponseCode();
+            }
+
             FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate, i);
             realEstate.addFloorInfo(floorInfo);
         }
+        trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
         realEstate.getConstructInfoList().clear();
         ConstructInfo constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate);
         realEstate.addConstructInfo(constructInfo);
+        trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
         realEstate.getCustomerInfoList().clear();
         for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
@@ -250,12 +280,21 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         realEstate.updateImageFullPath(imageUrl);
 
+        int landPriceResCode = 200;
+        LocalDateTime landPriceLastCurlApiAt = null;
         realEstate.getLandPriceInfoList().clear();
-        for (LandPriceCreateForm dto : updateForm.getLandPriceInfoList()) {
+        for (int i=0; i<updateForm.getLandPriceInfoList().size(); i++) {
+            LandPriceCreateForm dto = updateForm.getLandPriceInfoList().get(i);
+            if (i==0) {
+                landPriceLastCurlApiAt = dto.getLastCurlApiAt();
+            }
+            if (dto.getResponseCode() != 200) {
+                landPriceResCode = dto.getResponseCode();
+            }
             LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
             realEstate.addLandPriceInfo(landPriceInfo);
         }
-
+        trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
         return realEstateStore.store(realEstate).getId();
     }
 
