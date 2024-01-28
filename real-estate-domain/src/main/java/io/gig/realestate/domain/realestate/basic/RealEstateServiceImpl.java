@@ -214,12 +214,13 @@ public class RealEstateServiceImpl implements RealEstateService {
             trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
         }
 
-        int landDataResCode = 200;
+        int landDataResCode = 0;
         LocalDateTime lastCurlLandApiAt = null;
         realEstate.getLandInfoList().clear();
         for (int i=0; i<updateForm.getLandInfoList().size(); i++) {
             LandInfoDto dto = updateForm.getLandInfoList().get(0);
             if (i == 0) {
+                landDataResCode = dto.getResponseCode();
                 lastCurlLandApiAt = dto.getLastCurlApiAt();
             }
             if (dto.getResponseCode() != 200) {
@@ -240,12 +241,13 @@ public class RealEstateServiceImpl implements RealEstateService {
         PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
         realEstate.addPriceInfo(priceInfo);
 
-        int floorDataResCode = 200;
+        int floorDataResCode = 0;
         LocalDateTime lastCurlFloorApiAt = null;
         realEstate.getFloorPriceInfo().clear();
         for (int i=0; i<updateForm.getFloorInfoList().size(); i++) {
             FloorCreateForm dto = updateForm.getFloorInfoList().get(i);
             if (i == 0) {
+                floorDataResCode = dto.getResponseCode();
                 lastCurlFloorApiAt = dto.getLastCurlApiAt();
             }
             if (dto.getResponseCode() != 200) {
@@ -280,12 +282,13 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         realEstate.updateImageFullPath(imageUrl);
 
-        int landPriceResCode = 200;
+        int landPriceResCode = 0;
         LocalDateTime landPriceLastCurlApiAt = null;
         realEstate.getLandPriceInfoList().clear();
         for (int i=0; i<updateForm.getLandPriceInfoList().size(); i++) {
             LandPriceCreateForm dto = updateForm.getLandPriceInfoList().get(i);
             if (i==0) {
+                landPriceResCode = dto.getResponseCode();
                 landPriceLastCurlApiAt = dto.getLastCurlApiAt();
             }
             if (dto.getResponseCode() != 200) {
@@ -295,6 +298,9 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addLandPriceInfo(landPriceInfo);
         }
         trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
+        if (realEstate.getCurlTrafficInfoList().size() == 0) {
+            realEstate.addCurlTrafficInfo(trafficLight);
+        }
         return realEstateStore.store(realEstate).getId();
     }
 
