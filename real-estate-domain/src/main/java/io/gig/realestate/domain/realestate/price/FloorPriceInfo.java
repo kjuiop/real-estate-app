@@ -11,6 +11,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,10 @@ public class FloorPriceInfo extends BaseTimeEntity {
 
     private int sortOrder;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -89,6 +94,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .termEndDate(dto.getTermEndDate())
                 .etcInfo(dto.getEtcInfo())
                 .sortOrder(sortOrder)
+                .responseCode(dto.getResponseCode())
+                .lastCurlApiAt(dto.getLastCurlApiAt())
                 .realEstate(realEstate)
                 .build();
     }

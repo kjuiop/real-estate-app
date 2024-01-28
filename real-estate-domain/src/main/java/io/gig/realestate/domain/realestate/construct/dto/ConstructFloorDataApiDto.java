@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/09/28
@@ -32,13 +34,19 @@ public class ConstructFloorDataApiDto {
 
     private double lndpclArByPyung;
 
-    public static ConstructFloorDataApiDto convertData(JSONObject item) {
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
+    public static ConstructFloorDataApiDto convertData(int responseCode, JSONObject item) {
         return ConstructFloorDataApiDto.builder()
                 .flrNo(item.has("flrNo") ? item.optInt("flrNo") : 0)
                 .flrNoNm(item.has("flrNoNm") ? item.optString("flrNoNm") : null)
                 .area(item.has("area") ? item.optDouble("area") : null)
                 .mainPurpsCdNm(item.has("mainPurpsCdNm") ? item.optString("mainPurpsCdNm") : null)
                 .etcPurps(item.has("etcPurps") ? item.optString("etcPurps") : null)
+                .responseCode(responseCode)
+                .lastCurlApiAt(LocalDateTime.now())
                 .build();
     }
 
