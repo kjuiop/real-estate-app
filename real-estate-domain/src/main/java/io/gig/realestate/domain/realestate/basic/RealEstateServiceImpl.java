@@ -213,9 +213,6 @@ public class RealEstateServiceImpl implements RealEstateService {
             trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
         }
 
-        int landDataResCode = 0;
-        LocalDateTime lastCurlLandApiAt = null;
-
         List<LandInfo> toRemove = new ArrayList<>();
         for (LandInfo existingLandInfo : realEstate.getLandInfoList()) {
             boolean existsInUpdateForm = updateForm.getLandInfoList().stream()
@@ -224,9 +221,10 @@ public class RealEstateServiceImpl implements RealEstateService {
                 toRemove.add(existingLandInfo);
             }
         }
-
         realEstate.getLandInfoList().removeAll(toRemove);
 
+        int landDataResCode = 0;
+        LocalDateTime lastCurlLandApiAt = null;
         for (int i=0; i<updateForm.getLandInfoList().size(); i++) {
             LandInfoDto dto = updateForm.getLandInfoList().get(i);
             if (i == 0) {
