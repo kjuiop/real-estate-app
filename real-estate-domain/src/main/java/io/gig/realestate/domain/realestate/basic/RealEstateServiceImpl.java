@@ -15,7 +15,6 @@ import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.curltraffic.CurlTrafficLight;
-import io.gig.realestate.domain.realestate.curltraffic.types.TrafficType;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
@@ -25,8 +24,8 @@ import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
+import io.gig.realestate.domain.realestate.land.LandReader;
 import io.gig.realestate.domain.realestate.land.LandService;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
@@ -216,9 +215,20 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         int landDataResCode = 0;
         LocalDateTime lastCurlLandApiAt = null;
-        realEstate.getLandInfoList().clear();
+
+        List<LandInfo> toRemove = new ArrayList<>();
+        for (LandInfo existingLandInfo : realEstate.getLandInfoList()) {
+            boolean existsInUpdateForm = updateForm.getLandInfoList().stream()
+                    .anyMatch(dto -> dto.getLandId() != null && dto.getLandId().equals(existingLandInfo.getId()));
+            if (!existsInUpdateForm) {
+                toRemove.add(existingLandInfo);
+            }
+        }
+
+        realEstate.getLandInfoList().removeAll(toRemove);
+
         for (int i=0; i<updateForm.getLandInfoList().size(); i++) {
-            LandInfoDto dto = updateForm.getLandInfoList().get(0);
+            LandInfoDto dto = updateForm.getLandInfoList().get(i);
             if (i == 0) {
                 landDataResCode = dto.getResponseCode();
                 lastCurlLandApiAt = dto.getLastCurlApiAt();
@@ -227,7 +237,13 @@ public class RealEstateServiceImpl implements RealEstateService {
                 landDataResCode = dto.getResponseCode();
             }
 
-            LandInfo landInfo = LandInfo.update(dto, realEstate);
+            LandInfo landInfo;
+            if (dto.getLandId() != null)  {
+                landInfo = landService.getLandInfoById(dto.getLandId());
+                landInfo.update(dto);
+            } else {
+                landInfo = LandInfo.create(dto, realEstate);
+            }
             realEstate.addLandInfo(landInfo);
         }
         trafficLight.setLandDataApiResult(landDataResCode, lastCurlLandApiAt);

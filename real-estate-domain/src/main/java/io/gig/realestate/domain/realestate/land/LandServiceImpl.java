@@ -1,11 +1,6 @@
 package io.gig.realestate.domain.realestate.land;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.realestate.basic.RealEstate;
-import io.gig.realestate.domain.realestate.basic.RealEstateReader;
-import io.gig.realestate.domain.realestate.basic.RealEstateStore;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.land.dto.LandUsageDataApiDto;
@@ -38,48 +33,13 @@ public class LandServiceImpl implements LandService {
 
     private final LandDataProperties landDataProperties;
     private final LandUsageDataProperties landUsageDataProperties;
-    private final RealEstateReader realEstateReader;
-    private final RealEstateStore realEstateStore;
 
     private final LandReader landReader;
 
     @Override
     @Transactional(readOnly = true)
     public List<LandListDto> getLandListInfoByRealEstateId(Long realEstateId) {
-        return landReader.getLandInfoByRealEstateId(realEstateId);
-    }
-
-    @Override
-    @Transactional
-    public Long create(LandCreateForm createForm, LoginUser loginUser) {
-
-        RealEstate realEstate;
-        if (createForm.getRealEstateId() == null) {
-            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-        } else {
-            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        }
-
-        realEstate.getLandInfoList().clear();
-        for (LandCreateForm.LandInfoDto dto : createForm.getLandInfoList()) {
-//            LandInfo landInfo = LandInfo.create(createForm.getAddress(), createForm.getCommercialYn(), dto, realEstate);
-//            realEstate.addLandInfo(landInfo);
-        }
-
-        return realEstateStore.store(realEstate).getId();
-    }
-
-    @Override
-    @Transactional
-    public Long update(LandCreateForm createForm, LoginUser loginUser) {
-        RealEstate realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-        realEstate.getLandInfoList().clear();
-        for (LandCreateForm.LandInfoDto dto : createForm.getLandInfoList()) {
-//            LandInfo landInfo = LandInfo.create(createForm.getAddress(), createForm.getCommercialYn(), dto, realEstate);
-//            realEstate.addLandInfo(landInfo);
-        }
-
-        return realEstateStore.store(realEstate).getId();
+        return landReader.getLandListDtoByRealEstateId(realEstateId);
     }
 
     @Override
@@ -214,6 +174,13 @@ public class LandServiceImpl implements LandService {
         }
 
         return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LandInfo getLandInfoById(Long landId) {
+        LandInfo landInfo = landReader.getLandInfoByLandId(landId);
+        return landInfo;
     }
 
     @Transactional

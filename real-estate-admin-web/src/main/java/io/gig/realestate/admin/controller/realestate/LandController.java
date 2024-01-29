@@ -90,20 +90,4 @@ public class LandController {
         List<LandPriceDataApiDto> priceInfo = landPriceService.getLandPricePublicData(legalCode, landType, bun, ji);
         return new ResponseEntity<>(ApiResponse.OK(priceInfo), HttpStatus.OK);
     }
-
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody LandCreateForm createForm,
-                                                 @CurrentUser LoginUser loginUser) {
-        Long realEstateId = landService.create(createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
-    }
-
-    @PutMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> update(@Valid @RequestBody LandCreateForm createForm,
-                                            @CurrentUser LoginUser loginUser) {
-        Long realEstateId = landService.update(createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
-    }
 }
