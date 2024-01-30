@@ -35,6 +35,7 @@ import io.gig.realestate.domain.realestate.landusage.LandUsageService;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
+import io.gig.realestate.domain.realestate.price.PriceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -75,6 +76,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final LandService landService;
     private final LandUsageService landUsageService;
     private final ConstructService constructService;
+    private final PriceService priceService;
     private final ExcelRealEstateService excelRealEstateService;
 
     @Override
@@ -258,10 +260,14 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setLandUsageDataApiResult(landUsageInfo.getResponseCode(), landUsageInfo.getLastCurlApiAt());
 
-
-        realEstate.getPriceInfoList().clear();
-        PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
-        realEstate.addPriceInfo(priceInfo);
+        PriceInfo priceInfo;
+        if (updateForm.getPriceInfo() != null && updateForm.getPriceInfo().getPriceId() != null) {
+            priceInfo = priceService.getPriceInfoByPriceId(updateForm.getPriceInfo().getPriceId());
+            priceInfo.update(updateForm.getPriceInfo(), loginUser.getLoginUser());
+        } else {
+            priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
+            realEstate.addPriceInfo(priceInfo);
+        }
 
         int floorDataResCode = 0;
         LocalDateTime lastCurlFloorApiAt = null;

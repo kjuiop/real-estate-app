@@ -17,4 +17,6 @@ public interface PriceService {
     List<PriceListDto> getPriceListInfoByRealEstateId(Long realEstateId);
 
     Long update(PriceUpdateForm updateForm, LoginUser loginUser);
+
+    PriceInfo getPriceInfoByPriceId(Long priceId);
 }

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface PriceReader {
     List<PriceListDto> getPriceInfoByRealEstateId(Long realEstateId);
+
+    PriceInfo getPriceInfoByPriceId(Long priceId);
 }

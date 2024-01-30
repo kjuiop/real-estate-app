@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.price.repository;
 
+import io.gig.realestate.domain.realestate.price.PriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceReader;
 import io.gig.realestate.domain.realestate.price.dto.PriceListDto;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class PriceQueryImpl implements PriceReader {
     @Override
     public List<PriceListDto> getPriceInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getPriceInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public PriceInfo getPriceInfoByPriceId(Long priceId) {
+        return queryRepository.getPriceInfoById(priceId);
     }
 }
