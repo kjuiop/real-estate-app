@@ -321,6 +321,7 @@ let drawLandTable = function($table, landList) {
 
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('input[name="landId"]').val(landInfo.landId);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
