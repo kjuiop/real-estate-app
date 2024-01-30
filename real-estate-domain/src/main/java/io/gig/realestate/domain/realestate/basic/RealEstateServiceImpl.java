@@ -31,6 +31,7 @@ import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
+import io.gig.realestate.domain.realestate.landusage.LandUsageService;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -72,6 +73,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     private final AreaService areaService;
     private final LandService landService;
+    private final LandUsageService landUsageService;
     private final ConstructService constructService;
     private final ExcelRealEstateService excelRealEstateService;
 
@@ -241,15 +243,21 @@ public class RealEstateServiceImpl implements RealEstateService {
                 landInfo.update(dto);
             } else {
                 landInfo = LandInfo.create(dto, realEstate);
+                realEstate.addLandInfo(landInfo);
             }
-            realEstate.addLandInfo(landInfo);
         }
         trafficLight.setLandDataApiResult(landDataResCode, lastCurlLandApiAt);
 
-        realEstate.getLandUsageInfoList().clear();
-        LandUsageInfo landUsageInfo = LandUsageInfo.update(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
-        realEstate.addLandUsageInfo(landUsageInfo);
+        LandUsageInfo landUsageInfo;
+        if (updateForm.getLandUsageInfo() != null && updateForm.getLandUsageInfo().getLandUsageId() != null) {
+            landUsageInfo = landUsageService.getLandUsageInfoById(updateForm.getLandUsageInfo().getLandUsageId());
+            landUsageInfo.update(updateForm.getLandUsageInfo(), loginUser.getLoginUser());
+        } else {
+            landUsageInfo = LandUsageInfo.create(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
+            realEstate.addLandUsageInfo(landUsageInfo);
+        }
         trafficLight.setLandUsageDataApiResult(landUsageInfo.getResponseCode(), landUsageInfo.getLastCurlApiAt());
+
 
         realEstate.getPriceInfoList().clear();
         PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);

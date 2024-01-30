@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 public class LandUsageCreateForm {
 
+    private Long landUsageId;
+
     private String pnu;
 
     private String prposAreaDstrcNmList;
