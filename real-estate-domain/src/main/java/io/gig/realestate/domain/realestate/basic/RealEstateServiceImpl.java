@@ -16,6 +16,7 @@ import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDt
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.curltraffic.CurlTrafficLight;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
+import io.gig.realestate.domain.realestate.customer.CustomerService;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
@@ -77,6 +78,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final LandUsageService landUsageService;
     private final ConstructService constructService;
     private final PriceService priceService;
+    private final CustomerService customerService;
+
     private final ExcelRealEstateService excelRealEstateService;
 
     @Override
@@ -171,7 +174,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
         for (CustomerCreateForm dto : createForm.getCustomerInfoList()) {
-            CustomerInfo customerInfo = CustomerInfo.create(dto, newRealEstate);
+            CustomerInfo customerInfo = CustomerInfo.create(dto, newRealEstate, loginUser.getLoginUser());
             newRealEstate.addCustomerInfo(customerInfo);
         }
 
@@ -312,10 +315,26 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
-        realEstate.getCustomerInfoList().clear();
+
+        List<CustomerInfo> toRemoveCustomer = new ArrayList<>();
+        for (CustomerInfo existingCustomerInfo : realEstate.getCustomerInfoList()) {
+            boolean existsInUpdateCustomerForm = updateForm.getCustomerInfoList().stream()
+                    .anyMatch(dto -> dto.getCustomerId() != null && dto.getCustomerId().equals(existingCustomerInfo.getId()));
+            if (!existsInUpdateCustomerForm) {
+                toRemoveCustomer.add(existingCustomerInfo);
+            }
+        }
+        realEstate.getCustomerInfoList().removeAll(toRemoveCustomer);
+
         for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
-            CustomerInfo customerInfo = CustomerInfo.create(dto, realEstate);
-            realEstate.addCustomerInfo(customerInfo);
+            CustomerInfo customerInfo;
+            if (dto.getCustomerId() != null) {
+                customerInfo = customerService.getCustomerInfoById(dto.getCustomerId());
+                customerInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                customerInfo = CustomerInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addCustomerInfo(customerInfo);
+            }
         }
 
         realEstate.getSubImgInfoList().clear();

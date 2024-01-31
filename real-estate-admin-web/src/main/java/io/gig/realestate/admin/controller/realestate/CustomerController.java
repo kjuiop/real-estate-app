@@ -32,13 +32,4 @@ public class CustomerController {
         List<CustomerDto> customerList = customerService.getCustomerListInfoByRealEstateId(realEstateId);
         return new ResponseEntity<>(ApiResponse.OK(customerList), HttpStatus.OK);
     }
-
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody CustomerCreateForm createForm,
-                                            @CurrentUser LoginUser loginUser) {
-        Long realEstateId = customerService.create(createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(realEstateId), HttpStatus.OK);
-    }
-
 }

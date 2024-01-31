@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.customer.repository;
 
+import io.gig.realestate.domain.realestate.customer.CustomerInfo;
 import io.gig.realestate.domain.realestate.customer.CustomerReader;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerDto;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class CustomerQueryImpl implements CustomerReader {
     @Override
     public List<CustomerDto> getCustomerListInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getCustomerListInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public CustomerInfo getCustomerById(Long customerId) {
+        return queryRepository.getCustomerById(customerId);
     }
 }

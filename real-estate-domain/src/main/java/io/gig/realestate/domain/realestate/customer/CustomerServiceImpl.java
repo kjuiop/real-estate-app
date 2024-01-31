@@ -22,9 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    private final RealEstateReader realEstateReader;
-    private final RealEstateStore realEstateStore;
-
     private final CustomerReader customerReader;
 
     @Override
@@ -34,23 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
-    public Long create(CustomerCreateForm createForm, LoginUser loginUser) {
-
-        return null;
-//        RealEstate realEstate;
-//        if (createForm.getRealEstateId() == null) {
-//            realEstate = RealEstate.initialInfo(createForm.getLegalCode(), createForm.getAddress(), createForm.getLandType(), createForm.getBun(), createForm.getJi());
-//        } else {
-//            realEstate = realEstateReader.getRealEstateById(createForm.getRealEstateId());
-//        }
-//
-//        realEstate.getCustomerInfoList().clear();
-//        for (CustomerDto dto : createForm.getCustomerInfo()) {
-//            CustomerInfo info = CustomerInfo.create(dto, realEstate);
-//            realEstate.addCustomerInfo(info);
-//        }
-//
-//        return realEstateStore.store(realEstate).getId();
+    @Transactional(readOnly = true)
+    public CustomerInfo getCustomerInfoById(Long customerId) {
+        return customerReader.getCustomerById(customerId);
     }
 }
