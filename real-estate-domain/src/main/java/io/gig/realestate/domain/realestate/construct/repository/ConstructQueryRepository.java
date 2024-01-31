@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
@@ -67,6 +68,17 @@ public class ConstructQueryRepository {
                 .selectFrom(floorPriceInfo)
                 .where(defaultFloorCondition())
                 .where(floorPriceInfo.id.eq(floorId))
+                ;
+
+        return contentQuery.fetchOne();
+    }
+
+    public ConstructInfo getConstructInfoById(Long constructId) {
+
+        JPAQuery<ConstructInfo> contentQuery = this.queryFactory
+                .selectFrom(constructInfo)
+                .where(defaultCondition())
+                .where(constructInfo.id.eq(constructId))
                 ;
 
         return contentQuery.fetchOne();

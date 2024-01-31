@@ -16,4 +16,6 @@ public interface ConstructReader {
     List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId);
 
     FloorPriceInfo getConstructFloorById(Long floorId);
+
+    ConstructInfo getConstructById(Long constructId);
 }

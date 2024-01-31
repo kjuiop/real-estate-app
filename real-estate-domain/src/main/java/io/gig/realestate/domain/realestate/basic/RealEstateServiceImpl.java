@@ -166,7 +166,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
-        ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate);
+        ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate, loginUser.getLoginUser());
         newRealEstate.addConstructInfo(constructInfo);
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
@@ -302,9 +302,14 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
-        realEstate.getConstructInfoList().clear();
-        ConstructInfo constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate);
-        realEstate.addConstructInfo(constructInfo);
+        ConstructInfo constructInfo;
+        if (updateForm.getConstructInfo() != null && updateForm.getConstructInfo().getConstructId() != null) {
+            constructInfo = constructService.getConstructInfoById(updateForm.getConstructInfo().getConstructId());
+            constructInfo.update(updateForm.getConstructInfo(), loginUser.getLoginUser());
+        } else {
+            constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate, loginUser.getLoginUser());
+            realEstate.addConstructInfo(constructInfo);
+        }
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
         realEstate.getCustomerInfoList().clear();

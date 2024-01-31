@@ -61,6 +61,12 @@ public class ConstructServiceImpl implements ConstructService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public ConstructInfo getConstructInfoById(Long constructId) {
+        return constructReader.getConstructById(constructId);
+    }
+
+    @Override
     @Transactional
     public Long create(ConstructCreateForm createForm, LoginUser loginUser) {
 

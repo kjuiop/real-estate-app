@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.realestate.construct.repository;
 
 import io.gig.realestate.domain.exception.NotFoundException;
+import io.gig.realestate.domain.realestate.construct.ConstructInfo;
 import io.gig.realestate.domain.realestate.construct.ConstructReader;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
@@ -32,6 +33,11 @@ public class ConstructQueryImpl implements ConstructReader {
         }
 
         return findConstruct.get();
+    }
+
+    @Override
+    public ConstructInfo getConstructById(Long constructId) {
+        return queryRepository.getConstructInfoById(constructId);
     }
 
     @Override

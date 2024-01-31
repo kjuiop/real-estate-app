@@ -25,4 +25,6 @@ public interface ConstructService {
     List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId);
 
     FloorPriceInfo getConstructFloorById(Long floorId);
+
+    ConstructInfo getConstructInfoById(Long constructId);
 }
