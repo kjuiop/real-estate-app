@@ -4,6 +4,7 @@ import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.construct.ConstructReader;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +37,10 @@ public class ConstructQueryImpl implements ConstructReader {
     @Override
     public List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getFloorInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public FloorPriceInfo getConstructFloorById(Long floorId) {
+        return queryRepository.getFloorInfoById(floorId);
     }
 }

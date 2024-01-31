@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.construct;
 
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.realestate.construct.dto.*;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -22,4 +23,6 @@ public interface ConstructService {
     ConstructDto getConstructInfoByRealEstateId(Long realEstateId);
 
     List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId);
+
+    FloorPriceInfo getConstructFloorById(Long floorId);
 }

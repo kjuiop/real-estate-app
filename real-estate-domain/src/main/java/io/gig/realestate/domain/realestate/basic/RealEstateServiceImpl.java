@@ -161,7 +161,7 @@ public class RealEstateServiceImpl implements RealEstateService {
                 floorDataResCode = dto.getResponseCode();
             }
 
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i);
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i, loginUser.getLoginUser());
             newRealEstate.addFloorInfo(floorInfo);
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
@@ -217,15 +217,15 @@ public class RealEstateServiceImpl implements RealEstateService {
             trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
         }
 
-        List<LandInfo> toRemove = new ArrayList<>();
+        List<LandInfo> toRemoveLand = new ArrayList<>();
         for (LandInfo existingLandInfo : realEstate.getLandInfoList()) {
-            boolean existsInUpdateForm = updateForm.getLandInfoList().stream()
+            boolean existsInUpdateLandForm = updateForm.getLandInfoList().stream()
                     .anyMatch(dto -> dto.getLandId() != null && dto.getLandId().equals(existingLandInfo.getId()));
-            if (!existsInUpdateForm) {
-                toRemove.add(existingLandInfo);
+            if (!existsInUpdateLandForm) {
+                toRemoveLand.add(existingLandInfo);
             }
         }
-        realEstate.getLandInfoList().removeAll(toRemove);
+        realEstate.getLandInfoList().removeAll(toRemoveLand);
 
         int landDataResCode = 0;
         LocalDateTime lastCurlLandApiAt = null;
@@ -269,9 +269,18 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addPriceInfo(priceInfo);
         }
 
+        List<FloorPriceInfo> toRemoveFloor = new ArrayList<>();
+        for (FloorPriceInfo existingFloorInfo : realEstate.getFloorPriceInfo()) {
+            boolean existsInUpdateFloorForm = updateForm.getFloorInfoList().stream()
+                    .anyMatch(dto -> dto.getFloorId() != null && dto.getFloorId().equals(existingFloorInfo.getId()));
+            if (!existsInUpdateFloorForm) {
+                toRemoveFloor.add(existingFloorInfo);
+            }
+        }
+        realEstate.getFloorPriceInfo().removeAll(toRemoveFloor);
+
         int floorDataResCode = 0;
         LocalDateTime lastCurlFloorApiAt = null;
-        realEstate.getFloorPriceInfo().clear();
         for (int i=0; i<updateForm.getFloorInfoList().size(); i++) {
             FloorCreateForm dto = updateForm.getFloorInfoList().get(i);
             if (i == 0) {
@@ -282,8 +291,14 @@ public class RealEstateServiceImpl implements RealEstateService {
                 floorDataResCode = dto.getResponseCode();
             }
 
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate, i);
-            realEstate.addFloorInfo(floorInfo);
+            FloorPriceInfo floorInfo;
+            if (dto.getFloorId() != null) {
+                floorInfo = constructService.getConstructFloorById(dto.getFloorId());
+                floorInfo.update(dto, i, loginUser.getLoginUser());
+            } else {
+                floorInfo = FloorPriceInfo.create(dto, realEstate, i, loginUser.getLoginUser());
+                realEstate.addFloorInfo(floorInfo);
+            }
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 

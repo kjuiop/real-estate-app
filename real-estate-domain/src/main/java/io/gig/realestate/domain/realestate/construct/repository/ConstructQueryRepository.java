@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorListDto;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,7 @@ public class ConstructQueryRepository {
                         floorPriceInfo
                         ))
                 .from(floorPriceInfo)
-                .where(floorPriceInfo.deleteYn.eq(YnType.N))
+                .where(defaultFloorCondition())
                 .where(floorPriceInfo.realEstate.id.eq(realEstateId))
                 .orderBy(floorPriceInfo.sortOrder.asc())
                 ;
@@ -60,8 +61,23 @@ public class ConstructQueryRepository {
         return contentQuery.fetch();
     }
 
+    public FloorPriceInfo getFloorInfoById(Long floorId) {
+
+        JPAQuery<FloorPriceInfo> contentQuery = this.queryFactory
+                .selectFrom(floorPriceInfo)
+                .where(defaultFloorCondition())
+                .where(floorPriceInfo.id.eq(floorId))
+                ;
+
+        return contentQuery.fetchOne();
+    }
+
     private BooleanExpression defaultCondition() {
         return constructInfo.deleteYn.eq(YnType.N);
+    }
+
+    private BooleanExpression defaultFloorCondition() {
+        return floorPriceInfo.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqRealEstateId(Long realEstateId) {

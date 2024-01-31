@@ -6,6 +6,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
 import io.gig.realestate.domain.realestate.basic.RealEstateStore;
 import io.gig.realestate.domain.realestate.construct.dto.*;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.utils.CommonUtils;
 import io.gig.realestate.domain.utils.properties.ConstructDataProperties;
 import io.gig.realestate.domain.utils.properties.ConstructFloorDataProperties;
@@ -39,9 +40,6 @@ public class ConstructServiceImpl implements ConstructService {
     private final ConstructDataProperties constructDataProperties;
     private final ConstructFloorDataProperties floorDataProperties;
 
-    private final RealEstateReader realEstateReader;
-    private final RealEstateStore realEstateStore;
-
     private final ConstructReader constructReader;
 
     @Override
@@ -54,6 +52,12 @@ public class ConstructServiceImpl implements ConstructService {
     @Transactional(readOnly = true)
     public List<FloorListDto> getFloorInfoByRealEstateId(Long realEstateId) {
         return constructReader.getFloorInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FloorPriceInfo getConstructFloorById(Long floorId) {
+        return constructReader.getConstructFloorById(floorId);
     }
 
     @Override
