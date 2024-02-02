@@ -30,6 +30,7 @@ import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
+import io.gig.realestate.domain.realestate.landprice.LandPriceService;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.landusage.LandUsageService;
@@ -75,6 +76,7 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     private final AreaService areaService;
     private final LandService landService;
+    private final LandPriceService landPriceService;
     private final LandUsageService landUsageService;
     private final ConstructService constructService;
     private final PriceService priceService;
@@ -367,9 +369,19 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         realEstate.updateImageFullPath(imageUrl);
 
+
+        List<LandPriceInfo> toRemoveLandPriceInfo = new ArrayList<>();
+        for (LandPriceInfo existingLandPriceInfo : realEstate.getLandPriceInfoList()) {
+            boolean existsInUpdateLandPriceForm = updateForm.getLandPriceInfoList().stream()
+                    .anyMatch(dto -> dto.getLandPriceId() != null && dto.getLandPriceId().equals(existingLandPriceInfo.getId()));
+            if (!existsInUpdateLandPriceForm) {
+                toRemoveLandPriceInfo.add(existingLandPriceInfo);
+            }
+        }
+        realEstate.getLandPriceInfoList().removeAll(toRemoveLandPriceInfo);
+
         int landPriceResCode = 0;
         LocalDateTime landPriceLastCurlApiAt = null;
-        realEstate.getLandPriceInfoList().clear();
         for (int i=0; i<updateForm.getLandPriceInfoList().size(); i++) {
             LandPriceCreateForm dto = updateForm.getLandPriceInfoList().get(i);
             if (i==0) {
@@ -379,8 +391,15 @@ public class RealEstateServiceImpl implements RealEstateService {
             if (dto.getResponseCode() != 200) {
                 landPriceResCode = dto.getResponseCode();
             }
-            LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
-            realEstate.addLandPriceInfo(landPriceInfo);
+
+            LandPriceInfo landPriceInfo;
+            if (dto.getLandPriceId() != null) {
+                landPriceInfo = landPriceService.getLandPriceById(dto.getLandPriceId());
+                landPriceInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addLandPriceInfo(landPriceInfo);
+            }
         }
         trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
 

@@ -14,4 +14,6 @@ public interface LandPriceService {
     List<LandPriceDataApiDto> getLandPricePublicData(String legalCode, String landType, String bun, String ji) throws IOException;
 
     List<LandPriceListDto> getLandPriceListInfo(Long realEstateId);
+
+    LandPriceInfo getLandPriceById(Long landPriceId);
 }

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface LandPriceReader {
     List<LandPriceListDto> getLandPriceInfoByRealEstateId(Long realEstateId);
+
+    LandPriceInfo getLandPriceInfoById(Long landPriceId);
 }

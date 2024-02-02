@@ -189,7 +189,7 @@ let pblntInfoReload = function(e) {
                 console.log("land price result", result);
 
                 let priceInfo = result.data,
-                    $frm = $('form[name="frmLandRegister"]'),
+                    $frm = $('form[name="frmLandPriceRegister"]'),
                     $table = $frm.find('.pblnt-table tbody')
                 ;
                 if (!checkNullOrEmptyValue(priceInfo)) {
