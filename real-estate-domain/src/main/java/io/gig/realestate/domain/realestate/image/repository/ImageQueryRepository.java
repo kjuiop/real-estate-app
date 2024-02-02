@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,20 @@ public class ImageQueryRepository {
         return contentQuery.fetch();
     }
 
+    public ImageInfo getImageInfoById(Long imageId) {
+
+        JPAQuery<ImageInfo> contentQuery = this.queryFactory
+                .selectFrom(imageInfo)
+                .where(eqImageId(imageId));
+
+        return contentQuery.fetchOne();
+    }
+
     private BooleanExpression eqRealEstateId(Long realEstateId) {
         return realEstateId != null ? imageInfo.realEstate.id.eq(realEstateId) : null;
+    }
+
+    private BooleanExpression eqImageId(Long imageId) {
+        return imageId != null ? imageInfo.id.eq(imageId) : null;
     }
 }

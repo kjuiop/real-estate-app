@@ -23,9 +23,9 @@ import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
+import io.gig.realestate.domain.realestate.image.ImageService;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
-import io.gig.realestate.domain.realestate.land.LandReader;
 import io.gig.realestate.domain.realestate.land.LandService;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
@@ -79,6 +79,7 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final ConstructService constructService;
     private final PriceService priceService;
     private final CustomerService customerService;
+    private final ImageService imageService;
 
     private final ExcelRealEstateService excelRealEstateService;
 
@@ -337,15 +338,32 @@ public class RealEstateServiceImpl implements RealEstateService {
             }
         }
 
-        realEstate.getSubImgInfoList().clear();
+
+        List<ImageInfo> toRemoveSubImages = new ArrayList<>();
+        for (ImageInfo existingImageInfo : realEstate.getSubImgInfoList()) {
+            boolean existsInUpdateImageForm = updateForm.getSubImages().stream()
+                    .anyMatch(dto -> dto.getImageId() != null && dto.getImageId().equals(existingImageInfo.getId()));
+            if (!existsInUpdateImageForm) {
+                toRemoveSubImages.add(existingImageInfo);
+            }
+        }
+        realEstate.getSubImgInfoList().removeAll(toRemoveSubImages);
+
         String imageUrl = "";
         for (int i=0; i<updateForm.getSubImages().size(); i++) {
             ImageCreateForm dto = updateForm.getSubImages().get(i);
             if (i == 0) {
                 imageUrl = dto.getFullPath();
             }
-            ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
-            realEstate.addImageInfo(imageInfo);
+
+            ImageInfo imageInfo;
+            if (dto.getImageId() != null) {
+                imageInfo = imageService.getImageInfoById(dto.getImageId());
+                imageInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addImageInfo(imageInfo);
+            }
         }
         realEstate.updateImageFullPath(imageUrl);
 
@@ -365,6 +383,8 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addLandPriceInfo(landPriceInfo);
         }
         trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
+
+
         if (realEstate.getCurlTrafficInfoList().size() == 0) {
             realEstate.addCurlTrafficInfo(trafficLight);
         }

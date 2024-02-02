@@ -53,7 +53,7 @@ public class LandServiceImpl implements LandService {
         }
 
         LandUsageDataApiDto usageData = getLandUsagePublicData(bCode, landType, bun, ji);
-        if (usageData != null) {
+        if (usageData != null && list.get(0) != null) {
             list.get(0).withUsageData(usageData);
         }
         return list;

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ImageReader {
     List<ImageDto> getSubImageInfoByRealEstateId(Long realEstateId);
+
+    ImageInfo getImageById(Long imageId);
 }

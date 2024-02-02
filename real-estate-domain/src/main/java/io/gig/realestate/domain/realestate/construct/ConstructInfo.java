@@ -234,6 +234,9 @@ public class ConstructInfo extends BaseTimeEntity {
     }
 
     private static LocalDateTime convertUseAprDate(String useAprDate) {
+        if (!StringUtils.hasText(useAprDate)) {
+            return null;
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(useAprDate, formatter);
         return localDate.atStartOfDay();

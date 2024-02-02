@@ -51,4 +51,9 @@ public class ImageInfo extends BaseTimeEntity {
                 .updatedBy(createdBy)
                 .build();
     }
+
+    public void update(ImageCreateForm dto, Administrator loginUser) {
+        this.fullPath = dto.getFullPath();
+        this.updatedBy = loginUser;
+    }
 }

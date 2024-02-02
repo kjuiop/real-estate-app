@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.image.repository;
 
+import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.ImageReader;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class ImageQueryImpl implements ImageReader {
     @Override
     public List<ImageDto> getSubImageInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getSubImageInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public ImageInfo getImageById(Long imageId) {
+        return queryRepository.getImageInfoById(imageId);
     }
 }
