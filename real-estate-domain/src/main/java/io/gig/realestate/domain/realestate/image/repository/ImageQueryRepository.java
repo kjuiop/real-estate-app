@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class ImageQueryRepository {
                         imageInfo
                 ))
                 .from(imageInfo)
+                .where(defaultCondition())
                 .where(eqRealEstateId(realEstateId))
                 .orderBy(imageInfo.id.asc())
                 ;
@@ -43,9 +45,14 @@ public class ImageQueryRepository {
 
         JPAQuery<ImageInfo> contentQuery = this.queryFactory
                 .selectFrom(imageInfo)
+                .where(defaultCondition())
                 .where(eqImageId(imageId));
 
         return contentQuery.fetchOne();
+    }
+
+    private BooleanExpression defaultCondition() {
+        return imageInfo.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqRealEstateId(Long realEstateId) {
