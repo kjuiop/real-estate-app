@@ -72,16 +72,12 @@ public class LandUsageInfo extends BaseTimeEntity {
                 .build();
     }
 
-    public static LandUsageInfo update(LandUsageUpdateForm dto, RealEstate realEstate, Administrator loginUser) {
-        return LandUsageInfo.builder()
-                .id(dto.getLandUsageId())
-                .pnu(dto.getPnu())
-                .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
-                .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
-                .responseCode(dto.getResponseCode())
-                .lastCurlApiAt(dto.getLastCurlApiAt())
-                .updatedBy(loginUser)
-                .realEstate(realEstate)
-                .build();
+    public void update(LandUsageCreateForm dto, Administrator loginUser) {
+        this.pnu = dto.getPnu();
+        this.prposAreaDstrcCodeList = dto.getPrposAreaDstrcCodeList();
+        this.prposAreaDstrcNmList = dto.getPrposAreaDstrcNmList();
+        this.responseCode = dto.getResponseCode();
+        this.lastCurlApiAt = dto.getLastCurlApiAt();
+        this.updatedBy = loginUser;
     }
 }

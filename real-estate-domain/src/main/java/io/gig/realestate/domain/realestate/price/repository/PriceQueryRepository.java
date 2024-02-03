@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.price.PriceInfo;
 import io.gig.realestate.domain.realestate.price.dto.PriceListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -39,11 +40,26 @@ public class PriceQueryRepository {
         return contentQuery.fetch();
     }
 
+    public PriceInfo getPriceInfoById(Long priceId) {
+
+        JPAQuery<PriceInfo> contentQuery = this.queryFactory
+                .selectFrom(priceInfo)
+                .where(defaultCondition())
+                .where(eqPriceId(priceId))
+                .orderBy(priceInfo.id.asc());
+
+        return contentQuery.fetchOne();
+    }
+
     private BooleanExpression defaultCondition() {
         return priceInfo.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqRealEstateId(Long realEstateId) {
         return realEstateId != null ? priceInfo.realEstate.id.eq(realEstateId) : null;
+    }
+
+    private BooleanExpression eqPriceId(Long priceId) {
+        return priceId != null ? priceInfo.id.eq(priceId) : null;
     }
 }

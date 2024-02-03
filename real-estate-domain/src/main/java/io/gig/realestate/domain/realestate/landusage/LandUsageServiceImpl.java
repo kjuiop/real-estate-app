@@ -22,4 +22,9 @@ public class LandUsageServiceImpl implements LandUsageService {
     public LandUsageDto getLandUsageInfo(Long realEstateId) {
         return landUsageReader.getLandUsageInfoByRealEstateId(realEstateId);
     }
+
+    @Override
+    public LandUsageInfo getLandUsageInfoById(Long landUsageId) {
+        return landUsageReader.getLandUsageInfoById(landUsageId);
+    }
 }

@@ -33,6 +33,12 @@ public class LandPriceServiceImpl implements LandPriceService {
 
     @Override
     @Transactional(readOnly = true)
+    public LandPriceInfo getLandPriceById(Long landPriceId) {
+        return landPriceReader.getLandPriceInfoById(landPriceId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<LandPriceDataApiDto> getLandPricePublicData(String bCode, String landType, String bun, String ji) throws IOException {
 
         LandPriceDataApiDto.Request request = LandPriceDataApiDto.Request.assembleParam(bCode, landType, bun, ji);

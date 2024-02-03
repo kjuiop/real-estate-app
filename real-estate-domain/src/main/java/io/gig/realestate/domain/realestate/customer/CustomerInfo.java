@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.customer;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
@@ -59,10 +60,18 @@ public class CustomerInfo extends BaseTimeEntity {
     private YnType deleteYn = YnType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id")
+    private Administrator createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by_id")
+    private Administrator updatedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static CustomerInfo create(CustomerCreateForm dto, RealEstate realEstate) {
+    public static CustomerInfo create(CustomerCreateForm dto, RealEstate realEstate, Administrator loginUser) {
         return CustomerInfo.builder()
                 .id(dto.getCustomerId())
                 .type(dto.getType())
@@ -76,7 +85,29 @@ public class CustomerInfo extends BaseTimeEntity {
                 .companyPhone(dto.getCompanyPhone())
                 .representName(dto.getRepresentName())
                 .representPhone(dto.getRepresentPhone())
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
                 .realEstate(realEstate)
                 .build();
+    }
+
+    public void update(CustomerCreateForm dto, Administrator loginUser) {
+
+        this.type = dto.getType();
+        this.birth = dto.getBirth();
+        this.customerName = dto.getCustomerName();
+        this.phone = dto.getPhone();
+        this.etcPhone = dto.getEtcPhone();
+        this.gender = dto.getGender();
+        this.etcInfo = dto.getEtcInfo();
+        this.companyName = dto.getCompanyName();
+        this.companyPhone = dto.getCompanyPhone();
+        this.representName =dto.getRepresentName();
+        this.representPhone = dto.getRepresentPhone();
+        this.updatedBy = loginUser;
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
     }
 }

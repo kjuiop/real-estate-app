@@ -32,6 +32,12 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public PriceInfo getPriceInfoByPriceId(Long priceId) {
+        return priceReader.getPriceInfoByPriceId(priceId);
+    }
+
+    @Override
     @Transactional
     public Long create(PriceCreateForm createForm, LoginUser loginUser) {
         return null;

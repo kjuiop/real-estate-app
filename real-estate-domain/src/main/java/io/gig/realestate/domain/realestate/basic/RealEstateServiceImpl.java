@@ -15,26 +15,29 @@ import io.gig.realestate.domain.realestate.construct.dto.ConstructDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.ConstructFloorDataApiDto;
 import io.gig.realestate.domain.realestate.construct.dto.FloorCreateForm;
 import io.gig.realestate.domain.realestate.curltraffic.CurlTrafficLight;
-import io.gig.realestate.domain.realestate.curltraffic.types.TrafficType;
 import io.gig.realestate.domain.realestate.customer.CustomerInfo;
+import io.gig.realestate.domain.realestate.customer.CustomerService;
 import io.gig.realestate.domain.realestate.customer.dto.CustomerCreateForm;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstate;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.realestate.image.ImageInfo;
+import io.gig.realestate.domain.realestate.image.ImageService;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.land.LandService;
-import io.gig.realestate.domain.realestate.land.dto.LandCreateForm;
 import io.gig.realestate.domain.realestate.land.dto.LandDataApiDto;
 import io.gig.realestate.domain.realestate.land.dto.LandInfoDto;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
+import io.gig.realestate.domain.realestate.landprice.LandPriceService;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
+import io.gig.realestate.domain.realestate.landusage.LandUsageService;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
+import io.gig.realestate.domain.realestate.price.PriceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -73,7 +76,13 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     private final AreaService areaService;
     private final LandService landService;
+    private final LandPriceService landPriceService;
+    private final LandUsageService landUsageService;
     private final ConstructService constructService;
+    private final PriceService priceService;
+    private final CustomerService customerService;
+    private final ImageService imageService;
+
     private final ExcelRealEstateService excelRealEstateService;
 
     @Override
@@ -158,17 +167,17 @@ public class RealEstateServiceImpl implements RealEstateService {
                 floorDataResCode = dto.getResponseCode();
             }
 
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i);
+            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, newRealEstate, i, loginUser.getLoginUser());
             newRealEstate.addFloorInfo(floorInfo);
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
-        ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate);
+        ConstructInfo constructInfo = ConstructInfo.create(createForm.getConstructInfo(), newRealEstate, loginUser.getLoginUser());
         newRealEstate.addConstructInfo(constructInfo);
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
         for (CustomerCreateForm dto : createForm.getCustomerInfoList()) {
-            CustomerInfo customerInfo = CustomerInfo.create(dto, newRealEstate);
+            CustomerInfo customerInfo = CustomerInfo.create(dto, newRealEstate, loginUser.getLoginUser());
             newRealEstate.addCustomerInfo(customerInfo);
         }
 
@@ -214,11 +223,18 @@ public class RealEstateServiceImpl implements RealEstateService {
             trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
         }
 
+        for (LandInfo existingLandInfo : realEstate.getLandInfoList()) {
+            boolean existsInUpdateLandForm = updateForm.getLandInfoList().stream()
+                    .anyMatch(dto -> dto.getLandId() != null && dto.getLandId().equals(existingLandInfo.getId()));
+            if (!existsInUpdateLandForm) {
+                existingLandInfo.delete();
+            }
+        }
+
         int landDataResCode = 0;
         LocalDateTime lastCurlLandApiAt = null;
-        realEstate.getLandInfoList().clear();
         for (int i=0; i<updateForm.getLandInfoList().size(); i++) {
-            LandInfoDto dto = updateForm.getLandInfoList().get(0);
+            LandInfoDto dto = updateForm.getLandInfoList().get(i);
             if (i == 0) {
                 landDataResCode = dto.getResponseCode();
                 lastCurlLandApiAt = dto.getLastCurlApiAt();
@@ -227,23 +243,46 @@ public class RealEstateServiceImpl implements RealEstateService {
                 landDataResCode = dto.getResponseCode();
             }
 
-            LandInfo landInfo = LandInfo.update(dto, realEstate);
-            realEstate.addLandInfo(landInfo);
+            LandInfo landInfo;
+            if (dto.getLandId() != null)  {
+                landInfo = landService.getLandInfoById(dto.getLandId());
+                landInfo.update(dto);
+            } else {
+                landInfo = LandInfo.create(dto, realEstate);
+                realEstate.addLandInfo(landInfo);
+            }
         }
         trafficLight.setLandDataApiResult(landDataResCode, lastCurlLandApiAt);
 
-        realEstate.getLandUsageInfoList().clear();
-        LandUsageInfo landUsageInfo = LandUsageInfo.update(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
-        realEstate.addLandUsageInfo(landUsageInfo);
+        LandUsageInfo landUsageInfo;
+        if (updateForm.getLandUsageInfo() != null && updateForm.getLandUsageInfo().getLandUsageId() != null) {
+            landUsageInfo = landUsageService.getLandUsageInfoById(updateForm.getLandUsageInfo().getLandUsageId());
+            landUsageInfo.update(updateForm.getLandUsageInfo(), loginUser.getLoginUser());
+        } else {
+            landUsageInfo = LandUsageInfo.create(updateForm.getLandUsageInfo(), realEstate, loginUser.getLoginUser());
+            realEstate.addLandUsageInfo(landUsageInfo);
+        }
         trafficLight.setLandUsageDataApiResult(landUsageInfo.getResponseCode(), landUsageInfo.getLastCurlApiAt());
 
-        realEstate.getPriceInfoList().clear();
-        PriceInfo priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
-        realEstate.addPriceInfo(priceInfo);
+        PriceInfo priceInfo;
+        if (updateForm.getPriceInfo() != null && updateForm.getPriceInfo().getPriceId() != null) {
+            priceInfo = priceService.getPriceInfoByPriceId(updateForm.getPriceInfo().getPriceId());
+            priceInfo.update(updateForm.getPriceInfo(), loginUser.getLoginUser());
+        } else {
+            priceInfo = PriceInfo.create(updateForm.getPriceInfo(), realEstate);
+            realEstate.addPriceInfo(priceInfo);
+        }
+
+        for (FloorPriceInfo existingFloorInfo : realEstate.getFloorPriceInfo()) {
+            boolean existsInUpdateFloorForm = updateForm.getFloorInfoList().stream()
+                    .anyMatch(dto -> dto.getFloorId() != null && dto.getFloorId().equals(existingFloorInfo.getId()));
+            if (!existsInUpdateFloorForm) {
+                existingFloorInfo.delete();
+            }
+        }
 
         int floorDataResCode = 0;
         LocalDateTime lastCurlFloorApiAt = null;
-        realEstate.getFloorPriceInfo().clear();
         for (int i=0; i<updateForm.getFloorInfoList().size(); i++) {
             FloorCreateForm dto = updateForm.getFloorInfoList().get(i);
             if (i == 0) {
@@ -254,37 +293,92 @@ public class RealEstateServiceImpl implements RealEstateService {
                 floorDataResCode = dto.getResponseCode();
             }
 
-            FloorPriceInfo floorInfo = FloorPriceInfo.create(dto, realEstate, i);
-            realEstate.addFloorInfo(floorInfo);
+            FloorPriceInfo floorInfo;
+            if (dto.getFloorId() != null) {
+                floorInfo = constructService.getConstructFloorById(dto.getFloorId());
+                floorInfo.update(dto, i, loginUser.getLoginUser());
+            } else {
+                floorInfo = FloorPriceInfo.create(dto, realEstate, i, loginUser.getLoginUser());
+                realEstate.addFloorInfo(floorInfo);
+            }
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
-        realEstate.getConstructInfoList().clear();
-        ConstructInfo constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate);
-        realEstate.addConstructInfo(constructInfo);
-        trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
-
-        realEstate.getCustomerInfoList().clear();
-        for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
-            CustomerInfo customerInfo = CustomerInfo.create(dto, realEstate);
-            realEstate.addCustomerInfo(customerInfo);
+        for (ConstructInfo existingConstructInfo : realEstate.getConstructInfoList()) {
+            if (updateForm.getConstructInfo() == null) {
+                break;
+            }
+            boolean existUpdateConstructForm = existingConstructInfo.getId().equals(updateForm.getConstructInfo().getConstructId());
+            if (!existUpdateConstructForm) {
+                existingConstructInfo.delete();
+            }
         }
 
-        realEstate.getSubImgInfoList().clear();
+        ConstructInfo constructInfo;
+        if (updateForm.getConstructInfo() != null && updateForm.getConstructInfo().getConstructId() != null) {
+            constructInfo = constructService.getConstructInfoById(updateForm.getConstructInfo().getConstructId());
+            constructInfo.update(updateForm.getConstructInfo(), loginUser.getLoginUser());
+        } else {
+            constructInfo = ConstructInfo.create(updateForm.getConstructInfo(), realEstate, loginUser.getLoginUser());
+            realEstate.addConstructInfo(constructInfo);
+        }
+        trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
+
+        for (CustomerInfo existingCustomerInfo : realEstate.getCustomerInfoList()) {
+            boolean existsInUpdateCustomerForm = updateForm.getCustomerInfoList().stream()
+                    .anyMatch(dto -> dto.getCustomerId() != null && dto.getCustomerId().equals(existingCustomerInfo.getId()));
+            if (!existsInUpdateCustomerForm) {
+                existingCustomerInfo.delete();
+            }
+        }
+
+        for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
+            CustomerInfo customerInfo;
+            if (dto.getCustomerId() != null) {
+                customerInfo = customerService.getCustomerInfoById(dto.getCustomerId());
+                customerInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                customerInfo = CustomerInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addCustomerInfo(customerInfo);
+            }
+        }
+
+        for (ImageInfo existingImageInfo : realEstate.getSubImgInfoList()) {
+            boolean existsInUpdateImageForm = updateForm.getSubImages().stream()
+                    .anyMatch(dto -> dto.getImageId() != null && dto.getImageId().equals(existingImageInfo.getId()));
+            if (!existsInUpdateImageForm) {
+                existingImageInfo.delete();
+            }
+        }
+
         String imageUrl = "";
         for (int i=0; i<updateForm.getSubImages().size(); i++) {
             ImageCreateForm dto = updateForm.getSubImages().get(i);
             if (i == 0) {
                 imageUrl = dto.getFullPath();
             }
-            ImageInfo imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
-            realEstate.addImageInfo(imageInfo);
+
+            ImageInfo imageInfo;
+            if (dto.getImageId() != null) {
+                imageInfo = imageService.getImageInfoById(dto.getImageId());
+                imageInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                imageInfo = ImageInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addImageInfo(imageInfo);
+            }
         }
         realEstate.updateImageFullPath(imageUrl);
 
+        for (LandPriceInfo existingLandPriceInfo : realEstate.getLandPriceInfoList()) {
+            boolean existsInUpdateLandPriceForm = updateForm.getLandPriceInfoList().stream()
+                    .anyMatch(dto -> dto.getLandPriceId() != null && dto.getLandPriceId().equals(existingLandPriceInfo.getId()));
+            if (!existsInUpdateLandPriceForm) {
+                existingLandPriceInfo.delete();
+            }
+        }
+
         int landPriceResCode = 0;
         LocalDateTime landPriceLastCurlApiAt = null;
-        realEstate.getLandPriceInfoList().clear();
         for (int i=0; i<updateForm.getLandPriceInfoList().size(); i++) {
             LandPriceCreateForm dto = updateForm.getLandPriceInfoList().get(i);
             if (i==0) {
@@ -294,10 +388,19 @@ public class RealEstateServiceImpl implements RealEstateService {
             if (dto.getResponseCode() != 200) {
                 landPriceResCode = dto.getResponseCode();
             }
-            LandPriceInfo landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
-            realEstate.addLandPriceInfo(landPriceInfo);
+
+            LandPriceInfo landPriceInfo;
+            if (dto.getLandPriceId() != null) {
+                landPriceInfo = landPriceService.getLandPriceById(dto.getLandPriceId());
+                landPriceInfo.update(dto, loginUser.getLoginUser());
+            } else {
+                landPriceInfo = LandPriceInfo.create(dto, realEstate, loginUser.getLoginUser());
+                realEstate.addLandPriceInfo(landPriceInfo);
+            }
         }
         trafficLight.setLandPriceDataApiResult(landPriceResCode, landPriceLastCurlApiAt);
+
+
         if (realEstate.getCurlTrafficInfoList().size() == 0) {
             realEstate.addCurlTrafficInfo(trafficLight);
         }

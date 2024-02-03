@@ -1,14 +1,12 @@
 package io.gig.realestate.domain.realestate.image;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -30,6 +28,11 @@ public class ImageInfo extends BaseTimeEntity {
 
     private String fullPath;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
@@ -50,5 +53,14 @@ public class ImageInfo extends BaseTimeEntity {
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
+    }
+
+    public void update(ImageCreateForm dto, Administrator loginUser) {
+        this.fullPath = dto.getFullPath();
+        this.updatedBy = loginUser;
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
     }
 }

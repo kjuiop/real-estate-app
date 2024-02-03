@@ -8,4 +8,6 @@ import io.gig.realestate.domain.realestate.landusage.dto.LandUsageDto;
  */
 public interface LandUsageService {
     LandUsageDto getLandUsageInfo(Long realEstateId);
+
+    LandUsageInfo getLandUsageInfoById(Long landUsageId);
 }

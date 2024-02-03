@@ -22,4 +22,10 @@ public class ImageServiceImpl implements ImageService {
     public List<ImageDto> getSubImageInfoByRealEstateId(Long realEstateId) {
         return imageReader.getSubImageInfoByRealEstateId(realEstateId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ImageInfo getImageInfoById(Long imageId) {
+        return imageReader.getImageById(imageId);
+    }
 }

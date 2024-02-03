@@ -72,4 +72,19 @@ public class LandPriceInfo extends BaseTimeEntity  {
                 .updatedBy(createdBy)
                 .build();
     }
+
+    public void update(LandPriceCreateForm dto, Administrator loginUser) {
+        this.pnu = dto.getPnu();
+        this.pclndStdrYear = dto.getPclndStdrYear();
+        this.pblntfPclnd = dto.getPblntfPclnd();
+        this.pblntfPclndPy = dto.getPblntfPclndPy();
+        this.changeRate = dto.getChangeRate();
+        this.responseCode = dto.getResponseCode();
+        this.lastCurlApiAt = dto.getLastCurlApiAt();
+        this.updatedBy = loginUser;
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

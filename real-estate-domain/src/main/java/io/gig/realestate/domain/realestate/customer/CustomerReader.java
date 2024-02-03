@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface CustomerReader {
     List<CustomerDto> getCustomerListInfoByRealEstateId(Long realEstateId);
+
+    CustomerInfo getCustomerById(Long customerId);
 }

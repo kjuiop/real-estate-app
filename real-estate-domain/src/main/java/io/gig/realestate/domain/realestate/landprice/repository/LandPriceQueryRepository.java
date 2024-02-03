@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -39,11 +40,25 @@ public class LandPriceQueryRepository {
         return contentQuery.fetch();
     }
 
-    private BooleanExpression eqRealEstateId(Long realEstateId) {
-        return realEstateId != null ? landPriceInfo.realEstate.id.eq(realEstateId) : null;
+    public LandPriceInfo getLandPRiceInfoById(Long landPriceId) {
+
+        JPAQuery<LandPriceInfo> contentQuery = this.queryFactory
+                .selectFrom(landPriceInfo)
+                .where(defaultCondition())
+                .where(eqLandPriceId(landPriceId));
+
+        return contentQuery.fetchOne();
     }
 
     private BooleanExpression defaultCondition() {
         return landPriceInfo.deleteYn.eq(YnType.N);
+    }
+
+    private BooleanExpression eqLandPriceId(Long landPriceId) {
+        return landPriceId != null ? landPriceInfo.id.eq(landPriceId) : null;
+    }
+
+    private BooleanExpression eqRealEstateId(Long realEstateId) {
+        return realEstateId != null ? landPriceInfo.realEstate.id.eq(realEstateId) : null;
     }
 }
