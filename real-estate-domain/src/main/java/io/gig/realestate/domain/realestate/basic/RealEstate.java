@@ -2,6 +2,7 @@ package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
@@ -99,6 +100,10 @@ public class RealEstate extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")
     private Category usageType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_type_id")
+    private Category propertyType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_by_id")
@@ -266,7 +271,7 @@ public class RealEstate extends BaseTimeEntity {
                 .build();
     }
 
-    public void update(RealEstateUpdateForm updateForm, Administrator manager, Category usageType, Administrator loginUser) {
+    public void update(RealEstateUpdateForm updateForm, Administrator manager, Administrator loginUser) {
         this.buildingName = updateForm.getBuildingName();
         this.agentName = updateForm.getAgentName();
         this.surroundInfo = updateForm.getSurroundInfo();
@@ -275,7 +280,6 @@ public class RealEstate extends BaseTimeEntity {
         this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.characterInfo = updateForm.getCharacterInfo();
         this.tradingAt = updateForm.getTradingAt();
-        this.usageType = usageType;
         this.imgUrl = updateForm.getImgUrl();
         this.manager = manager;
         this.updatedBy = loginUser;
@@ -294,6 +298,14 @@ public class RealEstate extends BaseTimeEntity {
     public void updateProcessStatus(ProcessType processType, Administrator loginUser) {
         this.processType = processType;
         this.updatedBy = loginUser;
+    }
+
+    public void setUsageType(Category usageType) {
+        this.usageType = usageType;
+    }
+
+    public void setPropertyType(Category propertyType) {
+        this.propertyType = propertyType;
     }
 
     public void updateRStatus(YnType rYn) {

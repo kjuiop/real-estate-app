@@ -43,6 +43,8 @@ public class RealEstateUpdateForm {
 
     private YnType otherExclusiveYn;
 
+    private Long propertyTypeId;
+
     private Long usageTypeId;
 
     private String managerUsername;
