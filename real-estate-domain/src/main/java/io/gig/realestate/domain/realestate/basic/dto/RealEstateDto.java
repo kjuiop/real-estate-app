@@ -27,6 +27,8 @@ public class RealEstateDto {
 
     private CategoryDto usageType;
 
+    private CategoryDto propertyType;
+
     private ProcessType processType;
 
     private String address;
@@ -76,6 +78,9 @@ public class RealEstateDto {
         this.characterInfo = r.getCharacterInfo();
         if (r.getUsageType() != null) {
             this.usageType = new CategoryDto(r.getUsageType());
+        }
+        if (r.getPropertyType() != null) {
+            this.propertyType = new CategoryDto(r.getPropertyType());
         }
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();

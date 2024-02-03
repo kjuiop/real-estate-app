@@ -431,7 +431,7 @@
                         </div>
                     </div>
 
-                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 10px;">
+                    <div class="display-flex-row table-unit table-unit-2" style="position: relative; margin-top: 10px;" th:if="${dto.propertyName != '대지'}">
                         <div class="print-hidden" style="position: absolute; top:5px; right:-15px;">
                             <i class="fa fa-trash-o btnRemoveTable" aria-hidden="true"></i>
                         </div>
@@ -611,7 +611,7 @@
 
         <div class="print-line"></div>
 
-        <div class="print-content print-distribute-line floor-info-section">
+        <div class="print-content print-distribute-line floor-info-section" th:if="${dto.propertyName != '대지'}">
             <div class="row print-content-title">
                 <h3>건축물 개요</h3>
                 <span>Building Information</span>

@@ -50,6 +50,8 @@ public class RealEstateDetailAllDto extends RealEstateDto {
 
     private Long usageCdId;
 
+    private String propertyName;
+
     private String pdfTitle;
 
     private double sumUnitPblntfPclnd;
@@ -138,6 +140,10 @@ public class RealEstateDetailAllDto extends RealEstateDto {
             this.sumLndpclArByPyung = sumLndpclArByPyung;
             this.landInfoList = landList;
             this.addressStr = addressStrBuilder.toString();
+        }
+
+        if (r.getPropertyType() != null) {
+            this.propertyName = r.getPropertyType().getName();
         }
 
         if (r.getPriceInfoList().size() > 0) {

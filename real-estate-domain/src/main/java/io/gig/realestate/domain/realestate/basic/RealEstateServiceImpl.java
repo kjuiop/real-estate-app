@@ -122,12 +122,16 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public Long create(RealEstateCreateForm createForm, LoginUser loginUser) {
         Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
-        RealEstate newRealEstate;
+        RealEstate newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+
         if (createForm.getUsageTypeId() != null) {
             Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
-            newRealEstate = RealEstate.createWithUsageType(createForm, manager, usageType, loginUser.getLoginUser());
-        } else {
-            newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+            newRealEstate.setUsageType(usageType);
+        }
+
+        if (createForm.getPropertyTypeId() != null) {
+            Category propertyType = categoryService.getCategoryById(createForm.getPropertyTypeId());
+            newRealEstate.setPropertyType(propertyType);
         }
 
         CurlTrafficLight trafficLight = CurlTrafficLight.initTrafficLight(newRealEstate);
@@ -208,13 +212,18 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public Long update(RealEstateUpdateForm updateForm, LoginUser loginUser) {
         Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
-        Category usageType = null;
+        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
+        realEstate.update(updateForm, manager, loginUser.getLoginUser());
+
         if (updateForm.getUsageTypeId() != null) {
-            usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+            Category usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());
+            realEstate.setUsageType(usageType);
         }
 
-        RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
-        realEstate.update(updateForm, manager, usageType, loginUser.getLoginUser());
+        if (updateForm.getPropertyTypeId() != null) {
+            Category propertyType = categoryService.getCategoryById(updateForm.getPropertyTypeId());
+            realEstate.setPropertyType(propertyType);
+        }
 
         CurlTrafficLight trafficLight;
         if (realEstate.getCurlTrafficInfoList().size() > 0) {

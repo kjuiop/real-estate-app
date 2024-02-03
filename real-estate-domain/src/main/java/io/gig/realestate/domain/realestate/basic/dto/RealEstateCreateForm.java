@@ -47,6 +47,8 @@ public class RealEstateCreateForm {
 
     private Long usageTypeId;
 
+    private Long propertyTypeId;
+
     private String address;
 
     private String addressDetail;

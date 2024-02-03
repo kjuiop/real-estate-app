@@ -24,6 +24,7 @@ let realEstateSave = function(e) {
         $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$frmBasic[0]}).json();
 
+    params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
@@ -117,6 +118,7 @@ let realEstateUpdate = function(e) {
         $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$basicFrm[0]}).json();
 
+    params["propertyTypeId"] = $basicFrm.find('select[name="propertyType"] option:selected').val();
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
