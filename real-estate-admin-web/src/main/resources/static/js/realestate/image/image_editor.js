@@ -89,7 +89,19 @@ let removeSubImg = function(e) {
     let targetSubImgId = '#' + targetId;
     $(targetSubImgId).parents('.sub-img-unit').remove();
     $imgModal.find('.close').trigger('click');
+
+    drawMainImg();
 }
+
+let drawMainImg = function() {
+    let $subImg = $('.image-sub-section').find('.sub-img-unit');
+    if ($subImg.length === 0) {
+        $('.main-section img').attr('src', '/images/no-image-found.jpeg');
+    } else {
+        let imagePath = $subImg.eq(0).find('img').attr('src');
+        $('.main-section img').attr('src', imagePath);
+    }
+};
 
 let uploadImage = function(e) {
     e.preventDefault();

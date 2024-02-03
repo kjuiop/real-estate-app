@@ -154,13 +154,13 @@ let landUsageInfoReload = function(e) {
             contentType: "application/json",
             success: function(result) {
                 console.log("load land usage info", result);
-                let data = result.data;
-                if (!checkNullOrEmptyValue(data)) {
+                let usageData = result.data;
+                if (!checkNullOrEmptyValue(usageData)) {
                     return;
                 }
-
                 let $frm = $('form[name="frmLandRegister"]');
-                $frm.find('.prposAreaDstrcNmList').html(data.prposAreaDstrcNmList);
+                $frm.find('.prposAreaDstrcNmList').html(usageData.prposAreaDstrcNmList);
+                settingLandUsageInfo(usageData);
             },
             error: function(error){
                 ajaxErrorFieldByText(error);
@@ -189,7 +189,7 @@ let pblntInfoReload = function(e) {
                 console.log("land price result", result);
 
                 let priceInfo = result.data,
-                    $frm = $('form[name="frmLandRegister"]'),
+                    $frm = $('form[name="frmLandPriceRegister"]'),
                     $table = $frm.find('.pblnt-table tbody')
                 ;
                 if (!checkNullOrEmptyValue(priceInfo)) {
@@ -212,7 +212,7 @@ let drawPriceTable = function(priceInfo) {
 
     $.each(priceInfo, function(idx, item) {
         tag += '<tr>';
-        tag += '<th class="text-alien-center thead-light pclndStdrYear pnu landPriceId" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '" landPriceId="' + convertNullOrEmptyValue(item.landPriceId) + '">' + item.pclndStdrYear + '</th>';
+        tag += '<th class="text-alien-center thead-light data-field" pclndStdrYear="' + item.pclndStdrYear + '" pnu="' + item.pnu + '" landPriceId="' + convertNullOrEmptyValue(item.landPriceId) + '" responseCode="' + convertNullOrEmptyValue(item.responseCode) + '" lastCurlApiAt="' + convertNullOrEmptyValue(item.lastCurlApiAt) + '">' + item.pclndStdrYear + '</th>';
         tag += '<td class="text-alien-center pblntfPclnd" pblntfPclnd="' + item.pblntfPclnd + '">' + addCommasToNumber(item.pblntfPclnd) + '</td>';
         tag += '<td class="text-alien-center pblntfPclndPy" pblntfPclndPy="' + item.pblntfPclndPy + '">' + addCommasToNumber(item.pblntfPclndPy) + '</td>';
         if (item.changeRate > 0) {
@@ -321,6 +321,7 @@ let drawLandTable = function($table, landList) {
 
 let settingLandInfo = function(landInfo) {
     let $frm = $('form[name="frmLandRegister"]');
+    $frm.find('input[name="landId"]').val(landInfo.landId);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
@@ -340,9 +341,9 @@ let settingLandInfo = function(landInfo) {
     } else {
         $frm.find('input[name="commercialYn"]').iCheck('uncheck');
     }
-    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
-    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
 
+    $frm.find('input[name="responseCode"]').val(convertNullOrEmptyValue(landInfo.responseCode));
+    $frm.find('input[name="lastCurlApiAt"]').val(convertNullOrEmptyValue(landInfo.lastCurlApiAt));
 
     $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
@@ -359,14 +360,15 @@ let settingLandInfo = function(landInfo) {
 }
 
 let settingLandUsageInfo = function(landInfo) {
+
     let $frm = $('form[name="frmLandUsageRegister"]');
     $frm.find('input[name="landUsageId"]').val(landInfo.landUsageId);
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
     $frm.find('input[name="pnu"]').val(landInfo.pnu);
-    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
-    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+    $frm.find('input[name="responseCode"]').val(convertNullOrEmptyValue(landInfo.responseCode));
+    $frm.find('input[name="lastCurlApiAt"]').val(convertNullOrEmptyValue(landInfo.lastCurlApiAt));
     $frm.find('.prposAreaDstrcNmList').text(landInfo.prposAreaDstrcNmList);
 }
 
@@ -481,8 +483,8 @@ let loadLandInfoById = function(e) {
     $frm.find('input[name="prposAreaDstrcNmList"]').val(landInfo.prposAreaDstrcNmList);
     $frm.find('input[name="prposAreaDstrcCodeList"]').val(landInfo.prposAreaDstrcCodeList);
     $frm.find('input[name="posList"]').val(landInfo.posList);
-    $frm.find('input[name="responseCode"]').val(landInfo.responseCode);
-    $frm.find('input[name="lastCurlApiAt"]').val(landInfo.lastCurlApiAt);
+    $frm.find('input[name="responseCode"]').val(convertNullOrEmptyValue(landInfo.responseCode));
+    $frm.find('input[name="lastCurlApiAt"]').val(convertNullOrEmptyValue(landInfo.lastCurlApiAt));
 }
 
 let assembleLandParams = function() {

@@ -123,39 +123,29 @@ public class LandInfo extends BaseTimeEntity {
         return landInfo;
     }
 
-    public static LandInfo update(LandInfoDto dto, RealEstate realEstate) {
-        LandInfo landInfo = LandInfo.builder()
-                .id(dto.getLandId())
-                .pnu(dto.getPnu())
-                .address(dto.getAddress())
-                .commercialYn(dto.getCommercialYn())
-                .lndcgrCodeNm(dto.getLndcgrCodeNm())
-                .lndpclAr(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclAr()) : 0)
-                .lndpclArByPyung(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclArByPyung()) : 0)
-                .pblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getPblntfPclnd()) : 0)
-                .totalPblntfPclnd(StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getTotalPblntfPclnd()) : 0)
-                .totalPblntfPclndByPyung(StringUtils.hasText(dto.getTotalPblntfPclndByPyung()) ? Double.parseDouble(dto.getTotalPblntfPclndByPyung()) : 0)
-                .prposArea1Nm(dto.getPrposArea1Nm())
-                .roadSideCodeNm(dto.getRoadSideCodeNm())
-                .tpgrphFrmCodeNm(dto.getTpgrphFrmCodeNm())
-                .tpgrphHgCodeNm(dto.getTpgrphHgCodeNm())
-                .ladUseSittnNm(dto.getLadUseSittnNm())
-                .roadWidth(StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : 0.0)
-                .etcInfo(dto.getEtcInfo())
-                .prposAreaDstrcNmList(dto.getPrposAreaDstrcNmList())
-                .prposAreaDstrcCodeList(dto.getPrposAreaDstrcCodeList())
-                .posList(dto.getPosList())
-                .responseCode(dto.getResponseCode())
-                .lastCurlApiAt(dto.getLastCurlApiAt())
-                .realEstate(realEstate)
-                .build();
-
-        if (StringUtils.hasText(dto.getPblntfPclnd())) {
-            double pblntfPclnd = Double.parseDouble(dto.getPblntfPclnd());
-            landInfo.pblndfPclndByPyung = Math.floor(pblntfPclnd * 3.305785);
-        }
-
-        return landInfo;
+    public void update(LandInfoDto dto) {
+        this.pnu = dto.getPnu();
+        this.address = dto.getAddress();
+        this.commercialYn = dto.getCommercialYn();
+        this.lndcgrCodeNm = dto.getLndcgrCodeNm();
+        this.lndpclAr = StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclAr()) : 0;
+        this.lndpclArByPyung = calculateAreaByPy(dto.getLndpclArByPyung(), dto.getLndpclAr());
+        this.pblntfPclnd = replaceAreaValue(dto.getPblntfPclnd(), dto.getLndpclAr());
+        this.pblndfPclndByPyung = calculateAreaByPy("", dto.getPblntfPclnd());
+        this.totalPblntfPclnd = StringUtils.hasText(dto.getTotalPblntfPclnd()) ? Double.parseDouble(dto.getTotalPblntfPclnd()) : 0;
+        this.totalPblntfPclndByPyung = calculateAreaByPy(dto.getTotalPblntfPclndByPyung(), dto.getTotalPblntfPclnd());
+        this.prposArea1Nm = dto.getPrposArea1Nm();
+        this.roadSideCodeNm = dto.getRoadSideCodeNm();
+        this.tpgrphFrmCodeNm = dto.getTpgrphFrmCodeNm();
+        this.tpgrphHgCodeNm = dto.getTpgrphHgCodeNm();
+        this.ladUseSittnNm = dto.getLadUseSittnNm();
+        this.roadWidth = StringUtils.hasText(dto.getRoadWidth()) ? Double.parseDouble(dto.getRoadWidth()) : 0.0;
+        this.etcInfo = dto.getEtcInfo();
+        this.prposAreaDstrcCodeList = dto.getPrposAreaDstrcCodeList();
+        this.prposAreaDstrcNmList = dto.getPrposAreaDstrcNmList();
+        this.posList = dto.getPosList();
+        this.responseCode = dto.getResponseCode();
+        this.lastCurlApiAt = dto.getLastCurlApiAt();
     }
 
     public static LandInfo createByExcelUpload(LandDataApiDto dto, String address, RealEstate newRealEstate) {
@@ -178,5 +168,31 @@ public class LandInfo extends BaseTimeEntity {
                 .posList(dto.getPosList())
                 .realEstate(newRealEstate)
                 .build();
+    }
+
+    public double calculateAreaByPy(String py, String area) {
+
+        if (StringUtils.hasText(py)) {
+            return Double.parseDouble(py);
+        }
+
+        if (!StringUtils.hasText(area)) {
+            return 0;
+        }
+
+        double a = Double.parseDouble(area);
+        return Math.floor(a * 3.305785);
+    }
+
+    public double replaceAreaValue(String data, String replaceData) {
+        if (StringUtils.hasText(data)) {
+            return Double.parseDouble(data);
+        }
+
+        return Double.parseDouble(replaceData);
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
     }
 }

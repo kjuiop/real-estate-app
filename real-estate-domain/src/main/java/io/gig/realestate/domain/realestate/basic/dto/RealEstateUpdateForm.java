@@ -61,7 +61,7 @@ public class RealEstateUpdateForm {
 
     private PriceCreateForm priceInfo;
 
-    private LandUsageUpdateForm landUsageInfo;
+    private LandUsageCreateForm landUsageInfo;
 
     private ConstructCreateForm constructInfo;
 

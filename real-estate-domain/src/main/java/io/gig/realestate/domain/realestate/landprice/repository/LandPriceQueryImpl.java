@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.landprice.repository;
 
+import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landprice.LandPriceReader;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ import java.util.List;
 public class LandPriceQueryImpl implements LandPriceReader {
 
     private final LandPriceQueryRepository queryRepository;
+
+    @Override
+    public LandPriceInfo getLandPriceInfoById(Long landPriceId) {
+        return queryRepository.getLandPRiceInfoById(landPriceId);
+    }
 
     @Override
     public List<LandPriceListDto> getLandPriceInfoByRealEstateId(Long realEstateId) {

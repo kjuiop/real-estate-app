@@ -20,7 +20,7 @@ public class CurlTrafficServiceImpl implements CurlTrafficService {
     @Override
     @Transactional
     public void createLandPublicApi(int statusCode, String pnu) {
-        CurlTrafficLight curlTrafficLight = CurlTrafficLight.createByLand(statusCode, pnu);
-        curlTrafficStore.store(curlTrafficLight);
+//        CurlTrafficLight curlTrafficLight = CurlTrafficLight.createByLand(statusCode, pnu);
+//        curlTrafficStore.store(curlTrafficLight);
     }
 }

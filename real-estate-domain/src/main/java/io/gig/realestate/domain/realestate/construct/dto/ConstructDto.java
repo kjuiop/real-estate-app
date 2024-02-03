@@ -95,6 +95,10 @@ public class ConstructDto {
 
     private int sumMechUtCnt;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     public ConstructDto(ConstructInfo c) {
         this.constructId = c.getId();
         this.bldNm = c.getBldNm();
@@ -126,6 +130,8 @@ public class ConstructDto {
         this.vlRatEstmTotAreaByPyung = c.getVlRatEstmTotAreaByPyung();
         this.sumAutoUtCnt = c.getIndrAutoUtcnt() + c.getOudrAutoUtcnt();
         this.sumMechUtCnt = c.getIndrMechUtcnt() + c.getOudrMechUtcnt();
+        this.responseCode = c.getResponseCode();
+        this.lastCurlApiAt = c.getLastCurlApiAt();
     }
 
     private String getConvertUseAprDate(LocalDateTime useAprDay) {

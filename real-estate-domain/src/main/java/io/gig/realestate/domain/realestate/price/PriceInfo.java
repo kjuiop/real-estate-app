@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.price;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
@@ -78,23 +79,17 @@ public class PriceInfo extends BaseTimeEntity {
         return priceInfo;
     }
 
-    public static PriceInfo update(PriceCreateForm createForm, RealEstate realEstate) {
-        PriceInfo priceInfo = PriceInfo.builder()
-                .salePrice(createForm.getSalePrice())
-                .depositPrice(createForm.getDepositPrice())
-                .revenueRate(createForm.getRevenueRate())
-                .averageUnitPrice(createForm.getAverageUnitPrice())
-                .guaranteePrice(createForm.getGuaranteePrice())
-                .rentMonth(createForm.getRentMonth())
-                .management(createForm.getManagement())
-                .managementExpense(createForm.getManagementExpense())
-                .realEstate(realEstate)
-                .build();
-
-        priceInfo.landPyungUnitPrice = calculateLandPyungUnit(priceInfo.getSalePrice(), createForm.getTotalLndpclArByPyung());
-        priceInfo.averageUnitPrice = calculateLandPyungUnit(priceInfo.getSalePrice(), createForm.getTotalLndpclArByPyung());
-        priceInfo.buildingPyungUnitPrice = calculateBuildingPyungUnit(priceInfo.getSalePrice(), createForm.getTotAreaByPyung());
-        return priceInfo;
+    public void update(PriceCreateForm dto, Administrator loginUser) {
+        this.salePrice = dto.getSalePrice();
+        this.depositPrice = dto.getDepositPrice();
+        this.revenueRate = dto.getRevenueRate();
+        this.guaranteePrice = dto.getGuaranteePrice();
+        this.rentMonth = dto.getRentMonth();
+        this.management = dto.getManagement();
+        this.managementExpense = dto.getManagementExpense();
+        this.landPyungUnitPrice = calculateLandPyungUnit(dto.getSalePrice(), dto.getTotalLndpclArByPyung());
+        this.averageUnitPrice = calculateLandPyungUnit(dto.getSalePrice(), dto.getTotalLndpclArByPyung());
+        this.buildingPyungUnitPrice = calculateBuildingPyungUnit(dto.getSalePrice(), dto.getTotAreaByPyung());
     }
 
     public static PriceInfo createByUpload(double salePrice, RealEstate realEstate) {

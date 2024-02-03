@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.landusage.repository;
 
+import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.landusage.LandUsageReader;
 import io.gig.realestate.domain.realestate.landusage.dto.LandUsageDto;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class LandUsageQueryImpl implements LandUsageReader {
     @Override
     public LandUsageDto getLandUsageInfoByRealEstateId(Long realEstateId) {
         return queryRepository.getLandUsageInfoByRealEstateId(realEstateId);
+    }
+
+    @Override
+    public LandUsageInfo getLandUsageInfoById(Long landUsageId) {
+        return queryRepository.getLandUsageInfoById(landUsageId);
     }
 }

@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.construct;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
@@ -98,25 +99,24 @@ public class ConstructInfo extends BaseTimeEntity {
     private LocalDateTime lastCurlApiAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id")
+    private Administrator createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by_id")
+    private Administrator updatedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 
-    public static ConstructInfo create(ConstructCreateForm createForm, RealEstate realEstate) {
-
-        LocalDateTime useAprDate = null;
-        if (StringUtils.hasText(createForm.getUseAprDate())) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate localDate = LocalDate.parse(createForm.getUseAprDate(), formatter);
-            useAprDate = localDate.atStartOfDay();
-        }
-
-
-        ConstructInfo constructInfo = ConstructInfo.builder()
+    public static ConstructInfo create(ConstructCreateForm createForm, RealEstate realEstate, Administrator loginUser) {
+        return ConstructInfo.builder()
                 .id(createForm.getConstructId())
                 .bldNm(createForm.getBldNm())
                 .hhldCnt(createForm.getHhldCnt())
                 .houseHoldName(createForm.getHouseHoldName())
-                .useAprDate(useAprDate)
+                .useAprDate(convertUseAprDate(createForm.getUseAprDate()))
                 .platArea(createForm.getPlatArea())
                 .platAreaByPyung(createForm.getPlatAreaByPyung())
                 .archArea(createForm.getArchArea())
@@ -143,13 +143,10 @@ public class ConstructInfo extends BaseTimeEntity {
                 .heit(createForm.getHeit())
                 .responseCode(createForm.getResponseCode())
                 .lastCurlApiAt(createForm.getLastCurlApiAt())
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
                 .realEstate(realEstate)
                 .build();
-
-//        constructInfo.totAreaByPyung = calculatePyung(constructInfo.getTotArea());
-//        constructInfo.archAreaByPyung = calculatePyung(constructInfo.getArchArea());
-
-        return constructInfo;
     }
 
     public static ConstructInfo createByExcelUpload(ConstructDataApiDto constructDto, RealEstate realEstate) {
@@ -200,5 +197,52 @@ public class ConstructInfo extends BaseTimeEntity {
         double result = area / 3.305785;
         result = Math.round(result * 100.0) / 100.0;
         return result;
+    }
+
+    public void update(ConstructCreateForm dto, Administrator loginUser) {
+        this.bldNm = dto.getBldNm();
+        this.hhldCnt = dto.getHhldCnt();
+        this.houseHoldName = dto.getHouseHoldName();
+        this.useAprDate = convertUseAprDate(dto.getUseAprDate());
+        this.platArea = dto.getPlatArea();
+        this.platAreaByPyung = dto.getPlatAreaByPyung();
+        this.archArea = dto.getArchArea();
+        this.archAreaByPyung = dto.getArchAreaByPyung();
+        this.bcRat = dto.getBcRat();
+        this.totArea = dto.getTotArea();
+        this.totAreaByPyung = dto.getTotAreaByPyung();
+        this.vlRat = dto.getVlRat();
+        this.heit = dto.getHeit();
+        this.grndFlrCnt = dto.getGrndFlrCnt();
+        this.ugrndFlrCnt = dto.getUgrndFlrCnt();
+        this.rideUseElvtCnt = dto.getRideUseElvtCnt();
+        this.emgenUseElvtCnt = dto.getEmgenUseElvtCnt();
+        this.indrAutoUtcnt = dto.getIndrAutoUtcnt();
+        this.oudrAutoUtcnt = dto.getOudrAutoUtcnt();
+        this.indrMechUtcnt = dto.getIndrMechUtcnt();
+        this.oudrMechUtcnt = dto.getOudrMechUtcnt();
+        this.mainPurpsCdNm = dto.getMainPurpsCdNm();
+        this.etcPurps = dto.getEtcPurps();
+        this.strctCdNm = dto.getStrctCdNm();
+        this.illegalConstructYn = dto.getIllegalConstructYn();
+        this.vlRatEstmTotArea = dto.getVlRatEstmTotArea();
+        this.vlRatEstmTotAreaByPyung = dto.getVlRatEstmTotAreaByPyung();
+        this.heit = dto.getHeit();
+        this.responseCode = dto.getResponseCode();
+        this.lastCurlApiAt = dto.getLastCurlApiAt();
+        this.updatedBy = loginUser;
+    }
+
+    private static LocalDateTime convertUseAprDate(String useAprDate) {
+        if (!StringUtils.hasText(useAprDate)) {
+            return null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(useAprDate, formatter);
+        return localDate.atStartOfDay();
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
     }
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/10/07
@@ -52,6 +54,10 @@ public class FloorListDto {
 
     private String etcInfo;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     public FloorListDto (FloorPriceInfo f) {
         this.floorId = f.getId();
         this.flrNo = f.getFlrNo();
@@ -70,6 +76,8 @@ public class FloorListDto {
         this.termStartDate = f.getTermStartDate();
         this.termEndDate = f.getTermEndDate();
         this.etcInfo = f.getEtcInfo();
+        this.responseCode = f.getResponseCode();
+        this.lastCurlApiAt = f.getLastCurlApiAt();
     }
 
     private static double calculatePy(double area) {

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/12/24
@@ -25,6 +27,10 @@ public class LandPriceDto {
 
     private double changeRate;
 
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
+
     public LandPriceDto(LandPriceInfo l) {
         this.landPriceId = l.getId();
         this.pnu = l.getPnu();
@@ -32,5 +38,7 @@ public class LandPriceDto {
         this.pblntfPclnd = l.getPblntfPclnd();
         this.pblntfPclndPy = l.getPblntfPclndPy();
         this.changeRate = l.getChangeRate();
+        this.responseCode = l.getResponseCode();
+        this.lastCurlApiAt = l.getLastCurlApiAt();
     }
 }

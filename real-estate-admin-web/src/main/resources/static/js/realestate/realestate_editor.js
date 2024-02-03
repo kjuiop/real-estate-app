@@ -73,12 +73,14 @@ let realEstateSave = function(e) {
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
         let pblntPrice = {
-            "landPriceId": $(item).find('.landPriceId').attr('landPriceId'),
-            "pnu": $(item).find('.pnu').attr('pnu'),
-            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "responseCode": $(item).find('.data-field').attr('responseCode'),
+            "lastCurlApiAt": $(item).find('.data-field').attr('lastCurlApiAt'),
+            "landPriceId": $(item).find('.data-field').attr('landPriceId'),
+            "pnu": $(item).find('.data-field').attr('pnu'),
+            "pclndStdrYear": $(item).find('.data-field').attr('pclndStdrYear'),
             "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
             "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
-            "changeRate": $(item).find('.changeRate').attr('changeRate')
+            "changeRate": $(item).find('.changeRate').attr('changeRate'),
         }
         landPriceInfoList.push(pblntPrice);
     });
@@ -163,9 +165,11 @@ let realEstateUpdate = function(e) {
     let landPriceInfoList = [];
     $pblntTable.find('tr').each(function(idx, item) {
         let pblntPrice = {
-            "landPriceId": $(item).find('.landPriceId').attr('landPriceId'),
-            "pnu": $(item).find('.pnu').attr('pnu'),
-            "pclndStdrYear": $(item).find('.pclndStdrYear').attr('pclndStdrYear'),
+            "responseCode": $(item).find('.data-field').attr('responseCode'),
+            "lastCurlApiAt": $(item).find('.data-field').attr('lastCurlApiAt'),
+            "landPriceId": $(item).find('.data-field').attr('landPriceId'),
+            "pnu": $(item).find('.data-field').attr('pnu'),
+            "pclndStdrYear": $(item).find('.data-field').attr('pclndStdrYear'),
             "pblntfPclnd": $(item).find('.pblntfPclnd').attr('pblntfPclnd'),
             "pblntfPclndPy": $(item).find('.pblntfPclndPy').attr('pblntfPclndPy'),
             "changeRate": $(item).find('.changeRate').attr('changeRate')

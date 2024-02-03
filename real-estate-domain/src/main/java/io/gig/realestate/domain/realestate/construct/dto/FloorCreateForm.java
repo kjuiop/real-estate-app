@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate.construct.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 /**
  * @author : JAKE
  * @date : 2023/10/14
@@ -45,4 +47,8 @@ public class FloorCreateForm {
     private String termEndDate;
 
     private String etcInfo;
+
+    private int responseCode;
+
+    private LocalDateTime lastCurlApiAt;
 }
