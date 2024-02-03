@@ -123,10 +123,10 @@
                             <div class="form-group col-md-12 line">
                                 <div class="display-flex-row">
                                     <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">대분류</label>
-                                        <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
-                                            <th:block th:each="code : ${usageCds.child}">
-                                                <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+                                        <label class="text-label">매물유형</label>
+                                        <select class="form-control propertyCds form-control-sm valid-ignore custom-select margin-right-4" name="propertyType">
+                                            <th:block th:each="code, status : ${propertyCds.child}">
+                                                <option th:value="${code.id}" th:selected="${isModify ? (isModify && dto.propertyCdId != null && dto.propertyCdId eq code.id) : status.index eq 0}">[[${code.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -137,6 +137,18 @@
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">거래일</label>
                                         <input type="text" class="form-control form-control-sm" name="tradingAt" th:value="${dto.tradingAt}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 line">
+                                <div class="display-flex-row">
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">대분류</label>
+                                        <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
+                                            <th:block th:each="code : ${usageCds.child}">
+                                                <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+                                            </th:block>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

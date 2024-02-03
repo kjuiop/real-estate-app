@@ -38,6 +38,8 @@ public class RealEstateDetailDto extends RealEstateDto {
 
     private Long usageCdId;
 
+    private Long propertyCdId;
+
     private Long prevId;
 
     private Long nextId;
@@ -101,6 +103,10 @@ public class RealEstateDetailDto extends RealEstateDto {
 
         if (r.getFloorPriceInfo().size() > 0) {
             this.existFloorInfo = true;
+        }
+
+        if (r.getPropertyType() != null) {
+            this.propertyCdId = r.getPropertyType().getId();
         }
 
         if (r.getManager() != null) {
