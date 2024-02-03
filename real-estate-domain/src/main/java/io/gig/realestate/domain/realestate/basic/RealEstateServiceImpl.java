@@ -223,15 +223,13 @@ public class RealEstateServiceImpl implements RealEstateService {
             trafficLight = CurlTrafficLight.initTrafficLight(realEstate);
         }
 
-        List<LandInfo> toRemoveLand = new ArrayList<>();
         for (LandInfo existingLandInfo : realEstate.getLandInfoList()) {
             boolean existsInUpdateLandForm = updateForm.getLandInfoList().stream()
                     .anyMatch(dto -> dto.getLandId() != null && dto.getLandId().equals(existingLandInfo.getId()));
             if (!existsInUpdateLandForm) {
-                toRemoveLand.add(existingLandInfo);
+                existingLandInfo.delete();
             }
         }
-        realEstate.getLandInfoList().removeAll(toRemoveLand);
 
         int landDataResCode = 0;
         LocalDateTime lastCurlLandApiAt = null;
@@ -275,15 +273,13 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstate.addPriceInfo(priceInfo);
         }
 
-        List<FloorPriceInfo> toRemoveFloor = new ArrayList<>();
         for (FloorPriceInfo existingFloorInfo : realEstate.getFloorPriceInfo()) {
             boolean existsInUpdateFloorForm = updateForm.getFloorInfoList().stream()
                     .anyMatch(dto -> dto.getFloorId() != null && dto.getFloorId().equals(existingFloorInfo.getId()));
             if (!existsInUpdateFloorForm) {
-                toRemoveFloor.add(existingFloorInfo);
+                existingFloorInfo.delete();
             }
         }
-        realEstate.getFloorPriceInfo().removeAll(toRemoveFloor);
 
         int floorDataResCode = 0;
         LocalDateTime lastCurlFloorApiAt = null;
@@ -308,6 +304,16 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setFloorDataApiResult(floorDataResCode, lastCurlFloorApiAt);
 
+        for (ConstructInfo existingConstructInfo : realEstate.getConstructInfoList()) {
+            if (updateForm.getConstructInfo() == null) {
+                break;
+            }
+            boolean existUpdateConstructForm = existingConstructInfo.getId().equals(updateForm.getConstructInfo().getConstructId());
+            if (!existUpdateConstructForm) {
+                existingConstructInfo.delete();
+            }
+        }
+
         ConstructInfo constructInfo;
         if (updateForm.getConstructInfo() != null && updateForm.getConstructInfo().getConstructId() != null) {
             constructInfo = constructService.getConstructInfoById(updateForm.getConstructInfo().getConstructId());
@@ -318,16 +324,13 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         trafficLight.setConstructDataApiResult(constructInfo.getResponseCode(), constructInfo.getLastCurlApiAt());
 
-
-        List<CustomerInfo> toRemoveCustomer = new ArrayList<>();
         for (CustomerInfo existingCustomerInfo : realEstate.getCustomerInfoList()) {
             boolean existsInUpdateCustomerForm = updateForm.getCustomerInfoList().stream()
                     .anyMatch(dto -> dto.getCustomerId() != null && dto.getCustomerId().equals(existingCustomerInfo.getId()));
             if (!existsInUpdateCustomerForm) {
-                toRemoveCustomer.add(existingCustomerInfo);
+                existingCustomerInfo.delete();
             }
         }
-        realEstate.getCustomerInfoList().removeAll(toRemoveCustomer);
 
         for (CustomerCreateForm dto : updateForm.getCustomerInfoList()) {
             CustomerInfo customerInfo;
@@ -340,16 +343,13 @@ public class RealEstateServiceImpl implements RealEstateService {
             }
         }
 
-
-        List<ImageInfo> toRemoveSubImages = new ArrayList<>();
         for (ImageInfo existingImageInfo : realEstate.getSubImgInfoList()) {
             boolean existsInUpdateImageForm = updateForm.getSubImages().stream()
                     .anyMatch(dto -> dto.getImageId() != null && dto.getImageId().equals(existingImageInfo.getId()));
             if (!existsInUpdateImageForm) {
-                toRemoveSubImages.add(existingImageInfo);
+                existingImageInfo.delete();
             }
         }
-        realEstate.getSubImgInfoList().removeAll(toRemoveSubImages);
 
         String imageUrl = "";
         for (int i=0; i<updateForm.getSubImages().size(); i++) {
@@ -369,16 +369,13 @@ public class RealEstateServiceImpl implements RealEstateService {
         }
         realEstate.updateImageFullPath(imageUrl);
 
-
-        List<LandPriceInfo> toRemoveLandPriceInfo = new ArrayList<>();
         for (LandPriceInfo existingLandPriceInfo : realEstate.getLandPriceInfoList()) {
             boolean existsInUpdateLandPriceForm = updateForm.getLandPriceInfoList().stream()
                     .anyMatch(dto -> dto.getLandPriceId() != null && dto.getLandPriceId().equals(existingLandPriceInfo.getId()));
             if (!existsInUpdateLandPriceForm) {
-                toRemoveLandPriceInfo.add(existingLandPriceInfo);
+                existingLandPriceInfo.delete();
             }
         }
-        realEstate.getLandPriceInfoList().removeAll(toRemoveLandPriceInfo);
 
         int landPriceResCode = 0;
         LocalDateTime landPriceLastCurlApiAt = null;

@@ -191,4 +191,8 @@ public class LandInfo extends BaseTimeEntity {
 
         return Double.parseDouble(replaceData);
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

@@ -241,4 +241,8 @@ public class ConstructInfo extends BaseTimeEntity {
         LocalDate localDate = LocalDate.parse(useAprDate, formatter);
         return localDate.atStartOfDay();
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

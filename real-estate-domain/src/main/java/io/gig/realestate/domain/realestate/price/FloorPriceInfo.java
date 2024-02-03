@@ -137,4 +137,8 @@ public class FloorPriceInfo extends BaseTimeEntity {
                 .realEstate(realEstate)
                 .build();
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

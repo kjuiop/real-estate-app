@@ -106,4 +106,8 @@ public class CustomerInfo extends BaseTimeEntity {
         this.representPhone = dto.getRepresentPhone();
         this.updatedBy = loginUser;
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }

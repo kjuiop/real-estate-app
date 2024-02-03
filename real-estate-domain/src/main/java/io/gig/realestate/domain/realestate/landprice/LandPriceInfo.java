@@ -83,4 +83,8 @@ public class LandPriceInfo extends BaseTimeEntity  {
         this.lastCurlApiAt = dto.getLastCurlApiAt();
         this.updatedBy = loginUser;
     }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }
