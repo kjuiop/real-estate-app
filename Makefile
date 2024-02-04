@@ -38,7 +38,7 @@ docker_build:
 
 docker_push:
 	@echo "TARGET_VERSION : $(TARGET_VERSION)"
-	docker push $(DOCKER_REPOSITORY)/$(ADMIN_MODULE_NAME):$(TARGET_VERSION)
+	docker push $(DOCKER_REPOSITORY)/hs-$(ADMIN_MODULE_NAME):$(TARGET_VERSION)
 
 target-version:
 	@echo "========================================"
