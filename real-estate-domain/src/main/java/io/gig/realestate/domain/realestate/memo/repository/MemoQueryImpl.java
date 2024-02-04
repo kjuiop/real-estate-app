@@ -21,8 +21,8 @@ public class MemoQueryImpl implements MemoReader {
     private final MemoQueryRepository queryRepository;
 
     @Override
-    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId) {
-        return queryRepository.getMemoListInfoByRealEstateId(realEstateId);
+    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId, boolean allMemo) {
+        return queryRepository.getMemoListInfoByRealEstateId(realEstateId, allMemo);
     }
 
     @Override

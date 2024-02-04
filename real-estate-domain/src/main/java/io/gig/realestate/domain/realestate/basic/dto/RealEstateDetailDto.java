@@ -50,6 +50,9 @@ public class RealEstateDetailDto extends RealEstateDto {
     private boolean isOwnUser = false;
 
     @Builder.Default
+    private boolean isSuperAdmin = false;
+
+    @Builder.Default
     private boolean empty = false;
 
     @Builder.Default
@@ -164,6 +167,21 @@ public class RealEstateDetailDto extends RealEstateDto {
 
             if (StringUtils.hasText(role.getAuthority()) && role.getAuthority().equals("ROLE_SUPER_ADMIN")) {
                 this.isOwnUser = true;
+                return;
+            }
+        }
+    }
+
+    public void checkIsSuperAdmin(LoginUser loginUser) {
+        if (loginUser.getLoginUser() == null) {
+            return;
+        }
+
+        Collection<GrantedAuthority> roles = loginUser.getAuthorities();
+        for (GrantedAuthority role : roles) {
+
+            if (StringUtils.hasText(role.getAuthority()) && role.getAuthority().equals("ROLE_SUPER_ADMIN")) {
+                this.isSuperAdmin = true;
                 return;
             }
         }

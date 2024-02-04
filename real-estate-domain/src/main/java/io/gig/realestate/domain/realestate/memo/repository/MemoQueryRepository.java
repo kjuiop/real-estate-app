@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.land.dto.LandListDto;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.memo.dto.MemoListDto;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
 import static io.gig.realestate.domain.realestate.memo.QMemoInfo.memoInfo;
 
 /**
@@ -28,14 +26,14 @@ public class MemoQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId) {
+    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId, boolean allMemo) {
 
         JPAQuery<MemoListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(MemoListDto.class,
                         memoInfo
                 ))
                 .from(memoInfo)
-                .where(defaultCondition())
+                .where(allMemo ? null : defaultCondition())
                 .where(eqRealEstateId(realEstateId))
                 .orderBy(memoInfo.id.desc());
 

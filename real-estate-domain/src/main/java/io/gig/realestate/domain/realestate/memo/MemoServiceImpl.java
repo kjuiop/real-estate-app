@@ -29,8 +29,8 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId) {
-        return memoReader.getMemoListInfoByRealEstateId(realEstateId);
+    public List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId, boolean allMemo) {
+        return memoReader.getMemoListInfoByRealEstateId(realEstateId, allMemo);
     }
 
     @Override
