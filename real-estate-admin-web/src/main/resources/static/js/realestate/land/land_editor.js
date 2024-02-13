@@ -41,6 +41,9 @@ let loadLandInfoList = function() {
 
             // 대표필지가 바뀔 가능성이 존재
             let landInfo = landList[0];
+            if (!checkNullOrEmptyValue(landInfo)) {
+                return;
+            }
 
             settingLandInfo(landInfo);
             if (checkNullOrEmptyValue(landInfo.landUsageInfo)) {
@@ -603,6 +606,10 @@ let applyLandInfo = function(e) {
                 return;
             }
             let landInfo = landList[0];
+            if (!checkNullOrEmptyValue(landInfo)) {
+                return;
+            }
+
             $frm.find('input[name="address"]').val(address);
             $frm.find('input[name="pnu"]').val(landInfo.pnu);
             settingLandInfo(landInfo);
