@@ -29,8 +29,9 @@ public class MemoController {
 
     @GetMapping("{realEstateId}")
     public ResponseEntity<ApiResponse> getMemoData(
-            @PathVariable(name = "realEstateId") Long realEstateId) {
-        List<MemoListDto> memoList = memoService.getMemoListInfoByRealEstateId(realEstateId);
+            @PathVariable(name = "realEstateId") Long realEstateId,
+            @RequestParam(name = "all_memo") boolean allMemo) {
+        List<MemoListDto> memoList = memoService.getMemoListInfoByRealEstateId(realEstateId, allMemo);
         return new ResponseEntity<>(ApiResponse.OK(memoList), HttpStatus.OK);
     }
 

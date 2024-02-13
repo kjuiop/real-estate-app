@@ -116,6 +116,7 @@ public class RealEstateController {
         HttpSession session = request.getSession();
         RealEstateDetailDto dto = realEstateService.getDetail(session.getId(), realEstateId);
         dto.checkIsOwnUser(loginUser);
+        dto.checkIsSuperAdmin(loginUser);
         List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");

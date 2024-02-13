@@ -8,7 +8,7 @@ let loadMemoInfo = function() {
     }
 
     $.ajax({
-        url: "/real-estate/memo/" + dto.realEstateId,
+        url: "/real-estate/memo/" + dto.realEstateId + "?all_memo=false",
         method: "get",
         type: "json",
         contentType: "application/json",
@@ -99,7 +99,11 @@ let drawMemoInfoList = function(memoInfoList) {
         tag +=  '</td>';
         tag +=  '<td style="width:20%">' + item.createdAtFormat + '</td>';
         tag +=  '<td style="width:20%">' + item.createdByName + '</td>';
-        tag +=  '<td style="width:40%">' + item.memo + '</td>';
+        if (item.deleteYn === 'Y') {
+            tag +=  '<td style="width:40%;">' + item.memo + ' <span style="color: darkred; font-style: italic;">(삭제됨)</span></td>';
+        } else {
+            tag +=  '<td style="width:40%">' + item.memo + '</td>';
+        }
         tag +=  '<td style="width:10%"><button type="button" class="btn btn-xs btn-danger btnRemoveMemo pull-right"><i class="fa fa-times" aria-hidden="true" style="font-size: 15px;"></i></button></td>';
         tag += '</tr>';
     });
@@ -168,5 +172,31 @@ let removeAllMemo = function(e) {
                 ajaxErrorFieldByText(error);
             }
         });
+    });
+}
+
+let showDelMemo = function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "/real-estate/memo/" + dto.realEstateId + "?all_memo=true",
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("memo result", result);
+            let memoInfoList = result.data;
+            let tag = '';
+            if (memoInfoList.length === 0) {
+                tag = drawEmptyMemoInfo();
+            } else {
+                tag = drawMemoInfoList(memoInfoList);
+            }
+            $('.memoInfo').html(tag);
+            initICheck();
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
     });
 }

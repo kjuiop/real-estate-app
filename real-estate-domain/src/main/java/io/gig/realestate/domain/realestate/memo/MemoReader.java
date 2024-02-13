@@ -9,7 +9,7 @@ import java.util.List;
  * @date : 2023/10/02
  */
 public interface MemoReader {
-    List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId);
+    List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId, boolean allMemo);
 
     MemoInfo getMemoInfoById(Long memoId);
 

@@ -14,7 +14,7 @@ import java.util.List;
 public interface MemoService {
     Long create(MemoCreateForm createForm, LoginUser loginUser);
 
-    List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId);
+    List<MemoListDto> getMemoListInfoByRealEstateId(Long realEstateId, boolean allMemo);
 
     Long delete(MemoDeleteForm deleteForm, LoginUser loginUser);
 

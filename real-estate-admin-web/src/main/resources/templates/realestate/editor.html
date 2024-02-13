@@ -402,7 +402,7 @@
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-                    <div class="card" style="margin-top: 10px;">
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify}">
                         <div class="card-header">
                             <h3 class="card-title margin-right-4" style="padding-top: 5px;">고객정보</h3>
                             <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
@@ -417,8 +417,7 @@
                                 <div>
                                     <div class="col-md-12 no-left-padding margin-top-5" style="padding-right: 0;">
                                         <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
-                                        <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;"> 대출현황 & 메모</button>
-                                        <button type="button" class="btn btn-sm btn-warning" style="margin-right: 5px;"> 삭제항목 보이기</button>
+                                        <button type="button" class="btn btn-sm btn-warning btnShowDelMemo" style="margin-right: 5px;" th:if="${dto.isSuperAdmin}"> 삭제항목 보이기</button>
                                         <button type="button" class="btn btn-sm btn-danger pull-right btnRemoveAllMemo"> 삭제</button>
                                     </div>
                                     <div class="col-md-12 display-flex-row no-left-padding margin-top-5" style="padding-right: 0;">
