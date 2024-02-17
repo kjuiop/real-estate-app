@@ -30,6 +30,84 @@
                                     <button id="btnRealEstateModal" type="button" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> 매수자등록</button>
                                 </div>
                             </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <table class="table projects search-table spacing-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 33%;" class="no-padding" colspan="3"></th>
+                                        <th style="width: 66%;" class="no-padding" colspan="6"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label for="customerName" class="top-label">
+                                                    <div class="search-text">고객</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="customerName" name="customerName" class="form-control search-input">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">진행단계</div>
+                                                </label>
+                                            </div>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="landType" style="font-size: 12px;">
+                                                <option>진행중</option>
+                                                <option>종료</option>
+                                            </select>
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">프로세스(전체)</div>
+                                                </label>
+                                            </div>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="landType" style="font-size: 12px;">
+                                                <option>기본영업프로세스</option>
+                                            </select>
+                                        </td>
+                                        <td colspan="1" class="min-width-150">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">팀</div>
+                                                </label>
+                                            </div>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="landType" style="font-size: 12px;">
+                                                <option>본부</option>
+                                            </select>
+                                        </td>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
+                                            <div class="input-label">
+                                                <label for="customerName" class="top-label">
+                                                    <div class="search-text">담당자</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="manager" name="manager" class="form-control search-input">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minArchAreaByPyung" class="top-label">
+                                                        <div class="search-text">시작일</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minArchAreaByPyung" name="minArchAreaByPyung" class="form-control search-input center-align">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxArchAreaByPyung" name="maxArchAreaByPyung" class="form-control search-input center-align">
+                                                <div class="input-label">
+                                                    <label for="maxArchAreaByPyung" class="bottom-label">
+                                                        <div class="search-bottom-text"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="col-12 display-flex-row line">
                                 <div class="col-8"></div>
                                 <div class="col-4">
