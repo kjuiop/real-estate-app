@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<style>
+    .content * {
+        font-size: 12px;
+    }
+
+    .container-fluid select {
+        height: 30px;
+    }
+</style>
+<body>
+<div layout:fragment="content">
+    <div th:replace="layouts/utilFragments::navigator('/buyer', '매수자 관리', '매수자 목록')"></div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="callout">
+                        <form name="frmSearch">
+                            <input type="hidden" name="page" th:value="${condition.page}" />
+                            <input type="hidden" name="size" th:value="${condition.size}" />
+                            <div class="row col-md-12" style="margin-bottom: 25px;">
+                                <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매수자관리</h5>
+                                <div class="col-md-3 pull-right">
+                                    <button id="btnRealEstateModal" type="button" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> 매수자등록</button>
+                                </div>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-sm btn-default float-right">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">총</h4>(&nbsp;<span>0</span>개&nbsp;)
+                            <div class="card-tools float-right">
+                                <select class="form-control" id="limit">
+                                    <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
+                                    <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
+                                    <option value="30" th:selected="${condition.size} == 30 ? selected ">30개</option>
+                                    <option value="50" th:selected="${condition.size} == 50 ? selected ">50개</option>
+                                    <option value="100" th:selected="${condition.size} == 100 ? selected ">100개</option>
+                                    <option value="300" th:selected="${condition.size} == 300 ? selected ">300개</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table projects">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="row margin-bottom-10">
+                                                <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;">[진행중]</span>
+                                                <span>김정인 제목</span>
+                                            </div>
+                                            <div class="row margin-bottom-8">
+                                                <div class="col-md-10 no-left-padding">
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #D56C4B; color: #ffffff; font-weight: bold;">기회인지</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #DC964E; color: #ffffff; font-weight: bold;">제품소개</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #FFB152; color: #ffffff; font-weight: bold;">제안</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #FF9700; color: #ffffff; font-weight: bold;">초기견적</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #F77802; color: #ffffff; font-weight: bold;">재견적</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #E84F04; color: #ffffff; font-weight: bold;">협상</button>
+                                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 13%; background-color: #E84F04; color: #ffffff; font-weight: bold;">계약</button>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span style="width: 50%; font-size: 13px; padding-top: 3px;">
+                                                        성공확률
+                                                    </span>
+                                                    <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">100%</button>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="font-size: 12px;">
+                                                담당자 : 김정인 | 2024-02-02 ~ 2024-02-18
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+    <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_list.js}"></script>
+</section>
+</body>
+</html>
