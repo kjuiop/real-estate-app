@@ -280,6 +280,7 @@
     padding-top: 35px;
     padding-bottom: 18px;
     border: 0;
+    font-size: 12px;
 }
 
 .search-table .input-label + .select-box {
