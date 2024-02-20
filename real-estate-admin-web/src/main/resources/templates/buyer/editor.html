@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .container-fluid input {
+            height: 30px !important;
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px !important;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
+                            <input type="hidden" id="buyerId" name="buyerId" th:field="*{buyerId}" />
+
+                            <div class="card-header">
+                                <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>진행상태</label>
+                                    </div>
+                                    <div class="col-md-10 display-flex-column">
+                                        <select class="form-control form-control-sm" name="landType" style="font-size: 12px;">
+                                            <option>진행중</option>
+                                            <option>종료</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">제목</label>
+                                    </div>
+                                    <div class="col-md-10 display-flex-column">
+                                        <input type="text" id="username" class="form-control valid-fields" name="title" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">고객</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" id="name" class="form-control valid-fields" name="name" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="confirmPassword">유입경로</label>
+                                    </div>
+                                    <div class="col-md-10 display-flex-column">
+                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="incomePath" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">광고일 경우, 주소 및 허위여부</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" id="phone" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">매입금액대/보유현금</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">매입목적</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">매입의향사 정보 및 담당자</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">투자성향</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">매입시점</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">선호지역(행정구역)</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">선호지역(지하철노선)</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">선호지역(도로)</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">사옥일 경우</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">명함받기 또는 성함묻기</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">첫 매물 전달 방식</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">다음 약속 잡기</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="name">매수인 요청 내용</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control valid-fields" name="phone" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
+                                    <a href="/buyer" class="btn btn-sm btn-default float-right margin-right-5"> 목록</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 900px; background-color: #F4F6F9;">
+                            <div class="row">
+                                <div class="col-md-2" style="position: relative;">
+                                    <div style="position: absolute; top:15px; left: 40px;">
+                                        <label class="font-size-20">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-10 padding-10 display-flex-column background-color-white border-radius-7">
+                                    <div class="display-flex-row">
+                                        <label class="col-md-10 font-size-14">영업기획등록</label>
+                                        <span class="col-md-2" style="text-align: right;">2024.01.27</span>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <div class="col-md-12">
+                                            등록자 : <span>김정인</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/settings/administrator/administrator_editor.js" th:src="@{/js/settings/administrator/administrator_editor.js}"></script>
+</section>
+</body>
+</html>

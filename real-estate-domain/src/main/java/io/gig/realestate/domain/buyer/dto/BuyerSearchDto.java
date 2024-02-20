@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.buyer;
+package io.gig.realestate.domain.buyer.dto;
 
 import io.gig.realestate.domain.common.BaseSearchDto;
 import lombok.Getter;

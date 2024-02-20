@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.buyer;
 
-import io.gig.realestate.domain.buyer.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,5 +21,11 @@ public class BuyerController {
     public String index(BuyerSearchDto condition, Model model) {
         model.addAttribute("condition", condition);
         return "buyer/list";
+    }
+
+    @GetMapping("new")
+    public String register(Model model) {
+        model.addAttribute("dto", BuyerDetailDto.emptyDto());
+        return "buyer/editor";
     }
 }
