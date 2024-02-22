@@ -17,6 +17,7 @@ let showCategoryAddModal = function(e) {
     $('#code').val('');
     $('#lv').val(lv);
     $('#colorCode').val('');
+    $('.minicolors-swatch-color').css('background-color', '');
     $('#name').val('');
     $('#saveType').val("new");
     $('#sortOrder').val(0);
@@ -35,17 +36,11 @@ let getChildrenCategory = function(e) {
         checked = $this.prop('checked');
 
     if (checked) {
-
         let parentId = $(this).val();
         let level = parseInt($(this).attr('name').replace("lv", "")) + 1;
-        let colorCode = $(this).attr('colorCode');
-
         console.log("level : ", level);
 
         $('#parentId-lv' + level).val(parentId);
-        $('#parentColorCode').val(colorCode);
-        $('.minicolors-swatch-color').css('background-color', colorCode);
-
         getCategories(parentId, level);
     }
 };
@@ -116,8 +111,8 @@ let showParentCategoryName = function (level) {
 
     for (let i = level-1; i>0; i--) {
         $('#category-panel-lv' + i).show();
-        $('#colorCode').attr('disabled', true);
-        $('#colorCode').val($('#parentColorCode').val());
+        // $('#colorCode').attr('disabled', true);
+        // $('#colorCode').val($('#parentColorCode').val());
         $('#category-name-lv' + i).text($('input[name="lv' + i + '"]:checked').parents('.category-unit').find('.category-name').text());
     }
 };
@@ -135,6 +130,11 @@ let editCode = function (codeId, level) {
             $('#parentId').val(data.parentId);
             $('#name').val(data.name);
             $('#colorCode').val(data.colorCode);
+            if (checkNullOrEmptyValue(data.colorCode)) {
+                $('.minicolors-swatch-color').css('background-color', data.colorCode);
+            } else {
+                $('.minicolors-swatch-color').css('background-color', '');
+            }
             $('#lv').val(level);
             $('#saveType').val("modify");
             $('#sortOrder').val(data.sortOrder);

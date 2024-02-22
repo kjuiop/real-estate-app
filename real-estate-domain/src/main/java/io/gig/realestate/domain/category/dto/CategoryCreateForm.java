@@ -15,6 +15,8 @@ public class CategoryCreateForm {
     @NotEmpty(message = "카테고리 이름을 입력해주세요.")
     private String name;
 
+    private String code;
+
     private String colorCode;
 
     private YnType activeYn;

@@ -21,6 +21,8 @@ public class CategoryUpdateForm {
     @NotEmpty(message = "카테고리 이름을 입력해주세요.")
     private String name;
 
+    private String colorCode;
+
     private YnType activeYn;
 
     private int sortOrder;

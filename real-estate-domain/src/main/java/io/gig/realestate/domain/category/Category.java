@@ -44,6 +44,8 @@ public class Category {
     @Builder.Default
     private int sortOrder = 0;
 
+    private String colorCode;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2)
@@ -64,7 +66,9 @@ public class Category {
 
     public static Category create(CategoryCreateForm form) {
         return Category.builder()
+                .code(form.getCode())
                 .name(form.getName())
+                .colorCode(form.getColorCode())
                 .activeYn(form.getActiveYn())
                 .sortOrder(form.getSortOrder())
                 .build();
@@ -94,6 +98,7 @@ public class Category {
     public void update(CategoryUpdateForm form) {
         this.name = form.getName();
         this.code = form.getCode();
+        this.colorCode = form.getColorCode();
         this.sortOrder = form.getSortOrder();
         this.activeYn = form.getActiveYn();
     }
