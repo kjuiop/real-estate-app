@@ -55,7 +55,7 @@ public class InitUtils {
         Set<Role> superAdminRoles = new HashSet<>();
         superAdminRoles.add(superAdminRole);
         superAdminRoles.add(managerRole);
-        Administrator superAdmin = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", "010-3182-0825", superAdminRoles);
+        Administrator superAdmin = administratorService.initAdmin("admin@hanshin.io", passwordEncoder.encode("admin123$"), "초기관리자", "010-3182-0825", superAdminRoles);
 
         Set<Role> superAdminMenuRoles = new HashSet<>();
         superAdminMenuRoles.add(superAdminRole);
@@ -96,6 +96,20 @@ public class InitUtils {
         categoryService.initChildCategory("CD_USAGE_01_04", "CD_USAGE_01", "임대수익용", YnType.Y, 3, 4, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_05", "CD_USAGE_01", "신축-리모델링용", YnType.Y, 3, 5, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_06", "CD_USAGE_01", "모텔/호텔", YnType.Y, 3, 6, usageChange);
+
+        Category landType = categoryService.initCategory("CD_LAND", "매물유형", YnType.Y, 1, 3);
+        categoryService.initChildCategory("CD_LAND_01", "CD_LAND_01", "일반", YnType.Y, 2, 1, landType);
+        categoryService.initChildCategory("CD_LAND_02", "CD_LAND_02", "일반", YnType.Y, 2, 1, landType);
+
+        Category processType = categoryService.initCategory("CD_PROCESS", "진행단계", YnType.Y, 1, 4);
+        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "기회인지", YnType.Y, 2, 1, processType);
+        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "제품소개", YnType.Y, 2, 2, processType);
+        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "제안", YnType.Y, 2, 3, processType);
+        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "초기견적", YnType.Y, 2, 4, processType);
+        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "재견적", YnType.Y, 2, 5, processType);
+        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "협상", YnType.Y, 2, 6, processType);
+        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "계약", YnType.Y, 2, 7, processType);
+
     }
 
     private void validateAlreadyEntity() {
