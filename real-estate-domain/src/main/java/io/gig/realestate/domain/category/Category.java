@@ -93,6 +93,7 @@ public class Category {
 
     public void update(CategoryUpdateForm form) {
         this.name = form.getName();
+        this.code = form.getCode();
         this.sortOrder = form.getSortOrder();
         this.activeYn = form.getActiveYn();
     }

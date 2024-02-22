@@ -14,6 +14,7 @@ let showCategoryAddModal = function(e) {
     let parentId = $('#parentId-lv' + lv).val();
 
     $('#parentId').val(parentId);
+    $('#code').val('');
     $('#lv').val(lv);
     $('#colorCode').val('');
     $('#name').val('');
@@ -138,6 +139,7 @@ let editCode = function (codeId, level) {
             $('#saveType').val("modify");
             $('#sortOrder').val(data.sortOrder);
             $('#id').val(data.id);
+            $('#code').val(data.code);
 
             if (data.activeYn === "Y") {
                 $("#category-active").iCheck('check');
