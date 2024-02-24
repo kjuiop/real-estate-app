@@ -125,7 +125,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span>0</span>개&nbsp;)
+                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
@@ -141,30 +141,32 @@
                             <div>
                                 <table class="table projects">
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="row margin-bottom-10">
-                                                <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;">[진행중]</span>
-                                                <span>김정인 제목</span>
-                                            </div>
-                                            <div class="row margin-bottom-8">
-                                                <div class="col-md-10 no-left-padding">
-                                                    <th:block th:each="processCd : ${processCds}">
-                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5" th:style="'width: 13%; color: #ffffff; font-weight: bold; background-color: ' + ${processCd.colorCode}">[[${processCd.name}]]</button>
-                                                    </th:block>
+                                    <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <tr>
+                                            <td>
+                                                <div class="row margin-bottom-10">
+                                                    <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;">[진행중]</span>
+                                                    <span>[[${item.title}]]</span>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="row margin-bottom-8">
+                                                    <div class="col-md-10 no-left-padding">
+                                                        <th:block th:each="processCd : ${processCds}">
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5" th:style="'width: 13%; color: #ffffff; font-weight: bold; background-color: ' + ${processCd.colorCode}">[[${processCd.name}]]</button>
+                                                        </th:block>
+                                                    </div>
+                                                    <div class="col-md-2">
                                                     <span style="width: 50%; font-size: 13px; padding-top: 3px;">
                                                         성공확률
                                                     </span>
-                                                    <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">100%</button>
+                                                        <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">100%</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row" style="font-size: 12px;">
-                                                담당자 : 김정인 | 2024-02-02 ~ 2024-02-18
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                <div class="row" style="font-size: 12px;">
+                                                    담당자 : 김정인 | 2024-02-02 ~ 2024-02-18
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </th:block>
                                     </tbody>
                                 </table>
                             </div>
