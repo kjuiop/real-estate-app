@@ -42,7 +42,7 @@
                                     <div class="col-md-9 display-flex-column">
                                         <select class="form-control form-control-sm" name="processCd" style="font-size: 12px;">
                                             <th:block th:each="processCd : ${processCds}">
-                                                <option th:value="${processCd.id}">[[${processCd.name}]]</option>
+                                                <option th:value="${processCd.id}" th:sortOrder="${processCd.sortOrder}">[[${processCd.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>

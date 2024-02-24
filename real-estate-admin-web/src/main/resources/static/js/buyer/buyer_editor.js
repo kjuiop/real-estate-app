@@ -58,6 +58,7 @@ let save = function(e) {
         return;
     }
     params['usageTypeCds'] = usageTypeCds;
+    params['sortOrder'] = $('select[name="processCd"] option:selected').attr('sortOrder');
 
     console.log("params", params);
 
