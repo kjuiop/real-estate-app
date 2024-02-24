@@ -3,15 +3,12 @@ package io.gig.realestate.admin.controller.buyer;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
-import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.buyer.BuyerService;
 import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
 import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
 import io.gig.realestate.domain.category.CategoryService;
-import io.gig.realestate.domain.category.dto.CategoryDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,11 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author : JAKE

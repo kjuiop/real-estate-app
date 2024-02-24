@@ -106,8 +106,9 @@ public class BuyerDetail extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static BuyerDetail create(BuyerCreateForm createForm, Category processCd, Administrator loginUser) {
+    public static BuyerDetail create(BuyerCreateForm createForm, Category processCd, Buyer buyer, Administrator loginUser) {
         return BuyerDetail.builder()
+                .buyer(buyer)
                 .name(createForm.getName())
                 .sortOrder(createForm.getSortOrder())
                 .title(createForm.getTitle())

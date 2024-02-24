@@ -37,7 +37,7 @@ public class BuyerServiceImpl implements BuyerService {
     public Long create(BuyerCreateForm createForm, LoginUser loginUser) {
         Category processCd = categoryService.getCategoryById(createForm.getProcessCd());
         Buyer buyer = Buyer.create(createForm, processCd, loginUser.getLoginUser());
-        BuyerDetail detail = BuyerDetail.create(createForm, processCd, loginUser.getLoginUser());
+        BuyerDetail detail = BuyerDetail.create(createForm, processCd, buyer, loginUser.getLoginUser());
         buyer.addDetail(detail);
         return buyerStore.store(buyer).getId();
     }

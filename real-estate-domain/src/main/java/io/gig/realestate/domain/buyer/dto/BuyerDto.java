@@ -18,9 +18,11 @@ public class BuyerDto {
 
     private String title;
 
+    private String usageTypeCds;
+
     public BuyerDto(Buyer b) {
         this.buyerId = b.getId();
         this.title = b.getTitle();
-
+        this.usageTypeCds = b.getUsageTypeCds();
     }
 }
