@@ -1,0 +1,31 @@
+package io.gig.realestate.domain.buyer;
+
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
+import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.CategoryService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author : JAKE
+ * @date : 2024/02/24
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class BuyerServiceImpl implements BuyerService {
+
+    private final CategoryService categoryService;
+    private final BuyerStore buyerStore;
+
+    @Override
+    public Long create(BuyerCreateForm createForm, LoginUser loginUser) {
+        Category processCd = categoryService.getCategoryById(createForm.getProcessCd());
+        Buyer buyer = Buyer.create(createForm, processCd, loginUser.getLoginUser());
+        BuyerDetail detail = BuyerDetail.create(createForm, processCd, loginUser.getLoginUser());
+        buyer.addDetail(detail);
+        return buyerStore.store(buyer).getId();
+    }
+}

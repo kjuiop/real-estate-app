@@ -37,10 +37,13 @@ let drawUsageTypeButton = function(id, name) {
 }
 
 let getUsageTypeCds = function() {
-    let usageTypeCds = [];
+    let usageTypeCds = "";
     let $section = $('.usageTypeSection').find('.btnUsageCode');
-    $section.toArray().some(function(item) {
-        usageTypeCds.push($(item).attr('usageTypeId'));
+    $section.toArray().some(function(item, index, array) {
+        usageTypeCds += $(item).attr('usageTypeId');
+        if (index < array.length - 1) {
+            usageTypeCds += ",";
+        }
     });
 
     return usageTypeCds;
