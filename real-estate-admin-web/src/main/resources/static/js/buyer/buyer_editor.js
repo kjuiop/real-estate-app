@@ -27,8 +27,18 @@ let checkDuplicateUsageType = function(id) {
 
 let drawUsageTypeButton = function(id, name) {
     let tags = '';
-    tags += '<button type="button" class="btn btn-sm btn-primary btnUsageCode selected margin-top-8" usageTypeId="' + id + '" name="usageTypeId" style="margin-right: 5px;"> ' + name + '</button>';
+    tags += '<button type="button" class="btn btn-xs btn-primary btnUsageCode selected margin-top-8" usageTypeId="' + id + '" name="usageTypeId" style="margin-right: 5px;"> ' + name + '</button>';
     return tags
+}
+
+let getUsageTypeCds = function() {
+    let usageTypeCds = [];
+    let $section = $('.usageTypeSection').find('.btnUsageCode');
+    $section.toArray().some(function(item) {
+        usageTypeCds.push($(item).attr('usageTypeId'));
+    });
+
+    return usageTypeCds;
 }
 
 let save = function(e) {
@@ -42,10 +52,12 @@ let save = function(e) {
         return;
     }
 
-    if (!checkNullOrEmptyValue(params.usageType)) {
-        twoBtnModal("제목을 입력해주세요.");
+    let usageTypeCds = getUsageTypeCds();
+    if (usageTypeCds.length === 0) {
+        twoBtnModal("매입목적을 선택해주세요.");
         return;
     }
+    params['usageTypeCds'] = usageTypeCds;
 
     console.log("params", params);
 
@@ -69,6 +81,18 @@ let save = function(e) {
     });
 }
 
+let setFakeReadOnly = function(e) {
+    e.preventDefault();
+
+    let fakeYn = $(this).val();
+    if (fakeYn === 'Y') {
+        $('input[name="adManager"]').prop('readonly', false);
+    } else {
+        $('input[name="adManager"]').prop('readonly', true);
+    }
+}
+
 $(document).ready(onReady)
+    .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
     .on('click', '.btnSave', save)
     .on('change', '#usageType', addUsageType);
