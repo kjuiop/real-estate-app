@@ -8,6 +8,10 @@ let addUsageType = function(e) {
     let id = $(this).val(),
         name = $(this).find('option:selected').attr('name');
 
+    if (!checkNullOrEmptyValue(id)) {
+        return;
+    }
+
     if (checkDuplicateUsageType(id)) {
         twoBtnModal("이미 등록된 매입목적입니다.");
         return;
@@ -15,6 +19,7 @@ let addUsageType = function(e) {
 
     let tag = drawUsageTypeButton(id, name);
     $('.usageTypeSection').append(tag);
+    $('.usageTr').removeClass('hidden');
 }
 
 let checkDuplicateUsageType = function(id) {
