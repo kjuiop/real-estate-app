@@ -96,4 +96,5 @@ let setFakeReadOnly = function(e) {
 $(document).ready(onReady)
     .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
     .on('click', '.btnSave', save)
-    .on('change', '#usageType', addUsageType);
+    .on('change', '#usageType', addUsageType)
+;

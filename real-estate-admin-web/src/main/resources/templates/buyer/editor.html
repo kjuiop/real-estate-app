@@ -163,19 +163,7 @@
                                         <label for="name">선호지역(행정구역)</label>
                                     </div>
                                     <div class="col-md-9 display-flex-row">
-                                        <select class="form-control form-control-sm margin-right-5 col-md-3" name="sido">
-                                            <option value="">시도 선택</option>
-                                            <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
-                                                <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:text="${area.name}"></option>
-                                            </th:block>
-                                        </select>
-                                        <select class="form-control form-control-sm select-box margin-right-5 col-md-3" name="gungu">
-                                            <option value="">구군 선택</option>
-                                        </select>
-
-                                        <select class="form-control form-control-sm select-box margin-right-4 col-md-3" name="dong">
-                                            <option value="">동 선택</option>
-                                        </select>
+                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="강남구  동 / 서초구  동 / 송파구  동 / 서울, 수도권" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -183,18 +171,7 @@
                                         <label for="name">선호지역(지하철노선)</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <select class="form-control form-control-sm select-box margin-right-5 col-md-3" name="subway">
-                                            <option value="">1호선</option>
-                                            <option value="">2호선</option>
-                                            <option value="">3호선</option>
-                                            <option value="">4호선</option>
-                                            <option value="">5호선</option>
-                                            <option value="">6호선</option>
-                                            <option value="">7호선</option>
-                                            <option value="">8호선</option>
-                                            <option value="">9호선</option>
-                                            <option value="">수인분당선</option>
-                                        </select>
+                                        <input type="text" class="form-control valid-fields" name="subway" placeholder="2호선   역 / 3호선   역 / 7호선  역 / 9호선  역" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -202,7 +179,7 @@
                                         <label for="name">선호지역(도로)</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="테헨란로, 강남대로, 도산대로, 영동대로, 언주로, 9호선라인, 7호선라인" />
+                                        <input type="text" class="form-control valid-fields" name="preferRoad" placeholder="테헨란로, 강남대로, 도산대로, 영동대로, 언주로, 9호선라인, 7호선라인" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
