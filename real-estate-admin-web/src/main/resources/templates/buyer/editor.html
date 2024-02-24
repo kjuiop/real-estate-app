@@ -142,10 +142,10 @@
                                     </div>
                                     <div class="col-md-3">
                                         <select class="form-control form-control-sm" name="investmentCharacter" style="font-size: 12px;">
-                                            <option>수익률</option>
-                                            <option>지가상승기대</option>
-                                            <option>입지</option>
-                                            <option>직접사용의 편의성</option>
+                                            <option value="">선택</option>
+                                            <th:block th:each="characterCd : ${characterCds}">
+                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}">[[${characterCd.name}]]</option>
+                                            </th:block>
                                         </select>
                                     </div>
                                     <div class="col-md-6"></div>
