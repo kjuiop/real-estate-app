@@ -37,6 +37,7 @@ public class BuyerController {
     @GetMapping("new")
     public String register(Model model) {
         model.addAttribute("sidoList", areaService.getParentAreaList());
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         model.addAttribute("dto", BuyerDetailDto.emptyDto());
         return "buyer/editor";
     }
