@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-6 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
                             <input type="hidden" id="buyerId" name="buyerId" th:field="*{buyerId}" />
 
                             <div class="card-header">
@@ -40,7 +40,7 @@
                                         <label>진행상태</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
-                                        <select class="form-control form-control-sm" name="landType" style="font-size: 12px;">
+                                        <select class="form-control form-control-sm" name="processCd" style="font-size: 12px;">
                                             <th:block th:each="processCd : ${processCds}">
                                                 <option th:value="${processCd.id}">[[${processCd.name}]]</option>
                                             </th:block>
@@ -60,7 +60,7 @@
                                         <label for="confirmPassword">유입경로</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
-                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="incomePath" placeholder="광고(네이버, 밸류맵, 디스코), 소개, 관리고객"/>
+                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="inflowPath" placeholder="광고(네이버, 밸류맵, 디스코), 소개, 관리고객"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -101,17 +101,27 @@
                                         <label class="col-md-1 padding-top-5">억원</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-3">
-                                        <label for="name">매입목적</label>
+                                <div class="form-group col-md-12 display-flex-column">
+                                    <div class="col-md-12 no-left-padding display-flex-row">
+                                        <div class="col-md-3">
+                                            <label for="name">매입목적</label>
+                                        </div>
+                                        <div class="col-md-3 display-flex-column">
+                                            <select id="usageType" class="form-control form-control-sm" style="font-size: 12px;">
+                                                <option value="">선택해주세요.</option>
+                                                <th:block th:each="code, status : ${usageCds}">
+                                                    <option th:value="${code.id}" th:name="${code.name}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6"></div>
                                     </div>
-                                    <div class="col-md-3 display-flex-column">
-                                        <select class="form-control form-control-sm" name="purpose" style="font-size: 12px;">
-                                            <option>사옥용</option>
-                                            <option>투자용</option>
-                                        </select>
+                                    <div class="col-md-12 display-flex-row">
+                                        <div class="col-md-3">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                        <div class="col-md-9 no-left-padding usageTypeSection"></div>
                                     </div>
-                                    <div class="col-md-6"></div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
@@ -425,7 +435,7 @@
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>
-    <script src="/static/js/settings/administrator/administrator_editor.js" th:src="@{/js/settings/administrator/administrator_editor.js}"></script>
+    <script src="/static/js/buyer/buyer_editor.js" th:src="@{/js/buyer/buyer_editor.js}"></script>
 </section>
 </body>
 </html>
