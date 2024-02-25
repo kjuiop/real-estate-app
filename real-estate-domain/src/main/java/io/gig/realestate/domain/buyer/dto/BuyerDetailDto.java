@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.buyer.dto;
 
 import io.gig.realestate.domain.buyer.Buyer;
+import io.gig.realestate.domain.common.YnType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,12 @@ public class BuyerDetailDto extends BuyerDto {
 
     @Builder.Default
     public List<ProcessListDto> processList = new ArrayList<>();
+
+    @Builder.Default
+    public YnType fakeYn = YnType.N;
+
+    @Builder.Default
+    public YnType companyEstablishAtYn = YnType.N;
 
     @Builder.Default
     private boolean empty = false;

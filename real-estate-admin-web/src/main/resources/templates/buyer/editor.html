@@ -24,9 +24,9 @@
             <div class="row">
                 <div class="col-md-6 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
-                            <input type="hidden" id="buyerId" name="buyerId" th:field="*{buyerId}" />
-
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
+                            <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
+                            <input type="hidden" name="buyerDetailId" th:value="${processDto.buyerDetailId}" />
                             <div class="card-header">
                                 <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
                                 <div class="card-tools">
@@ -42,7 +42,7 @@
                                     <div class="col-md-9 display-flex-column">
                                         <select class="form-control form-control-sm" name="processCd" style="font-size: 12px;">
                                             <th:block th:each="processCd : ${processCds}">
-                                                <option th:value="${processCd.id}" th:sortOrder="${processCd.sortOrder}">[[${processCd.name}]]</option>
+                                                <option th:value="${processCd.id}" th:sortOrder="${processCd.sortOrder}" th:selected="${processDto.processCd eq processCd.code}">[[${processCd.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -52,7 +52,7 @@
                                         <label for="title">제목</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
-                                        <input type="text" id="title" class="form-control valid-fields" name="title" required />
+                                        <input type="text" id="title" class="form-control valid-fields" name="title" th:value="${processDto.title}" required />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -60,7 +60,7 @@
                                         <label for="confirmPassword">유입경로</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
-                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="inflowPath" placeholder="광고(네이버, 밸류맵, 디스코), 소개, 관리고객"/>
+                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="inflowPath" th:value="${processDto.inflowPath}" placeholder="광고(네이버, 밸류맵, 디스코), 소개, 관리고객"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -72,16 +72,16 @@
                                     <div class="col-md-9 display-flex-column">
                                         <div class="display-flex-row margin-bottom-8">
                                             <label class="col-md-2 padding-top-5">주소</label>
-                                            <input type="text" id="adAddress" class="form-control valid-fields col-md-10" name="adAddress" required />
+                                            <input type="text" id="adAddress" class="form-control valid-fields col-md-10" name="adAddress" th:value="${processDto.adAddress}" />
                                         </div>
                                         <div class="display-flex-row">
                                             <label class="col-md-2 padding-top-5">허위여부</label>
                                             <div class="col-md-4">
-                                                <label class="margin-right-10" for="fakeYn_Y" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_Y" value="Y">&nbsp;&nbsp;&nbsp;여</label>
-                                                <label class="margin-right-10" for="fakeYn_N" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_N" value="N" checked>&nbsp;&nbsp;&nbsp;부</label> &nbsp;
+                                                <label class="margin-right-10" for="fakeYn_Y" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_Y" value="Y" th:checked="${processDto.fakeYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;여</label>
+                                                <label class="margin-right-10" for="fakeYn_N" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_N" value="N" th:checked="${processDto.fakeYn eq YnType.N}">&nbsp;&nbsp;&nbsp;부</label> &nbsp;
                                             </div>
                                             <div class="col-md-6" style="padding-right: 0;">
-                                                <input type="text" id="adManager" class="form-control valid-fields" name="adManager" placeholder="광고담당자" readonly />
+                                                <input type="text" id="adManager" class="form-control valid-fields" name="adManager" placeholder="광고담당자" th:readonly="${processDto.fakeYn eq YnType.N}" th:value="${processDto.adManager}" />
                                             </div>
                                         </div>
                                     </div>
@@ -91,13 +91,13 @@
                                         <label for="minSalePrice">매입금액대/보유현금</label>
                                     </div>
                                     <div class="col-md-9 display-flex-row">
-                                        <input type="text" id="minSalePrice" class="form-control valid-fields col-md-2" name="minSalePrice" />
+                                        <input type="text" id="minSalePrice" class="form-control valid-fields col-md-2" name="minSalePrice" th:value="${processDto.minSalePrice}" />
                                         <label class="col-md-1 padding-top-5" style="padding-right: 0;">억원</label>
                                         <label class="col-md-1 padding-top-5" style="padding-right: 0;">~</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="maxSalePrice" />
+                                        <input type="text" class="form-control valid-fields col-md-2" name="maxSalePrice" th:value="${processDto.maxSalePrice}"/>
                                         <label class="col-md-1 padding-top-5" style="padding-right: 0;">억원</label>
                                         <label class="col-md-1 padding-top-5" style="padding-right: 0;">/</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="handCache" />
+                                        <input type="text" class="form-control valid-fields col-md-2" name="handCache" th:value="${processDto.handCache}"/>
                                         <label class="col-md-1 padding-top-5">억원</label>
                                     </div>
                                 </div>
@@ -129,11 +129,11 @@
                                     </div>
                                     <div class="col-md-9 display-flex-row">
                                         <label class="col-md-1 padding-top-5">업종</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerSector" />
+                                        <input type="text" class="form-control valid-fields col-md-2" name="customerSector" th:value="${processDto.customerSector}"/>
                                         <label class="col-md-1 padding-top-5">직책</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerPosition" required />
+                                        <input type="text" class="form-control valid-fields col-md-2" name="customerPosition" th:value="${processDto.customerPosition}" />
                                         <label class="col-md-1 padding-top-5">이름</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerName" required />
+                                        <input type="text" class="form-control valid-fields col-md-2" name="customerName" th:value="${processDto.customerName}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -144,7 +144,7 @@
                                         <select class="form-control form-control-sm" name="investmentCharacterCd" style="font-size: 12px;">
                                             <option value="">선택</option>
                                             <th:block th:each="characterCd : ${characterCds}">
-                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}">[[${characterCd.name}]]</option>
+                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}" th:selected="${processDto.investmentCharacterCd eq characterCd.code}">[[${characterCd.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>
@@ -155,7 +155,7 @@
                                         <label for="name">매입시점</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="purchasePoint" required />
+                                        <input type="text" class="form-control valid-fields" name="purchasePoint" th:value="${processDto.purchasePoint}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -163,7 +163,7 @@
                                         <label for="name">선호지역(행정구역)</label>
                                     </div>
                                     <div class="col-md-9 display-flex-row">
-                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="강남구  동 / 서초구  동 / 송파구  동 / 서울, 수도권" />
+                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="강남구  동 / 서초구  동 / 송파구  동 / 서울, 수도권" th:value="${processDto.preferArea}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -171,7 +171,7 @@
                                         <label for="name">선호지역(지하철노선)</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="preferSubway" placeholder="2호선   역 / 3호선   역 / 7호선  역 / 9호선  역" />
+                                        <input type="text" class="form-control valid-fields" name="preferSubway" placeholder="2호선   역 / 3호선   역 / 7호선  역 / 9호선  역" th:value="${processDto.preferSubway}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -179,7 +179,7 @@
                                         <label for="name">선호지역(도로)</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="preferRoad" placeholder="테헨란로, 강남대로, 도산대로, 영동대로, 언주로, 9호선라인, 7호선라인" />
+                                        <input type="text" class="form-control valid-fields" name="preferRoad" placeholder="테헨란로, 강남대로, 도산대로, 영동대로, 언주로, 9호선라인, 7호선라인" th:value="${processDto.preferRoad}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -189,19 +189,19 @@
                                     <div class="col-md-9 display-flex-column">
                                         <div class="display-flex-row margin-bottom-10">
                                             <label class="col-md-2 padding-top-5">사용면적 : 전용</label>
-                                            <input type="text" class="form-control valid-fields col-md-1" name="exclusiveAreaPy" />
+                                            <input type="text" class="form-control valid-fields col-md-1" name="exclusiveAreaPy" th:value="${processDto.exclusiveAreaPy}"/>
                                             <label class="col-md-1 padding-top-5">평</label>
                                             <label class="col-md-2 padding-top-5">입주시기: </label>
-                                            <input type="text" class="form-control valid-fields col-md-2" name="moveYear" />
+                                            <input type="text" class="form-control valid-fields col-md-2" name="moveYear" th:value="${processDto.moveYear}"/>
                                             <label class="col-md-1 padding-top-5">년</label>
-                                            <input type="text" class="form-control valid-fields col-md-2" name="moveMonth" />
+                                            <input type="text" class="form-control valid-fields col-md-2" name="moveMonth" th:value="${processDto.moveMonth}"/>
                                             <label class="col-md-3 padding-top-5">월까지</label>
                                         </div>
                                         <div class="display-flex-row">
                                             <label class="col-md-2 padding-top-5">법인설립연도</label>
                                             <div class="col-md-8">
-                                                <label class="margin-right-10" for="companyEstablishAt_within" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_within" value="Y">&nbsp;&nbsp;&nbsp;5년이내</label>
-                                                <label class="margin-right-10" for="companyEstablishAt_after" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_after" value="N" checked>&nbsp;&nbsp;&nbsp;5년이후</label> &nbsp;
+                                                <label class="margin-right-10" for="companyEstablishAt_within" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_within" value="Y" th:checked="${processDto.companyEstablishAtYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;5년이내</label>
+                                                <label class="margin-right-10" for="companyEstablishAt_after" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_after" value="N" th:checked="${processDto.companyEstablishAtYn eq YnType.N}">&nbsp;&nbsp;&nbsp;5년이후</label> &nbsp;
                                             </div>
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@
                                         <label for="name">명함받기 또는 성함묻기</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" id="name" class="form-control valid-fields" name="name" placeholder="손님인지 부동산인지 판단질문: 혹시 부동산 공동중개 요청이신가요?" />
+                                        <input type="text" id="name" class="form-control valid-fields" name="name" placeholder="손님인지 부동산인지 판단질문: 혹시 부동산 공동중개 요청이신가요?" th:value="${processDto.name}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -219,7 +219,7 @@
                                         <label for="name">첫 매물 전달 방식</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="deliveryWay" placeholder="만나서 전달(내방, 방문), 카톡으로 전달" />
+                                        <input type="text" class="form-control valid-fields" name="deliveryWay" placeholder="만나서 전달(내방, 방문), 카톡으로 전달" th:value="${processDto.deliveryWay}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -227,7 +227,7 @@
                                         <label for="name">다음 약속 잡기</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control valid-fields" name="nextPromise" placeholder="부동산 방문 / 매수사 방문 / 현장답사" />
+                                        <input type="text" class="form-control valid-fields" name="nextPromise" placeholder="부동산 방문 / 매수사 방문 / 현장답사" th:value="${processDto.nextPromise}"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -235,7 +235,7 @@
                                         <label for="name">매수인 요청 내용</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <textarea class="form-control form-control-sm" name="requestDetail" style="height: 80px;" placeholder="지불조건 특이사항 여부 / 그 외"></textarea>
+                                        <textarea class="form-control form-control-sm" name="requestDetail" style="height: 80px;" placeholder="지불조건 특이사항 여부 / 그 외" th:text="${processDto.requestDetail}"></textarea>
                                     </div>
                                 </div>
 

@@ -57,11 +57,15 @@ public class BuyerController {
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
                            Model model) {
+
+        BuyerDetailDto dto = buyerService.getBuyerDetail(buyerId);
+
         model.addAttribute("sidoList", areaService.getParentAreaList());
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
-        model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        model.addAttribute("dto", dto);
+        model.addAttribute("processDto", dto.getProcessDetailDto());
         return "buyer/editor";
     }
 

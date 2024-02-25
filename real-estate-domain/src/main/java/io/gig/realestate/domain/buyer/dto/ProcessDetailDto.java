@@ -14,6 +14,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ProcessDetailDto {
 
+    private Long buyerDetailId;
+
     private String processCd;
 
     private String name;
@@ -67,6 +69,7 @@ public class ProcessDetailDto {
     private String investmentCharacterCd;
 
     public ProcessDetailDto(BuyerDetail d) {
+        this.buyerDetailId = d.getId();
         this.processCd = d.getProcessCd().getCode();
         this.name = d.getName();
         this.title = d.getTitle();
