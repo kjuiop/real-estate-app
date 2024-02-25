@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.buyer.dto;
 
+import io.gig.realestate.domain.buyer.Buyer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +30,9 @@ public class BuyerDetailDto extends BuyerDto {
 
     public static BuyerDetailDto emptyDto() {
         return EMPTY;
+    }
+
+    public BuyerDetailDto(Buyer b) {
+        super(b);
     }
 }

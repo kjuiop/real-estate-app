@@ -143,7 +143,7 @@
                                     <tbody>
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
-                                            <td>
+                                            <td class="moveEditor" th:id="${item.buyerId}" style="cursor: pointer;">
                                                 <div class="row margin-bottom-10">
                                                     <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;" th:text="${'['+ item.processName} + ']'"></span>
                                                     <span>[[${item.title}]]</span>

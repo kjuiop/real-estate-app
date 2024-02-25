@@ -5,6 +5,8 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.buyer.BuyerDetail;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
 import io.gig.realestate.domain.common.YnType;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.gig.realestate.domain.buyer.QBuyer.buyer;
 
@@ -58,8 +61,26 @@ public class BuyerQueryRepository {
         return new PageImpl<>(content, condition.getPageableWithSort(), total);
     }
 
+    public Optional<BuyerDetailDto> getBuyerDetail(Long buyerId) {
+
+        BuyerDetailDto buyerDetail = queryFactory
+                .select(Projections.constructor(BuyerDetailDto.class,
+                        buyer
+                        ))
+                .from(buyer)
+                .where(defaultCondition())
+                .where(eqBuyerId(buyerId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(buyerDetail);
+    }
+
     private BooleanExpression defaultCondition() {
         return buyer.deleteYn.eq(YnType.N);
     }
 
+    private BooleanExpression eqBuyerId(Long buyerId) {
+        return buyerId != null ? buyer.id.eq(buyerId) : null;
+    }
 }

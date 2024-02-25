@@ -54,6 +54,17 @@ public class BuyerController {
         return "buyer/editor";
     }
 
+    @GetMapping("{buyerId}/edit")
+    public String editForm(@PathVariable(name = "buyerId") Long buyerId,
+                           Model model) {
+        model.addAttribute("sidoList", areaService.getParentAreaList());
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
+        model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
+        model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        return "buyer/editor";
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerCreateForm createForm,

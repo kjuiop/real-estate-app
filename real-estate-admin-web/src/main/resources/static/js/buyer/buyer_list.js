@@ -19,7 +19,16 @@ let reset = function(e) {
     $frm.submit();
 };
 
+let movePage = function(e) {
+    e.preventDefault();
+
+    let id = $(this).attr('id');
+    location.href = '/buyer/' + id + '/edit';
+}
+
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
-    .on('click', '#btnSearch', search);
+    .on('click', '#btnSearch', search)
+    .on('click', '.moveEditor', movePage)
+;

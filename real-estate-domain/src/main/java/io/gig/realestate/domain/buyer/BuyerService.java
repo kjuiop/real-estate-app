@@ -2,6 +2,7 @@ package io.gig.realestate.domain.buyer;
 
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,6 @@ public interface BuyerService {
     Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition);
 
     Long create(BuyerCreateForm createForm, LoginUser loginUser);
+
+    BuyerDetailDto getBuyerDetail(Long buyerId);
 }

@@ -2,6 +2,7 @@ package io.gig.realestate.domain.buyer;
 
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
 import io.gig.realestate.domain.category.Category;
@@ -30,6 +31,12 @@ public class BuyerServiceImpl implements BuyerService {
     @Transactional(readOnly = true)
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
         return buyerReader.getBuyerPageListBySearch(condition);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BuyerDetailDto getBuyerDetail(Long buyerId) {
+        return buyerReader.getBuyerDetail(buyerId);
     }
 
     @Override

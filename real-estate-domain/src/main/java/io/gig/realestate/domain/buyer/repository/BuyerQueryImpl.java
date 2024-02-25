@@ -1,12 +1,16 @@
 package io.gig.realestate.domain.buyer.repository;
 
 import io.gig.realestate.domain.buyer.BuyerReader;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
+import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -22,5 +26,16 @@ public class BuyerQueryImpl implements BuyerReader {
     @Override
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
         return queryRepository.getBuyerPageListBySearch(condition);
+    }
+
+    @Override
+    public BuyerDetailDto getBuyerDetail(Long buyerId) {
+
+        Optional<BuyerDetailDto> findDetail = queryRepository.getBuyerDetail(buyerId);
+        if (findDetail.isEmpty()) {
+            throw new NotFoundException(buyerId + "의 정보가 없습니다.");
+        }
+
+        return findDetail.get();
     }
 }
