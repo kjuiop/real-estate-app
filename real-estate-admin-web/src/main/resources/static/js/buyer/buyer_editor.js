@@ -79,9 +79,9 @@ let save = function(e) {
             data: JSON.stringify(params),
             success: function (result) {
                 console.log("save result : ", result);
-                // twoBtnModal('정상적으로 저장되었습니다.', function() {
-                //     location.href = '/real-estate/' + result.data + '/edit';
-                // });
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    location.href = '/buyer/' + result.data + '/edit';
+                });
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -101,8 +101,32 @@ let setFakeReadOnly = function(e) {
     }
 }
 
+let changeBtn = function(e) {
+    e.preventDefault();
+
+    let code = $(this).find('option:selected').attr('code');
+    let isExist = false;
+    $.each(dto.processList, function(idx, item) {
+        console.log("code : " + code + " item : ", item.processCd);
+        if (item.processCd === code) {
+            isExist = true;
+        }
+    });
+
+    console.log("isExist", isExist)
+
+    if (isExist) {
+        $('.btnSave').addClass('hidden');
+        $('.btnUpdate').removeClass('hidden');
+    } else {
+        $('.btnUpdate').addClass('hidden');
+        $('.btnSave').removeClass('hidden');
+    }
+}
+
 $(document).ready(onReady)
     .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
     .on('click', '.btnSave', save)
     .on('change', '#usageType', addUsageType)
+    .on('change', 'select[name="processCd"]', changeBtn)
 ;

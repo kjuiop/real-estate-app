@@ -14,12 +14,15 @@ public class ProcessListDto {
 
     private String processName;
 
+    private String processCd;
+
     private LocalDateTime createdAt;
 
     private String createdByName;
 
     public ProcessListDto(BuyerDetail b) {
         this.processName = b.getProcessCd().getName();
+        this.processCd = b.getProcessCd().getCode();
         this.createdAt = b.getCreatedAt();
         this.createdByName = b.getCreatedBy().getName();
     }
