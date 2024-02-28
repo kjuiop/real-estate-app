@@ -6,4 +6,6 @@ package io.gig.realestate.domain.buyer;
  */
 public interface BuyerStore {
     Buyer store(Buyer buyer);
+
+    BuyerDetail storeDetail(BuyerDetail detail);
 }

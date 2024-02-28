@@ -1,6 +1,30 @@
 let onReady = function() {
-
+    if (checkNullOrEmptyValue(processDto)) {
+        setConvertDoubleToInt();
+    }
 };
+
+let setConvertDoubleToInt = function() {
+    let minSalePrice = processDto.minSalePrice,
+        maxSalePrice = processDto.maxSalePrice,
+        handCache = processDto.handCache,
+        exclusiveAreaPy = processDto.exclusiveAreaPy
+    ;
+
+    let $frm = $('form[name="frmRegister"]');
+    $frm.find('input[name="minSalePrice"]').val(convertDoubleValue(minSalePrice));
+    $frm.find('input[name="maxSalePrice"]').val(convertDoubleValue(maxSalePrice));
+    $frm.find('input[name="handCache"]').val(convertDoubleValue(handCache));
+    $frm.find('input[name="exclusiveAreaPy"]').val(convertDoubleValue(exclusiveAreaPy));
+}
+
+let convertDoubleValue = function(doubleValue) {
+    if (doubleValue === 0 || doubleValue % 1 > 0) {
+        return doubleValue
+    }
+
+    return parseInt(doubleValue);
+}
 
 let addUsageType = function(e) {
     e.preventDefault();
@@ -90,6 +114,47 @@ let save = function(e) {
     });
 }
 
+let update = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmRegister"]'),
+        params = serializeObject({form:$frm[0]}).json();
+
+    if (!checkNullOrEmptyValue(params.title)) {
+        twoBtnModal("제목을 입력해주세요.");
+        return;
+    }
+
+    let usageTypeCds = getUsageTypeCds();
+    if (usageTypeCds.length === 0) {
+        twoBtnModal("매입목적을 선택해주세요.");
+        return;
+    }
+    params['usageTypeCds'] = usageTypeCds;
+    params['sortOrder'] = $('select[name="processCd"] option:selected').attr('sortOrder');
+
+    console.log("params", params);
+
+    twoBtnModal("수정하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer",
+            method: 'put',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 수정되었습니다.', function() {
+                    location.href = '/buyer/' + result.data + '/edit';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 let setFakeReadOnly = function(e) {
     e.preventDefault();
 
@@ -127,6 +192,6 @@ let changeBtn = function(e) {
 $(document).ready(onReady)
     .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
     .on('click', '.btnSave', save)
+    .on('click', '.btnUpdate', update)
     .on('change', '#usageType', addUsageType)
-    .on('change', 'select[name="processCd"]', changeBtn)
 ;

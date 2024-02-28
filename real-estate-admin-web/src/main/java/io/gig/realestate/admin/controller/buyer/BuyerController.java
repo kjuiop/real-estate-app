@@ -4,10 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.BuyerService;
-import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
-import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.dto.*;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -75,5 +72,13 @@ public class BuyerController {
                                               @CurrentUser LoginUser loginUser) {
         Long buyerId = buyerService.create(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(buyerId), HttpStatus.OK);
+    }
+
+    @PutMapping()
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerDetailUpdateForm updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long id = buyerService.update(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
     }
 }

@@ -5,6 +5,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.buyer.Buyer;
 import io.gig.realestate.domain.buyer.BuyerDetail;
 import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.buyer.QBuyer.buyer;
+import static io.gig.realestate.domain.buyer.QBuyerDetail.buyerDetail;
 
 /**
  * @author : JAKE
@@ -61,6 +63,16 @@ public class BuyerQueryRepository {
         return new PageImpl<>(content, condition.getPageableWithSort(), total);
     }
 
+    public Optional<Buyer> getBuyerById(Long buyerId) {
+        Buyer fetch = queryFactory
+                .selectFrom(buyer)
+                .where(defaultCondition())
+                .where(eqBuyerId(buyerId))
+                .limit(1)
+                .fetchOne();
+        return Optional.ofNullable(fetch);
+    }
+
     public Optional<BuyerDetailDto> getBuyerDetail(Long buyerId) {
 
         BuyerDetailDto buyerDetail = queryFactory
@@ -76,11 +88,27 @@ public class BuyerQueryRepository {
         return Optional.ofNullable(buyerDetail);
     }
 
+    public Optional<BuyerDetail> getBuyerDetailByIdAndProcessCd(Long buyerId, Long processCdId) {
+        BuyerDetail fetch = queryFactory
+                .selectFrom(buyerDetail)
+                .where(defaultCondition())
+                .where(eqBuyerId(buyerId))
+                .where(eqProcessCdId(processCdId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(fetch);
+    }
+
     private BooleanExpression defaultCondition() {
         return buyer.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqBuyerId(Long buyerId) {
         return buyerId != null ? buyer.id.eq(buyerId) : null;
+    }
+
+    private BooleanExpression eqProcessCdId(Long processCdId) {
+        return processCdId != null ? buyerDetail.processCd.id.eq(processCdId) : null;
     }
 }

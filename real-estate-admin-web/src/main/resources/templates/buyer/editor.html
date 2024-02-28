@@ -22,11 +22,10 @@
     <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6 display-flex-column">
+                <div class="col-md-7 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
-                            <input type="hidden" name="buyerDetailId" th:value="${processDto.buyerDetailId}" />
                             <div class="card-header">
                                 <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
                                 <div class="card-tools">
@@ -129,11 +128,11 @@
                                     </div>
                                     <div class="col-md-9 display-flex-row">
                                         <label class="col-md-1 padding-top-5">업종</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerSector" th:value="${processDto.customerSector}"/>
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerSector" th:value="${processDto.customerSector}"/>
                                         <label class="col-md-1 padding-top-5">직책</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerPosition" th:value="${processDto.customerPosition}" />
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerPosition" th:value="${processDto.customerPosition}" />
                                         <label class="col-md-1 padding-top-5">이름</label>
-                                        <input type="text" class="form-control valid-fields col-md-2" name="customerName" th:value="${processDto.customerName}" />
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerName" th:value="${processDto.customerName}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -188,14 +187,19 @@
                                     </div>
                                     <div class="col-md-9 display-flex-column">
                                         <div class="display-flex-row margin-bottom-10">
-                                            <label class="col-md-2 padding-top-5">사용면적 : 전용</label>
-                                            <input type="text" class="form-control valid-fields col-md-1" name="exclusiveAreaPy" th:value="${processDto.exclusiveAreaPy}"/>
-                                            <label class="col-md-1 padding-top-5">평</label>
-                                            <label class="col-md-2 padding-top-5">입주시기: </label>
-                                            <input type="text" class="form-control valid-fields col-md-2" name="moveYear" th:value="${processDto.moveYear}"/>
-                                            <label class="col-md-1 padding-top-5">년</label>
-                                            <input type="text" class="form-control valid-fields col-md-2" name="moveMonth" th:value="${processDto.moveMonth}"/>
-                                            <label class="col-md-3 padding-top-5">월까지</label>
+                                            <div class="col-md-5 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15">사용면적 :</label>
+                                                <label class="padding-top-5 margin-right-10">전용</label>
+                                                <input type="text" class="form-control valid-fields" name="exclusiveAreaPy" th:value="${processDto.exclusiveAreaPy}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5">평</label>
+                                            </div>
+                                            <div class="col-md-7 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15">입주시기:</label>
+                                                <input type="text" class="form-control valid-fields" name="moveYear" th:value="${processDto.moveYear}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5 margin-right-20">년</label>
+                                                <input type="text" class="form-control valid-fields" name="moveMonth" th:value="${processDto.moveMonth}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5">월까지</label>
+                                            </div>
                                         </div>
                                         <div class="display-flex-row">
                                             <label class="col-md-2 padding-top-5">법인설립연도</label>
@@ -240,15 +244,15 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:classappend="${isModify ? 'hidden' : ''}"><i class="fa fa-plus"></i> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:classappend="${isModify ? '' : 'hidden'}"><i class="fa fa-plus"></i> 수정</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
                                     <a href="/buyer" class="btn btn-sm btn-default float-right margin-right-5"> 목록</a>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="col-md-6 display-flex-column">
+                <div class="col-md-5 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
@@ -269,8 +273,8 @@
                                     </div>
                                     <div class="form-group col-md-10 padding-10 display-flex-column background-color-white border-radius-7">
                                         <div class="display-flex-row">
-                                            <label class="col-md-10 font-size-14">[[${item.processName}]]</label>
-                                            <span class="col-md-2" style="text-align: right;">[[${#temporals.format(item.createdAt, 'yyyy.MM.dd')}]]</span>
+                                            <label class="col-md-9 font-size-14">[[${item.processName}]]</label>
+                                            <span class="col-md-3" style="text-align: right;">[[${#temporals.format(item.createdAt, 'yyyy.MM.dd')}]]</span>
                                         </div>
                                         <div class="display-flex-row">
                                             <div class="col-md-12">
@@ -291,6 +295,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var dto =/*[[${dto}]]*/'';
+        var processDto = /*[[${processDto}]]*/'';
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>

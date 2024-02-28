@@ -1,7 +1,9 @@
 package io.gig.realestate.domain.buyer;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.dto.BuyerDetailUpdateForm;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
@@ -106,7 +108,7 @@ public class BuyerDetail extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static BuyerDetail create(BuyerCreateForm createForm, Category processCd, Buyer buyer, Administrator loginUser) {
+    public static BuyerDetail create(BuyerCreateForm createForm, Category processCd, Category investCharacterCd, Buyer buyer, Administrator loginUser) {
         return BuyerDetail.builder()
                 .buyer(buyer)
                 .name(createForm.getName())
@@ -134,12 +136,72 @@ public class BuyerDetail extends BaseTimeEntity {
                 .requestDetail(createForm.getRequestDetail())
                 .usageTypeCds(createForm.getUsageTypeCds())
                 .processCd(processCd)
+                .investmentCharacterCd(investCharacterCd)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
     }
 
-    public void setProcessCd(Category processCd) {
+    public static BuyerDetail create(BuyerDetailUpdateForm updateForm, Category processCd, Category investmentCharacterCd, Buyer buyer, Administrator loginUser) {
+        return BuyerDetail.builder()
+                .buyer(buyer)
+                .name(updateForm.getName())
+                .sortOrder(updateForm.getSortOrder())
+                .title(updateForm.getTitle())
+                .inflowPath(updateForm.getInflowPath())
+                .adAddress(updateForm.getAdAddress())
+                .adManager(updateForm.getAdManager())
+                .fakeYn(updateForm.getFakeYn())
+                .minSalePrice(updateForm.getMinSalePrice())
+                .maxSalePrice(updateForm.getMaxSalePrice())
+                .handCache(updateForm.getHandCache())
+                .customerSector(updateForm.getCustomerSector())
+                .customerPosition(updateForm.getCustomerPosition())
+                .customerName(updateForm.getCustomerName())
+                .purchasePoint(updateForm.getPurchasePoint())
+                .preferArea(updateForm.getPreferArea())
+                .preferSubway(updateForm.getPreferSubway())
+                .preferRoad(updateForm.getPreferRoad())
+                .exclusiveAreaPy(updateForm.getExclusiveAreaPy())
+                .moveYear(updateForm.getMoveYear())
+                .moveMonth(updateForm.getMoveMonth())
+                .deliveryWay(updateForm.getDeliveryWay())
+                .nextPromise(updateForm.getNextPromise())
+                .requestDetail(updateForm.getRequestDetail())
+                .usageTypeCds(updateForm.getUsageTypeCds())
+                .processCd(processCd)
+                .investmentCharacterCd(investmentCharacterCd)
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .build();
+    }
+
+    public void update(BuyerDetailUpdateForm updateForm, Category processCd, Category investmentCharacterCd, LoginUser loginUser) {
+        this.name = updateForm.getName();
+        this.title = updateForm.getTitle();
+        this.inflowPath = updateForm.getInflowPath();
+        this.adAddress = updateForm.getAdAddress();
+        this.adManager = updateForm.getAdManager();
+        this.fakeYn = updateForm.getFakeYn();
+        this.minSalePrice = updateForm.getMinSalePrice();
+        this.maxSalePrice = updateForm.getMaxSalePrice();
+        this.handCache = updateForm.getHandCache();
+        this.customerSector = updateForm.getCustomerSector();
+        this.customerPosition = updateForm.getCustomerPosition();
+        this.customerName = updateForm.getCustomerName();
+        this.purchasePoint = updateForm.getPurchasePoint();
+        this.preferArea = updateForm.getPreferArea();
+        this.preferSubway = updateForm.getPreferSubway();
+        this.preferRoad = updateForm.getPreferRoad();
+        this.exclusiveAreaPy = updateForm.getExclusiveAreaPy();
+        this.moveYear = updateForm.getMoveYear();
+        this.moveMonth = updateForm.getMoveMonth();
+        this.deliveryWay = updateForm.getDeliveryWay();
+        this.nextPromise = updateForm.getNextPromise();
+        this.requestDetail = updateForm.getRequestDetail();
+        this.usageTypeCds = updateForm.getUsageTypeCds();
         this.processCd = processCd;
+        this.investmentCharacterCd = investmentCharacterCd;
+        this.updatedBy = loginUser.getLoginUser();
     }
 }
