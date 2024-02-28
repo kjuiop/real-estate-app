@@ -1,8 +1,32 @@
 let onReady = function() {
+    console.log("processDto", processDto);
+    console.log("usageCds", usageCds);
+
     if (checkNullOrEmptyValue(processDto)) {
         setConvertDoubleToInt();
+        setUsageTypeCd();
     }
+
 };
+
+let setUsageTypeCd = function() {
+
+    if (!checkNullOrEmptyValue(processDto.usageTypeCds)) {
+        return
+    }
+
+    let ids = processDto.usageTypeCds.split(",");
+    $.each(usageCds, function(i, code) {
+        $.each(ids, function(j, id) {
+            if (code.id == id) {
+                let tag = drawUsageTypeButton(code.id, code.name);
+                $('.usageTypeSection').append(tag);
+            }
+        });
+    });
+
+    $('.usageTr').removeClass('hidden');
+}
 
 let setConvertDoubleToInt = function() {
     let minSalePrice = processDto.minSalePrice,
