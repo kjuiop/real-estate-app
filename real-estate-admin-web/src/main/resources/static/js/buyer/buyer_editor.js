@@ -4,18 +4,18 @@ let onReady = function() {
 
     if (checkNullOrEmptyValue(processDto)) {
         setConvertDoubleToInt();
-        setUsageTypeCd();
+        setUsageTypeCd(processDto.usageTypeCds);
     }
 
 };
 
-let setUsageTypeCd = function() {
+let setUsageTypeCd = function(data) {
 
-    if (!checkNullOrEmptyValue(processDto.usageTypeCds)) {
+    if (!checkNullOrEmptyValue(data)) {
         return
     }
 
-    let ids = processDto.usageTypeCds.split(",");
+    let ids = data.split(",");
     $.each(usageCds, function(i, code) {
         $.each(ids, function(j, id) {
             if (code.id == id) {
@@ -183,6 +183,7 @@ let setFakeReadOnly = function(e) {
     e.preventDefault();
 
     let fakeYn = $(this).val();
+    console.log("fakeYn", fakeYn);
     if (fakeYn === 'Y') {
         $('input[name="adManager"]').prop('readonly', false);
     } else {
@@ -213,9 +214,67 @@ let changeBtn = function(e) {
     }
 }
 
+let selectDetail = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmRegister"]'),
+        buyerId = $frm.find('input[name="buyerId"]').val(),
+        processCd = $(this).val();
+
+    console.log("buyer id : " + buyerId + " processCd " + processCd);
+
+    $.ajax({
+        url: "/buyer/" + buyerId + "/" + processCd,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log("result : ", result);
+            let data = result.data;
+            $frm.find('input[name="title"]').val(data.title);
+            $frm.find('input[name="inflowPath"]').val(data.inflowPath);
+            if (data.fakeYn === 'Y') {
+                $frm.find("#fakeYn_Y").iCheck('check');
+            } else {
+                $frm.find("#fakeYn_N").iCheck('check');
+            }
+            $frm.find('input[name="adAddress"]').val(data.adAddress);
+            $frm.find('input[name="adManager"]').val(data.adManager);
+            $frm.find('input[name="minSalePrice"]').val(data.minSalePrice);
+            $frm.find('input[name="maxSalePrice"]').val(data.maxSalePrice);
+            $frm.find('input[name="handCache"]').val(data.handCache);
+            $frm.find('input[name="customerSector"]').val(data.customerSector);
+            $frm.find('input[name="customerPosition"]').val(data.customerPosition);
+            $frm.find('input[name="customerName"]').val(data.customerName);
+            $frm.find('select[name="investmentCharacterCd"]').val(data.investmentCharacterCd);
+            $frm.find('input[name="purchasePoint"]').val(data.purchasePoint);
+            $frm.find('input[name="preferArea"]').val(data.preferArea);
+            $frm.find('input[name="preferSubway"]').val(data.preferSubway);
+            $frm.find('input[name="preferRoad"]').val(data.preferRoad);
+            $frm.find('input[name="exclusiveAreaPy"]').val(data.exclusiveAreaPy);
+            $frm.find('input[name="moveYear"]').val(data.moveYear);
+            $frm.find('input[name="moveMonth"]').val(data.moveMonth);
+            if (data.companyEstablishAtYn === 'Y') {
+                $frm.find("#companyEstablishAt_within").iCheck('check');
+            } else {
+                $frm.find("#companyEstablishAt_after").iCheck('check');
+            }
+            $frm.find('input[name="name"]').val(data.name);
+            $frm.find('input[name="deliveryWay"]').val(data.deliveryWay);
+            $frm.find('input[name="nextPromise"]').val(data.nextPromise);
+            $frm.find('textarea[name="requestDetail"]').text(data.requestDetail);
+            setUsageTypeCd(data.usageTypeCds);
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 $(document).ready(onReady)
     .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
     .on('click', '.btnSave', save)
     .on('click', '.btnUpdate', update)
     .on('change', '#usageType', addUsageType)
+    .on('change', 'select[name="processCd"]', selectDetail)
 ;

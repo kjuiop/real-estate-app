@@ -16,4 +16,6 @@ public interface BuyerService {
     BuyerDetailDto getBuyerDetail(Long buyerId);
 
     Long update(BuyerDetailUpdateForm updateForm, LoginUser loginUser);
+
+    ProcessDetailDto getBuyerDetailByProcessCd(Long buyerId, Long processCd);
 }

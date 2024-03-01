@@ -143,7 +143,7 @@
                                         <select class="form-control form-control-sm" name="investmentCharacterCd" style="font-size: 12px;">
                                             <option value="">선택</option>
                                             <th:block th:each="characterCd : ${characterCds}">
-                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}" th:selected="${processDto.investmentCharacterCd eq characterCd.code}">[[${characterCd.name}]]</option>
+                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}" th:selected="${processDto.investmentCharacterCd eq characterCd.id}">[[${characterCd.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>

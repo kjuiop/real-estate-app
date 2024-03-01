@@ -66,7 +66,7 @@ public class ProcessDetailDto {
 
     private YnType companyEstablishAtYn;
 
-    private String investmentCharacterCd;
+    private Long investmentCharacterCd;
 
     public ProcessDetailDto(BuyerDetail d) {
         this.buyerDetailId = d.getId();
@@ -96,7 +96,7 @@ public class ProcessDetailDto {
         this.usageTypeCds = d.getUsageTypeCds();
         this.companyEstablishAtYn = d.getCompanyEstablishAtYn();
         if (d.getInvestmentCharacterCd() != null) {
-            this.investmentCharacterCd = d.getInvestmentCharacterCd().getCode();
+            this.investmentCharacterCd = d.getInvestmentCharacterCd().getId();
         }
     }
 }

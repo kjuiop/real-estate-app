@@ -10,6 +10,7 @@ import io.gig.realestate.domain.buyer.BuyerDetail;
 import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.dto.ProcessDetailDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -94,6 +95,21 @@ public class BuyerQueryRepository {
                 .where(defaultCondition())
                 .where(eqBuyerId(buyerId))
                 .where(eqProcessCdId(processCdId))
+                .limit(1)
+                .fetchOne();
+
+        return Optional.ofNullable(fetch);
+    }
+
+    public Optional<ProcessDetailDto> getProcessDetailById(Long buyerId, Long processCd) {
+
+        ProcessDetailDto fetch = queryFactory
+                .select(Projections.constructor(ProcessDetailDto.class,
+                        buyerDetail))
+                .from(buyerDetail)
+                .where(defaultCondition())
+                .where(eqBuyerId(buyerId))
+                .where(eqProcessCdId(processCd))
                 .limit(1)
                 .fetchOne();
 

@@ -6,6 +6,7 @@ import io.gig.realestate.domain.buyer.BuyerReader;
 import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.dto.ProcessDetailDto;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,16 @@ public class BuyerQueryImpl implements BuyerReader {
     @Override
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
         return queryRepository.getBuyerPageListBySearch(condition);
+    }
+
+    @Override
+    public ProcessDetailDto getProcessDetail(Long buyerId, Long processCd) {
+        Optional<ProcessDetailDto> findDetail = queryRepository.getProcessDetailById(buyerId, processCd);
+        if (findDetail.isEmpty()) {
+            throw new NotFoundException(buyerId + "의 정보가 없습니다.");
+        }
+
+        return findDetail.get();
     }
 
     @Override

@@ -66,6 +66,14 @@ public class BuyerController {
         return "buyer/editor";
     }
 
+    @GetMapping("{buyerId}/{processCd}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getProcessDetail(@PathVariable(name = "buyerId") Long buyerId,
+                                                      @PathVariable(name = "processCd") Long processCd) {
+        ProcessDetailDto result = buyerService.getBuyerDetailByProcessCd(buyerId, processCd);
+        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerCreateForm createForm,

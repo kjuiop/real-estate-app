@@ -39,6 +39,12 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public ProcessDetailDto getBuyerDetailByProcessCd(Long buyerId, Long processCd) {
+        return buyerReader.getProcessDetail(buyerId, processCd);
+    }
+
+    @Override
     @Transactional
     public Long create(BuyerCreateForm createForm, LoginUser loginUser) {
         Category processCd = categoryService.getCategoryById(createForm.getProcessCd());
