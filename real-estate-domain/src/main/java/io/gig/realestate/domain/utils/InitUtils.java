@@ -55,7 +55,7 @@ public class InitUtils {
         Set<Role> superAdminRoles = new HashSet<>();
         superAdminRoles.add(superAdminRole);
         superAdminRoles.add(managerRole);
-        Administrator superAdmin = administratorService.initAdmin("admin@jdrealty.io", passwordEncoder.encode("jdrealty123$"), "초기관리자", "010-3182-0825", superAdminRoles);
+        Administrator superAdmin = administratorService.initAdmin("admin@hanshin.io", passwordEncoder.encode("admin123$"), "초기관리자", "010-3182-0825", superAdminRoles);
 
         Set<Role> superAdminMenuRoles = new HashSet<>();
         superAdminMenuRoles.add(superAdminRole);
@@ -88,7 +88,7 @@ public class InitUtils {
     }
 
     private void initCategoryData() {
-        Category usageType = categoryService.initCategory("CD_USAGE","매물용도", YnType.Y, 1, 2);
+        Category usageType = categoryService.initCategory("CD_USAGE","매물용도", YnType.Y, 1, 1);
         Category usageChange = categoryService.initChildCategory("CD_USAGE_01", "CD_USAGE", "용도변경-멸실가능", YnType.Y, 2, 1, usageType);
         categoryService.initChildCategory("CD_USAGE_01_01", "CD_USAGE_01", "투자용", YnType.Y, 3, 1, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_02", "CD_USAGE_01", "사옥용", YnType.Y, 3, 2, usageChange);
@@ -96,6 +96,25 @@ public class InitUtils {
         categoryService.initChildCategory("CD_USAGE_01_04", "CD_USAGE_01", "임대수익용", YnType.Y, 3, 4, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_05", "CD_USAGE_01", "신축-리모델링용", YnType.Y, 3, 5, usageChange);
         categoryService.initChildCategory("CD_USAGE_01_06", "CD_USAGE_01", "모텔/호텔", YnType.Y, 3, 6, usageChange);
+
+        Category landType = categoryService.initCategory("CD_LAND", "매물유형", YnType.Y, 1, 2);
+        categoryService.initChildCategory("CD_LAND_01", "CD_LAND_01", "일반", YnType.Y, 2, 1, landType);
+        categoryService.initChildCategory("CD_LAND_02", "CD_LAND_02", "일반", YnType.Y, 2, 1, landType);
+
+        Category processType = categoryService.initCategory("CD_PROCESS", "진행단계", YnType.Y, 1, 3);
+        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "기회인지", YnType.Y, 2, 1, processType);
+        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "제품소개", YnType.Y, 2, 2, processType);
+        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "제안", YnType.Y, 2, 3, processType);
+        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "초기견적", YnType.Y, 2, 4, processType);
+        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "재견적", YnType.Y, 2, 5, processType);
+        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "협상", YnType.Y, 2, 6, processType);
+        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "계약", YnType.Y, 2, 7, processType);
+
+        Category investmentCharacter = categoryService.initCategory("CD_INVESTMENT_CHARACTER", "투자성향", YnType.Y, 1, 4);
+        categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_01", "CD_INVESTMENT_CHARACTER", "수익률", YnType.Y, 2, 1, investmentCharacter);
+        categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_02", "CD_INVESTMENT_CHARACTER", "지가상승기대", YnType.Y, 2, 2, investmentCharacter);
+        categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_03", "CD_INVESTMENT_CHARACTER", "입지", YnType.Y, 2, 3, investmentCharacter);
+        categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_04", "CD_INVESTMENT_CHARACTER", "직접사용의 편의성", YnType.Y, 2, 4, investmentCharacter);
     }
 
     private void validateAlreadyEntity() {

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .container-fluid input {
+            height: 30px !important;
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px !important;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
+                            <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
+                            <div class="card-header">
+                                <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>진행상태</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <select class="form-control form-control-sm" name="processCd" style="font-size: 12px;">
+                                            <th:block th:each="processCd : ${processCds}">
+                                                <option th:value="${processCd.id}" th:code="${processCd.code}" th:sortOrder="${processCd.sortOrder}" th:selected="${processCd.code eq processDto.processCd}">[[${processCd.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="title">제목</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input type="text" id="title" class="form-control valid-fields" name="title" th:value="${processDto.title}" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="successPercent">성공률</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" id="successPercent" class="form-control valid-fields" name="successPercent" th:value="${processDto.successPercent}" />
+                                    </div>
+                                    <label class="col-md-1 padding-top-5">%</label>
+                                    <div class="col-md-8"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="confirmPassword">유입경로</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="inflowPath" th:value="${processDto.inflowPath}" placeholder="광고(네이버, 밸류맵, 디스코), 소개, 관리고객"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label class="vertical-center" style="margin-top: 10px;">
+                                            광고일 경우, <br />주소 및 허위여부
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <div class="display-flex-row margin-bottom-8">
+                                            <label class="col-md-2 padding-top-5">주소</label>
+                                            <input type="text" id="adAddress" class="form-control valid-fields col-md-10" name="adAddress" th:value="${processDto.adAddress}" />
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <label class="col-md-2 padding-top-5">허위여부</label>
+                                            <div class="col-md-4">
+                                                <label class="margin-right-10" for="fakeYn_Y" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_Y" value="Y" th:checked="${processDto.fakeYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;여</label>
+                                                <label class="margin-right-10" for="fakeYn_N" style="font-weight: normal;"><input type="radio" name="fakeYn" id="fakeYn_N" value="N" th:checked="${processDto.fakeYn eq YnType.N}">&nbsp;&nbsp;&nbsp;부</label> &nbsp;
+                                            </div>
+                                            <div class="col-md-6" style="padding-right: 0;">
+                                                <input type="text" id="adManager" class="form-control valid-fields" name="adManager" placeholder="광고담당자" th:readonly="${processDto.fakeYn eq YnType.N}" th:value="${processDto.adManager}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="minSalePrice">매입금액대/보유현금</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row">
+                                        <input type="text" id="minSalePrice" class="form-control valid-fields col-md-2" name="minSalePrice" th:value="${processDto.minSalePrice}" />
+                                        <label class="col-md-1 padding-top-5" style="padding-right: 0;">억원</label>
+                                        <label class="col-md-1 padding-top-5" style="padding-right: 0;">~</label>
+                                        <input type="text" class="form-control valid-fields col-md-2" name="maxSalePrice" th:value="${processDto.maxSalePrice}"/>
+                                        <label class="col-md-1 padding-top-5" style="padding-right: 0;">억원</label>
+                                        <label class="col-md-1 padding-top-5" style="padding-right: 0;">/</label>
+                                        <input type="text" class="form-control valid-fields col-md-2" name="handCache" th:value="${processDto.handCache}"/>
+                                        <label class="col-md-1 padding-top-5">억원</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-column">
+                                    <div class="col-md-12 no-left-padding display-flex-row">
+                                        <div class="col-md-3">
+                                            <label for="name">매입목적</label>
+                                        </div>
+                                        <div class="col-md-3 display-flex-column">
+                                            <select id="usageType" class="form-control form-control-sm" style="font-size: 12px;">
+                                                <option value="">선택해주세요.</option>
+                                                <th:block th:each="code, status : ${usageCds}">
+                                                    <option th:value="${code.id}" th:name="${code.name}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                    </div>
+                                    <div class="col-md-12 display-flex-row usageTr hidden">
+                                        <div class="col-md-3">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                        <div class="col-md-9 usageTypeSection" style="padding-left: 3px;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">매입의향사 정보 및 담당자</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row">
+                                        <label class="col-md-1 padding-top-5">업종</label>
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerSector" th:value="${processDto.customerSector}"/>
+                                        <label class="col-md-1 padding-top-5">직책</label>
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerPosition" th:value="${processDto.customerPosition}" />
+                                        <label class="col-md-1 padding-top-5">이름</label>
+                                        <input type="text" class="form-control valid-fields col-md-3" name="customerName" th:value="${processDto.customerName}" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">투자성향</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-control form-control-sm" name="investmentCharacterCd" style="font-size: 12px;">
+                                            <option value="">선택</option>
+                                            <th:block th:each="characterCd : ${characterCds}">
+                                                <option th:value="${characterCd.id}" th:sortOrder="${characterCd.sortOrder}" th:selected="${processDto.investmentCharacterCd eq characterCd.id}">[[${characterCd.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">매입시점</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control valid-fields" name="purchasePoint" th:value="${processDto.purchasePoint}" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">선호지역(행정구역)</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row">
+                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="강남구  동 / 서초구  동 / 송파구  동 / 서울, 수도권" th:value="${processDto.preferArea}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">선호지역(지하철노선)</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control valid-fields" name="preferSubway" placeholder="2호선   역 / 3호선   역 / 7호선  역 / 9호선  역" th:value="${processDto.preferSubway}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">선호지역(도로)</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control valid-fields" name="preferRoad" placeholder="테헨란로, 강남대로, 도산대로, 영동대로, 언주로, 9호선라인, 7호선라인" th:value="${processDto.preferRoad}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">사옥일 경우</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <div class="display-flex-row margin-bottom-10">
+                                            <div class="col-md-5 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15">사용면적 :</label>
+                                                <label class="padding-top-5 margin-right-10">전용</label>
+                                                <input type="text" class="form-control valid-fields" name="exclusiveAreaPy" th:value="${processDto.exclusiveAreaPy}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5">평</label>
+                                            </div>
+                                            <div class="col-md-7 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15">입주시기:</label>
+                                                <input type="text" class="form-control valid-fields" name="moveYear" th:value="${processDto.moveYear}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5 margin-right-20">년</label>
+                                                <input type="text" class="form-control valid-fields" name="moveMonth" th:value="${processDto.moveMonth}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5">월까지</label>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <label class="col-md-2 padding-top-5">법인설립연도</label>
+                                            <div class="col-md-8">
+                                                <label class="margin-right-10" for="companyEstablishAt_within" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_within" value="Y" th:checked="${processDto.companyEstablishAtYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;5년이내</label>
+                                                <label class="margin-right-10" for="companyEstablishAt_after" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_after" value="N" th:checked="${processDto.companyEstablishAtYn eq YnType.N}">&nbsp;&nbsp;&nbsp;5년이후</label> &nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">명함받기 또는 성함묻기</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" id="name" class="form-control valid-fields" name="name" placeholder="손님인지 부동산인지 판단질문: 혹시 부동산 공동중개 요청이신가요?" th:value="${processDto.name}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">첫 매물 전달 방식</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control valid-fields" name="deliveryWay" placeholder="만나서 전달(내방, 방문), 카톡으로 전달" th:value="${processDto.deliveryWay}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">다음 약속 잡기</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control valid-fields" name="nextPromise" placeholder="부동산 방문 / 매수사 방문 / 현장답사" th:value="${processDto.nextPromise}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="name">매수인 요청 내용</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control form-control-sm" name="requestDetail" style="height: 80px;" placeholder="지불조건 특이사항 여부 / 그 외" th:text="${processDto.requestDetail}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
+                                    <a href="/buyer" class="btn btn-sm btn-default float-right margin-right-5"> 목록</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-color: #F4F6F9;">
+                            <th:block th:if="${not #lists.isEmpty(dto.processList)}" th:each="item, status : ${dto.processList}">
+                                <div class="row">
+                                    <div class="col-md-2" style="position: relative;">
+                                        <div style="position: absolute; top:15px; left: 40px;">
+                                            <label class="font-size-20">
+                                                <i class="fa fa-sticky-note-o"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-10 padding-10 display-flex-column background-color-white border-radius-7">
+                                        <div class="display-flex-row">
+                                            <label class="col-md-9 font-size-14">[[${item.processName}]]</label>
+                                            <span class="col-md-3" style="text-align: right;">[[${#temporals.format(item.createdAt, 'yyyy.MM.dd')}]]</span>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <div class="col-md-12">
+                                                등록자 : <span>[[${item.createdByName}]]</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        var processDto = /*[[${processDto}]]*/'';
+        var usageCds = /*[[${usageCds}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/buyer/buyer_editor.js" th:src="@{/js/buyer/buyer_editor.js}"></script>
+</section>
+</body>
+</html>
