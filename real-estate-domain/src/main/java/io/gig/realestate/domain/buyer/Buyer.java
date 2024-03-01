@@ -31,6 +31,8 @@ public class Buyer extends BaseTimeEntity {
 
     private String title;
 
+    private String name;
+
     private String usageTypeCds;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,6 +61,7 @@ public class Buyer extends BaseTimeEntity {
                 .title(createForm.getTitle())
                 .processCd(processCd)
                 .usageTypeCds(createForm.getUsageTypeCds())
+                .name(createForm.getName())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();

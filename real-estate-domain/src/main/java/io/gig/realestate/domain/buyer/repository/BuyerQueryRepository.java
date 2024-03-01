@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,9 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(eqTitle(condition.getTitle()));
+        where.and(eqName(condition.getName()));
+        where.and(eqProcessCdId(condition.getProcessCd()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -126,5 +130,17 @@ public class BuyerQueryRepository {
 
     private BooleanExpression eqProcessCdId(Long processCdId) {
         return processCdId != null ? buyerDetail.processCd.id.eq(processCdId) : null;
+    }
+
+    private BooleanExpression eqTitle(String title) {
+        return StringUtils.hasText(title) ? buyer.title.eq(title) : null;
+    }
+
+    private BooleanExpression eqName(String name) {
+        return StringUtils.hasText(name) ? buyer.name.eq(name) : null;
+    }
+
+    private BooleanExpression eqProcessCd(Long processCdId) {
+        return processCdId != null ? buyer.processCd.id.eq(processCdId) : null;
     }
 }
