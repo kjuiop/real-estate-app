@@ -1,7 +1,7 @@
-package io.gig.realestate.domain.buyer.dto;
+package io.gig.realestate.domain.buyer.basic.dto;
 
-import io.gig.realestate.domain.buyer.Buyer;
-import io.gig.realestate.domain.buyer.BuyerDetail;
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

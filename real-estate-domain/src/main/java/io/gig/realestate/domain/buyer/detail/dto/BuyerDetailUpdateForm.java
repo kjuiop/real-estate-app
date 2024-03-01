@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.buyer.dto;
+package io.gig.realestate.domain.buyer.detail.dto;
 
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;

@@ -1,7 +1,12 @@
-package io.gig.realestate.domain.buyer;
+package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.dto.*;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
+import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import org.springframework.data.domain.Page;
 
 /**

@@ -1,4 +1,7 @@
-package io.gig.realestate.domain.buyer;
+package io.gig.realestate.domain.buyer.basic;
+
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 
 /**
  * @author : JAKE

@@ -238,6 +238,7 @@ let selectDetail = function(e) {
             }
             $frm.find('input[name="title"]').val(data.title);
             $frm.find('input[name="inflowPath"]').val(data.inflowPath);
+            $frm.find('input[name="successPercent"]').val(data.successPercent);
             if (data.fakeYn === 'Y') {
                 $frm.find("#fakeYn_Y").iCheck('check');
             } else {

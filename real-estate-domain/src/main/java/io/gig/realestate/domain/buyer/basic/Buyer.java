@@ -1,12 +1,12 @@
-package io.gig.realestate.domain.buyer;
+package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.land.LandInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -35,6 +35,8 @@ public class Buyer extends BaseTimeEntity {
 
     private String usageTypeCds;
 
+    private int successPercent;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_cd_id")
     private Category processCd;
@@ -62,6 +64,7 @@ public class Buyer extends BaseTimeEntity {
                 .processCd(processCd)
                 .usageTypeCds(createForm.getUsageTypeCds())
                 .name(createForm.getName())
+                .successPercent(createForm.getSuccessPercent())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();

@@ -1,12 +1,12 @@
-package io.gig.realestate.domain.buyer.repository;
+package io.gig.realestate.domain.buyer.basic.repository;
 
-import io.gig.realestate.domain.buyer.Buyer;
-import io.gig.realestate.domain.buyer.BuyerDetail;
-import io.gig.realestate.domain.buyer.BuyerReader;
-import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.dto.ProcessDetailDto;
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.basic.BuyerReader;
+import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

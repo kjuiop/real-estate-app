@@ -1,8 +1,9 @@
-package io.gig.realestate.domain.buyer.repository;
+package io.gig.realestate.domain.buyer.basic.repository;
 
-import io.gig.realestate.domain.buyer.Buyer;
-import io.gig.realestate.domain.buyer.BuyerDetail;
-import io.gig.realestate.domain.buyer.BuyerStore;
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.basic.BuyerStore;
+import io.gig.realestate.domain.buyer.detail.repository.BuyerDetailStoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

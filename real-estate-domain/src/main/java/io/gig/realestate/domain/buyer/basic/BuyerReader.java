@@ -1,9 +1,10 @@
-package io.gig.realestate.domain.buyer;
+package io.gig.realestate.domain.buyer.basic;
 
-import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.dto.ProcessDetailDto;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

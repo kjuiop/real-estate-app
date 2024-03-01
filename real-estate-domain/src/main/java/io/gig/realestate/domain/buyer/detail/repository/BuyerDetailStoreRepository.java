@@ -1,6 +1,6 @@
-package io.gig.realestate.domain.buyer.repository;
+package io.gig.realestate.domain.buyer.detail.repository;
 
-import io.gig.realestate.domain.buyer.BuyerDetail;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

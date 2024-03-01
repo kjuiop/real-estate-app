@@ -1,16 +1,16 @@
-package io.gig.realestate.domain.buyer.repository;
+package io.gig.realestate.domain.buyer.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.gig.realestate.domain.buyer.Buyer;
-import io.gig.realestate.domain.buyer.BuyerDetail;
-import io.gig.realestate.domain.buyer.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.dto.ProcessDetailDto;
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,8 +22,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 
-import static io.gig.realestate.domain.buyer.QBuyer.buyer;
-import static io.gig.realestate.domain.buyer.QBuyerDetail.buyerDetail;
+import static io.gig.realestate.domain.buyer.basic.QBuyer.buyer;
+import static io.gig.realestate.domain.buyer.detail.QBuyerDetail.buyerDetail;
 
 /**
  * @author : JAKE
