@@ -3,7 +3,7 @@ package io.gig.realestate.domain.buyer.basic.repository;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.basic.BuyerReader;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
@@ -32,11 +32,6 @@ public class BuyerQueryImpl implements BuyerReader {
     }
 
     @Override
-    public Optional<ProcessDetailDto> getProcessDetail(Long buyerId, Long processCd) {
-        return queryRepository.getProcessDetailById(buyerId, processCd);
-    }
-
-    @Override
     public Buyer getBuyerById(Long buyerId) {
         Optional<Buyer> findBuyer = queryRepository.getBuyerById(buyerId);
         if (findBuyer.isEmpty()) {
@@ -55,10 +50,5 @@ public class BuyerQueryImpl implements BuyerReader {
         }
 
         return findDetail.get();
-    }
-
-    @Override
-    public Optional<BuyerDetail> getBuyerDetailByIdAndProcessCd(Long buyerId, Long processCdId) {
-        return queryRepository.getBuyerDetailByIdAndProcessCd(buyerId, processCdId);
     }
 }

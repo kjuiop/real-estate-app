@@ -6,7 +6,7 @@ import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
 import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.category.Category;
@@ -44,13 +44,6 @@ public class BuyerServiceImpl implements BuyerService {
     @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         return buyerReader.getBuyerDetail(buyerId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ProcessDetailDto getBuyerDetailByProcessCd(Long buyerId, Long processCd) {
-        Optional<ProcessDetailDto> findProcess = buyerReader.getProcessDetail(buyerId, processCd);
-        return findProcess.orElse(null);
     }
 
     @Override

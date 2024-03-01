@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.buyer.detail;
 
+import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,13 @@ import java.util.Optional;
 public class BuyerDetailServiceImpl implements BuyerDetailService {
 
     private final BuyerDetailReader buyerDetailReader;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProcessDetailDto getBuyerDetailByProcessCd(Long buyerId, Long processCd) {
+        Optional<ProcessDetailDto> findProcess = buyerDetailReader.getProcessDetail(buyerId, processCd);
+        return findProcess.orElse(null);
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -1,7 +1,7 @@
 package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.buyer.detail.BuyerDetail;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
@@ -18,9 +18,5 @@ public interface BuyerReader {
 
     BuyerDetailDto getBuyerDetail(Long buyerId);
 
-    Optional<BuyerDetail> getBuyerDetailByIdAndProcessCd(Long buyerId, Long processCd);
-
     Buyer getBuyerById(Long buyerId);
-
-    Optional<ProcessDetailDto> getProcessDetail(Long buyerId, Long processCd);
 }

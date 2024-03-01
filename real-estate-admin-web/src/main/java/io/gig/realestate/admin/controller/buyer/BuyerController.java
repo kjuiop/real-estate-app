@@ -7,7 +7,9 @@ import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.detail.BuyerDetail;
+import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
 import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.category.CategoryService;
@@ -34,6 +36,7 @@ public class BuyerController {
     private final CategoryService categoryService;
     private final AreaService areaService;
     private final BuyerService buyerService;
+    private final BuyerDetailService buyerDetailService;
 
     @GetMapping
     public String index(BuyerSearchDto condition, Model model) {
@@ -76,7 +79,7 @@ public class BuyerController {
     @ResponseBody
     public ResponseEntity<ApiResponse> getProcessDetail(@PathVariable(name = "buyerId") Long buyerId,
                                                       @PathVariable(name = "processCd") Long processCd) {
-        ProcessDetailDto result = buyerService.getBuyerDetailByProcessCd(buyerId, processCd);
+        ProcessDetailDto result = buyerDetailService.getBuyerDetailByProcessCd(buyerId, processCd);
         return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 
