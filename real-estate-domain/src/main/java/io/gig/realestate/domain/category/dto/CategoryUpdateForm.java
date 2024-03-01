@@ -16,8 +16,12 @@ public class CategoryUpdateForm {
     @NotNull
     private Long id;
 
+    private String code;
+
     @NotEmpty(message = "카테고리 이름을 입력해주세요.")
     private String name;
+
+    private String colorCode;
 
     private YnType activeYn;
 

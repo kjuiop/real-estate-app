@@ -33,6 +33,11 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public List<CategoryDto> getChildrenCategoryDtosByCode(String code) {
+        return queryRepository.getChildrenCategoryDtosByCode(code);
+    }
+
+    @Override
     public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
         return queryRepository.getChildrenCategoryDtosByName(name);
     }

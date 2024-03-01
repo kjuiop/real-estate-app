@@ -33,6 +33,8 @@ public interface CategoryService {
 
     List<CategoryDto> getChildrenCategoryDtosByName(String name);
 
+    List<CategoryDto> getChildrenCategoryDtosByCode(String code);
+
     CategoryDto getCategoryDtoWithChildrenByName(String name);
 
     Category getCategoryById(Long usageTypeId);

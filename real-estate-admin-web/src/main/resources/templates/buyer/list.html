@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<style>
+    .content * {
+        font-size: 12px;
+    }
+
+    .container-fluid select {
+        height: 30px;
+    }
+</style>
+<body>
+<div layout:fragment="content">
+    <div th:replace="layouts/utilFragments::navigator('/buyer', '매수자 관리', '매수자 목록')"></div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="callout">
+                        <form name="frmSearch">
+                            <input type="hidden" name="page" th:value="${condition.page}" />
+                            <input type="hidden" name="size" th:value="${condition.size}" />
+                            <div class="row col-md-12" style="margin-bottom: 25px;">
+                                <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매수자관리</h5>
+                                <div class="col-md-3 pull-right">
+                                    <a href="/buyer/new" class="btn btn-sm btn-primary float-right" style="text-decoration: none; color: #ffffff;"><i class="fa fa-plus"></i> 매수자등록</a>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <table class="table projects search-table spacing-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 33%;" class="no-padding" colspan="3"></th>
+                                        <th style="width: 66%;" class="no-padding" colspan="6"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">제목</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="title" name="title" class="form-control search-input">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">진행단계</div>
+                                                </label>
+                                            </div>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="processCd" style="font-size: 12px;">
+                                                <option value="">선택해주세요.</option>
+                                                <th:block th:each="processCd : ${processCds}">
+                                                    <option th:value="${processCd.id}">[[${processCd.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </td>
+                                        <td colspan="1" class="min-width-150">
+                                            <div class="input-label">
+                                                <label for="name" class="top-label">
+                                                    <div class="search-text">고객</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="name" name="name" class="form-control search-input">
+                                        </td>
+                                        <td colspan="1" class="min-width-150">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">팀</div>
+                                                </label>
+                                            </div>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="landType" style="font-size: 12px;">
+                                                <option>본부</option>
+                                            </select>
+                                        </td>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
+                                            <div class="input-label">
+                                                <label for="managerName" class="top-label">
+                                                    <div class="search-text">담당자</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="managerName" name="managerName" class="form-control search-input">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="beforeCreatedAt" class="top-label">
+                                                        <div class="search-text">시작일</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="beforeCreatedAt" name="beforeCreatedAt" class="form-control search-input center-align">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="afterCreatedAt" name="afterCreatedAt" class="form-control search-input center-align">
+                                                <div class="input-label">
+                                                    <label for="afterCreatedAt" class="bottom-label">
+                                                        <div class="search-bottom-text"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-sm btn-default float-right">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
+                            <div class="card-tools float-right">
+                                <select class="form-control" id="limit" style="font-size: 12px;">
+                                    <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
+                                    <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
+                                    <option value="30" th:selected="${condition.size} == 30 ? selected ">30개</option>
+                                    <option value="50" th:selected="${condition.size} == 50 ? selected ">50개</option>
+                                    <option value="100" th:selected="${condition.size} == 100 ? selected ">100개</option>
+                                    <option value="300" th:selected="${condition.size} == 300 ? selected ">300개</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table projects">
+                                    <tbody>
+                                    <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <tr>
+                                            <td class="moveEditor" th:id="${item.buyerId}" style="cursor: pointer;">
+                                                <div class="row margin-bottom-10">
+                                                    <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;" th:text="${'['+ item.processName} + ']'"></span>
+                                                    <span>[[${item.title}]]</span>
+                                                </div>
+                                                <div class="row margin-bottom-8">
+                                                    <div class="col-md-10 no-left-padding">
+                                                        <th:block th:each="processCd : ${processCds}">
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5"
+                                                                    th:style="${item.processCds.contains(processCd.code)} ?
+                                                                                'width: 13%; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
+                                                                                'width: 13%; background-color: #eee;'">
+                                                                [[${processCd.name}]]
+                                                            </button>
+                                                        </th:block>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                    <span style="width: 50%; font-size: 13px; padding-top: 3px;">
+                                                        성공확률
+                                                    </span>
+                                                        <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">
+                                                            [[${item.successPercent}]]%
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="font-size: 12px;">
+                                                    고객 : [[${item.name}]] | 담당자 : [[${item.managerName}]] | 등록일 : [[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+    <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_list.js}"></script>
+</section>
+</body>
+</html>

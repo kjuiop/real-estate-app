@@ -49,6 +49,15 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
+    public List<CategoryDto> getChildrenCategoryDtosByCode(String code) {
+        return this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
+                .from(category)
+                .where(defaultCondition())
+                .where(eqParentCode(code))
+                .orderBy(category.sortOrder.asc())
+                .fetch();
+    }
+
     public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
         List<CategoryDto> fetch = this.queryFactory.selectDistinct(Projections.constructor(CategoryDto.class, category))
                 .from(category)
@@ -122,6 +131,10 @@ public class CategoryQueryRepository {
         return parentId != null ? category.parent.id.eq(parentId) : null;
     }
 
+    private BooleanExpression eqParentCode(String code) {
+        return StringUtils.hasText(code) ? category.parent.code.eq(code) : null;
+    }
+
     private BooleanExpression eqParentName(String name) {
         return StringUtils.hasText(name) ? category.parent.name.eq(name) : null;
     }
@@ -129,5 +142,4 @@ public class CategoryQueryRepository {
     private BooleanExpression parentIsNull() {
         return category.parent.isNull();
     }
-
 }
