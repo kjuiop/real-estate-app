@@ -15,6 +15,8 @@ let setUsageTypeCd = function(data) {
         return
     }
 
+    $('.usageTypeSection').html('');
+
     let ids = data.split(",");
     $.each(usageCds, function(i, code) {
         $.each(ids, function(j, id) {
