@@ -31,6 +31,8 @@ public class BuyerDetail extends BaseTimeEntity {
     @JoinColumn(name = "process_cd_id")
     private Category processCd;
 
+    private int successPercent;
+
     private int sortOrder;
 
     private String name;
@@ -111,6 +113,7 @@ public class BuyerDetail extends BaseTimeEntity {
     public static BuyerDetail create(BuyerCreateForm createForm, Category processCd, Category investCharacterCd, Buyer buyer, Administrator loginUser) {
         return BuyerDetail.builder()
                 .buyer(buyer)
+                .successPercent(createForm.getSuccessPercent())
                 .name(createForm.getName())
                 .sortOrder(createForm.getSortOrder())
                 .title(createForm.getTitle())
@@ -146,6 +149,7 @@ public class BuyerDetail extends BaseTimeEntity {
         return BuyerDetail.builder()
                 .buyer(buyer)
                 .name(updateForm.getName())
+                .successPercent(updateForm.getSuccessPercent())
                 .sortOrder(updateForm.getSortOrder())
                 .title(updateForm.getTitle())
                 .inflowPath(updateForm.getInflowPath())
@@ -179,6 +183,7 @@ public class BuyerDetail extends BaseTimeEntity {
     public void update(BuyerDetailUpdateForm updateForm, Category processCd, Category investmentCharacterCd, LoginUser loginUser) {
         this.name = updateForm.getName();
         this.title = updateForm.getTitle();
+        this.successPercent = updateForm.getSuccessPercent();
         this.inflowPath = updateForm.getInflowPath();
         this.adAddress = updateForm.getAdAddress();
         this.adManager = updateForm.getAdManager();

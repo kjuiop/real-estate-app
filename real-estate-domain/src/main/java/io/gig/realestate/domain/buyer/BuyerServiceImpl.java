@@ -41,7 +41,8 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     @Transactional(readOnly = true)
     public ProcessDetailDto getBuyerDetailByProcessCd(Long buyerId, Long processCd) {
-        return buyerReader.getProcessDetail(buyerId, processCd);
+        Optional<ProcessDetailDto> findProcess = buyerReader.getProcessDetail(buyerId, processCd);
+        return findProcess.orElse(null);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class BuyerServiceImpl implements BuyerService {
         Category processCd = categoryService.getCategoryById(updateForm.getProcessCd());
         Category investCharacterCd = categoryService.getCategoryById(updateForm.getInvestmentCharacterCd());
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
+        buyer.update(loginUser);
         Optional<BuyerDetail> findDetail = buyerReader.getBuyerDetailByIdAndProcessCd(updateForm.getBuyerId(), updateForm.getProcessCd());
         BuyerDetail detail;
         if (findDetail.isEmpty()) {

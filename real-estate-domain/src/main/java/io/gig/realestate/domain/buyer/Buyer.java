@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.buyer;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.dto.BuyerCreateForm;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
@@ -69,5 +70,9 @@ public class Buyer extends BaseTimeEntity {
 
     public void addDetail(BuyerDetail buyerDetail) {
         this.buyerDetails.add(buyerDetail);
+    }
+
+    public void update(LoginUser loginUser) {
+        this.updatedBy = loginUser.getLoginUser();
     }
 }

@@ -20,6 +20,8 @@ public class BuyerCreateForm {
 
     private String name;
 
+    private int successPercent;
+
     @NotNull
     private Long processCd;
 

@@ -233,6 +233,9 @@ let selectDetail = function(e) {
         success: function (result) {
             console.log("result : ", result);
             let data = result.data;
+            if (!checkNullOrEmptyValue(data)) {
+                return;
+            }
             $frm.find('input[name="title"]').val(data.title);
             $frm.find('input[name="inflowPath"]').val(data.inflowPath);
             if (data.fakeYn === 'Y') {

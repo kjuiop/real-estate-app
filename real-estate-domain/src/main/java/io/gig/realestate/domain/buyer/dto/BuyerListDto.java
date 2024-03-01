@@ -10,7 +10,6 @@ import io.gig.realestate.domain.buyer.BuyerDetail;
 public class BuyerListDto extends BuyerDto {
 
     public String processCds = "";
-
     public String processName;
 
     public BuyerListDto(Buyer b) {

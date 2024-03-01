@@ -21,5 +21,5 @@ public interface BuyerReader {
 
     Buyer getBuyerById(Long buyerId);
 
-    ProcessDetailDto getProcessDetail(Long buyerId, Long processCd);
+    Optional<ProcessDetailDto> getProcessDetail(Long buyerId, Long processCd);
 }

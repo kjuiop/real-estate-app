@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.buyer.dto;
 
 import io.gig.realestate.domain.buyer.Buyer;
+import io.gig.realestate.domain.buyer.BuyerDetail;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -20,9 +21,20 @@ public class BuyerDto {
 
     private String usageTypeCds;
 
+    private int successPercent;
+
+    private String managerName;
+
     public BuyerDto(Buyer b) {
         this.buyerId = b.getId();
-        this.title = b.getTitle();
-        this.usageTypeCds = b.getUsageTypeCds();
+        if (b.getBuyerDetails().size() > 0) {
+            BuyerDetail detail = b.getBuyerDetails().get(b.getBuyerDetails().size()-1);
+            this.title = detail.getTitle();
+            this.usageTypeCds = detail.getUsageTypeCds();
+            this.successPercent = detail.getSuccessPercent();
+            if (detail.getUpdatedBy() != null) {
+                this.managerName = detail.getUpdatedBy().getName();
+            }
+        }
     }
 }

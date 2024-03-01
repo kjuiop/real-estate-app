@@ -18,6 +18,8 @@ public class BuyerDetailUpdateForm {
 
     private Long buyerDetailId;
 
+    private int successPercent;
+
     private String title;
 
     private String name;

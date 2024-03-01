@@ -3,7 +3,6 @@ package io.gig.realestate.domain.buyer.dto;
 import io.gig.realestate.domain.buyer.BuyerDetail;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -20,6 +19,8 @@ public class ProcessDetailDto {
     private String processCd;
 
     private String name;
+
+    private int successPercent;
 
     private String title;
 
@@ -78,6 +79,7 @@ public class ProcessDetailDto {
         this.buyerDetailId = d.getId();
         this.processCd = d.getProcessCd().getCode();
         this.name = d.getName();
+        this.successPercent = d.getSuccessPercent();
         this.title = d.getTitle();
         this.inflowPath = d.getInflowPath();
         this.adAddress = d.getAdAddress();

@@ -32,13 +32,8 @@ public class BuyerQueryImpl implements BuyerReader {
     }
 
     @Override
-    public ProcessDetailDto getProcessDetail(Long buyerId, Long processCd) {
-        Optional<ProcessDetailDto> findDetail = queryRepository.getProcessDetailById(buyerId, processCd);
-        if (findDetail.isEmpty()) {
-            throw new NotFoundException(buyerId + "의 정보가 없습니다.");
-        }
-
-        return findDetail.get();
+    public Optional<ProcessDetailDto> getProcessDetail(Long buyerId, Long processCd) {
+        return queryRepository.getProcessDetailById(buyerId, processCd);
     }
 
     @Override
