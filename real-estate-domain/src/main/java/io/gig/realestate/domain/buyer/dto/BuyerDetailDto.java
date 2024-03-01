@@ -29,17 +29,12 @@ public class BuyerDetailDto extends BuyerDto {
     public List<ProcessListDto> processList = new ArrayList<>();
 
     @Builder.Default
-    public YnType fakeYn = YnType.N;
-
-    @Builder.Default
-    public YnType companyEstablishAtYn = YnType.N;
-
-    @Builder.Default
     private boolean empty = false;
 
     static {
         EMPTY = BuyerDetailDto.builder()
                 .empty(true)
+                .processDetailDto(new ProcessDetailDto())
                 .build();
     }
 
@@ -49,14 +44,15 @@ public class BuyerDetailDto extends BuyerDto {
 
     public BuyerDetailDto(Buyer b) {
         super(b);
-
-        List<ProcessListDto> list = new ArrayList<>();
-        for (int i=0; i<b.getBuyerDetails().size(); i++) {
-            list.add(new ProcessListDto(b.getBuyerDetails().get(i)));
-            if (i == b.getBuyerDetails().size()-1) {
-                this.processDetailDto = new ProcessDetailDto(b.getBuyerDetails().get(i));
+        if (b.getBuyerDetails().size() > 0) {
+            List<ProcessListDto> list = new ArrayList<>();
+            for (int i=0; i<b.getBuyerDetails().size(); i++) {
+                list.add(new ProcessListDto(b.getBuyerDetails().get(i)));
+                if (i == b.getBuyerDetails().size()-1) {
+                    this.processDetailDto = new ProcessDetailDto(b.getBuyerDetails().get(i));
+                }
             }
+            this.processList = list;
         }
-        this.processList = list;
     }
 }

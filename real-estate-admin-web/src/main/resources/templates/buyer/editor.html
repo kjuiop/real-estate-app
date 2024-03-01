@@ -41,7 +41,7 @@
                                     <div class="col-md-9 display-flex-column">
                                         <select class="form-control form-control-sm" name="processCd" style="font-size: 12px;">
                                             <th:block th:each="processCd : ${processCds}">
-                                                <option th:value="${processCd.id}" th:code="${processCd.code}" th:sortOrder="${processCd.sortOrder}" th:selected="${processDto.processCd eq processCd.code}">[[${processCd.name}]]</option>
+                                                <option th:value="${processCd.id}" th:code="${processCd.code}" th:sortOrder="${processCd.sortOrder}" th:selected="${processCd.code eq processDto.processCd}">[[${processCd.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>

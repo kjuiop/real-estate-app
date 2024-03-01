@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.dto;
 import io.gig.realestate.domain.buyer.BuyerDetail;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -67,6 +68,11 @@ public class ProcessDetailDto {
     private YnType companyEstablishAtYn;
 
     private Long investmentCharacterCd;
+
+    public ProcessDetailDto() {
+        this.fakeYn = YnType.N;
+        this.companyEstablishAtYn = YnType.N;
+    }
 
     public ProcessDetailDto(BuyerDetail d) {
         this.buyerDetailId = d.getId();

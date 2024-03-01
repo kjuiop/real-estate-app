@@ -3,6 +3,7 @@ package io.gig.realestate.admin.controller.buyer;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
+import io.gig.realestate.domain.buyer.BuyerDetail;
 import io.gig.realestate.domain.buyer.BuyerService;
 import io.gig.realestate.domain.buyer.dto.*;
 import io.gig.realestate.domain.category.CategoryService;
@@ -42,12 +43,13 @@ public class BuyerController {
 
     @GetMapping("new")
     public String register(Model model) {
-
+        BuyerDetailDto dto = BuyerDetailDto.emptyDto();
         model.addAttribute("sidoList", areaService.getParentAreaList());
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
-        model.addAttribute("dto", BuyerDetailDto.emptyDto());
+        model.addAttribute("dto", dto);
+        model.addAttribute("processDto", dto.getProcessDetailDto());
         return "buyer/editor";
     }
 
