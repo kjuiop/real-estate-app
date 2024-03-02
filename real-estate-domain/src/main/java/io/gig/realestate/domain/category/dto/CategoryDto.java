@@ -42,6 +42,7 @@ public class CategoryDto {
         this.id = c.getId();
         this.code = c.getCode();
         this.name = c.getName();
+        this.colorCode = c.getColorCode();
         this.activeYn = c.getActiveYn();
         this.sortOrder = c.getSortOrder();
         this.level = c.getLevel();

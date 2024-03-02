@@ -38,6 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<CategoryDto> getChildrenCategoryDtosByCode(String code) {
+        return categoryReader.getChildrenCategoryDtosByCode(code);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<CategoryDto> getChildrenCategoryDtosByName(String name) {
         return categoryReader.getChildrenCategoryDtosByName(name);
     }
