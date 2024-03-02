@@ -3,8 +3,11 @@ package io.gig.realestate.domain.message.template;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateDetailDto;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateForm;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateListDto;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateSearchDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,12 @@ public class AlarmTemplateServiceImpl implements AlarmTemplateService {
 
     private final AlarmTemplateReader alarmTemplateReader;
     private final AlarmTemplateStore alarmTemplateStore;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AlarmTemplateListDto> getAlarmTemplatePageListBySearch(AlarmTemplateSearchDto condition) {
+        return alarmTemplateReader.getAlarmTemplatePageListBySearch(condition);
+    }
 
     @Override
     @Transactional(readOnly = true)

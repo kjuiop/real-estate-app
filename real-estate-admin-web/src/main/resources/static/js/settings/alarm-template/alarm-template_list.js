@@ -9,11 +9,8 @@ let search = function(e) {
 };
 
 let reset = function(e) {
-
-    let $frm = $("form[name='frmSearch']");
-    $frm.find("input[name='page']").val(0);
-    $frm.find("input[name='size']").val(10);
-    $frm.submit();
+    e.preventDefault();
+    location.href = '/settings/alarm-template';
 };
 
 $(document).ready(onReady)

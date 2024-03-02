@@ -8,7 +8,13 @@ import io.gig.realestate.domain.message.template.AlarmTemplate;
  */
 public class AlarmTemplateListDto extends AlarmTemplateDto {
 
+    public String createdByName;
+
     public AlarmTemplateListDto(AlarmTemplate at) {
         super(at);
+
+        if (at.getCreatedBy() != null) {
+            this.createdByName = at.getCreatedBy().getName();
+        }
     }
 }

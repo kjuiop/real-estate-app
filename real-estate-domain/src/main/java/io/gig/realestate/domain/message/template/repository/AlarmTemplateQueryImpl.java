@@ -4,7 +4,10 @@ import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.message.template.AlarmTemplate;
 import io.gig.realestate.domain.message.template.AlarmTemplateReader;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateDetailDto;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateListDto;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,11 @@ import java.util.Optional;
 public class AlarmTemplateQueryImpl implements AlarmTemplateReader {
 
     private final AlarmTemplateQueryRepository queryRepository;
+
+    @Override
+    public Page<AlarmTemplateListDto> getAlarmTemplatePageListBySearch(AlarmTemplateSearchDto condition) {
+        return queryRepository.getAlarmTemplatePageListBySearch(condition);
+    }
 
     @Override
     public AlarmTemplateDetailDto getAlarmTemplateDetail(Long alarmTemplateId) {

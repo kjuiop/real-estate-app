@@ -6,9 +6,11 @@ import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.message.template.AlarmTemplateService;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateDetailDto;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateForm;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateListDto;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateSearchDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,8 +32,9 @@ public class AlarmTemplateController {
 
     @GetMapping
     public String index(AlarmTemplateSearchDto condition, Model model) {
-        model.addAttribute("totalCount", 0);
-        model.addAttribute("pages", null);
+        Page<AlarmTemplateListDto> pages = alarmTemplateService.getAlarmTemplatePageListBySearch(condition);
+        model.addAttribute("totalCount", pages.getTotalElements());
+        model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
         return "settings/alarm-template/list";
     }
