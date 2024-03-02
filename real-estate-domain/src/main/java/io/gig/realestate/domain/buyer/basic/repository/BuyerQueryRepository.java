@@ -39,9 +39,10 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(eqTitle(condition.getTitle()));
-        where.and(eqName(condition.getName()));
         where.and(eqProcessCdId(condition.getProcessCd()));
+        where.and(likeTitle(condition.getTitle()));
+        where.and(likeName(condition.getName()));
+        where.and(likeManagerName(condition.getManagerName()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -104,11 +105,15 @@ public class BuyerQueryRepository {
         return processCdId != null ? buyer.processCd.id.eq(processCdId) : null;
     }
 
-    private BooleanExpression eqTitle(String title) {
-        return StringUtils.hasText(title) ? buyer.title.eq(title) : null;
+    private BooleanExpression likeTitle(String title) {
+        return StringUtils.hasText(title) ? buyer.title.like("%" + title + "%") : null;
     }
 
-    private BooleanExpression eqName(String name) {
-        return StringUtils.hasText(name) ? buyer.name.eq(name) : null;
+    private BooleanExpression likeManagerName(String managerName) {
+        return StringUtils.hasText(managerName) ? buyer.updatedBy.name.like("%" + managerName + "%") : null;
+    }
+
+    private BooleanExpression likeName(String name) {
+        return StringUtils.hasText(name) ? buyer.name.like("%" + name + "%") : null;
     }
 }

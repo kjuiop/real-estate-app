@@ -22,6 +22,10 @@ public class BuyerSearchDto extends BaseSearchDto {
 
     private Long processCd;
 
+    private Long teamId;
+
+    private String managerName;
+
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
     }
