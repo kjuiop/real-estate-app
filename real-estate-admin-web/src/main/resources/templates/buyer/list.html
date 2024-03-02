@@ -46,7 +46,7 @@
                                                     <div class="search-text">제목</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="title" name="title" class="form-control search-input">
+                                            <input type="text" id="title" class="form-control search-input" name="title" th:value="${condition.title}">
                                         </td>
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="input-label">
@@ -57,7 +57,7 @@
                                             <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="processCd" style="font-size: 12px;">
                                                 <option value="">선택해주세요.</option>
                                                 <th:block th:each="processCd : ${processCds}">
-                                                    <option th:value="${processCd.id}">[[${processCd.name}]]</option>
+                                                    <option th:value="${processCd.id}" th:selected="${processCd.id eq condition.processCd}">[[${processCd.name}]]</option>
                                                 </th:block>
                                             </select>
                                         </td>
@@ -67,7 +67,7 @@
                                                     <div class="search-text">고객</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="name" name="name" class="form-control search-input">
+                                            <input type="text" id="name" class="form-control search-input" name="name" th:value="${condition.name}">
                                         </td>
                                         <td colspan="1" class="min-width-150">
                                             <div class="input-label">
@@ -75,8 +75,11 @@
                                                     <div class="search-text">팀</div>
                                                 </label>
                                             </div>
-                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="landType" style="font-size: 12px;">
-                                                <option>본부</option>
+                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" style="font-size: 12px;">
+                                                <option value="">선택해주세요.</option>
+                                                <th:block th:each="team : ${teams}">
+                                                    <option th:value="${team.teamId}" th:text="${team.name}" th:selected="${condition.teamId eq team.teamId}"></option>
+                                                </th:block>
                                             </select>
                                         </td>
                                         <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
@@ -85,7 +88,7 @@
                                                     <div class="search-text">담당자</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="managerName" name="managerName" class="form-control search-input">
+                                            <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
                                         </td>
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
@@ -125,7 +128,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">총</h4>(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
+                            <h4 class="card-title" style="font-size: 12px;">총</h4>&nbsp;(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
                             <div class="card-tools float-right">
                                 <select class="form-control" id="limit" style="font-size: 12px;">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
@@ -143,7 +146,7 @@
                                     <tbody>
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
-                                            <td class="moveEditor" th:id="${item.buyerId}" style="cursor: pointer;">
+                                            <td class="moveEditor" th:id="${item.buyerId}" style="cursor: pointer;" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
                                                 <div class="row margin-bottom-10">
                                                     <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;" th:text="${'['+ item.processName} + ']'"></span>
                                                     <span>[[${item.title}]]</span>
@@ -172,6 +175,11 @@
                                                     고객 : [[${item.name}]] | 담당자 : [[${item.managerName}]] | 등록일 : [[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
                                                 </div>
                                             </td>
+                                        </tr>
+                                    </th:block>
+                                    <th:block th:if="${#lists.isEmpty(pages.content)}">
+                                        <tr>
+                                            <td class="text-center" colspan="1" style="border-top: 0;">등록된 정보가 없습니다.</td>
                                         </tr>
                                     </th:block>
                                     </tbody>
