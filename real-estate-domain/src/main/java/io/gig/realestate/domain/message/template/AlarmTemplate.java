@@ -3,6 +3,7 @@ package io.gig.realestate.domain.message.template;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.message.template.dto.AlarmTemplateForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -61,4 +62,19 @@ public class AlarmTemplate extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    public static AlarmTemplate create(AlarmTemplateForm createForm, Administrator loginUser) {
+        return AlarmTemplate.builder()
+                .templateCd(createForm.getTemplateCd())
+                .emailTemplateCd(createForm.getEmailTemplateCd())
+                .title(createForm.getTitle())
+                .landingUrl(createForm.getLandingUrl())
+                .smsMessage(createForm.getSmsMessage())
+                .smsSendYn(createForm.getSmsSendYn())
+                .emailSendYn(createForm.getEmailSendYn())
+                .pushSendYn(createForm.getPushSendYn())
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .build();
+    }
 }
