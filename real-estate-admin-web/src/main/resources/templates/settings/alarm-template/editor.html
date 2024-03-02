@@ -27,7 +27,7 @@
                                         <label for="templateCd">템플릿 ID</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" id="templateCd" class="form-control valid-fields" name="templateCd" placeholder="템플릿 아이디를 입력해주세요." />
+                                        <input type="text" id="templateCd" class="form-control valid-fields" name="templateCd" placeholder="템플릿 아이디를 입력해주세요." th:value="${dto.templateCd}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -35,7 +35,7 @@
                                         <label for="title">제목</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" id="title" class="form-control valid-fields" name="title" placeholder="제목을 입력해주세요." />
+                                        <input type="text" id="title" class="form-control valid-fields" name="title" placeholder="제목을 입력해주세요." th:value="${dto.title}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row checkDuplicate">
@@ -44,11 +44,11 @@
                                     </div>
                                     <div class="col-md-10 display-flex-row">
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="smsSendYn_Y" name="smsSendYn" value="Y" />
+                                            <input type="radio" id="smsSendYn_Y" name="smsSendYn" value="Y" th:checked="${dto.smsSendYn eq YnType.Y}" />
                                             <label class="radio-label" style="font-weight: normal;">활성화</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="smsSendYn_N" name="smsSendYn" value="N" checked />
+                                            <input type="radio" id="smsSendYn_N" name="smsSendYn" value="N" th:checked="${dto.smsSendYn eq YnType.N}" />
                                             <label class="radio-label" style="font-weight: normal;">비활성화</label>
                                         </label>
                                     </div>
@@ -59,11 +59,11 @@
                                     </div>
                                     <div class="col-md-10 display-flex-row">
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="emailSendYn_Y" name="emailSendYn" value="Y" />
+                                            <input type="radio" id="emailSendYn_Y" name="emailSendYn" value="Y" th:checked="${dto.emailSendYn eq YnType.Y}" />
                                             <label class="radio-label" style="font-weight: normal;">활성화</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="emailSendYn_N" name="emailSendYn" value="N" checked />
+                                            <input type="radio" id="emailSendYn_N" name="emailSendYn" value="N" th:checked="${dto.emailSendYn eq YnType.N}" />
                                             <label class="radio-label" style="font-weight: normal;">비활성화</label>
                                         </label>
                                     </div>
@@ -74,11 +74,11 @@
                                     </div>
                                     <div class="col-md-10 display-flex-row">
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="pushSendYn_Y" name="pushSendYn" value="Y" />
+                                            <input type="radio" id="pushSendYn_Y" name="pushSendYn" value="Y" th:checked="${dto.pushSendYn eq YnType.Y}" />
                                             <label class="radio-label" style="font-weight: normal;">활성화</label>
                                         </label>
                                         <label class="radio-label" style="font-weight: normal;">
-                                            <input type="radio" id="pushSendYn_N" name="pushSendYn" value="N" checked />
+                                            <input type="radio" id="pushSendYn_N" name="pushSendYn" value="N" th:checked="${dto.pushSendYn eq YnType.N}" />
                                             <label class="radio-label" style="font-weight: normal;">비활성화</label>
                                         </label>
                                     </div>
@@ -88,7 +88,7 @@
                                         <label for="landingUrl">도착 URL</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" id="landingUrl" class="form-control valid-fields" name="landingUrl" placeholder="도착 URL를 입력해주세요." />
+                                        <input type="text" id="landingUrl" class="form-control valid-fields" name="landingUrl" placeholder="도착 URL를 입력해주세요." th:value="${dto.landingUrl}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -96,7 +96,7 @@
                                         <label for="emailTemplateCd">이메일 템플릿 ID</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" id="emailTemplateCd" class="form-control valid-fields" name="emailTemplateCd" placeholder="이메일 템플릿 아이디를 입력해주세요." />
+                                        <input type="text" id="emailTemplateCd" class="form-control valid-fields" name="emailTemplateCd" placeholder="이메일 템플릿 아이디를 입력해주세요." th:value="${dto.emailTemplateCd}" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
@@ -104,13 +104,13 @@
                                         <label for="landingUrl">SMS Message</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <textarea class="form-control" rows="3" name="smsMessage" maxlength="300"></textarea>
+                                        <textarea class="form-control" rows="3" name="smsMessage" maxlength="300" th:text="${dto.smsMessage}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <button type="button" class="btn btn-primary btnSave float-right" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
                                     <button type="button" class="btn btn-primary btnUpdate float-right" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
-                                    <a href="/settings/administrators" class="btn btn-default float-right margin-right-5"> 목록</a>
+                                    <a href="/settings/alarm-template" class="btn btn-default float-right margin-right-5"> 목록</a>
                                 </div>
                             </div>
                         </form>
