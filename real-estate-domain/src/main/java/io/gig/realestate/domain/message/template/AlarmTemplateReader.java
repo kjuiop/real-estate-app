@@ -8,4 +8,6 @@ import io.gig.realestate.domain.message.template.dto.AlarmTemplateDetailDto;
  */
 public interface AlarmTemplateReader {
     AlarmTemplateDetailDto getAlarmTemplateDetail(Long alarmTemplateId);
+
+    AlarmTemplate getAlarmTemplateById(Long alarmTemplateId);
 }

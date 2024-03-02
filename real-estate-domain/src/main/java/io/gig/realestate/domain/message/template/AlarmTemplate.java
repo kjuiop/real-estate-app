@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.message.template;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.message.template.dto.AlarmTemplateForm;
@@ -76,5 +77,17 @@ public class AlarmTemplate extends BaseTimeEntity {
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
+    }
+
+    public void update(AlarmTemplateForm updateForm, Administrator loginUser) {
+        this.templateCd = updateForm.getTemplateCd();
+        this.emailTemplateCd = updateForm.getEmailTemplateCd();
+        this.title = updateForm.getTitle();
+        this.landingUrl = updateForm.getLandingUrl();
+        this.smsMessage = updateForm.getSmsMessage();
+        this.smsSendYn = updateForm.getSmsSendYn();
+        this.emailSendYn = updateForm.getEmailSendYn();
+        this.pushSendYn = updateForm.getPushSendYn();
+        this.updatedBy = loginUser;
     }
 }

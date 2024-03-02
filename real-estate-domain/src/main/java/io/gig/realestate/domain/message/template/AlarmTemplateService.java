@@ -9,7 +9,10 @@ import io.gig.realestate.domain.message.template.dto.AlarmTemplateForm;
  * @date : 2024/03/02
  */
 public interface AlarmTemplateService {
-    Long create(AlarmTemplateForm createForm, LoginUser loginUser);
 
     AlarmTemplateDetailDto getAlarmTemplateDetail(Long alarmTemplateId);
+
+    Long create(AlarmTemplateForm createForm, LoginUser loginUser);
+
+    Long update(AlarmTemplateForm updateForm, LoginUser loginUser);
 }

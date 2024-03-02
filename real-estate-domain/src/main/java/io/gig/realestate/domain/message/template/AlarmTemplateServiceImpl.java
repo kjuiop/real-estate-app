@@ -33,5 +33,11 @@ public class AlarmTemplateServiceImpl implements AlarmTemplateService {
         return alarmTemplateStore.store(alarmTemplate).getId();
     }
 
-
+    @Override
+    @Transactional
+    public Long update(AlarmTemplateForm updateForm, LoginUser loginUser) {
+        AlarmTemplate alarmTemplate = alarmTemplateReader.getAlarmTemplateById(updateForm.getAlarmTemplateId());
+        alarmTemplate.update(updateForm, loginUser.getLoginUser());
+        return alarmTemplate.getId();
+    }
 }

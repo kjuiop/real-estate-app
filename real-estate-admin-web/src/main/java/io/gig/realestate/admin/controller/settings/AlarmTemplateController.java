@@ -57,4 +57,12 @@ public class AlarmTemplateController {
         return new ResponseEntity<>(ApiResponse.OK(alarmTemplateId), HttpStatus.OK);
     }
 
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody AlarmTemplateForm updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long alarmTemplateId = alarmTemplateService.update(updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(alarmTemplateId), HttpStatus.OK);
+    }
+
 }
