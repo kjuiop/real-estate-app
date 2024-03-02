@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
-                        <form id="frmRegister" class="form-horizontal" name="frmAdminRegister" method="post" th:object="${dto}">
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
                             <input type="hidden" id="alarmTemplateId" name="alarmTemplateId" th:field="*{alarmTemplateId}" />
                             <div class="card-header">
                                 <h3 class="card-title">템플릿정보</h3>
@@ -22,6 +22,22 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="templateCd">템플릿 ID</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" id="templateCd" class="form-control valid-fields" name="templateCd" placeholder="템플릿 아이디를 입력해주세요." />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-2">
+                                        <label for="title">제목</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" id="title" class="form-control valid-fields" name="title" placeholder="제목을 입력해주세요." />
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-12 display-flex-row checkDuplicate">
                                     <div class="col-md-2">
                                         <label for="smsSendYn_Y">SMS 발송여부</label>
@@ -65,14 +81,6 @@
                                             <input type="radio" id="pushSendYn_N" name="pushSendYn" value="N" checked />
                                             <label class="radio-label" style="font-weight: normal;">비활성화</label>
                                         </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-2">
-                                        <label for="templateCd">템플릿 ID</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <input type="text" id="templateCd" class="form-control valid-fields" name="templateCd" placeholder="템플릿 아이디를 입력해주세요." />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
