@@ -13,6 +13,7 @@ import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
 import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,7 @@ public class BuyerController {
     private final AreaService areaService;
     private final BuyerService buyerService;
     private final BuyerDetailService buyerDetailService;
+    private final TeamService teamService;
 
     @GetMapping
     public String index(BuyerSearchDto condition, Model model) {
@@ -44,6 +46,7 @@ public class BuyerController {
         model.addAttribute("totalCount", pages.getTotalElements());
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
+        model.addAttribute("teams", teamService.getTeamList());
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         return "buyer/list";
     }
