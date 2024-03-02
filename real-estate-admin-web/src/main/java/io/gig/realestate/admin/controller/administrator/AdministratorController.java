@@ -33,7 +33,7 @@ public class AdministratorController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> save(@Valid @RequestBody AdministratorSignUpForm signUpForm) {
+    public ResponseEntity<ApiResponse> signUp(@Valid @RequestBody AdministratorSignUpForm signUpForm) {
         Long adminId = administratorService.signUp(signUpForm);
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
     }

@@ -5,6 +5,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <body>
+<head>
+    <style>
+        .content * {
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
+        }
+    </style>
+</head>
 <div layout:fragment="content" th:with="AdminStatus = ${T(io.gig.realestate.domain.admin.types.AdminStatus)}">
     <div th:replace="layouts/utilFragments::navigator('/administrators', '관리자 관리', '관리자 목록')"></div>
     <section class="content">
@@ -15,30 +26,30 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 관리자관리</h5></div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
+                            <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 관리자관리</h5></div>
+                            <div class="col-md-12 display-flex-row line">
+                                <div class="col-md-2" style="padding-top: 5px; padding-left: 30px;">
                                     <label>이메일</label>
                                 </div>
-                                <div class="col-7">
+                                <div class="col-md-7">
                                     <input type="text" class="form-control" id="username" name="username" th:value="${condition.username}" placeholder="이메일을 입력하세요." />
                                 </div>
-                                <div class="col-3"></div>
+                                <div class="col-md-3"></div>
                             </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
+                            <div class="col-md-12 display-flex-row line">
+                                <div class="col-md-2" style="padding-top: 5px; padding-left: 30px;">
                                     <label>이름</label>
                                 </div>
-                                <div class="col-7">
+                                <div class="col-md-7">
                                     <input type="text" class="form-control" id="name" name="name" th:value="${condition.name}" placeholder="이름을 입력하세요." />
                                 </div>
-                                <div class="col-3"></div>
+                                <div class="col-md-3"></div>
                             </div>
-                            <div class="col-12 display-flex-row line">
-                                <div class="col-2" style="padding-left: 30px;">
+                            <div class="col-md-12 display-flex-row line">
+                                <div class="col-md-2" style="padding-left: 30px;">
                                     <label for="AdminStatus_All" class="control-label">상태</label>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-md-10">
                                     <label class="margin-right-10" for="AdminStatus_All" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_All" value="" th:checked="${condition.adminStatus eq null}">&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
                                     <label class="margin-right-10" for="AdminStatus_Normal" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Normal" value="NORMAL" th:checked="${condition.adminStatus eq AdminStatus.NORMAL}">&nbsp;&nbsp;&nbsp;활성</label>
                                     <label class="margin-right-10" for="AdminStatus_Pending" style="font-weight: normal;"><input type="radio" name="adminStatus" id="adminStatus_Pending" value="PENDING" th:checked="${condition.adminStatus eq AdminStatus.PENDING}">&nbsp;&nbsp;&nbsp;대기</label>
@@ -47,8 +58,8 @@
                                 </div>
                             </div>
                             <div class="col-12 display-flex-row line">
-                                <div class="col-8"></div>
-                                <div class="col-4">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
                                     <div class="col-md-12">
                                         <button type="submit" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
