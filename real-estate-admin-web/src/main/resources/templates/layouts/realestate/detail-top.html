@@ -33,8 +33,42 @@
                 <button type="button" class="btn btn-primary text-right margin-right-5 btnUpdate" th:if="${isModify && dto.isOwnUser}">일괄수정</button>
                 <button type="button" class="btn btn-primary text-right margin-right-5 btnSave" th:if="${!isModify}">일괄저장</button>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="/logout" class="nav-link">logout</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">15</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-envelope-o mr-2"></i> 4 new messages
+                        <span class="float-right text-muted text-sm">3 mins</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-users mr-2"></i> 8 friend requests
+                        <span class="float-right text-muted text-sm">12 hours</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-user"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0;">
+                    <a href="/administrators/mypage" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">마이페이지</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">로그아웃</a>
+                </div>
             </li>
         </ul>
     </nav>
