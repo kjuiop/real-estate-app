@@ -55,10 +55,10 @@ let checkDuplicateData  = function(e) {
 
             let isDuplicate = result.data;
             if (isDuplicate) {
-                oneBtnModal('이미 존재하는 이메일 입니다.');
+                twoBtnModal('이미 존재하는 이메일 입니다.');
                 $frm.find('#emailCheckYn').val(false);
             } else {
-                oneBtnModal('사용가능한 이메일 입니다.');
+                twoBtnModal('사용가능한 이메일 입니다.');
                 $frm.find('#emailCheckYn').val(true);
             }
         },
@@ -121,40 +121,40 @@ let signUp = function(e) {
 
     let emailCheckYn = $frm.find("#emailCheckYn").val();
     if (emailCheckYn === "false") {
-        oneBtnModal('이메일 중복확인을 해주세요.');
+        twoBtnModal('이메일 중복확인을 해주세요.');
         return;
     }
 
     let confirmPassword = $('#confirmPassword').val();
     if (!checkNullOrEmptyValue(confirmPassword)) {
-        oneBtnModal('비밀번호 확인란에 비밀번호를 입력해주세요.');
+        twoBtnModal('비밀번호 확인란에 비밀번호를 입력해주세요.');
         return;
     }
 
     let pwValidCheckYn = $('#pwValidCheckYn').val();
     if (pwValidCheckYn === "false") {
-        oneBtnModal('비밀번호를 올바르게 입력해주세요.');
+        twoBtnModal('비밀번호를 올바르게 입력해주세요.');
         return;
     }
 
     let pwEqualCheckYn = $('#pwEqualCheckYn').val();
     if (pwEqualCheckYn === "false") {
-        oneBtnModal('동일한 비밀번호가 아닙니다.');
+        twoBtnModal('동일한 비밀번호가 아닙니다.');
         return;
     }
 
     if (!checkNullOrEmptyValue(params.name)) {
-        oneBtnModal('이름을 입력해주세요.');
+        twoBtnModal('이름을 입력해주세요.');
         return;
     }
 
     if (!checkNullOrEmptyValue(params.phone)) {
-        oneBtnModal('전화번호를 입력해주세요.');
+        twoBtnModal('전화번호를 입력해주세요.');
         return;
     }
 
     if (!checkNullOrEmptyValue(params.teamId)) {
-        oneBtnModal('관리자의 팀을 선택해주세요.');
+        twoBtnModal('관리자의 팀을 선택해주세요.');
         return;
     }
 
@@ -162,19 +162,19 @@ let signUp = function(e) {
     roleNames.push(params.roleName);
     params.roleNames = roleNames;
     if (params.roleNames.length <= 0) {
-        oneBtnModal('관리자의 권한을 선택해주세요.');
+        twoBtnModal('관리자의 권한을 선택해주세요.');
         return;
     }
 
     let isPrivacyAgree = $('#privacyAgree').prop('checked');
     if (!isPrivacyAgree) {
-        oneBtnModal('개인 정보 수집 및 이용에 동의해주세요.');
+        twoBtnModal('개인 정보 수집 및 이용에 동의해주세요.');
         return;
     }
 
     let isPolicyAgree = $('#policyAgree').prop('checked');
     if (!isPolicyAgree) {
-        oneBtnModal('이용약관에 동의해주세요.');
+        twoBtnModal('이용약관에 동의해주세요.');
         return;
     }
 
@@ -191,12 +191,20 @@ let signUp = function(e) {
             let message = "회원가입 요청이 완료되었습니다."
             twoBtnModal(message, function() {
                 location.href = '/login';
+                // $('#sign-up-modal').find('.close').trigger('click');
+                // $('#email-auth-modal').modal('show');
+                // $('#email-auth-modal').find('#username').text(params.username);
             });
         },
         error:function(error){
             ajaxErrorFieldByText(error);
         }
     });
+
+}
+
+let sendEmailValidCode = function(e) {
+    e.preventDefault();
 
 }
 
@@ -230,4 +238,5 @@ $(document).ready(onReady)
     .on('click', '#btnSignUpModal', signUpModal)
     .on('click', '#btnSignUp', signUp)
     .on('click', '#sign-up-modal .btnCheckDuplicate', checkDuplicateData)
-    .on('blur', '#confirmPassword', checkValidPassword);
+    .on('blur', '#confirmPassword', checkValidPassword)
+    .on('click', '.btnEmailAuth', sendEmailValidCode);

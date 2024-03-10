@@ -10,19 +10,10 @@ let search = function(e) {
 
 let reset = function(e) {
     e.preventDefault();
-    location.href = '/buyer';
+    location.href = '/settings/alarm-template';
 };
-
-let movePage = function(e) {
-    e.preventDefault();
-
-    let id = $(this).attr('id');
-    location.href = '/buyer/' + id + '/edit';
-}
-
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
-    .on('click', '.moveEditor', movePage)
 ;
