@@ -115,8 +115,8 @@
                                     <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
                                 </div>
                                 <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" name="surroundInfo" th:value="${dto.surroundInfo}" />
+                                    <label class="text-label">날짜</label>
+                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.createdAt, 'YYYY-MM-dd')}" readonly />
                                 </div>
                             </div>
 
