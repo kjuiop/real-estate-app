@@ -33,6 +33,8 @@ public class RealEstateUpdateForm {
 
     private String surroundInfo;
 
+    private String exclusiveCds;
+
     private String imgUrl;
 
     private String address;

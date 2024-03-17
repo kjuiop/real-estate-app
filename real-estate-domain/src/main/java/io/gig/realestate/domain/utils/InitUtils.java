@@ -115,6 +115,13 @@ public class InitUtils {
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_02", "CD_INVESTMENT_CHARACTER", "지가상승기대", YnType.Y, 2, 2, investmentCharacter);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_03", "CD_INVESTMENT_CHARACTER", "입지", YnType.Y, 2, 3, investmentCharacter);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_04", "CD_INVESTMENT_CHARACTER", "직접사용의 편의성", YnType.Y, 2, 4, investmentCharacter);
+
+        Category exclusiveType = categoryService.initCategory("CD_EXCLUSIVE", "전속유형", YnType.Y, 1, 5);
+        categoryService.initChildCategory("CD_EXCLUSIVE_01", "CD_EXCLUSIVE", "일반", YnType.Y, 2, 1, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_02", "CD_EXCLUSIVE", "공동", YnType.Y, 2, 2, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_03", "CD_EXCLUSIVE", "전속", YnType.Y, 2, 3, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_04", "CD_EXCLUSIVE", "타전속", YnType.Y, 2, 4, exclusiveType);
+
     }
 
     private void validateAlreadyEntity() {

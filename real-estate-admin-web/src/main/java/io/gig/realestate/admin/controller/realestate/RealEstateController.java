@@ -104,6 +104,7 @@ public class RealEstateController {
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("sidoList", sidoList);
+        model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
 
         return "realestate/editor";
     }
@@ -127,6 +128,7 @@ public class RealEstateController {
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("sidoList", sidoList);
+        model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
 
         return "realestate/editor";
     }

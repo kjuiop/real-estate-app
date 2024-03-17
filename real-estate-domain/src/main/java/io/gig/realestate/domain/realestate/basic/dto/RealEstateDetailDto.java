@@ -139,6 +139,7 @@ public class RealEstateDetailDto extends RealEstateDto {
                 .ji(ji)
                 .address(address)
                 .usageCdId(usageCdId)
+                .exclusiveCds("CD_EXCLUSIVE_01")
                 .build();
     }
 
