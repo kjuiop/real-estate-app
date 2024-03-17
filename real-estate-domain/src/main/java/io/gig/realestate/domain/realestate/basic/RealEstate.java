@@ -67,15 +67,7 @@ public class RealEstate extends BaseTimeEntity {
 
     private String tradingAt;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType ownExclusiveYn = YnType.N;
-
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType otherExclusiveYn = YnType.N;
+    private String exclusiveCds;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -211,6 +203,7 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
         return RealEstate.builder()
+                .exclusiveCds(createForm.getExclusiveCds())
                 .buildingName(createForm.getBuildingName())
                 .surroundInfo(createForm.getSurroundInfo())
                 .imgUrl(createForm.getImgUrl())
@@ -220,34 +213,9 @@ public class RealEstate extends BaseTimeEntity {
                 .ji(createForm.getJi())
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
-                .ownExclusiveYn(createForm.getOwnExclusiveYn())
-                .otherExclusiveYn(createForm.getOtherExclusiveYn())
                 .characterInfo(createForm.getCharacterInfo())
                 .agentName(createForm.getAgentName())
                 .tradingAt(createForm.getTradingAt())
-                .manager(manager)
-                .createdBy(createdBy)
-                .updatedBy(createdBy)
-                .build();
-    }
-
-    public static RealEstate createWithUsageType(RealEstateCreateForm createForm, Administrator manager, Category usageType, Administrator createdBy) {
-        return RealEstate.builder()
-                .buildingName(createForm.getBuildingName())
-                .surroundInfo(createForm.getSurroundInfo())
-                .imgUrl(createForm.getImgUrl())
-                .legalCode(createForm.getLegalCode())
-                .landType(createForm.getLandType())
-                .bun(createForm.getBun())
-                .ji(createForm.getJi())
-                .address(createForm.getAddress())
-                .addressDetail(createForm.getAddressDetail())
-                .ownExclusiveYn(createForm.getOwnExclusiveYn())
-                .otherExclusiveYn(createForm.getOtherExclusiveYn())
-                .characterInfo(createForm.getCharacterInfo())
-                .agentName(createForm.getAgentName())
-                .tradingAt(createForm.getTradingAt())
-                .usageType(usageType)
                 .manager(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -272,12 +240,11 @@ public class RealEstate extends BaseTimeEntity {
     }
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Administrator loginUser) {
+        this.exclusiveCds = updateForm.getExclusiveCds();
         this.buildingName = updateForm.getBuildingName();
         this.agentName = updateForm.getAgentName();
         this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
-        this.ownExclusiveYn = updateForm.getOwnExclusiveYn();
-        this.otherExclusiveYn = updateForm.getOtherExclusiveYn();
         this.characterInfo = updateForm.getCharacterInfo();
         this.tradingAt = updateForm.getTradingAt();
         this.imgUrl = updateForm.getImgUrl();
