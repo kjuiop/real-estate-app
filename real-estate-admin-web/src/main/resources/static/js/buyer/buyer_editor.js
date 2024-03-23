@@ -1,55 +1,31 @@
 let onReady = function() {
-    console.log("processDto", processDto);
-    console.log("usageCds", usageCds);
-
-    if (checkNullOrEmptyValue(processDto)) {
+    if (checkNullOrEmptyValue(dto)) {
         setConvertDoubleToInt();
-        setUsageTypeCd(processDto.usageTypeCds);
     }
 
 };
 
-let setUsageTypeCd = function(data) {
-
-    if (!checkNullOrEmptyValue(data)) {
-        return
-    }
-
-    $('.usageTypeSection').html('');
-
-    let ids = data.split(",");
-    $.each(usageCds, function(i, code) {
-        $.each(ids, function(j, id) {
-            if (code.id == id) {
-                let tag = drawUsageTypeButton(code.id, code.name);
-                $('.usageTypeSection').append(tag);
-            }
-        });
-    });
-
-    $('.usageTr').removeClass('hidden');
-}
-
 let setConvertDoubleToInt = function() {
-    let minSalePrice = processDto.minSalePrice,
-        maxSalePrice = processDto.maxSalePrice,
-        handCache = processDto.handCache,
-        exclusiveAreaPy = processDto.exclusiveAreaPy
+    let salePrice = dto.salePrice,
+        handCache = dto.handCache,
+        exclusiveAreaPy = dto.exclusiveAreaPy,
+        landAreaPy = dto.landAreaPy,
+        totalAreaPy = dto.totalAreaPy
     ;
 
     let $frm = $('form[name="frmRegister"]');
-    $frm.find('input[name="minSalePrice"]').val(convertDoubleValue(minSalePrice));
-    $frm.find('input[name="maxSalePrice"]').val(convertDoubleValue(maxSalePrice));
+    $frm.find('input[name="salePrice"]').val(convertDoubleValue(salePrice));
     $frm.find('input[name="handCache"]').val(convertDoubleValue(handCache));
     $frm.find('input[name="exclusiveAreaPy"]').val(convertDoubleValue(exclusiveAreaPy));
+    $frm.find('input[name="landAreaPy"]').val(convertDoubleValue(landAreaPy));
+    $frm.find('input[name="totalAreaPy"]').val(convertDoubleValue(totalAreaPy));
 }
 
 let convertDoubleValue = function(doubleValue) {
-    if (doubleValue === 0 || doubleValue % 1 > 0) {
-        return doubleValue
+    if (doubleValue % 1 === 0) {
+        return doubleValue.toFixed(0);
     }
-
-    return parseInt(doubleValue);
+    return doubleValue.toFixed(1);
 }
 
 let addUsageType = function(e) {
@@ -105,18 +81,23 @@ let save = function(e) {
     let $frm = $('form[name="frmRegister"]'),
         params = serializeObject({form:$frm[0]}).json();
 
+    let buyerGradeCds = $frm.find('#buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     if (!checkNullOrEmptyValue(params.title)) {
         twoBtnModal("제목을 입력해주세요.");
         return;
     }
 
-    let usageTypeCds = getUsageTypeCds();
-    if (usageTypeCds.length === 0) {
-        twoBtnModal("매입목적을 선택해주세요.");
-        return;
-    }
-    params['usageTypeCds'] = usageTypeCds;
-    params['sortOrder'] = $('select[name="processCd"] option:selected').attr('sortOrder');
+    params["buyerGradeCds"] = buyerGradeCds;
+    params["purposeCds"] = extractCodeId($('.purposeSection'));
+    params["loanCharacterCds"] = extractCodeId($('.loanCharacterSection'));
+    params["preferBuildingCds"] = extractCodeId($('.preferBuildingSection'));
+    params["investmentTimingCds"] = extractCodeId($('.investmentTimingSection'));
+
 
     console.log("params", params);
 
@@ -295,6 +276,21 @@ let toggleSelectOneButton = function(e) {
     $this.removeClass("btn-default");
     $this.addClass("btn-primary");
     $this.addClass("selected");
+}
+
+let extractCodeId = function(section) {
+    let extractCds = '';
+    $(section).find('.btnCodeCd').each(function(idx, item) {
+        if ($(item).hasClass('selected')) {
+            extractCds += $(item).attr('code');
+            extractCds += ',';
+        }
+    });
+
+    if (extractCds.endsWith(',')) {
+        extractCds = extractCds.slice(0, -1);
+    }
+    return extractCds;
 }
 
 $(document).ready(onReady)

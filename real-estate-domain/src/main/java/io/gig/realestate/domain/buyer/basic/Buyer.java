@@ -30,14 +30,33 @@ public class Buyer extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType deleteYn = YnType.N;
+
+    private int successPercent;
+
     private String title;
 
-    private String name;
+    private String customerName;
 
-    private String usageTypeCds;
+    private String customerPhone;
+
+    private String inflowPath;
+
+    private double salePrice;
+
+    private double handCache;
+
+    private double landAreaPy;
+
+    private double totalAreaPy;
+
+    private double exclusiveAreaPy;
 
     @Lob
-    private String preferBuildingCds;
+    private String buyerGradeCds;
 
     @Lob
     private String purposeCds;
@@ -46,39 +65,10 @@ public class Buyer extends BaseTimeEntity {
     private String loanCharacterCds;
 
     @Lob
+    private String preferBuildingCds;
+
+    @Lob
     private String investmentTimingCds;
-
-    private int successPercent;
-
-    private String inflowPath;
-
-    private String adAddress;
-
-    private String adManager;
-
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType deleteYn = YnType.N;
-
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType fakeYn = YnType.N;
-
-    private double minSalePrice;
-
-    private double maxSalePrice;
-
-    private double handCache;
-
-    private String customerSector;
-
-    private String customerPosition;
-
-    private String customerName;
-
-    private String purchasePoint;
 
     private String preferArea;
 
@@ -86,19 +76,9 @@ public class Buyer extends BaseTimeEntity {
 
     private String preferRoad;
 
-    private double exclusiveAreaPy;
-
     private String moveYear;
 
     private String moveMonth;
-
-    private String deliveryWay;
-
-    private String nextPromise;
-
-    private String requestDetail;
-
-    private String investmentCharacterCds;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -108,6 +88,8 @@ public class Buyer extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private CompanyScaleType companyScale;
+
+    private String requestDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -119,35 +101,29 @@ public class Buyer extends BaseTimeEntity {
 
     public static Buyer create(BuyerCreateForm createForm, Administrator loginUser) {
         return Buyer.builder()
+                .buyerGradeCds(createForm.getBuyerGradeCds())
                 .title(createForm.getTitle())
-                .name(createForm.getName())
+                .successPercent(createForm.getSuccessPercent())
+                .customerName(createForm.getCustomerName())
+                .customerPhone(createForm.getCustomerName())
+                .inflowPath(createForm.getInflowPath())
+                .salePrice(createForm.getSalePrice())
+                .handCache(createForm.getHandCache())
+                .landAreaPy(createForm.getLandAreaPy())
+                .totalAreaPy(createForm.getTotalAreaPy())
+                .exclusiveAreaPy(createForm.getExclusiveAreaPy())
                 .purposeCds(createForm.getPurposeCds())
                 .loanCharacterCds(createForm.getLoanCharacterCds())
                 .preferBuildingCds(createForm.getPreferBuildingCds())
                 .investmentTimingCds(createForm.getInvestmentTimingCds())
-                .usageTypeCds(createForm.getUsageTypeCds())
-                .successPercent(createForm.getSuccessPercent())
-                .inflowPath(createForm.getInflowPath())
-                .adAddress(createForm.getAdAddress())
-                .adManager(createForm.getAdManager())
-                .fakeYn(createForm.getFakeYn())
-                .minSalePrice(createForm.getMinSalePrice())
-                .maxSalePrice(createForm.getMaxSalePrice())
-                .handCache(createForm.getHandCache())
-                .customerSector(createForm.getCustomerSector())
-                .customerPosition(createForm.getCustomerPosition())
-                .customerName(createForm.getCustomerName())
-                .purchasePoint(createForm.getPurchasePoint())
                 .preferArea(createForm.getPreferArea())
                 .preferSubway(createForm.getPreferSubway())
                 .preferRoad(createForm.getPreferRoad())
-                .exclusiveAreaPy(createForm.getExclusiveAreaPy())
                 .moveYear(createForm.getMoveYear())
                 .moveMonth(createForm.getMoveMonth())
-                .deliveryWay(createForm.getDeliveryWay())
-                .nextPromise(createForm.getNextPromise())
+                .companyEstablishAtYn(createForm.getCompanyEstablishAtYn())
+                .companyScale(createForm.getCompanyScale())
                 .requestDetail(createForm.getRequestDetail())
-                .investmentCharacterCds(createForm.getInvestmentCharacterCds())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();

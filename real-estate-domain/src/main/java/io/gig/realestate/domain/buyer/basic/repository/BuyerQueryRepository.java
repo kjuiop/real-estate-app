@@ -107,6 +107,6 @@ public class BuyerQueryRepository {
     }
 
     private BooleanExpression likeName(String name) {
-        return StringUtils.hasText(name) ? buyer.name.like("%" + name + "%") : null;
+        return null;
     }
 }

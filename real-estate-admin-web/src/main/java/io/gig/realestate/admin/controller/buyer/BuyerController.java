@@ -43,7 +43,7 @@ public class BuyerController {
     @GetMapping
     public String index(BuyerSearchDto condition, Model model) {
         Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition);
-        model.addAttribute("totalCount", pages.getTotalElements());
+        model.addAttribute("totalCount", 0);
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
         model.addAttribute("teams", teamService.getTeamList());
@@ -53,32 +53,26 @@ public class BuyerController {
 
     @GetMapping("new")
     public String register(Model model) {
-        BuyerDetailDto dto = BuyerDetailDto.emptyDto();
-        model.addAttribute("sidoList", areaService.getParentAreaList());
+        model.addAttribute("dto", BuyerDetailDto.emptyDto());
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
-        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
         model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
         model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
-        model.addAttribute("dto", dto);
-        model.addAttribute("processDto", dto.getProcessDetailDto());
         return "buyer/editor";
     }
 
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
                            Model model) {
-
-        BuyerDetailDto dto = buyerService.getBuyerDetail(buyerId);
-
-        model.addAttribute("sidoList", areaService.getParentAreaList());
-        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
-        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
+        model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
-        model.addAttribute("dto", dto);
-        model.addAttribute("processDto", dto.getProcessDetailDto());
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
+        model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
+        model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
+        model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         return "buyer/editor";
     }
 

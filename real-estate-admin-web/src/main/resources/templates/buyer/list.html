@@ -161,7 +161,7 @@
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
                                                                                 'width: 13%; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
                                                                                 'width: 13%; background-color: #eee;'">
-                                                                [[${processCd.name}]]
+                                                                [[${item.customerName}]]
                                                             </button>
                                                         </th:block>
                                                     </div>
@@ -175,7 +175,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row" style="font-size: 12px;">
-                                                    고객 : [[${item.name}]] | 담당자 : [[${item.managerName}]] | 등록일 : [[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
+                                                    고객 : [[${item.customerName}]] | 담당자 : [[${item.managerName}]] | 등록일 : [[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
                                                 </div>
                                             </td>
                                         </tr>

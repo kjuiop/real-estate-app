@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static io.gig.realestate.domain.buyer.detail.QBuyerDetail.buyerDetail;
-
 /**
  * @author : JAKE
  * @date : 2024/03/01
@@ -26,40 +24,22 @@ public class BuyerDetailQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public Optional<BuyerDetail> getBuyerDetailByBuyerIdAndProcessCd(Long buyerId, Long processCd) {
-        BuyerDetail fetch = queryFactory
-                .selectFrom(buyerDetail)
-                .where(defaultCondition())
-                .where(eqBuyerId(buyerId))
-                .where(eqProcessCdId(processCd))
-                .limit(1)
-                .fetchOne();
-
-        return Optional.ofNullable(fetch);
+        return null;
     }
 
     public Optional<ProcessDetailDto> getProcessDetailById(Long buyerId, Long processCd) {
-        ProcessDetailDto fetch = queryFactory
-                .select(Projections.constructor(ProcessDetailDto.class,
-                        buyerDetail))
-                .from(buyerDetail)
-                .where(defaultCondition())
-                .where(eqBuyerId(buyerId))
-                .where(eqProcessCdId(processCd))
-                .limit(1)
-                .fetchOne();
-
-        return Optional.ofNullable(fetch);
+        return null;
     }
 
     private BooleanExpression defaultCondition() {
-        return buyerDetail.deleteYn.eq(YnType.N);
+        return null;
     }
 
     private BooleanExpression eqBuyerId(Long buyerId) {
-        return buyerId != null ? buyerDetail.buyer.id.eq(buyerId) : null;
+        return null;
     }
 
     private BooleanExpression eqProcessCdId(Long processCdId) {
-        return processCdId != null ? buyerDetail.processCd.id.eq(processCdId) : null;
+        return null;
     }
 }

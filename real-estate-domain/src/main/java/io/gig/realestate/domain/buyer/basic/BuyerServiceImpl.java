@@ -67,11 +67,11 @@ public class BuyerServiceImpl implements BuyerService {
         Optional<BuyerDetail> findDetail = buyerDetailService.getBuyerDetailByIdAndProcessCd(updateForm.getBuyerId(), updateForm.getProcessCd());
         BuyerDetail detail;
         if (findDetail.isEmpty()) {
-            detail = BuyerDetail.create(updateForm, processCd, investCharacterCd, buyer, loginUser.getLoginUser());
+//            detail = BuyerDetail.create(updateForm, processCd, investCharacterCd, buyer, loginUser.getLoginUser());
 //            buyer.addDetail(detail);
         } else {
-            detail = findDetail.get();
-            detail.update(updateForm, processCd, investCharacterCd, loginUser);
+//            detail = findDetail.get();
+//            detail.update(updateForm, processCd, investCharacterCd, loginUser);
         }
         return buyerStore.store(buyer).getId();
     }

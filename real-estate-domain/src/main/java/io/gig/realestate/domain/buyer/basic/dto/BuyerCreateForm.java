@@ -1,9 +1,15 @@
 package io.gig.realestate.domain.buyer.basic.dto;
 
+import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.common.YnType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,70 +22,49 @@ public class BuyerCreateForm {
 
     private Long buyerId;
 
+    private String buyerGradeCds;
+
+    private int successPercent;
+
     private String title;
 
-    private String name;
+    private String customerName;
 
-    private String preferBuildingCds;
+    private String customerPhone;
+
+    private String inflowPath;
+
+    private double salePrice;
+
+    private double handCache;
+
+    private double landAreaPy;
+
+    private double totalAreaPy;
+
+    private double exclusiveAreaPy;
 
     private String purposeCds;
 
     private String loanCharacterCds;
 
+    private String preferBuildingCds;
+
     private String investmentTimingCds;
 
-    private int successPercent;
+    private String preferArea;
 
-    @NotNull
-    private Long processCd;
+    private String preferSubway;
 
-    private String adAddress;
-
-    private String adManager;
-
-    private String requestDetail;
-
-    private YnType companyEstablishAtYn;
-
-    private String customerName;
-
-    private String customerPosition;
-
-    private String customerSector;
-
-    private String deliveryWay;
-
-    private double exclusiveAreaPy;
-
-    private YnType fakeYn;
-
-    private double handCache;
-
-    private String inflowPath;
-
-    private String investmentCharacterCds;
-
-    private double maxSalePrice;
-
-    private double minSalePrice;
+    private String preferRoad;
 
     private String moveYear;
 
     private String moveMonth;
 
-    private String nextPromise;
+    private YnType companyEstablishAtYn;
 
-    private String preferArea;
+    private CompanyScaleType companyScale;
 
-    private String preferRoad;
-
-    private String preferSubway;
-
-    private String purchasePoint;
-
-    private int sortOrder;
-
-    private String usageTypeCds;
-
-
+    private String requestDetail;
 }
