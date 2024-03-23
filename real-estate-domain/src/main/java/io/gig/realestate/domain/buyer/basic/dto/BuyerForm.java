@@ -2,15 +2,8 @@ package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.common.YnType;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author : JAKE
@@ -18,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class BuyerCreateForm {
+public class BuyerForm {
 
     private Long buyerId;
 

@@ -1,23 +1,18 @@
 package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
-import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * @author : JAKE
@@ -48,31 +43,16 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional
-    public Long create(BuyerCreateForm createForm, LoginUser loginUser) {
+    public Long create(BuyerForm createForm, LoginUser loginUser) {
         Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
         return buyerStore.store(buyer).getId();
     }
 
     @Override
     @Transactional
-    public Long update(BuyerDetailUpdateForm updateForm, LoginUser loginUser) {
-        Category processCd = categoryService.getCategoryById(updateForm.getProcessCd());
-        Category investCharacterCd = null;
-        if (updateForm.getInvestmentCharacterCd() != null) {
-            investCharacterCd = categoryService.getCategoryById(updateForm.getInvestmentCharacterCd());
-        }
+    public Long update(BuyerForm updateForm, LoginUser loginUser) {
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
-        buyer.update(loginUser);
-
-        Optional<BuyerDetail> findDetail = buyerDetailService.getBuyerDetailByIdAndProcessCd(updateForm.getBuyerId(), updateForm.getProcessCd());
-        BuyerDetail detail;
-        if (findDetail.isEmpty()) {
-//            detail = BuyerDetail.create(updateForm, processCd, investCharacterCd, buyer, loginUser.getLoginUser());
-//            buyer.addDetail(detail);
-        } else {
-//            detail = findDetail.get();
-//            detail.update(updateForm, processCd, investCharacterCd, loginUser);
-        }
+        buyer.update(updateForm, loginUser);
         return buyerStore.store(buyer).getId();
     }
 }

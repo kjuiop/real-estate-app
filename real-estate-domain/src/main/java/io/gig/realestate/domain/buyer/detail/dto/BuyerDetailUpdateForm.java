@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.buyer.detail.dto;
 
+import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,64 +17,49 @@ public class BuyerDetailUpdateForm {
 
     private Long buyerId;
 
-    private Long buyerDetailId;
+    private String buyerGradeCds;
 
     private int successPercent;
 
     private String title;
 
-    private String name;
-
-    @NotNull
-    private Long processCd;
-
-    private String adAddress;
-
-    private String adManager;
-
-    private String requestDetail;
-
-    private YnType companyEstablishAtYn;
-
     private String customerName;
 
-    private String customerPosition;
-
-    private String customerSector;
-
-    private String deliveryWay;
-
-    private double exclusiveAreaPy;
-
-    private YnType fakeYn;
-
-    private double handCache;
+    private String customerPhone;
 
     private String inflowPath;
 
-    private Long investmentCharacterCd;
+    private double salePrice;
 
-    private double maxSalePrice;
+    private double handCache;
 
-    private double minSalePrice;
+    private double landAreaPy;
+
+    private double totalAreaPy;
+
+    private double exclusiveAreaPy;
+
+    private String purposeCds;
+
+    private String loanCharacterCds;
+
+    private String preferBuildingCds;
+
+    private String investmentTimingCds;
+
+    private String preferArea;
+
+    private String preferSubway;
+
+    private String preferRoad;
 
     private String moveYear;
 
     private String moveMonth;
 
-    private String nextPromise;
+    private YnType companyEstablishAtYn;
 
-    private String preferArea;
+    private CompanyScaleType companyScale;
 
-    private String preferRoad;
-
-    private String preferSubway;
-
-    private String purchasePoint;
-
-    private int sortOrder;
-
-    private String usageTypeCds;
-
-
+    private String requestDetail;
 }

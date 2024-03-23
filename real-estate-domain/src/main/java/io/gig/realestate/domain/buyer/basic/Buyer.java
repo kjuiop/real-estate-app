@@ -3,17 +3,13 @@ package io.gig.realestate.domain.buyer.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
-import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author : JAKE
@@ -99,7 +95,7 @@ public class Buyer extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static Buyer create(BuyerCreateForm createForm, Administrator loginUser) {
+    public static Buyer create(BuyerForm createForm, Administrator loginUser) {
         return Buyer.builder()
                 .buyerGradeCds(createForm.getBuyerGradeCds())
                 .title(createForm.getTitle())
@@ -129,7 +125,30 @@ public class Buyer extends BaseTimeEntity {
                 .build();
     }
 
-    public void update(LoginUser loginUser) {
+    public void update(BuyerForm updateForm, LoginUser loginUser) {
+        this.buyerGradeCds = updateForm.getBuyerGradeCds();
+        this.title = updateForm.getTitle();
+        this.successPercent = updateForm.getSuccessPercent();
+        this.customerName = updateForm.getCustomerName();
+        this.customerPhone = updateForm.getCustomerPhone();
+        this.inflowPath = updateForm.getInflowPath();
+        this.salePrice = updateForm.getSalePrice();
+        this.handCache = updateForm.getHandCache();
+        this.landAreaPy = updateForm.getLandAreaPy();
+        this.totalAreaPy = updateForm.getTotalAreaPy();
+        this.exclusiveAreaPy = updateForm.getExclusiveAreaPy();
+        this.purposeCds = updateForm.getPurposeCds();
+        this.loanCharacterCds = updateForm.getLoanCharacterCds();
+        this.preferBuildingCds = updateForm.getPreferBuildingCds();
+        this.investmentTimingCds = updateForm.getInvestmentTimingCds();
+        this.preferArea = updateForm.getPreferArea();
+        this.preferSubway = updateForm.getPreferSubway();
+        this.preferRoad = updateForm.getPreferRoad();
+        this.moveYear = updateForm.getMoveYear();
+        this.moveMonth = updateForm.getMoveMonth();
+        this.companyScale = updateForm.getCompanyScale();
+        this.companyEstablishAtYn = updateForm.getCompanyEstablishAtYn();
+        this.requestDetail = updateForm.getRequestDetail();
         this.updatedBy = loginUser.getLoginUser();
     }
 }

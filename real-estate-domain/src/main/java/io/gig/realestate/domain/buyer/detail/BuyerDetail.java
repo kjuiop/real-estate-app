@@ -1,11 +1,5 @@
 package io.gig.realestate.domain.buyer.detail;
 
-import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.basic.Buyer;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;

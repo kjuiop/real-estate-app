@@ -127,18 +127,23 @@ let update = function(e) {
     let $frm = $('form[name="frmRegister"]'),
         params = serializeObject({form:$frm[0]}).json();
 
+    let buyerGradeCds = $frm.find('#buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     if (!checkNullOrEmptyValue(params.title)) {
         twoBtnModal("제목을 입력해주세요.");
         return;
     }
 
-    let usageTypeCds = getUsageTypeCds();
-    if (usageTypeCds.length === 0) {
-        twoBtnModal("매입목적을 선택해주세요.");
-        return;
-    }
-    params['usageTypeCds'] = usageTypeCds;
-    params['sortOrder'] = $('select[name="processCd"] option:selected').attr('sortOrder');
+    params["buyerGradeCds"] = buyerGradeCds;
+    params["purposeCds"] = extractCodeId($('.purposeSection'));
+    params["loanCharacterCds"] = extractCodeId($('.loanCharacterSection'));
+    params["preferBuildingCds"] = extractCodeId($('.preferBuildingSection'));
+    params["investmentTimingCds"] = extractCodeId($('.investmentTimingSection'));
+
 
     console.log("params", params);
 

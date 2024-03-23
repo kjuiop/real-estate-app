@@ -4,14 +4,11 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -35,9 +32,7 @@ import javax.validation.Valid;
 public class BuyerController {
 
     private final CategoryService categoryService;
-    private final AreaService areaService;
     private final BuyerService buyerService;
-    private final BuyerDetailService buyerDetailService;
     private final TeamService teamService;
 
     @GetMapping
@@ -78,7 +73,7 @@ public class BuyerController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerCreateForm createForm,
+    public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerForm createForm,
                                               @CurrentUser LoginUser loginUser) {
         Long buyerId = buyerService.create(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(buyerId), HttpStatus.OK);
@@ -86,7 +81,7 @@ public class BuyerController {
 
     @PutMapping()
     @ResponseBody
-    public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerDetailUpdateForm updateForm,
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerForm updateForm,
                                               @CurrentUser LoginUser loginUser) {
         Long id = buyerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
