@@ -37,7 +37,6 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(eqProcessCdId(condition.getProcessCd()));
         where.and(likeTitle(condition.getTitle()));
         where.and(likeName(condition.getName()));
         where.and(likeManagerName(condition.getManagerName()));
@@ -97,10 +96,6 @@ public class BuyerQueryRepository {
 
     private BooleanExpression eqBuyerId(Long buyerId) {
         return buyerId != null ? buyer.id.eq(buyerId) : null;
-    }
-
-    private BooleanExpression eqProcessCdId(Long processCdId) {
-        return processCdId != null ? buyer.processCd.id.eq(processCdId) : null;
     }
 
     private BooleanExpression likeTitle(String title) {

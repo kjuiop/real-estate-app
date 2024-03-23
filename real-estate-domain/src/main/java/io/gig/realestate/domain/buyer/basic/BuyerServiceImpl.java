@@ -49,14 +49,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     @Transactional
     public Long create(BuyerCreateForm createForm, LoginUser loginUser) {
-        Category processCd = categoryService.getCategoryById(createForm.getProcessCd());
-        Category investCharacterCd = null;
-        if (createForm.getInvestmentCharacterCd() != null) {
-            investCharacterCd = categoryService.getCategoryById(createForm.getInvestmentCharacterCd());
-        }
-        Buyer buyer = Buyer.create(createForm, processCd, loginUser.getLoginUser());
-        BuyerDetail detail = BuyerDetail.create(createForm, processCd, investCharacterCd, buyer, loginUser.getLoginUser());
-        buyer.addDetail(detail);
+        Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
         return buyerStore.store(buyer).getId();
     }
 
@@ -75,7 +68,7 @@ public class BuyerServiceImpl implements BuyerService {
         BuyerDetail detail;
         if (findDetail.isEmpty()) {
             detail = BuyerDetail.create(updateForm, processCd, investCharacterCd, buyer, loginUser.getLoginUser());
-            buyer.addDetail(detail);
+//            buyer.addDetail(detail);
         } else {
             detail = findDetail.get();
             detail.update(updateForm, processCd, investCharacterCd, loginUser);

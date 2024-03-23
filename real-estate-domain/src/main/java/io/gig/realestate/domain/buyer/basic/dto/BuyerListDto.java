@@ -15,17 +15,13 @@ public class BuyerListDto extends BuyerDto {
     public BuyerListDto(Buyer b) {
         super(b);
 
-        if (b.getProcessCd() != null) {
-            this.processName = b.getProcessCd().getName();
-        }
-
-        if (b.getBuyerDetails().size() > 0) {
-            StringBuilder processCdStr = new StringBuilder();
-            for (BuyerDetail d : b.getBuyerDetails()) {
-                processCdStr.append(d.getProcessCd().getCode());
-                processCdStr.append(",");
-            }
-            processCds = processCdStr.toString();
-        }
+//        if (b.getBuyerDetails().size() > 0) {
+//            StringBuilder processCdStr = new StringBuilder();
+//            for (BuyerDetail d : b.getBuyerDetails()) {
+//                processCdStr.append(d.getProcessCd().getCode());
+//                processCdStr.append(",");
+//            }
+//            processCds = processCdStr.toString();
+//        }
     }
 }

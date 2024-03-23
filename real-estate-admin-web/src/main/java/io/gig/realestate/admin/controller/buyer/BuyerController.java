@@ -55,9 +55,13 @@ public class BuyerController {
     public String register(Model model) {
         BuyerDetailDto dto = BuyerDetailDto.emptyDto();
         model.addAttribute("sidoList", areaService.getParentAreaList());
-        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
+        model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
+        model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
+        model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         model.addAttribute("dto", dto);
         model.addAttribute("processDto", dto.getProcessDetailDto());
         return "buyer/editor";
@@ -76,14 +80,6 @@ public class BuyerController {
         model.addAttribute("dto", dto);
         model.addAttribute("processDto", dto.getProcessDetailDto());
         return "buyer/editor";
-    }
-
-    @GetMapping("{buyerId}/{processCd}")
-    @ResponseBody
-    public ResponseEntity<ApiResponse> getProcessDetail(@PathVariable(name = "buyerId") Long buyerId,
-                                                      @PathVariable(name = "processCd") Long processCd) {
-        ProcessDetailDto result = buyerDetailService.getBuyerDetailByProcessCd(buyerId, processCd);
-        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 
     @PostMapping

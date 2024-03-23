@@ -181,18 +181,6 @@ let update = function(e) {
     });
 }
 
-let setFakeReadOnly = function(e) {
-    e.preventDefault();
-
-    let fakeYn = $(this).val();
-    console.log("fakeYn", fakeYn);
-    if (fakeYn === 'Y') {
-        $('input[name="adManager"]').prop('readonly', false);
-    } else {
-        $('input[name="adManager"]').prop('readonly', true);
-    }
-}
-
 let changeBtn = function(e) {
     e.preventDefault();
 
@@ -277,10 +265,42 @@ let selectDetail = function(e) {
     });
 }
 
+let toggleSelectButton = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    if ($this.hasClass('selected')) {
+        $this.removeClass('selected');
+        $this.removeClass('btn-primary');
+        $this.addClass('btn-default');
+    } else {
+        $this.addClass('selected');
+        $this.addClass('btn-primary');
+        $this.removeClass('btn-default');
+    }
+}
+
+let toggleSelectOneButton = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $(this).parents('.selected-button-radio-section');
+
+    $section.find('button').each(function() {
+        $(this).removeClass("btn-primary");
+        $(this).removeClass("selected");
+        $(this).addClass("btn-default");
+    });
+
+    $this.removeClass("btn-default");
+    $this.addClass("btn-primary");
+    $this.addClass("selected");
+}
+
 $(document).ready(onReady)
-    .on('ifToggled', 'input[name="fakeYn"]', setFakeReadOnly)
+    .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
+    .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
     .on('click', '.btnSave', save)
     .on('click', '.btnUpdate', update)
     .on('change', '#usageType', addUsageType)
-    .on('change', 'select[name="processCd"]', selectDetail)
 ;

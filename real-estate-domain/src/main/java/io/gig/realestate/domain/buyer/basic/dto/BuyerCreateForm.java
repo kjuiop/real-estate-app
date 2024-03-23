@@ -20,6 +20,14 @@ public class BuyerCreateForm {
 
     private String name;
 
+    private String preferBuildingCds;
+
+    private String purposeCds;
+
+    private String loanCharacterCds;
+
+    private String investmentTimingCds;
+
     private int successPercent;
 
     @NotNull
@@ -49,7 +57,7 @@ public class BuyerCreateForm {
 
     private String inflowPath;
 
-    private Long investmentCharacterCd;
+    private String investmentCharacterCds;
 
     private double maxSalePrice;
 

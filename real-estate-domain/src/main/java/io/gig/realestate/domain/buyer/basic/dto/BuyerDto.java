@@ -29,20 +29,28 @@ public class BuyerDto {
 
     private String managerName;
 
+    private String purposeCds;
+
+    private String loanCharacterCds;
+
+    private String preferBuildingCds;
+
+    private String investmentTimingCds;
+
     private LocalDateTime createdAt;
 
     public BuyerDto(Buyer b) {
         this.buyerId = b.getId();
         this.createdAt = b.getCreatedAt();
-        if (b.getBuyerDetails().size() > 0) {
-            BuyerDetail detail = b.getBuyerDetails().get(b.getBuyerDetails().size()-1);
-            this.title = detail.getTitle();
-            this.usageTypeCds = detail.getUsageTypeCds();
-            this.successPercent = detail.getSuccessPercent();
-            this.name = detail.getName();
-            if (detail.getUpdatedBy() != null) {
-                this.managerName = detail.getUpdatedBy().getName();
-            }
-        }
+//        if (b.getBuyerDetails().size() > 0) {
+//            BuyerDetail detail = b.getBuyerDetails().get(b.getBuyerDetails().size()-1);
+//            this.title = detail.getTitle();
+//            this.usageTypeCds = detail.getUsageTypeCds();
+//            this.successPercent = detail.getSuccessPercent();
+//            this.name = detail.getName();
+//            if (detail.getUpdatedBy() != null) {
+//                this.managerName = detail.getUpdatedBy().getName();
+//            }
+//        }
     }
 }

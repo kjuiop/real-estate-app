@@ -45,15 +45,15 @@ public class BuyerDetailDto extends BuyerDto {
 
     public BuyerDetailDto(Buyer b) {
         super(b);
-        if (b.getBuyerDetails().size() > 0) {
-            List<ProcessListDto> list = new ArrayList<>();
-            for (int i=0; i<b.getBuyerDetails().size(); i++) {
-                list.add(new ProcessListDto(b.getBuyerDetails().get(i)));
-                if (i == b.getBuyerDetails().size()-1) {
-                    this.processDetailDto = new ProcessDetailDto(b.getBuyerDetails().get(i));
-                }
-            }
-            this.processList = list;
-        }
+//        if (b.getBuyerDetails().size() > 0) {
+//            List<ProcessListDto> list = new ArrayList<>();
+//            for (int i=0; i<b.getBuyerDetails().size(); i++) {
+//                list.add(new ProcessListDto(b.getBuyerDetails().get(i)));
+//                if (i == b.getBuyerDetails().size()-1) {
+//                    this.processDetailDto = new ProcessDetailDto(b.getBuyerDetails().get(i));
+//                }
+//            }
+//            this.processList = list;
+//        }
     }
 }
