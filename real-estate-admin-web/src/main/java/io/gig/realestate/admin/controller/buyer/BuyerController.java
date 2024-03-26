@@ -41,8 +41,10 @@ public class BuyerController {
         model.addAttribute("totalCount", 0);
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
-        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
         return "buyer/list";
     }
 

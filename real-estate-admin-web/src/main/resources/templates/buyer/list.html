@@ -40,6 +40,24 @@
                                     </thead>
                                     <tbody>
                                     <tr>
+                                        <td colspan="9" style="padding-left: 0;">
+                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding">
+                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${condition.purposeCds == null ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${purposeCds}">
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${condition.purposeCds != null && condition.purposeCds.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
+                                                    </th:block>
+                                                </div>
+                                                <div class="selected-button-checkbox-section col-md-6 right-align no-right-padding" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${condition.buyerGradeCds == null ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${condition.buyerGradeCds != null && condition.buyerGradeCds.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
                                             <div class="input-label">
                                                 <label class="top-label">
@@ -56,9 +74,6 @@
                                             </div>
                                             <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="processCd" style="font-size: 12px;">
                                                 <option value="">선택해주세요.</option>
-                                                <th:block th:each="processCd : ${processCds}">
-                                                    <option th:value="${processCd.id}" th:selected="${processCd.id eq condition.processCd}">[[${processCd.name}]]</option>
-                                                </th:block>
                                             </select>
                                         </td>
                                         <td colspan="1" class="min-width-150">
@@ -67,7 +82,7 @@
                                                     <div class="search-text">고객</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="name" class="form-control search-input" name="name" th:value="${condition.name}">
+                                            <input type="text" id="name" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
                                         </td>
                                         <td colspan="1" class="min-width-150">
                                             <div class="input-label">

@@ -18,9 +18,11 @@ public class BuyerSearchDto extends BaseSearchDto {
 
     private String title;
 
-    private String name;
+    private String buyerGradeCds;
 
-    private Long processCd;
+    private String purposeCds;
+
+    private String customerName;
 
     private Long teamId;
 

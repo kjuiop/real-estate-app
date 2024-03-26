@@ -38,7 +38,6 @@ public class BuyerQueryRepository {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
         where.and(likeTitle(condition.getTitle()));
-        where.and(likeName(condition.getName()));
         where.and(likeManagerName(condition.getManagerName()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory

@@ -285,3 +285,15 @@ function pagination(page) {
 let isNumberParam = function(param) {
     return typeof param === 'number';
 }
+
+let offButton = function($this) {
+    $this.removeClass('selected');
+    $this.removeClass('btn-primary');
+    $this.addClass('btn-default');
+}
+
+let onButton = function($this) {
+    $this.addClass('selected');
+    $this.addClass('btn-primary');
+    $this.removeClass('btn-default');
+}
