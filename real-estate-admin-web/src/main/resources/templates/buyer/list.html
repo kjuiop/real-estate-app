@@ -67,19 +67,26 @@
                                             <input type="text" id="title" class="form-control search-input" name="title" th:value="${condition.title}">
                                         </td>
                                         <td colspan="2" class="search-double-group min-width-150">
-                                            <div class="input-label">
-                                                <label class="top-label">
-                                                    <div class="search-text">진행단계</div>
-                                                </label>
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minCharge" class="top-label">
+                                                        <div class="search-text">금액</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <div class="input-label">
+                                                    <label for="maxCharge" class="bottom-label">
+                                                        <div class="search-bottom-text">억원</div>
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <select class="form-control form-control-sm custom-select margin-top-30 border-none" name="processCd" style="font-size: 12px;">
-                                                <option value="">선택해주세요.</option>
-                                            </select>
                                         </td>
                                         <td colspan="1" class="min-width-150">
                                             <div class="input-label">
                                                 <label for="name" class="top-label">
-                                                    <div class="search-text">고객</div>
+                                                    <div class="search-text">매수자명</div>
                                                 </label>
                                             </div>
                                             <input type="text" id="name" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
@@ -164,10 +171,17 @@
                                     <tbody>
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
-                                            <td class="moveEditor" th:id="${item.buyerId}" style="cursor: pointer;" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
+                                            <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0; cursor: pointer;' : 'cursor: pointer;'}">
                                                 <div class="row margin-bottom-10">
-                                                    <span class="margin-right-5" style="padding-top: 4px; font-size: 12px;" th:text="${'['+ item.processName} + ']'"></span>
-                                                    <span>[[${item.title}]]</span>
+                                                    <div class="col-md-7 no-left-padding">
+                                                        <span class="margin-right-5" style="font-weight: bold;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
+                                                        <span>[[${item.title}]]</span>
+                                                    </div>
+                                                    <div class="col-md-5 right-align">
+                                                        <th:block th:if="${not #lists.isEmpty(item.purposeNames)}" th:each="purpose, status : ${item.purposeNames}">
+                                                            <button class="btn btn-xs btn-default">[[${purpose}]]</button>
+                                                        </th:block>
+                                                    </div>
                                                 </div>
                                                 <div class="row margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
@@ -190,7 +204,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="row" style="font-size: 12px;">
-                                                    고객 : [[${item.customerName}]] | 담당자 : [[${item.managerName}]] | 등록일 : [[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
+                                                    <div class="col-md-6 no-left-padding display-flex-row">
+                                                        <div class="padding-right-15">
+                                                            <label class="padding-right-5">고객명 : </label>[[${item.customerName}]]
+                                                        </div>
+                                                        <th:block th:if="${item.salePriceRange > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">매입금액대 : </label><span>[[${item.salePriceRange}]]</span>억원
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.moveYear) && not #strings.isEmpty(item.moveMonth)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">입주시기 : </label>[[${item.moveYear}]]년 [[${item.moveMonth}]]월
+                                                            </div>
+                                                        </th:block>
+                                                    </div>
+                                                    <div class="col-md-6 right-align">
+                                                        <label>시작일 : </label>[[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

@@ -7,12 +7,17 @@ import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
+import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -25,14 +30,26 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final BuyerReader buyerReader;
     private final BuyerStore buyerStore;
-
     private final CategoryService categoryService;
-    private final BuyerDetailService buyerDetailService;
 
     @Override
     @Transactional(readOnly = true)
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
-        return buyerReader.getBuyerPageListBySearch(condition);
+        Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition);
+        for (BuyerListDto dto : content) {
+            List<String> purposeCdName = new ArrayList<>();
+            if (StringUtils.hasText(dto.getPurposeCds())) {
+                String[] purposeCds = dto.getPurposeCds().split(",");
+                for (String code : purposeCds) {
+                    purposeCdName.add(categoryService.getCategoryNameByCode(code));
+                }
+            }
+            String gradeName = categoryService.getCategoryNameByCode(dto.getBuyerGradeCds());
+            dto.setBuyerGradeName(gradeName);
+            dto.setPurposeName(purposeCdName);
+            dto.convertSalePriceIntValue(dto.getSalePrice());
+        }
+        return content;
     }
 
     @Override

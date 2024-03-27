@@ -24,6 +24,10 @@ public class BuyerSearchDto extends BaseSearchDto {
 
     private String customerName;
 
+    private int minSalePrice;
+
+    private int maxSalePrice;
+
     private Long teamId;
 
     private String managerName;

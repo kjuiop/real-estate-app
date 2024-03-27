@@ -123,6 +123,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryReader.getCategoryByCode(code);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public String getCategoryNameByCode(String code) {
+        return categoryReader.getCategoryNameByCode(code);
+    }
+
     @Transactional(readOnly = true)
     public Category getCategoryById(Long id) {
         Optional<Category> foundCategory = categoryReader.findById(id);
