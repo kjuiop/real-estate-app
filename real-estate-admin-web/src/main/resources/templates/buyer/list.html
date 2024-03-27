@@ -190,7 +190,7 @@
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
                                                                                 'width: 13%; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
                                                                                 'width: 13%; background-color: #eee;'">
-                                                                [[${item.customerName}]]
+                                                                [[${processCd.name}]]
                                                             </button>
                                                         </th:block>
                                                     </div>
@@ -211,6 +211,21 @@
                                                         <th:block th:if="${item.salePriceRange > 0}">
                                                             <div class="padding-right-15">
                                                                 <label class="padding-right-5">매입금액대 : </label><span>[[${item.salePriceRange}]]</span>억원
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.landAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">대지면적 : </label><span>[[${item.landAreaPy}]]</span>평
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.totalAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">연면적 : </label><span>[[${item.totalAreaPy}]]</span>평
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.exclusiveAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">전용면적 : </label><span>[[${item.exclusiveAreaPy}]]</span>평
                                                             </div>
                                                         </th:block>
                                                         <th:block th:if="${not #strings.isEmpty(item.moveYear) && not #strings.isEmpty(item.moveMonth)}">
