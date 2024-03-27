@@ -102,13 +102,13 @@ public class InitUtils {
         categoryService.initChildCategory("CD_LAND_02", "CD_LAND_02", "일반", YnType.Y, 2, 1, landType);
 
         Category processType = categoryService.initCategory("CD_PROCESS", "진행단계", YnType.Y, 1, 3);
-        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "기회인지", YnType.Y, 2, 1, processType);
-        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "제품소개", YnType.Y, 2, 2, processType);
-        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "제안", YnType.Y, 2, 3, processType);
-        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "초기견적", YnType.Y, 2, 4, processType);
-        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "재견적", YnType.Y, 2, 5, processType);
-        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "협상", YnType.Y, 2, 6, processType);
-        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "계약", YnType.Y, 2, 7, processType);
+        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "전화", YnType.Y, 2, 1, processType);
+        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "카톡", YnType.Y, 2, 2, processType);
+        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "미팅", YnType.Y, 2, 3, processType);
+        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "답사", YnType.Y, 2, 4, processType);
+        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "조율", YnType.Y, 2, 5, processType);
+        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "계약", YnType.Y, 2, 6, processType);
+        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "잔금", YnType.Y, 2, 7, processType);
 
         Category investmentCharacter = categoryService.initCategory("CD_INVESTMENT_CHARACTER", "투자성향", YnType.Y, 1, 4);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_01", "CD_INVESTMENT_CHARACTER", "수익률", YnType.Y, 2, 1, investmentCharacter);
