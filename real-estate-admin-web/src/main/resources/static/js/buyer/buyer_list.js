@@ -108,6 +108,36 @@ let extractCodeId = function(section) {
     return extractCds;
 }
 
+let showHistoryModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyModal'),
+        title = $(this).attr('title'),
+        name = $(this).attr('name'),
+        gradeName = $(this).attr('gradeName'),
+        customerName = $(this).attr('customerName'),
+        salePrice = $(this).attr('salePrice'),
+        preferArea = $(this).attr('preferArea'),
+        preferSubway = $(this).attr('preferSubway'),
+        createdAt = $(this).attr('createdAt'),
+        landAreaPy = $(this).attr('landAreaPy'),
+        totalAreaPy = $(this).attr('totalAreaPy'),
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy')
+    ;
+
+    $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+    $modal.find('#processName').text('[' + name + ']');
+    $modal.find('.customerName').text(customerName);
+    $modal.find('.salePrice').text(salePrice);
+    $modal.find('.preferArea').text(preferArea);
+    $modal.find('.preferSubway').text(preferSubway);
+    $modal.find('.landAreaPy').text(landAreaPy);
+    $modal.find('.totalAreaPy').text(totalAreaPy);
+    $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+    $modal.find('.createdAt').text(createdAt);
+    $modal.modal('show');
+}
+
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
@@ -115,4 +145,5 @@ $(document).ready(onReady)
     .on('click', '.selected-button-checkbox-section .btnCode', toggleSelectButton)
     .on('ifToggled', 'input[name=searchDateUnit]', inputDateData)
     .on('click', '#targetStartDate, #targetEndDate', resetDateRadio)
+    .on('click', '.btnHistoryModal', showHistoryModal)
 ;

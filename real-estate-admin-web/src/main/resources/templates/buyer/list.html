@@ -279,7 +279,11 @@
                                                 <div class="row margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
                                                         <th:block th:each="processCd : ${processCds}">
-                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8"
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                                    th:title="${item.title}" th:name="${processCd.name}" th:gradeName="${item.buyerGradeName}"
+                                                                    th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}"
+                                                                    th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
+                                                                    th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:createdAt="${#temporals.format(item.createdAt, 'YYYY-MM-dd')}"
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
                                                                                 'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
                                                                                 'width: 150px; background-color: #eee;'">
@@ -340,6 +344,16 @@
                                                                 </th:block>
                                                             </div>
                                                         </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferArea)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호지역 : </label>[[${item.preferArea}]]
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferSubway)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호지하철노선 : </label>[[${item.preferSubway}]]
+                                                            </div>
+                                                        </th:block>
                                                         <th:block th:if="${not #strings.isEmpty(item.moveYear) && not #strings.isEmpty(item.moveMonth)}">
                                                             <div class="padding-right-15">
                                                                 <label class="padding-right-5">입주시기 : </label>[[${item.moveYear}]]년 [[${item.moveMonth}]]월
@@ -374,6 +388,99 @@
             </div>
         </div>
     </section>
+    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="historyModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px;">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; min-height: 120px;">
+                    <div class="col-md-12 no-left-padding">
+                        <label>[고객정보]</label>
+                    </div>
+                    <div class="line display-flex-column" style="font-size: 15px;">
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <div class="col-md-3 no-left-padding">
+                                <label>고객명</label>
+                                <span class="customerName"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>매입금액</label>
+                                <span class="salePrice"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>선호지역</label>
+                                <span class="preferArea"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>선호지하철노선</label>
+                                <span class="preferSubway"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <div class="col-md-3 no-left-padding">
+                                <label>대지면적</label>
+                                <span class="landAreaPy"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>연면적</label>
+                                <span class="totalAreaPy"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>전용면적</label>
+                                <span class="exclusiveAreaPy"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>시작일</label>
+                                <span class="createdAt"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-left-padding">
+                        <label id="processName"></label>
+                    </div>
+                    <div class="line">
+                        <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
+                    </div>
+                    <div class="form-horizontal">
+                        <form name="frmExcelUpload" method="post" enctype="multipart/form-data">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+                            <div class="form-group display-flex-column">
+                                <div class="form-group display-flex-row">
+                                    <input id="filename" class="form-control col-md-9 margin-right-5" placeholder="첨부파일" readonly>
+                                    <button type="button" id="btnSearchFile" class="btn btn-default">파일찾기</button>
+                                    <input type="file" id="file" class="hidden" name="file" accept=".xls,.xlsx">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-horizontal uploadDash" style="max-width: 800px; max-height: 400px; overflow: auto;">
+                        <table class="excelTable table">
+                            <thead style="position: sticky; top:0; background-color: #ffffff;">
+                            <tr>
+                                <th>No</th>
+                                <th>주소</th>
+                                <th>업로드 여부</th>
+                                <th>실패 사유</th>
+                            </tr>
+                            </thead>
+                            <tbody class="excelProgressSection">
+                            <tr>
+                                <td class="text-alien-center" colspan="4">매물 데이터를 업로드 해주세요.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://coffee-chat-s3.s3.ap-northeast-2.amazonaws.com/22/profile/upload_sample.xlsx" class="btn btn-success pull-right margin-right-5" download="upload_sample.xlsx" rel="noopener noreferrer">양식받기</a>
+                    <button type="button" class="btn btn-primary btnExcelUpload pull-right">엑셀업로드</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 <section layout:fragment="script">
     <script th:inline="javascript">
