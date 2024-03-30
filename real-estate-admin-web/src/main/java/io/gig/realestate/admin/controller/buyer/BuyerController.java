@@ -38,7 +38,7 @@ public class BuyerController {
     @GetMapping
     public String index(BuyerSearchDto condition, Model model) {
         Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition);
-        model.addAttribute("totalCount", 0);
+        model.addAttribute("totalCount", pages.getTotalElements());
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));

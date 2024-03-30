@@ -30,6 +30,8 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
+                            <input type="hidden" name="purposeCds" />
+                            <input type="hidden" name="buyerGradeCds" />
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매수자관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -48,16 +50,16 @@
                                     <tr>
                                         <td colspan="9" style="padding-left: 0; position: relative; height: 40px;">
                                             <div class="col-md-12 display-flex-row no-left-padding no-right-padding" style="position: absolute; bottom: 0;">
-                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding" style="display: inline-block;">
-                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${condition.purposeCds == null ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding purposeSection" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.purposeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${purposeCds}">
-                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${condition.purposeCds != null && condition.purposeCds.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
                                                     </th:block>
                                                 </div>
-                                                <div class="selected-button-checkbox-section col-md-6 right-align no-right-padding" style="display: inline-block;">
-                                                    <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${condition.buyerGradeCds == null ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                <div class="selected-button-checkbox-section col-md-6 right-align no-right-padding buyerGradeSection" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${#strings.isEmpty(condition.buyerGradeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${buyerGradeCds}">
-                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${condition.buyerGradeCds != null && condition.buyerGradeCds.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.buyerGradeCds) && condition.buyerGradeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
                                                     </th:block>
                                                 </div>
                                             </div>
@@ -75,15 +77,15 @@
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
-                                                    <label for="minCharge" class="top-label">
+                                                    <label for="minSalePrice" class="top-label">
                                                         <div class="search-text">매입금액</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="minCharge" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <input type="text" id="minSalePrice" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" id="maxCharge" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <input type="text" id="maxSalePrice" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
                                                 <div class="input-label">
-                                                    <label for="maxCharge" class="bottom-label">
+                                                    <label for="maxSalePrice" class="bottom-label">
                                                         <div class="search-bottom-text">억원</div>
                                                     </label>
                                                 </div>
@@ -95,28 +97,28 @@
                                                     <div class="search-text">선호지역</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
+                                            <input type="text" id="preferArea" class="form-control search-input" name="preferArea" th:value="${condition.preferArea}">
                                         </td>
                                         <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
                                             <div class="input-label">
-                                                <label for="managerName" class="top-label">
+                                                <label for="customerName" class="top-label">
                                                     <div class="search-text">매수자명</div>
                                                 </label>
                                             </div>
-                                            <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
+                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
                                         </td>
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
-                                                    <label for="beforeCreatedAt" class="top-label">
+                                                    <label for="minSuccessPercent" class="top-label">
                                                         <div class="search-text">성공률</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="beforeCreatedAt" name="beforeCreatedAt" class="form-control search-input center-align">
+                                                <input type="text" id="minSuccessPercent" name="minSucessPercent" class="form-control search-input center-align">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" id="afterCreatedAt" name="afterCreatedAt" class="form-control search-input center-align">
+                                                <input type="text" id="maxSuccessPercent" name="maxSucessPercent" class="form-control search-input center-align">
                                                 <div class="input-label">
-                                                    <label for="afterCreatedAt" class="bottom-label">
+                                                    <label for="maxSuccessPercent" class="bottom-label">
                                                         <div class="search-bottom-text">%</div>
                                                     </label>
                                                 </div>
@@ -128,15 +130,15 @@
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
-                                                    <label for="minCharge" class="top-label">
+                                                    <label for="minLandAreaPy" class="top-label">
                                                         <div class="search-text">대지면적</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <input type="text" id="minLandAreaPy" name="minLandAreaPy" class="form-control search-input center-align" th:value="${condition.minLandAreaPy > 0 ? condition.minLandAreaPy : ''}">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <input type="text" id="maxLandAreaPy" name="maxLandAreaPy" class="form-control search-input center-align" th:value="${condition.maxLandAreaPy > 0 ? condition.maxLandAreaPy : ''}">
                                                 <div class="input-label">
-                                                    <label for="maxCharge" class="bottom-label">
+                                                    <label for="maxLandAreaPy" class="bottom-label">
                                                         <div class="search-bottom-text">평</div>
                                                     </label>
                                                 </div>
@@ -145,15 +147,15 @@
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
-                                                    <label for="minCharge" class="top-label">
+                                                    <label for="minTotalAreaPy" class="top-label">
                                                         <div class="search-text">연면적</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <input type="text" id="minTotalAreaPy" name="minTotalAreaPy" class="form-control search-input center-align" th:value="${condition.minTotalAreaPy > 0 ? condition.minTotalAreaPy : ''}">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <input type="text" id="maxTotalAreaPy" name="maxTotalAreaPy" class="form-control search-input center-align" th:value="${condition.maxTotalAreaPy > 0 ? condition.maxTotalAreaPy : ''}">
                                                 <div class="input-label">
-                                                    <label for="maxCharge" class="bottom-label">
+                                                    <label for="maxTotalAreaPy" class="bottom-label">
                                                         <div class="search-bottom-text">평</div>
                                                     </label>
                                                 </div>
@@ -162,15 +164,15 @@
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
-                                                    <label for="minCharge" class="top-label">
+                                                    <label for="minExclusiveAreaPy" class="top-label">
                                                         <div class="search-text">전용면적</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <input type="text" id="minExclusiveAreaPy" name="minExclusiveAreaPy" class="form-control search-input center-align" th:value="${condition.minExclusiveAreaPy > 0 ? condition.minExclusiveAreaPy : ''}">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <input type="text" id="maxExclusiveAreaPy" name="maxExclusiveAreaPy" class="form-control search-input center-align" th:value="${condition.maxExclusiveAreaPy > 0 ? condition.maxExclusiveAreaPy : ''}">
                                                 <div class="input-label">
-                                                    <label for="maxCharge" class="bottom-label">
+                                                    <label for="maxExclusiveAreaPy" class="bottom-label">
                                                         <div class="search-bottom-text">평</div>
                                                     </label>
                                                 </div>
@@ -182,7 +184,7 @@
                                                     <div class="search-text">담당자</div>
                                                 </label>
                                             </div>
-                                            <input type="text" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
+                                            <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
                                         </td>
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
@@ -191,9 +193,9 @@
                                                         <div class="search-text">시작일</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="beforeCreatedAt" class="form-control search-input center-align">
+                                                <input type="text" id="beforeCreatedAt" name="beforeCreatedAt" class="form-control search-input center-align">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" name="afterCreatedAt" class="form-control search-input center-align">
+                                                <input type="text" id="afterCreatedAt" name="afterCreatedAt" class="form-control search-input center-align">
                                                 <div class="input-label">
                                                     <label for="afterCreatedAt" class="bottom-label">
                                                         <div class="search-bottom-text"></div>
@@ -209,7 +211,7 @@
                                 <div class="col-8"></div>
                                 <div class="col-4">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-sm btn-default float-right">
+                                        <button type="button" id="btnSearch" class="btn btn-sm btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
                                         </button>
                                         <button type="button" id="btnReset" class="btn btn-sm btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
@@ -244,7 +246,7 @@
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
                                             <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
-                                                <div class="row margin-bottom-3">
+                                                <div class="row margin-bottom-5">
                                                     <div class="col-md-7 no-left-padding">
                                                         <span class="margin-right-5" style="font-weight: bold; font-size: 17px;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
                                                         <a th:href="|/buyer/${item.buyerId}/edit|" target="_blank">
@@ -257,7 +259,7 @@
                                                         </th:block>
                                                     </div>
                                                 </div>
-                                                <div class="row margin-top-8 margin-bottom-8">
+                                                <div class="row margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
                                                         <th:block th:each="processCd : ${processCds}">
                                                             <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8"

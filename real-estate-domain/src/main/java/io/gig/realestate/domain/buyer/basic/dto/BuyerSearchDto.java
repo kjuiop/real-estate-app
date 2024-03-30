@@ -18,15 +18,33 @@ public class BuyerSearchDto extends BaseSearchDto {
 
     private String title;
 
+    private String preferArea;
+
     private String buyerGradeCds;
 
     private String purposeCds;
 
     private String customerName;
 
-    private int minSalePrice;
+    private Integer minLandAreaPy;
 
-    private int maxSalePrice;
+    private Integer maxLandAreaPy;
+
+    private Integer minTotalAreaPy;
+
+    private Integer maxTotalAreaPy;
+
+    private Integer minExclusiveAreaPy;
+
+    private Integer maxExclusiveAreaPy;
+
+    private Integer minSalePrice;
+
+    private Integer maxSalePrice;
+
+    private Integer minSuccessPercent;
+
+    private Integer maxSuccessPercent;
 
     private Long teamId;
 

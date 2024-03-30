@@ -2,9 +2,13 @@ let onReady = function() {
 };
 
 let search = function(e) {
+    e.preventDefault();
+
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
+    $frm.find('input[name="purposeCds"]').val(extractCodeId($('.purposeSection')));
+    $frm.find('input[name="buyerGradeCds"]').val(extractCodeId($('.buyerGradeSection')));
     $frm.submit();
 };
 
@@ -46,6 +50,21 @@ let selectAllButton = function(e) {
         });
     }
 
+}
+
+let extractCodeId = function(section) {
+    let extractCds = '';
+    $(section).find('.btnCode').each(function(idx, item) {
+        if ($(item).hasClass('selected')) {
+            extractCds += $(item).attr('code');
+            extractCds += ',';
+        }
+    });
+
+    if (extractCds.endsWith(',')) {
+        extractCds = extractCds.slice(0, -1);
+    }
+    return extractCds;
 }
 
 $(document).ready(onReady)

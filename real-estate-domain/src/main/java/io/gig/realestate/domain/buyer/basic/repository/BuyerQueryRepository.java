@@ -38,7 +38,11 @@ public class BuyerQueryRepository {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
         where.and(likeTitle(condition.getTitle()));
+        where.and(likePreferArea(condition.getPreferArea()));
+        where.and(likeCustomerName(condition.getCustomerName()));
         where.and(likeManagerName(condition.getManagerName()));
+        where.and(likePurposeCds(condition.getPurposeCds()));
+        where.and(likeBuyerGradeCds(condition.getBuyerGradeCds()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -101,11 +105,52 @@ public class BuyerQueryRepository {
         return StringUtils.hasText(title) ? buyer.title.like("%" + title + "%") : null;
     }
 
+    private BooleanExpression likePurposeCds(String purposeCds) {
+        if (!StringUtils.hasText(purposeCds)) {
+            return null;
+        }
+
+        BooleanExpression predicate = null;
+        String[] array = purposeCds.split(",");
+        for (String str : array) {
+            if (predicate == null) {
+                predicate = buyer.purposeCds.like("%" + str + "%");
+            } else {
+                predicate = predicate.or(buyer.purposeCds.like("%" + str + "%"));
+            }
+        }
+
+        return predicate;
+    }
+
+    private BooleanExpression likeBuyerGradeCds(String buyerGradeCds) {
+        if (!StringUtils.hasText(buyerGradeCds)) {
+            return null;
+        }
+
+        BooleanExpression predicate = null;
+        String[] array = buyerGradeCds.split(",");
+        for (String str : array) {
+            if (predicate == null) {
+                predicate = buyer.buyerGradeCds.like("%" + str + "%");
+            } else {
+                predicate = predicate.or(buyer.buyerGradeCds.like("%" + str + "%"));
+            }
+        }
+
+        return predicate;
+    }
+
+    private BooleanExpression likePreferArea(String preferArea) {
+        return StringUtils.hasText(preferArea) ? buyer.preferArea.like("%" + preferArea + "%") : null;
+    }
+
+    private BooleanExpression likeCustomerName(String customerName) {
+        return StringUtils.hasText(customerName) ? buyer.customerName.like("%" + customerName + "%") : null;
+    }
+
     private BooleanExpression likeManagerName(String managerName) {
         return StringUtils.hasText(managerName) ? buyer.updatedBy.name.like("%" + managerName + "%") : null;
     }
 
-    private BooleanExpression likeName(String name) {
-        return null;
-    }
 }
