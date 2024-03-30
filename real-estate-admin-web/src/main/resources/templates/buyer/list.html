@@ -46,8 +46,8 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td colspan="9" style="padding-left: 0;">
-                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding">
+                                        <td colspan="9" style="padding-left: 0; position: relative; height: 40px;">
+                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding" style="position: absolute; bottom: 0;">
                                                 <div class="selected-button-checkbox-section col-md-6 no-left-padding" style="display: inline-block;">
                                                     <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${condition.purposeCds == null ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${purposeCds}">
@@ -89,27 +89,18 @@
                                                 </div>
                                             </div>
                                         </td>
-
-                                        <td colspan="1" class="min-width-150">
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
                                             <div class="input-label">
-                                                <label for="name" class="top-label">
-                                                    <div class="search-text">매수자명</div>
-                                                </label>
-                                            </div>
-                                            <input type="text" id="name" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
-                                        </td>
-                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
-                                            <div class="input-label">
-                                                <label for="managerName" class="top-label">
+                                                <label class="top-label">
                                                     <div class="search-text">선호지역</div>
                                                 </label>
                                             </div>
-                                            <input type="text" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
+                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
                                         </td>
                                         <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
                                             <div class="input-label">
                                                 <label for="managerName" class="top-label">
-                                                    <div class="search-text">지하철노선</div>
+                                                    <div class="search-text">매수자명</div>
                                                 </label>
                                             </div>
                                             <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
@@ -252,15 +243,17 @@
                                     <tbody>
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
-                                            <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0; cursor: pointer;' : 'cursor: pointer;'}">
+                                            <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
                                                 <div class="row margin-bottom-10">
                                                     <div class="col-md-7 no-left-padding">
                                                         <span class="margin-right-5" style="font-weight: bold; font-size: 17px;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
-                                                        <span style="font-size: 17px;">[[${item.title}]]</span>
+                                                        <a th:href="|/buyer/${item.buyerId}/edit|" target="_blank">
+                                                            <span style="cursor: pointer; font-size: 17px;">[[${item.title}]]</span>
+                                                        </a>
                                                     </div>
                                                     <div class="col-md-5 right-align">
                                                         <th:block th:if="${not #lists.isEmpty(item.purposeNames)}" th:each="purpose, status : ${item.purposeNames}">
-                                                            <button class="btn btn-xs btn-default">[[${purpose}]]</button>
+                                                            <button type="button" class="btn btn-xs btn-default">[[${purpose}]]</button>
                                                         </th:block>
                                                     </div>
                                                 </div>
@@ -269,23 +262,24 @@
                                                         <th:block th:each="processCd : ${processCds}">
                                                             <button class="btn btn-sm btn-default border-radius-7 margin-right-5"
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
-                                                                                'width: 13%; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
-                                                                                'width: 13%; background-color: #eee;'">
+                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
+                                                                                'width: 150px; background-color: #eee;'">
                                                                 [[${processCd.name}]]
                                                             </button>
                                                         </th:block>
+                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 150px; background-color: #eee;">추가</button>
                                                     </div>
                                                     <div class="col-md-2">
-                                                    <span style="width: 50%; font-size: 13px; padding-top: 3px;">
-                                                        성공확률
-                                                    </span>
+                                                        <span style="width: 50%; font-size: 13px; padding-top: 3px;">
+                                                            성공확률
+                                                        </span>
                                                         <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">
                                                             [[${item.successPercent}]]%
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="font-size: 12px;">
-                                                    <div class="col-md-6 no-left-padding display-flex-row">
+                                                    <div class="col-md-9 no-left-padding display-flex-row">
                                                         <div class="padding-right-15">
                                                             <label class="padding-right-5">고객명 : </label>[[${item.customerName}]]
                                                         </div>
@@ -296,17 +290,35 @@
                                                         </th:block>
                                                         <th:block th:if="${item.landAreaPy > 0}">
                                                             <div class="padding-right-15">
-                                                                <label class="padding-right-5">대지면적 : </label><span>[[${item.landAreaPy}]]</span>평
+                                                                <label class="padding-right-5">대지면적 : </label>
+                                                                <th:block th:if="${item.landAreaPy > 0 && item.landAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.landAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.landAreaPy > 0 && item.landAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.landAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
                                                             </div>
                                                         </th:block>
                                                         <th:block th:if="${item.totalAreaPy > 0}">
                                                             <div class="padding-right-15">
-                                                                <label class="padding-right-5">연면적 : </label><span>[[${item.totalAreaPy}]]</span>평
+                                                                <label class="padding-right-5">연면적 : </label>
+                                                                <th:block th:if="${item.totalAreaPy > 0 && item.totalAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.totalAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.totalAreaPy > 0 && item.totalAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.totalAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
                                                             </div>
                                                         </th:block>
                                                         <th:block th:if="${item.exclusiveAreaPy > 0}">
                                                             <div class="padding-right-15">
-                                                                <label class="padding-right-5">전용면적 : </label><span>[[${item.exclusiveAreaPy}]]</span>평
+                                                                <label class="padding-right-5">전용면적 : </label>
+                                                                <th:block th:if="${item.exclusiveAreaPy > 0 && item.exclusiveAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.exclusiveAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.exclusiveAreaPy > 0 && item.exclusiveAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.exclusiveAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
                                                             </div>
                                                         </th:block>
                                                         <th:block th:if="${not #strings.isEmpty(item.moveYear) && not #strings.isEmpty(item.moveMonth)}">
@@ -315,7 +327,7 @@
                                                             </div>
                                                         </th:block>
                                                     </div>
-                                                    <div class="col-md-6 right-align">
+                                                    <div class="col-md-3 right-align">
                                                         <label>시작일 : </label>[[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
                                                     </div>
                                                 </div>

@@ -58,7 +58,6 @@ let selectAllButton = function(e) {
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
-    .on('click', '.moveEditor', movePage)
     .on('click', '.btnAllSelect', selectAllButton)
     .on('click', '.selected-button-checkbox-section .btnCode', toggleSelectButton)
 ;
