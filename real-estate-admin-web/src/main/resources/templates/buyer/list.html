@@ -114,9 +114,9 @@
                                                         <div class="search-text">성공률</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="minSuccessPercent" name="minSucessPercent" class="form-control search-input center-align">
+                                                <input type="text" id="minSuccessPercent" name="minSuccessPercent" class="form-control search-input center-align" th:value="${condition.minSuccessPercent}">
                                                 <div class="input-div"><span>~</span></div>
-                                                <input type="text" id="maxSuccessPercent" name="maxSucessPercent" class="form-control search-input center-align">
+                                                <input type="text" id="maxSuccessPercent" name="maxSuccessPercent" class="form-control search-input center-align" th:value="${condition.maxSuccessPercent}">
                                                 <div class="input-label">
                                                     <label for="maxSuccessPercent" class="bottom-label">
                                                         <div class="search-bottom-text">%</div>

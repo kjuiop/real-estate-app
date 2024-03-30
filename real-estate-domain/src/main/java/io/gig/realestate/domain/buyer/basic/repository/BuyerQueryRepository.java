@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.buyer.basic.Buyer;
@@ -43,6 +44,11 @@ public class BuyerQueryRepository {
         where.and(likeManagerName(condition.getManagerName()));
         where.and(likePurposeCds(condition.getPurposeCds()));
         where.and(likeBuyerGradeCds(condition.getBuyerGradeCds()));
+        where.and(betweenSuccessPercent(condition.getMinSuccessPercent(), condition.getMaxSuccessPercent()));
+        where.and(betweenSalePrice(condition.getMinSalePrice(), condition.getMaxSalePrice()));
+        where.and(betweenLandAreaPy(condition.getMinLandAreaPy(), condition.getMaxLandAreaPy()));
+        where.and(betweenTotalAreaPy(condition.getMinTotalAreaPy(), condition.getMaxTotalAreaPy()));
+        where.and(betweenExclusiveAreaPy(condition.getMinExclusiveAreaPy(), condition.getMaxExclusiveAreaPy()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -151,6 +157,66 @@ public class BuyerQueryRepository {
 
     private BooleanExpression likeManagerName(String managerName) {
         return StringUtils.hasText(managerName) ? buyer.updatedBy.name.like("%" + managerName + "%") : null;
+    }
+
+    private BooleanExpression betweenSuccessPercent(Integer minSuccessPercent, Integer maxSuccessPercent) {
+        if (minSuccessPercent == null || maxSuccessPercent == null || minSuccessPercent < 0 || maxSuccessPercent < 0 || maxSuccessPercent < minSuccessPercent) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.successPercent.between(minSuccessPercent, maxSuccessPercent))
+        );
+    }
+
+    private BooleanExpression betweenSalePrice(Integer minSalePrice, Integer maxSalePrice) {
+        if (minSalePrice == null || maxSalePrice == null || minSalePrice < 0 || maxSalePrice < 0 || maxSalePrice < minSalePrice) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.salePrice.between(minSalePrice, maxSalePrice))
+        );
+    }
+
+    private BooleanExpression betweenLandAreaPy(Integer minLandAreaPy, Integer maxLandAreaPy) {
+        if (minLandAreaPy == null || maxLandAreaPy == null || minLandAreaPy < 0 || maxLandAreaPy < 0 || maxLandAreaPy < minLandAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.landAreaPy.between(minLandAreaPy, maxLandAreaPy))
+        );
+    }
+
+    private BooleanExpression betweenTotalAreaPy(Integer minTotalAreaPy, Integer maxTotalAreaPy) {
+        if (minTotalAreaPy == null || maxTotalAreaPy == null || minTotalAreaPy < 0 || maxTotalAreaPy < 0 || maxTotalAreaPy < minTotalAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.totalAreaPy.between(minTotalAreaPy, maxTotalAreaPy))
+        );
+    }
+
+    private BooleanExpression betweenExclusiveAreaPy(Integer minExclusiveAreaPy, Integer maxExclusiveAreaPy) {
+        if (minExclusiveAreaPy == null || maxExclusiveAreaPy == null || minExclusiveAreaPy < 0 || maxExclusiveAreaPy < 0 || maxExclusiveAreaPy < minExclusiveAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.exclusiveAreaPy.between(minExclusiveAreaPy, maxExclusiveAreaPy))
+        );
     }
 
 }
