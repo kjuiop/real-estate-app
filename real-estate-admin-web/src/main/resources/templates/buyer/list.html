@@ -244,7 +244,7 @@
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
                                             <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
-                                                <div class="row margin-bottom-10">
+                                                <div class="row margin-bottom-3">
                                                     <div class="col-md-7 no-left-padding">
                                                         <span class="margin-right-5" style="font-weight: bold; font-size: 17px;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
                                                         <a th:href="|/buyer/${item.buyerId}/edit|" target="_blank">
@@ -257,23 +257,23 @@
                                                         </th:block>
                                                     </div>
                                                 </div>
-                                                <div class="row margin-bottom-8">
+                                                <div class="row margin-top-8 margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
                                                         <th:block th:each="processCd : ${processCds}">
-                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5"
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8"
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
                                                                                 'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
                                                                                 'width: 150px; background-color: #eee;'">
                                                                 [[${processCd.name}]]
                                                             </button>
                                                         </th:block>
-                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5" style="width: 150px; background-color: #eee;">추가</button>
+                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;">추가</button>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <span style="width: 50%; font-size: 13px; padding-top: 3px;">
+                                                    <div class="col-md-2" style="position: relative;">
+                                                        <span class="margin-top-8" style="width: 50%; font-size: 13px; padding-top: 3px; position: absolute;">
                                                             성공확률
                                                         </span>
-                                                        <button class="btn btn-sm btn-default border-radius-7 width-110" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">
+                                                        <button class="btn btn-sm btn-default border-radius-7 width-110 margin-top-8" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">
                                                             [[${item.successPercent}]]%
                                                         </button>
                                                     </div>

@@ -13,13 +13,6 @@ let reset = function(e) {
     location.href = '/buyer';
 };
 
-let movePage = function(e) {
-    e.preventDefault();
-
-    let id = $(this).attr('id');
-    location.href = '/buyer/' + id + '/edit';
-}
-
 let toggleSelectButton = function(e) {
     e.preventDefault();
 
