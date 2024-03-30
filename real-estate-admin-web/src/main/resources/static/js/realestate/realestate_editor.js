@@ -33,9 +33,7 @@ let realEstateSave = function(e) {
         return;
     }
 
-    params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
-    params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
-
+    params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');
@@ -127,8 +125,7 @@ let realEstateUpdate = function(e) {
         return;
     }
 
-    params.ownExclusiveYn === 'on' ? (params.ownExclusiveYn = 'Y') : (params.ownExclusiveYn = 'N')
-    params.otherExclusiveYn === 'on' ? (params.otherExclusiveYn = 'Y') : (params.otherExclusiveYn = 'N')
+    params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');
@@ -537,9 +534,59 @@ let showCadastralModal = function(e) {
     $CadastralModal.modal('show');
 }
 
+let toggleSelectButton = function(e) {
+    e.preventDefault();
+
+    let $this = $(this);
+    if ($this.hasClass('selected')) {
+        $this.removeClass('selected');
+        $this.removeClass('btn-primary');
+        $this.addClass('btn-default');
+    } else {
+        $this.addClass('selected');
+        $this.addClass('btn-primary');
+        $this.removeClass('btn-default');
+    }
+}
+
+let toggleSelectOneButton = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $(this).parents('.selected-button-radio-section');
+
+    $section.find('button').each(function() {
+        $(this).removeClass("btn-primary");
+        $(this).removeClass("selected");
+        $(this).addClass("btn-default");
+    });
+
+    $this.removeClass("btn-default");
+    $this.addClass("btn-primary");
+    $this.addClass("selected");
+}
+
+let extractCodeId = function(section) {
+    let extractCds = '';
+    $(section).find('.btnCodeCd').each(function(idx, item) {
+        if ($(item).hasClass('selected')) {
+            extractCds += $(item).attr('code');
+            extractCds += ',';
+        }
+    });
+
+    if (extractCds.endsWith(',')) {
+        extractCds = extractCds.slice(0, -1);
+    }
+    return extractCds;
+}
+
+
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
     .on('click', '.btnUpdate', realEstateUpdate)
+    .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
+    .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '.btnUsageCode', selectUsageCode)
     .on('change', '.usageCode', changeUsageCode)

@@ -40,4 +40,6 @@ public interface CategoryService {
     Category getCategoryById(Long usageTypeId);
 
     Category getCategoryByCode(String cd_usage_01_01);
+
+    String getCategoryNameByCode(String code);
 }

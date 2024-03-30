@@ -102,19 +102,60 @@ public class InitUtils {
         categoryService.initChildCategory("CD_LAND_02", "CD_LAND_02", "일반", YnType.Y, 2, 1, landType);
 
         Category processType = categoryService.initCategory("CD_PROCESS", "진행단계", YnType.Y, 1, 3);
-        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "기회인지", YnType.Y, 2, 1, processType);
-        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "제품소개", YnType.Y, 2, 2, processType);
-        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "제안", YnType.Y, 2, 3, processType);
-        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "초기견적", YnType.Y, 2, 4, processType);
-        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "재견적", YnType.Y, 2, 5, processType);
-        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "협상", YnType.Y, 2, 6, processType);
-        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "계약", YnType.Y, 2, 7, processType);
+        categoryService.initChildCategory("CD_PROCESS_01", "CD_PROCESS", "전화", YnType.Y, 2, 1, processType);
+        categoryService.initChildCategory("CD_PROCESS_02", "CD_PROCESS", "카톡", YnType.Y, 2, 2, processType);
+        categoryService.initChildCategory("CD_PROCESS_03", "CD_PROCESS", "미팅", YnType.Y, 2, 3, processType);
+        categoryService.initChildCategory("CD_PROCESS_04", "CD_PROCESS", "답사", YnType.Y, 2, 4, processType);
+        categoryService.initChildCategory("CD_PROCESS_05", "CD_PROCESS", "조율", YnType.Y, 2, 5, processType);
+        categoryService.initChildCategory("CD_PROCESS_06", "CD_PROCESS", "계약", YnType.Y, 2, 6, processType);
+        categoryService.initChildCategory("CD_PROCESS_07", "CD_PROCESS", "잔금", YnType.Y, 2, 7, processType);
 
         Category investmentCharacter = categoryService.initCategory("CD_INVESTMENT_CHARACTER", "투자성향", YnType.Y, 1, 4);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_01", "CD_INVESTMENT_CHARACTER", "수익률", YnType.Y, 2, 1, investmentCharacter);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_02", "CD_INVESTMENT_CHARACTER", "지가상승기대", YnType.Y, 2, 2, investmentCharacter);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_03", "CD_INVESTMENT_CHARACTER", "입지", YnType.Y, 2, 3, investmentCharacter);
         categoryService.initChildCategory("CD_INVESTMENT_CHARACTER_04", "CD_INVESTMENT_CHARACTER", "직접사용의 편의성", YnType.Y, 2, 4, investmentCharacter);
+
+        Category exclusiveType = categoryService.initCategory("CD_EXCLUSIVE", "전속유형", YnType.Y, 1, 5);
+        categoryService.initChildCategory("CD_EXCLUSIVE_01", "CD_EXCLUSIVE", "일반", YnType.Y, 2, 1, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_02", "CD_EXCLUSIVE", "공동", YnType.Y, 2, 2, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_03", "CD_EXCLUSIVE", "전속", YnType.Y, 2, 3, exclusiveType);
+        categoryService.initChildCategory("CD_EXCLUSIVE_04", "CD_EXCLUSIVE", "타전속", YnType.Y, 2, 4, exclusiveType);
+
+        Category buyerGradeType = categoryService.initCategory("CD_BUYER_GRADE", "매수자등급", YnType.Y, 1, 6);
+        categoryService.initChildCategory("CD_BUYER_GRADE_01", "CD_BUYER_GRADE", "A", YnType.Y, 2, 1, buyerGradeType);
+        categoryService.initChildCategory("CD_BUYER_GRADE_02", "CD_BUYER_GRADE", "B", YnType.Y, 2, 2, buyerGradeType);
+        categoryService.initChildCategory("CD_BUYER_GRADE_03", "CD_BUYER_GRADE", "C", YnType.Y, 2, 3, buyerGradeType);
+        categoryService.initChildCategory("CD_BUYER_GRADE_04", "CD_BUYER_GRADE", "D", YnType.Y, 2, 4, buyerGradeType);
+        categoryService.initChildCategory("CD_BUYER_GRADE_05", "CD_BUYER_GRADE", "E", YnType.Y, 2, 5, buyerGradeType);
+
+        Category purposeType = categoryService.initCategory("CD_PURPOSE", "매물목적", YnType.Y, 1, 7);
+        categoryService.initChildCategory("CD_PURPOSE_01", "CD_PURPOSE", "시세투자", YnType.Y, 2, 1, purposeType);
+        categoryService.initChildCategory("CD_PURPOSE_02", "CD_PURPOSE", "사옥", YnType.Y, 2, 2, purposeType);
+        categoryService.initChildCategory("CD_PURPOSE_03", "CD_PURPOSE", "반반", YnType.Y, 2, 3, purposeType);
+        categoryService.initChildCategory("CD_PURPOSE_04", "CD_PURPOSE", "수익률 굿", YnType.Y, 2, 4, purposeType);
+        categoryService.initChildCategory("CD_PURPOSE_05", "CD_PURPOSE", "신축용", YnType.Y, 2, 5, purposeType);
+        categoryService.initChildCategory("CD_PURPOSE_06", "CD_PURPOSE", "리모델링용", YnType.Y, 2, 6, purposeType);
+
+        Category preferBuilding = categoryService.initCategory("CD_PREFER_BUILDING", "선호빌딩", YnType.Y, 1, 8);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_01", "CD_PREFER_BUILDING", "수익률", YnType.Y, 2, 1, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_02", "CD_PREFER_BUILDING", "지가상승기대", YnType.Y, 2, 2, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_03", "CD_PREFER_BUILDING", "입지", YnType.Y, 2, 3, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_04", "CD_PREFER_BUILDING", "직접사용의 편의성", YnType.Y, 2, 4, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_05", "CD_PREFER_BUILDING", "도로변", YnType.Y, 2, 5, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_06", "CD_PREFER_BUILDING", "신축빌딩", YnType.Y, 2, 6, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_07", "CD_PREFER_BUILDING", "급매물", YnType.Y, 2, 7, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_08", "CD_PREFER_BUILDING", "가성비", YnType.Y, 2, 8, preferBuilding);
+        categoryService.initChildCategory("CD_PREFER_BUILDING_09", "CD_PREFER_BUILDING", "직접판매가능", YnType.Y, 2, 9, preferBuilding);
+
+        Category investmentTiming = categoryService.initCategory("CD_INVESTMENT_TIMING", "투자시기", YnType.Y, 1, 9);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_01", "CD_INVESTMENT_TIMING", "즉시", YnType.Y, 2, 1, investmentTiming);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_02", "CD_INVESTMENT_TIMING", "3개월이내", YnType.Y, 2, 2, investmentTiming);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_03", "CD_INVESTMENT_TIMING", "3~6개월", YnType.Y, 2, 3, investmentTiming);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_04", "CD_INVESTMENT_TIMING", "6개월이상", YnType.Y, 2, 4, investmentTiming);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_05", "CD_INVESTMENT_TIMING", "급매물기다림", YnType.Y, 2, 5, investmentTiming);
+        categoryService.initChildCategory("CD_INVESTMENT_TIMING_06", "CD_INVESTMENT_TIMING", "오래걸림", YnType.Y, 2, 6, investmentTiming);
+
     }
 
     private void validateAlreadyEntity() {

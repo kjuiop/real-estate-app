@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.category.repository;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -112,6 +113,15 @@ public class CategoryQueryRepository {
         return fetch;
     }
 
+    public String getCategoryNameByCode(String code) {
+        return this.queryFactory
+                .select(category.name)
+                .from(category)
+                .where(defaultCondition())
+                .where(eqCode(code))
+                .fetchOne();
+    }
+
     public Long getCountCategoryData() {
         return this.queryFactory
                 .select(category.count())
@@ -141,5 +151,9 @@ public class CategoryQueryRepository {
 
     private BooleanExpression parentIsNull() {
         return category.parent.isNull();
+    }
+
+    private BooleanExpression eqCode(String code) {
+        return StringUtils.hasText(code) ? category.code.eq(code) : null;
     }
 }

@@ -61,15 +61,14 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
+                                <div class="col-md-12 display-flex-row margin-bottom-10">
                                     <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
-                                        <label class="control-label right-align margin-top-5 margin-right-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" name="ownExclusiveYn" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;제이디부동산 전속
-                                        </label> &nbsp;
-                                        <label class="control-label right-align margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" name="otherExclusiveYn" style="font-size: 12px;">&nbsp;&nbsp;&nbsp;타부동산 전속
-                                        </label> &nbsp;
+                                        <div class="selected-button-radio-section exclusiveSection">
+                                            <th:block th:each="code : ${exclusiveCds}">
+                                                <button type="button" class="btn btn-xs margin-top-8 btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.exclusiveCds) && #strings.contains(dto.exclusiveCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                            </th:block>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -115,8 +114,8 @@
                                     <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
                                 </div>
                                 <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">주변정보</label>
-                                    <input type="text" class="form-control form-control-sm" name="surroundInfo" th:value="${dto.surroundInfo}" />
+                                    <label class="text-label">날짜</label>
+                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.createdAt, 'YYYY-MM-dd')}" readonly />
                                 </div>
                             </div>
 

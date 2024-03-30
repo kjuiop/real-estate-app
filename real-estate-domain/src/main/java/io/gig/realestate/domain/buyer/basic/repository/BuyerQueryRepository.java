@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.buyer.basic.Buyer;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +39,19 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(eqProcessCdId(condition.getProcessCd()));
         where.and(likeTitle(condition.getTitle()));
-        where.and(likeName(condition.getName()));
+        where.and(likePreferArea(condition.getPreferArea()));
+        where.and(likePreferSubway(condition.getPreferSubway()));
+        where.and(likeCustomerName(condition.getCustomerName()));
         where.and(likeManagerName(condition.getManagerName()));
+        where.and(likePurposeCds(condition.getPurposeCds()));
+        where.and(likeBuyerGradeCds(condition.getBuyerGradeCds()));
+        where.and(betweenSuccessPercent(condition.getMinSuccessPercent(), condition.getMaxSuccessPercent()));
+        where.and(betweenSalePrice(condition.getMinSalePrice(), condition.getMaxSalePrice()));
+        where.and(betweenLandAreaPy(condition.getMinLandAreaPy(), condition.getMaxLandAreaPy()));
+        where.and(betweenTotalAreaPy(condition.getMinTotalAreaPy(), condition.getMaxTotalAreaPy()));
+        where.and(betweenExclusiveAreaPy(condition.getMinExclusiveAreaPy(), condition.getMaxExclusiveAreaPy()));
+        where.and(betweenCreatedAt(condition.getBeforeCreatedAt(), condition.getAfterCreatedAt()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -99,19 +110,128 @@ public class BuyerQueryRepository {
         return buyerId != null ? buyer.id.eq(buyerId) : null;
     }
 
-    private BooleanExpression eqProcessCdId(Long processCdId) {
-        return processCdId != null ? buyer.processCd.id.eq(processCdId) : null;
-    }
-
     private BooleanExpression likeTitle(String title) {
         return StringUtils.hasText(title) ? buyer.title.like("%" + title + "%") : null;
+    }
+
+    private BooleanExpression likePurposeCds(String purposeCds) {
+        if (!StringUtils.hasText(purposeCds)) {
+            return null;
+        }
+
+        BooleanExpression predicate = null;
+        String[] array = purposeCds.split(",");
+        for (String str : array) {
+            if (predicate == null) {
+                predicate = buyer.purposeCds.like("%" + str + "%");
+            } else {
+                predicate = predicate.or(buyer.purposeCds.like("%" + str + "%"));
+            }
+        }
+
+        return predicate;
+    }
+
+    private BooleanExpression likeBuyerGradeCds(String buyerGradeCds) {
+        if (!StringUtils.hasText(buyerGradeCds)) {
+            return null;
+        }
+
+        BooleanExpression predicate = null;
+        String[] array = buyerGradeCds.split(",");
+        for (String str : array) {
+            if (predicate == null) {
+                predicate = buyer.buyerGradeCds.like("%" + str + "%");
+            } else {
+                predicate = predicate.or(buyer.buyerGradeCds.like("%" + str + "%"));
+            }
+        }
+
+        return predicate;
+    }
+
+    private BooleanExpression likePreferArea(String preferArea) {
+        return StringUtils.hasText(preferArea) ? buyer.preferArea.like("%" + preferArea + "%") : null;
+    }
+
+    private BooleanExpression likePreferSubway(String preferSubway) {
+        return StringUtils.hasText(preferSubway) ? buyer.preferSubway.like("%" + preferSubway + "%") : null;
+    }
+
+    private BooleanExpression likeCustomerName(String customerName) {
+        return StringUtils.hasText(customerName) ? buyer.customerName.like("%" + customerName + "%") : null;
     }
 
     private BooleanExpression likeManagerName(String managerName) {
         return StringUtils.hasText(managerName) ? buyer.updatedBy.name.like("%" + managerName + "%") : null;
     }
 
-    private BooleanExpression likeName(String name) {
-        return StringUtils.hasText(name) ? buyer.name.like("%" + name + "%") : null;
+    private BooleanExpression betweenSuccessPercent(Integer minSuccessPercent, Integer maxSuccessPercent) {
+        if (minSuccessPercent == null || maxSuccessPercent == null || minSuccessPercent < 0 || maxSuccessPercent < 0 || maxSuccessPercent < minSuccessPercent) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.successPercent.between(minSuccessPercent, maxSuccessPercent))
+        );
     }
+
+    private BooleanExpression betweenSalePrice(Integer minSalePrice, Integer maxSalePrice) {
+        if (minSalePrice == null || maxSalePrice == null || minSalePrice < 0 || maxSalePrice < 0 || maxSalePrice < minSalePrice) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.salePrice.between(minSalePrice, maxSalePrice))
+        );
+    }
+
+    private BooleanExpression betweenLandAreaPy(Integer minLandAreaPy, Integer maxLandAreaPy) {
+        if (minLandAreaPy == null || maxLandAreaPy == null || minLandAreaPy < 0 || maxLandAreaPy < 0 || maxLandAreaPy < minLandAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.landAreaPy.between(minLandAreaPy, maxLandAreaPy))
+        );
+    }
+
+    private BooleanExpression betweenTotalAreaPy(Integer minTotalAreaPy, Integer maxTotalAreaPy) {
+        if (minTotalAreaPy == null || maxTotalAreaPy == null || minTotalAreaPy < 0 || maxTotalAreaPy < 0 || maxTotalAreaPy < minTotalAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.totalAreaPy.between(minTotalAreaPy, maxTotalAreaPy))
+        );
+    }
+
+    private BooleanExpression betweenExclusiveAreaPy(Integer minExclusiveAreaPy, Integer maxExclusiveAreaPy) {
+        if (minExclusiveAreaPy == null || maxExclusiveAreaPy == null || minExclusiveAreaPy < 0 || maxExclusiveAreaPy < 0 || maxExclusiveAreaPy < minExclusiveAreaPy) {
+            return null;
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyer.id)
+                        .from(buyer)
+                        .where(buyer.exclusiveAreaPy.between(minExclusiveAreaPy, maxExclusiveAreaPy))
+        );
+    }
+
+    private BooleanExpression betweenCreatedAt(LocalDateTime beforeCreatedAt, LocalDateTime afterCreatedAt) {
+        if (beforeCreatedAt == null || afterCreatedAt == null) {
+            return null;
+        }
+
+        return buyer.createdAt.between(beforeCreatedAt, afterCreatedAt);
+    }
+
 }

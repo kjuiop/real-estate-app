@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 public class RealEstateDto {
 
     private Long realEstateId;
+    
+    private String exclusiveCds;
 
     private String buildingName;
 
@@ -36,10 +38,6 @@ public class RealEstateDto {
     private String addressDetail;
 
     private YnType ownYn;
-
-    private YnType ownExclusiveYn;
-
-    private YnType otherExclusiveYn;
 
     private YnType rYn;
 
@@ -84,14 +82,13 @@ public class RealEstateDto {
         }
         this.address = r.getAddress();
         this.addressDetail = r.getAddressDetail();
-        this.ownExclusiveYn = r.getOwnExclusiveYn();
-        this.otherExclusiveYn = r.getOtherExclusiveYn();
         this.imgUrl = r.getImgUrl();
         this.agentName = r.getAgentName();
         this.tradingAt = r.getTradingAt();
         this.processType = r.getProcessType();
         this.rYn = r.getRYn();
         this.abYn = r.getAbYn();
+        this.exclusiveCds = r.getExclusiveCds();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }

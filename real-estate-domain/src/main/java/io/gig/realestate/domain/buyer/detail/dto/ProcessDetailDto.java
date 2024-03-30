@@ -76,35 +76,5 @@ public class ProcessDetailDto {
     }
 
     public ProcessDetailDto(BuyerDetail d) {
-        this.buyerDetailId = d.getId();
-        this.processCd = d.getProcessCd().getCode();
-        this.name = d.getName();
-        this.successPercent = d.getSuccessPercent();
-        this.title = d.getTitle();
-        this.inflowPath = d.getInflowPath();
-        this.adAddress = d.getAdAddress();
-        this.adManager = d.getAdManager();
-        this.fakeYn = d.getFakeYn();
-        this.minSalePrice = d.getMinSalePrice();
-        this.maxSalePrice = d.getMaxSalePrice();
-        this.handCache = d.getHandCache();
-        this.customerSector = d.getCustomerSector();
-        this.customerPosition = d.getCustomerPosition();
-        this.customerName = d.getCustomerName();
-        this.purchasePoint = d.getPurchasePoint();
-        this.preferArea = d.getPreferArea();
-        this.preferSubway = d.getPreferSubway();
-        this.preferRoad = d.getPreferRoad();
-        this.exclusiveAreaPy = d.getExclusiveAreaPy();
-        this.moveYear = d.getMoveYear();
-        this.moveMonth = d.getMoveMonth();
-        this.deliveryWay = d.getDeliveryWay();
-        this.nextPromise = d.getNextPromise();
-        this.requestDetail = d.getRequestDetail();
-        this.usageTypeCds = d.getUsageTypeCds();
-        this.companyEstablishAtYn = d.getCompanyEstablishAtYn();
-        if (d.getInvestmentCharacterCd() != null) {
-            this.investmentCharacterCd = d.getInvestmentCharacterCd().getId();
-        }
     }
 }
