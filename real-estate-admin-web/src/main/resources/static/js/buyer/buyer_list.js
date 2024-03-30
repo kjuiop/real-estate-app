@@ -1,4 +1,5 @@
 let onReady = function() {
+    initDate();
 };
 
 let search = function(e) {
@@ -15,6 +16,46 @@ let search = function(e) {
 let reset = function(e) {
     e.preventDefault();
     location.href = '/buyer';
+};
+
+let initDate = function() {
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetStartDate',
+        startName: 'beforeCreatedAt'
+    });
+
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetEndDate',
+        startName: 'afterCreatedAt'
+    });
+}
+
+let inputDateData = function (e) {
+    e.preventDefault();
+
+    let unit = $(this).val();
+
+    if (unit === 'day') {
+        $('input[name=beforeCreatedAt]').val(moment().startOf('day').format('YYYY-MM-DDTHH:mm'));
+        $('input[name=afterCreatedAt]').val(moment().endOf('day').format('YYYY-MM-DDTHH:mm'));
+    } else if (unit === 'week') {
+        $('input[name=beforeCreatedAt]').val(moment().subtract( 'weeks', 1).startOf('day').format('YYYY-MM-DDTHH:mm'));
+        $('input[name=afterCreatedAt]').val(moment().endOf('day').format('YYYY-MM-DDTHH:mm'));
+    } else if (unit === 'month') {
+        $('input[name=beforeCreatedAt]').val(moment().subtract( 'month', 1).startOf('day').format('YYYY-MM-DDTHH:mm'));
+        $('input[name=afterCreatedAt]').val(moment().endOf('day').format('YYYY-MM-DDTHH:mm'));
+    }
+
+    initDate();
+};
+
+let resetDateRadio = function (e){
+    e.preventDefault();
+
+    let $frm = $("form[name='frmSearch']");
+    $frm.find("input[name=searchDateUnit]").each(function(idx){
+        $(this).iCheck("uncheck");
+    });
 };
 
 let toggleSelectButton = function(e) {
@@ -72,4 +113,6 @@ $(document).ready(onReady)
     .on('click', '#btnSearch', search)
     .on('click', '.btnAllSelect', selectAllButton)
     .on('click', '.selected-button-checkbox-section .btnCode', toggleSelectButton)
+    .on('ifToggled', 'input[name=searchDateUnit]', inputDateData)
+    .on('click', '#targetStartDate, #targetEndDate', resetDateRadio)
 ;

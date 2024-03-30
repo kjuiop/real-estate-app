@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,7 @@ public class BuyerQueryRepository {
         where.and(defaultCondition());
         where.and(likeTitle(condition.getTitle()));
         where.and(likePreferArea(condition.getPreferArea()));
+        where.and(likePreferSubway(condition.getPreferSubway()));
         where.and(likeCustomerName(condition.getCustomerName()));
         where.and(likeManagerName(condition.getManagerName()));
         where.and(likePurposeCds(condition.getPurposeCds()));
@@ -49,6 +51,7 @@ public class BuyerQueryRepository {
         where.and(betweenLandAreaPy(condition.getMinLandAreaPy(), condition.getMaxLandAreaPy()));
         where.and(betweenTotalAreaPy(condition.getMinTotalAreaPy(), condition.getMaxTotalAreaPy()));
         where.and(betweenExclusiveAreaPy(condition.getMinExclusiveAreaPy(), condition.getMaxExclusiveAreaPy()));
+        where.and(betweenCreatedAt(condition.getBeforeCreatedAt(), condition.getAfterCreatedAt()));
 
         JPAQuery<BuyerListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(BuyerListDto.class,
@@ -151,6 +154,10 @@ public class BuyerQueryRepository {
         return StringUtils.hasText(preferArea) ? buyer.preferArea.like("%" + preferArea + "%") : null;
     }
 
+    private BooleanExpression likePreferSubway(String preferSubway) {
+        return StringUtils.hasText(preferSubway) ? buyer.preferSubway.like("%" + preferSubway + "%") : null;
+    }
+
     private BooleanExpression likeCustomerName(String customerName) {
         return StringUtils.hasText(customerName) ? buyer.customerName.like("%" + customerName + "%") : null;
     }
@@ -217,6 +224,14 @@ public class BuyerQueryRepository {
                         .from(buyer)
                         .where(buyer.exclusiveAreaPy.between(minExclusiveAreaPy, maxExclusiveAreaPy))
         );
+    }
+
+    private BooleanExpression betweenCreatedAt(LocalDateTime beforeCreatedAt, LocalDateTime afterCreatedAt) {
+        if (beforeCreatedAt == null || afterCreatedAt == null) {
+            return null;
+        }
+
+        return buyer.createdAt.between(beforeCreatedAt, afterCreatedAt);
     }
 
 }

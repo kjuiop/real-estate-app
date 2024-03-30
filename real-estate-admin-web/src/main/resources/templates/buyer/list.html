@@ -48,18 +48,44 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td colspan="9" style="padding-left: 0; position: relative; height: 40px;">
-                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding" style="position: absolute; bottom: 0;">
-                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding purposeSection" style="display: inline-block;">
-                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.purposeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
-                                                    <th:block th:each="code, status : ${purposeCds}">
-                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
-                                                    </th:block>
+                                        <td colspan="9" style="padding-left: 0;">
+                                            <div class="col-md-12 no-left-padding has-feedback form-horizontal display-flex-row margin-bottom-15">
+                                                <div class="col-md-2 pull-left" style="padding-left:0; padding-right: 0; padding-top:7px;">
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="day" th:checked="${condition.searchDateUnit eq 'day'}">&nbsp;&nbsp;&nbsp;오늘</label> &nbsp;
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="week" th:checked="${condition.searchDateUnit eq 'week'}">&nbsp;&nbsp;&nbsp;1주일</label> &nbsp;
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="month" th:checked="${condition.searchDateUnit eq 'month'}">&nbsp;&nbsp;&nbsp;1개월</label>
                                                 </div>
-                                                <div class="selected-button-checkbox-section col-md-6 right-align no-right-padding buyerGradeSection" style="display: inline-block;">
+                                                <div class="col-md-2" style="padding-left: 0;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                        </span>
+                                                        <input type="hidden" class="form-control" name="beforeCreatedAt" th:value="${condition.beforeCreatedAt != null} ? ${condition.beforeCreatedAt} : ''">
+                                                        <input type="text" class="form-control" id="targetStartDate" maxlength="50" autocomplete="off" readonly placeholder="시작일">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                        </span>
+                                                        <input type="hidden" class="form-control" name="afterCreatedAt" th:value="${condition.afterCreatedAt != null} ? ${condition.afterCreatedAt} : ''">
+                                                        <input type="text" class="form-control" id="targetEndDate" maxlength="50" autocomplete="off" readonly placeholder="종료일">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6"></div>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding">
+                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding buyerGradeSection" style="display: inline-block;">
                                                     <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${#strings.isEmpty(condition.buyerGradeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${buyerGradeCds}">
                                                         <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.buyerGradeCds) && condition.buyerGradeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
+                                                    </th:block>
+                                                </div>
+                                                <div class="selected-button-checkbox-section col-md-6 no-right-padding purposeSection right-align" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.purposeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${purposeCds}">
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
                                                     </th:block>
                                                 </div>
                                             </div>
@@ -91,22 +117,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
-                                            <div class="input-label">
-                                                <label class="top-label">
-                                                    <div class="search-text">선호지역</div>
-                                                </label>
-                                            </div>
-                                            <input type="text" id="preferArea" class="form-control search-input" name="preferArea" th:value="${condition.preferArea}">
-                                        </td>
-                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
-                                            <div class="input-label">
-                                                <label for="customerName" class="top-label">
-                                                    <div class="search-text">매수자명</div>
-                                                </label>
-                                            </div>
-                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
-                                        </td>
                                         <td colspan="2" class="search-double-group min-width-150">
                                             <div class="display-flex-row search-double-field">
                                                 <div class="input-label">
@@ -123,6 +133,22 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
+                                            <div class="input-label">
+                                                <label for="customerName" class="top-label">
+                                                    <div class="search-text">매수자명</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">선호지역</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="preferArea" class="form-control search-input" name="preferArea" th:value="${condition.preferArea}">
                                         </td>
                                     </tr>
 
@@ -186,22 +212,13 @@
                                             </div>
                                             <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
                                         </td>
-                                        <td colspan="2" class="search-double-group min-width-150">
-                                            <div class="display-flex-row search-double-field">
-                                                <div class="input-label">
-                                                    <label for="beforeCreatedAt" class="top-label">
-                                                        <div class="search-text">시작일</div>
-                                                    </label>
-                                                </div>
-                                                <input type="text" id="beforeCreatedAt" name="beforeCreatedAt" class="form-control search-input center-align">
-                                                <div class="input-div"><span>~</span></div>
-                                                <input type="text" id="afterCreatedAt" name="afterCreatedAt" class="form-control search-input center-align">
-                                                <div class="input-label">
-                                                    <label for="afterCreatedAt" class="bottom-label">
-                                                        <div class="search-bottom-text"></div>
-                                                    </label>
-                                                </div>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">선호 지하철노선</div>
+                                                </label>
                                             </div>
+                                            <input type="text" id="preferSubway" class="form-control search-input" name="preferSubway" th:value="${condition.preferSubway}">
                                         </td>
                                     </tr>
                                     </tbody>
