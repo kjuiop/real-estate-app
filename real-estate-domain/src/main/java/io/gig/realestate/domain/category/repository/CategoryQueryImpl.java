@@ -53,6 +53,11 @@ public class CategoryQueryImpl implements CategoryReader {
     }
 
     @Override
+    public String getCategoryNameByCode(String code) {
+        return queryRepository.getCategoryNameByCode(code);
+    }
+
+    @Override
     public CategoryDto getCategoryDtoByName(String name) {
         Optional<CategoryDto> foundCategory = queryRepository.getCategoryDtoByName(name);
         if (foundCategory.isEmpty()) {

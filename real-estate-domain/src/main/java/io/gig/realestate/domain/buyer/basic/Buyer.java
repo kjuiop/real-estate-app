@@ -2,17 +2,14 @@ package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
-import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author : JAKE
@@ -29,26 +26,66 @@ public class Buyer extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
-    private String name;
-
-    private String usageTypeCds;
-
-    private int successPercent;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "process_cd_id")
-    private Category processCd;
-
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
+    private int successPercent;
+
+    private String title;
+
+    private String customerName;
+
+    private String customerPhone;
+
+    private String inflowPath;
+
+    private double salePrice;
+
+    private double handCache;
+
+    private double landAreaPy;
+
+    private double totalAreaPy;
+
+    private double exclusiveAreaPy;
+
+    @Lob
+    private String buyerGradeCds;
+
+    @Lob
+    private String purposeCds;
+
+    @Lob
+    private String loanCharacterCds;
+
+    @Lob
+    private String preferBuildingCds;
+
+    @Lob
+    private String investmentTimingCds;
+
+    private String preferArea;
+
+    private String preferSubway;
+
+    private String preferRoad;
+
+    private String moveYear;
+
+    private String moveMonth;
+
     @Builder.Default
-    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private List<BuyerDetail> buyerDetails = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType companyEstablishAtYn = YnType.N;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private CompanyScaleType companyScale;
+
+    private String requestDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -58,27 +95,60 @@ public class Buyer extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
-    public static Buyer create(BuyerCreateForm createForm, Category processCd, Administrator loginUser) {
+    public static Buyer create(BuyerForm createForm, Administrator loginUser) {
         return Buyer.builder()
+                .buyerGradeCds(createForm.getBuyerGradeCds())
                 .title(createForm.getTitle())
-                .processCd(processCd)
-                .usageTypeCds(createForm.getUsageTypeCds())
-                .name(createForm.getName())
                 .successPercent(createForm.getSuccessPercent())
+                .customerName(createForm.getCustomerName())
+                .customerPhone(createForm.getCustomerName())
+                .inflowPath(createForm.getInflowPath())
+                .salePrice(createForm.getSalePrice())
+                .handCache(createForm.getHandCache())
+                .landAreaPy(createForm.getLandAreaPy())
+                .totalAreaPy(createForm.getTotalAreaPy())
+                .exclusiveAreaPy(createForm.getExclusiveAreaPy())
+                .purposeCds(createForm.getPurposeCds())
+                .loanCharacterCds(createForm.getLoanCharacterCds())
+                .preferBuildingCds(createForm.getPreferBuildingCds())
+                .investmentTimingCds(createForm.getInvestmentTimingCds())
+                .preferArea(createForm.getPreferArea())
+                .preferSubway(createForm.getPreferSubway())
+                .preferRoad(createForm.getPreferRoad())
+                .moveYear(createForm.getMoveYear())
+                .moveMonth(createForm.getMoveMonth())
+                .companyEstablishAtYn(createForm.getCompanyEstablishAtYn())
+                .companyScale(createForm.getCompanyScale())
+                .requestDetail(createForm.getRequestDetail())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
     }
 
-    public void setProcessCd(Category processCd) {
-        this.processCd = processCd;
-    }
-
-    public void addDetail(BuyerDetail buyerDetail) {
-        this.buyerDetails.add(buyerDetail);
-    }
-
-    public void update(LoginUser loginUser) {
+    public void update(BuyerForm updateForm, LoginUser loginUser) {
+        this.buyerGradeCds = updateForm.getBuyerGradeCds();
+        this.title = updateForm.getTitle();
+        this.successPercent = updateForm.getSuccessPercent();
+        this.customerName = updateForm.getCustomerName();
+        this.customerPhone = updateForm.getCustomerPhone();
+        this.inflowPath = updateForm.getInflowPath();
+        this.salePrice = updateForm.getSalePrice();
+        this.handCache = updateForm.getHandCache();
+        this.landAreaPy = updateForm.getLandAreaPy();
+        this.totalAreaPy = updateForm.getTotalAreaPy();
+        this.exclusiveAreaPy = updateForm.getExclusiveAreaPy();
+        this.purposeCds = updateForm.getPurposeCds();
+        this.loanCharacterCds = updateForm.getLoanCharacterCds();
+        this.preferBuildingCds = updateForm.getPreferBuildingCds();
+        this.investmentTimingCds = updateForm.getInvestmentTimingCds();
+        this.preferArea = updateForm.getPreferArea();
+        this.preferSubway = updateForm.getPreferSubway();
+        this.preferRoad = updateForm.getPreferRoad();
+        this.moveYear = updateForm.getMoveYear();
+        this.moveMonth = updateForm.getMoveMonth();
+        this.companyScale = updateForm.getCompanyScale();
+        this.companyEstablishAtYn = updateForm.getCompanyEstablishAtYn();
+        this.requestDetail = updateForm.getRequestDetail();
         this.updatedBy = loginUser.getLoginUser();
     }
 }

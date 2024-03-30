@@ -4,14 +4,11 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerCreateForm;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -35,9 +32,7 @@ import javax.validation.Valid;
 public class BuyerController {
 
     private final CategoryService categoryService;
-    private final AreaService areaService;
     private final BuyerService buyerService;
-    private final BuyerDetailService buyerDetailService;
     private final TeamService teamService;
 
     @GetMapping
@@ -46,49 +41,41 @@ public class BuyerController {
         model.addAttribute("totalCount", pages.getTotalElements());
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
-        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
         return "buyer/list";
     }
 
     @GetMapping("new")
     public String register(Model model) {
-        BuyerDetailDto dto = BuyerDetailDto.emptyDto();
-        model.addAttribute("sidoList", areaService.getParentAreaList());
-        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
-        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
+        model.addAttribute("dto", BuyerDetailDto.emptyDto());
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
-        model.addAttribute("dto", dto);
-        model.addAttribute("processDto", dto.getProcessDetailDto());
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
+        model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
+        model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
+        model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         return "buyer/editor";
     }
 
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
                            Model model) {
-
-        BuyerDetailDto dto = buyerService.getBuyerDetail(buyerId);
-
-        model.addAttribute("sidoList", areaService.getParentAreaList());
-        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
-        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_USAGE_01"));
+        model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
-        model.addAttribute("dto", dto);
-        model.addAttribute("processDto", dto.getProcessDetailDto());
+        model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
+        model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
+        model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
+        model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         return "buyer/editor";
-    }
-
-    @GetMapping("{buyerId}/{processCd}")
-    @ResponseBody
-    public ResponseEntity<ApiResponse> getProcessDetail(@PathVariable(name = "buyerId") Long buyerId,
-                                                      @PathVariable(name = "processCd") Long processCd) {
-        ProcessDetailDto result = buyerDetailService.getBuyerDetailByProcessCd(buyerId, processCd);
-        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerCreateForm createForm,
+    public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerForm createForm,
                                               @CurrentUser LoginUser loginUser) {
         Long buyerId = buyerService.create(createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(buyerId), HttpStatus.OK);
@@ -96,7 +83,7 @@ public class BuyerController {
 
     @PutMapping()
     @ResponseBody
-    public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerDetailUpdateForm updateForm,
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerForm updateForm,
                                               @CurrentUser LoginUser loginUser) {
         Long id = buyerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);

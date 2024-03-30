@@ -1,11 +1,9 @@
-package io.gig.realestate.domain.buyer.detail.dto;
+package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author : JAKE
@@ -13,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class BuyerDetailUpdateForm {
+public class BuyerForm {
 
     private Long buyerId;
 

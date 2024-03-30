@@ -21,9 +21,5 @@ public class ProcessListDto {
     private String createdByName;
 
     public ProcessListDto(BuyerDetail b) {
-        this.processName = b.getProcessCd().getName();
-        this.processCd = b.getProcessCd().getCode();
-        this.createdAt = b.getCreatedAt();
-        this.createdByName = b.getCreatedBy().getName();
     }
 }
