@@ -119,10 +119,15 @@ let showHistoryModal = function(e) {
         salePrice = $(this).attr('salePrice'),
         preferArea = $(this).attr('preferArea'),
         preferSubway = $(this).attr('preferSubway'),
+        preferRoad = $(this).attr('preferRoad'),
         createdAt = $(this).attr('createdAt'),
         landAreaPy = $(this).attr('landAreaPy'),
         totalAreaPy = $(this).attr('totalAreaPy'),
-        exclusiveAreaPy = $(this).attr('exclusiveAreaPy')
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy'),
+        purposeNameStr = $(this).attr('purposeNameStr'),
+        preferBuildingNameStr = $(this).attr('preferBuildingNameStr'),
+        investmentTimingNameStr = $(this).attr('investmentTimingNameStr'),
+        loanCharacterNameStr = $(this).attr('loanCharacterNameStr')
     ;
 
     $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
@@ -131,12 +136,25 @@ let showHistoryModal = function(e) {
     $modal.find('.salePrice').text(salePrice);
     $modal.find('.preferArea').text(preferArea);
     $modal.find('.preferSubway').text(preferSubway);
+    $modal.find('.preferRoad').text(preferRoad);
     $modal.find('.landAreaPy').text(landAreaPy);
     $modal.find('.totalAreaPy').text(totalAreaPy);
     $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+    $modal.find('.purposeNameStr').text(purposeNameStr);
+    $modal.find('.preferBuildingNameStr').text(preferBuildingNameStr);
+    $modal.find('.investmentTimingNameStr').text(investmentTimingNameStr);
+    $modal.find('.loanCharacterNameStr').text(loanCharacterNameStr);
     $modal.find('.createdAt').text(createdAt);
     $modal.modal('show');
 }
+
+let convertDoubleValue = function(doubleValue) {
+    if (doubleValue % 1 === 0) {
+        return doubleValue.toFixed(0);
+    }
+    return doubleValue.toFixed(1);
+}
+
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)

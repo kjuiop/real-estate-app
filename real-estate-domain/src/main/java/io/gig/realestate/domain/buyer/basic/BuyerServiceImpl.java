@@ -37,16 +37,12 @@ public class BuyerServiceImpl implements BuyerService {
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
         Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition);
         for (BuyerListDto dto : content) {
-            List<String> purposeCdName = new ArrayList<>();
-            if (StringUtils.hasText(dto.getPurposeCds())) {
-                String[] purposeCds = dto.getPurposeCds().split(",");
-                for (String code : purposeCds) {
-                    purposeCdName.add(categoryService.getCategoryNameByCode(code));
-                }
-            }
-            String gradeName = categoryService.getCategoryNameByCode(dto.getBuyerGradeCds());
-            dto.setBuyerGradeName(gradeName);
-            dto.setPurposeName(purposeCdName);
+            dto.setBuyerGradeName(categoryService.getCategoryNameByCode(dto.getBuyerGradeCds()));
+            dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));
+            dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
+            dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
+            dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
+            dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
         }
         return content;
@@ -71,5 +67,32 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
         buyer.update(updateForm, loginUser);
         return buyerStore.store(buyer).getId();
+    }
+
+    private List<String> convertCdToNames(String code) {
+        if (!StringUtils.hasText(code)) {
+            return new ArrayList<>();
+        }
+        List<String> names = new ArrayList<>();
+        String[] arrays = code.split(",");
+        for (String str : arrays) {
+            names.add(categoryService.getCategoryNameByCode(str));
+        }
+        return names;
+    }
+
+    private String convertCdToNameStr(String code) {
+        if (!StringUtils.hasText(code)) {
+            return null;
+        }
+        StringBuilder names = new StringBuilder();
+        String[] arrays = code.split(",");
+        for (int i=0; i<arrays.length; i++) {
+            names.append(categoryService.getCategoryNameByCode(arrays[i]));
+            if (i < arrays.length-1) {
+                names.append(",");
+            }
+        }
+        return names.toString();
     }
 }
