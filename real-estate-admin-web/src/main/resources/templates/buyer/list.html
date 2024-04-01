@@ -280,13 +280,12 @@
                                                     <div class="col-md-10 no-left-padding">
                                                         <th:block th:each="processCd : ${processCds}">
                                                             <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                                    th:buyerId="${item.buyerId}"
                                                                     th:title="${item.title}" th:name="${processCd.name}" th:gradeName="${item.buyerGradeName}"
                                                                     th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}"
                                                                     th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
                                                                     th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:preferRoad="${item.preferRoad}"
                                                                     th:createdAt="${#temporals.format(item.createdAt, 'YYYY-MM-dd')}"
-                                                                    th:purposeNameStr="${item.purposeNameStr}" th:preferBuildingNameStr="${item.preferBuildingNameStr}"
-                                                                    th:investmentTimingNameStr="${item.investmentTimingNameStr}" th:loanCharacterNameStr="${item.loanCharacterNameStr}"
                                                                     th:style="${item.processCds.contains(processCd.code)} ?
                                                                                 'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
                                                                                 'width: 150px; background-color: #eee;'"
@@ -407,43 +406,43 @@
                     <div class="line display-flex-column" style="font-size: 15px;">
                         <div class="col-md-12 no-left-padding display-flex-row">
                             <div class="col-md-4 no-left-padding">
-                                <label class="col-md-4 no-left-padding">고객명</label>
+                                <label class="col-md-4">고객명</label>
                                 <span class="col-md-8 customerName"></span>
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">매입금액</label>
+                                <label class="col-md-4">매입금액</label>
                                 <span class="col-md-8 salePrice"></span>억 전후
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">시작일</label>
+                                <label class="col-md-4">시작일</label>
                                 <span class="col-md-8 createdAt"></span>
                             </div>
                         </div>
                         <div class="col-md-12 no-left-padding display-flex-row">
                             <div class="col-md-4 no-left-padding">
-                                <label class="col-md-4 no-left-padding">대지면적</label>
+                                <label class="col-md-4">대지면적</label>
                                 <span class="col-md-8 landAreaPy"></span>평
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">연면적</label>
+                                <label class="col-md-4">연면적</label>
                                 <span class="col-md-8 totalAreaPy"></span>평
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">전용면적</label>
+                                <label class="col-md-4">전용면적</label>
                                 <span class="col-md-8 exclusiveAreaPy"></span>평
                             </div>
                         </div>
                         <div class="col-md-12 no-left-padding display-flex-row">
                             <div class="col-md-4 no-left-padding">
-                                <label class="col-md-4 no-left-padding">지역</label>
+                                <label class="col-md-4">지역</label>
                                 <span class="col-md-8 preferArea"></span>
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">지하철노선</label>
+                                <label class="col-md-4">지하철노선</label>
                                 <span class="col-md-8 preferSubway"></span>
                            </div>
                             <div class="col-md-4">
-                                <label class="col-md-4 no-left-padding">도로</label>
+                                <label class="col-md-4">도로</label>
                                 <span class="col-md-8 preferRoad"></span>
                             </div>
                         </div>
@@ -453,19 +452,19 @@
                     </div>
                     <div class="line display-flex-column" style="font-size: 15px;">
                         <div class="col-md-12 no-left-padding display-flex-row">
-                            <label class="col-md-2 no-left-padding">매입목적</label>
+                            <label class="col-md-2">매입목적</label>
                             <span class="col-md-10 purposeNameStr"></span>
                         </div>
                         <div class="col-md-12 no-left-padding display-flex-row">
-                            <label class="col-md-2 no-left-padding">선호빌딩</label>
+                            <label class="col-md-2">선호빌딩</label>
                             <span class="col-md-10 preferBuildingNameStr"></span>
                         </div>
                         <div class="col-md-12 no-left-padding display-flex-row">
-                            <label class="col-md-2 no-left-padding">투자시기</label>
+                            <label class="col-md-2">투자시기</label>
                             <span class="col-md-10 investmentTimingNameStr"></span>
                         </div>
                         <div class="col-md-12 no-left-padding display-flex-row">
-                            <label class="col-md-2 no-left-padding">투자성향_대출</label>
+                            <label class="col-md-2">투자성향_대출</label>
                             <span class="col-md-10 loanCharacterNameStr"></span>
                         </div>
                     </div>
@@ -476,7 +475,7 @@
                         <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
                     </div>
                     <div class="form-horizontal line">
-                        <button type="button" class="btn btn-sm btn-primary btnExcelUpload pull-right">등록</button>
+                        <button type="button" class="btn btn-sm btn-primary btnMemoAdd pull-right">등록</button>
                     </div>
                     <div class="form-horizontal uploadDash" style="max-height: 500px; min-height: 200px; overflow: auto;">
                         <table class="excelTable table">

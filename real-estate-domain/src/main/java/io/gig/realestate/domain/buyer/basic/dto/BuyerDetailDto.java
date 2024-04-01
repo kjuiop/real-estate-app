@@ -29,6 +29,11 @@ public class BuyerDetailDto extends BuyerDto {
     @Builder.Default
     public List<ProcessListDto> processList = new ArrayList<>();
 
+    public String purposeNameStr;
+    public String preferBuildingNameStr;
+    public String investmentTimingNameStr;
+    public String loanCharacterNameStr;
+
     @Builder.Default
     private boolean empty = false;
 
@@ -43,6 +48,23 @@ public class BuyerDetailDto extends BuyerDto {
     public static BuyerDetailDto emptyDto() {
         return EMPTY;
     }
+
+    public void setPurposeNameStr(String purposeNameStr) {
+        this.purposeNameStr = purposeNameStr;
+    }
+
+    public void setPreferBuildingName(String preferBuildingNames) {
+        this.preferBuildingNameStr = preferBuildingNames;
+    }
+
+    public void setInvestmentTimingNames(String investmentTimingNames) {
+        this.investmentTimingNameStr = investmentTimingNames;
+    }
+
+    public void setLoanCharacterNames(String loanCharacterNames) {
+        this.loanCharacterNameStr = loanCharacterNames;
+    }
+
 
     public BuyerDetailDto(Buyer b) {
         super(b);

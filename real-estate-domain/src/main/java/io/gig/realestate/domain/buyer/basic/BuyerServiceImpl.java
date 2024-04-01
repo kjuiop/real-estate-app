@@ -1,11 +1,8 @@
 package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
@@ -39,10 +36,6 @@ public class BuyerServiceImpl implements BuyerService {
         for (BuyerListDto dto : content) {
             dto.setBuyerGradeName(categoryService.getCategoryNameByCode(dto.getBuyerGradeCds()));
             dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));
-            dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
-            dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
-            dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
-            dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
         }
         return content;
@@ -52,6 +45,17 @@ public class BuyerServiceImpl implements BuyerService {
     @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         return buyerReader.getBuyerDetail(buyerId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser) {
+        BuyerDetailDto dto = buyerReader.getBuyerDetail(buyerId);
+        dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
+        dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
+        dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
+        dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
+        return new BuyerModalDto(dto);
     }
 
     @Override

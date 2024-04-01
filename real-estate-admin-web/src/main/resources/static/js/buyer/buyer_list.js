@@ -112,6 +112,7 @@ let showHistoryModal = function(e) {
     e.preventDefault();
 
     let $modal = $('#historyModal'),
+        buyerId = $(this).attr('buyerId'),
         title = $(this).attr('title'),
         name = $(this).attr('name'),
         gradeName = $(this).attr('gradeName'),
@@ -123,29 +124,55 @@ let showHistoryModal = function(e) {
         createdAt = $(this).attr('createdAt'),
         landAreaPy = $(this).attr('landAreaPy'),
         totalAreaPy = $(this).attr('totalAreaPy'),
-        exclusiveAreaPy = $(this).attr('exclusiveAreaPy'),
-        purposeNameStr = $(this).attr('purposeNameStr'),
-        preferBuildingNameStr = $(this).attr('preferBuildingNameStr'),
-        investmentTimingNameStr = $(this).attr('investmentTimingNameStr'),
-        loanCharacterNameStr = $(this).attr('loanCharacterNameStr')
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy')
+        // purposeNameStr = $(this).attr('purposeNameStr'),
+        // preferBuildingNameStr = $(this).attr('preferBuildingNameStr'),
+        // investmentTimingNameStr = $(this).attr('investmentTimingNameStr'),
+        // loanCharacterNameStr = $(this).attr('loanCharacterNameStr')
     ;
 
-    $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
-    $modal.find('#processName').text('[' + name + ']');
-    $modal.find('.customerName').text(customerName);
-    $modal.find('.salePrice').text(salePrice);
-    $modal.find('.preferArea').text(preferArea);
-    $modal.find('.preferSubway').text(preferSubway);
-    $modal.find('.preferRoad').text(preferRoad);
-    $modal.find('.landAreaPy').text(landAreaPy);
-    $modal.find('.totalAreaPy').text(totalAreaPy);
-    $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
-    $modal.find('.purposeNameStr').text(purposeNameStr);
-    $modal.find('.preferBuildingNameStr').text(preferBuildingNameStr);
-    $modal.find('.investmentTimingNameStr').text(investmentTimingNameStr);
-    $modal.find('.loanCharacterNameStr').text(loanCharacterNameStr);
-    $modal.find('.createdAt').text(createdAt);
-    $modal.modal('show');
+    $.ajax({
+        url: "/buyer/" + buyerId + "/memo",
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let data = result.data,
+                detail = data.buyerDetail;
+
+            $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+            $modal.find('#processName').text('[' + name + ']');
+            $modal.find('.customerName').text(customerName);
+            $modal.find('.salePrice').text(salePrice);
+            $modal.find('.preferArea').text(preferArea);
+            $modal.find('.preferSubway').text(preferSubway);
+            $modal.find('.preferRoad').text(preferRoad);
+            $modal.find('.landAreaPy').text(landAreaPy);
+            $modal.find('.totalAreaPy').text(totalAreaPy);
+            $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+            $modal.find('.createdAt').text(createdAt);
+
+            $modal.find('.purposeNameStr').text(detail.purposeNameStr);
+            $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
+            $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
+            $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
+            $modal.modal('show');
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+
+
+
+}
+
+let addMemo = function(e) {
+    e.preventDefault();
+
+
 }
 
 let convertDoubleValue = function(doubleValue) {
@@ -164,4 +191,5 @@ $(document).ready(onReady)
     .on('ifToggled', 'input[name=searchDateUnit]', inputDateData)
     .on('click', '#targetStartDate, #targetEndDate', resetDateRadio)
     .on('click', '.btnHistoryModal', showHistoryModal)
+    .on('click', '.btnMemoAdd', addMemo)
 ;

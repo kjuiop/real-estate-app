@@ -4,10 +4,7 @@ import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
@@ -71,6 +68,14 @@ public class BuyerController {
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         return "buyer/editor";
+    }
+
+    @GetMapping("{buyerId}/memo")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkDuplicate(@PathVariable(name = "buyerId") Long buyerId,
+                                                      @CurrentUser LoginUser loginUser) {
+        BuyerModalDto dto = buyerService.getBuyerDetailModal(buyerId, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
     @PostMapping

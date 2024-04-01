@@ -1,10 +1,7 @@
 package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
+import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
 import org.springframework.data.domain.Page;
 
@@ -20,4 +17,6 @@ public interface BuyerService {
     BuyerDetailDto getBuyerDetail(Long buyerId);
 
     Long update(BuyerForm updateForm, LoginUser loginUser);
+
+    BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser);
 }
