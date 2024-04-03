@@ -124,11 +124,8 @@ let showHistoryModal = function(e) {
         createdAt = $(this).attr('createdAt'),
         landAreaPy = $(this).attr('landAreaPy'),
         totalAreaPy = $(this).attr('totalAreaPy'),
-        exclusiveAreaPy = $(this).attr('exclusiveAreaPy')
-        // purposeNameStr = $(this).attr('purposeNameStr'),
-        // preferBuildingNameStr = $(this).attr('preferBuildingNameStr'),
-        // investmentTimingNameStr = $(this).attr('investmentTimingNameStr'),
-        // loanCharacterNameStr = $(this).attr('loanCharacterNameStr')
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy'),
+        processCd = $(this).attr('processCode')
     ;
 
     $.ajax({
@@ -152,11 +149,13 @@ let showHistoryModal = function(e) {
             $modal.find('.totalAreaPy').text(totalAreaPy);
             $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
             $modal.find('.createdAt').text(createdAt);
+            $modal.find('input[name="processCd"]').val(processCd);
 
             $modal.find('.purposeNameStr').text(detail.purposeNameStr);
             $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
             $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
             $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
+            $modal.find('input[name="buyerId"]').val(detail.buyerId);
             $modal.modal('show');
         },
         error: function(error){
@@ -165,14 +164,52 @@ let showHistoryModal = function(e) {
     });
 
 
-
-
 }
 
 let addMemo = function(e) {
     e.preventDefault();
 
+    let $modal = $('#historyModal'),
+        buyerId = $modal.find('input[name="buyerId"]').val(),
+        processCd = $modal.find('input[name="processCd"]').val(),
+        memo = $modal.find('textarea[name="memo"]').val();
 
+    if (!checkNullOrEmptyValue(processCd)) {
+        twoBtnModal("모달창을 다시 열어주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(memo)) {
+        twoBtnModal("메모를 입력해주세요.");
+        return;
+    }
+
+    let params = {
+        "processCd" : processCd,
+        "memo" : memo
+    }
+
+    console.log("buyerId : ",  buyerId);
+    console.log("params : ", params);
+
+    twoBtnModal("저장하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/memo",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    location.href = '/buyer';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
 }
 
 let convertDoubleValue = function(doubleValue) {

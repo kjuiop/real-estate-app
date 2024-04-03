@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
+import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -48,17 +49,6 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser) {
-        BuyerDetailDto dto = buyerReader.getBuyerDetail(buyerId);
-        dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
-        dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
-        dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
-        dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
-        return new BuyerModalDto(dto);
-    }
-
-    @Override
     @Transactional
     public Long create(BuyerForm createForm, LoginUser loginUser) {
         Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
@@ -71,6 +61,23 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
         buyer.update(updateForm, loginUser);
         return buyerStore.store(buyer).getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser) {
+        BuyerDetailDto dto = buyerReader.getBuyerDetail(buyerId);
+        dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
+        dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
+        dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
+        dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
+        return new BuyerModalDto(dto);
+    }
+
+    @Override
+    @Transactional
+    public BuyerModalDto createMemo(Long buyerId, MemoForm createForm, LoginUser loginUser) {
+        return null;
     }
 
     private List<String> convertCdToNames(String code) {

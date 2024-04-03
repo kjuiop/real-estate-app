@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
+import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
 import org.springframework.data.domain.Page;
 
 /**
@@ -19,4 +20,6 @@ public interface BuyerService {
     Long update(BuyerForm updateForm, LoginUser loginUser);
 
     BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser);
+
+    BuyerModalDto createMemo(Long buyerId, MemoForm createForm, LoginUser loginUser);
 }

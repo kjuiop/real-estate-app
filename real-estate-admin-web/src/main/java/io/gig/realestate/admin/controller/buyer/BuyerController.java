@@ -6,6 +6,7 @@ import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
+import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -70,14 +71,6 @@ public class BuyerController {
         return "buyer/editor";
     }
 
-    @GetMapping("{buyerId}/memo")
-    @ResponseBody
-    public ResponseEntity<ApiResponse> checkDuplicate(@PathVariable(name = "buyerId") Long buyerId,
-                                                      @CurrentUser LoginUser loginUser) {
-        BuyerModalDto dto = buyerService.getBuyerDetailModal(buyerId, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
-    }
-
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> create(@Valid @RequestBody BuyerForm createForm,
@@ -92,5 +85,22 @@ public class BuyerController {
                                               @CurrentUser LoginUser loginUser) {
         Long id = buyerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
+    }
+
+    @GetMapping("{buyerId}/memo")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getBuyerDetailModal(@PathVariable(name = "buyerId") Long buyerId,
+                                                           @CurrentUser LoginUser loginUser) {
+        BuyerModalDto dto = buyerService.getBuyerDetailModal(buyerId, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
+    @PostMapping("{buyerId}/memo")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> historyCreate(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody MemoForm createForm,
+                                                           @CurrentUser LoginUser loginUser) {
+        BuyerModalDto dto = buyerService.createMemo(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 }

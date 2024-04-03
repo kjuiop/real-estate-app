@@ -280,8 +280,8 @@
                                                     <div class="col-md-10 no-left-padding">
                                                         <th:block th:each="processCd : ${processCds}">
                                                             <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
-                                                                    th:buyerId="${item.buyerId}"
-                                                                    th:title="${item.title}" th:name="${processCd.name}" th:gradeName="${item.buyerGradeName}"
+                                                                    th:buyerId="${item.buyerId}" th:processCode="${processCd.code}" th:name="${processCd.name}"
+                                                                    th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
                                                                     th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}"
                                                                     th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
                                                                     th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:preferRoad="${item.preferRoad}"
@@ -391,8 +391,8 @@
             </div>
         </div>
     </section>
-    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="historyModal">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="historyModal">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" style="width: 950px;">
                 <div class="modal-header">
                     <h4 class="modal-title control-label" style="font-weight: bold;"></h4>
@@ -470,6 +470,8 @@
                     </div>
                     <div class="col-md-12 no-left-padding">
                         <label id="processName"></label>
+                        <input type="hidden" name="processCd" />
+                        <input type="hidden" name="buyerId" />
                     </div>
                     <div class="line">
                         <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
