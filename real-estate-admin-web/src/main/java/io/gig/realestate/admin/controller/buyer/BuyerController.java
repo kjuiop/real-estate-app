@@ -2,11 +2,11 @@ package io.gig.realestate.admin.controller.buyer;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.buyer.basic.dto.*;
-import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -87,7 +88,7 @@ public class BuyerController {
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
     }
 
-    @GetMapping("{buyerId}/memo")
+    @GetMapping("{buyerId}/history")
     @ResponseBody
     public ResponseEntity<ApiResponse> getBuyerDetailModal(@PathVariable(name = "buyerId") Long buyerId,
                                                            @CurrentUser LoginUser loginUser) {
@@ -95,12 +96,12 @@ public class BuyerController {
         return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
-    @PostMapping("{buyerId}/memo")
+    @PostMapping("{buyerId}/history")
     @ResponseBody
     public ResponseEntity<ApiResponse> historyCreate(@PathVariable(name = "buyerId") Long buyerId,
-                                                     @Valid @RequestBody MemoForm createForm,
+                                                     @Valid @RequestBody HistoryForm createForm,
                                                            @CurrentUser LoginUser loginUser) {
-        BuyerModalDto dto = buyerService.createMemo(buyerId, createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+        List<HistoryListDto> histories = buyerService.createHistory(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(histories), HttpStatus.OK);
     }
 }

@@ -2,11 +2,11 @@ package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
-import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
-import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -76,8 +77,12 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional
-    public BuyerModalDto createMemo(Long buyerId, MemoForm createForm, LoginUser loginUser) {
-        return null;
+    public List<HistoryListDto> createHistory(Long buyerId, HistoryForm createForm, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        BuyerHistory history = BuyerHistory.create(createForm, buyer, loginUser.getLoginUser());
+        buyer.addHistory(history);
+        Buyer savedBuyer = buyerStore.store(buyer);
+        return savedBuyer.getHistories().stream().map(HistoryListDto::new).collect(Collectors.toList());
     }
 
     private List<String> convertCdToNames(String code) {

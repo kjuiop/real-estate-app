@@ -129,7 +129,7 @@ let showHistoryModal = function(e) {
     ;
 
     $.ajax({
-        url: "/buyer/" + buyerId + "/memo",
+        url: "/buyer/" + buyerId + "/history",
         method: "get",
         type: "json",
         contentType: "application/json",
@@ -149,13 +149,15 @@ let showHistoryModal = function(e) {
             $modal.find('.totalAreaPy').text(totalAreaPy);
             $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
             $modal.find('.createdAt').text(createdAt);
-            $modal.find('input[name="processCd"]').val(processCd);
+            $modal.find('input[name="processCds"]').val(processCd);
+            $modal.find('input[name="processName"]').val(name);
 
             $modal.find('.purposeNameStr').text(detail.purposeNameStr);
             $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
             $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
             $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
             $modal.find('input[name="buyerId"]').val(detail.buyerId);
+            $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
             $modal.modal('show');
         },
         error: function(error){
@@ -166,12 +168,13 @@ let showHistoryModal = function(e) {
 
 }
 
-let addMemo = function(e) {
+let addHistory = function(e) {
     e.preventDefault();
 
     let $modal = $('#historyModal'),
         buyerId = $modal.find('input[name="buyerId"]').val(),
-        processCd = $modal.find('input[name="processCd"]').val(),
+        processCd = $modal.find('input[name="processCds"]').val(),
+        processName = $modal.find('input[name="processName"]').val(),
         memo = $modal.find('textarea[name="memo"]').val();
 
     if (!checkNullOrEmptyValue(processCd)) {
@@ -185,7 +188,8 @@ let addMemo = function(e) {
     }
 
     let params = {
-        "processCd" : processCd,
+        "processCds" : processCd,
+        "processName" : processName,
         "memo" : memo
     }
 
@@ -194,7 +198,7 @@ let addMemo = function(e) {
 
     twoBtnModal("저장하시겠습니까?", function () {
         $.ajax({
-            url: "/buyer/" + buyerId + "/memo",
+            url: "/buyer/" + buyerId + "/history",
             method: 'post',
             type: "json",
             contentType: "application/json",
@@ -202,7 +206,8 @@ let addMemo = function(e) {
             success: function (result) {
                 console.log("save result : ", result);
                 twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    location.href = '/buyer';
+                    let tag = drawHistoryTable(result.data);
+                    $modal.find('.historyTable tbody').html(tag);
                 });
             },
             error:function(error){
@@ -219,6 +224,19 @@ let convertDoubleValue = function(doubleValue) {
     return doubleValue.toFixed(1);
 }
 
+let drawHistoryTable = function(histories) {
+    let tag = '';
+    $.each(histories, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.processName + '</td>';
+        tag += '<td style="white-space: normal;">' + item.memo + '</td>';
+        tag += '<td>' + item.createdByName + '</td>';
+        tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    })
+    return tag;
+}
+
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
@@ -228,5 +246,5 @@ $(document).ready(onReady)
     .on('ifToggled', 'input[name=searchDateUnit]', inputDateData)
     .on('click', '#targetStartDate, #targetEndDate', resetDateRadio)
     .on('click', '.btnHistoryModal', showHistoryModal)
-    .on('click', '.btnMemoAdd', addMemo)
+    .on('click', '.btnHistoryAdd', addHistory)
 ;

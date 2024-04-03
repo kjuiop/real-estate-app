@@ -4,12 +4,16 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -87,6 +91,10 @@ public class Buyer extends BaseTimeEntity {
 
     private String requestDetail;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerHistory> histories = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -94,6 +102,10 @@ public class Buyer extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    public void addHistory(BuyerHistory history) {
+        this.histories.add(history);
+    }
 
     public static Buyer create(BuyerForm createForm, Administrator loginUser) {
         return Buyer.builder()

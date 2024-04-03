@@ -391,7 +391,7 @@
             </div>
         </div>
     </section>
-    <div class="modal fade" tabindex="-1" role="dialog" id="historyModal">
+    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="historyModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" style="width: 950px;">
                 <div class="modal-header">
@@ -399,7 +399,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1230px; min-height: 120px;">
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 120px; white-space: nowrap; overflow: auto;">
                     <div class="col-md-12 no-left-padding">
                         <label>[고객정보]</label>
                     </div>
@@ -470,30 +470,27 @@
                     </div>
                     <div class="col-md-12 no-left-padding">
                         <label id="processName"></label>
-                        <input type="hidden" name="processCd" />
+                        <input type="hidden" name="processCds" />
+                        <input type="hidden" name="processName" />
                         <input type="hidden" name="buyerId" />
                     </div>
                     <div class="line">
                         <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
                     </div>
                     <div class="form-horizontal line">
-                        <button type="button" class="btn btn-sm btn-primary btnMemoAdd pull-right">등록</button>
+                        <button type="button" class="btn btn-sm btn-primary btnHistoryAdd pull-right">등록</button>
                     </div>
-                    <div class="form-horizontal uploadDash" style="max-height: 500px; min-height: 200px; overflow: auto;">
-                        <table class="excelTable table">
+                    <div class="form-horizontal uploadDash" style="max-height: 500px; min-height: 200px; max-width: 950px;">
+                        <table class="historyTable table">
                             <thead style="position: sticky; top:0; background-color: #ffffff;">
                             <tr>
-                                <th style="width: 15%;">등록일</th>
+                                <th style="width: 10%;">단계</th>
+                                <th style="width: 60%;">내용</th>
                                 <th style="width: 15%;">작성자</th>
-                                <th style="width: 70%;">내용</th>
+                                <th style="width: 15%;">등록일</th>
                             </tr>
                             </thead>
-                            <tbody class="excelProgressSection">
-                            <tr>
-                                <td>2024-04-02</td>
-                                <td>김정인</td>
-                                <td>메모</td>
-                            </tr>
+                            <tbody>
                             </tbody>
                         </table>
                     </div>

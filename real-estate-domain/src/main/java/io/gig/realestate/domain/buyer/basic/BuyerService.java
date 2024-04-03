@@ -2,9 +2,11 @@ package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.buyer.memo.dto.MemoForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -21,5 +23,5 @@ public interface BuyerService {
 
     BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser);
 
-    BuyerModalDto createMemo(Long buyerId, MemoForm createForm, LoginUser loginUser);
+    List<HistoryListDto> createHistory(Long buyerId, HistoryForm createForm, LoginUser loginUser);
 }
