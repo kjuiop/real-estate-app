@@ -278,19 +278,20 @@
                                                 </div>
                                                 <div class="row margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
-                                                        <th:block th:each="processCd : ${processCds}">
+                                                        <th:block th:each="map : ${item.maps}">
                                                             <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
-                                                                    th:buyerId="${item.buyerId}" th:processCode="${processCd.code}" th:name="${processCd.name}"
+                                                                    th:buyerId="${item.buyerId}" th:processCode="${map.processCds}" th:name="${map.processName}"
                                                                     th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
                                                                     th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}"
                                                                     th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
                                                                     th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:preferRoad="${item.preferRoad}"
                                                                     th:createdAt="${#temporals.format(item.createdAt, 'YYYY-MM-dd')}"
-                                                                    th:style="${item.processCds.contains(processCd.code)} ?
-                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
+                                                                    style="width: 150px; background-color: #eee;"
+                                                                    th:style="${map.historyCnt > 0} ?
+                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${map.colorCode} :
                                                                                 'width: 150px; background-color: #eee;'"
                                                             >
-                                                                [[${processCd.name}]]
+                                                                [[${map.processName}]]
                                                             </button>
                                                         </th:block>
                                                         <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;">추가</button>

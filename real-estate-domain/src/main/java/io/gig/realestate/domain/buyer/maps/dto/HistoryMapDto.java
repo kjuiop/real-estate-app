@@ -20,6 +20,8 @@ public class HistoryMapDto {
 
     private String processName;
 
+    private String colorCode;
+
     private int historyCnt;
 
     public HistoryMapDto(BuyerHistoryMap hm) {
@@ -27,5 +29,6 @@ public class HistoryMapDto {
         this.processCds = hm.getProcessCds();
         this.processName = hm.getProcessName();
         this.historyCnt = hm.getHistoryCnt();
+        this.colorCode = hm.getColorCode();
     }
 }

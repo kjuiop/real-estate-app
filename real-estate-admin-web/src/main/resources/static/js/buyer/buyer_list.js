@@ -157,7 +157,11 @@ let showHistoryModal = function(e) {
             $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
             $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
             $modal.find('input[name="buyerId"]').val(detail.buyerId);
-            $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
+            if (detail.histories.length > 0) {
+                $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
+            } else {
+                $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
+            }
             $modal.modal('show');
         },
         error: function(error){
@@ -166,6 +170,16 @@ let showHistoryModal = function(e) {
     });
 
 
+}
+
+let drawEmptyHistoryTable = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td colSpan="4" class="text-alien-center">';
+    tag += '등록된 메모가 없습니다.';
+    tag += '</td>';
+    tag += '</tr>';
+    return tag;
 }
 
 let addHistory = function(e) {

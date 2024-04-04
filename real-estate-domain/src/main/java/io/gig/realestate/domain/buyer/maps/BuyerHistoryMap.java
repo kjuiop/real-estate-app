@@ -33,6 +33,8 @@ public class BuyerHistoryMap extends BaseTimeEntity {
 
     private String processName;
 
+    private String colorCode;
+
     private int historyCnt;
 
     @Builder.Default
@@ -53,8 +55,13 @@ public class BuyerHistoryMap extends BaseTimeEntity {
                 .buyer(buyer)
                 .processCds(dto.getCode())
                 .processName(dto.getName())
+                .colorCode(dto.getColorCode())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
+    }
+
+    public void increaseHistoryCnt() {
+        this.historyCnt++;
     }
 }

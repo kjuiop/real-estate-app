@@ -98,6 +98,14 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         BuyerHistory history = BuyerHistory.create(createForm, buyer, loginUser.getLoginUser());
         buyer.addHistory(history);
+
+        for (BuyerHistoryMap map : buyer.getMaps()) {
+            if (createForm.getProcessName().equals(map.getProcessName())) {
+                map.increaseHistoryCnt();
+                break;
+            }
+        }
+
         buyerStore.store(buyer);
         return historyService.getHistoriesByBuyerId(buyerId);
     }
