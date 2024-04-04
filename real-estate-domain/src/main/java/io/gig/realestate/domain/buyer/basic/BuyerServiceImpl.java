@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.history.BuyerHistoryService;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.category.CategoryService;
@@ -30,6 +31,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final BuyerReader buyerReader;
     private final BuyerStore buyerStore;
     private final CategoryService categoryService;
+    private final BuyerHistoryService historyService;
 
     @Override
     @Transactional(readOnly = true)
@@ -72,6 +74,7 @@ public class BuyerServiceImpl implements BuyerService {
         dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
         dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
         dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
+        dto.setHistories(historyService.getHistoriesByBuyerId(buyerId));
         return new BuyerModalDto(dto);
     }
 
@@ -81,8 +84,8 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         BuyerHistory history = BuyerHistory.create(createForm, buyer, loginUser.getLoginUser());
         buyer.addHistory(history);
-        Buyer savedBuyer = buyerStore.store(buyer);
-        return savedBuyer.getHistories().stream().map(HistoryListDto::new).collect(Collectors.toList());
+        buyerStore.store(buyer);
+        return historyService.getHistoriesByBuyerId(buyerId);
     }
 
     private List<String> convertCdToNames(String code) {

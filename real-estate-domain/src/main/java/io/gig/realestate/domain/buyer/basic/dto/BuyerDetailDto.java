@@ -73,6 +73,9 @@ public class BuyerDetailDto extends BuyerDto {
 
     public BuyerDetailDto(Buyer b) {
         super(b);
-        this.histories = b.getHistories().stream().map(HistoryListDto::new).collect(Collectors.toList());
+    }
+
+    public void setHistories(List<HistoryListDto> histories) {
+        this.histories = histories;
     }
 }
