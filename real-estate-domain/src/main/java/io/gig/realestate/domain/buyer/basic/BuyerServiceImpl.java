@@ -50,14 +50,15 @@ public class BuyerServiceImpl implements BuyerService {
             dto.setHistoryMap(mapService.getHistoryMapByBuyerId(dto.getBuyerId()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
         }
-
         return content;
     }
 
     @Override
     @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
-        return buyerReader.getBuyerDetail(buyerId);
+        BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
+        detail.setHistoryMap(mapService.getHistoryMapByBuyerId(detail.getBuyerId()));
+        return detail;
     }
 
     @Override

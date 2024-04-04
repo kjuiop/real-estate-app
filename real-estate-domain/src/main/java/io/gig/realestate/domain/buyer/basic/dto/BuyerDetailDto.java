@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic.dto;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,9 @@ public class BuyerDetailDto extends BuyerDto {
 
     @Builder.Default
     public List<HistoryListDto> histories = new ArrayList<>();
+
+    @Builder.Default
+    public List<HistoryMapListDto> maps = new ArrayList<>();
 
     @Builder.Default
     private boolean empty = false;
@@ -70,5 +74,9 @@ public class BuyerDetailDto extends BuyerDto {
 
     public void setHistories(List<HistoryListDto> histories) {
         this.histories = histories;
+    }
+
+    public void setHistoryMap(List<HistoryMapListDto> maps) {
+        this.maps = maps;
     }
 }
