@@ -2,8 +2,6 @@ package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessListDto;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.AllArgsConstructor;
@@ -14,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -27,9 +24,6 @@ import java.util.stream.Collectors;
 public class BuyerDetailDto extends BuyerDto {
 
     private static final BuyerDetailDto EMPTY;
-
-    @Builder.Default
-    public List<ProcessListDto> processList = new ArrayList<>();
 
     public String purposeNameStr;
     public String preferBuildingNameStr;

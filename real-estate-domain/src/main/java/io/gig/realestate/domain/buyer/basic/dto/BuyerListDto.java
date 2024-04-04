@@ -1,8 +1,6 @@
 package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.Buyer;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
-import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 
 import java.util.ArrayList;
