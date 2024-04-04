@@ -156,6 +156,7 @@ let showHistoryModal = function(e) {
             $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
             $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
             $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
+            $modal.find('.requestDetail').text(detail.requestDetail);
             $modal.find('input[name="buyerId"]').val(detail.buyerId);
             if (detail.histories.length > 0) {
                 $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
