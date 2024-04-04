@@ -5,15 +5,17 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author : JAKE
@@ -94,6 +96,10 @@ public class Buyer extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<BuyerHistory> histories = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerHistoryMap> maps = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")

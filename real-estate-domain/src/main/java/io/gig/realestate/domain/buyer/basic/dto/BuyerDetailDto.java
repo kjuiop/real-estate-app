@@ -70,7 +70,6 @@ public class BuyerDetailDto extends BuyerDto {
         this.loanCharacterNameStr = loanCharacterNames;
     }
 
-
     public BuyerDetailDto(Buyer b) {
         super(b);
     }

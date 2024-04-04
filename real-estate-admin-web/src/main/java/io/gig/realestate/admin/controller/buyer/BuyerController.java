@@ -56,6 +56,7 @@ public class BuyerController {
         model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         return "buyer/editor";
     }
 
@@ -69,6 +70,7 @@ public class BuyerController {
         model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         return "buyer/editor";
     }
 

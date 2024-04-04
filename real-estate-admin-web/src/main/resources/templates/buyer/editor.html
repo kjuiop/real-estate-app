@@ -22,7 +22,7 @@
     <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-8 display-flex-column">
+                <div class="col-md-10 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
@@ -237,7 +237,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-4 display-flex-column">
+                <div class="col-md-2 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
@@ -246,26 +246,13 @@
                                     <i class="fa fa-minus"></i></button>
                             </div>
                         </div>
-                        <div class="card-body" style="background-color: #F4F6F9;">
-                            <th:block th:if="${not #lists.isEmpty(dto.processList)}" th:each="item, status : ${dto.processList}">
+                        <div class="card-body">
+                            <th:block th:each="processCd : ${processCds}">
                                 <div class="row">
-                                    <div class="col-md-2" style="position: relative;">
-                                        <div style="position: absolute; top:15px; left: 40px;">
-                                            <label class="font-size-20">
-                                                <i class="fa fa-sticky-note-o"></i>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-10 padding-10 display-flex-column background-color-white border-radius-7">
-                                        <div class="display-flex-row">
-                                            <label class="col-md-9 font-size-14">[[${item.processName}]]</label>
-                                            <span class="col-md-3" style="text-align: right;">[[${#temporals.format(item.createdAt, 'yyyy.MM.dd')}]]</span>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <div class="col-md-12">
-                                                등록자 : <span>[[${item.createdByName}]]</span>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-12 no-left-padding display-flex-column">
+                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal">
+                                            [[${processCd.name}]]
+                                        </button>
                                     </div>
                                 </div>
                             </th:block>

@@ -6,7 +6,11 @@ import io.gig.realestate.domain.buyer.history.BuyerHistory;
 import io.gig.realestate.domain.buyer.history.BuyerHistoryService;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +38,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final BuyerStore buyerStore;
     private final CategoryService categoryService;
     private final BuyerHistoryService historyService;
+    private final BuyerHistoryMapService mapService;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,8 +47,10 @@ public class BuyerServiceImpl implements BuyerService {
         for (BuyerListDto dto : content) {
             dto.setBuyerGradeName(categoryService.getCategoryNameByCode(dto.getBuyerGradeCds()));
             dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));
+            dto.setHistoryMap(mapService.getHistoryMapByBuyerId(dto.getBuyerId()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
         }
+
         return content;
     }
 
@@ -55,6 +64,11 @@ public class BuyerServiceImpl implements BuyerService {
     @Transactional
     public Long create(BuyerForm createForm, LoginUser loginUser) {
         Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
+        List<CategoryDto> categories = categoryService.getChildrenCategoryDtosByCode("CD_PROCESS");
+        for (CategoryDto dto : categories) {
+            BuyerHistoryMap history = BuyerHistoryMap.create(dto, buyer, loginUser.getLoginUser());
+            buyer.getMaps().add(history);
+        }
         return buyerStore.store(buyer).getId();
     }
 
