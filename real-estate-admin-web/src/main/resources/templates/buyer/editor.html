@@ -37,7 +37,7 @@
                             <div class="card-body">
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
-                                        <label for="successPercent">담당자</label>
+                                        <label>담당자</label>
                                     </div>
                                     <div class="col-md-2 display-flex-column">
                                         <select class="form-control form-control-sm teamList" style="font-size: 12px;">
@@ -51,11 +51,21 @@
                                         <select class="form-control form-control-sm adminList" style="font-size: 12px;">
                                             <option value="">선택해주세요.</option>
                                             <th:block th:each="admin : ${admins}">
-                                                <option th:value="${admin.username}">[[${admin.name}]]</option>
+                                                <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}">[[${admin.name}]]</option>
                                             </th:block>
                                         </select>
                                     </div>
                                     <div class="col-md-5"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row managerSection">
+                                        <th:block th:each="admin : ${admins}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager" th:id="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                        </th:block>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
@@ -321,6 +331,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var dto =/*[[${dto}]]*/'';
+        var admins =/*[[${admins}]]*/'';
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>

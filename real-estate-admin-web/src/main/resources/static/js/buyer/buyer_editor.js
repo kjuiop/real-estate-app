@@ -530,9 +530,39 @@ let drawAdministrators = function(adminList) {
     let tag = '';
     tag += '<option value="">선택해주세요.</option>';
     $.each(adminList, function(idx, admin) {
-        tag += '<option value="' + admin.username + '">' + admin.name + '</option>';
+        tag += '<option value="' + admin.username + '" adminName="' + admin.name + '" id="' + admin.adminId + '">' + admin.name + '</option>';
     });
     return tag;
+}
+
+let drawManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        username = $this.val(),
+        name = $this.find('option:selected').attr('adminName'),
+        adminId = parseInt($this.find('option:selected').attr('adminId'))
+    ;
+
+    if (!checkNullOrEmptyValue(adminId) || isNaN(adminId)) {
+       return;
+    }
+
+    let isExist = false;
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('id'));
+        console.log(adminId, id);
+        if (id === adminId) {
+            isExist = true;
+            return;
+        }
+    });
+    if (isExist) {
+        return;
+    }
+
+    let tag = '<button type="button" class="btn btn-xs btn-default" id="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    $('.managerSection').append(tag);
 }
 
 $(document).ready(onReady)
@@ -546,4 +576,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryMapModal', showHistoryMapModal)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
     .on('change', '.teamList', loadTeamMember)
+    .on('change', '.adminList', drawManager)
 ;

@@ -5,6 +5,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
@@ -100,6 +101,10 @@ public class Buyer extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<BuyerHistoryMap> maps = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerManager> managers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
