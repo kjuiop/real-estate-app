@@ -6,6 +6,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
 <head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
     <style>
         .container-fluid input {
             height: 30px !important;
@@ -277,7 +278,9 @@
                             </th:block>
                             <div class="row">
                                 <div class="col-md-12 no-left-padding display-flex-column">
-                                    <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8" style="background-color: #eee;">
+                                    <button class="btn btn-sm btn-default btnHistoryMapModal border-radius-7 margin-right-5 margin-top-8" style="background-color: #eee;"
+                                            th:buyerId="${dto.buyerId}" th:title="${dto.title}" th:gradeName="${dto.buyerGradeName}"
+                                    >
                                         추가
                                     </button>
                                 </div>
@@ -292,6 +295,7 @@
     <div th:replace="layouts/utilFragments::historyMapModal"></div>
 </div>
 <section layout:fragment="script">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var dto =/*[[${dto}]]*/'';
