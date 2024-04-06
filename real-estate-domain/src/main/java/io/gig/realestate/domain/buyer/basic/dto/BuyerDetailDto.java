@@ -30,6 +30,8 @@ public class BuyerDetailDto extends BuyerDto {
     public String preferBuildingNameStr;
     public String investmentTimingNameStr;
     public String loanCharacterNameStr;
+    public String buyerGradeName;
+    public Integer salePriceRange;
 
     @Builder.Default
     public List<HistoryListDto> histories = new ArrayList<>();
@@ -78,5 +80,13 @@ public class BuyerDetailDto extends BuyerDto {
 
     public void setHistoryMap(List<HistoryMapListDto> maps) {
         this.maps = maps;
+    }
+
+    public void setBuyerGradeName(String buyerGradeName) {
+        this.buyerGradeName = buyerGradeName;
+    }
+
+    public void convertSalePriceIntValue(double salePrice) {
+        this.salePriceRange = (int) salePrice;
     }
 }

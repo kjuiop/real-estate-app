@@ -298,10 +298,99 @@ let extractCodeId = function(section) {
     return extractCds;
 }
 
+let showHistoryModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyModal'),
+        buyerId = $(this).attr('buyerId'),
+        title = $(this).attr('title'),
+        name = $(this).attr('name'),
+        gradeName = $(this).attr('gradeName'),
+        customerName = $(this).attr('customerName'),
+        salePrice = $(this).attr('salePrice'),
+        preferArea = $(this).attr('preferArea'),
+        preferSubway = $(this).attr('preferSubway'),
+        preferRoad = $(this).attr('preferRoad'),
+        createdAt = $(this).attr('createdAt'),
+        landAreaPy = $(this).attr('landAreaPy'),
+        totalAreaPy = $(this).attr('totalAreaPy'),
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy'),
+        processCd = $(this).attr('processCode')
+    ;
+
+    $.ajax({
+        url: "/buyer/" + buyerId + "/history",
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let data = result.data,
+                detail = data.buyerDetail;
+
+            $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+            $modal.find('#processName').text('[' + name + ']');
+            $modal.find('.customerName').text(customerName);
+            $modal.find('.salePrice').text(salePrice);
+            $modal.find('.preferArea').text(preferArea);
+            $modal.find('.preferSubway').text(preferSubway);
+            $modal.find('.preferRoad').text(preferRoad);
+            $modal.find('.landAreaPy').text(landAreaPy);
+            $modal.find('.totalAreaPy').text(totalAreaPy);
+            $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+            $modal.find('.createdAt').text(createdAt);
+            $modal.find('input[name="processCds"]').val(processCd);
+            $modal.find('input[name="processName"]').val(name);
+
+            $modal.find('.purposeNameStr').text(detail.purposeNameStr);
+            $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
+            $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
+            $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
+            $modal.find('.requestDetail').text(detail.requestDetail);
+            $modal.find('input[name="buyerId"]').val(detail.buyerId);
+            if (detail.histories.length > 0) {
+                $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
+            } else {
+                $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
+            }
+            $modal.modal('show');
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+
+}
+
+let drawHistoryTable = function(histories) {
+    let tag = '';
+    $.each(histories, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.processName + '</td>';
+        tag += '<td style="white-space: normal;">' + item.memo + '</td>';
+        tag += '<td>' + item.createdByName + '</td>';
+        tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    })
+    return tag;
+}
+
+let drawEmptyHistoryTable = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td colSpan="4" class="text-alien-center">';
+    tag += '등록된 메모가 없습니다.';
+    tag += '</td>';
+    tag += '</tr>';
+    return tag;
+}
+
 $(document).ready(onReady)
     .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
     .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
     .on('click', '.btnSave', save)
     .on('click', '.btnUpdate', update)
     .on('change', '#usageType', addUsageType)
+    .on('click', '.btnHistoryModal', showHistoryModal)
 ;

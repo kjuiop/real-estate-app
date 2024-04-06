@@ -58,7 +58,9 @@ public class BuyerServiceImpl implements BuyerService {
     @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
+        detail.setBuyerGradeName(categoryService.getCategoryNameByCode(detail.getBuyerGradeCds()));
         detail.setHistoryMap(mapService.getHistoryMapByBuyerId(detail.getBuyerId()));
+        detail.convertSalePriceIntValue(detail.getSalePrice());
         return detail;
     }
 
