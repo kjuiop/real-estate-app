@@ -24,6 +24,10 @@ public class BuyerManager extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String username;
+
+    private String name;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -48,6 +52,8 @@ public class BuyerManager extends BaseTimeEntity {
     public static BuyerManager create(Buyer buyer, Administrator manager, Administrator loginUser) {
         return BuyerManager.builder()
                 .buyer(buyer)
+                .name(manager.getName())
+                .username(manager.getUsername())
                 .admin(manager)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)

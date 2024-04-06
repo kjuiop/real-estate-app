@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic.dto;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.manager.dto.BuyerManagerDto;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.common.YnType;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -39,6 +41,9 @@ public class BuyerDetailDto extends BuyerDto {
 
     @Builder.Default
     public List<HistoryMapListDto> maps = new ArrayList<>();
+
+    @Builder.Default
+    public List<BuyerManagerDto> managers = new ArrayList<>();
 
     @Builder.Default
     private boolean empty = false;
@@ -73,6 +78,7 @@ public class BuyerDetailDto extends BuyerDto {
 
     public BuyerDetailDto(Buyer b) {
         super(b);
+        this.managers = b.getManagers().stream().map(BuyerManagerDto::new).collect(Collectors.toList());
     }
 
     public void setHistories(List<HistoryListDto> histories) {
