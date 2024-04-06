@@ -118,6 +118,10 @@ public class Buyer extends BaseTimeEntity {
         this.histories.add(history);
     }
 
+    public void addManager(BuyerManager manager) {
+        this.managers.add(manager);
+    }
+
     public static Buyer create(BuyerForm createForm, Administrator loginUser) {
         return Buyer.builder()
                 .buyerGradeCds(createForm.getBuyerGradeCds())

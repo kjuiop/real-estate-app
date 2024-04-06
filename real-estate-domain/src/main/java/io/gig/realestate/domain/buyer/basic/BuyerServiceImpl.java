@@ -1,11 +1,14 @@
 package io.gig.realestate.domain.buyer.basic;
 
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
 import io.gig.realestate.domain.buyer.history.BuyerHistoryService;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
@@ -40,6 +43,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final CategoryService categoryService;
     private final BuyerHistoryService historyService;
     private final BuyerHistoryMapService mapService;
+    private final AdministratorService administratorService;
 
     @Override
     @Transactional(readOnly = true)
@@ -72,6 +76,11 @@ public class BuyerServiceImpl implements BuyerService {
         for (CategoryDto dto : categories) {
             BuyerHistoryMap history = BuyerHistoryMap.create(dto, buyer, loginUser.getLoginUser());
             buyer.getMaps().add(history);
+        }
+        for (Long adminId : createForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            BuyerManager buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
+            buyer.addManager(buyerManager);
         }
         return buyerStore.store(buyer).getId();
     }

@@ -45,4 +45,12 @@ public class BuyerManager extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    public static BuyerManager create(Buyer buyer, Administrator manager, Administrator loginUser) {
+        return BuyerManager.builder()
+                .buyer(buyer)
+                .admin(manager)
+                .createdBy(loginUser)
+                .updatedBy(loginUser)
+                .build();
+    }
 }

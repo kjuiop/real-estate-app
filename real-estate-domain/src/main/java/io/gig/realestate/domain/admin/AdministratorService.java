@@ -56,4 +56,6 @@ public interface AdministratorService {
     List<AdministratorListDto> getTeamAdminListByLoginUser(LoginUser loginUser);
 
     List<AdministratorListDto> getAdminListByTeamId(Long teamId);
+
+    Administrator getAdminById(Long adminId);
 }

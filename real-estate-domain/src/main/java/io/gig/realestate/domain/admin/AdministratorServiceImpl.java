@@ -224,9 +224,15 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Administrator> getAdminOptional(String username) {
         return administratorReader.getAdminOptional(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Administrator getAdminById(Long adminId) {
+        return administratorReader.getAdminById(adminId);
     }
 
     private void validPassword(Administrator administrator, String password) {
