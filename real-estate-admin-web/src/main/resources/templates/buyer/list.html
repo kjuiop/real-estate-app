@@ -5,6 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
     <style>
         .content * {
             font-size: 12px;
@@ -293,7 +294,9 @@
                                                                 [[${map.processName}]]
                                                             </button>
                                                         </th:block>
-                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;">추가</button>
+                                                        <button class="btn btn-sm btn-default btnHistoryMapModal border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;"
+                                                                th:buyerId="${item.buyerId}" th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
+                                                        >추가</button>
                                                     </div>
                                                     <div class="col-md-2" style="position: relative;">
                                                         <span class="margin-top-8" style="width: 50%; font-size: 13px; padding-top: 3px; position: absolute;">
@@ -502,9 +505,50 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="historyMapModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 600px;">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
+                    <div class="col-md-12 no-left-padding line">
+                        <label>[단계추가]</label>
+                    </div>
+                    <div class="line display-flex-column">
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">단계이름</label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="buyerId" />
+                                <input type="text" class="form-control" name="processName" />
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">색상코드</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control color-code" id="colorCode" name="colorCode" placeholder="색상코드" data-control="brightness" data-position="top right" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">정렬순서</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="sortOrder" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal line">
+                        <button type="button" class="btn btn-sm btn-primary btnHistoryMapAdd pull-right">등록</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 <section layout:fragment="script">
-    <script th:inline="javascript">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
+    <script th:inline="javascript" type="application/javascript">
     </script>
     <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_list.js}"></script>
 </section>

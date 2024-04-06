@@ -7,6 +7,7 @@ import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -105,5 +106,14 @@ public class BuyerController {
                                                            @CurrentUser LoginUser loginUser) {
         List<HistoryListDto> histories = buyerService.createHistory(buyerId, createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(histories), HttpStatus.OK);
+    }
+
+    @PostMapping("{buyerId}/history-map")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> historyMapCreate(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody HistoryMapForm createForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long savedId = buyerService.createHistoryMap(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
     }
 }

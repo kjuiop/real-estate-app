@@ -8,6 +8,7 @@ import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
@@ -109,6 +110,15 @@ public class BuyerServiceImpl implements BuyerService {
 
         buyerStore.store(buyer);
         return historyService.getHistoriesByBuyerId(buyerId);
+    }
+
+    @Override
+    @Transactional
+    public Long createHistoryMap(Long buyerId, HistoryMapForm createForm, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        BuyerHistoryMap historyMap = BuyerHistoryMap.createCustomMap(buyer, createForm, loginUser.getLoginUser());
+        buyer.getMaps().add(historyMap);
+        return buyerStore.store(buyer).getId();
     }
 
     private List<String> convertCdToNames(String code) {

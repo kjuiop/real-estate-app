@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface BuyerService {
     BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser);
 
     List<HistoryListDto> createHistory(Long buyerId, HistoryForm createForm, LoginUser loginUser);
+
+    Long createHistoryMap(Long buyerId, HistoryMapForm createForm, LoginUser loginUser);
 }

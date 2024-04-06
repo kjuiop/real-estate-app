@@ -1,5 +1,6 @@
 let onReady = function() {
     initDate();
+    minicolors();
 };
 
 let search = function(e) {
@@ -192,18 +193,13 @@ let addHistory = function(e) {
         processName = $modal.find('input[name="processName"]').val(),
         memo = $modal.find('textarea[name="memo"]').val();
 
-    if (!checkNullOrEmptyValue(processCd)) {
-        twoBtnModal("모달창을 다시 열어주세요.");
-        return;
-    }
-
     if (!checkNullOrEmptyValue(memo)) {
         twoBtnModal("메모를 입력해주세요.");
         return;
     }
 
     let params = {
-        "processCds" : processCd,
+        "processCds" : convertNullOrEmptyValue(processCd),
         "processName" : processName,
         "memo" : memo
     }
@@ -252,6 +248,91 @@ let drawHistoryTable = function(histories) {
     return tag;
 }
 
+let showHistoryMapModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyMapModal'),
+        buyerId = $(this).attr('buyerId'),
+        title = $(this).attr('title'),
+        gradeName = $(this).attr('gradeName')
+    ;
+
+    $('#colorCode').val('');
+    $('.minicolors-swatch-color').css('background-color', '');
+
+    $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+    $modal.find('input[name="buyerId"]').val(buyerId);
+    $modal.modal('show');
+}
+
+let minicolors = function() {
+    $('.color-code').minicolors({
+        control: $(this).attr('data-control') || 'hue',
+        defaultValue: $(this).attr('data-defaultValue') || '',
+        format: $(this).attr('data-format') || 'hex',
+        keywords: $(this).attr('data-keywords') || '',
+        inline: $(this).attr('data-inline') === 'true',
+        letterCase: $(this).attr('data-letterCase') || 'lowercase',
+        opacity: $(this).attr('data-opacity'),
+        position: $(this).attr('data-position') || 'bottom',
+        swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+        change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+                console.log(value);
+            }
+        },
+        theme: 'bootstrap'
+    });
+}
+
+let addHistoryMap = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyMapModal'),
+        buyerId = $modal.find('input[name="buyerId"]').val(),
+        processName = $modal.find('input[name="processName"]').val(),
+        colorCode = $modal.find('input[name="colorCode"]').val(),
+        sortOrder = $modal.find('input[name="sortOrder"]').val();
+
+    if (!checkNullOrEmptyValue(processName)) {
+        twoBtnModal("단계이름을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(colorCode)) {
+        twoBtnModal("색상코드를 입력해주세요.");
+        return;
+    }
+
+    let params = {
+        "colorCode" : colorCode,
+        "processName" : processName,
+        "sortOrder" : sortOrder
+    }
+
+    console.log("params : ", params);
+
+    twoBtnModal("저장하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/history-map",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    location.href = '/buyer'
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
@@ -262,4 +343,6 @@ $(document).ready(onReady)
     .on('click', '#targetStartDate, #targetEndDate', resetDateRadio)
     .on('click', '.btnHistoryModal', showHistoryModal)
     .on('click', '.btnHistoryAdd', addHistory)
+    .on('click', '.btnHistoryMapModal', showHistoryMapModal)
+    .on('click', '.btnHistoryMapAdd', addHistoryMap)
 ;

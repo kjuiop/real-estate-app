@@ -32,7 +32,7 @@ public class BuyerHistoryMapQueryRepository {
                 .from(buyerHistoryMap)
                 .where(defaultCondition())
                 .where(eqBuyerId(buyerId))
-                .orderBy(buyerHistoryMap.createdAt.desc())
+                .orderBy(buyerHistoryMap.sortOrder.asc())
                 .fetch()
                 ;
     }
