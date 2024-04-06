@@ -32,6 +32,7 @@ public class BuyerDetailDto extends BuyerDto {
     public String loanCharacterNameStr;
     public String buyerGradeName;
     public Integer salePriceRange;
+    public Long teamId;
 
     @Builder.Default
     public List<HistoryListDto> histories = new ArrayList<>();

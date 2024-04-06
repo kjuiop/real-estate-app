@@ -1,6 +1,7 @@
 package io.gig.realestate.admin.controller.buyer;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.buyer.basic.dto.*;
@@ -34,6 +35,7 @@ public class BuyerController {
     private final CategoryService categoryService;
     private final BuyerService buyerService;
     private final TeamService teamService;
+    private final AdministratorService administratorService;
 
     @GetMapping
     public String index(BuyerSearchDto condition, Model model) {
@@ -49,8 +51,9 @@ public class BuyerController {
     }
 
     @GetMapping("new")
-    public String register(Model model) {
+    public String register(Model model, @CurrentUser LoginUser loginUser) {
         model.addAttribute("dto", BuyerDetailDto.emptyDto());
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
         model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
@@ -58,6 +61,8 @@ public class BuyerController {
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         return "buyer/editor";
     }
 

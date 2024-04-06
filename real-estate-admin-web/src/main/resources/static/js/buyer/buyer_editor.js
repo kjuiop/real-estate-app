@@ -62,19 +62,6 @@ let drawUsageTypeButton = function(id, name) {
     return tags
 }
 
-let getUsageTypeCds = function() {
-    let usageTypeCds = "";
-    let $section = $('.usageTypeSection').find('.btnUsageCode');
-    $section.toArray().some(function(item, index, array) {
-        usageTypeCds += $(item).attr('usageTypeId');
-        if (index < array.length - 1) {
-            usageTypeCds += ",";
-        }
-    });
-
-    return usageTypeCds;
-}
-
 let save = function(e) {
     e.preventDefault();
 
@@ -516,7 +503,37 @@ let addHistoryMap = function(e) {
     });
 }
 
+let loadTeamMember = function(e) {
+    e.preventDefault();
 
+    let $this = $(this),
+        teamId = $this.val();
+
+    $.ajax({
+        url: "/administrators/team/" + teamId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let adminList = result.data;
+            let tag = drawAdministrators(adminList);
+            $('.adminList').html(tag);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawAdministrators = function(adminList) {
+    let tag = '';
+    tag += '<option value="">선택해주세요.</option>';
+    $.each(adminList, function(idx, admin) {
+        tag += '<option value="' + admin.username + '">' + admin.name + '</option>';
+    });
+    return tag;
+}
 
 $(document).ready(onReady)
     .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
@@ -528,4 +545,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryAdd', addHistory)
     .on('click', '.btnHistoryMapModal', showHistoryMapModal)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
+    .on('change', '.teamList', loadTeamMember)
 ;
