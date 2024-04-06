@@ -68,8 +68,10 @@ public class BuyerController {
 
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
+                           @CurrentUser LoginUser loginUser,
                            Model model) {
         model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
         model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));

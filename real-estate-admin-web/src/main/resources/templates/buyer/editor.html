@@ -63,10 +63,10 @@
                                     </div>
                                     <div class="col-md-9 display-flex-row managerSection">
                                         <th:block th:each="admin : ${admins}" th:if="${!isModify}">
-                                            <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                            <button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
                                         </th:block>
                                         <th:block th:each="admin : ${dto.managers}" th:if="${isModify}">
-                                            <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                            <button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
                                         </th:block>
                                     </div>
                                 </div>

@@ -35,6 +35,7 @@ public class BuyerDetailDto extends BuyerDto {
     public String buyerGradeName;
     public Integer salePriceRange;
     public Long teamId;
+    public Long createdByAdminId;
 
     @Builder.Default
     public List<HistoryListDto> histories = new ArrayList<>();
@@ -79,6 +80,7 @@ public class BuyerDetailDto extends BuyerDto {
     public BuyerDetailDto(Buyer b) {
         super(b);
         this.managers = b.getManagers().stream().map(BuyerManagerDto::new).collect(Collectors.toList());
+        this.createdByAdminId = b.getCreatedBy().getId();
     }
 
     public void setHistories(List<HistoryListDto> histories) {

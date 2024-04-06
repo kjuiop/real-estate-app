@@ -564,7 +564,7 @@ let drawManager = function(e) {
         return;
     }
 
-    let tag = '<button type="button" class="btn btn-xs btn-default btnManager" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
     $('.managerSection').append(tag);
 }
 
@@ -575,6 +575,24 @@ let getManagerIds = function() {
         managerIds.push(id);
     });
     return managerIds;
+}
+
+let removeManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        adminId = parseInt($this.attr('adminId')),
+        createdById = parseInt(dto.createdByAdminId)
+    ;
+
+    if (adminId === createdById) {
+        return;
+    }
+
+
+    twoBtnModal("담당자를 해제하시겠습니까?", function () {
+        $this.remove();
+    });
 }
 
 $(document).ready(onReady)
@@ -589,4 +607,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
     .on('change', '.teamList', loadTeamMember)
     .on('change', '.adminList', drawManager)
+    .on('click', '.btnManagerRemove', removeManager)
 ;
