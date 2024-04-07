@@ -330,20 +330,46 @@
                             <span class="col-md-10 requestDetail"></span>
                         </div>
                     </div>
-                    <div class="col-md-12 no-left-padding">
-                        <label id="processName"></label>
-                        <input type="hidden" name="processCds" />
-                        <input type="hidden" name="processName" />
-                        <input type="hidden" name="buyerId" />
+                    <div class="col-md-12 no-left-padding display-flex-row margin-bottom-5">
+                        <div class="col-md-9 no-left-padding">
+                            <label id="processName" style="margin-bottom: 0; padding-top: 3px;"></label>
+                            <input type="hidden" name="processCds" />
+                            <input type="hidden" name="processName" />
+                            <input type="hidden" name="buyerId" />
+                        </div>
+                        <div class="col-md-3 no-right-padding">
+                            <button type="button" class="btn btn-sm btn-default btnSearchRealEstate pull-right" style="margin-left: 5px;"> 매물검색</button>
+                        </div>
                     </div>
                     <div class="line">
                         <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
                     </div>
+<!--                    <div class="form-horizontal" style="max-height: 500px; max-width: 950px;">-->
+<!--                        <table class="realEstateTable table table-striped font-size-12">-->
+<!--                            <thead style="position: sticky; top:0; background-color: #ffffff;">-->
+<!--                            <tr>-->
+<!--                                <th style="width: 10%;">매물번호</th>-->
+<!--                                <th style="width: 40%;">주소</th>-->
+<!--                                <th style="width: 20%;">매매가</th>-->
+<!--                                <th style="width: 15%;">담당자</th>-->
+<!--                                <th style="width: 15%;">등록일</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr>-->
+<!--                                <td class="text-center" colspan="5">등록된 매물이 없습니다.</td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
                     <div class="form-horizontal line">
                         <button type="button" class="btn btn-sm btn-primary btnHistoryAdd pull-right">등록</button>
                     </div>
-                    <div class="form-horizontal uploadDash" style="max-height: 500px; min-height: 200px; max-width: 950px;">
-                        <table class="historyTable table">
+                    <div class="col-md-12 no-left-padding">
+                        <label>[메모내역]</label>
+                    </div>
+                    <div class="form-horizontal" style="max-height: 500px; min-height: 200px; max-width: 950px;">
+                        <table class="historyTable table table-striped font-size-12">
                             <thead style="position: sticky; top:0; background-color: #ffffff;">
                             <tr>
                                 <th style="width: 10%;">단계</th>
