@@ -9,12 +9,14 @@ import io.gig.realestate.domain.buyer.history.BuyerHistoryService;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.buyer.manager.BuyerManager;
+import io.gig.realestate.domain.buyer.manager.BuyerManagerService;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +43,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final BuyerHistoryService historyService;
     private final BuyerHistoryMapService mapService;
     private final AdministratorService administratorService;
+    private final BuyerManagerService buyerManagerService;
 
     @Override
     @Transactional(readOnly = true)
@@ -90,6 +90,25 @@ public class BuyerServiceImpl implements BuyerService {
     public Long update(BuyerForm updateForm, LoginUser loginUser) {
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
         buyer.update(updateForm, loginUser);
+
+        for (BuyerManager bm : buyer.getManagers()) {
+            boolean existsInManager = updateForm.getManagerIds().stream().anyMatch(id -> id.equals(bm.getId()));
+            if (!existsInManager) {
+                bm.delete();
+            }
+        }
+        for (Long adminId : updateForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            Optional<BuyerManager> findBuyerManager = buyerManagerService.getBuyerManager(buyer, manager);
+            BuyerManager buyerManager;
+            if (findBuyerManager.isPresent()) {
+                buyerManager = findBuyerManager.get();
+                buyerManager.update(buyer, manager, loginUser.getLoginUser());
+            } else {
+                buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
+                buyer.getManagers().add(buyerManager);
+            }
+        }
         return buyerStore.store(buyer).getId();
     }
 

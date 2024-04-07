@@ -59,4 +59,14 @@ public class BuyerManager extends BaseTimeEntity {
                 .updatedBy(loginUser)
                 .build();
     }
+
+    public void update(Buyer buyer, Administrator manager, Administrator loginUser) {
+        this.updatedBy = loginUser;
+        this.name = manager.getName();
+        this.username = manager.getUsername();
+    }
+
+    public void delete() {
+        this.deleteYn = YnType.Y;
+    }
 }
