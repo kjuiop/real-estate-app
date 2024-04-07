@@ -92,7 +92,7 @@ public class BuyerServiceImpl implements BuyerService {
         buyer.update(updateForm, loginUser);
 
         for (BuyerManager bm : buyer.getManagers()) {
-            boolean existsInManager = updateForm.getManagerIds().stream().anyMatch(id -> id.equals(bm.getId()));
+            boolean existsInManager = updateForm.getManagerIds().stream().anyMatch(id -> id.equals(bm.getAdmin().getId()));
             if (!existsInManager) {
                 bm.delete();
             }

@@ -3,6 +3,7 @@ package io.gig.realestate.domain.buyer.basic.dto;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.buyer.manager.dto.BuyerManagerDto;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.common.YnType;
@@ -79,7 +80,13 @@ public class BuyerDetailDto extends BuyerDto {
 
     public BuyerDetailDto(Buyer b) {
         super(b);
-        this.managers = b.getManagers().stream().map(BuyerManagerDto::new).collect(Collectors.toList());
+        List<BuyerManagerDto> list = new ArrayList<>();
+        for (BuyerManager bm : b.getManagers()) {
+            if (bm.getDeleteYn() == YnType.N) {
+                list.add(new BuyerManagerDto(bm));
+            }
+        }
+        this.managers = list;
         this.createdByAdminId = b.getCreatedBy().getId();
     }
 

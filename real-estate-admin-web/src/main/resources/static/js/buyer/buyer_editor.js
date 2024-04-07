@@ -126,6 +126,7 @@ let update = function(e) {
         return;
     }
 
+    params["managerIds"] = getManagerIds();
     params["buyerGradeCds"] = buyerGradeCds;
     params["purposeCds"] = extractCodeId($('.purposeSection'));
     params["loanCharacterCds"] = extractCodeId($('.loanCharacterSection'));

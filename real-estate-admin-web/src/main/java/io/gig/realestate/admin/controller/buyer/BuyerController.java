@@ -79,6 +79,8 @@ public class BuyerController {
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         return "buyer/editor";
     }
 
