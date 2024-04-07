@@ -152,7 +152,7 @@
 
 <div th:fragment="signUpModal">
     <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="sign-up-modal">
-        <div class="modal-dialog" role="document" style="border : 2px solid darkorange;">
+        <div class="modal-dialog" role="document" style="border : 1px solid #eeeeee;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title control-label" style="font-weight: bold;">관리자 계정 가입</h4>
@@ -243,6 +243,57 @@
                             </table>
                         </form>
                     </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<div th:fragment="emailAuthModal">
+    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="email-auth-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;">관리자 계정 가입</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 1030px; min-height: 120px; height: 400px;">
+                    <div class="font-size-20">
+                        이메일 인증 코드를 입력하세요.
+                    </div>
+                    <div class="line margin-top-15">
+                        <div class="font-size-16">
+                            <span id="username"></span> 으로 회원가입 이메일 인증코드를
+                            <br />
+                            전달하였습니다.
+                            <br />
+                            24시간 이내에 이메일에 있는 인증코드를 입력해주세요.
+                            <br />
+                        </div>
+                    </div>
+                    <div class="form-horizontal margin-top-15">
+                        <form name="frmAuth" method="post">
+                            <div class="form-group display-flex-column">
+                                <div class="form-group display-flex-row">
+                                    <input class="form-control col-md-9 margin-right-5" placeholder="인증코드 6자리를 입력해 주세요." >
+                                </div>
+                                <div class="form-group display-flex-row">
+                                    <a href="/login" class="pull-left margin-right-5" style="padding-left: 5px;">이메일 재전송</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-horizontal font-size-14 padding-10" style="background-color: #F6F6F6; margin-top: 10px;">
+                        이메일이 수신되지 않는 경우 <br/>
+                        입력하신 이메일 아이디 주소가 정확한지 확인해 주세요. <br/>
+                        스팸 메일함을 확인해 주세요. <br/>
+                        메일함 용량을 정리해 주세요. <br/>
+                    </div>
+                </div>
+                <div class="form-horizontal padding-20">
+                    <a href="/login" class="pull-left margin-right-5" style="padding-left: 5px;">로그인으로 돌아가기</a>
+                    <button type="button" class="btn btn-primary btnEmailAuth pull-right">회원가입 완료</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
