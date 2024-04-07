@@ -5,6 +5,8 @@ import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2024/02/24
@@ -60,4 +62,6 @@ public class BuyerForm {
     private CompanyScaleType companyScale;
 
     private String requestDetail;
+
+    private List<Long> managerIds;
 }

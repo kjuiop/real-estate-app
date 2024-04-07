@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorRole;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.gig.realestate.domain.buyer.basic.QBuyer.buyer;
+import static io.gig.realestate.domain.buyer.manager.QBuyerManager.buyerManager;
 
 /**
  * @author : JAKE
@@ -35,10 +38,11 @@ public class BuyerQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
+    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, Administrator loginUser) {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(ownManager(loginUser));
         where.and(likeTitle(condition.getTitle()));
         where.and(likePreferArea(condition.getPreferArea()));
         where.and(likePreferSubway(condition.getPreferSubway()));
@@ -232,6 +236,21 @@ public class BuyerQueryRepository {
         }
 
         return buyer.createdAt.between(beforeCreatedAt, afterCreatedAt);
+    }
+
+    private BooleanExpression ownManager(Administrator loginUser) {
+        for (AdministratorRole adminRole : loginUser.getAdministratorRoles()) {
+            if (adminRole.getRole().getName().equals("ROLE_SUPER_ADMIN")) {
+                return null;
+            }
+        }
+
+        return buyer.id.in(
+                JPAExpressions.selectDistinct(buyerManager.buyer.id)
+                        .from(buyerManager)
+                        .where(buyerManager.buyer.eq(buyer))
+                        .where(buyerManager.admin.id.eq(loginUser.getId()))
+                        .where(buyerManager.deleteYn.eq(YnType.N)));
     }
 
 }

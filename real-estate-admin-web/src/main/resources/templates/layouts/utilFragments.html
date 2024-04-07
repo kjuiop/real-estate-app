@@ -248,5 +248,186 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 </div>
+<div th:fragment="historyModal">
+    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="historyModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 950px;">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 120px; white-space: nowrap; overflow: auto;">
+                    <div class="col-md-12 no-left-padding">
+                        <label>[고객정보]</label>
+                    </div>
+                    <div class="line display-flex-column" style="font-size: 15px;">
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <div class="col-md-4 no-left-padding">
+                                <label class="col-md-4">고객명</label>
+                                <span class="col-md-8 customerName"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">매입금액</label>
+                                <span class="col-md-8 salePrice"></span>억 전후
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">시작일</label>
+                                <span class="col-md-8 createdAt"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <div class="col-md-4 no-left-padding">
+                                <label class="col-md-4">대지면적</label>
+                                <span class="col-md-8 landAreaPy"></span>평
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">연면적</label>
+                                <span class="col-md-8 totalAreaPy"></span>평
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">전용면적</label>
+                                <span class="col-md-8 exclusiveAreaPy"></span>평
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <div class="col-md-4 no-left-padding">
+                                <label class="col-md-4">지역</label>
+                                <span class="col-md-8 preferArea"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">지하철노선</label>
+                                <span class="col-md-8 preferSubway"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4">도로</label>
+                                <span class="col-md-8 preferRoad"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-left-padding">
+                        <label>[고객성향]</label>
+                    </div>
+                    <div class="line display-flex-column" style="font-size: 15px;">
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <label class="col-md-2">매입목적</label>
+                            <span class="col-md-10 purposeNameStr"></span>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <label class="col-md-2">선호빌딩</label>
+                            <span class="col-md-10 preferBuildingNameStr"></span>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <label class="col-md-2">투자시기</label>
+                            <span class="col-md-10 investmentTimingNameStr"></span>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <label class="col-md-2">투자성향_대출</label>
+                            <span class="col-md-10 loanCharacterNameStr"></span>
+                        </div>
+                        <div class="col-md-12 no-left-padding display-flex-row">
+                            <label class="col-md-2">매수인 요청내용</label>
+                            <span class="col-md-10 requestDetail"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-left-padding display-flex-row margin-bottom-5">
+                        <div class="col-md-9 no-left-padding">
+                            <label id="processName" style="margin-bottom: 0; padding-top: 3px;"></label>
+                            <input type="hidden" name="processCds" />
+                            <input type="hidden" name="processName" />
+                            <input type="hidden" name="buyerId" />
+                        </div>
+                        <div class="col-md-3 no-right-padding">
+                            <button type="button" class="btn btn-sm btn-default btnSearchRealEstate pull-right" style="margin-left: 5px;"> 매물검색</button>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
+                    </div>
+<!--                    <div class="form-horizontal" style="max-height: 500px; max-width: 950px;">-->
+<!--                        <table class="realEstateTable table table-striped font-size-12">-->
+<!--                            <thead style="position: sticky; top:0; background-color: #ffffff;">-->
+<!--                            <tr>-->
+<!--                                <th style="width: 10%;">매물번호</th>-->
+<!--                                <th style="width: 40%;">주소</th>-->
+<!--                                <th style="width: 20%;">매매가</th>-->
+<!--                                <th style="width: 15%;">담당자</th>-->
+<!--                                <th style="width: 15%;">등록일</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr>-->
+<!--                                <td class="text-center" colspan="5">등록된 매물이 없습니다.</td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+                    <div class="form-horizontal line">
+                        <button type="button" class="btn btn-sm btn-primary btnHistoryAdd pull-right">등록</button>
+                    </div>
+                    <div class="col-md-12 no-left-padding">
+                        <label>[메모내역]</label>
+                    </div>
+                    <div class="form-horizontal" style="max-height: 500px; min-height: 200px; max-width: 950px;">
+                        <table class="historyTable table table-striped font-size-12">
+                            <thead style="position: sticky; top:0; background-color: #ffffff;">
+                            <tr>
+                                <th style="width: 10%;">단계</th>
+                                <th style="width: 60%;">내용</th>
+                                <th style="width: 15%;">작성자</th>
+                                <th style="width: 15%;">등록일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<div th:fragment="historyMapModal">
+    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="historyMapModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 600px;">
+                <div class="modal-header">
+                    <h4 class="modal-title control-label" style="font-weight: bold;"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
+                    <div class="col-md-12 no-left-padding line">
+                        <label>[단계추가]</label>
+                    </div>
+                    <div class="line display-flex-column">
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">단계이름</label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="buyerId" />
+                                <input type="text" class="form-control" name="processName" />
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">색상코드</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control color-code" id="colorCode" name="colorCode" placeholder="색상코드" data-control="brightness" data-position="top right" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-3 control-label">정렬순서</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="sortOrder" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal line">
+                        <button type="button" class="btn btn-sm btn-primary btnHistoryMapAdd pull-right">등록</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>

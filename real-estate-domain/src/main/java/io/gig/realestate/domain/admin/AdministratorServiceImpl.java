@@ -179,9 +179,22 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<AdministratorListDto> getTeamAdminListByLoginUser(LoginUser loginUser) {
+        return administratorReader.getAdministratorsByTeam(loginUser.getLoginUser().getTeam());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, String username) {
         Administrator administrator = administratorReader.getAdminEntityByUsername(username);
         return administratorReader.getAdminByTeamId(searchDto, administrator.getTeam().getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdministratorListDto> getAdminListByTeamId(Long teamId) {
+        Team team = teamReader.getTeamById(teamId);
+        return administratorReader.getAdministratorsByTeam(team);
     }
 
     @Override
@@ -211,9 +224,15 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Administrator> getAdminOptional(String username) {
         return administratorReader.getAdminOptional(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Administrator getAdminById(Long adminId) {
+        return administratorReader.getAdminById(adminId);
     }
 
     private void validPassword(Administrator administrator, String password) {
