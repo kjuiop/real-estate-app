@@ -38,8 +38,8 @@ public class BuyerController {
     private final AdministratorService administratorService;
 
     @GetMapping
-    public String index(BuyerSearchDto condition, Model model) {
-        Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition);
+    public String index(BuyerSearchDto condition, @CurrentUser LoginUser loginUser, Model model) {
+        Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition, loginUser);
         model.addAttribute("totalCount", pages.getTotalElements());
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);

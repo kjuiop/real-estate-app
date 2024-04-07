@@ -47,8 +47,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
-        Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition);
+    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, LoginUser loginUser) {
+
+        Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition, loginUser.getLoginUser());
         for (BuyerListDto dto : content) {
             dto.setBuyerGradeName(categoryService.getCategoryNameByCode(dto.getBuyerGradeCds()));
             dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));

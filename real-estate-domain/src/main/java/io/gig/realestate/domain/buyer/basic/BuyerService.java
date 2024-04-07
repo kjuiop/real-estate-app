@@ -14,7 +14,7 @@ import java.util.List;
  * @date : 2024/02/24
  */
 public interface BuyerService {
-    Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition);
+    Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, LoginUser loginUser);
 
     Long create(BuyerForm createForm, LoginUser loginUser);
 
