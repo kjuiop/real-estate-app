@@ -6,6 +6,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
 <head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
     <style>
         .container-fluid input {
             height: 30px !important;
@@ -22,7 +23,7 @@
     <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-8 display-flex-column">
+                <div class="col-md-10 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
@@ -34,6 +35,41 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>담당자</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <select class="form-control form-control-sm teamList" style="font-size: 12px;">
+                                            <option value="">팀을 선택해주세요.</option>
+                                            <th:block th:each="team : ${teams}">
+                                                <option th:value="${team.teamId}" th:text="${team.name}" th:selected="${loginUser.teamId eq team.teamId}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <select class="form-control form-control-sm adminList" style="font-size: 12px;">
+                                            <option value="">선택해주세요.</option>
+                                            <th:block th:each="admin : ${admins}">
+                                                <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}">[[${admin.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row managerSection">
+                                        <th:block th:each="admin : ${admins}" th:if="${!isModify}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                        </th:block>
+                                        <th:block th:each="admin : ${dto.managers}" th:if="${isModify}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                        </th:block>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
                                         <label for="successPercent">매수자 등급 / 성공률</label>
@@ -237,7 +273,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-4 display-flex-column">
+                <div class="col-md-2 display-flex-column">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
@@ -246,37 +282,55 @@
                                     <i class="fa fa-minus"></i></button>
                             </div>
                         </div>
-                        <div class="card-body" style="background-color: #F4F6F9;">
-                            <th:block th:if="${not #lists.isEmpty(dto.processList)}" th:each="item, status : ${dto.processList}">
+                        <div class="card-body">
+                            <th:block th:if="${!isModify}" th:each="processCd : ${processCds}">
                                 <div class="row">
-                                    <div class="col-md-2" style="position: relative;">
-                                        <div style="position: absolute; top:15px; left: 40px;">
-                                            <label class="font-size-20">
-                                                <i class="fa fa-sticky-note-o"></i>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-10 padding-10 display-flex-column background-color-white border-radius-7">
-                                        <div class="display-flex-row">
-                                            <label class="col-md-9 font-size-14">[[${item.processName}]]</label>
-                                            <span class="col-md-3" style="text-align: right;">[[${#temporals.format(item.createdAt, 'yyyy.MM.dd')}]]</span>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <div class="col-md-12">
-                                                등록자 : <span>[[${item.createdByName}]]</span>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-12 no-left-padding display-flex-column">
+                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal">
+                                            [[${processCd.name}]]
+                                        </button>
                                     </div>
                                 </div>
                             </th:block>
+                            <th:block th:if="${isModify}" th:each="map : ${dto.maps}">
+                                <div class="row">
+                                    <div class="col-md-12 no-left-padding display-flex-column">
+                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                th:buyerId="${dto.buyerId}" th:processCode="${map.processCds}" th:name="${map.processName}"
+                                                th:title="${dto.title}" th:gradeName="${dto.buyerGradeName}"
+                                                th:customerName="${dto.customerName}" th:salePrice="${dto.salePriceRange}" th:requestDetail="${dto.requestDetail}"
+                                                th:landAreaPy="${dto.landAreaPy}" th:totalAreaPy="${dto.totalAreaPy}" th:exclusiveAreaPy="${dto.exclusiveAreaPy}"
+                                                th:preferArea="${dto.preferArea}" th:preferSubway="${dto.preferSubway}" th:preferRoad="${dto.preferRoad}"
+                                                th:createdAt="${#temporals.format(dto.createdAt, 'YYYY-MM-dd')}"
+                                                th:style="${map.historyCnt > 0} ?
+                                                    'color: #fff; font-weight: bold; background-color: ' + ${map.colorCode} :
+                                                    'background-color: #eee;'"
+                                        >
+                                            [[${map.processName}]]
+                                        </button>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <div class="row">
+                                <div class="col-md-12 no-left-padding display-flex-column">
+                                    <button class="btn btn-sm btn-default btnHistoryMapModal border-radius-7 margin-right-5 margin-top-8" style="background-color: #eee;"
+                                            th:buyerId="${dto.buyerId}" th:title="${dto.title}" th:gradeName="${dto.buyerGradeName}"
+                                    >
+                                        추가
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <div th:replace="layouts/utilFragments::historyModal"></div>
+    <div th:replace="layouts/utilFragments::historyMapModal"></div>
 </div>
 <section layout:fragment="script">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var dto =/*[[${dto}]]*/'';

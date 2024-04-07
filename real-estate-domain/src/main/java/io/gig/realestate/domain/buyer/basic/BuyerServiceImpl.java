@@ -1,14 +1,23 @@
 package io.gig.realestate.domain.buyer.basic;
 
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.detail.dto.BuyerDetailUpdateForm;
-import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.buyer.basic.dto.*;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.history.BuyerHistoryService;
+import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
+import io.gig.realestate.domain.buyer.manager.BuyerManagerService;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
 import io.gig.realestate.domain.category.CategoryService;
+import io.gig.realestate.domain.category.dto.CategoryDto;
+import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,8 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author : JAKE
@@ -31,22 +40,20 @@ public class BuyerServiceImpl implements BuyerService {
     private final BuyerReader buyerReader;
     private final BuyerStore buyerStore;
     private final CategoryService categoryService;
+    private final BuyerHistoryService historyService;
+    private final BuyerHistoryMapService mapService;
+    private final AdministratorService administratorService;
+    private final BuyerManagerService buyerManagerService;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
-        Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition);
+    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, LoginUser loginUser) {
+
+        Page<BuyerListDto> content = buyerReader.getBuyerPageListBySearch(condition, loginUser.getLoginUser());
         for (BuyerListDto dto : content) {
-            List<String> purposeCdName = new ArrayList<>();
-            if (StringUtils.hasText(dto.getPurposeCds())) {
-                String[] purposeCds = dto.getPurposeCds().split(",");
-                for (String code : purposeCds) {
-                    purposeCdName.add(categoryService.getCategoryNameByCode(code));
-                }
-            }
-            String gradeName = categoryService.getCategoryNameByCode(dto.getBuyerGradeCds());
-            dto.setBuyerGradeName(gradeName);
-            dto.setPurposeName(purposeCdName);
+            dto.setBuyerGradeName(categoryService.getCategoryNameByCode(dto.getBuyerGradeCds()));
+            dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));
+            dto.setHistoryMap(mapService.getHistoryMapByBuyerId(dto.getBuyerId()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
         }
         return content;
@@ -55,13 +62,27 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
-        return buyerReader.getBuyerDetail(buyerId);
+        BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
+        detail.setBuyerGradeName(categoryService.getCategoryNameByCode(detail.getBuyerGradeCds()));
+        detail.setHistoryMap(mapService.getHistoryMapByBuyerId(detail.getBuyerId()));
+        detail.convertSalePriceIntValue(detail.getSalePrice());
+        return detail;
     }
 
     @Override
     @Transactional
     public Long create(BuyerForm createForm, LoginUser loginUser) {
         Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
+        List<CategoryDto> categories = categoryService.getChildrenCategoryDtosByCode("CD_PROCESS");
+        for (CategoryDto dto : categories) {
+            BuyerHistoryMap history = BuyerHistoryMap.create(dto, buyer, loginUser.getLoginUser());
+            buyer.getMaps().add(history);
+        }
+        for (Long adminId : createForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            BuyerManager buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
+            buyer.addManager(buyerManager);
+        }
         return buyerStore.store(buyer).getId();
     }
 
@@ -70,6 +91,91 @@ public class BuyerServiceImpl implements BuyerService {
     public Long update(BuyerForm updateForm, LoginUser loginUser) {
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
         buyer.update(updateForm, loginUser);
+
+        for (BuyerManager bm : buyer.getManagers()) {
+            boolean existsInManager = updateForm.getManagerIds().stream().anyMatch(id -> id.equals(bm.getAdmin().getId()));
+            if (!existsInManager) {
+                bm.delete();
+            }
+        }
+        for (Long adminId : updateForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            Optional<BuyerManager> findBuyerManager = buyerManagerService.getBuyerManager(buyer, manager);
+            BuyerManager buyerManager;
+            if (findBuyerManager.isPresent()) {
+                buyerManager = findBuyerManager.get();
+                buyerManager.update(buyer, manager, loginUser.getLoginUser());
+            } else {
+                buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
+                buyer.getManagers().add(buyerManager);
+            }
+        }
         return buyerStore.store(buyer).getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser) {
+        BuyerDetailDto dto = buyerReader.getBuyerDetail(buyerId);
+        dto.setPurposeNameStr(convertCdToNameStr(dto.getPurposeCds()));
+        dto.setLoanCharacterNames(convertCdToNameStr(dto.getLoanCharacterCds()));
+        dto.setPreferBuildingName(convertCdToNameStr(dto.getPreferBuildingCds()));
+        dto.setInvestmentTimingNames(convertCdToNameStr(dto.getInvestmentTimingCds()));
+        dto.setHistories(historyService.getHistoriesByBuyerId(buyerId));
+        return new BuyerModalDto(dto);
+    }
+
+    @Override
+    @Transactional
+    public List<HistoryListDto> createHistory(Long buyerId, HistoryForm createForm, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        BuyerHistory history = BuyerHistory.create(createForm, buyer, loginUser.getLoginUser());
+        buyer.addHistory(history);
+
+        for (BuyerHistoryMap map : buyer.getMaps()) {
+            if (createForm.getProcessName().equals(map.getProcessName())) {
+                map.increaseHistoryCnt();
+                break;
+            }
+        }
+
+        buyerStore.store(buyer);
+        return historyService.getHistoriesByBuyerId(buyerId);
+    }
+
+    @Override
+    @Transactional
+    public Long createHistoryMap(Long buyerId, HistoryMapForm createForm, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        BuyerHistoryMap historyMap = BuyerHistoryMap.createCustomMap(buyer, createForm, loginUser.getLoginUser());
+        buyer.getMaps().add(historyMap);
+        return buyerStore.store(buyer).getId();
+    }
+
+    private List<String> convertCdToNames(String code) {
+        if (!StringUtils.hasText(code)) {
+            return new ArrayList<>();
+        }
+        List<String> names = new ArrayList<>();
+        String[] arrays = code.split(",");
+        for (String str : arrays) {
+            names.add(categoryService.getCategoryNameByCode(str));
+        }
+        return names;
+    }
+
+    private String convertCdToNameStr(String code) {
+        if (!StringUtils.hasText(code)) {
+            return null;
+        }
+        StringBuilder names = new StringBuilder();
+        String[] arrays = code.split(",");
+        for (int i=0; i<arrays.length; i++) {
+            names.append(categoryService.getCategoryNameByCode(arrays[i]));
+            if (i < arrays.length-1) {
+                names.append(",");
+            }
+        }
+        return names.toString();
     }
 }

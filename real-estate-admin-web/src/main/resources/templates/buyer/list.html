@@ -5,6 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
     <style>
         .content * {
             font-size: 12px;
@@ -35,7 +36,7 @@
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매수자관리</h5>
                                 <div class="col-md-3 pull-right">
-                                    <a href="/buyer/new" class="btn btn-sm btn-primary float-right" style="text-decoration: none; color: #ffffff;"><i class="fa fa-plus"></i> 매수자등록</a>
+                                    <a href="/buyer/new" class="btn btn-sm btn-primary float-right" style="text-decoration: none; color: #ffffff;" target="_blank"><i class="fa fa-plus"></i> 매수자등록</a>
                                 </div>
                             </div>
                             <div class="col-md-12 form-group display-flex-row sub-line">
@@ -278,15 +279,24 @@
                                                 </div>
                                                 <div class="row margin-bottom-8">
                                                     <div class="col-md-10 no-left-padding">
-                                                        <th:block th:each="processCd : ${processCds}">
-                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8"
-                                                                    th:style="${item.processCds.contains(processCd.code)} ?
-                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${processCd.colorCode} :
-                                                                                'width: 150px; background-color: #eee;'">
-                                                                [[${processCd.name}]]
+                                                        <th:block th:each="map : ${item.maps}">
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                                    th:buyerId="${item.buyerId}" th:processCode="${map.processCds}" th:name="${map.processName}"
+                                                                    th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
+                                                                    th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}" th:requestDetail="${item.requestDetail}"
+                                                                    th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
+                                                                    th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:preferRoad="${item.preferRoad}"
+                                                                    th:createdAt="${#temporals.format(item.createdAt, 'YYYY-MM-dd')}"
+                                                                    th:style="${map.historyCnt > 0} ?
+                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${map.colorCode} :
+                                                                                'width: 150px; background-color: #eee;'"
+                                                            >
+                                                                [[${map.processName}]]
                                                             </button>
                                                         </th:block>
-                                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;">추가</button>
+                                                        <button class="btn btn-sm btn-default btnHistoryMapModal border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;"
+                                                                th:buyerId="${item.buyerId}" th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
+                                                        >추가</button>
                                                     </div>
                                                     <div class="col-md-2" style="position: relative;">
                                                         <span class="margin-top-8" style="width: 50%; font-size: 13px; padding-top: 3px; position: absolute;">
@@ -298,7 +308,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row" style="font-size: 12px;">
-                                                    <div class="col-md-9 no-left-padding display-flex-row">
+                                                    <div class="col-md-10 no-left-padding display-flex-row">
                                                         <div class="padding-right-15">
                                                             <label class="padding-right-5">고객명 : </label>[[${item.customerName}]]
                                                         </div>
@@ -340,13 +350,23 @@
                                                                 </th:block>
                                                             </div>
                                                         </th:block>
-                                                        <th:block th:if="${not #strings.isEmpty(item.moveYear) && not #strings.isEmpty(item.moveMonth)}">
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferArea)}">
                                                             <div class="padding-right-15">
-                                                                <label class="padding-right-5">입주시기 : </label>[[${item.moveYear}]]년 [[${item.moveMonth}]]월
+                                                                <label class="padding-right-5">선호지역 : </label>[[${item.preferArea}]]
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferSubway)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호지하철노선 : </label>[[${item.preferSubway}]]
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferRoad)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호도로 : </label>[[${item.preferRoad}]]
                                                             </div>
                                                         </th:block>
                                                     </div>
-                                                    <div class="col-md-3 right-align">
+                                                    <div class="col-md-2 right-align">
                                                         <label>시작일 : </label>[[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
                                                     </div>
                                                 </div>
@@ -374,9 +394,12 @@
             </div>
         </div>
     </section>
+    <div th:replace="layouts/utilFragments::historyModal"></div>
+    <div th:replace="layouts/utilFragments::historyMapModal"></div>
 </div>
 <section layout:fragment="script">
-    <script th:inline="javascript">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
+    <script th:inline="javascript" type="application/javascript">
     </script>
     <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_list.js}"></script>
 </section>

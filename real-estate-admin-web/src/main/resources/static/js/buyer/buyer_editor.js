@@ -2,7 +2,7 @@ let onReady = function() {
     if (checkNullOrEmptyValue(dto)) {
         setConvertDoubleToInt();
     }
-
+    minicolors();
 };
 
 let setConvertDoubleToInt = function() {
@@ -62,19 +62,6 @@ let drawUsageTypeButton = function(id, name) {
     return tags
 }
 
-let getUsageTypeCds = function() {
-    let usageTypeCds = "";
-    let $section = $('.usageTypeSection').find('.btnUsageCode');
-    $section.toArray().some(function(item, index, array) {
-        usageTypeCds += $(item).attr('usageTypeId');
-        if (index < array.length - 1) {
-            usageTypeCds += ",";
-        }
-    });
-
-    return usageTypeCds;
-}
-
 let save = function(e) {
     e.preventDefault();
 
@@ -92,6 +79,7 @@ let save = function(e) {
         return;
     }
 
+    params["managerIds"] = getManagerIds();
     params["buyerGradeCds"] = buyerGradeCds;
     params["purposeCds"] = extractCodeId($('.purposeSection'));
     params["loanCharacterCds"] = extractCodeId($('.loanCharacterSection'));
@@ -138,6 +126,7 @@ let update = function(e) {
         return;
     }
 
+    params["managerIds"] = getManagerIds();
     params["buyerGradeCds"] = buyerGradeCds;
     params["purposeCds"] = extractCodeId($('.purposeSection'));
     params["loanCharacterCds"] = extractCodeId($('.loanCharacterSection'));
@@ -298,10 +287,326 @@ let extractCodeId = function(section) {
     return extractCds;
 }
 
+let showHistoryModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyModal'),
+        buyerId = $(this).attr('buyerId'),
+        title = $(this).attr('title'),
+        name = $(this).attr('name'),
+        gradeName = $(this).attr('gradeName'),
+        customerName = $(this).attr('customerName'),
+        salePrice = $(this).attr('salePrice'),
+        preferArea = $(this).attr('preferArea'),
+        preferSubway = $(this).attr('preferSubway'),
+        preferRoad = $(this).attr('preferRoad'),
+        createdAt = $(this).attr('createdAt'),
+        landAreaPy = $(this).attr('landAreaPy'),
+        totalAreaPy = $(this).attr('totalAreaPy'),
+        exclusiveAreaPy = $(this).attr('exclusiveAreaPy'),
+        processCd = $(this).attr('processCode')
+    ;
+
+    $.ajax({
+        url: "/buyer/" + buyerId + "/history",
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let data = result.data,
+                detail = data.buyerDetail;
+
+            $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+            $modal.find('#processName').text('[' + name + ']');
+            $modal.find('.customerName').text(customerName);
+            $modal.find('.salePrice').text(salePrice);
+            $modal.find('.preferArea').text(preferArea);
+            $modal.find('.preferSubway').text(preferSubway);
+            $modal.find('.preferRoad').text(preferRoad);
+            $modal.find('.landAreaPy').text(landAreaPy);
+            $modal.find('.totalAreaPy').text(totalAreaPy);
+            $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+            $modal.find('.createdAt').text(createdAt);
+            $modal.find('input[name="processCds"]').val(processCd);
+            $modal.find('input[name="processName"]').val(name);
+
+            $modal.find('.purposeNameStr').text(detail.purposeNameStr);
+            $modal.find('.preferBuildingNameStr').text(detail.preferBuildingNameStr);
+            $modal.find('.investmentTimingNameStr').text(detail.investmentTimingNameStr);
+            $modal.find('.loanCharacterNameStr').text(detail.loanCharacterNameStr);
+            $modal.find('.requestDetail').text(detail.requestDetail);
+            $modal.find('input[name="buyerId"]').val(detail.buyerId);
+            if (detail.histories.length > 0) {
+                $modal.find('.historyTable tbody').html(drawHistoryTable(detail.histories));
+            } else {
+                $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
+            }
+            $modal.modal('show');
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+
+}
+
+let drawHistoryTable = function(histories) {
+    let tag = '';
+    $.each(histories, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td>' + item.processName + '</td>';
+        tag += '<td style="white-space: normal;">' + item.memo + '</td>';
+        tag += '<td>' + item.createdByName + '</td>';
+        tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    })
+    return tag;
+}
+
+let drawEmptyHistoryTable = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td colSpan="4" class="text-alien-center">';
+    tag += '등록된 메모가 없습니다.';
+    tag += '</td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let addHistory = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyModal'),
+        buyerId = $modal.find('input[name="buyerId"]').val(),
+        processCd = $modal.find('input[name="processCds"]').val(),
+        processName = $modal.find('input[name="processName"]').val(),
+        memo = $modal.find('textarea[name="memo"]').val();
+
+    if (!checkNullOrEmptyValue(memo)) {
+        twoBtnModal("메모를 입력해주세요.");
+        return;
+    }
+
+    let params = {
+        "processCds" : convertNullOrEmptyValue(processCd),
+        "processName" : processName,
+        "memo" : memo
+    }
+
+    console.log("buyerId : ",  buyerId);
+    console.log("params : ", params);
+
+    twoBtnModal("저장하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/history",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    let tag = drawHistoryTable(result.data);
+                    $modal.find('.historyTable tbody').html(tag);
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let showHistoryMapModal = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyMapModal'),
+        buyerId = $(this).attr('buyerId'),
+        title = $(this).attr('title'),
+        gradeName = $(this).attr('gradeName')
+    ;
+
+    $('#colorCode').val('');
+    $('.minicolors-swatch-color').css('background-color', '');
+
+    $modal.find('.modal-title').text('[' + gradeName + '] ' + title);
+    $modal.find('input[name="buyerId"]').val(buyerId);
+    $modal.modal('show');
+}
+
+let minicolors = function() {
+    $('.color-code').minicolors({
+        control: $(this).attr('data-control') || 'hue',
+        defaultValue: $(this).attr('data-defaultValue') || '',
+        format: $(this).attr('data-format') || 'hex',
+        keywords: $(this).attr('data-keywords') || '',
+        inline: $(this).attr('data-inline') === 'true',
+        letterCase: $(this).attr('data-letterCase') || 'lowercase',
+        opacity: $(this).attr('data-opacity'),
+        position: $(this).attr('data-position') || 'bottom',
+        swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+        change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+                console.log(value);
+            }
+        },
+        theme: 'bootstrap'
+    });
+}
+
+let addHistoryMap = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#historyMapModal'),
+        buyerId = $modal.find('input[name="buyerId"]').val(),
+        processName = $modal.find('input[name="processName"]').val(),
+        colorCode = $modal.find('input[name="colorCode"]').val(),
+        sortOrder = $modal.find('input[name="sortOrder"]').val();
+
+    if (!checkNullOrEmptyValue(processName)) {
+        twoBtnModal("단계이름을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(colorCode)) {
+        twoBtnModal("색상코드를 입력해주세요.");
+        return;
+    }
+
+    let params = {
+        "colorCode" : colorCode,
+        "processName" : processName,
+        "sortOrder" : sortOrder
+    }
+
+    console.log("params : ", params);
+
+    twoBtnModal("저장하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/history-map",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                console.log("save result : ", result);
+                twoBtnModal('정상적으로 저장되었습니다.', function() {
+                    location.href = '/buyer/' + result.data + '/edit';
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
+let loadTeamMember = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        teamId = $this.val();
+
+    $.ajax({
+        url: "/administrators/team/" + teamId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let adminList = result.data;
+            let tag = drawAdministrators(adminList);
+            $('.adminList').html(tag);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawAdministrators = function(adminList) {
+    let tag = '';
+    tag += '<option value="">선택해주세요.</option>';
+    $.each(adminList, function(idx, admin) {
+        tag += '<option value="' + admin.username + '" adminName="' + admin.name + '" adminId="' + admin.adminId + '">' + admin.name + '</option>';
+    });
+    return tag;
+}
+
+let drawManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        username = $this.val(),
+        name = $this.find('option:selected').attr('adminName'),
+        adminId = parseInt($this.find('option:selected').attr('adminId'))
+    ;
+
+    console.log(adminId);
+
+    if (!checkNullOrEmptyValue(adminId) || isNaN(adminId)) {
+       return;
+    }
+
+    let isExist = false;
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        console.log(adminId, id);
+        if (id === adminId) {
+            isExist = true;
+            return;
+        }
+    });
+    if (isExist) {
+        return;
+    }
+
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    $('.managerSection').append(tag);
+}
+
+let getManagerIds = function() {
+    let managerIds = [];
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        managerIds.push(id);
+    });
+    return managerIds;
+}
+
+let removeManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        adminId = parseInt($this.attr('adminId')),
+        createdById = parseInt(dto.createdByAdminId)
+    ;
+
+    if (adminId === createdById) {
+        return;
+    }
+
+
+    twoBtnModal("담당자를 해제하시겠습니까?", function () {
+        $this.remove();
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
     .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
     .on('click', '.btnSave', save)
     .on('click', '.btnUpdate', update)
     .on('change', '#usageType', addUsageType)
+    .on('click', '.btnHistoryModal', showHistoryModal)
+    .on('click', '.btnHistoryAdd', addHistory)
+    .on('click', '.btnHistoryMapModal', showHistoryMapModal)
+    .on('click', '.btnHistoryMapAdd', addHistoryMap)
+    .on('change', '.teamList', loadTeamMember)
+    .on('change', '.adminList', drawManager)
+    .on('click', '.btnManagerRemove', removeManager)
 ;

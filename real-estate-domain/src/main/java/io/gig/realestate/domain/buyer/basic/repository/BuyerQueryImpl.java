@@ -1,12 +1,11 @@
 package io.gig.realestate.domain.buyer.basic.repository;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.buyer.basic.Buyer;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.buyer.basic.BuyerReader;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.detail.dto.ProcessDetailDto;
 import io.gig.realestate.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,8 +26,8 @@ public class BuyerQueryImpl implements BuyerReader {
     private final BuyerQueryRepository queryRepository;
 
     @Override
-    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition) {
-        return queryRepository.getBuyerPageListBySearch(condition);
+    public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, Administrator loginUser) {
+        return queryRepository.getBuyerPageListBySearch(condition, loginUser);
     }
 
     @Override

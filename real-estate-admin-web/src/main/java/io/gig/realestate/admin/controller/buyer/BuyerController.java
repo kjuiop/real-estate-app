@@ -1,14 +1,14 @@
 package io.gig.realestate.admin.controller.buyer;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.buyer.basic.BuyerService;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
-import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
-import io.gig.realestate.domain.buyer.detail.BuyerDetailService;
+import io.gig.realestate.domain.buyer.basic.dto.*;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
+import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -34,10 +35,11 @@ public class BuyerController {
     private final CategoryService categoryService;
     private final BuyerService buyerService;
     private final TeamService teamService;
+    private final AdministratorService administratorService;
 
     @GetMapping
-    public String index(BuyerSearchDto condition, Model model) {
-        Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition);
+    public String index(BuyerSearchDto condition, @CurrentUser LoginUser loginUser, Model model) {
+        Page<BuyerListDto> pages = buyerService.getBuyerPageListBySearch(condition, loginUser);
         model.addAttribute("totalCount", pages.getTotalElements());
         model.addAttribute("pages", pages);
         model.addAttribute("condition", condition);
@@ -49,27 +51,36 @@ public class BuyerController {
     }
 
     @GetMapping("new")
-    public String register(Model model) {
+    public String register(Model model, @CurrentUser LoginUser loginUser) {
         model.addAttribute("dto", BuyerDetailDto.emptyDto());
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
         model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
         model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         return "buyer/editor";
     }
 
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
+                           @CurrentUser LoginUser loginUser,
                            Model model) {
         model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));
         model.addAttribute("purposeCds", categoryService.getChildrenCategoryDtosByCode("CD_PURPOSE"));
         model.addAttribute("loanCharacterCds", categoryService.getChildrenCategoryDtosByCode("CD_LOAN_CHARACTER"));
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
+        model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
+        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         return "buyer/editor";
     }
 
@@ -87,5 +98,31 @@ public class BuyerController {
                                               @CurrentUser LoginUser loginUser) {
         Long id = buyerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
+    }
+
+    @GetMapping("{buyerId}/history")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getBuyerDetailModal(@PathVariable(name = "buyerId") Long buyerId,
+                                                           @CurrentUser LoginUser loginUser) {
+        BuyerModalDto dto = buyerService.getBuyerDetailModal(buyerId, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
+    @PostMapping("{buyerId}/history")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> historyCreate(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody HistoryForm createForm,
+                                                           @CurrentUser LoginUser loginUser) {
+        List<HistoryListDto> histories = buyerService.createHistory(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(histories), HttpStatus.OK);
+    }
+
+    @PostMapping("{buyerId}/history-map")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> historyMapCreate(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody HistoryMapForm createForm,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long savedId = buyerService.createHistoryMap(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
     }
 }

@@ -4,12 +4,19 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
+import io.gig.realestate.domain.buyer.history.BuyerHistory;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
+import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author : JAKE
@@ -87,6 +94,18 @@ public class Buyer extends BaseTimeEntity {
 
     private String requestDetail;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerHistory> histories = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerHistoryMap> maps = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<BuyerManager> managers = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -94,6 +113,14 @@ public class Buyer extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    public void addHistory(BuyerHistory history) {
+        this.histories.add(history);
+    }
+
+    public void addManager(BuyerManager manager) {
+        this.managers.add(manager);
+    }
 
     public static Buyer create(BuyerForm createForm, Administrator loginUser) {
         return Buyer.builder()

@@ -2,6 +2,7 @@ package io.gig.realestate.admin.controller.administrator;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -36,6 +38,15 @@ public class AdministratorController {
     public ResponseEntity<ApiResponse> signUp(@Valid @RequestBody AdministratorSignUpForm signUpForm) {
         Long adminId = administratorService.signUp(signUpForm);
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
+    }
+
+    @GetMapping("team/{teamId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getAdminListByTeamId(
+            @PathVariable(value = "teamId") Long teamId) {
+
+        List<AdministratorListDto> data = administratorService.getAdminListByTeamId(teamId);
+        return new ResponseEntity<>(ApiResponse.OK(data), HttpStatus.OK);
     }
 
 }

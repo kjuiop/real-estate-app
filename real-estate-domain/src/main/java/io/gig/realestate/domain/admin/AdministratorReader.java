@@ -42,4 +42,6 @@ public interface AdministratorReader {
     Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId);
 
     Optional<Administrator> getAdminOptional(String username);
+
+    Administrator getAdminById(Long adminId);
 }

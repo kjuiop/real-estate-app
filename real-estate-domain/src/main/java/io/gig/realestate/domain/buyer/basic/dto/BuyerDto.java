@@ -2,7 +2,6 @@ package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
-import io.gig.realestate.domain.buyer.detail.BuyerDetail;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
