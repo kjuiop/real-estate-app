@@ -334,6 +334,10 @@ let addHistoryMap = function(e) {
     });
 }
 
+let showSearchRealEstateModal = function(e) {
+    e.preventDefault();
+}
+
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
@@ -345,4 +349,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryAdd', addHistory)
     .on('click', '.btnHistoryMapModal', showHistoryMapModal)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
+    .on('click', '.btnSearchRealEstate', showSearchRealEstateModal)
 ;
