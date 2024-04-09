@@ -75,6 +75,18 @@ public class RealEstateQueryRepository {
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
 
+    public List<RealEstateListDto> getRealEstateByAddress(String address) {
+        return this.queryFactory
+                .selectDistinct(Projections.constructor(RealEstateListDto.class,
+                            realEstate))
+                .from(realEstate)
+                .where(defaultCondition())
+                .where(likeAddress(address))
+                .orderBy(realEstate.id.desc())
+                .fetch()
+                ;
+    }
+
     public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
 
         BooleanBuilder where = getSearchCondition(searchDto);
@@ -457,6 +469,10 @@ public class RealEstateQueryRepository {
         }
 
         return abYn == YnType.Y ? realEstate.abYn.eq(YnType.Y) : realEstate.abYn.eq(YnType.N) ;
+    }
+
+    private BooleanExpression likeAddress(String address) {
+        return StringUtils.hasText(address) ? realEstate.address.like("%" + address + "%") : null;
     }
 
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {

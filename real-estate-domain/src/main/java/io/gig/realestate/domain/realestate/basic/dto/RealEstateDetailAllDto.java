@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
  */
 @SuperBuilder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class RealEstateDetailAllDto extends RealEstateDto {
 
     private static final RealEstateDetailAllDto EMPTY;

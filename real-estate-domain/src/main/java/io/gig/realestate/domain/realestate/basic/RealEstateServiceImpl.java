@@ -95,6 +95,12 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<RealEstateListDto> getRealEstateByAddress(String address, LoginUser loginUser) {
+        return realEstateReader.getRealEstateByAddress(address);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public RealEstateDetailDto getDetail(String sessionId, Long realEstateId) {
         RealEstateDetailDto detail = realEstateReader.getRealEstateDetail(realEstateId);
         List<Long> searchIds = searchIdsMap.get(sessionId);

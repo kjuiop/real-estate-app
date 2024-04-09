@@ -23,6 +23,7 @@ public class RealEstateListDto extends RealEstateDto {
     public double lndpclArByPyung;
     public double totAreaByPyung;
     public double archAreaByPyung;
+    public Long realEstateId;
 
     public RealEstateListDto(RealEstate r) {
         super(r);

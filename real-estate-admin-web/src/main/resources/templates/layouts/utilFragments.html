@@ -381,7 +381,7 @@
                             <span class="col-md-10 requestDetail"></span>
                         </div>
                     </div>
-                    <div class="col-md-12 no-left-padding display-flex-row margin-bottom-5">
+                    <div class="col-md-12 no-left-padding display-flex-row margin-bottom-5 no-right-padding">
                         <div class="col-md-9 no-left-padding">
                             <label id="processName" style="margin-bottom: 0; padding-top: 3px;"></label>
                             <input type="hidden" name="processCds" />
@@ -486,37 +486,32 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px;">
+                <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 700px;">
                     <div class="col-md-12 no-left-padding">
                         <label class="text-label">주소 검색</label>
                     </div>
                     <div class="col-md-12 no-left-padding display-flex-row margin-bottom-20">
-                        <input type="text" class="form-control form-control-sm col-sm-11" name="search" />
+                        <input type="text" class="form-control form-control-sm col-sm-11" name="address" />
                         <button type="button" class="btn btn-sm btn-default btnSearch col-sm-1" style="margin-left: 5px;">검색</button>
                     </div>
-                    <table class="table table-striped font-size-12 line">
-                        <thead style="position: sticky; top:0; background-color: #ffffff;">
-                        <tr>
-                            <th style="width: 10%;">매물번호</th>
-                            <th style="width: 15%;">매매가</th>
-                            <th style="width: 40%;">주소</th>
-                            <th style="width: 20%;">담당자</th>
-                            <th style="width: 15%;">등록일</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="text-alien-center">
-                                <input type="checkbox" class="checkElement" name="approveStatus">
-                            </td>
-                            <td>1200억</td>
-                            <td>경기도 성남시 수정구 탄리로 79-1</td>
-                            <td>김정인</td>
-                            <td>2024-03-02</td>
-<!--                            <td class="text-alien-center" colspan="5">검색된 매물이 없습니다.</td>-->
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="line" style="max-height: 500px; white-space: nowrap; overflow: auto;">
+                        <table class="table table-striped searchTable font-size-12 line">
+                            <thead style="position: sticky; top:0; background-color: #ffffff;">
+                            <tr>
+                                <th style="width: 10%;">매물번호</th>
+                                <th style="width: 15%;">매매가</th>
+                                <th style="width: 40%;">주소</th>
+                                <th style="width: 20%;">담당자</th>
+                                <th style="width: 15%;">등록일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-alien-center" colspan="5">검색된 매물이 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="form-horizontal line">
                         <button type="button" class="btn btn-sm btn-primary btnApply pull-right">연동</button>
                     </div>

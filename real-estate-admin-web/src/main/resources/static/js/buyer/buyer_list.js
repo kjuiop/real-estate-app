@@ -334,8 +334,49 @@ let addHistoryMap = function(e) {
     });
 }
 
-let showSearchRealEstateModal = function(e) {
+let searchRealEstate = function(e) {
     e.preventDefault();
+
+    let $modal = $('#searchRealEstateModal'),
+        address = $modal.find('input[name="address"]').val(),
+        $tbody = $modal.find('.searchTable').find('tbody');
+
+    if (!checkNullOrEmptyValue(address)) {
+        twoBtnModal("주소를 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/address/" + address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let tag = drawRealEstateTable(result.data);
+            $tbody.html(tag);
+            initICheck();
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawRealEstateTable = function(list) {
+    let tag = '';
+    $.each(list, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="text-alien-center">';
+        tag += '<input type="checkbox" class="checkElement" name="realEstateId" value="' + item.realEstateId + '">';
+        tag += '</td>';
+        tag += '<td>' + item.salePrice + '억</td>';
+        tag += '<td>' + item.address + '</td>';
+        tag += '<td>' + item.managerName + '</td>';
+        tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    });
+    return tag;
 }
 
 $(document).ready(onReady)
@@ -349,5 +390,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryAdd', addHistory)
     .on('click', '.btnHistoryMapModal', showHistoryMapModal)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
-    .on('click', '.btnSearchRealEstate', showSearchRealEstateModal)
+    .on('click', '.btnSearch', searchRealEstate)
 ;
