@@ -413,6 +413,8 @@ let applyRealEstate = function(e) {
     });
     $('#historyModal').find('.realEstateTable tbody').html(tag);
     $modal.find('.btnClose').trigger('click');
+    $modal.find('input[name="address"]').val('');
+    $tbody.html(drawEmptyTableBodyRealSearchModal());
 }
 
 let drawSelectedItem = function(realEstate) {
@@ -425,6 +427,14 @@ let drawSelectedItem = function(realEstate) {
     tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
     tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.managerName + '</td>';
     tag += '<td class="text-alien-center" style="width:10%;"><button type="button" class="btn btn-xs btn-danger btnRemove">삭제</button></td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let drawEmptyTableBodyRealSearchModal = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '    <td class="text-alien-center" colSpan="7">검색된 매물이 없습니다.</td>';
     tag += '</tr>';
     return tag;
 }
