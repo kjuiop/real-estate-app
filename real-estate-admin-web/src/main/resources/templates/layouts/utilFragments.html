@@ -396,17 +396,22 @@
                         <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
                     </div>
                     <div class="form-horizontal" style="max-height: 500px; max-width: 950px;">
-                        <table class="realEstateTable table table-striped font-size-12">
-<!--                            <thead style="position: sticky; top:0; background-color: #ffffff;">-->
-<!--                            <tr>-->
-<!--                                <th style="width: 10%;">매물번호</th>-->
-<!--                                <th style="width: 40%;">주소</th>-->
-<!--                                <th style="width: 20%;">매매가</th>-->
-<!--                                <th style="width: 15%;">담당자</th>-->
-<!--                                <th style="width: 15%;">등록일</th>-->
-<!--                            </tr>-->
-<!--                            </thead>-->
+                        <table class="realEstateTable table table-striped table-sm font-size-12">
+                            <thead style="position: sticky; top:0; background-color: #ffffff;">
+                            <tr>
+                                <th class="text-alien-center" style="width: 30%;">주소</th>
+                                <th class="text-alien-center" style="width: 15%;">매매가</th>
+                                <th class="text-alien-center" style="width: 10%;">대지면적</th>
+                                <th class="text-alien-center" style="width: 10%;">연면적</th>
+                                <th class="text-alien-center" style="width: 10%;">건축면적</th>
+                                <th class="text-alien-center" style="width: 15%;">담당자</th>
+                                <th class="text-alien-center" style="width: 10%;">&nbsp;</th>
+                            </tr>
+                            </thead>
                             <tbody>
+                            <tr>
+                                <td class="text-alien-center" colspan="8">연동된 매물이 없습니다.</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -483,7 +488,7 @@
             <div class="modal-content" style="width: 700px;">
                 <div class="modal-header">
                     <h5 class="modal-title control-label" style="font-weight: bold;">매물 검색</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 700px;">
@@ -500,14 +505,16 @@
                             <tr>
                                 <th style="width: 10%;">매물번호</th>
                                 <th style="width: 15%;">매매가</th>
-                                <th style="width: 40%;">주소</th>
+                                <th style="width: 30%;">주소</th>
+                                <th style="width: 9%;">대지면적</th>
+                                <th style="width: 8%;">연면적</th>
+                                <th style="width: 8%;">건축면적</th>
                                 <th style="width: 20%;">담당자</th>
-                                <th style="width: 15%;">등록일</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-alien-center" colspan="5">검색된 매물이 없습니다.</td>
+                                <td class="text-alien-center" colspan="7">검색된 매물이 없습니다.</td>
                             </tr>
                             </tbody>
                         </table>
