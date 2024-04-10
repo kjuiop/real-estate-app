@@ -198,10 +198,18 @@ let addHistory = function(e) {
         return;
     }
 
+    let realEstateIds = [];
+    $modal.find('.realEstateTable tr').each(function(idx, item) {
+        let realEstateId = $(item).find('.realEstateId').attr('realEstateId');
+        realEstateIds.push(realEstateId);
+    })
+
+
     let params = {
         "processCds" : convertNullOrEmptyValue(processCd),
         "processName" : processName,
-        "memo" : memo
+        "memo" : memo,
+        "realEstateIds" : realEstateIds
     }
 
     console.log("buyerId : ",  buyerId);
@@ -420,7 +428,7 @@ let applyRealEstate = function(e) {
 let drawSelectedItem = function(realEstate) {
     let tag = '';
     tag += '<tr>';
-    tag += '<td class="text-alien-center" style="width:30%;">' + realEstate.address + '</td>';
+    tag += '<td class="text-alien-center realEstateId" realEstateId="' + realEstate.realEstateId + '" style="width:30%;">' + realEstate.address + '</td>';
     tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.salePrice + '억원</td>';
     tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
     tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';

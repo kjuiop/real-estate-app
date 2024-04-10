@@ -3,6 +3,8 @@ package io.gig.realestate.domain.buyer.history.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2024/04/03
@@ -16,4 +18,6 @@ public class HistoryForm {
     private String processCds;
 
     private String processName;
+
+    private List<Long> realEstateIds;
 }

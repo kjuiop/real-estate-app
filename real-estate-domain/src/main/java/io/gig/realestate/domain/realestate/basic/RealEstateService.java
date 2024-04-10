@@ -46,4 +46,6 @@ public interface RealEstateService {
     List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition);
 
     List<RealEstateListDto> getRealEstateByAddress(String address, LoginUser loginUser);
+
+    RealEstate getRealEstateById(Long realEstateId);
 }
