@@ -19,14 +19,22 @@ public class HistoryRealEstateDto {
     private double totAreaByPyung;
     private double archAreaByPyung;
     private String managerName;
+    private Long realEstateId;
 
     public HistoryRealEstateDto(HistoryRealEstate hr) {
         this.historyRealEstateId = hr.getId();
         this.address = hr.getRealEstate().getAddress();
-        this.salePrice = hr.getRealEstate().getPriceInfoList().get(0).getSalePrice();
-        this.lndpclArByPyung = hr.getRealEstate().getLandInfoList().get(0).getLndpclArByPyung();
-        this.totAreaByPyung = hr.getRealEstate().getConstructInfoList().get(0).getTotAreaByPyung();
-        this.archAreaByPyung = hr.getRealEstate().getConstructInfoList().get(0).getArchAreaByPyung();
+        if (hr.getRealEstate().getPriceInfoList().size() > 0) {
+            this.salePrice = hr.getRealEstate().getPriceInfoList().get(0).getSalePrice();
+        }
+        if (hr.getRealEstate().getLandInfoList().size() > 0) {
+            this.lndpclArByPyung = hr.getRealEstate().getLandInfoList().get(0).getLndpclArByPyung();
+        }
+        if (hr.getRealEstate().getConstructInfoList().size() > 0) {
+            this.totAreaByPyung = hr.getRealEstate().getConstructInfoList().get(0).getTotAreaByPyung();
+            this.archAreaByPyung = hr.getRealEstate().getConstructInfoList().get(0).getArchAreaByPyung();
+        }
         this.managerName = hr.getRealEstate().getCreatedBy().getName();
+        this.realEstateId = hr.getRealEstate().getId();
     }
 }

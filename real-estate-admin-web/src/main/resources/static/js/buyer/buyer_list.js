@@ -1,3 +1,5 @@
+const historyRealEstateMap = new Map();
+
 let onReady = function() {
     initDate();
     minicolors();
@@ -177,7 +179,7 @@ let showHistoryModal = function(e) {
 let drawEmptyHistoryTable = function() {
     let tag = '';
     tag += '<tr>';
-    tag += '<td colSpan="4" class="text-alien-center">';
+    tag += '<td colSpan="5" class="text-alien-center">';
     tag += '등록된 메모가 없습니다.';
     tag += '</td>';
     tag += '</tr>';
@@ -251,7 +253,11 @@ let drawHistoryTable = function(histories) {
         tag += '<td style="white-space: normal;">' + item.memo + '</td>';
         tag += '<td>' + item.createdByName + '</td>';
         tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '<td>';
+        tag += '<button class="btn btn-xs btn-default btnRealEstateList" historyId="' + item.historyId + '" data-toggle="modal" data-target="#realEstateListModal">매물정보</button>';
+        tag += '</td>';
         tag += '</tr>';
+        historyRealEstateMap.set(item.historyId.toString(), item.realEstateList);
     })
     return tag;
 }
@@ -379,7 +385,7 @@ let drawRealEstateTable = function(list) {
         tag += '<input type="checkbox" class="checkElement" name="realEstateId" value="' + item.realEstateId + '">';
         tag += '</td>';
         tag += '<td class="salePrice" salePrice="' + item.salePrice + '">' + item.salePrice + '억</td>';
-        tag += '<td class="address" address="' + item.address + '">' + item.address + '</td>';
+        tag += '<td class="address" address="' + item.address + '"><a href="/real-estate/' + item.realEstateId + '/edit" target="_blank">' + item.address + '</a></td>';
         tag += '<td class="lndpclArByPyung">' + item.lndpclArByPyung.toFixed(2) + '평';
         tag += '<input type="hidden" name="lndpclArByPyung" value="' + item.lndpclArByPyung.toFixed(2) + '" />';
         tag += '</td>';
@@ -428,11 +434,11 @@ let applyRealEstate = function(e) {
 let drawSelectedItem = function(realEstate) {
     let tag = '';
     tag += '<tr>';
-    tag += '<td class="text-alien-center realEstateId" realEstateId="' + realEstate.realEstateId + '" style="width:30%;">' + realEstate.address + '</td>';
+    tag += '<td class="text-alien-center realEstateId" realEstateId="' + realEstate.realEstateId + '" style="width:30%;"><a href="/real-estate/' + realEstate.realEstateId + '/edit" target="_blank">' + realEstate.address + '</a></td>';
     tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.salePrice + '억원</td>';
     tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
-    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
-    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
+    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.totAreaByPyung + '평</td>';
+    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.archAreaByPyung + '평</td>';
     tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.managerName + '</td>';
     tag += '<td class="text-alien-center" style="width:10%;"><button type="button" class="btn btn-xs btn-danger btnRemove">삭제</button></td>';
     tag += '</tr>';
@@ -444,6 +450,44 @@ let drawEmptyTableBodyRealSearchModal = function() {
     tag += '<tr>';
     tag += '    <td class="text-alien-center" colSpan="7">검색된 매물이 없습니다.</td>';
     tag += '</tr>';
+    return tag;
+}
+
+let initRealEstateModal = function(e) {
+    e.preventDefault();
+
+    let historyId = $(this).attr('historyId'),
+        $modal = $('#realEstateListModal'),
+        $tbody = $modal.find('.searchTable tbody')
+    ;
+
+    console.log("historyRealEstateMap", historyRealEstateMap);
+    console.log("historyRealEstateMap", historyRealEstateMap.get(historyId.toString()));
+
+    let tag = drawDetailRealEstateTable(historyRealEstateMap.get(historyId));
+    $tbody.html(tag);
+}
+
+let drawDetailRealEstateTable = function(list) {
+    let tag = '';
+    $.each(list, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="text-alien-center">' + item.realEstateId + '</td>';
+        tag += '<td class="salePrice" salePrice="' + item.salePrice + '">' + item.salePrice + '억</td>';
+        tag += '<td class="address" address="' + item.address + '"><a href="/real-estate/' + item.realEstateId + '/edit" target="_blank">' + item.address + '</a></td>';
+        tag += '<td class="lndpclArByPyung">' + item.lndpclArByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="lndpclArByPyung" value="' + item.lndpclArByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="totAreaByPyung">' + item.totAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="totAreaByPyung" value="' + item.totAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="archAreaByPyung">' + item.archAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="archAreaByPyung" value="' + item.archAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="managerName" managerName="' + item.managerName + '">' + item.managerName + '</td>';
+        // tag += '<td class="createdAt" createdAt="' + moment(item.createdAt).format("YYYY-MM-DD") + '">' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    });
     return tag;
 }
 
@@ -460,4 +504,5 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
     .on('click', '.btnSearch', searchRealEstate)
     .on('click', '.btnApply', applyRealEstate)
+    .on('click', '.btnRealEstateList', initRealEstateModal)
 ;
