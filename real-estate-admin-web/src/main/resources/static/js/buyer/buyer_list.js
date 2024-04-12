@@ -166,6 +166,10 @@ let showHistoryModal = function(e) {
             } else {
                 $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
             }
+
+            $modal.find('textarea[name="memo"]').val('');
+            $modal.find('.realEstateTable tbody').html(drawEmptyTableBody());
+
             $modal.modal('show');
         },
         error: function(error){
@@ -182,6 +186,14 @@ let drawEmptyHistoryTable = function() {
     tag += '<td colSpan="5" class="text-alien-center">';
     tag += '등록된 메모가 없습니다.';
     tag += '</td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let drawEmptyTableBody = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '    <td class="text-alien-center" colSpan="7">연동된 매물이 없습니다.</td>';
     tag += '</tr>';
     return tag;
 }
