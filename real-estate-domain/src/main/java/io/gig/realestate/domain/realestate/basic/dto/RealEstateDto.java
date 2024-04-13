@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
  */
 @SuperBuilder
 @Getter
-@NoArgsConstructor
 public class RealEstateDto {
 
     private Long realEstateId;

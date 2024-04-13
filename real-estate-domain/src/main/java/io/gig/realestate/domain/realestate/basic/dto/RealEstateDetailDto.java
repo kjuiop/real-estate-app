@@ -24,8 +24,6 @@ import java.util.Set;
  */
 @SuperBuilder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class RealEstateDetailDto extends RealEstateDto {
 
     private static final RealEstateDetailDto EMPTY;

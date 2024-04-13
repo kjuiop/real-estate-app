@@ -92,7 +92,7 @@ public class BuyerController {
         return new ResponseEntity<>(ApiResponse.OK(buyerId), HttpStatus.OK);
     }
 
-    @PutMapping()
+    @PutMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> update(@Valid @RequestBody BuyerForm updateForm,
                                               @CurrentUser LoginUser loginUser) {

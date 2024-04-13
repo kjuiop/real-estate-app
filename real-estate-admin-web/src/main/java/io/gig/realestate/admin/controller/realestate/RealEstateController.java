@@ -231,4 +231,12 @@ public class RealEstateController {
         return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
     }
 
+    @GetMapping("address/{address}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getRealEstateByAddress(@PathVariable(name = "address") String address,
+                                                      @CurrentUser LoginUser loginUser) {
+        List<RealEstateListDto> result = realEstateService.getRealEstateByAddress(address, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(result), HttpStatus.OK);
+    }
+
 }

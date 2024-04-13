@@ -95,6 +95,12 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<RealEstateListDto> getRealEstateByAddress(String address, LoginUser loginUser) {
+        return realEstateReader.getRealEstateByAddress(address);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public RealEstateDetailDto getDetail(String sessionId, Long realEstateId) {
         RealEstateDetailDto detail = realEstateReader.getRealEstateDetail(realEstateId);
         List<Long> searchIds = searchIdsMap.get(sessionId);
@@ -753,6 +759,12 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional(readOnly = true)
     public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
         return realEstateReader.getCoordinateList(condition);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RealEstate getRealEstateById(Long realEstateId) {
+        return realEstateReader.getRealEstateById(realEstateId);
     }
 
     private String generateUniqueIdentifier(String uuid, String uploadTime) {

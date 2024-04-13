@@ -39,6 +39,11 @@ public class RealEstateQueryImpl implements RealEstateReader {
     }
 
     @Override
+    public List<RealEstateListDto> getRealEstateByAddress(String address) {
+        return queryRepository.getRealEstateByAddress(address);
+    }
+
+    @Override
     public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
         return queryRepository.getRealEstatePageListBySearch(searchDto);
     }
