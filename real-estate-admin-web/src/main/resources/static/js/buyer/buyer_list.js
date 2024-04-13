@@ -148,9 +148,9 @@ let showHistoryModal = function(e) {
             $modal.find('.preferArea').text(preferArea);
             $modal.find('.preferSubway').text(preferSubway);
             $modal.find('.preferRoad').text(preferRoad);
-            $modal.find('.landAreaPy').text(landAreaPy);
-            $modal.find('.totalAreaPy').text(totalAreaPy);
-            $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+            $modal.find('.landAreaPy').text(convertDoubleValue(landAreaPy));
+            $modal.find('.totalAreaPy').text(convertDoubleValue(totalAreaPy));
+            $modal.find('.exclusiveAreaPy').text(convertDoubleValue(exclusiveAreaPy));
             $modal.find('.createdAt').text(createdAt);
             $modal.find('input[name="processCds"]').val(processCd);
             $modal.find('input[name="processName"]').val(name);
@@ -166,10 +166,7 @@ let showHistoryModal = function(e) {
             } else {
                 $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
             }
-
-            $modal.find('textarea[name="memo"]').val('');
-            $modal.find('.realEstateTable tbody').html(drawEmptyTableBody());
-
+            initHistoryModal();
             $modal.modal('show');
         },
         error: function(error){
@@ -178,6 +175,12 @@ let showHistoryModal = function(e) {
     });
 
 
+}
+
+let initHistoryModal = function() {
+    let $modal = $('#historyModal');
+    $modal.find('textarea[name="memo"]').val('');
+    $modal.find('.realEstateTable tbody').html(drawEmptyTableBody());
 }
 
 let drawEmptyHistoryTable = function() {
@@ -213,10 +216,12 @@ let addHistory = function(e) {
     }
 
     let realEstateIds = [];
-    $modal.find('.realEstateTable tr').each(function(idx, item) {
+    $modal.find('.realEstateTable tbody tr').each(function(idx, item) {
         let realEstateId = $(item).find('.realEstateId').attr('realEstateId');
-        realEstateIds.push(realEstateId);
-    })
+        if (checkNullOrEmptyValue(realEstateId)) {
+            realEstateIds.push(realEstateId);
+        }
+    });
 
 
     let params = {
@@ -241,6 +246,7 @@ let addHistory = function(e) {
                 twoBtnModal('정상적으로 저장되었습니다.', function() {
                     let tag = drawHistoryTable(result.data);
                     $modal.find('.historyTable tbody').html(tag);
+                    initHistoryModal();
                 });
             },
             error:function(error){
@@ -251,6 +257,7 @@ let addHistory = function(e) {
 }
 
 let convertDoubleValue = function(doubleValue) {
+    doubleValue = parseInt(doubleValue);
     if (doubleValue % 1 === 0) {
         return doubleValue.toFixed(0);
     }
@@ -379,9 +386,18 @@ let searchRealEstate = function(e) {
         contentType: "application/json",
         success: function(result) {
             console.log("result", result);
-            let tag = drawRealEstateTable(result.data);
+            let tag = '';
+            if (result.data.length > 0) {
+                tag = drawRealEstateTable(result.data);
+                $tbody.html(tag);
+                $modal.find('input[name="address"]').val('');
+            } else {
+                tag = drawEmptyTableBodyRealSearchModal();
+                $tbody.html(tag);
+            }
             $tbody.html(tag);
             initICheck();
+
         },
         error: function(error){
             ajaxErrorFieldByText(error);
@@ -473,10 +489,12 @@ let initRealEstateModal = function(e) {
         $tbody = $modal.find('.searchTable tbody')
     ;
 
-    console.log("historyRealEstateMap", historyRealEstateMap);
-    console.log("historyRealEstateMap", historyRealEstateMap.get(historyId.toString()));
-
-    let tag = drawDetailRealEstateTable(historyRealEstateMap.get(historyId));
+    let data = historyRealEstateMap.get(historyId);
+    if (!checkNullOrEmptyValue(data)) {
+        twoBtnModal("연동된 매물이 없습니다.");
+        return;
+    }
+    let tag = drawDetailRealEstateTable(data);
     $tbody.html(tag);
 }
 
