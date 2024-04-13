@@ -80,13 +80,13 @@
                                                 <div class="selected-button-checkbox-section col-md-6 no-left-padding buyerGradeSection" style="display: inline-block;">
                                                     <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${#strings.isEmpty(condition.buyerGradeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${buyerGradeCds}">
-                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.buyerGradeCds) && condition.buyerGradeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.buyerGradeCds) && condition.buyerGradeCds.contains(code.code) ? 'btn-primary selected' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
                                                     </th:block>
                                                 </div>
                                                 <div class="selected-button-checkbox-section col-md-6 no-right-padding purposeSection right-align" style="display: inline-block;">
                                                     <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.purposeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${purposeCds}">
-                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary selected' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
                                                     </th:block>
                                                 </div>
                                             </div>
