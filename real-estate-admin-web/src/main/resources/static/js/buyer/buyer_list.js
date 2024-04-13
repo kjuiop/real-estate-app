@@ -1,3 +1,5 @@
+const historyRealEstateMap = new Map();
+
 let onReady = function() {
     initDate();
     minicolors();
@@ -146,9 +148,9 @@ let showHistoryModal = function(e) {
             $modal.find('.preferArea').text(preferArea);
             $modal.find('.preferSubway').text(preferSubway);
             $modal.find('.preferRoad').text(preferRoad);
-            $modal.find('.landAreaPy').text(landAreaPy);
-            $modal.find('.totalAreaPy').text(totalAreaPy);
-            $modal.find('.exclusiveAreaPy').text(exclusiveAreaPy);
+            $modal.find('.landAreaPy').text(convertDoubleValue(landAreaPy));
+            $modal.find('.totalAreaPy').text(convertDoubleValue(totalAreaPy));
+            $modal.find('.exclusiveAreaPy').text(convertDoubleValue(exclusiveAreaPy));
             $modal.find('.createdAt').text(createdAt);
             $modal.find('input[name="processCds"]').val(processCd);
             $modal.find('input[name="processName"]').val(name);
@@ -164,6 +166,7 @@ let showHistoryModal = function(e) {
             } else {
                 $modal.find('.historyTable tbody').html(drawEmptyHistoryTable());
             }
+            initHistoryModal();
             $modal.modal('show');
         },
         error: function(error){
@@ -174,12 +177,26 @@ let showHistoryModal = function(e) {
 
 }
 
+let initHistoryModal = function() {
+    let $modal = $('#historyModal');
+    $modal.find('textarea[name="memo"]').val('');
+    $modal.find('.realEstateTable tbody').html(drawEmptyTableBody());
+}
+
 let drawEmptyHistoryTable = function() {
     let tag = '';
     tag += '<tr>';
-    tag += '<td colSpan="4" class="text-alien-center">';
+    tag += '<td colSpan="5" class="text-alien-center">';
     tag += '등록된 메모가 없습니다.';
     tag += '</td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let drawEmptyTableBody = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '    <td class="text-alien-center" colSpan="7">연동된 매물이 없습니다.</td>';
     tag += '</tr>';
     return tag;
 }
@@ -198,10 +215,20 @@ let addHistory = function(e) {
         return;
     }
 
+    let realEstateIds = [];
+    $modal.find('.realEstateTable tbody tr').each(function(idx, item) {
+        let realEstateId = $(item).find('.realEstateId').attr('realEstateId');
+        if (checkNullOrEmptyValue(realEstateId)) {
+            realEstateIds.push(realEstateId);
+        }
+    });
+
+
     let params = {
         "processCds" : convertNullOrEmptyValue(processCd),
         "processName" : processName,
-        "memo" : memo
+        "memo" : memo,
+        "realEstateIds" : realEstateIds
     }
 
     console.log("buyerId : ",  buyerId);
@@ -219,6 +246,7 @@ let addHistory = function(e) {
                 twoBtnModal('정상적으로 저장되었습니다.', function() {
                     let tag = drawHistoryTable(result.data);
                     $modal.find('.historyTable tbody').html(tag);
+                    initHistoryModal();
                 });
             },
             error:function(error){
@@ -229,6 +257,7 @@ let addHistory = function(e) {
 }
 
 let convertDoubleValue = function(doubleValue) {
+    doubleValue = parseInt(doubleValue);
     if (doubleValue % 1 === 0) {
         return doubleValue.toFixed(0);
     }
@@ -243,7 +272,11 @@ let drawHistoryTable = function(histories) {
         tag += '<td style="white-space: normal;">' + item.memo + '</td>';
         tag += '<td>' + item.createdByName + '</td>';
         tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '<td>';
+        tag += '<button class="btn btn-xs btn-default btnRealEstateList" historyId="' + item.historyId + '" data-toggle="modal" data-target="#realEstateListModal">매물정보</button>';
+        tag += '</td>';
         tag += '</tr>';
+        historyRealEstateMap.set(item.historyId.toString(), item.realEstateList);
     })
     return tag;
 }
@@ -334,6 +367,160 @@ let addHistoryMap = function(e) {
     });
 }
 
+let searchRealEstate = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#searchRealEstateModal'),
+        address = $modal.find('input[name="address"]').val(),
+        $tbody = $modal.find('.searchTable').find('tbody');
+
+    if (!checkNullOrEmptyValue(address)) {
+        twoBtnModal("주소를 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/address/" + address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let tag = '';
+            if (result.data.length > 0) {
+                tag = drawRealEstateTable(result.data);
+                $tbody.html(tag);
+                $modal.find('input[name="address"]').val('');
+            } else {
+                tag = drawEmptyTableBodyRealSearchModal();
+                $tbody.html(tag);
+            }
+            $tbody.html(tag);
+            initICheck();
+
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawRealEstateTable = function(list) {
+    let tag = '';
+    $.each(list, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="text-alien-center">';
+        tag += '<input type="checkbox" class="checkElement" name="realEstateId" value="' + item.realEstateId + '">';
+        tag += '</td>';
+        tag += '<td class="salePrice" salePrice="' + item.salePrice + '">' + item.salePrice + '억</td>';
+        tag += '<td class="address" address="' + item.address + '"><a href="/real-estate/' + item.realEstateId + '/edit" target="_blank">' + item.address + '</a></td>';
+        tag += '<td class="lndpclArByPyung">' + item.lndpclArByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="lndpclArByPyung" value="' + item.lndpclArByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="totAreaByPyung">' + item.totAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="totAreaByPyung" value="' + item.totAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="archAreaByPyung">' + item.archAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="archAreaByPyung" value="' + item.archAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="managerName" managerName="' + item.managerName + '">' + item.managerName + '</td>';
+        // tag += '<td class="createdAt" createdAt="' + moment(item.createdAt).format("YYYY-MM-DD") + '">' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    });
+    return tag;
+}
+
+let applyRealEstate = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#searchRealEstateModal'),
+        $tbody = $modal.find('.searchTable tbody');
+
+    let tag = '';
+    $tbody.find('tr').each(function(idx, item){
+        let isChecked = $(item).find('input[name="realEstateId"]').prop('checked');
+        if (isChecked) {
+            let realEstate = {
+                "realEstateId": $(item).find('input[name="realEstateId"]').val(),
+                "salePrice": $(item).find('.salePrice').attr('salePrice'),
+                "address": $(item).find('.address').attr('address'),
+                "managerName": $(item).find('.managerName').attr('managerName'),
+                "lndpclArByPyung": $(item).find('input[name="lndpclArByPyung"]').val(),
+                "totAreaByPyung": $(item).find('input[name="totAreaByPyung"]').val(),
+                "archAreaByPyung": $(item).find('input[name="archAreaByPyung"]').val(),
+                "createdAt": $(item).find('.createdAt').attr('createdAt')
+            }
+            tag += drawSelectedItem(realEstate);
+        }
+    });
+    $('#historyModal').find('.realEstateTable tbody').html(tag);
+    $modal.find('.btnClose').trigger('click');
+    $modal.find('input[name="address"]').val('');
+    $tbody.html(drawEmptyTableBodyRealSearchModal());
+}
+
+let drawSelectedItem = function(realEstate) {
+    let tag = '';
+    tag += '<tr>';
+    tag += '<td class="text-alien-center realEstateId" realEstateId="' + realEstate.realEstateId + '" style="width:30%;"><a href="/real-estate/' + realEstate.realEstateId + '/edit" target="_blank">' + realEstate.address + '</a></td>';
+    tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.salePrice + '억원</td>';
+    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.lndpclArByPyung + '평</td>';
+    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.totAreaByPyung + '평</td>';
+    tag += '<td class="text-alien-center" style="width:10%;">' + realEstate.archAreaByPyung + '평</td>';
+    tag += '<td class="text-alien-center" style="width:15%;">' + realEstate.managerName + '</td>';
+    tag += '<td class="text-alien-center" style="width:10%;"><button type="button" class="btn btn-xs btn-danger btnRemove">삭제</button></td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let drawEmptyTableBodyRealSearchModal = function() {
+    let tag = '';
+    tag += '<tr>';
+    tag += '    <td class="text-alien-center" colSpan="7">검색된 매물이 없습니다.</td>';
+    tag += '</tr>';
+    return tag;
+}
+
+let initRealEstateModal = function(e) {
+    e.preventDefault();
+
+    let historyId = $(this).attr('historyId'),
+        $modal = $('#realEstateListModal'),
+        $tbody = $modal.find('.searchTable tbody')
+    ;
+
+    let data = historyRealEstateMap.get(historyId);
+    if (!checkNullOrEmptyValue(data)) {
+        twoBtnModal("연동된 매물이 없습니다.");
+        return;
+    }
+    let tag = drawDetailRealEstateTable(data);
+    $tbody.html(tag);
+}
+
+let drawDetailRealEstateTable = function(list) {
+    let tag = '';
+    $.each(list, function(idx, item) {
+        tag += '<tr>';
+        tag += '<td class="text-alien-center">' + item.realEstateId + '</td>';
+        tag += '<td class="salePrice" salePrice="' + item.salePrice + '">' + item.salePrice + '억</td>';
+        tag += '<td class="address" address="' + item.address + '"><a href="/real-estate/' + item.realEstateId + '/edit" target="_blank">' + item.address + '</a></td>';
+        tag += '<td class="lndpclArByPyung">' + item.lndpclArByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="lndpclArByPyung" value="' + item.lndpclArByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="totAreaByPyung">' + item.totAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="totAreaByPyung" value="' + item.totAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="archAreaByPyung">' + item.archAreaByPyung.toFixed(2) + '평';
+        tag += '<input type="hidden" name="archAreaByPyung" value="' + item.archAreaByPyung.toFixed(2) + '" />';
+        tag += '</td>';
+        tag += '<td class="managerName" managerName="' + item.managerName + '">' + item.managerName + '</td>';
+        // tag += '<td class="createdAt" createdAt="' + moment(item.createdAt).format("YYYY-MM-DD") + '">' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '</tr>';
+    });
+    return tag;
+}
+
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
     .on('click', '#btnSearch', search)
@@ -345,4 +532,7 @@ $(document).ready(onReady)
     .on('click', '.btnHistoryAdd', addHistory)
     .on('click', '.btnHistoryMapModal', showHistoryMapModal)
     .on('click', '.btnHistoryMapAdd', addHistoryMap)
+    .on('click', '.btnSearch', searchRealEstate)
+    .on('click', '.btnApply', applyRealEstate)
+    .on('click', '.btnRealEstateList', initRealEstateModal)
 ;

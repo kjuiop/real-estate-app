@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static io.gig.realestate.domain.buyer.history.QBuyerHistory.buyerHistory;
+import static io.gig.realestate.domain.buyer.realestate.QHistoryRealEstate.historyRealEstate;
 
 /**
  * @author : JAKE

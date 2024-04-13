@@ -14,9 +14,12 @@ import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapListDto;
+import io.gig.realestate.domain.buyer.realestate.HistoryRealEstate;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +47,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final BuyerHistoryMapService mapService;
     private final AdministratorService administratorService;
     private final BuyerManagerService buyerManagerService;
+    private final RealEstateService realEstateService;
 
     @Override
     @Transactional(readOnly = true)
@@ -130,6 +134,11 @@ public class BuyerServiceImpl implements BuyerService {
     public List<HistoryListDto> createHistory(Long buyerId, HistoryForm createForm, LoginUser loginUser) {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         BuyerHistory history = BuyerHistory.create(createForm, buyer, loginUser.getLoginUser());
+        for (Long realEstateId : createForm.getRealEstateIds()) {
+            RealEstate realEstate = realEstateService.getRealEstateById(realEstateId);
+            HistoryRealEstate historyRealEstate = HistoryRealEstate.create(realEstate, history, loginUser.getLoginUser());
+            history.addHistoryRealEstate(historyRealEstate);
+        }
         buyer.addHistory(history);
 
         for (BuyerHistoryMap map : buyer.getMaps()) {
