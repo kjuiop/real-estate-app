@@ -490,11 +490,13 @@ let initRealEstateModal = function(e) {
     ;
 
     let data = historyRealEstateMap.get(historyId);
-    if (!checkNullOrEmptyValue(data)) {
-        twoBtnModal("연동된 매물이 없습니다.");
-        return;
+    console.log("data", data);
+    let tag = "";
+    if (data.length > 0) {
+        tag = drawDetailRealEstateTable(data);
+    } else {
+        tag = drawEmptyTableBody();
     }
-    let tag = drawDetailRealEstateTable(data);
     $tbody.html(tag);
 }
 
