@@ -18,7 +18,7 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("index4");
+        return new ModelAndView("index");
     }
 
     @GetMapping("init-data")
