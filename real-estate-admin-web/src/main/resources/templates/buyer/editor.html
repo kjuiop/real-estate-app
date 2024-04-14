@@ -328,6 +328,8 @@
     </section>
     <div th:replace="layouts/utilFragments::historyModal"></div>
     <div th:replace="layouts/utilFragments::historyMapModal"></div>
+    <div th:replace="layouts/utilFragments::searchRealEstateModal"></div>
+    <div th:replace="layouts/utilFragments::realEstateListModal"></div>
 </div>
 <section layout:fragment="script">
     <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
@@ -337,6 +339,7 @@
         /*]]>*/
     </script>
     <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_draw.js}"></script>
     <script src="/static/js/buyer/buyer_editor.js" th:src="@{/js/buyer/buyer_editor.js}"></script>
 </section>
 </body>

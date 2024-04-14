@@ -1,3 +1,5 @@
+const historyRealEstateMap = new Map();
+
 let onReady = function() {
     if (checkNullOrEmptyValue(dto)) {
         setConvertDoubleToInt();
@@ -179,67 +181,6 @@ let changeBtn = function(e) {
     }
 }
 
-let selectDetail = function(e) {
-    e.preventDefault();
-
-    let $frm = $('form[name="frmRegister"]'),
-        buyerId = $frm.find('input[name="buyerId"]').val(),
-        processCd = $(this).val();
-
-    console.log("buyer id : " + buyerId + " processCd " + processCd);
-
-    $.ajax({
-        url: "/buyer/" + buyerId + "/" + processCd,
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function (result) {
-            console.log("result : ", result);
-            let data = result.data;
-            if (!checkNullOrEmptyValue(data)) {
-                return;
-            }
-            $frm.find('input[name="title"]').val(data.title);
-            $frm.find('input[name="inflowPath"]').val(data.inflowPath);
-            $frm.find('input[name="successPercent"]').val(data.successPercent);
-            if (data.fakeYn === 'Y') {
-                $frm.find("#fakeYn_Y").iCheck('check');
-            } else {
-                $frm.find("#fakeYn_N").iCheck('check');
-            }
-            $frm.find('input[name="adAddress"]').val(data.adAddress);
-            $frm.find('input[name="adManager"]').val(data.adManager);
-            $frm.find('input[name="minSalePrice"]').val(data.minSalePrice);
-            $frm.find('input[name="maxSalePrice"]').val(data.maxSalePrice);
-            $frm.find('input[name="handCache"]').val(data.handCache);
-            $frm.find('input[name="customerSector"]').val(data.customerSector);
-            $frm.find('input[name="customerPosition"]').val(data.customerPosition);
-            $frm.find('input[name="customerName"]').val(data.customerName);
-            $frm.find('select[name="investmentCharacterCd"]').val(data.investmentCharacterCd);
-            $frm.find('input[name="purchasePoint"]').val(data.purchasePoint);
-            $frm.find('input[name="preferArea"]').val(data.preferArea);
-            $frm.find('input[name="preferSubway"]').val(data.preferSubway);
-            $frm.find('input[name="preferRoad"]').val(data.preferRoad);
-            $frm.find('input[name="exclusiveAreaPy"]').val(data.exclusiveAreaPy);
-            $frm.find('input[name="moveYear"]').val(data.moveYear);
-            $frm.find('input[name="moveMonth"]').val(data.moveMonth);
-            if (data.companyEstablishAtYn === 'Y') {
-                $frm.find("#companyEstablishAt_within").iCheck('check');
-            } else {
-                $frm.find("#companyEstablishAt_after").iCheck('check');
-            }
-            $frm.find('input[name="name"]').val(data.name);
-            $frm.find('input[name="deliveryWay"]').val(data.deliveryWay);
-            $frm.find('input[name="nextPromise"]').val(data.nextPromise);
-            $frm.find('textarea[name="requestDetail"]').text(data.requestDetail);
-            setUsageTypeCd(data.usageTypeCds);
-        },
-        error:function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
 let toggleSelectButton = function(e) {
     e.preventDefault();
 
@@ -360,20 +301,15 @@ let drawHistoryTable = function(histories) {
         tag += '<td style="white-space: normal;">' + item.memo + '</td>';
         tag += '<td>' + item.createdByName + '</td>';
         tag += '<td>' + moment(item.createdAt).format("YYYY-MM-DD") + '</td>';
+        tag += '<td>';
+        tag += '<button class="btn btn-xs btn-default btnRealEstateList" historyId="' + item.historyId + '" data-toggle="modal" data-target="#realEstateListModal">매물정보</button>';
+        tag += '</td>';
         tag += '</tr>';
+        historyRealEstateMap.set(item.historyId.toString(), item.realEstateList);
     })
     return tag;
 }
 
-let drawEmptyHistoryTable = function() {
-    let tag = '';
-    tag += '<tr>';
-    tag += '<td colSpan="4" class="text-alien-center">';
-    tag += '등록된 메모가 없습니다.';
-    tag += '</td>';
-    tag += '</tr>';
-    return tag;
-}
 
 let addHistory = function(e) {
     e.preventDefault();
@@ -389,10 +325,20 @@ let addHistory = function(e) {
         return;
     }
 
+    let realEstateIds = [];
+    $modal.find('.realEstateTable tbody tr').each(function(idx, item) {
+        let realEstateId = $(item).find('.realEstateId').attr('realEstateId');
+        if (checkNullOrEmptyValue(realEstateId)) {
+            realEstateIds.push(realEstateId);
+        }
+    });
+
+
     let params = {
         "processCds" : convertNullOrEmptyValue(processCd),
         "processName" : processName,
-        "memo" : memo
+        "memo" : memo,
+        "realEstateIds" : realEstateIds
     }
 
     console.log("buyerId : ",  buyerId);
@@ -410,6 +356,7 @@ let addHistory = function(e) {
                 twoBtnModal('정상적으로 저장되었습니다.', function() {
                     let tag = drawHistoryTable(result.data);
                     $modal.find('.historyTable tbody').html(tag);
+                    initHistoryModal();
                 });
             },
             error:function(error){
@@ -417,6 +364,12 @@ let addHistory = function(e) {
             }
         });
     });
+}
+
+let initHistoryModal = function() {
+    let $modal = $('#historyModal');
+    $modal.find('textarea[name="memo"]').val('');
+    $modal.find('.realEstateTable tbody').html(drawEmptyTableBody());
 }
 
 let showHistoryMapModal = function(e) {
@@ -585,15 +538,98 @@ let removeManager = function(e) {
         adminId = parseInt($this.attr('adminId')),
         createdById = parseInt(dto.createdByAdminId)
     ;
-
     if (adminId === createdById) {
         return;
     }
-
-
     twoBtnModal("담당자를 해제하시겠습니까?", function () {
         $this.remove();
     });
+}
+
+let searchRealEstate = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#searchRealEstateModal'),
+        address = $modal.find('input[name="address"]').val(),
+        $tbody = $modal.find('.searchTable').find('tbody');
+
+    if (!checkNullOrEmptyValue(address)) {
+        twoBtnModal("주소를 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/real-estate/address/" + address,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let tag = '';
+            if (result.data.length > 0) {
+                tag = drawRealEstateTable(result.data);
+                $tbody.html(tag);
+                $modal.find('input[name="address"]').val('');
+            } else {
+                tag = drawEmptyTableBodyRealSearchModal();
+                $tbody.html(tag);
+            }
+            $tbody.html(tag);
+            initICheck();
+
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let applyRealEstate = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#searchRealEstateModal'),
+        $tbody = $modal.find('.searchTable tbody');
+
+    let tag = '';
+    $tbody.find('tr').each(function(idx, item){
+        let isChecked = $(item).find('input[name="realEstateId"]').prop('checked');
+        if (isChecked) {
+            let realEstate = {
+                "realEstateId": $(item).find('input[name="realEstateId"]').val(),
+                "salePrice": $(item).find('.salePrice').attr('salePrice'),
+                "address": $(item).find('.address').attr('address'),
+                "managerName": $(item).find('.managerName').attr('managerName'),
+                "lndpclArByPyung": $(item).find('input[name="lndpclArByPyung"]').val(),
+                "totAreaByPyung": $(item).find('input[name="totAreaByPyung"]').val(),
+                "archAreaByPyung": $(item).find('input[name="archAreaByPyung"]').val(),
+                "createdAt": $(item).find('.createdAt').attr('createdAt')
+            }
+            tag += drawSelectedItem(realEstate);
+        }
+    });
+    $('#historyModal').find('.realEstateTable tbody').html(tag);
+    $modal.find('.btnClose').trigger('click');
+    $modal.find('input[name="address"]').val('');
+    $tbody.html(drawEmptyTableBodyRealSearchModal());
+}
+
+let initRealEstateModal = function(e) {
+    e.preventDefault();
+
+    let historyId = $(this).attr('historyId'),
+        $modal = $('#realEstateListModal'),
+        $tbody = $modal.find('.searchTable tbody')
+    ;
+
+    let data = historyRealEstateMap.get(historyId);
+    console.log("data", data);
+    let tag = "";
+    if (data.length > 0) {
+        tag = drawDetailRealEstateTable(data);
+    } else {
+        tag = drawEmptyTableBody();
+    }
+    $tbody.html(tag);
 }
 
 $(document).ready(onReady)
@@ -609,4 +645,7 @@ $(document).ready(onReady)
     .on('change', '.teamList', loadTeamMember)
     .on('change', '.adminList', drawManager)
     .on('click', '.btnManagerRemove', removeManager)
+    .on('click', '.btnSearch', searchRealEstate)
+    .on('click', '.btnApply', applyRealEstate)
+    .on('click', '.btnRealEstateList', initRealEstateModal)
 ;

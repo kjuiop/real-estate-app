@@ -234,7 +234,7 @@ public class AdministratorQueryRepository {
                 .where(defaultCondition())
                 .where(administrator.status.eq(AdminStatus.NORMAL))
                 .where(administrator.team.eq(team))
-                .orderBy(administrator.id.desc())
+                .orderBy(administrator.id.asc())
                 .fetch();
     }
 

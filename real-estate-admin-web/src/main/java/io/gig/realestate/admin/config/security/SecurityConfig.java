@@ -8,9 +8,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -31,6 +32,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public HttpFirewall defaultHttpFirewall() {
+        return new DefaultHttpFirewall();
+    }
+
+    @Bean
     @Order(0)
     public SecurityFilterChain resources(HttpSecurity http) throws Exception {
         http
@@ -46,10 +52,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        return httpSecurity
+        httpSecurity
                 .authorizeRequests()
                 .antMatchers("/login", "/init-data", "/administrators/**"
-                        ).permitAll()
+                ).permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -64,10 +70,9 @@ public class SecurityConfig {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
+                .invalidateHttpSession(true);
 
-                .and()
-                .build();
+        return httpSecurity.build();
 
     }
 }
