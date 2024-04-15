@@ -101,6 +101,7 @@ let addScheduleCalendar = function(e) {
 let showScheduleModal = function(arg) {
 
     let $modal = $('#scheduleModal');
+    $modal.find('input[name="schedulerId"]').val('');
     $modal.find('input[name="title"]').val('');
     $modal.find('input[name="customerName"]').val('');
     $modal.find('textarea[name="memo"]').val('');
@@ -123,11 +124,27 @@ let getScheduleModal = function(args) {
         contentType: "application/json",
         success: function(result) {
             console.log("result", result);
+            let scheduler = result.data;
+            showSchedulerEditModal(args, scheduler);
         },
         error: function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let showSchedulerEditModal = function(args, scheduler) {
+    let $modal = $('#scheduleEditModal');
+    $modal.find('input[name="schedulerId"]').val(scheduler.schedulerId);
+    $modal.find('input[name="title"]').val(scheduler.title);
+    $modal.find('input[name="customerName"]').val(scheduler.customerName);
+    $modal.find('textarea[name="memo"]').text(scheduler.memo);
+    $modal.find('input[name="startDate"]').val(moment(scheduler.startDate).startOf('day').format('YYYY-MM-DDTHH:mm'));
+    $modal.find('input[name="endDate"]').val(moment(scheduler.endDate).endOf('day').format('YYYY-MM-DDTHH:mm'));
+    $modal.find('input[name="argStartDate"]').val(args.start);
+    $modal.find('input[name="argEndDate"]').val(args.end);
+    $modal.find('input[name="argAllDay"]').val(args.allDay);
+    $modal.modal("show");
 }
 
 let convertSchedulers = function(data) {
