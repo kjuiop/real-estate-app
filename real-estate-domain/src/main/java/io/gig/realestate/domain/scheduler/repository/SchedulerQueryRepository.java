@@ -1,10 +1,12 @@
 package io.gig.realestate.domain.scheduler.repository;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -34,6 +36,21 @@ public class SchedulerQueryRepository {
                 .orderBy(scheduler.createdAt.desc())
                 .fetch()
                 ;
+    }
+
+    public SchedulerDto getSchedulerById(Long schedulerId) {
+        return this.queryFactory
+                .select(Projections.constructor(SchedulerDto.class,
+                        scheduler
+                        ))
+                .from(scheduler)
+                .where(defaultCondition())
+                .where(eqScheduleId(schedulerId))
+                .fetchOne();
+    }
+
+    private BooleanExpression eqScheduleId(Long schedulerId) {
+        return schedulerId != null ? scheduler.id.eq(schedulerId) : null;
     }
 
     private BooleanExpression defaultCondition() {

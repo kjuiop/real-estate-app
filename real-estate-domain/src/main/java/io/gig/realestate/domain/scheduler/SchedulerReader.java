@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.scheduler;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
  */
 public interface SchedulerReader {
     List<SchedulerListDto> getSchedulers(Administrator loginUser);
+
+    SchedulerDto getSchedulerById(Long schedulerId);
 }

@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.scheduler;
 
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Transactional(readOnly = true)
     public List<SchedulerListDto> getSchedulers(LoginUser loginUser) {
         return schedulerReader.getSchedulers(loginUser.getLoginUser());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SchedulerDto getSchedulerById(Long schedulerId, LoginUser loginUser) {
+        return schedulerReader.getSchedulerById(schedulerId);
     }
 
     @Override

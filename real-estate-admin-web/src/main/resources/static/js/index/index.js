@@ -42,9 +42,7 @@ let initCalendar = function(schedulers) {
             showScheduleModal(arg);
         },
         eventClick: function(arg) {
-            if (confirm('Are you sure you want to delete this event?')) {
-                arg.event.remove()
-            }
+            getScheduleModal(arg);
         },
         events: events
     });
@@ -83,6 +81,8 @@ let addScheduleCalendar = function(e) {
         success: function (result) {
             console.log("save result : ", result);
             calendar.addEvent({
+                id: result.data.toString(),
+                groupId: result.data.toString(),
                 title: params.title,
                 start: params.startDate,
                 end: params.endDate,
@@ -112,11 +112,31 @@ let showScheduleModal = function(arg) {
     $modal.modal("show");
 }
 
+let getScheduleModal = function(args) {
+
+    let schedulerId = args.event.id;
+
+    $.ajax({
+        url: "/scheduler/" + schedulerId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 let convertSchedulers = function(data) {
     let schedulers = [];
 
     $.each(data, function(idx, item) {
         let scheduler = {
+            "id": item.schedulerId.toString(),
+            "groupId": item.schedulerId.toString(),
             "title": item.title,
             "start": moment(item.startDate).format('YYYY-MM-DD'),
             "end": moment(item.endDate).format('YYYY-MM-DD'),

@@ -3,6 +3,7 @@ package io.gig.realestate.admin.controller.scheduler;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.scheduler.SchedulerService;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -30,6 +31,14 @@ public class SchedulerController {
     @ResponseBody
     public ResponseEntity<ApiResponse> getSchedulers(@CurrentUser LoginUser loginUser) {
         List<SchedulerListDto> dto = schedulerService.getSchedulers(loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("{schedulerId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> getSchedulerById(@PathVariable(name = "schedulerId") Long schedulerId,
+                                                        @CurrentUser LoginUser loginUser) {
+        SchedulerDto dto = schedulerService.getSchedulerById(schedulerId, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
