@@ -10,6 +10,7 @@ RUN apk add --no-cache openjdk11-jre-headless tzdata && \
     echo $TZ > /etc/timezone
 COPY --from=build /real-estate-admin-web.jar /real-estate-admin-web.jar
 EXPOSE ${port}
+VOLUME /home/ubuntu/logs
 ENTRYPOINT ["java", "-jar", "real-estate-admin-web.jar"]
 
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
