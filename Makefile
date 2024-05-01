@@ -34,11 +34,16 @@ clean:
 	rm -rf $(TARGET_DIR)/*.jar
 
 docker_build:
-	docker build --platform amd64 --tag $(DOCKER_REPOSITORY)/hs-$(ADMIN_MODULE_NAME):$(VERSION_NUM).$(BUILD_NUM) .
+	docker build --platform linux/amd64 --tag $(DOCKER_REPOSITORY)/hs-$(ADMIN_MODULE_NAME):$(VERSION_NUM).$(BUILD_NUM) .
 
 docker_push:
 	@echo "TARGET_VERSION : $(TARGET_VERSION)"
 	docker push $(DOCKER_REPOSITORY)/hs-$(ADMIN_MODULE_NAME):$(TARGET_VERSION)
+
+docker_run:
+	@echo "TARGET_VERSION : $(TARGET_VERSION)"
+	docker run --name real-estate -p 8080:8080 $(DOCKER_REPOSITORY)/hs-$(ADMIN_MODULE_NAME):$(TARGET_VERSION)
+
 
 target-version:
 	@echo "========================================"

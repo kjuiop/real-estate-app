@@ -70,6 +70,9 @@ subprojects {
                 'org.projectlombok:lombok-mapstruct-binding:0.1.0'
         )
 
+        /** Slack **/
+        implementation("net.gpedro.integrations.slack:slack-webhook:1.4.0")
+
         /** DB **/
         runtimeOnly 'com.h2database:h2'
         implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
