@@ -29,6 +29,12 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: debug
+    org.hibernate.SQL: info
 
 
+log:
+  config:
+    path: ./logs
+    filename: real-estate
+    maxHistory: 7
+    totalSizeCap: 10MB

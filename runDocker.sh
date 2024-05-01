@@ -16,6 +16,7 @@ docker pull $dockerImage
 
 docker run -d \
         --name real-estate \
+        -v /home/ubuntu/logs:/home/ubuntu/logs \
         -p 80:8080 \
         --restart always \
         $dockerImage
