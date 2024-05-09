@@ -1,7 +1,6 @@
 package io.gig.realestate.domain.notification;
 
 import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.notification.dto.NotificationForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
+    private final NotificationStore notificationStore;
+
     @Override
     @Transactional
     public Long create(NotificationForm form, Administrator administrator) {
-        return null;
+        Notification notification = Notification.create(form, administrator);
+        return notificationStore.store(notification).getId();
     }
 }

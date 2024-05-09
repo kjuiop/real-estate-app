@@ -31,6 +31,11 @@ public class Notification extends BaseTimeEntity {
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType readYn = YnType.N;
+
     private String returnUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
