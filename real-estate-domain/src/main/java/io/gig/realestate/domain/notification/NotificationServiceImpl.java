@@ -14,7 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
+    private final NotificationReader notificationReader;
     private final NotificationStore notificationStore;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long getNotificationCntByUsername(String username) {
+        return notificationReader.getNotificationCntByUsername(username);
+    }
 
     @Override
     @Transactional

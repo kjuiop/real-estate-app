@@ -39,19 +39,18 @@ public class Notification extends BaseTimeEntity {
     private String returnUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_id")
-    private Administrator createdBy;
+    @JoinColumn(name = "sender_id")
+    private Administrator sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_id")
-    private Administrator updatedBy;
+    @JoinColumn(name = "receiver_id")
+    private Administrator receiver;
 
     public static Notification create(NotificationForm createForm, Administrator loginUser) {
         return Notification.builder()
                 .message(createForm.getMessage())
                 .returnUrl(createForm.getReturnUrl())
-                .createdBy(loginUser)
-                .updatedBy(loginUser)
+                .receiver(loginUser)
                 .build();
     }
 }

@@ -10,4 +10,6 @@ import io.gig.realestate.domain.notification.dto.NotificationForm;
 public interface NotificationService {
 
     Long create(NotificationForm form, Administrator administrator);
+
+    Long getNotificationCntByUsername(String username);
 }
