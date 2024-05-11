@@ -3,6 +3,7 @@ package io.gig.realestate.domain.notification;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.notification.dto.NotificationForm;
+import io.gig.realestate.domain.notification.dto.NotificationListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,5 +50,11 @@ public class NotificationServiceImpl implements NotificationService {
             );
             notificationStore.store(notification);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<NotificationListDto> getNotificationByUsername(String username) {
+        return notificationReader.getNotificationByUsername(username);
     }
 }

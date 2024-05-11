@@ -55,12 +55,15 @@
                     </th:block>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <span class="dropdown-item dropdown-header">[[${notiCnt}]] Notifications</span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope-o mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
+                    <th:block th:each="noti : ${notifications}">
+                        <a th:href="|${noti.returnUrl}|" class="dropdown-item" style="white-space: normal;">
+<!--                            <i class="fa fa-envelope-o mr-2"></i>-->
+                            <div class="font-size-12 display-inline-block" style="width: 190px; word-break: break-all;">[[${noti.message}]]</div>
+                            <span class="float-right text-muted text-sm">3 mins</span>
+                        </a>
+                    </th:block>
                     <div class="dropdown-divider"></div>
                     <!--
                     <a href="#" class="dropdown-item">

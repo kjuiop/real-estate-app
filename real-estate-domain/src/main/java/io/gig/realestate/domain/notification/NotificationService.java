@@ -2,6 +2,7 @@ package io.gig.realestate.domain.notification;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.notification.dto.NotificationForm;
+import io.gig.realestate.domain.notification.dto.NotificationListDto;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface NotificationService {
     Long getNotificationCntByUsername(String username);
 
     void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds);
+
+    List<NotificationListDto> getNotificationByUsername(String username);
 }
