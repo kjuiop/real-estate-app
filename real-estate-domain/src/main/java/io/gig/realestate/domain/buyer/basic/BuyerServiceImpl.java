@@ -18,6 +18,7 @@ import io.gig.realestate.domain.buyer.realestate.HistoryRealEstate;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.notification.NotificationService;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.role.dto.RoleDto;
@@ -42,12 +43,14 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final BuyerReader buyerReader;
     private final BuyerStore buyerStore;
-    private final CategoryService categoryService;
+
     private final BuyerHistoryService historyService;
     private final BuyerHistoryMapService mapService;
-    private final AdministratorService administratorService;
     private final BuyerManagerService buyerManagerService;
+    private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
+    private final CategoryService categoryService;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional(readOnly = true)
@@ -87,7 +90,10 @@ public class BuyerServiceImpl implements BuyerService {
             BuyerManager buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
             buyer.addManager(buyerManager);
         }
-        return buyerStore.store(buyer).getId();
+
+        Buyer savedBuyer = buyerStore.store(buyer);
+        notificationService.sendBuyerCreateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginUser.getLoginUser().getId(), createForm.getManagerIds());
+        return savedBuyer.getId();
     }
 
     @Override

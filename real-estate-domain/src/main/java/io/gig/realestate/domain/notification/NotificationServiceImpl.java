@@ -1,10 +1,14 @@
 package io.gig.realestate.domain.notification;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.notification.dto.NotificationForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author : JAKE
@@ -16,6 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationReader notificationReader;
     private final NotificationStore notificationStore;
+    private final AdministratorService administratorService;
 
     @Override
     @Transactional(readOnly = true)
@@ -28,5 +33,21 @@ public class NotificationServiceImpl implements NotificationService {
     public Long create(NotificationForm form, Administrator administrator) {
         Notification notification = Notification.create(form, administrator);
         return notificationStore.store(notification).getId();
+    }
+
+    @Override
+    @Transactional
+    public void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
+        Administrator sender = administratorService.getAdminById(senderId);
+        for (Long adminId : managerIds) {
+            Administrator receiver = administratorService.getAdminById(adminId);
+            Notification notification = Notification.sendBuyerCreateManager(
+                    Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.",
+                    "/buyer/" + buyerId + "/edit",
+                    sender,
+                    receiver
+            );
+            notificationStore.store(notification);
+        }
     }
 }

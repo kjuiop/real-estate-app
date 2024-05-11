@@ -53,4 +53,13 @@ public class Notification extends BaseTimeEntity {
                 .receiver(loginUser)
                 .build();
     }
+
+    public static Notification sendBuyerCreateManager(String message, String returnUrl, Administrator sender, Administrator receiver) {
+        return Notification.builder()
+                .message(message)
+                .returnUrl(returnUrl)
+                .sender(sender)
+                .receiver(receiver)
+                .build();
+    }
 }
