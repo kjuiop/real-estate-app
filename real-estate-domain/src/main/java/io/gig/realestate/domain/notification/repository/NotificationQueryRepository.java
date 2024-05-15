@@ -52,6 +52,8 @@ public class NotificationQueryRepository {
                 .from(notification)
                 .where(defaultCondition())
                 .where(eqReceiver(username))
+                .orderBy(notification.createdAt.desc())
+                .limit(10)
                 .fetch();
     }
 
