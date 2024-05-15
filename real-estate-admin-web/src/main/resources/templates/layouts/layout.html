@@ -145,8 +145,33 @@
         });
     }
 
+    let moveNoti = function(e) {
+        let $this = $(this),
+            notiId = $this.find('.checkNotiRead').attr('notiId'),
+            returnUrl = $this.attr('returnUrl');
+
+        let params = {
+            "readYn" : "Y"
+        }
+
+        $.ajax({
+            url: "/notifications/" + notiId + "/read",
+            method: "post",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function(result) {
+                location.href = returnUrl;
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    }
+
     $(document).ready()
         .on('ifToggled', '.checkNotiRead', checkNotiRead)
+        .on('click', '.noti-move', moveNoti)
     ;
 
 </script>

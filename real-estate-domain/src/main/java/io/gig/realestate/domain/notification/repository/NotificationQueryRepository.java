@@ -31,6 +31,7 @@ public class NotificationQueryRepository {
                 .from(notification)
                 .where(defaultCondition())
                 .where(eqReceiver(username))
+                .where(eqReadYn())
                 .fetchOne()
                 ;
     }
@@ -60,6 +61,10 @@ public class NotificationQueryRepository {
 
     private BooleanExpression eqReceiver(String username) {
         return notification.receiver.username.eq(username);
+    }
+
+    private BooleanExpression eqReadYn() {
+        return notification.readYn.eq(YnType.N);
     }
 
     private BooleanExpression eqId(Long id) {

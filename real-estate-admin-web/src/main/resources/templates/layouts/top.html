@@ -51,14 +51,14 @@
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fa fa-bell"></i>
                     <th:block th:if="${notiCnt > 0}">
-                        <span class="badge badge-warning navbar-badge">[[${notiCnt}]]</span>
+                        <span class="badge badge-warning navbar-badge notiCnt">[[${notiCnt}]]</span>
                     </th:block>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
                     <span class="dropdown-item dropdown-header">[[${notiCnt}]] Notifications</span>
                     <div class="dropdown-divider"></div>
                     <th:block th:each="noti : ${notifications}">
-                        <a th:href="|${noti.returnUrl}|" class="dropdown-item" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
+                        <a class="dropdown-item noti-move" th:returnUrl="${noti.returnUrl}" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
                             <div class="col-md-1 no-left-padding">
                                 <input type="checkbox" class="checkElement checkNotiRead" th:checked="${noti.readYn.key eq 'Y'}" style="margin-top: 2px;" th:notiId="${noti.notificationId}"/>
                             </div>
