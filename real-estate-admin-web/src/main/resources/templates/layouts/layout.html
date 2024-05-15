@@ -138,6 +138,15 @@
             data: JSON.stringify(params),
             success: function(result) {
                 console.log("result", result);
+
+                let notiCnt = result.data,
+                    $notiSection = $('.notiCnt');
+                if (notiCnt === 0) {
+                    $notiSection.addClass('hidden')
+                } else {
+                    $notiSection.removeClass('hidden');
+                }
+                $notiSection.html(notiCnt);
             },
             error: function(error){
                 ajaxErrorFieldByText(error);

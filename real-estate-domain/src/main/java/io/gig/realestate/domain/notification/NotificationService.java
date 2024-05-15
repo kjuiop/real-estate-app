@@ -20,5 +20,5 @@ public interface NotificationService {
 
     List<NotificationListDto> getNotificationByUsername(String username);
 
-    void read(Long notiId, NotificationForm readForm);
+    Long read(Long notiId, NotificationForm readForm, Administrator administrator);
 }

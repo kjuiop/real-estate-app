@@ -50,9 +50,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <th:block th:if="${notiCnt > 0}">
-                        <span class="badge badge-warning navbar-badge notiCnt">[[${notiCnt}]]</span>
-                    </th:block>
+                    <span class="badge badge-warning navbar-badge notiCnt" th:classappend="${notiCnt == 0 ? 'hidden' : ''}">[[${notiCnt}]]</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
                     <span class="dropdown-item dropdown-header">[[${notiCnt}]] Notifications</span>
