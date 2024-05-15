@@ -19,4 +19,6 @@ public interface NotificationService {
     void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds);
 
     List<NotificationListDto> getNotificationByUsername(String username);
+
+    void read(Long notiId, NotificationForm readForm);
 }

@@ -62,4 +62,8 @@ public class Notification extends BaseTimeEntity {
                 .receiver(receiver)
                 .build();
     }
+
+    public void read(YnType readYn) {
+        this.readYn = readYn;
+    }
 }

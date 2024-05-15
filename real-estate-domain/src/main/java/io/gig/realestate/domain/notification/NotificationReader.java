@@ -12,4 +12,6 @@ public interface NotificationReader {
     Long getNotificationCntByUsername(String username);
 
     List<NotificationListDto> getNotificationByUsername(String username);
+
+    Notification getNotificationById(Long id);
 }

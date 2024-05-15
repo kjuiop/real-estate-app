@@ -53,6 +53,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
+    public void read(Long notiId, NotificationForm readForm) {
+        Notification notification = notificationReader.getNotificationById(notiId);
+        notification.read(readForm.getReadYn());
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<NotificationListDto> getNotificationByUsername(String username) {
         return notificationReader.getNotificationByUsername(username);

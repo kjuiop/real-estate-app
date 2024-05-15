@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.notification.repository;
 
+import io.gig.realestate.domain.notification.Notification;
 import io.gig.realestate.domain.notification.NotificationReader;
 import io.gig.realestate.domain.notification.dto.NotificationListDto;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class NotificationQueryImpl implements NotificationReader {
     @Override
     public List<NotificationListDto> getNotificationByUsername(String username) {
         return queryRepository.getNotificationByUsername(username);
+    }
+
+    @Override
+    public Notification getNotificationById(Long id) {
+        return queryRepository.getNotificationById(id);
     }
 }

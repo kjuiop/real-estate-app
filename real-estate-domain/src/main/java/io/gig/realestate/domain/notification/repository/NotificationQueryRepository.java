@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.notification.Notification;
 import io.gig.realestate.domain.notification.dto.NotificationListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,25 @@ public class NotificationQueryRepository {
                 ;
     }
 
+    public Notification getNotificationById(Long id) {
+        return this.queryFactory
+                .selectFrom(notification)
+                .where(defaultCondition())
+                .where(eqId(id))
+                .fetchOne();
+    }
+
+    public List<NotificationListDto> getNotificationByUsername(String username) {
+        return queryFactory
+                .select(Projections.constructor(NotificationListDto.class,
+                        notification
+                ))
+                .from(notification)
+                .where(defaultCondition())
+                .where(eqReceiver(username))
+                .fetch();
+    }
+
     private BooleanExpression defaultCondition() {
         return notification.deleteYn.eq(YnType.N);
     }
@@ -42,14 +62,8 @@ public class NotificationQueryRepository {
         return notification.receiver.username.eq(username);
     }
 
-    public List<NotificationListDto> getNotificationByUsername(String username) {
-        return queryFactory
-                .select(Projections.constructor(NotificationListDto.class,
-                        notification
-                        ))
-                .from(notification)
-                .where(defaultCondition())
-                .where(eqReceiver(username))
-                .fetch();
+    private BooleanExpression eqId(Long id) {
+        return notification.id.eq(id);
     }
+
 }
