@@ -54,14 +54,20 @@
                         <span class="badge badge-warning navbar-badge">[[${notiCnt}]]</span>
                     </th:block>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
                     <span class="dropdown-item dropdown-header">[[${notiCnt}]] Notifications</span>
                     <div class="dropdown-divider"></div>
                     <th:block th:each="noti : ${notifications}">
-                        <a th:href="|${noti.returnUrl}|" class="dropdown-item" style="white-space: normal;">
-<!--                            <i class="fa fa-envelope-o mr-2"></i>-->
-                            <div class="font-size-12 display-inline-block" style="width: 190px; word-break: break-all;">[[${noti.message}]]</div>
-                            <span class="float-right text-muted text-sm">3 mins</span>
+                        <a th:href="|${noti.returnUrl}|" class="dropdown-item" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
+                            <div class="col-md-1 no-left-padding">
+                                <input type="checkbox" class="checkElement readYn" style="margin-top: 2px;"/>
+                            </div>
+                            <div class="col-md-9 font-size-12" style="width: 190px; word-break: break-all; padding-left: 10px;">
+                                [[${noti.message}]]
+                            </div>
+                            <div class="col-md-2 float-right text-muted" style="padding: 5px 0 0;font-size: 12px !important;">
+                                3 mins
+                            </div>
                         </a>
                     </th:block>
                     <div class="dropdown-divider"></div>
