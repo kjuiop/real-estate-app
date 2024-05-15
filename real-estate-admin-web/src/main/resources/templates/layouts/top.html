@@ -53,7 +53,7 @@
                     <span class="badge badge-warning navbar-badge notiCnt" th:classappend="${notiCnt == 0 ? 'hidden' : ''}">[[${notiCnt}]]</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
-                    <span class="dropdown-item dropdown-header">[[${notiCnt}]] Notifications</span>
+                    <span class="dropdown-item dropdown-header font-size-12">[[${notiCnt}]] 개의 읽지 않은 알림</span>
                     <div class="dropdown-divider"></div>
                     <th:block th:each="noti : ${notifications}">
                         <a class="dropdown-item noti-move" th:returnUrl="${noti.returnUrl}" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
@@ -83,8 +83,10 @@
                     </a>
                     -->
 
+                    <!--
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">알람 메시지 더보기</a>
+                    -->
                 </div>
             </li>
 
