@@ -18,6 +18,7 @@ import io.gig.realestate.domain.buyer.realestate.HistoryRealEstate;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.notification.NotificationService;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.role.dto.RoleDto;
@@ -42,12 +43,14 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final BuyerReader buyerReader;
     private final BuyerStore buyerStore;
-    private final CategoryService categoryService;
+
     private final BuyerHistoryService historyService;
     private final BuyerHistoryMapService mapService;
-    private final AdministratorService administratorService;
     private final BuyerManagerService buyerManagerService;
+    private final AdministratorService administratorService;
     private final RealEstateService realEstateService;
+    private final CategoryService categoryService;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional(readOnly = true)
@@ -76,23 +79,33 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     @Transactional
     public Long create(BuyerForm createForm, LoginUser loginUser) {
-        Buyer buyer = Buyer.create(createForm, loginUser.getLoginUser());
+        Administrator loginAdmin = loginUser.getLoginUser();
+        Buyer buyer = Buyer.create(createForm, loginAdmin);
         List<CategoryDto> categories = categoryService.getChildrenCategoryDtosByCode("CD_PROCESS");
         for (CategoryDto dto : categories) {
-            BuyerHistoryMap history = BuyerHistoryMap.create(dto, buyer, loginUser.getLoginUser());
+            BuyerHistoryMap history = BuyerHistoryMap.create(dto, buyer, loginAdmin);
             buyer.getMaps().add(history);
         }
+
+        if (createForm.getManagerIds() != null && !createForm.getManagerIds().contains(loginAdmin.getId())) {
+            createForm.getManagerIds().add(loginAdmin.getId());
+        }
+
         for (Long adminId : createForm.getManagerIds()) {
             Administrator manager = administratorService.getAdminById(adminId);
-            BuyerManager buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
+            BuyerManager buyerManager = BuyerManager.create(buyer, manager, loginAdmin);
             buyer.addManager(buyerManager);
         }
-        return buyerStore.store(buyer).getId();
+
+        Buyer savedBuyer = buyerStore.store(buyer);
+        notificationService.sendBuyerCreateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), createForm.getManagerIds());
+        return savedBuyer.getId();
     }
 
     @Override
     @Transactional
     public Long update(BuyerForm updateForm, LoginUser loginUser) {
+        Administrator loginAdmin = loginUser.getLoginUser();
         Buyer buyer = buyerReader.getBuyerById(updateForm.getBuyerId());
         buyer.update(updateForm, loginUser);
 
@@ -102,19 +115,27 @@ public class BuyerServiceImpl implements BuyerService {
                 bm.delete();
             }
         }
+
+        if (updateForm.getManagerIds() != null && !updateForm.getManagerIds().contains(loginAdmin.getId())) {
+            updateForm.getManagerIds().add(loginAdmin.getId());
+        }
+
         for (Long adminId : updateForm.getManagerIds()) {
             Administrator manager = administratorService.getAdminById(adminId);
             Optional<BuyerManager> findBuyerManager = buyerManagerService.getBuyerManager(buyer, manager);
             BuyerManager buyerManager;
             if (findBuyerManager.isPresent()) {
                 buyerManager = findBuyerManager.get();
-                buyerManager.update(buyer, manager, loginUser.getLoginUser());
+                buyerManager.update(buyer, manager, loginAdmin);
             } else {
                 buyerManager = BuyerManager.create(buyer, manager, loginUser.getLoginUser());
                 buyer.getManagers().add(buyerManager);
             }
         }
-        return buyerStore.store(buyer).getId();
+
+        Buyer savedBuyer = buyerStore.store(buyer);
+        notificationService.sendBuyerUpdateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
+        return savedBuyer.getId();
     }
 
     @Override

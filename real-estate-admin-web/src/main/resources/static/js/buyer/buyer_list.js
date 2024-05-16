@@ -304,6 +304,13 @@ let addHistoryMap = function(e) {
         return;
     }
 
+    console.log("in ", sortOrder);
+
+    if (isNaN(sortOrder)) {
+        twoBtnModal("정렬순서에 숫자를 입력해주세요.");
+        return;
+    }
+
     let params = {
         "colorCode" : colorCode,
         "processName" : processName,

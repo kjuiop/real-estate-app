@@ -1,6 +1,5 @@
 package io.gig.realestate.domain.menu;
 
-import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.menu.dto.MenuCreateForm;
 import io.gig.realestate.domain.menu.dto.MenuDto;
 import io.gig.realestate.domain.menu.dto.MenuUpdateForm;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**

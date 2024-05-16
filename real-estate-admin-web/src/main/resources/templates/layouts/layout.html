@@ -92,6 +92,10 @@
     const csrfToken = $("meta[name='_csrf']").attr("content");
     const csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+    });
+
     $.ajaxSetup({
         dataType: "json",
         beforeSend: function() {
@@ -104,20 +108,81 @@
         }
     });
 
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(csrfHeader, csrfToken);
-    });
-
     $(function() {
         initICheck();
     });
 
-    const initICheck = function() {
+    let initICheck = function() {
         $('input[type="checkbox"], input[type="radio"]').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_flat-blue'
         });
-    };
+    }
+
+    let checkNotiRead = function(e) {
+        e.preventDefault();
+
+        let $this = $(this),
+            notiId = $this.attr('notiId'),
+            checked = $this.prop('checked');
+
+        let params = {
+            "readYn" : checked ? "Y" : "N"
+        }
+
+        $.ajax({
+            url: "/notifications/" + notiId + "/read",
+            method: "post",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function(result) {
+                console.log("result", result);
+
+                let notiCnt = result.data,
+                    $notiSection = $('.notiCnt');
+                if (notiCnt === 0) {
+                    $notiSection.addClass('hidden')
+                } else {
+                    $notiSection.removeClass('hidden');
+                }
+                $notiSection.html(notiCnt);
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    }
+
+    let moveNoti = function(e) {
+        let $this = $(this),
+            notiId = $this.find('.checkNotiRead').attr('notiId'),
+            returnUrl = $this.attr('returnUrl');
+
+        let params = {
+            "readYn" : "Y"
+        }
+
+        $.ajax({
+            url: "/notifications/" + notiId + "/read",
+            method: "post",
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function(result) {
+                location.href = returnUrl;
+            },
+            error: function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    }
+
+    $(document).ready()
+        .on('ifToggled', '.checkNotiRead', checkNotiRead)
+        .on('click', '.noti-move', moveNoti)
+    ;
+
 </script>
 <section layout:fragment="script">
 </section>
