@@ -42,8 +42,24 @@ public class NotificationServiceImpl implements NotificationService {
         Administrator sender = administratorService.getAdminById(senderId);
         for (Long adminId : managerIds) {
             Administrator receiver = administratorService.getAdminById(adminId);
-            Notification notification = Notification.sendBuyerCreateManager(
+            Notification notification = Notification.sendBuyerCreateOrUpdateManager(
                     Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.",
+                    "/buyer/" + buyerId + "/edit",
+                    sender,
+                    receiver
+            );
+            notificationStore.store(notification);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void sendBuyerUpdateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
+        Administrator sender = administratorService.getAdminById(senderId);
+        for (Long adminId : managerIds) {
+            Administrator receiver = administratorService.getAdminById(adminId);
+            Notification notification = Notification.sendBuyerCreateOrUpdateManager(
+                    Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 수정하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 수정하였습니다.",
                     "/buyer/" + buyerId + "/edit",
                     sender,
                     receiver

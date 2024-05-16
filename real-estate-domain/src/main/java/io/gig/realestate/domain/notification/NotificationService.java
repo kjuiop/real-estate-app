@@ -18,6 +18,8 @@ public interface NotificationService {
 
     void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds);
 
+    void sendBuyerUpdateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds);
+
     List<NotificationListDto> getNotificationByUsername(String username);
 
     Long read(Long notiId, NotificationForm readForm, Administrator administrator);
