@@ -38,6 +38,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         Administrator loginUser = adminSecurityService.getLoginUser();
         if (loginUser != null) {
             List<MenuDto> menus = menuService.getMenuHierarchyByRoles(MenuType.AdminConsole, loginUser.getRoles());
+            mav.addObject("loginName", loginUser.getName());
             mav.addObject("menus", menus);
             mav.addObject("notiCnt", notificationService.getNotificationCntByUsername(loginUser.getUsername()));
             mav.addObject("notifications", notificationService.getNotificationByUsername(loginUser.getUsername()));
