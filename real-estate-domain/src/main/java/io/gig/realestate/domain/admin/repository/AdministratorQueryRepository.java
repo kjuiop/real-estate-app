@@ -238,6 +238,20 @@ public class AdministratorQueryRepository {
                 .fetch();
     }
 
+    public List<AdministratorListDto> getAdministratorsByTeamNotSuperAdmin(Team team) {
+        return this.queryFactory
+                .selectDistinct(Projections.constructor(AdministratorListDto.class,
+                        administrator))
+                .from(administrator)
+                .join(administrator.administratorRoles, administratorRole).fetchJoin()
+                .where(defaultCondition())
+                .where(administratorRole.role.name.ne("ROLE_SUPER_ADMIN"))
+                .where(administrator.status.eq(AdminStatus.NORMAL))
+                .where(administrator.team.eq(team))
+                .orderBy(administrator.id.asc())
+                .fetch();
+    }
+
     public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
         BooleanBuilder where = new BooleanBuilder();
 

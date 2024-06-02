@@ -44,4 +44,6 @@ public interface AdministratorReader {
     Optional<Administrator> getAdminOptional(String username);
 
     Administrator getAdminById(Long adminId);
+
+    List<AdministratorListDto> getTeamAdminListByLoginUserNotSuperAdmin(Team team);
 }
