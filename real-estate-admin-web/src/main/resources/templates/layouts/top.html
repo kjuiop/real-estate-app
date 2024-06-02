@@ -7,20 +7,20 @@
 <body>
 <div th:fragment="header">
     <!-- Navbar -->
-    <!--    <nav class="main-header navbar navbar-expand navbar-white navbar-light col-12">-->
-    <!--        &lt;!&ndash; Left navbar links &ndash;&gt;-->
-    <!--        <ul class="navbar-nav2">-->
-    <!--            <li class="nav-item">-->
-    <!--                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>-->
-    <!--            </li>-->
-    <!--            <li class="nav-item d-none d-sm-inline-block">-->
-    <!--                <a href="index3.html" class="nav-link">Home</a>-->
-    <!--            </li>-->
-    <!--            <li class="nav-item d-none d-sm-inline-block">-->
-    <!--                <a href="index3.html" class="nav-link">Home</a>-->
-    <!--            </li>-->
-    <!--        </ul>-->
-    <!--    </nav>-->
+<!--        <nav class="main-header navbar navbar-expand navbar-white navbar-light col-12">-->
+<!--            &lt;!&ndash; Left navbar links &ndash;&gt;-->
+<!--            <ul class="navbar-nav2">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>-->
+<!--                </li>-->
+<!--                <li class="nav-item d-none d-sm-inline-block">-->
+<!--                    <a href="index3.html" class="nav-link">Home</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item d-none d-sm-inline-block">-->
+<!--                    <a href="index3.html" class="nav-link">Home</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
     <!-- /.navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
@@ -30,6 +30,9 @@
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block" style="padding-top: 8px;">
+                <span style="text-decoration: underline; color: rgba(0, 0, 0, 0.5); font-size: 15px;">[[${loginName}]]님이 로그인하였습니다</span>
             </li>
         </ul>
 
