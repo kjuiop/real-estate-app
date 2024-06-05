@@ -12,4 +12,6 @@ public interface SlackService {
     void sendMessage(String message);
 
     void sendMessageToChannelByApp(String channelKey, String message) throws IOException;
+
+    String getSlackIdByEmail(String email);
 }

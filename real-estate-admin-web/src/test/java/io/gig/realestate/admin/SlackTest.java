@@ -25,4 +25,10 @@ public class SlackTest {
             System.out.println("sendTest Error occurred err: " + e.toString());
         }
     }
+
+    @Test
+    void getSlackIdByEmail() {
+        String userId = slackService.getSlackIdByEmail("arneg0shua@gmail.com");
+        System.out.println(userId);
+    }
 }
