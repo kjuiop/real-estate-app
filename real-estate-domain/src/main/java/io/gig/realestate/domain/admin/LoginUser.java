@@ -21,6 +21,8 @@ public class LoginUser extends User implements Serializable {
 
     private Long teamId;
 
+    private String adminName;
+
     private Administrator loginUser;
     @Setter
     private Map<String, Object> attributes;
@@ -31,6 +33,8 @@ public class LoginUser extends User implements Serializable {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.loginUser = loginUser;
         this.teamId = loginUser.getTeam().getId();
+        this.id = loginUser.getId();
+        this.adminName = loginUser.getName();
     }
 
     public String getName() {
