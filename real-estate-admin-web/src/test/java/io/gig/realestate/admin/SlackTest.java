@@ -20,7 +20,7 @@ public class SlackTest {
     @Test
     void sendTest() {
         try {
-            slackService.sendMessageToChannelByApp("C076SFYQVU1", "자바 테스터로 메시지 전송 테스트1");
+            slackService.sendMessageToChannelByApp("C076SFYQVU1", "자바 테스터로 메시지 전송 테스트2");
         } catch (Exception e) {
             System.out.println("sendTest Error occurred err: " + e.toString());
         }

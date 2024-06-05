@@ -40,40 +40,24 @@ public class SlackServiceImpl implements SlackService {
     @Override
     @Transactional
     public void sendMessageToChannelByApp(String channelKey, String message) throws IOException {
+        String url = slackProperties.getChatApi();
+        url += "?channel="+channelKey;
+        url += "&text="+ message;
 
-        String urlStr = slackProperties.getChatApi();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + slackProperties.getToken());
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
 
-        urlStr += "?channel="+channelKey;
-        urlStr += "&text="+ URLEncoder.encode(message, "UTF-8");
-
-        HttpURLConnection conn = null;
-        URL url = new URL(urlStr);
-        conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestProperty("Accept", "application/json");
-        conn.setRequestProperty("Authorization", "Bearer "+ slackProperties.getToken());
-        conn.setRequestMethod("POST");
-        conn.setConnectTimeout(5000);
-        conn.setReadTimeout(5000);
-        conn.connect();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        StringBuffer response = new StringBuffer();
-
-        if (conn.getResponseCode()==200) {
-            response.append(br.readLine());
-            if (response!=null) {
-                if (String.valueOf(response).contains("\"ok\":true")) {
-                    System.out.println("슬랙 메시지 발송 성공");
-                }else {
-                    System.out.println("슬랙 메시지 발송 실패");
-                }
-            }
-        } else {
-            System.out.println("슬랙 API 오류 발생 code: " + conn.getResponseCode() + " message: " + conn.getResponseMessage());
-        }
-
-        br.close();
-        conn.disconnect();
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+        JSONObject jsonObject = new JSONObject(responseEntity.getBody());
+        System.out.println(jsonObject);
     }
 
     @Override
