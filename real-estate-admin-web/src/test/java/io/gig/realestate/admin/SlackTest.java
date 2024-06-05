@@ -31,4 +31,14 @@ public class SlackTest {
         String userId = slackService.getSlackIdByEmail("arneg0shua@gmail.com");
         System.out.println(userId);
     }
+
+    @Test
+    void sendDmMessage() {
+        try {
+            String userId = slackService.getSlackIdByEmail("arneg0shua@gmail.com");
+            slackService.sendMessageToChannelByApp(userId, "DM Message Test");
+        } catch (Exception e) {
+            System.out.println("sendTest Error occurred err: " + e.toString());
+        }
+    }
 }
