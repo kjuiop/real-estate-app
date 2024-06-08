@@ -70,16 +70,25 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void sendBuyerUpdateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
+        List<NotificationEvent> eventList = new ArrayList<>();
         Administrator sender = administratorService.getAdminById(senderId);
         for (Long adminId : managerIds) {
             Administrator receiver = administratorService.getAdminById(adminId);
+            String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 수정하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 수정하였습니다.";
+            String returnUrl = "/buyer/" + buyerId + "/edit";
             Notification notification = Notification.sendBuyerCreateOrUpdateManager(
-                    Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 수정하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 수정하였습니다.",
-                    "/buyer/" + buyerId + "/edit",
+                    msg,
+                    returnUrl,
                     sender,
                     receiver
             );
-            notificationStore.store(notification);
+            Notification saved = notificationStore.store(notification);
+            MessageForm form = MessageForm.sendMsgByNotification(saved.getId(), msg, returnUrl, sender.getUsername(), receiver.getUsername());
+            eventList.add(new NotificationEvent(form, "[send-notification-slack]-" + saved.getId()));
+        }
+
+        for (NotificationEvent event : eventList) {
+            eventPublisher.publishEvent(event);
         }
     }
 
