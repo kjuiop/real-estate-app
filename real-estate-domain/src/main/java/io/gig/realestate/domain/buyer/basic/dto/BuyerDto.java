@@ -2,6 +2,7 @@ package io.gig.realestate.domain.buyer.basic.dto;
 
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
+import io.gig.realestate.domain.buyer.basic.types.CompleteType;
 import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,6 +71,8 @@ public class BuyerDto {
 
     private LocalDateTime createdAt;
 
+    private CompleteType completeType;
+
     public BuyerDto(Buyer b) {
         this.buyerId = b.getId();
         this.buyerGradeCds = b.getBuyerGradeCds();
@@ -95,6 +98,7 @@ public class BuyerDto {
         this.companyEstablishAtYn = b.getCompanyEstablishAtYn();
         this.companyScale = b.getCompanyScale();
         this.requestDetail = b.getRequestDetail();
+        this.completeType = b.getCompleteType();
         this.createdAt = b.getCreatedAt();
     }
 }

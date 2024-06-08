@@ -182,6 +182,14 @@ public class BuyerServiceImpl implements BuyerService {
         return buyerStore.store(buyer).getId();
     }
 
+    @Override
+    @Transactional
+    public Long changeCompleteType(Long buyerId, BuyerCompleteDto completeDto, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        buyer.changeCompleteType(completeDto);
+        return buyerStore.store(buyer).getId();
+    }
+
     private List<String> convertCdToNames(String code) {
         if (!StringUtils.hasText(code)) {
             return new ArrayList<>();

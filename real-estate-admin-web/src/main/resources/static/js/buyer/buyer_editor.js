@@ -632,6 +632,35 @@ let initRealEstateModal = function(e) {
     $tbody.html(tag);
 }
 
+let changeCompleteType = function(e) {
+    e.preventDefault();
+
+    let buyerId = $('input[name="buyerId"]').val(),
+        completeType = $(this).val();
+
+    let params = {
+        "completeType" : completeType,
+    }
+
+    twoBtnModal("상태를 변경하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/complete-type",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                twoBtnModal('정상적으로 변경되었습니다.', function() {
+                    location.reload();
+                });
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
     .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
@@ -648,4 +677,5 @@ $(document).ready(onReady)
     .on('click', '.btnSearch', searchRealEstate)
     .on('click', '.btnApply', applyRealEstate)
     .on('click', '.btnRealEstateList', initRealEstateModal)
+    .on('change', '.completeType', changeCompleteType)
 ;
