@@ -38,3 +38,5 @@ log:
     filename: real-estate
     maxHistory: 7
     totalSizeCap: 10MB
+
+domain: http://localhost:8080
