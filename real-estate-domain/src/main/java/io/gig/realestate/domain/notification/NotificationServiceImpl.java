@@ -2,12 +2,17 @@ package io.gig.realestate.domain.notification;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.message.basic.dto.MessageForm;
+import io.gig.realestate.domain.message.basic.dto.MessageListDto;
 import io.gig.realestate.domain.notification.dto.NotificationForm;
 import io.gig.realestate.domain.notification.dto.NotificationListDto;
+import io.gig.realestate.domain.notification.event.NotificationEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationReader notificationReader;
     private final NotificationStore notificationStore;
     private final AdministratorService administratorService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,16 +45,25 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
+        List<NotificationEvent> eventList = new ArrayList<>();
         Administrator sender = administratorService.getAdminById(senderId);
         for (Long adminId : managerIds) {
             Administrator receiver = administratorService.getAdminById(adminId);
+            String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.";
+            String returnUrl = "/buyer/" + buyerId + "/edit";
             Notification notification = Notification.sendBuyerCreateOrUpdateManager(
-                    Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.",
-                    "/buyer/" + buyerId + "/edit",
+                    msg,
+                    returnUrl,
                     sender,
                     receiver
             );
-            notificationStore.store(notification);
+            Notification saved = notificationStore.store(notification);
+            MessageForm form = MessageForm.sendMsgByNotification(saved.getId(), msg, returnUrl, sender.getUsername(), receiver.getUsername());
+            eventList.add(new NotificationEvent(form, "[send-notification-slack]-" + saved.getId()));
+        }
+
+        for (NotificationEvent event : eventList) {
+            eventPublisher.publishEvent(event);
         }
     }
 
