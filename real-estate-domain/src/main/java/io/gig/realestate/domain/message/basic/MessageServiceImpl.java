@@ -17,6 +17,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
 
+    private final MessageStore messageStore;
+
     private final SlackService slackService;
 
     @Value("${domain}")
@@ -27,5 +29,7 @@ public class MessageServiceImpl implements MessageService {
     public void sendNotificationMsg(MessageForm form) throws IOException {
         String userId = slackService.getSlackIdByEmail(form.getReceiver());
         slackService.sendMessageToChannelByApp(userId, form.getMessage() + " " + domain + form.getReturnUrl());
+        MessageInfo messageInfo = MessageInfo.create(form);
+        messageStore.store(messageInfo);
     }
 }

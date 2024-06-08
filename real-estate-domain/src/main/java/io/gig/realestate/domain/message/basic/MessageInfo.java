@@ -2,6 +2,7 @@ package io.gig.realestate.domain.message.basic;
 
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.message.basic.dto.MessageForm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -40,4 +41,12 @@ public class MessageInfo extends BaseTimeEntity {
 
     private String receiver;
 
+    public static MessageInfo create(MessageForm form) {
+        return MessageInfo.builder()
+                .message(form.getMessage())
+                .returnUrl(form.getReturnUrl())
+                .sender(form.getSender())
+                .receiver(form.getReceiver())
+                .build();
+    }
 }
