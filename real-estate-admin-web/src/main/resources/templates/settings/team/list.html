@@ -4,6 +4,17 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .content * {
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="TeamStatus = ${T(io.gig.realestate.domain.team.types.TeamStatus)}">
     <div th:replace="layouts/utilFragments::navigator('/team-manager', '팀 관리', '팀 목록')"></div>

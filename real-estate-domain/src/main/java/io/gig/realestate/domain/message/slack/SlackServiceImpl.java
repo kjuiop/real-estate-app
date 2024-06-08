@@ -4,7 +4,21 @@ import io.gig.realestate.domain.utils.properties.SlackProperties;
 import lombok.RequiredArgsConstructor;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackMessage;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * @author : JAKE
@@ -17,8 +31,56 @@ public class SlackServiceImpl implements SlackService {
     private final SlackProperties slackProperties;
 
     @Override
+    @Transactional
     public void sendMessage(String message) {
         SlackApi slackApi = new SlackApi(slackProperties.getUrl());
         slackApi.call(new SlackMessage("An error occurred : " + message));
+    }
+
+    @Override
+    @Transactional
+    public void sendMessageToChannelByApp(String channelKey, String message) throws IOException {
+        String url = slackProperties.getChatApi();
+        url += "?channel="+channelKey;
+        url += "&text="+ message;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + slackProperties.getToken());
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+        JSONObject jsonObject = new JSONObject(responseEntity.getBody());
+        System.out.println(jsonObject);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getSlackIdByEmail(String email) {
+        String url = "https://slack.com/api/users.lookupByEmail";
+        url += "?email=" + email;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + slackProperties.getToken());
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                requestEntity,
+                String.class
+        );
+        JSONObject jsonObject = new JSONObject(responseEntity.getBody());
+        JSONObject profile = jsonObject.getJSONObject("user");
+        String id = (String) profile.get("id");
+        return id;
     }
 }
