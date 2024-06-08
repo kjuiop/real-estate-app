@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,6 +28,16 @@ public class TeamServiceImpl implements TeamService {
     @Transactional(readOnly = true)
     public List<TeamListDto> getTeamList() {
         return teamReader.getTeamList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TeamListDto> getTeamListByLoginUser(LoginUser loginUser) {
+        if (loginUser.isSuperAdmin()) {
+            return teamReader.getTeamList();
+        }
+        Team team = teamReader.getTeamById(loginUser.getTeamId());
+        return List.of(new TeamListDto(team));
     }
 
     @Override

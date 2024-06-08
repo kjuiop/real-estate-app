@@ -3,6 +3,7 @@ package io.gig.realestate.domain.admin;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.Map;
 @Getter
 public class LoginUser extends User implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final String superAdminRole = "ROLE_SUPER_ADMIN";
 
     private Long id;
 
@@ -39,5 +41,14 @@ public class LoginUser extends User implements Serializable {
 
     public String getName() {
         return this.loginUser.getUsername();
+    }
+
+    public boolean isSuperAdmin() {
+        for (GrantedAuthority role : this.getAuthorities()) {
+            if (role.getAuthority().equals(superAdminRole)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
