@@ -12,6 +12,7 @@ import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
+import io.gig.realestate.domain.buyer.basic.types.CompleteType;
 import io.gig.realestate.domain.common.YnType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +81,20 @@ public class BuyerQueryRepository {
         }
 
         return new PageImpl<>(content, condition.getPageableWithSort(), total);
+    }
+
+    public List<BuyerDetailDto> getBuyerProcessingList() {
+
+        JPAQuery<BuyerDetailDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(BuyerDetailDto.class,
+                        buyer))
+                .from(buyer)
+                .where(defaultCondition())
+                .where(eqCompleteType(CompleteType.Proceeding))
+                .where(afterTwoWeeksCreated())
+                ;
+
+        return contentQuery.fetch();
     }
 
     public Optional<Buyer> getBuyerById(Long buyerId) {
@@ -252,5 +268,15 @@ public class BuyerQueryRepository {
                         .where(buyerManager.admin.id.eq(loginUser.getId()))
                         .where(buyerManager.deleteYn.eq(YnType.N)));
     }
+
+    private BooleanExpression eqCompleteType(CompleteType completeType) {
+        return buyer.completeType.eq(completeType);
+    }
+
+    private BooleanExpression afterTwoWeeksCreated() {
+        LocalDateTime twoWeeksAgo = LocalDateTime.now().minus(2, ChronoUnit.WEEKS);
+        return buyer.createdAt.after(twoWeeksAgo);
+    }
+
 
 }

@@ -82,7 +82,7 @@ public class BuyerDetailDto extends BuyerDto {
         super(b);
         List<BuyerManagerDto> list = new ArrayList<>();
         for (BuyerManager bm : b.getManagers()) {
-            if (bm.getDeleteYn() == YnType.N) {
+            if (bm.getDeleteYn() == YnType.N && bm.getAdmin().isNormal()) {
                 list.add(new BuyerManagerDto(bm));
             }
         }

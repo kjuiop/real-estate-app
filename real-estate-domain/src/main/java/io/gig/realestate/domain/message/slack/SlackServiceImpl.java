@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.message.slack;
 
+import com.ctc.wstx.util.StringUtil;
 import io.gig.realestate.domain.utils.properties.SlackProperties;
 import lombok.RequiredArgsConstructor;
 import net.gpedro.integrations.slack.SlackApi;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
@@ -40,6 +42,10 @@ public class SlackServiceImpl implements SlackService {
     @Override
     @Transactional
     public void sendMessageToChannelByApp(String channelKey, String message) throws IOException {
+        if (!StringUtils.hasText(channelKey)) {
+            return;
+        }
+
         String url = slackProperties.getChatApi();
         url += "?channel="+channelKey;
         url += "&text="+ message;

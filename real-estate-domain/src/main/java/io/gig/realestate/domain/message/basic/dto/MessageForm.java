@@ -15,6 +15,8 @@ public class MessageForm {
 
     private Long notificationId;
 
+    private Long buyerId;
+
     private Long messageId;
 
     private String message;
@@ -28,6 +30,16 @@ public class MessageForm {
     public static MessageForm sendMsgByNotification(Long notiId, String message, String returnUrl, String sender, String receiver) {
         return MessageForm.builder()
                 .notificationId(notiId)
+                .message(message)
+                .returnUrl(returnUrl)
+                .sender(sender)
+                .receiver(receiver)
+                .build();
+    }
+
+    public static MessageForm sendMsgBuyerOverdueByBatch(Long buyerId, String message, String returnUrl, String sender, String receiver) {
+        return MessageForm.builder()
+                .buyerId(buyerId)
                 .message(message)
                 .returnUrl(returnUrl)
                 .sender(sender)

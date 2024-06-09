@@ -68,6 +68,12 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<BuyerDetailDto> getBuyerProcessingList() {
+        return buyerReader.getBuyerProcessingList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
         detail.setBuyerGradeName(categoryService.getCategoryNameByCode(detail.getBuyerGradeCds()));

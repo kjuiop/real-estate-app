@@ -137,7 +137,7 @@ public class Administrator extends BaseTimeEntity {
     }
 
     public boolean isNormal() {
-        return this.status == AdminStatus.NORMAL;
+        return this.status == AdminStatus.NORMAL && this.deleteYn == YnType.N;
     }
 
     public void loginSuccess() {

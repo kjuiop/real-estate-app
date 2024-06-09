@@ -29,4 +29,6 @@ public interface BuyerService {
     Long createHistoryMap(Long buyerId, HistoryMapForm createForm, LoginUser loginUser);
 
     Long changeCompleteType(Long buyerId, BuyerCompleteDto completeDto, LoginUser loginUser);
+
+    List<BuyerDetailDto> getBuyerProcessingList();
 }
