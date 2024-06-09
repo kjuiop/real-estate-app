@@ -125,4 +125,13 @@ public class BuyerController {
         Long savedId = buyerService.createHistoryMap(buyerId, createForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
     }
+
+    @PostMapping("{buyerId}/complete-type")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> processChange(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody BuyerCompleteDto completeDto,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long savedId = buyerService.changeCompleteType(buyerId, completeDto, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
+    }
 }

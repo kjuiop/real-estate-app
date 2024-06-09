@@ -2,8 +2,10 @@ package io.gig.realestate.domain.buyer.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.basic.dto.BuyerCompleteDto;
 import io.gig.realestate.domain.buyer.basic.types.CompanyScaleType;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerForm;
+import io.gig.realestate.domain.buyer.basic.types.CompleteType;
 import io.gig.realestate.domain.buyer.history.BuyerHistory;
 import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
@@ -37,6 +39,11 @@ public class Buyer extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private CompleteType completeType = CompleteType.Proceeding;
 
     private int successPercent;
 
@@ -177,5 +184,9 @@ public class Buyer extends BaseTimeEntity {
         this.companyEstablishAtYn = updateForm.getCompanyEstablishAtYn();
         this.requestDetail = updateForm.getRequestDetail();
         this.updatedBy = loginUser.getLoginUser();
+    }
+
+    public void changeCompleteType(BuyerCompleteDto completeDto) {
+        this.completeType = completeDto.getCompleteType();
     }
 }

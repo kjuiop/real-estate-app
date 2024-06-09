@@ -68,6 +68,12 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<BuyerDetailDto> getBuyerProcessingList() {
+        return buyerReader.getBuyerProcessingList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
         detail.setBuyerGradeName(categoryService.getCategoryNameByCode(detail.getBuyerGradeCds()));
@@ -179,6 +185,14 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         BuyerHistoryMap historyMap = BuyerHistoryMap.createCustomMap(buyer, createForm, loginUser.getLoginUser());
         buyer.getMaps().add(historyMap);
+        return buyerStore.store(buyer).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long changeCompleteType(Long buyerId, BuyerCompleteDto completeDto, LoginUser loginUser) {
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        buyer.changeCompleteType(completeDto);
         return buyerStore.store(buyer).getId();
     }
 

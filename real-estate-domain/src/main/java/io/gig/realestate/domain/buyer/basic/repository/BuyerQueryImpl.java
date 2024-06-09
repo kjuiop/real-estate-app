@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,6 +29,11 @@ public class BuyerQueryImpl implements BuyerReader {
     @Override
     public Page<BuyerListDto> getBuyerPageListBySearch(BuyerSearchDto condition, Administrator loginUser) {
         return queryRepository.getBuyerPageListBySearch(condition, loginUser);
+    }
+
+    @Override
+    public List<BuyerDetailDto> getBuyerProcessingList() {
+        return queryRepository.getBuyerProcessingList();
     }
 
     @Override
