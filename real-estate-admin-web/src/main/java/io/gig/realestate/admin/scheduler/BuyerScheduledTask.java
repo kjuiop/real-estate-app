@@ -26,7 +26,7 @@ public class BuyerScheduledTask {
     private final ApplicationEventPublisher eventPublisher;
 
     //    @Scheduled(cron = "*/40 * * * * ?")
-    @Scheduled(cron = "0 0 15 * * ?")
+    @Scheduled(cron = "0 0 10 * * ?")
     public void checkBuyerLatest() {
         List<BuyerOverDueEvent> eventList = new ArrayList<>();
         List<BuyerDetailDto> list = buyerService.getBuyerProcessingList();
