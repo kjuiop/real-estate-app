@@ -112,6 +112,11 @@
     </div><!-- /.modal -->
 </div>
 <section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var errorMessage =/*[[${errorMessage}]]*/'';
+        /*]]>*/
+    </script>
     <script src="/static/js/index/index.js" th:src="@{/js/index/index.js}"></script>
 </section>
 </body>

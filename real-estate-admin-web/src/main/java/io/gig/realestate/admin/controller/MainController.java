@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author : JAKE
  * @date : 2023/02/25
@@ -21,8 +23,13 @@ public class MainController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("index");
+    public ModelAndView index(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("index");
+        if (request.getSession() != null) {
+            mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));
+            request.getSession().removeAttribute("errorMessage");
+        }
+        return mav;
     }
 
     @GetMapping("/test/{error}")
