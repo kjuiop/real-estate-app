@@ -5,6 +5,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .content * {
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="TeamStatus = ${T(io.gig.realestate.domain.team.types.TeamStatus)}">
     <section class="content" th:with="isModify = ${dto.teamId != null}">

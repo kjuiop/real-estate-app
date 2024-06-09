@@ -101,6 +101,11 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public List<AdministratorListDto> getTeamAdminListByLoginUserNotSuperAdmin(Team team) {
+        return queryRepository.getAdministratorsByTeamNotSuperAdmin(team);
+    }
+
+    @Override
     public Page<AdministratorListDto> getAdminByTeamId(AdminSearchDto searchDto, Long teamId) {
         return queryRepository.getAdminByTeamId(searchDto, teamId);
     }

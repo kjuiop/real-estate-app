@@ -12,21 +12,38 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" class="nav-link">Home</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block" style="padding-top: 8px;">
+                <span style="text-decoration: underline; color: rgba(0, 0, 0, 0.5); font-size: 15px;">[[${loginName}]]님이 로그인하였습니다</span>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
+                    <span class="badge badge-warning navbar-badge notiCnt" th:classappend="${notiCnt == 0 ? 'hidden' : ''}">[[${notiCnt}]]</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
+                    <span class="dropdown-item dropdown-header font-size-12">
+                        <span class="notiBannerCnt">[[${notiCnt}]]</span> 개의 읽지 않은 알림
+                    </span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope-o mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
+                    <th:block th:each="noti : ${notifications}">
+                        <a class="dropdown-item noti-move" th:returnUrl="${noti.returnUrl}" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
+                            <div class="col-md-1 no-left-padding">
+                                <input type="checkbox" class="checkElement checkNotiRead" th:checked="${noti.readYn.key eq 'Y'}" style="margin-top: 2px;" th:notiId="${noti.notificationId}"/>
+                            </div>
+                            <div class="col-md-9 font-size-12" style="width: 190px; word-break: break-all; padding-left: 10px; display: table;">
+                                <div style="display: table-cell; vertical-align: middle;">
+                                    [[${noti.message}]]
+                                </div>
+                            </div>
+                            <div class="col-md-2 float-right text-muted" style="padding: 5px 0 0;font-size: 12px !important;">
+                                [[${noti.afterPass}]]
+                            </div>
+                        </a>
+                    </th:block>
                     <div class="dropdown-divider"></div>
+                    <!--
                     <a href="#" class="dropdown-item">
                         <i class="fa fa-users mr-2"></i> 8 friend requests
                         <span class="float-right text-muted text-sm">12 hours</span>
@@ -36,8 +53,12 @@
                         <i class="fa fa-file mr-2"></i> 3 new reports
                         <span class="float-right text-muted text-sm">2 days</span>
                     </a>
+                    -->
+
+                    <!--
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="#" class="dropdown-item dropdown-footer">알람 메시지 더보기</a>
+                    -->
                 </div>
             </li>
 
@@ -46,8 +67,8 @@
                     <i class="fa fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0;">
-                    <a href="/administrators/mypage" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">마이페이지</a>
-                    <div class="dropdown-divider"></div>
+<!--                    <a href="/administrators/mypage" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">마이페이지</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
                     <a href="/logout" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">로그아웃</a>
                 </div>
             </li>

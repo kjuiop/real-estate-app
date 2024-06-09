@@ -127,7 +127,7 @@
 </div>
 
 <div th:fragment="commonModal">
-    <div class="modal fade show" id="commonModal" aria-modal="true" style="padding-right: 17px; display: none; margin-top: 450px;">
+    <div class="modal fade show" id="commonModal" aria-modal="true" style="padding-right: 17px; display: none; margin-top: 250px;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -151,7 +151,7 @@
 </div>
 
 <div th:fragment="signUpModal">
-    <div class="modal fade margin-top-200" tabindex="-1" role="dialog" id="sign-up-modal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="sign-up-modal" style="margin-top: 50px;">
         <div class="modal-dialog" role="document" style="border : 1px solid #eeeeee;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -159,7 +159,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="modal-body modal-dialog-scrollable" style="max-height: 1030px; height: 100%; overflow: auto;">
+                <div class="modal-body modal-dialog-scrollable" style="max-height: 1030px; height: 100%; white-space: nowrap; overflow: auto;">
                     <div class="form-horizontal col-md-12">
                         <form class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="emailCheckYn" value="false"/>

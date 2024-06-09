@@ -25,6 +25,7 @@ let initCalendar = function(schedulers) {
     let events = convertSchedulers(schedulers);
     let calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
+        height: 650,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',

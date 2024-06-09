@@ -28,4 +28,6 @@ public interface TeamService {
     TeamDetailDto getDetail(Long teamId);
 
     Long update(TeamUpdateForm updateForm, LoginUser loginUser);
+
+    List<TeamListDto> getTeamListByLoginUser(LoginUser loginUser);
 }

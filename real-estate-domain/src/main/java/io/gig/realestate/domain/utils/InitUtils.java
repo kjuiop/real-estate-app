@@ -70,7 +70,8 @@ public class InitUtils {
         menuService.initMenu("Home", "/", "fa fa-home", 0, memberMenuRoles);
         menuService.initMenu("팀 관리", "/team", "fa fa-users", 1, managerMenuRoles);
         menuService.initMenu("지도검색", "/map", "fa fa-map", 2, memberMenuRoles);
-        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 3, memberMenuRoles);
+        menuService.initMenu("매수자관리", "/buyer", "fa fa-money", 3, memberMenuRoles);
+        menuService.initMenu("매물관리", "/real-estate", "fa fa-building", 4, memberMenuRoles);
         Menu settingMenu = menuService.initMenu("설정", "/settings", "fa fa-gear", 99, superAdminMenuRoles);
         menuService.initChildMenu("메뉴관리", "/settings/menu-manager", "fa fa-circle-o", 1, superAdminMenuRoles, settingMenu);
         menuService.initChildMenu("카테고리관리", "/settings/category-manager", "fa fa-circle-o", 2, superAdminMenuRoles, settingMenu);

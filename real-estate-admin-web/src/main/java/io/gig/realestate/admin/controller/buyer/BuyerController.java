@@ -61,7 +61,7 @@ public class BuyerController {
         model.addAttribute("preferBuildingCds", categoryService.getChildrenCategoryDtosByCode("CD_PREFER_BUILDING"));
         model.addAttribute("investmentTimingCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_TIMING"));
         model.addAttribute("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
-        model.addAttribute("teams", teamService.getTeamList());
+        model.addAttribute("teams", teamService.getTeamListByLoginUser(loginUser));
         model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         return "buyer/editor";
     }
@@ -123,6 +123,15 @@ public class BuyerController {
                                                      @Valid @RequestBody HistoryMapForm createForm,
                                                      @CurrentUser LoginUser loginUser) {
         Long savedId = buyerService.createHistoryMap(buyerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
+    }
+
+    @PostMapping("{buyerId}/complete-type")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> processChange(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody BuyerCompleteDto completeDto,
+                                                     @CurrentUser LoginUser loginUser) {
+        Long savedId = buyerService.changeCompleteType(buyerId, completeDto, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(savedId), HttpStatus.OK);
     }
 }

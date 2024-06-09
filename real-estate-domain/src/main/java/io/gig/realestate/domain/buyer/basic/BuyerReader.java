@@ -6,6 +6,8 @@ import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2024/02/24
@@ -16,4 +18,6 @@ public interface BuyerReader {
     BuyerDetailDto getBuyerDetail(Long buyerId);
 
     Buyer getBuyerById(Long buyerId);
+
+    List<BuyerDetailDto> getBuyerProcessingList();
 }

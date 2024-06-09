@@ -31,7 +31,7 @@ public class NotificationQueryRepository {
                 .from(notification)
                 .where(defaultCondition())
                 .where(eqReceiver(username))
-                .where(eqReadYn())
+                .where(eqReadYn(YnType.N))
                 .fetchOne()
                 ;
     }
@@ -52,6 +52,7 @@ public class NotificationQueryRepository {
                 .from(notification)
                 .where(defaultCondition())
                 .where(eqReceiver(username))
+                .where(eqReadYn(YnType.N))
                 .orderBy(notification.createdAt.desc())
                 .limit(10)
                 .fetch();
@@ -65,8 +66,8 @@ public class NotificationQueryRepository {
         return notification.receiver.username.eq(username);
     }
 
-    private BooleanExpression eqReadYn() {
-        return notification.readYn.eq(YnType.N);
+    private BooleanExpression eqReadYn(YnType readYn) {
+        return notification.readYn.eq(readYn);
     }
 
     private BooleanExpression eqId(Long id) {
