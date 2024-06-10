@@ -3,8 +3,8 @@ package io.gig.realestate.admin.controller.mypage;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.admin.dto.AdministratorAuthForm;
 import io.gig.realestate.domain.admin.dto.AdministratorDetailDto;
-import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
 import io.gig.realestate.domain.admin.dto.MyPageUpdateForm;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * @author : JAKE
@@ -42,5 +40,19 @@ public class MyPageController {
     public ResponseEntity<ApiResponse> update(@Valid @RequestBody MyPageUpdateForm updateForm) {
         Long adminId = administratorService.updateMyPage(updateForm);
         return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
+    }
+
+    @PostMapping("slack-auth")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> sendSlackAuth(@Valid @RequestBody AdministratorAuthForm authForm) throws IOException {
+        Long adminId = administratorService.sendSlackAuth(authForm);
+        return new ResponseEntity<>(ApiResponse.OK(adminId), HttpStatus.OK);
+    }
+
+    @PostMapping("slack-auth/check")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> checkSlackAuth(@Valid @RequestBody AdministratorAuthForm authForm) {
+        boolean isValid = administratorService.checkSlackAuth(authForm);
+        return new ResponseEntity<>(ApiResponse.OK(isValid), HttpStatus.OK);
     }
 }

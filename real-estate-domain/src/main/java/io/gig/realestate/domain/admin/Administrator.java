@@ -11,6 +11,8 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +29,10 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Administrator extends BaseTimeEntity {
+
+    private static final int CODE_LENGTH = 4;
+    private static final SecureRandom random = new SecureRandom();
+    private static final Duration VALID_DURATION = Duration.ofMinutes(5);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,6 +73,16 @@ public class Administrator extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType slackLinkYn = YnType.N;
+
+    private String slackValidCode;
+
+    private LocalDateTime slackValidCodeAt;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -194,5 +210,23 @@ public class Administrator extends BaseTimeEntity {
 
     public void updateAdminStatus(AdministratorTemUpdateForm form) {
         this.status = form.getStatus();
+    }
+
+    public void generateAuthCode() {
+        int number = random.nextInt(10000);
+        this.slackValidCode =  String.format("%04d", number);
+        this.slackValidCodeAt = LocalDateTime.now();
+    }
+
+    public boolean checkSlackValidCode(String code) {
+        if (slackValidCode == null || slackValidCodeAt == null) {
+            return false;
+        }
+        Duration duration = Duration.between(slackValidCodeAt, LocalDateTime.now());
+        return slackValidCode.equals(code) && duration.compareTo(VALID_DURATION) <= 0;
+    }
+
+    public void linkSlack() {
+        this.slackLinkYn = YnType.Y;
     }
 }

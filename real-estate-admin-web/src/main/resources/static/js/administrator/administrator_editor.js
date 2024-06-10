@@ -73,6 +73,82 @@ const checkValidPassword = function() {
 
 };
 
+let sendSlackAuth = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmAdminRegister"]');
+
+    let params = {
+        "username" : $frm.find('#username').val()
+    }
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/mypage/slack-auth",
+        method: 'post',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let adminId = result.data;
+            if (!checkNullOrEmptyValue(adminId)) {
+                twoBtnModal("slack 에 가입된 계정인지 확인해주세요.");
+                return;
+            }
+
+            $('.authSection').removeClass('hidden');
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let checkSlackAuth = function(e) {
+    e.preventDefault();
+
+    let $frm = $('form[name="frmAdminRegister"]');
+
+    let params = {
+        "username" : $frm.find('#username').val(),
+        "authCode" : $frm.find('.authCode').val()
+    }
+
+    if (!checkNullOrEmptyValue(params.authCode)) {
+        twoBtnModal("인증번호를 입력해주세요.");
+        return;
+    }
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/mypage/slack-auth/check",
+        method: 'post',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            console.log("result : ", result);
+            let isValid = result.data;
+            if (!isValid) {
+                twoBtnModal("인증번호가 유효하지 않습니다. 다시 요청해주세요.")
+                $('.authSection').removeClass('hidden');
+                return;
+            }
+            twoBtnModal("slack 계정에 연동되었습니다.", function() {
+                location.reload();
+            });
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 $(document).ready(onReady)
     .on('blur', 'input[name="confirmPassword"]', checkValidPassword)
-    .on('click', '.btnUpdate', update);
+    .on('click', '.btnUpdate', update)
+    .on('click', '.btnSendSlackAuth', sendSlackAuth)
+    .on('click', '.btnCheckSlackAuth', checkSlackAuth);

@@ -5,6 +5,7 @@ import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.team.dto.TeamUpdateForm;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,4 +63,8 @@ public interface AdministratorService {
     List<AdministratorListDto> getTeamAdminListByLoginUserNotSuperAdmin(LoginUser loginUser);
 
     Long updateMyPage(MyPageUpdateForm updateForm);
+
+    Long sendSlackAuth(AdministratorAuthForm authForm) throws IOException;
+
+    boolean checkSlackAuth(AdministratorAuthForm authForm);
 }

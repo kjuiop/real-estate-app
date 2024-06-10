@@ -2,6 +2,7 @@ package io.gig.realestate.domain.admin.dto;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.types.AdminStatus;
+import io.gig.realestate.domain.common.YnType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -35,6 +36,8 @@ public class AdministratorDto {
 
     private boolean isValidEmailAuth;
 
+    private YnType slackLinkYn;
+
     private LocalDateTime lastLoginAt;
 
     private LocalDateTime createdAt;
@@ -52,6 +55,7 @@ public class AdministratorDto {
         this.isNormal = a.isNormal();
         this.isValidEmailAuth = a.isValidEmailAuth();
         this.lastLoginAt = a.getLastLoginAt();
+        this.slackLinkYn = a.getSlackLinkYn();
         this.createdAt = a.getCreatedAt();
         this.updatedAt = a.getUpdatedAt();
     }

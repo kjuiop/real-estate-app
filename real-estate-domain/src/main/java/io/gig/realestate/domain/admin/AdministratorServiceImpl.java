@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.admin;
 
 import io.gig.realestate.domain.admin.dto.*;
+import io.gig.realestate.domain.message.slack.SlackService;
 import io.gig.realestate.domain.role.Role;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.team.Team;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class AdministratorServiceImpl implements AdministratorService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final TeamReader teamReader;
-    private final TeamStore teamStore;
+    private final SlackService slackService;
 
     @Override
     @Transactional(readOnly = true)
@@ -252,6 +254,31 @@ public class AdministratorServiceImpl implements AdministratorService {
         administrator.updateMyPage(updateForm, password);
 
         return null;
+    }
+
+    @Override
+    @Transactional
+    public Long sendSlackAuth(AdministratorAuthForm authForm) throws IOException {
+        Administrator admin = getAdminEntityByUsername(authForm.getUsername());
+        admin.generateAuthCode();
+        String userId = slackService.getSlackIdByEmail(admin.getUsername());
+        if (!StringUtils.hasText(userId)) {
+            return null;
+        }
+        slackService.sendMessageToChannelByApp(userId, "인증번호는 [" + admin.getSlackValidCode() + "] 입니다.");
+        return admin.getId();
+    }
+
+    @Override
+    @Transactional
+    public boolean checkSlackAuth(AdministratorAuthForm authForm) {
+        Administrator admin = getAdminEntityByUsername(authForm.getUsername());
+        boolean isValid = admin.checkSlackValidCode(authForm.getAuthCode());
+        if (isValid) {
+            admin.linkSlack();
+            administratorStore.store(admin);
+        }
+        return isValid;
     }
 
     private void validPassword(Administrator administrator, String password) {
