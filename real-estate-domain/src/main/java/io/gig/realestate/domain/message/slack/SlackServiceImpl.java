@@ -1,6 +1,8 @@
 package io.gig.realestate.domain.message.slack;
 
-import com.ctc.wstx.util.StringUtil;
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.utils.properties.SlackProperties;
 import lombok.RequiredArgsConstructor;
 import net.gpedro.integrations.slack.SlackApi;
@@ -15,12 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * @author : JAKE
@@ -69,6 +66,7 @@ public class SlackServiceImpl implements SlackService {
     @Override
     @Transactional(readOnly = true)
     public String getSlackIdByEmail(String email) {
+
         String url = "https://slack.com/api/users.lookupByEmail";
         url += "?email=" + email;
 
