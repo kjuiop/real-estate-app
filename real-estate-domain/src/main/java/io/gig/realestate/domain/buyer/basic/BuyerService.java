@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.basic.dto.*;
 import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
+import io.gig.realestate.domain.buyer.manager.dto.BuyerManagerDto;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
 import org.springframework.data.domain.Page;
 
@@ -31,4 +32,6 @@ public interface BuyerService {
     Long changeCompleteType(Long buyerId, BuyerCompleteDto completeDto, LoginUser loginUser);
 
     List<BuyerDetailDto> getBuyerProcessingList();
+
+    boolean checkIsBuyerManager(LoginUser loginUser, List<BuyerManagerDto> managers);
 }

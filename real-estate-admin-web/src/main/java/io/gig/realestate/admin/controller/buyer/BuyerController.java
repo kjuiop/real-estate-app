@@ -20,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -69,8 +71,16 @@ public class BuyerController {
     @GetMapping("{buyerId}/edit")
     public String editForm(@PathVariable(name = "buyerId") Long buyerId,
                            @CurrentUser LoginUser loginUser,
-                           Model model) {
-        model.addAttribute("dto", buyerService.getBuyerDetail(buyerId));
+                           HttpServletRequest request,
+                           Model model) throws AuthenticationException {
+        BuyerDetailDto dto = buyerService.getBuyerDetail(buyerId);
+        boolean isManager = buyerService.checkIsBuyerManager(loginUser, dto.getManagers());
+        if (!isManager) {
+            request.getSession().setAttribute("errorMessage", "접근이 제한된 페이지입니다.");
+            return "redirect:/";
+        }
+
+        model.addAttribute("dto", dto);
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         model.addAttribute("characterCds", categoryService.getChildrenCategoryDtosByCode("CD_INVESTMENT_CHARACTER"));

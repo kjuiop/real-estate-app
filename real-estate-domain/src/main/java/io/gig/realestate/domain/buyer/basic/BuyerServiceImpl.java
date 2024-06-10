@@ -10,6 +10,7 @@ import io.gig.realestate.domain.buyer.history.dto.HistoryForm;
 import io.gig.realestate.domain.buyer.history.dto.HistoryListDto;
 import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.buyer.manager.BuyerManagerService;
+import io.gig.realestate.domain.buyer.manager.dto.BuyerManagerDto;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMap;
 import io.gig.realestate.domain.buyer.maps.BuyerHistoryMapService;
 import io.gig.realestate.domain.buyer.maps.dto.HistoryMapForm;
@@ -194,6 +195,21 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         buyer.changeCompleteType(completeDto);
         return buyerStore.store(buyer).getId();
+    }
+
+    @Override
+    public boolean checkIsBuyerManager(LoginUser loginUser, List<BuyerManagerDto> managers) {
+        if (loginUser.isSuperAdmin()) {
+            return true;
+        }
+
+        for (BuyerManagerDto manager : managers) {
+            if (Objects.equals(manager.getAdminId(), loginUser.getId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private List<String> convertCdToNames(String code) {

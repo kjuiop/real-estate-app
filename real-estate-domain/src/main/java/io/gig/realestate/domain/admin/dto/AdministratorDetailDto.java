@@ -21,6 +21,8 @@ public class AdministratorDetailDto extends AdministratorDto {
 
     public Long teamId;
 
+    public String teamName;
+
     private static final AdministratorDetailDto EMPTY;
 
     static {
@@ -46,6 +48,7 @@ public class AdministratorDetailDto extends AdministratorDto {
 
         if (a.getTeam() != null) {
             this.teamId = a.getTeam().getId();
+            this.teamName = a.getTeam().getName();
         }
     }
 

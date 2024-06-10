@@ -11,6 +11,9 @@
     <springProfile name="dev">
         <property resource="application-dev.yml" />
     </springProfile>
+    <springProfile name="prod">
+        <property resource="application-prod.yml" />
+    </springProfile>
 
     <!-- log 변수 값 설정 -->
     <springProperty name="LOG_PATH" source= "log.config.path" />
@@ -56,6 +59,14 @@
     </springProfile>
     <!--  dev 환경  -->
     <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
+    <!--  prod 환경  -->
+    <springProfile name="prod">
         <root level="info">
             <appender-ref ref="STDOUT" />
             <appender-ref ref="FILE" />

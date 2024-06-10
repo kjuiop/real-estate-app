@@ -1,6 +1,10 @@
 let calendar;
 let onReady = function() {
     getCalendars();
+
+    if (checkNullOrEmptyValue(errorMessage)) {
+        twoBtnModal(errorMessage);
+    }
 }
 
 let getCalendars = function() {

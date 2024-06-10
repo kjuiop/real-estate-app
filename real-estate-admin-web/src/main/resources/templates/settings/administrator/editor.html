@@ -5,6 +5,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
+    <style>
+        .container-fluid input {
+            height: 30px !important;
+            font-size: 12px;
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="AdminStatus = ${T(io.gig.realestate.domain.admin.types.AdminStatus)}">
     <section class="content" th:with="isModify = ${dto.adminId != null}">
