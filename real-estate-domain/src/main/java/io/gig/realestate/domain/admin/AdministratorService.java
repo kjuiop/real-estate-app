@@ -60,4 +60,6 @@ public interface AdministratorService {
     Administrator getAdminById(Long adminId);
 
     List<AdministratorListDto> getTeamAdminListByLoginUserNotSuperAdmin(LoginUser loginUser);
+
+    Long updateMyPage(MyPageUpdateForm updateForm);
 }

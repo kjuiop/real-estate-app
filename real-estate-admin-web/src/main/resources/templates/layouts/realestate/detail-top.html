@@ -12,7 +12,7 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" class="nav-link">Home</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block" style="padding-top: 8px;">
+            <li class="nav-item d-none d-sm-inline-block" style="padding-top: 8px;" th:if="${loginName}">
                 <span style="text-decoration: underline; color: rgba(0, 0, 0, 0.5); font-size: 15px;">[[${loginName}]]님이 로그인하였습니다</span>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
@@ -86,7 +86,7 @@
                     <i class="fa fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0;">
-                    <a href="/administrators/mypage" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">마이페이지</a>
+                    <a href="/mypage" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">마이페이지</a>
                     <div class="dropdown-divider"></div>
                     <a href="/logout" class="nav-link font-size-12 text-alien-center" style="padding: 0 10px; height: 20px;">로그아웃</a>
                 </div>

@@ -241,6 +241,19 @@ public class AdministratorServiceImpl implements AdministratorService {
         return administratorReader.getAdminById(adminId);
     }
 
+    @Override
+    @Transactional
+    public Long updateMyPage(MyPageUpdateForm updateForm) {
+        Administrator administrator = getAdminById(updateForm.getAdminId());
+        if (StringUtils.hasText(updateForm.getPassword())) {
+            validPassword(administrator, updateForm.getPassword());
+        }
+        String password = StringUtils.hasText(updateForm.getPassword()) ? passwordEncoder.encode(updateForm.getPassword()) : "";
+        administrator.updateMyPage(updateForm, password);
+
+        return null;
+    }
+
     private void validPassword(Administrator administrator, String password) {
         if (administrator.passwordValid(password)) {
             throw new IllegalArgumentException("이전에 사용했던 비밀번호입니다.");

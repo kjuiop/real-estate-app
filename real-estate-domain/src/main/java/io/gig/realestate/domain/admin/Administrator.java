@@ -1,9 +1,6 @@
 package io.gig.realestate.domain.admin;
 
-import io.gig.realestate.domain.admin.dto.AdministratorCreateForm;
-import io.gig.realestate.domain.admin.dto.AdministratorSignUpForm;
-import io.gig.realestate.domain.admin.dto.AdministratorTemUpdateForm;
-import io.gig.realestate.domain.admin.dto.AdministratorUpdateForm;
+import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
@@ -172,6 +169,13 @@ public class Administrator extends BaseTimeEntity {
         if (StringUtils.hasText(encodedPassword)) {
             this.password = encodedPassword;
         }
+    }
+
+    public void updateMyPage(MyPageUpdateForm updateForm, String encodedPassword) {
+        if (StringUtils.hasText(encodedPassword)) {
+            this.password = encodedPassword;
+        }
+        this.phone = updateForm.getPhone();
     }
 
     public void updateStatus(AdminStatus status) {
