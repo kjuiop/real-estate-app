@@ -77,7 +77,47 @@ let save = function(e) {
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트 명을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.customerName)) {
+        twoBtnModal("고객명을 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.salePrice)) {
+        twoBtnModal("매임금액대에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.handCache)) {
+        twoBtnModal("보유금액에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.landAreaPy)) {
+        twoBtnModal("대지면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.totalAreaPy)) {
+        twoBtnModal("연면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.exclusiveAreaPy)) {
+        twoBtnModal("전용면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.moveYear)) {
+        twoBtnModal("입주시기에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.moveMonth)) {
+        twoBtnModal("입주시기에는 숫자를 입력해주세요.");
         return;
     }
 
@@ -121,7 +161,47 @@ let update = function(e) {
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트 명을 입력해주세요.");
+        return;
+    }
+
+    if (!checkNullOrEmptyValue(params.customerName)) {
+        twoBtnModal("고객명을 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.salePrice)) {
+        twoBtnModal("매임금액대에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.handCache)) {
+        twoBtnModal("보유금액에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.landAreaPy)) {
+        twoBtnModal("대지면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.totalAreaPy)) {
+        twoBtnModal("연면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.exclusiveAreaPy)) {
+        twoBtnModal("전용면적에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.moveYear)) {
+        twoBtnModal("입주시기에는 숫자를 입력해주세요.");
+        return;
+    }
+
+    if (!isNumber(params.moveMonth)) {
+        twoBtnModal("입주시기에는 숫자를 입력해주세요.");
         return;
     }
 
