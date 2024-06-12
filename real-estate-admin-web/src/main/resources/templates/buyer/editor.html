@@ -23,7 +23,7 @@
     <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10 display-flex-column">
+                <div class="display-flex-column" th:classappend="${isModify ? 'col-md-10' : 'col-md-12'}">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
@@ -283,7 +283,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 display-flex-column">
+                <div class="col-md-2 display-flex-column" th:if="${isModify}">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
