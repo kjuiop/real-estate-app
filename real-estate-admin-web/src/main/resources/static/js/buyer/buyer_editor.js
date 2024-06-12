@@ -99,10 +99,7 @@ let save = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    location.href = '/buyer/' + result.data + '/edit';
-                });
+                location.href = '/buyer/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -146,10 +143,7 @@ let update = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 수정되었습니다.', function() {
-                    location.href = '/buyer/' + result.data + '/edit';
-                });
+                location.href = '/buyer/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -352,12 +346,9 @@ let addHistory = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    let tag = drawHistoryTable(result.data);
-                    $modal.find('.historyTable tbody').html(tag);
-                    initHistoryModal();
-                });
+                let tag = drawHistoryTable(result.data);
+                $modal.find('.historyTable tbody').html(tag);
+                initHistoryModal();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -446,10 +437,7 @@ let addHistoryMap = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    location.href = '/buyer/' + result.data + '/edit';
-                });
+                location.href = '/buyer/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -650,9 +638,7 @@ let changeCompleteType = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                twoBtnModal('정상적으로 변경되었습니다.', function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);

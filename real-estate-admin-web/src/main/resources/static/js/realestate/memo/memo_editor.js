@@ -64,11 +64,7 @@ let addMemo = function(e) {
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
-            console.log("result : ", result);
-            let message = '정상적으로 저장되었습니다.';
-            twoBtnModal(message, function() {
-                location.href = '/real-estate/' + result.data + '/edit';
-            });
+            location.href = '/real-estate/' + result.data + '/edit';
         },
         error:function(error){
             ajaxErrorFieldByText(error);
@@ -128,11 +124,7 @@ let removeMemo = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 삭제되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -162,11 +154,7 @@ let removeAllMemo = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 삭제되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
