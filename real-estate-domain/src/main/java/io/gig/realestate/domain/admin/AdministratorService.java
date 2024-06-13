@@ -67,4 +67,6 @@ public interface AdministratorService {
     Long sendSlackAuth(AdministratorAuthForm authForm) throws IOException;
 
     boolean checkSlackAuth(AdministratorAuthForm authForm);
+
+    void remove(List<AdminStatusUpdateForm> updateForm);
 }
