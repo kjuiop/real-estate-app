@@ -1,6 +1,9 @@
 package io.gig.realestate.domain.scheduler;
 
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
@@ -20,6 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchedulerServiceImpl implements SchedulerService {
 
+    private final AdministratorService administratorService;
+
     private final SchedulerReader schedulerReader;
     private final SchedulerStore schedulerStore;
 
@@ -38,7 +43,20 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     @Transactional
     public Long create(SchedulerForm createForm, LoginUser loginUser) {
+        Administrator loginAdmin = loginUser.getLoginUser();
         Scheduler scheduler = Scheduler.create(createForm, loginUser.getLoginUser());
-        return schedulerStore.store(scheduler).getId();
+
+        if (createForm.getManagerIds() != null && !createForm.getManagerIds().contains(loginAdmin.getId())) {
+            createForm.getManagerIds().add(loginAdmin.getId());
+        }
+
+        for (Long adminId : createForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            SchedulerManager schedulerManager = SchedulerManager.create(scheduler, manager, loginAdmin);
+            scheduler.addManager(schedulerManager);
+        }
+
+        Scheduler savedScheduler = schedulerStore.store(scheduler);
+        return savedScheduler.getId();
     }
 }

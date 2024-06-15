@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.scheduler;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
@@ -9,6 +10,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -47,6 +50,14 @@ public class Scheduler extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<SchedulerManager> managers = new ArrayList<>();
+
+    public void addManager(SchedulerManager manager) {
+        this.managers.add(manager);
+    }
 
     public static Scheduler create(SchedulerForm createForm, Administrator loginUser) {
         return Scheduler.builder()

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -20,6 +21,8 @@ public class SchedulerForm {
     private String customerName;
 
     private String memo;
+
+    private List<Long> managerIds;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

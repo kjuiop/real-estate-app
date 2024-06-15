@@ -1,5 +1,8 @@
 package io.gig.realestate.admin.controller;
 
+import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.utils.CurrentUser;
 import io.gig.realestate.domain.utils.InitUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,11 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 public class MainController {
 
     private final InitUtils initUtils;
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final AdministratorService administratorService;
 
     @GetMapping("/")
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index(HttpServletRequest request, @CurrentUser LoginUser loginUser) {
         ModelAndView mav = new ModelAndView("index");
+        mav.addObject("loginUser", loginUser);
+        mav.addObject("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         if (request.getSession() != null) {
             mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));
             request.getSession().removeAttribute("errorMessage");

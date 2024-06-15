@@ -68,6 +68,7 @@ let addScheduleCalendar = function(e) {
         "title" : $modal.find('input[name="title"]').val(),
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
+        "managerIds": getManagerIds(),
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -101,6 +102,15 @@ let addScheduleCalendar = function(e) {
         }
     });
 
+}
+
+let getManagerIds = function() {
+    let managerIds = [];
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        managerIds.push(id);
+    });
+    return managerIds;
 }
 
 let showScheduleModal = function(arg) {
@@ -150,6 +160,38 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);
     $modal.modal("show");
+}
+
+let drawManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        username = $this.val(),
+        name = $this.find('option:selected').attr('adminName'),
+        adminId = parseInt($this.find('option:selected').attr('adminId'))
+    ;
+
+    console.log(adminId);
+
+    if (!checkNullOrEmptyValue(adminId) || isNaN(adminId)) {
+        return;
+    }
+
+    let isExist = false;
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        console.log(adminId, id);
+        if (id === adminId) {
+            isExist = true;
+            return;
+        }
+    });
+    if (isExist) {
+        return;
+    }
+
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    $('.managerSection').append(tag);
 }
 
 let convertSchedulers = function(data) {
@@ -227,4 +269,5 @@ let convertSchedulers = function(data) {
  */
 
 $(document).ready(onReady)
-    .on('click', '.btnAddSchedule', addScheduleCalendar);
+    .on('click', '.btnAddSchedule', addScheduleCalendar)
+    .on('change', '.adminList', drawManager);
