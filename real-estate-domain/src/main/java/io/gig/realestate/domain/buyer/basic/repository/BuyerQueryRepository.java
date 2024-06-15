@@ -91,7 +91,7 @@ public class BuyerQueryRepository {
                 .from(buyer)
                 .where(defaultCondition())
                 .where(eqCompleteType(CompleteType.Proceeding))
-                .where(afterTwoWeeksCreated())
+                .where(afterTwoWeeksUpdated())
                 ;
 
         return contentQuery.fetch();
@@ -273,9 +273,9 @@ public class BuyerQueryRepository {
         return buyer.completeType.eq(completeType);
     }
 
-    private BooleanExpression afterTwoWeeksCreated() {
+    private BooleanExpression afterTwoWeeksUpdated() {
         LocalDateTime twoWeeksAgo = LocalDateTime.now().minus(2, ChronoUnit.WEEKS);
-        return buyer.createdAt.after(twoWeeksAgo);
+        return buyer.updatedAt.after(twoWeeksAgo);
     }
 
 
