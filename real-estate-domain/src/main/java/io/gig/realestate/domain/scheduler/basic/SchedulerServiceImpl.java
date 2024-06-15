@@ -100,6 +100,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
 
         Scheduler savedScheduler = schedulerStore.store(scheduler);
+        notificationService.sendSchedulerUpdateToManager(savedScheduler.getId(), savedScheduler.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
         return savedScheduler.getId();
     }
 }
