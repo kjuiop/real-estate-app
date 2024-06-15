@@ -99,6 +99,7 @@ public class Buyer extends BaseTimeEntity {
     @Column(length = 20)
     private CompanyScaleType companyScale;
 
+    @Lob
     private String requestDetail;
 
     @Builder.Default

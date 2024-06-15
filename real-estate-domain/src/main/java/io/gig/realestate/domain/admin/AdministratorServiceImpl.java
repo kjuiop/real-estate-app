@@ -88,8 +88,21 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     @Transactional
-    public void statusUpdate(List<AdminStatusUpdateForm> updateForm) {
+    public void remove(List<AdminStatusUpdateForm> updateForm) {
+        if (updateForm.isEmpty()) {
+            return;
+        }
 
+        for (AdminStatusUpdateForm dto : updateForm) {
+            Administrator administrator = getAdminEntityById(dto.getAdminId());
+            administrator.remove();
+            administratorStore.store(administrator);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void statusUpdate(List<AdminStatusUpdateForm> updateForm) {
         for (AdminStatusUpdateForm dto : updateForm) {
             Administrator administrator = getAdminEntityById(dto.getAdminId());
             administrator.updateStatus(dto.getStatus());

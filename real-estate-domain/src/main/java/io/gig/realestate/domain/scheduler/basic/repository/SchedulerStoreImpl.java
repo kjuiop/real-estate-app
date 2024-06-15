@@ -1,7 +1,7 @@
-package io.gig.realestate.domain.scheduler.repository;
+package io.gig.realestate.domain.scheduler.basic.repository;
 
-import io.gig.realestate.domain.scheduler.Scheduler;
-import io.gig.realestate.domain.scheduler.SchedulerStore;
+import io.gig.realestate.domain.scheduler.basic.Scheduler;
+import io.gig.realestate.domain.scheduler.basic.SchedulerStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

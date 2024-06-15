@@ -1,14 +1,17 @@
-package io.gig.realestate.domain.scheduler;
+package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -48,6 +51,14 @@ public class Scheduler extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<SchedulerManager> managers = new ArrayList<>();
+
+    public void addManager(SchedulerManager manager) {
+        this.managers.add(manager);
+    }
+
     public static Scheduler create(SchedulerForm createForm, Administrator loginUser) {
         return Scheduler.builder()
                 .title(createForm.getTitle())
@@ -58,5 +69,12 @@ public class Scheduler extends BaseTimeEntity {
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
+    }
+
+    public void update(SchedulerForm updateForm, Administrator loginAdmin) {
+        this.title = updateForm.getTitle();
+        this.customerName = updateForm.getCustomerName();
+        this.memo = updateForm.getMemo();
+        this.updatedBy = loginAdmin;
     }
 }

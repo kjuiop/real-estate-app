@@ -2,10 +2,10 @@ package io.gig.realestate.admin.controller.scheduler;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.scheduler.SchedulerService;
-import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
-import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
-import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.SchedulerService;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class SchedulerController {
     @ResponseBody
     public ResponseEntity<ApiResponse> getSchedulerById(@PathVariable(name = "schedulerId") Long schedulerId,
                                                         @CurrentUser LoginUser loginUser) {
-        SchedulerDto dto = schedulerService.getSchedulerById(schedulerId, loginUser);
+        SchedulerDetailDto dto = schedulerService.getSchedulerById(schedulerId, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
@@ -47,6 +47,14 @@ public class SchedulerController {
     public ResponseEntity<ApiResponse> create(@Valid @RequestBody SchedulerForm createForm,
                                               @CurrentUser LoginUser loginUser) {
         Long schedulerId = schedulerService.create(createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(schedulerId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<ApiResponse> update(@Valid @RequestBody SchedulerForm updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long schedulerId = schedulerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(schedulerId), HttpStatus.OK);
     }
 }

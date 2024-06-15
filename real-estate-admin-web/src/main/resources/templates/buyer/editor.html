@@ -23,7 +23,7 @@
     <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10 display-flex-column">
+                <div class="display-flex-column" th:classappend="${isModify ? 'col-md-10' : 'col-md-12'}">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
                             <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
-                                        <label for="title">[이름],[회사명],[업종],[직책]</label>
+                                        <label for="title">프로젝트명</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
                                         <input type="text" id="title" class="form-control valid-fields" name="title" th:value="${dto.title}" required />
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
-                                        <label for="customerName">고객명</label>
+                                        <label for="customerName">고객명(검색 시 사용할 이름,회사,업종)</label>
                                     </div>
                                     <div class="col-md-9 display-flex-column">
                                         <input id="customerName" type="text" class="form-control valid-fields" name="customerName" th:value="${dto.customerName}" />
@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
-                                        <label>선호지역</label>
+                                        <label>선호지역 (동)</label>
                                     </div>
                                     <div class="col-md-3 display-flex-row">
                                         <input type="text" class="form-control valid-fields" name="preferArea" placeholder="선호 지역" th:value="${dto.preferArea}"/>
@@ -283,7 +283,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 display-flex-column">
+                <div class="col-md-2 display-flex-column" th:if="${isModify}">
                     <div class="card" style="margin-top: 10px;">
                         <div class="card-header">
                             <h3 class="card-title" style="font-size: 15px;">진행단계</h3>

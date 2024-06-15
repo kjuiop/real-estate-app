@@ -1,6 +1,6 @@
-package io.gig.realestate.domain.scheduler.repository;
+package io.gig.realestate.domain.scheduler.basic.repository;
 
-import io.gig.realestate.domain.scheduler.Scheduler;
+import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

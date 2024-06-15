@@ -51,7 +51,7 @@ public class NotificationServiceImpl implements NotificationService {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.";
             String returnUrl = "/buyer/" + buyerId + "/edit";
-            Notification notification = Notification.sendBuyerCreateOrUpdateManager(
+            Notification notification = Notification.sendManager(
                     msg,
                     returnUrl,
                     sender,
@@ -76,7 +76,57 @@ public class NotificationServiceImpl implements NotificationService {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 수정하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 수정하였습니다.";
             String returnUrl = "/buyer/" + buyerId + "/edit";
-            Notification notification = Notification.sendBuyerCreateOrUpdateManager(
+            Notification notification = Notification.sendManager(
+                    msg,
+                    returnUrl,
+                    sender,
+                    receiver
+            );
+            Notification saved = notificationStore.store(notification);
+            MessageForm form = MessageForm.sendMsgByNotification(saved.getId(), msg, returnUrl, sender.getUsername(), receiver.getUsername());
+            eventList.add(new NotificationEvent(form, "[send-notification-slack]-" + saved.getId()));
+        }
+
+        for (NotificationEvent event : eventList) {
+            eventPublisher.publishEvent(event);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void sendSchedulerCreateToManager(Long schedulerId, String customerName, Long senderId, List<Long> managerIds) {
+        List<NotificationEvent> eventList = new ArrayList<>();
+        Administrator sender = administratorService.getAdminById(senderId);
+        for (Long adminId : managerIds) {
+            Administrator receiver = administratorService.getAdminById(adminId);
+            String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 일정을 등록하였습니다." : sender.getName() + "님이 " + customerName + " 일정을 등록하였습니다.";
+            String returnUrl = "/";
+            Notification notification = Notification.sendManager(
+                    msg,
+                    returnUrl,
+                    sender,
+                    receiver
+            );
+            Notification saved = notificationStore.store(notification);
+            MessageForm form = MessageForm.sendMsgByNotification(saved.getId(), msg, returnUrl, sender.getUsername(), receiver.getUsername());
+            eventList.add(new NotificationEvent(form, "[send-notification-slack]-" + saved.getId()));
+        }
+
+        for (NotificationEvent event : eventList) {
+            eventPublisher.publishEvent(event);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void sendSchedulerUpdateToManager(Long id, String customerName, Long senderId, List<Long> managerIds) {
+        List<NotificationEvent> eventList = new ArrayList<>();
+        Administrator sender = administratorService.getAdminById(senderId);
+        for (Long adminId : managerIds) {
+            Administrator receiver = administratorService.getAdminById(adminId);
+            String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 일정을 수정하였습니다." : sender.getName() + "님이 " + customerName + " 일정을 수정하였습니다.";
+            String returnUrl = "/";
+            Notification notification = Notification.sendManager(
                     msg,
                     returnUrl,
                     sender,

@@ -1,4 +1,6 @@
-package io.gig.realestate.domain.scheduler;
+package io.gig.realestate.domain.scheduler.basic;
+
+import io.gig.realestate.domain.scheduler.basic.Scheduler;
 
 /**
  * @author : JAKE

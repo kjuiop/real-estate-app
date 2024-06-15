@@ -90,6 +90,13 @@ public class AdminManagerController {
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
     }
 
+    @PostMapping("remove")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> remove(@Valid @RequestBody List<AdminStatusUpdateForm> updateForm) {
+        administratorService.remove(updateForm);
+        return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
+    }
+
     @GetMapping("check-duplicate/username/{value}")
     @ResponseBody
     public ResponseEntity<ApiResponse> checkDuplicateData(

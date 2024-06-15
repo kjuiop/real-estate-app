@@ -26,7 +26,12 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <div class="col-md-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 관리자관리</h5></div>
+                            <div class="col-md-12" style="margin-bottom: 25px;">
+                                <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-users"></i> 관리자관리</h5>
+                                <div class="col-md-3 pull-right">
+                                    <a href="/settings/administrators/new" class="btn btn-sm btn-primary float-right" style="text-decoration: none; color: #ffffff;" target="_blank"><i class="fa fa-plus"></i> 관리자 등록</a>
+                                </div>
+                            </div>
                             <div class="col-md-12 display-flex-row line">
                                 <div class="col-md-2" style="padding-top: 5px; padding-left: 30px;">
                                     <label>이메일</label>
@@ -142,10 +147,9 @@
                                     </select>
                                 </label>
                                 <button class="btn btn-default btnChangeStatus margin-left-5" style="margin-bottom: 5px;">관리자 상태변경</button>
+
                             </div>
-                            <div class="col-md-12 pull-right">
-                                <a href="/settings/administrators/new" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> 신규관리자등록</a>
-                            </div>
+                            <button class="btn btn-danger btnRemove pull-right margin-right-5" style="margin-bottom: 5px;">삭제</button>
                         </div>
                         <div class="row">
                             <div class="col-12">

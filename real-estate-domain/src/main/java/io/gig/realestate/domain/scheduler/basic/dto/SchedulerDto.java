@@ -1,6 +1,6 @@
-package io.gig.realestate.domain.scheduler.dto;
+package io.gig.realestate.domain.scheduler.basic.dto;
 
-import io.gig.realestate.domain.scheduler.Scheduler;
+import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

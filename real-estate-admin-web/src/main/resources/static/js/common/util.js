@@ -214,6 +214,10 @@ const convertNullOrZero = function (parameter) {
     return parameter;
 };
 
+const isNumber = function(value) {
+    return !isNaN(value);
+}
+
 const jQueryErrorField = function (errorList) {
     console.log("errorList", errorList);
     let $field;

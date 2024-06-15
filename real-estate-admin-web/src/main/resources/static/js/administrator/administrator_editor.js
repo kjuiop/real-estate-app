@@ -24,10 +24,7 @@ let update = function(e) {
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
-            console.log("result : ", result);
-            twoBtnModal('정상적으로 수정되었습니다.', function() {
-                location.href = '/mypage';
-            });
+            location.href = '/mypage';
         },
         error:function(error){
             ajaxErrorFieldByText(error);

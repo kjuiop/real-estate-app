@@ -86,10 +86,7 @@ let save = function(e) {
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
-            console.log("result : ", result);
-            twoBtnModal('정상적으로 저장되었습니다.', function() {
-                location.href = '/settings/team-manager/' + result.data + '/edit';
-            });
+            location.href = '/settings/team-manager/' + result.data + '/edit';
         },
         error:function(error){
             ajaxErrorFieldByText(error);
@@ -117,10 +114,7 @@ let update = function(e) {
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
-            console.log("result : ", result);
-            twoBtnModal('정상적으로 수정되었습니다.', function() {
-                location.href = '/settings/team-manager/' + result.data + '/edit';
-            });
+            location.href = '/settings/team-manager/' + result.data + '/edit';
         },
         error:function(error){
             ajaxErrorFieldByText(error);
@@ -178,10 +172,7 @@ let saveTeamMember = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 변경되었습니다.', function() {
-                    location.href = '/settings/team-manager/' + result.data + '/edit';
-                });
+                location.href = '/settings/team-manager/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
