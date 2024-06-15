@@ -1,13 +1,11 @@
 package io.gig.realestate.domain.message.slack;
 
-import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.admin.AdministratorService;
-import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.utils.properties.SlackProperties;
 import lombok.RequiredArgsConstructor;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackMessage;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,11 +27,14 @@ public class SlackServiceImpl implements SlackService {
 
     private final SlackProperties slackProperties;
 
+    @Value("${domain}")
+    private String domain;
+
     @Override
     @Transactional
     public void sendMessage(String message) {
         SlackApi slackApi = new SlackApi(slackProperties.getUrl());
-        slackApi.call(new SlackMessage("An error occurred : " + message));
+        slackApi.call(new SlackMessage("[" + domain + "] " + "An error occurred : " + message));
     }
 
     @Override
