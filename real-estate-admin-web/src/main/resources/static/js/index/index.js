@@ -86,16 +86,17 @@ let addScheduleCalendar = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             console.log("save result : ", result);
-            calendar.addEvent({
-                id: result.data.toString(),
-                groupId: result.data.toString(),
-                title: params.title,
-                start: params.startDate,
-                end: params.endDate,
-                allDay: true
-            });
-            calendar.render();
-            $modal.find('.close').trigger('click');
+            location.reload();
+            // calendar.addEvent({
+            //     id: result.data.toString(),
+            //     groupId: result.data.toString(),
+            //     title: params.title,
+            //     start: params.startDate,
+            //     end: params.endDate,
+            //     allDay: true
+            // });
+            // calendar.render();
+            // $modal.find('.close').trigger('click');
         },
         error:function(error){
             ajaxErrorFieldByText(error);

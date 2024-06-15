@@ -3,6 +3,7 @@ package io.gig.realestate.domain.scheduler.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.notification.NotificationService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
@@ -27,6 +28,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     private final AdministratorService administratorService;
     private final SchedulerManagerService schedulerManagerService;
+    private final NotificationService notificationService;
 
     private final SchedulerReader schedulerReader;
     private final SchedulerStore schedulerStore;
@@ -60,6 +62,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
 
         Scheduler savedScheduler = schedulerStore.store(scheduler);
+        notificationService.sendSchedulerCreateToManager(savedScheduler.getId(), savedScheduler.getCustomerName(), loginAdmin.getId(), createForm.getManagerIds());
         return savedScheduler.getId();
     }
 

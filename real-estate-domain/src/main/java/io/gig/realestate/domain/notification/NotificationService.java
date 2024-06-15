@@ -23,4 +23,6 @@ public interface NotificationService {
     List<NotificationListDto> getNotificationByUsername(String username);
 
     Long read(Long notiId, NotificationForm readForm, Administrator administrator);
+
+    void sendSchedulerCreateToManager(Long schedulerId, String customerName, Long senderId, List<Long> managerIds);
 }
