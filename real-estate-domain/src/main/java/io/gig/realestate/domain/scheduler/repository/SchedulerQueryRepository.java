@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,9 @@ public class SchedulerQueryRepository {
                 ;
     }
 
-    public SchedulerDto getSchedulerById(Long schedulerId) {
+    public SchedulerDetailDto getSchedulerById(Long schedulerId) {
         return this.queryFactory
-                .select(Projections.constructor(SchedulerDto.class,
+                .select(Projections.constructor(SchedulerDetailDto.class,
                         scheduler
                         ))
                 .from(scheduler)

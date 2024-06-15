@@ -2,6 +2,7 @@ package io.gig.realestate.domain.scheduler.repository;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.scheduler.SchedulerReader;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class SchedulerQueryImpl implements SchedulerReader {
     }
 
     @Override
-    public SchedulerDto getSchedulerById(Long schedulerId) {
+    public SchedulerDetailDto getSchedulerById(Long schedulerId) {
         return queryRepository.getSchedulerById(schedulerId);
     }
 }

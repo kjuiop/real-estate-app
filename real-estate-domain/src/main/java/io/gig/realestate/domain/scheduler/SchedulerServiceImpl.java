@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.buyer.manager.BuyerManager;
+import io.gig.realestate.domain.scheduler.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
 import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
@@ -36,7 +37,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     @Transactional(readOnly = true)
-    public SchedulerDto getSchedulerById(Long schedulerId, LoginUser loginUser) {
+    public SchedulerDetailDto getSchedulerById(Long schedulerId, LoginUser loginUser) {
         return schedulerReader.getSchedulerById(schedulerId);
     }
 
