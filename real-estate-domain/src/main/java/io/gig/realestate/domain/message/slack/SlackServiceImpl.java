@@ -87,7 +87,7 @@ public class SlackServiceImpl implements SlackService {
         boolean isOk = jsonObject.getBoolean("ok");
         if (!isOk) {
             SlackApi slackApi = new SlackApi(slackProperties.getUrl());
-            slackApi.call(new SlackMessage("not register slack user : " + email + ", json str : " + jsonObject));
+            slackApi.call(new SlackMessage("[" + domain + "] " + "not register slack user : " + email + ", json str : " + jsonObject));
             return "";
         }
         JSONObject profile = jsonObject.getJSONObject("user");
