@@ -1,10 +1,9 @@
-package io.gig.realestate.domain.scheduler;
+package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.scheduler.dto.SchedulerDetailDto;
-import io.gig.realestate.domain.scheduler.dto.SchedulerDto;
-import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
-import io.gig.realestate.domain.scheduler.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
 
 import java.util.List;
 
@@ -19,4 +18,6 @@ public interface SchedulerService {
     List<SchedulerListDto> getSchedulers(LoginUser loginUser);
 
     SchedulerDetailDto getSchedulerById(Long schedulerId, LoginUser loginUser);
+
+    Long update(SchedulerForm updateForm, LoginUser loginUser);
 }

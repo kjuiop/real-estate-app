@@ -104,6 +104,47 @@ let addScheduleCalendar = function(e) {
 
 }
 
+let updateScheduleCalendar = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#scheduleEditModal');
+    let params = {
+        "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
+        "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
+        "argAllDay" : $modal.find('input[name="argAllDay"]').val(),
+        "startDate" : $modal.find('input[name="startDate"]').val(),
+        "endDate" : $modal.find('input[name="endDate"]').val(),
+        "title" : $modal.find('input[name="title"]').val(),
+        "customerName" : $modal.find('input[name="customerName"]').val(),
+        "memo" : $modal.find('textarea[name="memo"]').val(),
+        "managerIds": getManagerIds(),
+        "schedulerId": $modal.find('input[name="schedulerId"]').val(),
+    }
+
+    if (!checkNullOrEmptyValue(params.title)) {
+        twoBtnModal("제목을 입력해주세요.");
+        return;
+    }
+
+    console.log("params", params);
+
+    $.ajax({
+        url: "/scheduler",
+        method: 'put',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            $modal.find('.close').trigger('click');
+            location.reload();
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
 let getManagerIds = function() {
     let managerIds = [];
     $('.managerSection').find('.btnManager').each(function(idx, item) {
@@ -159,6 +200,17 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('input[name="argStartDate"]').val(args.start);
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);
+
+    console.log("scheduler", scheduler);
+    if (checkNullOrEmptyValue(scheduler.managers) && scheduler.managers.length > 0) {
+        let tag = "";
+        $.each(scheduler.managers, function(idx, item) {
+            tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px;">' + item.name + '</button>';
+        });
+        $modal.find('.managerSection').html(tag);
+    }
+
+
     $modal.modal("show");
 }
 
@@ -166,6 +218,7 @@ let drawManager = function(e) {
     e.preventDefault();
 
     let $this = $(this),
+        $modal = $(this).parents('.modal-box'),
         username = $this.val(),
         name = $this.find('option:selected').attr('adminName'),
         adminId = parseInt($this.find('option:selected').attr('adminId'))
@@ -178,7 +231,7 @@ let drawManager = function(e) {
     }
 
     let isExist = false;
-    $('.managerSection').find('.btnManager').each(function(idx, item) {
+    $modal.find('.managerSection').find('.btnManager').each(function(idx, item) {
         let id = parseInt($(item).attr('adminId'));
         console.log(adminId, id);
         if (id === adminId) {
@@ -191,7 +244,7 @@ let drawManager = function(e) {
     }
 
     let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
-    $('.managerSection').append(tag);
+    $modal.find('.managerSection').append(tag);
 }
 
 let convertSchedulers = function(data) {
@@ -269,5 +322,6 @@ let convertSchedulers = function(data) {
  */
 
 $(document).ready(onReady)
+    .on('change', '.adminList', drawManager)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
-    .on('change', '.adminList', drawManager);
+    .on('click', '.btnEditSchedule', updateScheduleCalendar);

@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.scheduler.dto;
+package io.gig.realestate.domain.scheduler.basic.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -15,6 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 public class SchedulerForm {
+
+    private Long schedulerId;
 
     private String title;
 

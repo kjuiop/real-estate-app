@@ -1,8 +1,9 @@
-package io.gig.realestate.domain.scheduler;
+package io.gig.realestate.domain.scheduler.manager;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

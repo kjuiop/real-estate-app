@@ -1,10 +1,10 @@
-package io.gig.realestate.domain.scheduler;
+package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
-import io.gig.realestate.domain.buyer.manager.BuyerManager;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
-import io.gig.realestate.domain.scheduler.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -69,5 +69,12 @@ public class Scheduler extends BaseTimeEntity {
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
+    }
+
+    public void update(SchedulerForm updateForm, Administrator loginAdmin) {
+        this.title = updateForm.getTitle();
+        this.customerName = updateForm.getCustomerName();
+        this.memo = updateForm.getMemo();
+        this.updatedBy = loginAdmin;
     }
 }
