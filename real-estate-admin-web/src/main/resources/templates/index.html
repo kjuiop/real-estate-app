@@ -9,6 +9,9 @@
         .modal-body * {
             font-size: 12px;
         }
+        #calendar a {
+            color: black !important;
+        }
     </style>
 </head>
 <body>
@@ -28,12 +31,10 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-9 padding-20" style="background-color: #ffffff; border-top: 2px solid darkorange;">
+                <div class="col-md-10 padding-20" style="background-color: #ffffff; border-top: 2px solid darkorange; font-size: 12px;">
                     <div id="calendar"></div>
                 </div>
-                <div class="col-md-3 padding-20">
-
-                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </section>
@@ -95,7 +96,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleEditModal">
+    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleEditModal" style="max-height: 650px; overflow-y: auto;">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 700px;">
                 <div class="modal-header">

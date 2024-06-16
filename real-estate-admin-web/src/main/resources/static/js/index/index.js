@@ -29,12 +29,14 @@ let initCalendar = function(schedulers) {
     let events = convertSchedulers(schedulers);
     let calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap',
         height: 650,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
+        locale: "ko",
         initialDate: moment().format('YYYY-MM-DD'),
         navLinks: true, // can click day/week names to navigate views
         businessHours: true, // display business hours
