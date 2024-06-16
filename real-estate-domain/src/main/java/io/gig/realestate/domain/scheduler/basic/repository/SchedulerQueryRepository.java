@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorRole;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
@@ -37,7 +38,7 @@ public class SchedulerQueryRepository {
                 .from(scheduler)
                 .where(defaultCondition())
                 .where(inSchedulerManager(condition.getAdminId()))
-                .orderBy(scheduler.createdAt.desc())
+                .where(ownManager(loginUser))
                 .fetch()
                 ;
     }
@@ -78,7 +79,22 @@ public class SchedulerQueryRepository {
         return scheduler.id.in(
                 JPAExpressions.selectDistinct(schedulerManager.scheduler.id)
                         .from(schedulerManager)
-                        .where(schedulerManager.admin.id.eq(adminId))
+                        .where(schedulerManager.deleteYn.eq(YnType.N))
+                        .where(schedulerManager.admin.id.in(adminId))
         );
+    }
+
+    private BooleanExpression ownManager(Administrator loginUser) {
+        for (AdministratorRole adminRole : loginUser.getAdministratorRoles()) {
+            if (adminRole.getRole().getName().equals("ROLE_SUPER_ADMIN")) {
+                return null;
+            }
+        }
+
+        return scheduler.id.in(
+                JPAExpressions.selectDistinct(schedulerManager.scheduler.id)
+                        .from(schedulerManager)
+                        .where(schedulerManager.deleteYn.eq(YnType.N))
+                        .where(schedulerManager.admin.id.eq(loginUser.getId())));
     }
 }

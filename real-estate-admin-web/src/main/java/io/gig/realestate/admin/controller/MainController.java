@@ -37,7 +37,7 @@ public class MainController {
             HttpServletRequest request, @CurrentUser LoginUser loginUser) {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("loginUser", loginUser);
-        mav.addObject("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
+        mav.addObject("admins", administratorService.getAdminListMyMembers(loginUser));
         mav.addObject("schedulers", schedulerService.getSchedulers(condition, loginUser));
         mav.addObject("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         mav.addObject("condition", condition);
