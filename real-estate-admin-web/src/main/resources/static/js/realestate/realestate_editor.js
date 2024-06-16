@@ -95,10 +95,7 @@ let realEstateSave = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    location.href = '/real-estate/' + result.data + '/edit';
-                });
+                location.href = '/real-estate/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -187,10 +184,7 @@ let realEstateUpdate = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 수정되었습니다.', function() {
-                    location.href = '/real-estate/' + result.data + '/edit';
-                });
+                location.href = '/real-estate/' + result.data + '/edit';
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -271,11 +265,7 @@ let changeProcessStatus = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 변경되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -326,11 +316,7 @@ let changeRStatus = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 변경되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -357,11 +343,7 @@ let changeABStatus = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("result : ", result);
-                let message = '정상적으로 변경되었습니다.';
-                twoBtnModal(message, function() {
-                    location.reload();
-                });
+                location.reload();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);

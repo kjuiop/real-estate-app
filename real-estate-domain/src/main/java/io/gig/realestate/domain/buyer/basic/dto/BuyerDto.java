@@ -71,6 +71,8 @@ public class BuyerDto {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     private CompleteType completeType;
 
     public BuyerDto(Buyer b) {
@@ -100,5 +102,6 @@ public class BuyerDto {
         this.requestDetail = b.getRequestDetail();
         this.completeType = b.getCompleteType();
         this.createdAt = b.getCreatedAt();
+        this.updatedAt = b.getUpdatedAt();
     }
 }

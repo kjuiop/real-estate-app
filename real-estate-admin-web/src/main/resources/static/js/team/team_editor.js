@@ -111,9 +111,7 @@ let changeStatus = function() {
             success: function (response) {
                 console.log(response);
                 if (response.status === "OK") {
-                    twoBtnModal("상태 변경이 완료되었습니다.", function () {
-                        location.reload();
-                    });
+                    location.reload();
                 }
             },
             error : function (response) {

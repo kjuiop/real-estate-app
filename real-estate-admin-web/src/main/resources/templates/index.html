@@ -4,6 +4,16 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
+<head>
+    <style>
+        .modal-body * {
+            font-size: 12px;
+        }
+        #calendar a {
+            color: black !important;
+        }
+    </style>
+</head>
 <body>
 <div layout:fragment="content" th:with="YNType = ${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content-header">
@@ -21,28 +31,43 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-9 padding-20" style="background-color: #ffffff; border-top: 2px solid darkorange;">
+                <div class="col-md-10 padding-20" style="background-color: #ffffff; border-top: 2px solid darkorange; font-size: 12px;">
                     <div id="calendar"></div>
                 </div>
-                <div class="col-md-3 padding-20">
-
-                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </section>
-    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="scheduleModal">
+    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 700px;">
                 <div class="modal-header">
-                    <h5 class="modal-title control-label" style="font-weight: bold;">일정등록</h5>
+                    <h5 class="modal-title control-label" style="font-weight: bold;">일정 등록</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">제목</label>
-                            <div class="col-md-9">
+                            <label class="col-md-2 control-label">담당자</label>
+                            <div class="col-md-10">
+                                <select class="form-control form-control-sm adminList">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="admin : ${admins}">
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-2 control-label"></label>
+                            <div class="col-md-10 display-flex-row managerSection">
+                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-2 control-label">제목</label>
+                            <div class="col-md-10">
                                 <input type="hidden" name="argStartDate" />
                                 <input type="hidden" name="argEndDate" />
                                 <input type="hidden" name="argAllDay" />
@@ -52,38 +77,53 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">고객명</label>
-                            <div class="col-md-9">
+                            <label class="col-md-2 control-label">고객명</label>
+                            <div class="col-md-10">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">메모</label>
-                            <div class="col-md-9">
-                                <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
+                            <label class="col-md-2 control-label">메모</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control form-control-sm" rows="5" name="memo" style="padding: 13px;"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="form-horizontal line">
-                        <button type="button" class="btn btn-sm btn-primary btnAddSchedule pull-right">등록</button>
+                        <button type="button" class="btn btn-sm btn-primary btnAddSchedule pull-right padding-right-10">등록</button>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="modal fade margin-top-100" tabindex="-1" role="dialog" id="scheduleEditModal">
+    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleEditModal" style="max-height: 650px; overflow-y: auto;">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 700px;">
                 <div class="modal-header">
-                    <h5 class="modal-title control-label" style="font-weight: bold;">일정상세</h5>
+                    <h5 class="modal-title control-label" style="font-weight: bold;">일정 상세</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">제목</label>
-                            <div class="col-md-9">
+                            <label class="col-md-2 control-label">담당자</label>
+                            <div class="col-md-10">
+                                <select class="form-control form-control-sm adminList">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="admin : ${admins}">
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-2 control-label"></label>
+                            <div class="col-md-10 display-flex-row managerSection"></div>
+                        </div>
+                        <div class="display-flex-row line">
+                            <label class="col-md-2 control-label">제목</label>
+                            <div class="col-md-10">
                                 <input type="hidden" name="argStartDate" />
                                 <input type="hidden" name="argEndDate" />
                                 <input type="hidden" name="argAllDay" />
@@ -94,16 +134,19 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">고객명</label>
-                            <div class="col-md-9">
+                            <label class="col-md-2 control-label">고객명</label>
+                            <div class="col-md-10">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-3 control-label">메모</label>
-                            <div class="col-md-9">
-                                <textarea class="form-control form-control-sm" rows="5" name="memo"></textarea>
+                            <label class="col-md-2 control-label">메모</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control form-control-sm" rows="5" name="memo" style="padding: 13px;"></textarea>
                             </div>
+                        </div>
+                        <div class="form-horizontal line">
+                            <button type="button" class="btn btn-sm btn-primary btnEditSchedule pull-right padding-right-10">수정</button>
                         </div>
                     </div>
                 </div>

@@ -224,12 +224,9 @@ let addHistory = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    let tag = drawHistoryTable(result.data);
-                    $modal.find('.historyTable tbody').html(tag);
-                    initHistoryModal();
-                });
+                let tag = drawHistoryTable(result.data);
+                $modal.find('.historyTable tbody').html(tag);
+                initHistoryModal();
             },
             error:function(error){
                 ajaxErrorFieldByText(error);
@@ -327,10 +324,7 @@ let addHistoryMap = function(e) {
             contentType: "application/json",
             data: JSON.stringify(params),
             success: function (result) {
-                console.log("save result : ", result);
-                twoBtnModal('정상적으로 저장되었습니다.', function() {
-                    location.href = '/buyer'
-                });
+                location.href = '/buyer'
             },
             error:function(error){
                 ajaxErrorFieldByText(error);

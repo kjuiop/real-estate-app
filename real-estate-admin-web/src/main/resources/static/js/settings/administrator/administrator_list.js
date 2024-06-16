@@ -48,9 +48,44 @@ let changeAdminStatus = function(e) {
             success: function (response) {
                 console.log(response);
                 if (response.status === "OK") {
-                    oneBtnModal("상태 변경이 완료되었습니다.", function () {
-                        location.reload();
-                    });
+                    location.reload();
+                }
+            },
+            error : function (response) {
+                oneBtnModal("변경 중 오류가 발생하였습니다.", function(){});
+            }
+        });
+    });
+}
+
+let removeAdmin = function(e) {
+    e.preventDefault();
+
+    let params = [];
+
+    $("input[name='numbers']:checked").each(function (idx, item) {
+        let param = {
+            adminId : $(item).val(),
+        };
+        params.push(param);
+    });
+
+    if (params.length <= 0) {
+        twoBtnModal('삭제할 관리자를 선택해주세요.');
+        return;
+    }
+
+    twoBtnModal("선택한 관리자를 삭제하시겠습니까?", function () {
+        $.ajax({
+            url: "/settings/administrators/remove",
+            method : "post",
+            type: "json",
+            contentType : "application/json",
+            data: JSON.stringify(params),
+            success: function (response) {
+                console.log(response);
+                if (response.status === "OK") {
+                    location.reload();
                 }
             },
             error : function (response) {
@@ -66,4 +101,5 @@ $(document).ready(onReady)
     .on('change', '#limit', search)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
-    .on('click', '.btnChangeStatus', changeAdminStatus);
+    .on('click', '.btnChangeStatus', changeAdminStatus)
+    .on('click', '.btnRemove', removeAdmin);

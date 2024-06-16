@@ -63,6 +63,7 @@ public class BuyerServiceImpl implements BuyerService {
             dto.setPurposeName(convertCdToNames(dto.getPurposeCds()));
             dto.setHistoryMap(mapService.getHistoryMapByBuyerId(dto.getBuyerId()));
             dto.convertSalePriceIntValue(dto.getSalePrice());
+            // 담당자 표시
         }
         return content;
     }
