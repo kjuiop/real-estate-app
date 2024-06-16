@@ -20,22 +20,22 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
+    <section class="content" th:with="isModify = ${dto.schedulerId != null}" style="font-size: 12px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="display-flex-column" th:classappend="${isModify ? 'col-md-10' : 'col-md-12'}">
+                <div class="display-flex-column col-md-12">
                     <div class="card" style="margin-top: 10px;">
                         <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
-                            <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
+                            <input type="hidden" id="schedulerId" name="schedulerId" th:value="${dto.schedulerId}" />
                             <div class="card-header">
-                                <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
+                                <h3 class="card-title" style="font-size: 15px;">일정정보</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fa fa-minus"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-md-12 display-flex-row margin-bottom-5">
+                                <div class="form-group col-md-12 display-flex-row">
                                     <div class="col-md-3">
                                         <label>담당자</label>
                                     </div>

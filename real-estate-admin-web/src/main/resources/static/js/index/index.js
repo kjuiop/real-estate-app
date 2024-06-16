@@ -61,6 +61,13 @@ let addScheduleCalendar = function(e) {
     e.preventDefault();
 
     let $modal = $('#scheduleModal');
+
+    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -71,6 +78,7 @@ let addScheduleCalendar = function(e) {
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
         "managerIds": getManagerIds(),
+        "buyerGradeCds": buyerGradeCds,
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -269,6 +277,7 @@ let convertSchedulers = function(data) {
     return schedulers;
 }
 
+
 /**
  events: [
  {
@@ -323,6 +332,8 @@ let convertSchedulers = function(data) {
             }
  ]
  */
+
+
 
 $(document).ready(onReady)
     .on('change', '.adminList', drawManager)

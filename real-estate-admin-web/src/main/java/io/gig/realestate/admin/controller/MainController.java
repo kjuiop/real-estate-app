@@ -2,6 +2,7 @@ package io.gig.realestate.admin.controller;
 
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.scheduler.basic.SchedulerService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import io.gig.realestate.domain.utils.InitUtils;
@@ -26,6 +27,7 @@ public class MainController {
     private final InitUtils initUtils;
     private final AdministratorService administratorService;
     private final SchedulerService schedulerService;
+    private final CategoryService categoryService;
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request, @CurrentUser LoginUser loginUser) {
@@ -33,6 +35,7 @@ public class MainController {
         mav.addObject("loginUser", loginUser);
         mav.addObject("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         mav.addObject("schedulers", schedulerService.getSchedulers(loginUser));
+        mav.addObject("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         if (request.getSession() != null) {
             mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));
             request.getSession().removeAttribute("errorMessage");

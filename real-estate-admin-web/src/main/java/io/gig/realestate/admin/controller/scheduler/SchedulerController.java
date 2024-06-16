@@ -1,16 +1,19 @@
 package io.gig.realestate.admin.controller.scheduler;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.scheduler.basic.SchedulerService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +29,17 @@ import java.util.List;
 public class SchedulerController {
 
     private final SchedulerService schedulerService;
+    private final TeamService teamService;
+    private final AdministratorService administratorService;
+
+    @RequestMapping("new")
+    public String register(Model model, @CurrentUser LoginUser loginUser) {
+        model.addAttribute("dto", SchedulerDetailDto.emptyDto());
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("teams", teamService.getTeamListByLoginUser(loginUser));
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
+        return "scheduler/editor";
+    }
 
     @GetMapping
     @ResponseBody
