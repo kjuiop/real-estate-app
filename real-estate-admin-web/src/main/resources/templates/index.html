@@ -51,7 +51,7 @@
                                     <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="buyerGradeCd">
                                         <option value="">매수자등급</option>
                                         <th:block th:each="code, status : ${buyerGradeCds}">
-                                            <option th:value="${code.code}">[[${code.name}]]</option>
+                                            <option th:value="${code.code}" th:selected="${condition.buyerGradeCd eq code.code}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
                                     <button type="submit" class="btn btn-sm btn-primary col-md-12 btnSchedulerAdd">검 색</button>
