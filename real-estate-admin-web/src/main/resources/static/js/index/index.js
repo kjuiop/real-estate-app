@@ -1,7 +1,6 @@
 let calendar;
 let onReady = function() {
-    getCalendars();
-
+    initCalendar(schedulers);
     if (checkNullOrEmptyValue(errorMessage)) {
         twoBtnModal(errorMessage);
     }
@@ -16,7 +15,7 @@ let getCalendars = function() {
         contentType: "application/json",
         success: function(result) {
             console.log("result", result);
-            initCalendar(result.data);
+
         },
         error: function(error){
             ajaxErrorFieldByText(error);

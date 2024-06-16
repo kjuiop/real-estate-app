@@ -4,6 +4,7 @@ import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @date : 2024/04/15
  */
 public interface SchedulerReader {
-    List<SchedulerListDto> getSchedulers(Administrator loginUser);
+    List<SchedulerListDto> getSchedulers(SchedulerSearchDto condition, Administrator loginUser);
 
     SchedulerDetailDto getSchedulerById(Long schedulerId);
 

@@ -7,6 +7,7 @@ import io.gig.realestate.domain.notification.NotificationService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManagerService;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SchedulerListDto> getSchedulers(LoginUser loginUser) {
-        return schedulerReader.getSchedulers(loginUser.getLoginUser());
+    public List<SchedulerListDto> getSchedulers(SchedulerSearchDto condition, LoginUser loginUser) {
+        return schedulerReader.getSchedulers(condition, loginUser.getLoginUser());
     }
 
     @Override

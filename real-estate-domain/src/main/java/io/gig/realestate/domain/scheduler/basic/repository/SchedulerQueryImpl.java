@@ -5,6 +5,7 @@ import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import io.gig.realestate.domain.scheduler.basic.SchedulerReader;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,8 @@ public class SchedulerQueryImpl implements SchedulerReader {
     private final SchedulerQueryRepository queryRepository;
 
     @Override
-    public List<SchedulerListDto> getSchedulers(Administrator loginUser) {
-        return queryRepository.getSchedulers(loginUser);
+    public List<SchedulerListDto> getSchedulers(SchedulerSearchDto condition, Administrator loginUser) {
+        return queryRepository.getSchedulers(condition, loginUser);
     }
 
     @Override

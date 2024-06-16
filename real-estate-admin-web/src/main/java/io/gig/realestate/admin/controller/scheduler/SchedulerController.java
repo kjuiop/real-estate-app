@@ -41,13 +41,6 @@ public class SchedulerController {
         return "scheduler/editor";
     }
 
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> getSchedulers(@CurrentUser LoginUser loginUser) {
-        List<SchedulerListDto> dto = schedulerService.getSchedulers(loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
-    }
-
     @GetMapping("{schedulerId}")
     @ResponseBody
     public ResponseEntity<ApiResponse> getSchedulerById(@PathVariable(name = "schedulerId") Long schedulerId,

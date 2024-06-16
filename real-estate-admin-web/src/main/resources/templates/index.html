@@ -35,11 +35,22 @@
                     <div id="calendar"></div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card">
+                    <div class="card font-size-12">
+                        <div class="card-header">
+                            <h3 class="card-title text-center" style="font-size: 15px;">검색조건</h3>
+                        </div>
                         <div class="card-body">
-                            <div class="row">
-                                <button class="btn btn-sm btn-default col-md-12 btnSchedulerAdd">일정 등록</button>
-                            </div>
+                            <form name="frmSearch">
+                                <div class="row">
+                                    <select class="form-control form-control-sm adminList col-md-12 margin-bottom-5" name="adminId">
+                                        <option value="">선택해주세요.</option>
+                                        <th:block th:each="admin : ${admins}">
+                                            <option th:value="${admin.adminId}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:selected="${condition.adminId eq admin.adminId}">[[${admin.name}]]</option>
+                                        </th:block>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary col-md-12 btnSchedulerAdd">검 색</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -67,7 +78,7 @@
                                 </select>
                             </div>
                             <div class="col-md-7 managerSection">
-                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.adminName}]]</button>
                             </div>
                         </div>
                         <div class="display-flex-row line">
@@ -103,6 +114,12 @@
                                 <textarea class="form-control form-control-sm" rows="5" name="memo" style="padding: 13px;"></textarea>
                             </div>
                         </div>
+<!--                        <div class="display-flex-row line">-->
+<!--                            <label class="col-md-2 control-label padding-top-6">첨부파일</label>-->
+<!--                            <div class="col-md-10">-->
+<!--                                <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px; margin-top: 3px;">업로드</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <div class="form-horizontal line">
                         <button type="button" class="btn btn-sm btn-primary btnAddSchedule pull-right padding-right-10">등록</button>
@@ -180,6 +197,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var errorMessage =/*[[${errorMessage}]]*/'';
+        var schedulers =/*[[${schedulers}]]*/'';
         /*]]>*/
     </script>
     <script src="/static/js/index/index.js" th:src="@{/js/index/index.js}"></script>
