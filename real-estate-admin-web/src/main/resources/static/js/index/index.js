@@ -260,6 +260,10 @@ let convertSchedulers = function(data) {
             "start": moment(item.startDate).format('YYYY-MM-DD'),
             "end": moment(item.endDate).format('YYYY-MM-DD'),
         }
+        if (checkNullOrEmptyValue(item.colorCode)) {
+            scheduler.backgroundColor = item.colorCode;
+            scheduler.borderColor = item.colorCode;
+        }
         schedulers.push(scheduler);
     });
 

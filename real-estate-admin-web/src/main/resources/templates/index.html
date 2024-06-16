@@ -43,9 +43,15 @@
                             <form name="frmSearch">
                                 <div class="row">
                                     <select class="form-control form-control-sm adminList col-md-12 margin-bottom-5" name="adminId">
-                                        <option value="">선택해주세요.</option>
+                                        <option value="">담당자</option>
                                         <th:block th:each="admin : ${admins}">
                                             <option th:value="${admin.adminId}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:selected="${condition.adminId eq admin.adminId}">[[${admin.name}]]</option>
+                                        </th:block>
+                                    </select>
+                                    <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="buyerGradeCd">
+                                        <option value="">매수자등급</option>
+                                        <th:block th:each="code, status : ${buyerGradeCds}">
+                                            <option th:value="${code.code}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
                                     <button type="submit" class="btn btn-sm btn-primary col-md-12 btnSchedulerAdd">검 색</button>

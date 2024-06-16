@@ -46,6 +46,8 @@ public class Scheduler extends BaseTimeEntity {
 
     private LocalDateTime endDate;
 
+    private String colorCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -62,7 +64,7 @@ public class Scheduler extends BaseTimeEntity {
         this.managers.add(manager);
     }
 
-    public static Scheduler create(SchedulerForm createForm, Administrator loginUser) {
+    public static Scheduler create(SchedulerForm createForm, String colorCode, Administrator loginUser) {
         return Scheduler.builder()
                 .buyerGradeCds(createForm.getBuyerGradeCds())
                 .title(createForm.getTitle())
@@ -70,16 +72,18 @@ public class Scheduler extends BaseTimeEntity {
                 .memo(createForm.getMemo())
                 .startDate(createForm.getStartDate())
                 .endDate(createForm.getEndDate())
+                .colorCode(colorCode)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .build();
     }
 
-    public void update(SchedulerForm updateForm, Administrator loginAdmin) {
+    public void update(SchedulerForm updateForm, String colorCode, Administrator loginAdmin) {
         this.title = updateForm.getTitle();
         this.buyerGradeCds = updateForm.getBuyerGradeCds();
         this.customerName = updateForm.getCustomerName();
         this.memo = updateForm.getMemo();
+        this.colorCode = colorCode;
         this.updatedBy = loginAdmin;
     }
 }

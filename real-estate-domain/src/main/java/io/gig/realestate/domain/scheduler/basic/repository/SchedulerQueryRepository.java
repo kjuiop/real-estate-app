@@ -14,6 +14,7 @@ import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class SchedulerQueryRepository {
                 .where(defaultCondition())
                 .where(inSchedulerManager(condition.getAdminId()))
                 .where(ownManager(loginUser))
+                .where(eqBuyerGradeCd(condition.getBuyerGradeCd()))
                 .fetch()
                 ;
     }
@@ -69,6 +71,10 @@ public class SchedulerQueryRepository {
 
     private BooleanExpression eqScheduleId(Long schedulerId) {
         return schedulerId != null ? scheduler.id.eq(schedulerId) : null;
+    }
+
+    private BooleanExpression eqBuyerGradeCd(String buyerGradeCd) {
+        return StringUtils.hasText(buyerGradeCd) ? scheduler.buyerGradeCds.eq(buyerGradeCd) : null;
     }
 
     private BooleanExpression inSchedulerManager(Long adminId) {

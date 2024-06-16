@@ -26,6 +26,8 @@ public class SchedulerDto {
 
     private String memo;
 
+    private String colorCode;
+
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
@@ -38,5 +40,6 @@ public class SchedulerDto {
         this.memo = s.getMemo();
         this.startDate = s.getStartDate();
         this.endDate = s.getEndDate();
+        this.colorCode = s.getColorCode();
     }
 }
