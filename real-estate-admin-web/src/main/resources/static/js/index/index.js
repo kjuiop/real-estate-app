@@ -77,7 +77,7 @@ let addScheduleCalendar = function(e) {
         "title" : $modal.find('input[name="title"]').val(),
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
-        "managerIds": getManagerIds(),
+        "managerIds": getManagerIds($modal),
         "buyerGradeCds": buyerGradeCds,
     }
 
@@ -119,6 +119,13 @@ let updateScheduleCalendar = function(e) {
     e.preventDefault();
 
     let $modal = $('#scheduleEditModal');
+
+    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -128,8 +135,9 @@ let updateScheduleCalendar = function(e) {
         "title" : $modal.find('input[name="title"]').val(),
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
-        "managerIds": getManagerIds(),
+        "managerIds": getManagerIds($modal),
         "schedulerId": $modal.find('input[name="schedulerId"]').val(),
+        "buyerGradeCds": buyerGradeCds,
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -156,9 +164,9 @@ let updateScheduleCalendar = function(e) {
 
 }
 
-let getManagerIds = function() {
+let getManagerIds = function($modal) {
     let managerIds = [];
-    $('.managerSection').find('.btnManager').each(function(idx, item) {
+    $modal.find('.managerSection').find('.btnManager').each(function(idx, item) {
         let id = parseInt($(item).attr('adminId'));
         managerIds.push(id);
     });
@@ -208,6 +216,7 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('textarea[name="memo"]').text(scheduler.memo);
     $modal.find('input[name="startDate"]').val(moment(scheduler.startDate).startOf('day').format('YYYY-MM-DDTHH:mm'));
     $modal.find('input[name="endDate"]').val(moment(scheduler.endDate).endOf('day').format('YYYY-MM-DDTHH:mm'));
+    $modal.find('.buyerGradeCd').val(scheduler.buyerGradeCds);
     $modal.find('input[name="argStartDate"]').val(args.start);
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);

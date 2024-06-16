@@ -152,9 +152,19 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">고객명</label>
-                            <div class="col-md-10">
+                            <label class="col-md-2 control-label padding-top-6">고객명</label>
+                            <div class="col-md-5">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
+                            </div>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">고객 등급</label>
+                            <div class="col-md-3">
+                                <select class="form-control form-control-sm buyerGradeCd" style="font-size: 12px;">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                        <option th:value="${code.code}">[[${code.name}]]</option>
+                                        <!--                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>-->
+                                    </th:block>
+                                </select>
                             </div>
                         </div>
                         <div class="display-flex-row line">
