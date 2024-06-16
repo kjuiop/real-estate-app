@@ -20,9 +20,13 @@ public class SchedulerDto {
 
     private String title;
 
+    private String buyerGradeCds;
+
     private String customerName;
 
     private String memo;
+
+    private String colorCode;
 
     private LocalDateTime startDate;
 
@@ -31,9 +35,11 @@ public class SchedulerDto {
     public SchedulerDto(Scheduler s) {
         this.schedulerId = s.getId();
         this.title = s.getTitle();
+        this.buyerGradeCds = s.getBuyerGradeCds();
         this.customerName = s.getCustomerName();
         this.memo = s.getMemo();
         this.startDate = s.getStartDate();
         this.endDate = s.getEndDate();
+        this.colorCode = s.getColorCode();
     }
 }

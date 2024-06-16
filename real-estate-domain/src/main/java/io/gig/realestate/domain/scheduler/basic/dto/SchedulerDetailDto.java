@@ -25,6 +25,8 @@ public class SchedulerDetailDto extends SchedulerDto {
 
     private static final SchedulerDetailDto EMPTY;
 
+    public String buyerGradeName;
+
     @Builder.Default
     public List<SchedulerManagerDto> managers = new ArrayList<>();
 

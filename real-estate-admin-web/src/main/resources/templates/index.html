@@ -34,7 +34,32 @@
                 <div class="col-md-10 padding-20" style="background-color: #ffffff; border-top: 2px solid darkorange; font-size: 12px;">
                     <div id="calendar"></div>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <div class="card font-size-12">
+                        <div class="card-header">
+                            <h3 class="card-title text-center" style="font-size: 15px;">검색조건</h3>
+                        </div>
+                        <div class="card-body">
+                            <form name="frmSearch">
+                                <div class="row">
+                                    <select class="form-control form-control-sm adminList col-md-12 margin-bottom-5" name="adminId">
+                                        <option value="">담당자</option>
+                                        <th:block th:each="admin : ${admins}">
+                                            <option th:value="${admin.adminId}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:selected="${condition.adminId eq admin.adminId}">[[${admin.name}]]</option>
+                                        </th:block>
+                                    </select>
+                                    <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="buyerGradeCd">
+                                        <option value="">매수자등급</option>
+                                        <th:block th:each="code, status : ${buyerGradeCds}">
+                                            <option th:value="${code.code}">[[${code.name}]]</option>
+                                        </th:block>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary col-md-12 btnSchedulerAdd">검 색</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -49,8 +74,8 @@
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">담당자</label>
-                            <div class="col-md-10">
+                            <label class="col-md-2 control-label padding-top-6">담당자</label>
+                            <div class="col-md-3">
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
@@ -58,15 +83,12 @@
                                     </th:block>
                                 </select>
                             </div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label"></label>
-                            <div class="col-md-10 display-flex-row managerSection">
-                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                            <div class="col-md-7 managerSection">
+                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.adminName}]]</button>
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">제목</label>
+                            <label class="col-md-2 control-label padding-top-6">제목</label>
                             <div class="col-md-10">
                                 <input type="hidden" name="argStartDate" />
                                 <input type="hidden" name="argEndDate" />
@@ -77,17 +99,33 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">고객명</label>
-                            <div class="col-md-10">
+                            <label class="col-md-2 control-label padding-top-6">고객명</label>
+                            <div class="col-md-5">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
+                            </div>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">고객 등급</label>
+                            <div class="col-md-3">
+                                <select class="form-control form-control-sm buyerGradeCd" style="font-size: 12px;">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                        <option th:value="${code.code}">[[${code.name}]]</option>
+                                        <!--                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>-->
+                                    </th:block>
+                                </select>
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">메모</label>
+                            <label class="col-md-2 control-label padding-top-6">메모</label>
                             <div class="col-md-10">
                                 <textarea class="form-control form-control-sm" rows="5" name="memo" style="padding: 13px;"></textarea>
                             </div>
                         </div>
+<!--                        <div class="display-flex-row line">-->
+<!--                            <label class="col-md-2 control-label padding-top-6">첨부파일</label>-->
+<!--                            <div class="col-md-10">-->
+<!--                                <button type="button" class="btn btn-xs btn-default" style="margin-right: 5px; margin-top: 3px;">업로드</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <div class="form-horizontal line">
                         <button type="button" class="btn btn-sm btn-primary btnAddSchedule pull-right padding-right-10">등록</button>
@@ -108,7 +146,7 @@
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label">담당자</label>
-                            <div class="col-md-10">
+                            <div class="col-md-3">
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
@@ -116,10 +154,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label"></label>
-                            <div class="col-md-10 display-flex-row managerSection"></div>
+                            <div class="col-md-7 managerSection"></div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label">제목</label>
@@ -134,9 +169,19 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">고객명</label>
-                            <div class="col-md-10">
+                            <label class="col-md-2 control-label padding-top-6">고객명</label>
+                            <div class="col-md-5">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
+                            </div>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">고객 등급</label>
+                            <div class="col-md-3">
+                                <select class="form-control form-control-sm buyerGradeCd" style="font-size: 12px;">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                        <option th:value="${code.code}">[[${code.name}]]</option>
+                                        <!--                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>-->
+                                    </th:block>
+                                </select>
                             </div>
                         </div>
                         <div class="display-flex-row line">
@@ -158,6 +203,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var errorMessage =/*[[${errorMessage}]]*/'';
+        var schedulers =/*[[${schedulers}]]*/'';
         /*]]>*/
     </script>
     <script src="/static/js/index/index.js" th:src="@{/js/index/index.js}"></script>

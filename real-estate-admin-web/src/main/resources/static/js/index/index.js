@@ -1,27 +1,9 @@
 let calendar;
 let onReady = function() {
-    getCalendars();
-
+    initCalendar(schedulers);
     if (checkNullOrEmptyValue(errorMessage)) {
         twoBtnModal(errorMessage);
     }
-}
-
-let getCalendars = function() {
-
-    $.ajax({
-        url: "/scheduler",
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            console.log("result", result);
-            initCalendar(result.data);
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
 }
 
 let initCalendar = function(schedulers) {
@@ -61,6 +43,13 @@ let addScheduleCalendar = function(e) {
     e.preventDefault();
 
     let $modal = $('#scheduleModal');
+
+    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -70,7 +59,8 @@ let addScheduleCalendar = function(e) {
         "title" : $modal.find('input[name="title"]').val(),
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
-        "managerIds": getManagerIds(),
+        "managerIds": getManagerIds($modal),
+        "buyerGradeCds": buyerGradeCds,
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -111,6 +101,13 @@ let updateScheduleCalendar = function(e) {
     e.preventDefault();
 
     let $modal = $('#scheduleEditModal');
+
+    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
+    if (!checkNullOrEmptyValue(buyerGradeCds)) {
+        twoBtnModal("매수자 등급을 설정해주세요.");
+        return;
+    }
+
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -120,8 +117,9 @@ let updateScheduleCalendar = function(e) {
         "title" : $modal.find('input[name="title"]').val(),
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
-        "managerIds": getManagerIds(),
+        "managerIds": getManagerIds($modal),
         "schedulerId": $modal.find('input[name="schedulerId"]').val(),
+        "buyerGradeCds": buyerGradeCds,
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -148,9 +146,9 @@ let updateScheduleCalendar = function(e) {
 
 }
 
-let getManagerIds = function() {
+let getManagerIds = function($modal) {
     let managerIds = [];
-    $('.managerSection').find('.btnManager').each(function(idx, item) {
+    $modal.find('.managerSection').find('.btnManager').each(function(idx, item) {
         let id = parseInt($(item).attr('adminId'));
         managerIds.push(id);
     });
@@ -200,6 +198,7 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('textarea[name="memo"]').text(scheduler.memo);
     $modal.find('input[name="startDate"]').val(moment(scheduler.startDate).startOf('day').format('YYYY-MM-DDTHH:mm'));
     $modal.find('input[name="endDate"]').val(moment(scheduler.endDate).endOf('day').format('YYYY-MM-DDTHH:mm'));
+    $modal.find('.buyerGradeCd').val(scheduler.buyerGradeCds);
     $modal.find('input[name="argStartDate"]').val(args.start);
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);
@@ -208,7 +207,7 @@ let showSchedulerEditModal = function(args, scheduler) {
     if (checkNullOrEmptyValue(scheduler.managers) && scheduler.managers.length > 0) {
         let tag = "";
         $.each(scheduler.managers, function(idx, item) {
-            tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px;">' + item.name + '</button>';
+            tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px; margin-top:3px;">' + item.name + '</button>';
         });
         $modal.find('.managerSection').html(tag);
     }
@@ -246,7 +245,7 @@ let drawManager = function(e) {
         return;
     }
 
-    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px; margin-top:3px;">' + name + '</button>';
     $modal.find('.managerSection').append(tag);
 }
 
@@ -261,6 +260,10 @@ let convertSchedulers = function(data) {
             "start": moment(item.startDate).format('YYYY-MM-DD'),
             "end": moment(item.endDate).format('YYYY-MM-DD'),
         }
+        if (checkNullOrEmptyValue(item.colorCode)) {
+            scheduler.backgroundColor = item.colorCode;
+            scheduler.borderColor = item.colorCode;
+        }
         schedulers.push(scheduler);
     });
 
@@ -268,6 +271,7 @@ let convertSchedulers = function(data) {
 
     return schedulers;
 }
+
 
 /**
  events: [
@@ -323,6 +327,8 @@ let convertSchedulers = function(data) {
             }
  ]
  */
+
+
 
 $(document).ready(onReady)
     .on('change', '.adminList', drawManager)
