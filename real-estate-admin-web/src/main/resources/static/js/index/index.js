@@ -225,7 +225,7 @@ let showSchedulerEditModal = function(args, scheduler) {
     if (checkNullOrEmptyValue(scheduler.managers) && scheduler.managers.length > 0) {
         let tag = "";
         $.each(scheduler.managers, function(idx, item) {
-            tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px;">' + item.name + '</button>';
+            tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px; margin-top:3px;">' + item.name + '</button>';
         });
         $modal.find('.managerSection').html(tag);
     }
@@ -263,7 +263,7 @@ let drawManager = function(e) {
         return;
     }
 
-    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px; margin-top:3px;">' + name + '</button>';
     $modal.find('.managerSection').append(tag);
 }
 

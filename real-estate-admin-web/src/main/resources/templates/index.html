@@ -58,7 +58,7 @@
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">담당자</label>
-                            <div class="col-md-10">
+                            <div class="col-md-3">
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
@@ -66,10 +66,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label"></label>
-                            <div class="col-md-10 display-flex-row managerSection">
+                            <div class="col-md-7 managerSection">
                                 <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
                             </div>
                         </div>
@@ -126,7 +123,7 @@
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label">담당자</label>
-                            <div class="col-md-10">
+                            <div class="col-md-3">
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
@@ -134,10 +131,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label"></label>
-                            <div class="col-md-10 display-flex-row managerSection"></div>
+                            <div class="col-md-7 managerSection"></div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label">제목</label>
