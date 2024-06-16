@@ -6,23 +6,6 @@ let onReady = function() {
     }
 }
 
-let getCalendars = function() {
-
-    $.ajax({
-        url: "/scheduler",
-        method: "get",
-        type: "json",
-        contentType: "application/json",
-        success: function(result) {
-            console.log("result", result);
-
-        },
-        error: function(error){
-            ajaxErrorFieldByText(error);
-        }
-    });
-}
-
 let initCalendar = function(schedulers) {
 
     let events = convertSchedulers(schedulers);

@@ -29,17 +29,6 @@ import java.util.List;
 public class SchedulerController {
 
     private final SchedulerService schedulerService;
-    private final TeamService teamService;
-    private final AdministratorService administratorService;
-
-    @RequestMapping("new")
-    public String register(Model model, @CurrentUser LoginUser loginUser) {
-        model.addAttribute("dto", SchedulerDetailDto.emptyDto());
-        model.addAttribute("loginUser", loginUser);
-        model.addAttribute("teams", teamService.getTeamListByLoginUser(loginUser));
-        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
-        return "scheduler/editor";
-    }
 
     @GetMapping("{schedulerId}")
     @ResponseBody
