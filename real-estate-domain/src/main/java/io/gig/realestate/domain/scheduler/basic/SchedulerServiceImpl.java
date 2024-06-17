@@ -3,16 +3,20 @@ package io.gig.realestate.domain.scheduler.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.category.Category;
+import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.notification.NotificationService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManagerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,14 +33,15 @@ public class SchedulerServiceImpl implements SchedulerService {
     private final AdministratorService administratorService;
     private final SchedulerManagerService schedulerManagerService;
     private final NotificationService notificationService;
+    private final CategoryService categoryService;
 
     private final SchedulerReader schedulerReader;
     private final SchedulerStore schedulerStore;
 
     @Override
     @Transactional(readOnly = true)
-    public List<SchedulerListDto> getSchedulers(LoginUser loginUser) {
-        return schedulerReader.getSchedulers(loginUser.getLoginUser());
+    public List<SchedulerListDto> getSchedulers(SchedulerSearchDto condition, LoginUser loginUser) {
+        return schedulerReader.getSchedulers(condition, loginUser.getLoginUser());
     }
 
     @Override
@@ -49,7 +54,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Transactional
     public Long create(SchedulerForm createForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
-        Scheduler scheduler = Scheduler.create(createForm, loginUser.getLoginUser());
+        String colorCode = "";
+        if (StringUtils.hasText(createForm.getBuyerGradeCds())) {
+            Category category = categoryService.getCategoryByCode(createForm.getBuyerGradeCds());
+            colorCode = category.getColorCode();
+        }
+        Scheduler scheduler = Scheduler.create(createForm, colorCode, loginUser.getLoginUser());
 
         if (createForm.getManagerIds() != null && !createForm.getManagerIds().contains(loginAdmin.getId())) {
             createForm.getManagerIds().add(loginAdmin.getId());
@@ -70,8 +80,13 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Transactional
     public Long update(SchedulerForm updateForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
+        String colorCode = "";
+        if (StringUtils.hasText(updateForm.getBuyerGradeCds())) {
+            Category category = categoryService.getCategoryByCode(updateForm.getBuyerGradeCds());
+            colorCode = category.getColorCode();
+        }
         Scheduler scheduler = schedulerReader.getSchedulerEntity(updateForm.getSchedulerId());
-        scheduler.update(updateForm, loginAdmin);
+        scheduler.update(updateForm, colorCode, loginAdmin);
 
         if (scheduler.getManagers() != null && !scheduler.getManagers().isEmpty()) {
             for (SchedulerManager sm : scheduler.getManagers()) {

@@ -1,16 +1,19 @@
 package io.gig.realestate.admin.controller.scheduler;
 
 import io.gig.realestate.admin.util.ApiResponse;
+import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.scheduler.basic.SchedulerService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,13 +29,6 @@ import java.util.List;
 public class SchedulerController {
 
     private final SchedulerService schedulerService;
-
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<ApiResponse> getSchedulers(@CurrentUser LoginUser loginUser) {
-        List<SchedulerListDto> dto = schedulerService.getSchedulers(loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
-    }
 
     @GetMapping("{schedulerId}")
     @ResponseBody
