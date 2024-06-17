@@ -727,6 +727,30 @@ let changeCompleteType = function(e) {
     });
 }
 
+let removeBuyer = function(e) {
+    e.preventDefault();
+
+    let buyerId = $('input[name="buyerId"]').val();
+    if (!checkNullOrEmptyValue(buyerId)) {
+        return;
+    }
+
+    twoBtnModal("삭제하시겠습니까?", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId,
+            method: 'delete',
+            type: "json",
+            contentType: "application/json",
+            success: function (result) {
+                location.href = "/buyer";
+            },
+            error:function(error){
+                ajaxErrorFieldByModal(error);
+            }
+        });
+    });
+}
+
 $(document).ready(onReady)
     .on('click', '.selected-button-radio-section button', toggleSelectOneButton)
     .on('click', '.selected-button-checkbox-section button', toggleSelectButton)
@@ -744,4 +768,5 @@ $(document).ready(onReady)
     .on('click', '.btnApply', applyRealEstate)
     .on('click', '.btnRealEstateList', initRealEstateModal)
     .on('change', '.completeType', changeCompleteType)
+    .on('click', '.btnRemove', removeBuyer)
 ;

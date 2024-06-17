@@ -190,4 +190,9 @@ public class Buyer extends BaseTimeEntity {
     public void changeCompleteType(BuyerCompleteDto completeDto) {
         this.completeType = completeDto.getCompleteType();
     }
+
+    public void delete(Administrator loginAdmin) {
+        this.deleteYn = YnType.Y;
+        this.updatedBy = loginAdmin;
+    }
 }

@@ -147,6 +147,15 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    @Transactional
+    public Long delete(Long buyerId, LoginUser loginUser) {
+        Administrator loginAdmin = loginUser.getLoginUser();
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        buyer.delete(loginAdmin);
+        return buyer.getId();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public BuyerModalDto getBuyerDetailModal(Long buyerId, LoginUser loginUser) {
         BuyerDetailDto dto = buyerReader.getBuyerDetail(buyerId);
