@@ -230,7 +230,8 @@ public class Administrator extends BaseTimeEntity {
         this.slackLinkYn = YnType.Y;
     }
 
-    public void remove() {
+    public void remove(Administrator loginUser) {
         this.deleteYn = YnType.Y;
+        this.updatedBy = loginUser;
     }
 }
