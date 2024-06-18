@@ -52,6 +52,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     @Transactional
+    public Long deleteById(Long schedulerId, LoginUser loginUser) {
+        Scheduler scheduler = schedulerReader.getSchedulerEntity(schedulerId);
+        scheduler.delete(loginUser.getLoginUser());
+        return scheduler.getId();
+    }
+
+    @Override
+    @Transactional
     public Long create(SchedulerForm createForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
         String colorCode = "";

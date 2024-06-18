@@ -86,4 +86,9 @@ public class Scheduler extends BaseTimeEntity {
         this.colorCode = colorCode;
         this.updatedBy = loginAdmin;
     }
+
+    public void delete(Administrator loginUser) {
+        this.deleteYn = YnType.Y;
+        this.updatedBy = loginUser;
+    }
 }

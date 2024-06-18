@@ -272,6 +272,27 @@ let convertSchedulers = function(data) {
     return schedulers;
 }
 
+let removeSchedule = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#scheduleEditModal'),
+        scheduleId = $modal.find('input[name="schedulerId"]').val();
+
+    $.ajax({
+        url: "/scheduler/" + scheduleId,
+        method: 'delete',
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            $modal.find('.close').trigger('click');
+            location.reload();
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 
 /**
  events: [
@@ -333,4 +354,5 @@ let convertSchedulers = function(data) {
 $(document).ready(onReady)
     .on('change', '.adminList', drawManager)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
-    .on('click', '.btnEditSchedule', updateScheduleCalendar);
+    .on('click', '.btnEditSchedule', updateScheduleCalendar)
+    .on('click', '.btnRemove', removeSchedule);
