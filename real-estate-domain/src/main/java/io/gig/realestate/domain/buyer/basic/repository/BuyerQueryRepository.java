@@ -274,8 +274,8 @@ public class BuyerQueryRepository {
     }
 
     private BooleanExpression afterTwoWeeksUpdated() {
-        LocalDateTime twoWeeksAgo = LocalDateTime.now().minus(2, ChronoUnit.WEEKS);
-        return buyer.updatedAt.after(twoWeeksAgo);
+        LocalDateTime twoWeeksAgo = LocalDateTime.now().minusWeeks(2);
+        return buyer.updatedAt.before(twoWeeksAgo);
     }
 
 

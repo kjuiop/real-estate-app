@@ -25,13 +25,12 @@ public class BuyerScheduledTask {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    //    @Scheduled(cron = "*/40 * * * * ?")
     @Scheduled(cron = "0 0 10 * * ?")
     public void checkBuyerLatest() {
         List<BuyerOverDueEvent> eventList = new ArrayList<>();
         List<BuyerDetailDto> list = buyerService.getBuyerProcessingList();
         for (BuyerDetailDto dto : list) {
-            String msg = "매수자 정보가 생성된지 2주가 경과되었습니다.";
+            String msg = "매수자 정보 최종 수정일이 2주 경과되었습니다.";
             String returnUrl = "/buyer/" + dto.getBuyerId() + "/edit";
             for (BuyerManagerDto manager : dto.getManagers()) {
                 MessageForm form = MessageForm.sendMsgByNotification(dto.getBuyerId(), msg, returnUrl, "system", manager.getUsername());
