@@ -28,6 +28,8 @@ public class SchedulerForm {
 
     private String buyerGradeCds;
 
+    private String priorityOrderCds;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;

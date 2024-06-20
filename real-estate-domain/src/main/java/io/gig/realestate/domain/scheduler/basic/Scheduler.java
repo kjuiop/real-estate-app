@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
@@ -38,6 +39,9 @@ public class Scheduler extends BaseTimeEntity {
     @Lob
     private String buyerGradeCds;
 
+    @Lob
+    private String priorityOrderCds;
+
     private String customerName;
 
     private String memo;
@@ -66,7 +70,7 @@ public class Scheduler extends BaseTimeEntity {
 
     public static Scheduler create(SchedulerForm createForm, String colorCode, Administrator loginUser) {
         return Scheduler.builder()
-                .buyerGradeCds(createForm.getBuyerGradeCds())
+                .priorityOrderCds(createForm.getPriorityOrderCds())
                 .title(createForm.getTitle())
                 .customerName(createForm.getCustomerName())
                 .memo(createForm.getMemo())
@@ -80,7 +84,7 @@ public class Scheduler extends BaseTimeEntity {
 
     public void update(SchedulerForm updateForm, String colorCode, Administrator loginAdmin) {
         this.title = updateForm.getTitle();
-        this.buyerGradeCds = updateForm.getBuyerGradeCds();
+        this.priorityOrderCds = updateForm.getPriorityOrderCds();
         this.customerName = updateForm.getCustomerName();
         this.memo = updateForm.getMemo();
         this.colorCode = colorCode;

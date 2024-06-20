@@ -40,7 +40,7 @@ public class SchedulerQueryRepository {
                 .where(defaultCondition())
                 .where(inSchedulerManager(condition.getAdminId()))
                 .where(ownManager(loginUser))
-                .where(eqBuyerGradeCd(condition.getBuyerGradeCd()))
+                .where(eqPriorityOrderCds(condition.getPriorityOrderCds()))
                 .fetch()
                 ;
     }
@@ -73,8 +73,8 @@ public class SchedulerQueryRepository {
         return schedulerId != null ? scheduler.id.eq(schedulerId) : null;
     }
 
-    private BooleanExpression eqBuyerGradeCd(String buyerGradeCd) {
-        return StringUtils.hasText(buyerGradeCd) ? scheduler.buyerGradeCds.eq(buyerGradeCd) : null;
+    private BooleanExpression eqPriorityOrderCds(String priorityOrderCds) {
+        return StringUtils.hasText(priorityOrderCds) ? scheduler.priorityOrderCds.eq(priorityOrderCds) : null;
     }
 
     private BooleanExpression inSchedulerManager(Long adminId) {

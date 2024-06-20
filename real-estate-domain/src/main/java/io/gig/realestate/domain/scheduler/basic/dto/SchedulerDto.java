@@ -22,6 +22,8 @@ public class SchedulerDto {
 
     private String buyerGradeCds;
 
+    private String priorityOrderCds;
+
     private String customerName;
 
     private String memo;
@@ -36,6 +38,7 @@ public class SchedulerDto {
         this.schedulerId = s.getId();
         this.title = s.getTitle();
         this.buyerGradeCds = s.getBuyerGradeCds();
+        this.priorityOrderCds = s.getPriorityOrderCds();
         this.customerName = s.getCustomerName();
         this.memo = s.getMemo();
         this.startDate = s.getStartDate();

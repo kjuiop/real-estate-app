@@ -48,10 +48,10 @@
                                             <option th:value="${admin.adminId}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:selected="${condition.adminId eq admin.adminId}">[[${admin.name}]]</option>
                                         </th:block>
                                     </select>
-                                    <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="buyerGradeCd">
-                                        <option value="">고객등급</option>
-                                        <th:block th:each="code, status : ${buyerGradeCds}">
-                                            <option th:value="${code.code}" th:selected="${condition.buyerGradeCd eq code.code}">[[${code.name}]]</option>
+                                    <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="priorityOrderCds">
+                                        <option value="">우선순위</option>
+                                        <th:block th:each="code, status : ${priorityOrderCds}">
+                                            <option th:value="${code.code}" th:selected="${condition.priorityOrderCds eq code.code}">[[${code.name}]]</option>
                                         </th:block>
                                     </select>
                                     <button type="submit" class="btn btn-sm btn-primary col-md-12 btnSchedulerAdd">검 색</button>
@@ -83,9 +83,7 @@
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-xs btn-primary" style="margin-right: 5px; margin-top: 3px;">연동</button>
                             </div>
-                            <div class="col-md-5 managerSection">
-                                <button type="button" class="btn btn-xs btn-primary" style="margin-right: 5px; margin-top: 3px;">연동</button>
-                            </div>
+                            <div class="col-md-5"></div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">담당자</label>
@@ -93,12 +91,12 @@
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
-                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
                                     </th:block>
                                 </select>
                             </div>
                             <div class="col-md-7 managerSection">
-                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.adminName}]]</button>
+                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.adminId}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.name}]]</button>
                             </div>
                         </div>
                         <div class="display-flex-row line">
@@ -117,13 +115,12 @@
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
                             </div>
-                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">고객 등급</label>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
                             <div class="col-md-3">
-                                <select class="form-control form-control-sm buyerGradeCd" style="font-size: 12px;">
+                                <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
-                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                    <th:block th:each="code, status : ${priorityOrderCds}">
                                         <option th:value="${code.code}">[[${code.name}]]</option>
-                                        <!--                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>-->
                                     </th:block>
                                 </select>
                             </div>
@@ -164,7 +161,7 @@
                                 <select class="form-control form-control-sm adminList">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="admin : ${admins}">
-                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
                                     </th:block>
                                 </select>
                             </div>
@@ -187,13 +184,12 @@
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="customerName" autocomplete="off">
                             </div>
-                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">고객 등급</label>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
                             <div class="col-md-3">
-                                <select class="form-control form-control-sm buyerGradeCd" style="font-size: 12px;">
+                                <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
-                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                    <th:block th:each="code, status : ${priorityOrderCds}">
                                         <option th:value="${code.code}">[[${code.name}]]</option>
-                                        <!--                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>-->
                                     </th:block>
                                 </select>
                             </div>
@@ -219,6 +215,7 @@
         /*<![CDATA[*/
         var errorMessage =/*[[${errorMessage}]]*/'';
         var schedulers =/*[[${schedulers}]]*/'';
+        var loginUser =/*[[${loginUser}]]*/'';
         /*]]>*/
     </script>
     <script src="/static/js/index/index.js" th:src="@{/js/index/index.js}"></script>

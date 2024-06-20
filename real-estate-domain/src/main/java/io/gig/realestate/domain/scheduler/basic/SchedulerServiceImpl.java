@@ -63,8 +63,8 @@ public class SchedulerServiceImpl implements SchedulerService {
     public Long create(SchedulerForm createForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
         String colorCode = "";
-        if (StringUtils.hasText(createForm.getBuyerGradeCds())) {
-            Category category = categoryService.getCategoryByCode(createForm.getBuyerGradeCds());
+        if (StringUtils.hasText(createForm.getPriorityOrderCds())) {
+            Category category = categoryService.getCategoryByCode(createForm.getPriorityOrderCds());
             colorCode = category.getColorCode();
         }
         Scheduler scheduler = Scheduler.create(createForm, colorCode, loginUser.getLoginUser());
@@ -89,8 +89,8 @@ public class SchedulerServiceImpl implements SchedulerService {
     public Long update(SchedulerForm updateForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
         String colorCode = "";
-        if (StringUtils.hasText(updateForm.getBuyerGradeCds())) {
-            Category category = categoryService.getCategoryByCode(updateForm.getBuyerGradeCds());
+        if (StringUtils.hasText(updateForm.getPriorityOrderCds())) {
+            Category category = categoryService.getCategoryByCode(updateForm.getPriorityOrderCds());
             colorCode = category.getColorCode();
         }
         Scheduler scheduler = schedulerReader.getSchedulerEntity(updateForm.getSchedulerId());
