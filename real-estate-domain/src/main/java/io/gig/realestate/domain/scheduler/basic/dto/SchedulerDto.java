@@ -34,15 +34,19 @@ public class SchedulerDto {
 
     private LocalDateTime endDate;
 
+    private Long buyerId;
+
     public SchedulerDto(Scheduler s) {
         this.schedulerId = s.getId();
         this.title = s.getTitle();
-        this.buyerGradeCds = s.getBuyerGradeCds();
         this.priorityOrderCds = s.getPriorityOrderCds();
         this.customerName = s.getCustomerName();
         this.memo = s.getMemo();
         this.startDate = s.getStartDate();
         this.endDate = s.getEndDate();
         this.colorCode = s.getColorCode();
+        if (s.getBuyer() != null) {
+            this.buyerId = s.getBuyer().getId();
+        }
     }
 }

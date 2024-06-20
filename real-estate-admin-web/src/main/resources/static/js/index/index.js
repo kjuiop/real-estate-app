@@ -207,6 +207,14 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('input[name="argStartDate"]').val(args.start);
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);
+    if (checkNullOrEmptyValue(scheduler.buyerId)) {
+        $modal.find('.buyerList').val(scheduler.buyerId);
+        let tag = '<a href="/buyer/' + scheduler.buyerId + '/edit" class="btn btn-xs btn-primary" target="_blank">매수자 정보가기</a>';
+        $modal.find('.buyerLink').html(tag);
+    } else {
+        $modal.find('.buyerList').val("");
+        $modal.find('.buyerLink').html("");
+    }
 
     console.log("scheduler", scheduler);
     if (checkNullOrEmptyValue(scheduler.managers) && scheduler.managers.length > 0) {
@@ -360,4 +368,5 @@ $(document).ready(onReady)
     .on('change', '.adminList', drawManager)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
     .on('click', '.btnEditSchedule', updateScheduleCalendar)
-    .on('click', '.btnRemove', removeSchedule);
+    .on('click', '.btnRemove', removeSchedule)
+;
