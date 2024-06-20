@@ -76,12 +76,24 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<BuyerListDto> getBuyerListByLoginUser(LoginUser loginUser) {
+        return buyerReader.getBuyerListByLoginUserId(loginUser.getLoginUser());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public BuyerDetailDto getBuyerDetail(Long buyerId) {
         BuyerDetailDto detail = buyerReader.getBuyerDetail(buyerId);
         detail.setBuyerGradeName(categoryService.getCategoryNameByCode(detail.getBuyerGradeCds()));
         detail.setHistoryMap(mapService.getHistoryMapByBuyerId(detail.getBuyerId()));
         detail.convertSalePriceIntValue(detail.getSalePrice());
         return detail;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Buyer getBuyerEntityByBuyerId(Long buyerId) {
+        return buyerReader.getBuyerById(buyerId);
     }
 
     @Override

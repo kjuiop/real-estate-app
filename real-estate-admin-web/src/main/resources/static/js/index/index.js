@@ -44,12 +44,6 @@ let addScheduleCalendar = function(e) {
 
     let $modal = $('#scheduleModal');
 
-    let priorityOrderCds = $modal.find('.priorityOrderCds option:selected').val();
-    if (!checkNullOrEmptyValue(priorityOrderCds)) {
-        twoBtnModal("우선순위를 설정해주세요.");
-        return;
-    }
-
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -60,7 +54,13 @@ let addScheduleCalendar = function(e) {
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
         "managerIds": getManagerIds($modal),
-        "priorityOrderCds": priorityOrderCds,
+        "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
+        "buyerId" : $modal.find('.buyerList').val(),
+    }
+
+    if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
+        twoBtnModal("우선순위를 설정해주세요.");
+        return;
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -102,12 +102,6 @@ let updateScheduleCalendar = function(e) {
 
     let $modal = $('#scheduleEditModal');
 
-    let priorityOrderCds = $modal.find('.priorityOrderCds option:selected').val();
-    if (!checkNullOrEmptyValue(priorityOrderCds)) {
-        twoBtnModal("우선순위를 설정해주세요.");
-        return;
-    }
-
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -119,7 +113,13 @@ let updateScheduleCalendar = function(e) {
         "memo" : $modal.find('textarea[name="memo"]').val(),
         "managerIds": getManagerIds($modal),
         "schedulerId": $modal.find('input[name="schedulerId"]').val(),
-        "priorityOrderCds": priorityOrderCds,
+        "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
+        "buyerId" : $modal.find('.buyerList option:selected').val(),
+    }
+
+    if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
+        twoBtnModal("우선순위를 설정해주세요.");
+        return;
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
@@ -167,10 +167,11 @@ let showScheduleModal = function(arg) {
     $modal.find('input[name="argStartDate"]').val(arg.start);
     $modal.find('input[name="argEndDate"]').val(arg.end);
     $modal.find('input[name="argAllDay"]').val(arg.allDay);
+    $modal.find('.adminList').val('');
+    $modal.find('.buyerList').val('');
 
     let tag = '<button type="button" class="btn btn-xs btn-default btnManager" adminId="' + loginUser.adminId + '" username="' + loginUser.username + '" style="margin-right: 5px; margin-top: 3px;">' + loginUser.name + '</button>';
     $modal.find('.managerSection').html(tag);
-    $modal.find('.adminList').val('');
     $modal.modal("show");
 }
 

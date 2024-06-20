@@ -3,6 +3,7 @@ package io.gig.realestate.admin.controller;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.AdministratorDto;
+import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerSearchDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.scheduler.basic.SchedulerService;
@@ -31,18 +32,20 @@ public class MainController {
     private final AdministratorService administratorService;
     private final SchedulerService schedulerService;
     private final CategoryService categoryService;
+    private final BuyerService buyerService;
 
     @GetMapping("/")
     public ModelAndView index(
             SchedulerSearchDto condition,
             HttpServletRequest request, @CurrentUser LoginUser loginUser) {
         ModelAndView mav = new ModelAndView("index");
+        mav.addObject("condition", condition);
+        mav.addObject("loginUser", new AdministratorDto(loginUser.getLoginUser()));
         mav.addObject("admins", administratorService.getAdminListMyMembers(loginUser));
         mav.addObject("schedulers", schedulerService.getSchedulers(condition, loginUser));
         mav.addObject("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         mav.addObject("priorityOrderCds", categoryService.getChildrenCategoryDtosByCode("CD_PRIORITY_ORDER"));
-        mav.addObject("condition", condition);
-        mav.addObject("loginUser", new AdministratorDto(loginUser.getLoginUser()));
+        mav.addObject("buyerList", buyerService.getBuyerListByLoginUser(loginUser));
         if (request.getSession() != null) {
             mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));
             request.getSession().removeAttribute("errorMessage");

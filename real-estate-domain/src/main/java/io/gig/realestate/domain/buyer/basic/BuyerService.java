@@ -36,4 +36,8 @@ public interface BuyerService {
     boolean checkIsBuyerManager(LoginUser loginUser, List<BuyerManagerDto> managers);
 
     Long delete(Long buyerId, LoginUser loginUser);
+
+    List<BuyerListDto> getBuyerListByLoginUser(LoginUser loginUser);
+
+    Buyer getBuyerEntityByBuyerId(Long buyerId);
 }

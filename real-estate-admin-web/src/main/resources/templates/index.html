@@ -75,15 +75,15 @@
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">매수자 정보 연동</label>
-                            <div class="col-md-3">
-                                <select class="form-control form-control-sm adminList">
+                            <div class="col-md-4">
+                                <select class="form-control form-control-sm buyerList">
                                     <option value="">선택해주세요.</option>
+                                    <th:block th:each="buyer : ${buyerList}">
+                                        <option th:value="${buyer.buyerId}">[[${buyer.title}]]</option>
+                                    </th:block>
                                 </select>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-xs btn-primary" style="margin-right: 5px; margin-top: 3px;">연동</button>
-                            </div>
-                            <div class="col-md-5"></div>
+                            <div class="col-md-6"></div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">담당자</label>

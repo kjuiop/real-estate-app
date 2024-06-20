@@ -2,6 +2,7 @@ package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
@@ -53,6 +54,10 @@ public class Scheduler extends BaseTimeEntity {
     private String colorCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_id")
+    private Buyer buyer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
 
@@ -94,5 +99,9 @@ public class Scheduler extends BaseTimeEntity {
     public void delete(Administrator loginUser) {
         this.deleteYn = YnType.Y;
         this.updatedBy = loginUser;
+    }
+
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
     }
 }
