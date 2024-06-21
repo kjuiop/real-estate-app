@@ -43,6 +43,9 @@ public class Scheduler extends BaseTimeEntity {
     @Lob
     private String priorityOrderCds;
 
+    @Lob
+    private String processCds;
+
     private String customerName;
 
     private String memo;
@@ -76,6 +79,7 @@ public class Scheduler extends BaseTimeEntity {
     public static Scheduler create(SchedulerForm createForm, String colorCode, Administrator loginUser) {
         return Scheduler.builder()
                 .priorityOrderCds(createForm.getPriorityOrderCds())
+                .processCds(createForm.getProcessCds())
                 .title(createForm.getTitle())
                 .customerName(createForm.getCustomerName())
                 .memo(createForm.getMemo())
@@ -90,6 +94,7 @@ public class Scheduler extends BaseTimeEntity {
     public void update(SchedulerForm updateForm, String colorCode, Administrator loginAdmin) {
         this.title = updateForm.getTitle();
         this.priorityOrderCds = updateForm.getPriorityOrderCds();
+        this.processCds = updateForm.getProcessCds();
         this.customerName = updateForm.getCustomerName();
         this.memo = updateForm.getMemo();
         this.colorCode = colorCode;

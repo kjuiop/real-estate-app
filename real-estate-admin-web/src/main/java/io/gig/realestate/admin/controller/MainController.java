@@ -45,6 +45,7 @@ public class MainController {
         mav.addObject("schedulers", schedulerService.getSchedulers(condition, loginUser));
         mav.addObject("buyerGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUYER_GRADE"));
         mav.addObject("priorityOrderCds", categoryService.getChildrenCategoryDtosByCode("CD_PRIORITY_ORDER"));
+        mav.addObject("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         mav.addObject("buyerList", buyerService.getBuyerListByLoginUser(loginUser));
         if (request.getSession() != null) {
             mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));

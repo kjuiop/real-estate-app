@@ -34,11 +34,14 @@ public class SchedulerDto {
 
     private LocalDateTime endDate;
 
+    private String processCds;
+
     private Long buyerId;
 
     public SchedulerDto(Scheduler s) {
         this.schedulerId = s.getId();
         this.title = s.getTitle();
+        this.processCds = s.getProcessCds();
         this.priorityOrderCds = s.getPriorityOrderCds();
         this.customerName = s.getCustomerName();
         this.memo = s.getMemo();

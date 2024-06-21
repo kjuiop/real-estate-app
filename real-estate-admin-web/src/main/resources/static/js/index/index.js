@@ -56,6 +56,7 @@ let addScheduleCalendar = function(e) {
         "managerIds": getManagerIds($modal),
         "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
         "buyerId" : $modal.find('.buyerList').val(),
+        "processCds" : $modal.find('.processCds option:selected').val(),
     }
 
     if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
@@ -115,6 +116,7 @@ let updateScheduleCalendar = function(e) {
         "schedulerId": $modal.find('input[name="schedulerId"]').val(),
         "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
         "buyerId" : $modal.find('.buyerList option:selected').val(),
+        "processCds" : $modal.find('.processCds option:selected').val(),
     }
 
     if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
@@ -209,11 +211,17 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('input[name="argAllDay"]').val(args.allDay);
     if (checkNullOrEmptyValue(scheduler.buyerId)) {
         $modal.find('.buyerList').val(scheduler.buyerId);
-        let tag = '<a href="/buyer/' + scheduler.buyerId + '/edit" class="btn btn-xs btn-primary" target="_blank">매수자 정보가기</a>';
+        let tag = '<a href="/buyer/' + scheduler.buyerId + '/edit" class="btn btn-xs btn-primary" target="_blank">매수자 상세정보</a>';
         $modal.find('.buyerLink').html(tag);
     } else {
         $modal.find('.buyerList').val("");
         $modal.find('.buyerLink').html("");
+    }
+
+    if (checkNullOrEmptyValue(scheduler.processCds)) {
+        $modal.find('.processCds').val(scheduler.processCds);
+    } else {
+        $modal.find('.processCds').val('');
     }
 
     console.log("scheduler", scheduler);

@@ -74,6 +74,20 @@
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
+                            <label class="col-md-2 control-label padding-top-6">담당자</label>
+                            <div class="col-md-4">
+                                <select class="form-control form-control-sm adminList">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="admin : ${admins}">
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="col-md-6 managerSection">
+                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.adminId}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.name}]]</button>
+                            </div>
+                        </div>
+                        <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">매수자 정보 연동</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm buyerList">
@@ -84,20 +98,6 @@
                                 </select>
                             </div>
                             <div class="col-md-6"></div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label padding-top-6">담당자</label>
-                            <div class="col-md-3">
-                                <select class="form-control form-control-sm adminList">
-                                    <option value="">선택해주세요.</option>
-                                    <th:block th:each="admin : ${admins}">
-                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div class="col-md-7 managerSection">
-                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.adminId}" th:username="${loginUser.username}" style="margin-right: 5px; margin-top: 3px;">[[${loginUser.name}]]</button>
-                            </div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">프로젝트, 고객</label>
@@ -111,12 +111,17 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label padding-top-6">고객명</label>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" name="customerName" autocomplete="off">
+                            <label class="col-md-2 control-label padding-top-6">할 일</label>
+                            <div class="col-md-4">
+                                <select class="form-control form-control-sm processCds" style="font-size: 12px;">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="code, status : ${processCds}">
+                                        <option th:value="${code.code}">[[${code.name}]]</option>
+                                    </th:block>
+                                </select>
                             </div>
-                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
-                            <div class="col-md-3">
+                            <label class="col-md-2 control-label padding-top-6 text-center">우선 순위</label>
+                            <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="code, status : ${priorityOrderCds}">
@@ -156,6 +161,18 @@
                 <div class="modal-body modal-dialog-scrollable display-flex-column" style="max-height: 900px; min-height: 200px;">
                     <div class="line display-flex-column">
                         <div class="display-flex-row line">
+                            <label class="col-md-2 control-label">담당자</label>
+                            <div class="col-md-4">
+                                <select class="form-control form-control-sm adminList">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="admin : ${admins}">
+                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="col-md-6 managerSection"></div>
+                        </div>
+                        <div class="display-flex-row line">
                             <label class="col-md-2 control-label padding-top-6">매수자 정보 연동</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm buyerList">
@@ -166,18 +183,6 @@
                                 </select>
                             </div>
                             <div class="col-md-6 buyerLink padding-top-3"></div>
-                        </div>
-                        <div class="display-flex-row line">
-                            <label class="col-md-2 control-label">담당자</label>
-                            <div class="col-md-3">
-                                <select class="form-control form-control-sm adminList">
-                                    <option value="">선택해주세요.</option>
-                                    <th:block th:each="admin : ${admins}">
-                                        <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.adminId ne admin.adminId}">[[${admin.name}]]</option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div class="col-md-7 managerSection"></div>
                         </div>
                         <div class="display-flex-row line">
                             <label class="col-md-2 control-label">프로젝트, 고객</label>
@@ -192,12 +197,17 @@
                             </div>
                         </div>
                         <div class="display-flex-row line">
-                            <label class="col-md-2 control-label padding-top-6">고객명</label>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" name="customerName" autocomplete="off">
+                            <label class="col-md-2 control-label padding-top-6">할 일</label>
+                            <div class="col-md-4">
+                                <select class="form-control form-control-sm processCds" style="font-size: 12px;">
+                                    <option value="">선택해주세요.</option>
+                                    <th:block th:each="code, status : ${processCds}">
+                                        <option th:value="${code.code}">[[${code.name}]]</option>
+                                    </th:block>
+                                </select>
                             </div>
                             <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
                                     <th:block th:each="code, status : ${priorityOrderCds}">
