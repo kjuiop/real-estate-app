@@ -1,6 +1,8 @@
 package io.gig.realestate.domain.scheduler.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
@@ -38,6 +40,12 @@ public class Scheduler extends BaseTimeEntity {
     @Lob
     private String buyerGradeCds;
 
+    @Lob
+    private String priorityOrderCds;
+
+    @Lob
+    private String processCds;
+
     private String customerName;
 
     private String memo;
@@ -47,6 +55,10 @@ public class Scheduler extends BaseTimeEntity {
     private LocalDateTime endDate;
 
     private String colorCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_id")
+    private Buyer buyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
@@ -66,7 +78,8 @@ public class Scheduler extends BaseTimeEntity {
 
     public static Scheduler create(SchedulerForm createForm, String colorCode, Administrator loginUser) {
         return Scheduler.builder()
-                .buyerGradeCds(createForm.getBuyerGradeCds())
+                .priorityOrderCds(createForm.getPriorityOrderCds())
+                .processCds(createForm.getProcessCds())
                 .title(createForm.getTitle())
                 .customerName(createForm.getCustomerName())
                 .memo(createForm.getMemo())
@@ -80,10 +93,20 @@ public class Scheduler extends BaseTimeEntity {
 
     public void update(SchedulerForm updateForm, String colorCode, Administrator loginAdmin) {
         this.title = updateForm.getTitle();
-        this.buyerGradeCds = updateForm.getBuyerGradeCds();
+        this.priorityOrderCds = updateForm.getPriorityOrderCds();
+        this.processCds = updateForm.getProcessCds();
         this.customerName = updateForm.getCustomerName();
         this.memo = updateForm.getMemo();
         this.colorCode = colorCode;
         this.updatedBy = loginAdmin;
+    }
+
+    public void delete(Administrator loginUser) {
+        this.deleteYn = YnType.Y;
+        this.updatedBy = loginUser;
+    }
+
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
     }
 }

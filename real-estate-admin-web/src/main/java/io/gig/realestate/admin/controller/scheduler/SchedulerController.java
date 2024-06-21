@@ -38,6 +38,14 @@ public class SchedulerController {
         return new ResponseEntity<>(ApiResponse.OK(dto), HttpStatus.OK);
     }
 
+    @DeleteMapping("{schedulerId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> deleteById(@PathVariable(name = "schedulerId") Long schedulerId,
+                                                        @CurrentUser LoginUser loginUser) {
+        Long deletedId = schedulerService.deleteById(schedulerId, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(deletedId), HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<ApiResponse> create(@Valid @RequestBody SchedulerForm createForm,

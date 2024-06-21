@@ -97,6 +97,20 @@ public class BuyerQueryRepository {
         return contentQuery.fetch();
     }
 
+    public List<BuyerListDto> getBuyerListByLoginUserId(Administrator loginUser) {
+
+        JPAQuery<BuyerListDto> contentQuery = this.queryFactory
+                .select(Projections.constructor(BuyerListDto.class,
+                        buyer
+                ))
+                .from(buyer)
+                .where(defaultCondition())
+                .where(ownManager(loginUser))
+                ;
+
+        return contentQuery.fetch();
+    }
+
     public Optional<Buyer> getBuyerById(Long buyerId) {
         Buyer fetch = queryFactory
                 .selectFrom(buyer)
@@ -274,9 +288,7 @@ public class BuyerQueryRepository {
     }
 
     private BooleanExpression afterTwoWeeksUpdated() {
-        LocalDateTime twoWeeksAgo = LocalDateTime.now().minus(2, ChronoUnit.WEEKS);
-        return buyer.updatedAt.after(twoWeeksAgo);
+        LocalDateTime twoWeeksAgo = LocalDateTime.now().minusWeeks(2);
+        return buyer.updatedAt.before(twoWeeksAgo);
     }
-
-
 }

@@ -2,12 +2,14 @@ package io.gig.realestate.admin.controller.settings;
 
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.admin.dto.*;
 import io.gig.realestate.domain.role.RoleService;
 import io.gig.realestate.domain.role.dto.RoleDto;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.team.dto.TeamListDto;
 import io.gig.realestate.domain.team.dto.TeamUpdateForm;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -92,8 +94,9 @@ public class AdminManagerController {
 
     @PostMapping("remove")
     @ResponseBody
-    public ResponseEntity<ApiResponse> remove(@Valid @RequestBody List<AdminStatusUpdateForm> updateForm) {
-        administratorService.remove(updateForm);
+    public ResponseEntity<ApiResponse> remove(@Valid @RequestBody List<AdminStatusUpdateForm> updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        administratorService.remove(loginUser, updateForm);
         return new ResponseEntity<>(ApiResponse.OK(), HttpStatus.OK);
     }
 

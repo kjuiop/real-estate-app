@@ -20,4 +20,6 @@ public interface BuyerReader {
     Buyer getBuyerById(Long buyerId);
 
     List<BuyerDetailDto> getBuyerProcessingList();
+
+    List<BuyerListDto> getBuyerListByLoginUserId(Administrator loginUser);
 }

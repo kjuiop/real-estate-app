@@ -110,6 +110,14 @@ public class BuyerController {
         return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
     }
 
+    @DeleteMapping("{buyerId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> delete(@PathVariable(name = "buyerId") Long buyerId,
+                                              @CurrentUser LoginUser loginUser) {
+        Long deletedId = buyerService.delete(buyerId, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(deletedId), HttpStatus.OK);
+    }
+
     @GetMapping("{buyerId}/history")
     @ResponseBody
     public ResponseEntity<ApiResponse> getBuyerDetailModal(@PathVariable(name = "buyerId") Long buyerId,

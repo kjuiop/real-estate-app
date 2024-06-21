@@ -68,5 +68,5 @@ public interface AdministratorService {
 
     boolean checkSlackAuth(AdministratorAuthForm authForm);
 
-    void remove(List<AdminStatusUpdateForm> updateForm);
+    void remove(LoginUser loginUser, List<AdminStatusUpdateForm> updateForm);
 }

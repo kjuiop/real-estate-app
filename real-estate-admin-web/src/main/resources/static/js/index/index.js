@@ -44,12 +44,6 @@ let addScheduleCalendar = function(e) {
 
     let $modal = $('#scheduleModal');
 
-    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
-    if (!checkNullOrEmptyValue(buyerGradeCds)) {
-        twoBtnModal("매수자 등급을 설정해주세요.");
-        return;
-    }
-
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -60,11 +54,18 @@ let addScheduleCalendar = function(e) {
         "customerName" : $modal.find('input[name="customerName"]').val(),
         "memo" : $modal.find('textarea[name="memo"]').val(),
         "managerIds": getManagerIds($modal),
-        "buyerGradeCds": buyerGradeCds,
+        "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
+        "buyerId" : $modal.find('.buyerList').val(),
+        "processCds" : $modal.find('.processCds option:selected').val(),
+    }
+
+    if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
+        twoBtnModal("우선순위를 설정해주세요.");
+        return;
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트, 고객을 입력해주세요.");
         return;
     }
 
@@ -102,12 +103,6 @@ let updateScheduleCalendar = function(e) {
 
     let $modal = $('#scheduleEditModal');
 
-    let buyerGradeCds = $modal.find('.buyerGradeCd option:selected').val();
-    if (!checkNullOrEmptyValue(buyerGradeCds)) {
-        twoBtnModal("매수자 등급을 설정해주세요.");
-        return;
-    }
-
     let params = {
         "argStartDate" : $modal.find('input[name="argStartDate"]').val(),
         "argEndDate" : $modal.find('input[name="argEndDate"]').val(),
@@ -119,11 +114,18 @@ let updateScheduleCalendar = function(e) {
         "memo" : $modal.find('textarea[name="memo"]').val(),
         "managerIds": getManagerIds($modal),
         "schedulerId": $modal.find('input[name="schedulerId"]').val(),
-        "buyerGradeCds": buyerGradeCds,
+        "priorityOrderCds": $modal.find('.priorityOrderCds option:selected').val(),
+        "buyerId" : $modal.find('.buyerList option:selected').val(),
+        "processCds" : $modal.find('.processCds option:selected').val(),
+    }
+
+    if (!checkNullOrEmptyValue(params.priorityOrderCds)) {
+        twoBtnModal("우선순위를 설정해주세요.");
+        return;
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트, 고객을 입력해주세요.");
         return;
     }
 
@@ -167,6 +169,11 @@ let showScheduleModal = function(arg) {
     $modal.find('input[name="argStartDate"]').val(arg.start);
     $modal.find('input[name="argEndDate"]').val(arg.end);
     $modal.find('input[name="argAllDay"]').val(arg.allDay);
+    $modal.find('.adminList').val('');
+    $modal.find('.buyerList').val('');
+
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager" adminId="' + loginUser.adminId + '" username="' + loginUser.username + '" style="margin-right: 5px; margin-top: 3px;">' + loginUser.name + '</button>';
+    $modal.find('.managerSection').html(tag);
     $modal.modal("show");
 }
 
@@ -198,10 +205,24 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('textarea[name="memo"]').text(scheduler.memo);
     $modal.find('input[name="startDate"]').val(moment(scheduler.startDate).startOf('day').format('YYYY-MM-DDTHH:mm'));
     $modal.find('input[name="endDate"]').val(moment(scheduler.endDate).endOf('day').format('YYYY-MM-DDTHH:mm'));
-    $modal.find('.buyerGradeCd').val(scheduler.buyerGradeCds);
+    $modal.find('.priorityOrderCds').val(scheduler.priorityOrderCds);
     $modal.find('input[name="argStartDate"]').val(args.start);
     $modal.find('input[name="argEndDate"]').val(args.end);
     $modal.find('input[name="argAllDay"]').val(args.allDay);
+    if (checkNullOrEmptyValue(scheduler.buyerId)) {
+        $modal.find('.buyerList').val(scheduler.buyerId);
+        let tag = '<a href="/buyer/' + scheduler.buyerId + '/edit" class="btn btn-xs btn-primary" target="_blank">매수자 상세정보</a>';
+        $modal.find('.buyerLink').html(tag);
+    } else {
+        $modal.find('.buyerList').val("");
+        $modal.find('.buyerLink').html("");
+    }
+
+    if (checkNullOrEmptyValue(scheduler.processCds)) {
+        $modal.find('.processCds').val(scheduler.processCds);
+    } else {
+        $modal.find('.processCds').val('');
+    }
 
     console.log("scheduler", scheduler);
     if (checkNullOrEmptyValue(scheduler.managers) && scheduler.managers.length > 0) {
@@ -272,6 +293,27 @@ let convertSchedulers = function(data) {
     return schedulers;
 }
 
+let removeSchedule = function(e) {
+    e.preventDefault();
+
+    let $modal = $('#scheduleEditModal'),
+        scheduleId = $modal.find('input[name="schedulerId"]').val();
+
+    $.ajax({
+        url: "/scheduler/" + scheduleId,
+        method: 'delete',
+        type: "json",
+        contentType: "application/json",
+        success: function (result) {
+            $modal.find('.close').trigger('click');
+            location.reload();
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 
 /**
  events: [
@@ -333,4 +375,6 @@ let convertSchedulers = function(data) {
 $(document).ready(onReady)
     .on('change', '.adminList', drawManager)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
-    .on('click', '.btnEditSchedule', updateScheduleCalendar);
+    .on('click', '.btnEditSchedule', updateScheduleCalendar)
+    .on('click', '.btnRemove', removeSchedule)
+;
