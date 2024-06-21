@@ -64,7 +64,7 @@ let addScheduleCalendar = function(e) {
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트, 고객을 입력해주세요.");
         return;
     }
 
@@ -123,7 +123,7 @@ let updateScheduleCalendar = function(e) {
     }
 
     if (!checkNullOrEmptyValue(params.title)) {
-        twoBtnModal("제목을 입력해주세요.");
+        twoBtnModal("프로젝트, 고객을 입력해주세요.");
         return;
     }
 
