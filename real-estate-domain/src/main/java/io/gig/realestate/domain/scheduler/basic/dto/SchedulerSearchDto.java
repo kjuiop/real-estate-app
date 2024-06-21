@@ -15,5 +15,7 @@ public class SchedulerSearchDto {
 
     private Long adminId;
 
+    private Long buyerId;
+
     private String priorityOrderCds;
 }
