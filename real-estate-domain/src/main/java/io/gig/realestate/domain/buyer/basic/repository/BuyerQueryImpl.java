@@ -37,6 +37,11 @@ public class BuyerQueryImpl implements BuyerReader {
     }
 
     @Override
+    public List<BuyerListDto> getBuyerListByLoginUserId(Administrator loginUser) {
+        return queryRepository.getBuyerListByLoginUserId(loginUser);
+    }
+
+    @Override
     public Buyer getBuyerById(Long buyerId) {
         Optional<Buyer> findBuyer = queryRepository.getBuyerById(buyerId);
         if (findBuyer.isEmpty()) {

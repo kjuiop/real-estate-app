@@ -217,7 +217,7 @@
                                         <label>선호지역 (동)</label>
                                     </div>
                                     <div class="col-md-3 display-flex-row">
-                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="선호 지역" th:value="${dto.preferArea}"/>
+                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="선호 지역역 (동)" th:value="${dto.preferArea}"/>
                                     </div>
                                     <div class="col-md-3 display-flex-row">
                                         <input type="text" class="form-control valid-fields" name="preferSubway" placeholder="선호 지하철 노선" th:value="${dto.preferSubway}"/>
@@ -275,8 +275,9 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:if="${!isModify}"><i class="fa fa-plus"></i> 저장</button>
-                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:if="${isModify}"><i class="fa fa-plus"></i> 수정</button>
+                                    <button type="button" class="btn btn-sm btn-danger btnRemove pull-left" th:if="${isModify}">삭제</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnSave float-right" th:if="${!isModify}">저장</button>
+                                    <button type="button" class="btn btn-sm btn-primary btnUpdate float-right" th:if="${isModify}">수정</button>
                                     <a href="/buyer" class="btn btn-sm btn-default float-right margin-right-5"> 목록</a>
                                 </div>
                             </div>

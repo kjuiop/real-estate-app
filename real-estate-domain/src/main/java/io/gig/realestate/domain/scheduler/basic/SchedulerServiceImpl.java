@@ -3,6 +3,8 @@ package io.gig.realestate.domain.scheduler.basic;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
+import io.gig.realestate.domain.buyer.basic.Buyer;
+import io.gig.realestate.domain.buyer.basic.BuyerService;
 import io.gig.realestate.domain.category.Category;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.notification.NotificationService;
@@ -34,6 +36,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     private final SchedulerManagerService schedulerManagerService;
     private final NotificationService notificationService;
     private final CategoryService categoryService;
+    private final BuyerService buyerService;
 
     private final SchedulerReader schedulerReader;
     private final SchedulerStore schedulerStore;
@@ -52,14 +55,26 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     @Transactional
+    public Long deleteById(Long schedulerId, LoginUser loginUser) {
+        Scheduler scheduler = schedulerReader.getSchedulerEntity(schedulerId);
+        scheduler.delete(loginUser.getLoginUser());
+        return scheduler.getId();
+    }
+
+    @Override
+    @Transactional
     public Long create(SchedulerForm createForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
         String colorCode = "";
-        if (StringUtils.hasText(createForm.getBuyerGradeCds())) {
-            Category category = categoryService.getCategoryByCode(createForm.getBuyerGradeCds());
+        if (StringUtils.hasText(createForm.getPriorityOrderCds())) {
+            Category category = categoryService.getCategoryByCode(createForm.getPriorityOrderCds());
             colorCode = category.getColorCode();
         }
         Scheduler scheduler = Scheduler.create(createForm, colorCode, loginUser.getLoginUser());
+        if (createForm.getBuyerId() != null) {
+            Buyer buyer = buyerService.getBuyerEntityByBuyerId(createForm.getBuyerId());
+            scheduler.setBuyer(buyer);
+        }
 
         if (createForm.getManagerIds() != null && !createForm.getManagerIds().contains(loginAdmin.getId())) {
             createForm.getManagerIds().add(loginAdmin.getId());
@@ -81,12 +96,16 @@ public class SchedulerServiceImpl implements SchedulerService {
     public Long update(SchedulerForm updateForm, LoginUser loginUser) {
         Administrator loginAdmin = loginUser.getLoginUser();
         String colorCode = "";
-        if (StringUtils.hasText(updateForm.getBuyerGradeCds())) {
-            Category category = categoryService.getCategoryByCode(updateForm.getBuyerGradeCds());
+        if (StringUtils.hasText(updateForm.getPriorityOrderCds())) {
+            Category category = categoryService.getCategoryByCode(updateForm.getPriorityOrderCds());
             colorCode = category.getColorCode();
         }
         Scheduler scheduler = schedulerReader.getSchedulerEntity(updateForm.getSchedulerId());
         scheduler.update(updateForm, colorCode, loginAdmin);
+        if (updateForm.getBuyerId() != null) {
+            Buyer buyer = buyerService.getBuyerEntityByBuyerId(updateForm.getBuyerId());
+            scheduler.setBuyer(buyer);
+        }
 
         if (scheduler.getManagers() != null && !scheduler.getManagers().isEmpty()) {
             for (SchedulerManager sm : scheduler.getManagers()) {

@@ -21,4 +21,6 @@ public interface SchedulerService {
     SchedulerDetailDto getSchedulerById(Long schedulerId, LoginUser loginUser);
 
     Long update(SchedulerForm updateForm, LoginUser loginUser);
+
+    Long deleteById(Long schedulerId, LoginUser loginUser);
 }
