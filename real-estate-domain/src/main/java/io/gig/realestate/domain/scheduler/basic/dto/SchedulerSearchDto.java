@@ -18,4 +18,6 @@ public class SchedulerSearchDto {
     private Long buyerId;
 
     private String priorityOrderCds;
+
+    private String processCds;
 }
