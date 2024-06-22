@@ -118,13 +118,13 @@ public class SchedulerQueryRepository {
 
     private BooleanExpression adminStatusWithdraw(boolean isWithdraw) {
         if (isWithdraw) {
-            return scheduler.createdBy.status.eq(AdminStatus.WITHDRAW)
-                    .and(scheduler.createdBy.deleteYn.eq(YnType.N))
+            return scheduler.managerBy.status.eq(AdminStatus.WITHDRAW)
+                    .and(scheduler.managerBy.deleteYn.eq(YnType.N))
                     ;
         }
 
-        return scheduler.createdBy.status.ne(AdminStatus.WITHDRAW)
-                .and(scheduler.createdBy.deleteYn.eq(YnType.N))
+        return scheduler.managerBy.status.ne(AdminStatus.WITHDRAW)
+                .and(scheduler.managerBy.deleteYn.eq(YnType.N))
                 ;
     }
 }

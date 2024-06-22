@@ -296,13 +296,13 @@ public class BuyerQueryRepository {
 
     private BooleanExpression adminStatusWithdraw(boolean isWithdraw) {
         if (isWithdraw) {
-            return buyer.createdBy.status.eq(AdminStatus.WITHDRAW)
-                    .and(buyer.createdBy.deleteYn.eq(YnType.N))
+            return buyer.managerBy.status.eq(AdminStatus.WITHDRAW)
+                    .and(buyer.managerBy.deleteYn.eq(YnType.N))
                     ;
         }
 
-        return buyer.createdBy.status.ne(AdminStatus.WITHDRAW)
-                .and(buyer.createdBy.deleteYn.eq(YnType.N))
+        return buyer.managerBy.status.ne(AdminStatus.WITHDRAW)
+                .and(buyer.managerBy.deleteYn.eq(YnType.N))
                 ;
     }
 }

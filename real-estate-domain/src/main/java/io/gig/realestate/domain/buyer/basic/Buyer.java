@@ -122,6 +122,10 @@ public class Buyer extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator managerBy;
+
     public void addHistory(BuyerHistory history) {
         this.histories.add(history);
     }
@@ -157,6 +161,7 @@ public class Buyer extends BaseTimeEntity {
                 .requestDetail(createForm.getRequestDetail())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
+                .managerBy(loginUser)
                 .build();
     }
 
