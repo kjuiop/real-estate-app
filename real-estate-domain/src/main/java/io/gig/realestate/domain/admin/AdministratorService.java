@@ -69,4 +69,6 @@ public interface AdministratorService {
     boolean checkSlackAuth(AdministratorAuthForm authForm);
 
     void remove(LoginUser loginUser, List<AdminStatusUpdateForm> updateForm);
+
+    List<Long> getSuperAdminIds();
 }

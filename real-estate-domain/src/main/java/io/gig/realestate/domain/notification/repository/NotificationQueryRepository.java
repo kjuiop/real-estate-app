@@ -54,7 +54,6 @@ public class NotificationQueryRepository {
                 .where(eqReceiver(username))
                 .where(eqReadYn(YnType.N))
                 .orderBy(notification.createdAt.desc())
-                .limit(10)
                 .fetch();
     }
 

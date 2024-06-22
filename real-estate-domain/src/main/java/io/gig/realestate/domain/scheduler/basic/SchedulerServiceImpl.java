@@ -87,7 +87,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
 
         Scheduler savedScheduler = schedulerStore.store(scheduler);
-        notificationService.sendSchedulerCreateToManager(savedScheduler.getId(), savedScheduler.getCustomerName(), loginAdmin.getId(), createForm.getManagerIds());
+        notificationService.sendSchedulerCreateToManager(savedScheduler.getId(), savedScheduler.getTitle(), loginAdmin.getId(), createForm.getManagerIds());
         return savedScheduler.getId();
     }
 
@@ -134,7 +134,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
 
         Scheduler savedScheduler = schedulerStore.store(scheduler);
-        notificationService.sendSchedulerUpdateToManager(savedScheduler.getId(), savedScheduler.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
+//        notificationService.sendSchedulerUpdateToManager(savedScheduler.getId(), savedScheduler.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
         return savedScheduler.getId();
     }
 }

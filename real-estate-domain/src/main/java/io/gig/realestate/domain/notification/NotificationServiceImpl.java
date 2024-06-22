@@ -12,9 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author : JAKE
@@ -46,8 +44,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void sendBuyerCreateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
         List<NotificationEvent> eventList = new ArrayList<>();
+
+        Set<Long> managerIdSet = new HashSet<>(managerIds);
+        List<Long> superAdminIds = administratorService.getSuperAdminIds();
+        managerIdSet.addAll(superAdminIds);
+
         Administrator sender = administratorService.getAdminById(senderId);
-        for (Long adminId : managerIds) {
+        for (Long adminId : managerIdSet) {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 생성하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 생성하였습니다.";
             String returnUrl = "/buyer/" + buyerId + "/edit";
@@ -71,8 +74,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void sendBuyerUpdateToManager(Long buyerId, String customerName, Long senderId, List<Long> managerIds) {
         List<NotificationEvent> eventList = new ArrayList<>();
+
+        Set<Long> managerIdSet = new HashSet<>(managerIds);
+        List<Long> superAdminIds = administratorService.getSuperAdminIds();
+        managerIdSet.addAll(superAdminIds);
+
         Administrator sender = administratorService.getAdminById(senderId);
-        for (Long adminId : managerIds) {
+        for (Long adminId : managerIdSet) {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 정보를 수정하였습니다." : sender.getName() + "님이 " + customerName + " 정보를 수정하였습니다.";
             String returnUrl = "/buyer/" + buyerId + "/edit";
@@ -96,11 +104,16 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void sendSchedulerCreateToManager(Long schedulerId, String customerName, Long senderId, List<Long> managerIds) {
         List<NotificationEvent> eventList = new ArrayList<>();
+
+        Set<Long> managerIdSet = new HashSet<>(managerIds);
+        List<Long> superAdminIds = administratorService.getSuperAdminIds();
+        managerIdSet.addAll(superAdminIds);
+
         Administrator sender = administratorService.getAdminById(senderId);
-        for (Long adminId : managerIds) {
+        for (Long adminId : managerIdSet) {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 일정을 등록하였습니다." : sender.getName() + "님이 " + customerName + " 일정을 등록하였습니다.";
-            String returnUrl = "/";
+            String returnUrl = "/?schedulerId=" + schedulerId;
             Notification notification = Notification.sendManager(
                     msg,
                     returnUrl,
@@ -121,8 +134,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void sendSchedulerUpdateToManager(Long id, String customerName, Long senderId, List<Long> managerIds) {
         List<NotificationEvent> eventList = new ArrayList<>();
+
+        Set<Long> managerIdSet = new HashSet<>(managerIds);
+        List<Long> superAdminIds = administratorService.getSuperAdminIds();
+        managerIdSet.addAll(superAdminIds);
+
         Administrator sender = administratorService.getAdminById(senderId);
-        for (Long adminId : managerIds) {
+        for (Long adminId : managerIdSet) {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 일정을 수정하였습니다." : sender.getName() + "님이 " + customerName + " 일정을 수정하였습니다.";
             String returnUrl = "/";

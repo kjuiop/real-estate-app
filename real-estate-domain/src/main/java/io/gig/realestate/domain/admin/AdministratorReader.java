@@ -46,4 +46,6 @@ public interface AdministratorReader {
     Administrator getAdminById(Long adminId);
 
     List<AdministratorListDto> getTeamAdminListByLoginUserNotSuperAdmin(Team team);
+
+    List<Long> getSuperAdminIds();
 }
