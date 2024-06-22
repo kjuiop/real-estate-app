@@ -294,6 +294,12 @@ public class AdministratorServiceImpl implements AdministratorService {
         return isValid;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Long> getSuperAdminIds() {
+        return administratorReader.getSuperAdminIds();
+    }
+
     private void validPassword(Administrator administrator, String password) {
         if (administrator.passwordValid(password)) {
             throw new IllegalArgumentException("이전에 사용했던 비밀번호입니다.");

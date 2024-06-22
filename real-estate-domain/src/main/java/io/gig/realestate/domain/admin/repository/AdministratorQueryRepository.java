@@ -273,6 +273,17 @@ public class AdministratorQueryRepository {
         return new PageImpl<>(content, searchDto.getPageableWithSort(), total);
     }
 
+    public List<Long> getSuperAdminIds() {
+        return this.queryFactory
+                .select(administrator.id)
+                .from(administrator)
+                .where(defaultCondition())
+                .where(eqStatus(AdminStatus.NORMAL))
+                .where(includeSuperAdmin())
+                .fetch()
+                ;
+    }
+
     private BooleanExpression eqTeamId(Long teamId) {
         return teamId != null ? administrator.team.id.eq(teamId) : null;
     }
@@ -287,6 +298,13 @@ public class AdministratorQueryRepository {
 
     private BooleanExpression excludeSuperAdmin() {
         return administrator.id.notIn(
+                JPAExpressions.selectDistinct(administratorRole.administrator.id)
+                        .from(administratorRole)
+                        .where(administratorRole.role.name.eq("ROLE_SUPER_ADMIN")));
+    }
+
+    private BooleanExpression includeSuperAdmin() {
+        return administrator.id.in(
                 JPAExpressions.selectDistinct(administratorRole.administrator.id)
                         .from(administratorRole)
                         .where(administratorRole.role.name.eq("ROLE_SUPER_ADMIN")));
@@ -307,5 +325,4 @@ public class AdministratorQueryRepository {
     private BooleanExpression defaultCondition() {
         return administrator.deleteYn.eq(YnType.N);
     }
-
 }

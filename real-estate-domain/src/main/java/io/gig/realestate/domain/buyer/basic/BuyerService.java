@@ -40,4 +40,6 @@ public interface BuyerService {
     List<BuyerListDto> getBuyerListByLoginUser(LoginUser loginUser);
 
     Buyer getBuyerEntityByBuyerId(Long buyerId);
+
+    Long managerChange(Long buyerId, BuyerForm updateForm, LoginUser loginUser);
 }

@@ -4,6 +4,9 @@ let onReady = function() {
     if (checkNullOrEmptyValue(errorMessage)) {
         twoBtnModal(errorMessage);
     }
+    if (checkNullOrEmptyValue(schedulerId)) {
+        loadSchedulerEditModal(schedulerId);
+    }
 }
 
 let initCalendar = function(schedulers) {
@@ -79,7 +82,7 @@ let addScheduleCalendar = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             console.log("save result : ", result);
-            location.reload();
+            location.href = "/";
             // calendar.addEvent({
             //     id: result.data.toString(),
             //     groupId: result.data.toString(),
@@ -139,7 +142,7 @@ let updateScheduleCalendar = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             $modal.find('.close').trigger('click');
-            location.reload();
+            location.href = "/";
         },
         error:function(error){
             ajaxErrorFieldByText(error);
@@ -177,6 +180,25 @@ let showScheduleModal = function(arg) {
     $modal.modal("show");
 }
 
+let loadSchedulerEditModal = function(schedulerId) {
+
+    $.ajax({
+        url: "/scheduler/" + schedulerId,
+        method: "get",
+        type: "json",
+        contentType: "application/json",
+        success: function(result) {
+            console.log("result", result);
+            let scheduler = result.data;
+            showSchedulerEditModal(null, scheduler);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+
+}
+
 let getScheduleModal = function(args) {
 
     let schedulerId = args.event.id;
@@ -206,9 +228,11 @@ let showSchedulerEditModal = function(args, scheduler) {
     $modal.find('input[name="startDate"]').val(moment(scheduler.startDate).startOf('day').format('YYYY-MM-DDTHH:mm'));
     $modal.find('input[name="endDate"]').val(moment(scheduler.endDate).endOf('day').format('YYYY-MM-DDTHH:mm'));
     $modal.find('.priorityOrderCds').val(scheduler.priorityOrderCds);
-    $modal.find('input[name="argStartDate"]').val(args.start);
-    $modal.find('input[name="argEndDate"]').val(args.end);
-    $modal.find('input[name="argAllDay"]').val(args.allDay);
+    if (checkNullOrEmptyValue(args)) {
+        $modal.find('input[name="argStartDate"]').val(args.start);
+        $modal.find('input[name="argEndDate"]').val(args.end);
+        $modal.find('input[name="argAllDay"]').val(args.allDay);
+    }
     if (checkNullOrEmptyValue(scheduler.buyerId)) {
         $modal.find('.buyerList').val(scheduler.buyerId);
         let tag = '<a href="/buyer/' + scheduler.buyerId + '/edit" class="btn btn-xs btn-primary" target="_blank">매수자 상세정보</a>';
@@ -306,7 +330,7 @@ let removeSchedule = function(e) {
         contentType: "application/json",
         success: function (result) {
             $modal.find('.close').trigger('click');
-            location.reload();
+            location.href = "/";
         },
         error:function(error){
             ajaxErrorFieldByText(error);

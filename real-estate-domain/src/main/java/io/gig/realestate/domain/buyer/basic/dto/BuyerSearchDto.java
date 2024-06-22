@@ -1,6 +1,7 @@
 package io.gig.realestate.domain.buyer.basic.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.BaseSearchDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +58,8 @@ public class BuyerSearchDto extends BaseSearchDto {
     private String managerName;
 
     private String searchDateUnit;
+
+    private boolean isWithDraw = false;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

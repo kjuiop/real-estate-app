@@ -154,7 +154,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         Buyer savedBuyer = buyerStore.store(buyer);
-        notificationService.sendBuyerUpdateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
+//        notificationService.sendBuyerUpdateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
         return savedBuyer.getId();
     }
 
@@ -216,6 +216,15 @@ public class BuyerServiceImpl implements BuyerService {
     public Long changeCompleteType(Long buyerId, BuyerCompleteDto completeDto, LoginUser loginUser) {
         Buyer buyer = buyerReader.getBuyerById(buyerId);
         buyer.changeCompleteType(completeDto);
+        return buyerStore.store(buyer).getId();
+    }
+
+    @Override
+    @Transactional
+    public Long managerChange(Long buyerId, BuyerForm updateForm, LoginUser loginUser) {
+        Administrator changeManager = administratorService.getAdminById(updateForm.getManagerId());
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        buyer.changeManager(changeManager);
         return buyerStore.store(buyer).getId();
     }
 

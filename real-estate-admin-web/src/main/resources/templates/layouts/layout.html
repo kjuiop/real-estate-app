@@ -124,7 +124,8 @@
 
         let $this = $(this),
             notiId = $this.attr('notiId'),
-            checked = $this.prop('checked');
+            checked = $this.prop('checked'),
+            $block = $this.parents('.noti-move');
 
         let params = {
             "readYn" : checked ? "Y" : "N"
@@ -140,13 +141,16 @@
                 console.log("result", result);
 
                 let notiCnt = result.data,
-                    $notiSection = $('.notiCnt');
+                    $notiCnt = $('.notiCnt');
+
                 if (notiCnt === 0) {
-                    $notiSection.addClass('hidden')
+                    $notiCnt.addClass('hidden')
                 } else {
-                    $notiSection.removeClass('hidden');
+                    $notiCnt.removeClass('hidden');
                 }
-                $notiSection.html(notiCnt);
+                $notiCnt.html(notiCnt);
+
+                $block.remove();
                 $('.notiBannerCnt').html(notiCnt);
             },
             error: function(error){
