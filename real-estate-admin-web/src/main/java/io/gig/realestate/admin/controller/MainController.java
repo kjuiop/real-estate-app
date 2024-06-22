@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,9 @@ public class MainController {
     @GetMapping("/")
     public ModelAndView index(
             SchedulerSearchDto condition,
-            HttpServletRequest request, @CurrentUser LoginUser loginUser) {
+            HttpServletRequest request,
+            @RequestParam(name = "schedulerId", required = false) Long schedulerId,
+            @CurrentUser LoginUser loginUser) {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("condition", condition);
         mav.addObject("loginUser", new AdministratorDto(loginUser.getLoginUser()));
@@ -47,6 +50,7 @@ public class MainController {
         mav.addObject("priorityOrderCds", categoryService.getChildrenCategoryDtosByCode("CD_PRIORITY_ORDER"));
         mav.addObject("processCds", categoryService.getChildrenCategoryDtosByCode("CD_PROCESS"));
         mav.addObject("buyerList", buyerService.getBuyerListByLoginUser(loginUser));
+        mav.addObject("schedulerId", schedulerId);
         if (request.getSession() != null) {
             mav.addObject("errorMessage", request.getSession().getAttribute("errorMessage"));
             request.getSession().removeAttribute("errorMessage");

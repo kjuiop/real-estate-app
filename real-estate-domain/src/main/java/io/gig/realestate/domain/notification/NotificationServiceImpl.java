@@ -100,7 +100,7 @@ public class NotificationServiceImpl implements NotificationService {
         for (Long adminId : managerIds) {
             Administrator receiver = administratorService.getAdminById(adminId);
             String msg = Objects.equals(sender.getId(), receiver.getId()) ? customerName + " 일정을 등록하였습니다." : sender.getName() + "님이 " + customerName + " 일정을 등록하였습니다.";
-            String returnUrl = "/";
+            String returnUrl = "/?schedulerId=" + schedulerId;
             Notification notification = Notification.sendManager(
                     msg,
                     returnUrl,
