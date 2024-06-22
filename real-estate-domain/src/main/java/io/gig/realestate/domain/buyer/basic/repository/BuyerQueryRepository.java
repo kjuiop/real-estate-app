@@ -45,7 +45,7 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(adminStatusNotWithdraw());
+        where.and(adminStatusWithdraw(condition.isWithDraw()));
         where.and(ownManager(loginUser));
         where.and(likeTitle(condition.getTitle()));
         where.and(likePreferArea(condition.getPreferArea()));
@@ -294,7 +294,13 @@ public class BuyerQueryRepository {
         return buyer.updatedAt.before(twoWeeksAgo);
     }
 
-    private BooleanExpression adminStatusNotWithdraw() {
+    private BooleanExpression adminStatusWithdraw(boolean isWithdraw) {
+        if (isWithdraw) {
+            return buyer.createdBy.status.eq(AdminStatus.WITHDRAW)
+                    .and(buyer.createdBy.deleteYn.eq(YnType.N))
+                    ;
+        }
+
         return buyer.createdBy.status.ne(AdminStatus.WITHDRAW)
                 .and(buyer.createdBy.deleteYn.eq(YnType.N))
                 ;

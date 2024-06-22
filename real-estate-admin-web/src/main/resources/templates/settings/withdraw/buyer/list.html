@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
+    <style>
+        .content * {
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px;
+        }
+
+        .search-table td {
+            height : 80px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:replace="layouts/utilFragments::navigator('/settings/withdraw-buyer', '퇴사자 매수자 관리', '퇴사자 매수자 목록')"></div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="callout">
+                        <form name="frmSearch">
+                            <input type="hidden" name="page" th:value="${condition.page}" />
+                            <input type="hidden" name="size" th:value="${condition.size}" />
+                            <input type="hidden" name="purposeCds" />
+                            <input type="hidden" name="buyerGradeCds" />
+                            <div class="row col-md-12" style="margin-bottom: 25px;">
+                                <h5 class="col-md-12 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 퇴사자 매수자관리</h5>
+                            </div>
+                            <div class="col-md-12 form-group display-flex-row sub-line">
+                                <table class="table projects search-table spacing-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 33%;" class="no-padding" colspan="3"></th>
+                                        <th style="width: 66%;" class="no-padding" colspan="6"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="9" style="padding-left: 0;">
+                                            <div class="col-md-12 no-left-padding has-feedback form-horizontal display-flex-row margin-bottom-15">
+                                                <div class="col-md-2 pull-left" style="padding-left:0; padding-right: 0; padding-top:7px;">
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="day" th:checked="${condition.searchDateUnit eq 'day'}">&nbsp;&nbsp;&nbsp;오늘</label> &nbsp;
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="week" th:checked="${condition.searchDateUnit eq 'week'}">&nbsp;&nbsp;&nbsp;1주일</label> &nbsp;
+                                                    <label class="control-label" style="font-weight: normal"><input type="radio" name="searchDateUnit" value="month" th:checked="${condition.searchDateUnit eq 'month'}">&nbsp;&nbsp;&nbsp;1개월</label>
+                                                </div>
+                                                <div class="col-md-2" style="padding-left: 0;">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                        </span>
+                                                        <input type="hidden" class="form-control" name="beforeCreatedAt" th:value="${condition.beforeCreatedAt != null} ? ${condition.beforeCreatedAt} : ''">
+                                                        <input type="text" class="form-control" id="targetStartDate" maxlength="50" autocomplete="off" readonly placeholder="시작일">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                        </span>
+                                                        <input type="hidden" class="form-control" name="afterCreatedAt" th:value="${condition.afterCreatedAt != null} ? ${condition.afterCreatedAt} : ''">
+                                                        <input type="text" class="form-control" id="targetEndDate" maxlength="50" autocomplete="off" readonly placeholder="종료일">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6"></div>
+                                            </div>
+                                            <div class="col-md-12 display-flex-row no-left-padding no-right-padding">
+                                                <div class="selected-button-checkbox-section col-md-6 no-left-padding buyerGradeSection" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnAllSelect" th:classappend="${#strings.isEmpty(condition.buyerGradeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${buyerGradeCds}">
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.buyerGradeCds) && condition.buyerGradeCds.contains(code.code) ? 'btn-primary selected' : 'btn-default'}" th:code="${code.code}" style="width: 40px;">[[${code.name}]]</button>
+                                                    </th:block>
+                                                </div>
+                                                <div class="selected-button-checkbox-section col-md-6 no-right-padding purposeSection right-align" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.purposeCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${purposeCds}">
+                                                        <button type="button" class="btn btn-sm text-right buyerGradeCds text-center btnCode" th:classappend="${not #strings.isEmpty(condition.purposeCds) && condition.purposeCds.contains(code.code) ? 'btn-primary selected' : 'btn-default'}" th:code="${code.code}">[[${code.name}]]</button>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">프로젝트명</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="title" class="form-control search-input" name="title" th:value="${condition.title}">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minSalePrice" class="top-label">
+                                                        <div class="search-text">매입금액</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minSalePrice" name="minSalePrice" class="form-control search-input center-align" th:value="${condition.minSalePrice > 0 ? condition.minSalePrice : ''}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxSalePrice" name="maxSalePrice" class="form-control search-input center-align" th:value="${condition.maxSalePrice > 0 ? condition.maxSalePrice : ''}">
+                                                <div class="input-label">
+                                                    <label for="maxSalePrice" class="bottom-label">
+                                                        <div class="search-bottom-text">억원</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minSuccessPercent" class="top-label">
+                                                        <div class="search-text">성공률</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minSuccessPercent" name="minSuccessPercent" class="form-control search-input center-align" th:value="${condition.minSuccessPercent}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxSuccessPercent" name="maxSuccessPercent" class="form-control search-input center-align" th:value="${condition.maxSuccessPercent}">
+                                                <div class="input-label">
+                                                    <label for="maxSuccessPercent" class="bottom-label">
+                                                        <div class="search-bottom-text">%</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
+                                            <div class="input-label">
+                                                <label for="customerName" class="top-label">
+                                                    <div class="search-text">매수자명</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="customerName" class="form-control search-input" name="customerName" th:value="${condition.customerName}">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">선호지역 (동)</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="preferArea" class="form-control search-input" name="preferArea" th:value="${condition.preferArea}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minLandAreaPy" class="top-label">
+                                                        <div class="search-text">대지면적</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minLandAreaPy" name="minLandAreaPy" class="form-control search-input center-align" th:value="${condition.minLandAreaPy > 0 ? condition.minLandAreaPy : ''}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxLandAreaPy" name="maxLandAreaPy" class="form-control search-input center-align" th:value="${condition.maxLandAreaPy > 0 ? condition.maxLandAreaPy : ''}">
+                                                <div class="input-label">
+                                                    <label for="maxLandAreaPy" class="bottom-label">
+                                                        <div class="search-bottom-text">평</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minTotalAreaPy" class="top-label">
+                                                        <div class="search-text">연면적</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minTotalAreaPy" name="minTotalAreaPy" class="form-control search-input center-align" th:value="${condition.minTotalAreaPy > 0 ? condition.minTotalAreaPy : ''}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxTotalAreaPy" name="maxTotalAreaPy" class="form-control search-input center-align" th:value="${condition.maxTotalAreaPy > 0 ? condition.maxTotalAreaPy : ''}">
+                                                <div class="input-label">
+                                                    <label for="maxTotalAreaPy" class="bottom-label">
+                                                        <div class="search-bottom-text">평</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150">
+                                            <div class="display-flex-row search-double-field">
+                                                <div class="input-label">
+                                                    <label for="minExclusiveAreaPy" class="top-label">
+                                                        <div class="search-text">전용면적</div>
+                                                    </label>
+                                                </div>
+                                                <input type="text" id="minExclusiveAreaPy" name="minExclusiveAreaPy" class="form-control search-input center-align" th:value="${condition.minExclusiveAreaPy > 0 ? condition.minExclusiveAreaPy : ''}">
+                                                <div class="input-div"><span>~</span></div>
+                                                <input type="text" id="maxExclusiveAreaPy" name="maxExclusiveAreaPy" class="form-control search-input center-align" th:value="${condition.maxExclusiveAreaPy > 0 ? condition.maxExclusiveAreaPy : ''}">
+                                                <div class="input-label">
+                                                    <label for="maxExclusiveAreaPy" class="bottom-label">
+                                                        <div class="search-bottom-text">평</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="1" class="min-width-150" style="position: relative; border: 1px solid #c3cad2; ">
+                                            <div class="input-label">
+                                                <label for="managerName" class="top-label">
+                                                    <div class="search-text">담당자</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="managerName" class="form-control search-input" name="managerName" th:value="${condition.managerName}">
+                                        </td>
+                                        <td colspan="2" class="search-double-group min-width-150"  style="border: 1px solid #c3cad2;">
+                                            <div class="input-label">
+                                                <label class="top-label">
+                                                    <div class="search-text">선호 지하철노선</div>
+                                                </label>
+                                            </div>
+                                            <input type="text" id="preferSubway" class="form-control search-input" name="preferSubway" th:value="${condition.preferSubway}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnSearch" class="btn btn-sm btn-default float-right">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>
+                                            초기화
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title display-flex-row padding-top-5">
+                                <h4 class="margin-right-5" style="font-size: 15px;">총</h4>
+                                <span class="font-size-12" style="padding-top: 3px;">(&nbsp;[[${totalCount}]]개&nbsp;)</span>
+                            </div>
+                            <div class="card-tools float-right">
+                                <select class="form-control" id="limit" style="font-size: 12px;">
+                                    <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
+                                    <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
+                                    <option value="30" th:selected="${condition.size} == 30 ? selected ">30개</option>
+                                    <option value="50" th:selected="${condition.size} == 50 ? selected ">50개</option>
+                                    <option value="100" th:selected="${condition.size} == 100 ? selected ">100개</option>
+                                    <option value="300" th:selected="${condition.size} == 300 ? selected ">300개</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table projects">
+                                    <tbody>
+                                    <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                        <tr>
+                                            <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
+                                                <div class="row margin-bottom-5">
+                                                    <div class="col-md-7 no-left-padding">
+                                                        <span class="margin-right-5" style="font-weight: bold; font-size: 17px;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
+                                                        <a th:href="|/buyer/${item.buyerId}/edit|" target="_blank">
+                                                            <span style="cursor: pointer; font-size: 17px;">[[${item.title}]]</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-5 right-align">
+                                                        <th:block th:if="${not #lists.isEmpty(item.purposeNames)}" th:each="purpose, status : ${item.purposeNames}">
+                                                            <button type="button" class="btn btn-xs btn-default">[[${purpose}]]</button>
+                                                        </th:block>
+                                                    </div>
+                                                </div>
+                                                <div class="row margin-bottom-8">
+                                                    <div class="col-md-10 no-left-padding">
+                                                        <th:block th:each="map : ${item.maps}">
+                                                            <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                                    th:buyerId="${item.buyerId}" th:processCode="${map.processCds}" th:name="${map.processName}"
+                                                                    th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
+                                                                    th:customerName="${item.customerName}" th:salePrice="${item.salePriceRange}" th:requestDetail="${item.requestDetail}"
+                                                                    th:landAreaPy="${item.landAreaPy}" th:totalAreaPy="${item.totalAreaPy}" th:exclusiveAreaPy="${item.exclusiveAreaPy}"
+                                                                    th:preferArea="${item.preferArea}" th:preferSubway="${item.preferSubway}" th:preferRoad="${item.preferRoad}"
+                                                                    th:createdAt="${#temporals.format(item.createdAt, 'YYYY-MM-dd')}"
+                                                                    th:style="${map.historyCnt > 0} ?
+                                                                                'width: 150px; color: #fff; font-weight: bold; background-color: ' + ${map.colorCode} :
+                                                                                'width: 150px; background-color: #eee;'"
+                                                            >
+                                                                [[${map.processName}]]
+                                                            </button>
+                                                        </th:block>
+                                                        <button class="btn btn-sm btn-default btnHistoryMapModal border-radius-7 margin-right-5 margin-top-8" style="width: 150px; background-color: #eee;"
+                                                                th:buyerId="${item.buyerId}" th:title="${item.title}" th:gradeName="${item.buyerGradeName}"
+                                                        >추가</button>
+                                                    </div>
+                                                    <div class="col-md-2" style="position: relative;">
+                                                        <span class="margin-top-8" style="width: 50%; font-size: 13px; padding-top: 3px; position: absolute;">
+                                                            성공확률
+                                                        </span>
+                                                        <button class="btn btn-sm btn-default border-radius-7 width-110 margin-top-8" style="float: right; width: 50%; background-color: #FCB54E; color: #ffffff; font-weight: bold;">
+                                                            [[${item.successPercent}]]%
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="font-size: 12px;">
+                                                    <div class="col-md-12 no-left-padding display-flex-row">
+                                                        <div class="padding-right-15">
+                                                            <label class="padding-right-5">고객명 : </label>[[${item.customerName}]]
+                                                        </div>
+                                                        <th:block th:if="${item.salePriceRange > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">매입금액대 : </label><span>[[${item.salePriceRange}]]</span>억원
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.landAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">대지면적 : </label>
+                                                                <th:block th:if="${item.landAreaPy > 0 && item.landAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.landAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.landAreaPy > 0 && item.landAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.landAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.totalAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">연면적 : </label>
+                                                                <th:block th:if="${item.totalAreaPy > 0 && item.totalAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.totalAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.totalAreaPy > 0 && item.totalAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.totalAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${item.exclusiveAreaPy > 0}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">전용면적 : </label>
+                                                                <th:block th:if="${item.exclusiveAreaPy > 0 && item.exclusiveAreaPy % 1 > 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.exclusiveAreaPy, 0, 'COMMA', 2, 'POINT')}"></span>평
+                                                                </th:block>
+                                                                <th:block th:if="${item.exclusiveAreaPy > 0 && item.exclusiveAreaPy % 1 == 0}">
+                                                                    <span th:text="${#numbers.formatDecimal(item.exclusiveAreaPy, 0, 'COMMA', 0, 'POINT')}"></span>평
+                                                                </th:block>
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferArea)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호지역 : </label>[[${item.preferArea}]]
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferSubway)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호지하철노선 : </label>[[${item.preferSubway}]]
+                                                            </div>
+                                                        </th:block>
+                                                        <th:block th:if="${not #strings.isEmpty(item.preferRoad)}">
+                                                            <div class="padding-right-15">
+                                                                <label class="padding-right-5">선호도로 : </label>[[${item.preferRoad}]]
+                                                            </div>
+                                                        </th:block>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="font-size:12px;">
+                                                    <div class="col-md-8 no-left-padding display-flex-row">
+                                                        <div class="padding-right-15">
+                                                            <label style="padding-right: 3px;">담당자 :</label>
+                                                            <th:block th:if="${not #lists.isEmpty(item.managers)}" th:each="manager, status : ${item.managers}">
+                                                                [[${manager.name}]]&nbsp;
+                                                            </th:block>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 right-align">
+                                                        <div class="padding-right-5 pull-right">
+                                                            <label>최종수정일 : </label>[[${#temporals.format(item.updatedAt, 'YYYY-MM-dd')}]]
+                                                        </div>
+                                                        <div class="padding-right-15 pull-right">
+                                                            <label>시작일 : </label>[[${#temporals.format(item.createdAt, 'YYYY-MM-dd')}]]
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    <th:block th:if="${#lists.isEmpty(pages.content)}">
+                                        <tr>
+                                            <td class="text-center" colspan="1" style="border-top: 0;">등록된 정보가 없습니다.</td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <div th:replace="layouts/utilFragments::adminPagination(${pages})"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:replace="layouts/utilFragments::historyModal"></div>
+    <div th:replace="layouts/utilFragments::historyMapModal"></div>
+    <div th:replace="layouts/utilFragments::searchRealEstateModal"></div>
+    <div th:replace="layouts/utilFragments::realEstateListModal"></div>
+</div>
+<section layout:fragment="script">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
+    <script th:inline="javascript" type="application/javascript">
+    </script>
+    <script src="/static/js/buyer/buyer_draw.js" th:src="@{/js/buyer/buyer_draw.js}"></script>
+    <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_list.js}"></script>
+</section>
+</body>
+</html>

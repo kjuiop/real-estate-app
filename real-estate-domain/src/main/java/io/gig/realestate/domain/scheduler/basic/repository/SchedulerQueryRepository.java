@@ -39,7 +39,7 @@ public class SchedulerQueryRepository {
                         scheduler))
                 .from(scheduler)
                 .where(defaultCondition())
-                .where(adminStatusNotWithdraw())
+                .where(adminStatusWithdraw(condition.isWithdraw()))
                 .where(inSchedulerManager(condition.getAdminId()))
                 .where(ownManager(loginUser))
                 .where(eqBuyerId(condition.getBuyerId()))
@@ -116,7 +116,13 @@ public class SchedulerQueryRepository {
                         .where(schedulerManager.admin.id.eq(loginUser.getId())));
     }
 
-    private BooleanExpression adminStatusNotWithdraw() {
+    private BooleanExpression adminStatusWithdraw(boolean isWithdraw) {
+        if (isWithdraw) {
+            return scheduler.createdBy.status.eq(AdminStatus.WITHDRAW)
+                    .and(scheduler.createdBy.deleteYn.eq(YnType.N))
+                    ;
+        }
+
         return scheduler.createdBy.status.ne(AdminStatus.WITHDRAW)
                 .and(scheduler.createdBy.deleteYn.eq(YnType.N))
                 ;
