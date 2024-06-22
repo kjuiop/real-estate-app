@@ -154,7 +154,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         Buyer savedBuyer = buyerStore.store(buyer);
-        notificationService.sendBuyerUpdateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
+//        notificationService.sendBuyerUpdateToManager(savedBuyer.getId(), savedBuyer.getCustomerName(), loginAdmin.getId(), updateForm.getManagerIds());
         return savedBuyer.getId();
     }
 
