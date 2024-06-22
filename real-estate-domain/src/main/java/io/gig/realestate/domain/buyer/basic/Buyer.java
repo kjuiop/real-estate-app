@@ -200,4 +200,8 @@ public class Buyer extends BaseTimeEntity {
         this.deleteYn = YnType.Y;
         this.updatedBy = loginAdmin;
     }
+
+    public void changeManager(Administrator changeManager) {
+        this.managerBy = changeManager;
+    }
 }

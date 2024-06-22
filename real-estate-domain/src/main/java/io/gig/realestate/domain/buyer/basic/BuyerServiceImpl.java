@@ -220,6 +220,15 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    @Transactional
+    public Long managerChange(Long buyerId, BuyerForm updateForm, LoginUser loginUser) {
+        Administrator changeManager = administratorService.getAdminById(updateForm.getManagerId());
+        Buyer buyer = buyerReader.getBuyerById(buyerId);
+        buyer.changeManager(changeManager);
+        return buyerStore.store(buyer).getId();
+    }
+
+    @Override
     public boolean checkIsBuyerManager(LoginUser loginUser, List<BuyerManagerDto> managers) {
         if (loginUser.isSuperAdmin()) {
             return true;

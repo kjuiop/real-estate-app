@@ -199,7 +199,7 @@ public class BuyerQueryRepository {
     }
 
     private BooleanExpression likeManagerName(String managerName) {
-        return StringUtils.hasText(managerName) ? buyer.createdBy.name.like("%" + managerName + "%") : null;
+        return StringUtils.hasText(managerName) ? buyer.managerBy.name.like("%" + managerName + "%") : null;
     }
 
     private BooleanExpression betweenSuccessPercent(Integer minSuccessPercent, Integer maxSuccessPercent) {

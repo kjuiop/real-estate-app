@@ -118,6 +118,15 @@ public class BuyerController {
         return new ResponseEntity<>(ApiResponse.OK(deletedId), HttpStatus.OK);
     }
 
+    @PostMapping("{buyerId}/manager-change")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> managerChange(@PathVariable(name = "buyerId") Long buyerId,
+                                                     @Valid @RequestBody BuyerForm updateForm,
+                                              @CurrentUser LoginUser loginUser) {
+        Long id = buyerService.managerChange(buyerId, updateForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(id), HttpStatus.OK);
+    }
+
     @GetMapping("{buyerId}/history")
     @ResponseBody
     public ResponseEntity<ApiResponse> getBuyerDetailModal(@PathVariable(name = "buyerId") Long buyerId,
