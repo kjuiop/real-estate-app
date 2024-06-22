@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorRole;
+import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.Scheduler;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
@@ -38,6 +39,7 @@ public class SchedulerQueryRepository {
                         scheduler))
                 .from(scheduler)
                 .where(defaultCondition())
+                .where(adminStatusNotWithdraw())
                 .where(inSchedulerManager(condition.getAdminId()))
                 .where(ownManager(loginUser))
                 .where(eqBuyerId(condition.getBuyerId()))
@@ -112,5 +114,11 @@ public class SchedulerQueryRepository {
                         .from(schedulerManager)
                         .where(schedulerManager.deleteYn.eq(YnType.N))
                         .where(schedulerManager.admin.id.eq(loginUser.getId())));
+    }
+
+    private BooleanExpression adminStatusNotWithdraw() {
+        return scheduler.createdBy.status.ne(AdminStatus.WITHDRAW)
+                .and(scheduler.createdBy.deleteYn.eq(YnType.N))
+                ;
     }
 }
