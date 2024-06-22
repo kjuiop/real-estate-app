@@ -262,9 +262,21 @@
                                         <tr>
                                             <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
                                                 <div class="row margin-bottom-5">
+                                                    <div class="col-md-7 display-flex-row no-left-padding">
+                                                        <span class="margin-right-5 padding-top-6" style="font-size: 12px; width: 60px; font-weight: bold;">담당자 이관</span>
+                                                        <select class="form-control form-control-sm" style="font-size: 12px; width: 150px;">
+                                                            <option value="">선택해주세요.</option>
+                                                            <th:block th:each="admin : ${admins}">
+                                                                <option th:value="${admin.adminId}" th:adminId="${admin.adminId}" th:adminName="${admin.name}">[[${admin.name}]]</option>
+                                                            </th:block>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-5"></div>
+                                                </div>
+                                                <div class="row margin-bottom-5">
                                                     <div class="col-md-7 no-left-padding">
                                                         <span class="margin-right-5" style="font-weight: bold; font-size: 17px;" th:text="${'['+ item.buyerGradeName} + ']'"></span>
-                                                        <a th:href="|/buyer/${item.buyerId}/edit|" target="_blank">
+                                                        <a th:href="|/settings/withdraw-buyer/${item.buyerId}/edit|" target="_blank">
                                                             <span style="cursor: pointer; font-size: 17px;">[[${item.title}]]</span>
                                                         </a>
                                                     </div>

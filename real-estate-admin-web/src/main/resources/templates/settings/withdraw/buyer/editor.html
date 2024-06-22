@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
+    <style>
+        .container-fluid input {
+            height: 30px !important;
+            font-size: 12px;
+        }
+
+        .container-fluid select {
+            height: 30px !important;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="content" th:with="isModify = ${dto.buyerId != null}" style="font-size: 12px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="display-flex-column" th:classappend="${isModify ? 'col-md-10' : 'col-md-12'}">
+                    <div class="card" style="margin-top: 10px;">
+                        <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post">
+                            <input type="hidden" id="buyerId" name="buyerId" th:value="${dto.buyerId}" />
+                            <div class="card-header">
+                                <h3 class="card-title" style="font-size: 15px;">매수자정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row margin-bottom-5">
+                                    <div class="col-md-3">
+                                        <label>담당자</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <select class="form-control form-control-sm teamList" style="font-size: 12px;">
+                                            <option value="">팀을 선택해주세요.</option>
+                                            <th:block th:each="team : ${teams}">
+                                                <option th:value="${team.teamId}" th:text="${team.name}" th:selected="${loginUser.teamId eq team.teamId}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <select class="form-control form-control-sm adminList" style="font-size: 12px;">
+                                            <option value="">선택해주세요.</option>
+                                            <th:block th:each="admin : ${admins}">
+                                                <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="pull-right" th:if="${isModify}" th:with="CompleteType = ${T(io.gig.realestate.domain.buyer.basic.types.CompleteType)}">
+                                            <label style="width: 80px;">
+                                                <select class="form-control completeType" style="font-size: 12px;">
+                                                    <option value="Proceeding" th:selected="${dto.completeType eq CompleteType.Proceeding}">진행중</option>
+                                                    <option value="Complete" th:selected="${dto.completeType eq CompleteType.Complete}">완료</option>
+                                                    <option value="Stop" th:selected="${dto.completeType eq CompleteType.Stop}">중단</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row managerSection">
+                                        <th:block th:if="${!isModify}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                                        </th:block>
+                                        <th:block th:each="admin : ${dto.managers}" th:if="${isModify}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager" th:classappend="${loginUser.id != admin.adminId ? 'btnManagerRemove' : ''}" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="successPercent">매수자 등급 / 성공률</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <select id="buyerGradeCd" class="form-control form-control-sm" style="font-size: 12px;">
+                                            <option value="">선택해주세요.</option>
+                                            <th:block th:each="code, status : ${buyerGradeCds}">
+                                                <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buyerGradeCds) && #strings.contains(dto.buyerGradeCds, code.code)}">[[${code.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" id="successPercent" class="form-control valid-fields" name="successPercent" th:value="${dto.successPercent}" />
+                                    </div>
+                                    <label class="col-md-1 padding-top-5">%</label>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="title">프로젝트명</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input type="text" id="title" class="form-control valid-fields" name="title" th:value="${dto.title}" required />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="customerName">고객명(검색 시 사용할 이름,회사,업종)</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input id="customerName" type="text" class="form-control valid-fields" name="customerName" th:value="${dto.customerName}" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="customerPhone">연락처</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input id="customerPhone" type="text" class="form-control valid-fields" name="customerPhone" th:value="${dto.customerPhone}" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="confirmPassword">광고,소개,관리고객</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <input id="confirmPassword" type="text" class="form-control valid-fields" name="inflowPath" th:value="${dto.inflowPath}" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="salePrice">매입금액대 / 보유현금</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row no-left-padding">
+                                        <label for="salePrice" class="col-md-2 padding-top-5">매입금액대</label>
+                                        <input type="text" id="salePrice" class="form-control valid-fields col-md-2" name="salePrice" th:value="${dto.salePrice}" />
+                                        <label class="col-md-2 padding-top-5">억원 전후</label>
+                                        <label for="handCache" class="col-md-2 padding-top-5">보유현금</label>
+                                        <input type="text" id="handCache" class="form-control valid-fields col-md-2" name="handCache" th:value="${dto.handCache}"/>
+                                        <label class="col-md-2 padding-top-5">억원</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-row no-left-padding">
+                                        <label class="padding-top-5 col-md-2">대지면적</label>
+                                        <input type="text" class="form-control valid-fields col-md-2" name="landAreaPy" th:value="${dto.landAreaPy}" style="width:65px;"/>&nbsp;
+                                        <label class="padding-top-5 col-md-2">평</label>
+                                        <label class="padding-top-5 col-md-2" style="padding-left: 5px;">연면적</label>
+                                        <input type="text" class="form-control valid-fields col-md-2" name="totalAreaPy" th:value="${dto.totalAreaPy}" style="width:65px;"/>&nbsp;
+                                        <label class="col-md-2 padding-top-5">평</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-column">
+                                    <div class="col-md-12 no-left-padding display-flex-row">
+                                        <div class="col-md-3">
+                                            <label>매입목적</label>
+                                        </div>
+                                        <div class="col-md-9 display-flex-column">
+                                            <div class="selected-button-checkbox-section purposeSection">
+                                                <th:block th:each="code : ${purposeCds}">
+                                                    <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.purposeCds) && #strings.contains(dto.purposeCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 display-flex-row usageTr hidden">
+                                        <div class="col-md-3">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                        <div class="col-md-9 usageTypeSection" style="padding-left: 3px;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>투자성향_대출</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="selected-button-radio-section loanCharacterSection">
+                                            <th:block th:each="code : ${loanCharacterCds}">
+                                                <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.loanCharacterCds) && #strings.contains(dto.loanCharacterCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>선호빌딩</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="selected-button-checkbox-section preferBuildingSection">
+                                            <th:block th:each="code : ${preferBuildingCds}">
+                                                <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.preferBuildingCds) && #strings.contains(dto.preferBuildingCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>투자시기</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="selected-button-radio-section investmentTimingSection">
+                                            <th:block th:each="code : ${investmentTimingCds}">
+                                                <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.investmentTimingCds) && #strings.contains(dto.investmentTimingCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>선호지역 (동)</label>
+                                    </div>
+                                    <div class="col-md-3 display-flex-row">
+                                        <input type="text" class="form-control valid-fields" name="preferArea" placeholder="선호 지역역 (동)" th:value="${dto.preferArea}"/>
+                                    </div>
+                                    <div class="col-md-3 display-flex-row">
+                                        <input type="text" class="form-control valid-fields" name="preferSubway" placeholder="선호 지하철 노선" th:value="${dto.preferSubway}"/>
+                                    </div>
+                                    <div class="col-md-3 display-flex-row">
+                                        <input type="text" class="form-control valid-fields" name="preferRoad" placeholder="선호 도로" th:value="${dto.preferRoad}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label>사옥일 경우</label>
+                                    </div>
+                                    <div class="col-md-9 display-flex-column">
+                                        <div class="display-flex-row margin-bottom-10">
+                                            <div class="col-md-6 display-flex-row no-left-padding">
+                                                <label class="padding-top-5 margin-right-15 col-md-3 no-left-padding">전용면적</label>
+                                                <input type="text" class="form-control valid-fields col-md-4" name="exclusiveAreaPy" th:value="${dto.exclusiveAreaPy}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5 col-md-5">평</label>
+                                            </div>
+                                            <div class="col-md-6 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15 col-md-3 no-left-padding">입주시기</label>
+                                                <input type="text" class="form-control valid-fields" name="moveYear" th:value="${dto.moveYear}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5 margin-right-20">년</label>
+                                                <input type="text" class="form-control valid-fields" name="moveMonth" th:value="${dto.moveMonth}" style="width:65px;"/>&nbsp;
+                                                <label class="padding-top-5">월까지</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="display-flex-row margin-bottom-10">
+                                            <div class="col-md-6 display-flex-row no-left-padding">
+                                                <label class="padding-top-5 margin-right-15 col-md-3 no-left-padding">법인설립연도</label>
+                                                <div class="col-md-9 no-left-padding">
+                                                    <label class="margin-right-10" for="companyEstablishAt_within" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_within" value="Y" th:checked="${dto.companyEstablishAtYn eq YnType.Y}">&nbsp;&nbsp;&nbsp;5년이내</label>
+                                                    <label class="margin-right-10" for="companyEstablishAt_after" style="font-weight: normal;"><input type="radio" name="companyEstablishAtYn" id="companyEstablishAt_after" value="N" th:checked="${dto.companyEstablishAtYn eq YnType.N}">&nbsp;&nbsp;&nbsp;5년이후</label> &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 display-flex-row">
+                                                <label class="padding-top-5 margin-right-15 col-md-3 no-left-padding">회사규모</label>
+                                                <div class="col-md-8 no-left-padding">
+                                                    <label class="margin-right-10" for="company_scale_large" style="font-weight: normal;"><input type="radio" name="companyScale" id="company_scale_large" value="Large" th:checked="${dto.companyScale.type eq 'large'}">&nbsp;&nbsp;&nbsp;대</label>
+                                                    <label class="margin-right-10" for="company_scale_middle" style="font-weight: normal;"><input type="radio" name="companyScale" id="company_scale_middle" value="Middle" th:checked="${dto.companyScale.type eq 'middle'}">&nbsp;&nbsp;&nbsp;중</label>
+                                                    <label class="margin-right-10" for="company_scale_small" style="font-weight: normal;"><input type="radio" name="companyScale" id="company_scale_small" value="Small" th:checked="${dto.companyScale.type eq 'small'}">&nbsp;&nbsp;&nbsp;소</label> &nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-3">
+                                        <label for="requestDetail">매수인 요청 내용</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <textarea id="requestDetail" class="form-control form-control-sm" name="requestDetail" style="height: 120px; font-size: 12px;" placeholder="지불조건 특이사항 여부 / 그 외" th:text="${dto.requestDetail}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2 display-flex-column" th:if="${isModify}">
+                    <div class="card" style="margin-top: 10px;">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-size: 15px;">진행단계</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <th:block th:if="${!isModify}" th:each="processCd : ${processCds}">
+                                <div class="row">
+                                    <div class="col-md-12 no-left-padding display-flex-column">
+                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal">
+                                            [[${processCd.name}]]
+                                        </button>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${isModify}" th:each="map : ${dto.maps}">
+                                <div class="row">
+                                    <div class="col-md-12 no-left-padding display-flex-column">
+                                        <button class="btn btn-sm btn-default border-radius-7 margin-right-5 margin-top-8 btnHistoryModal"
+                                                th:buyerId="${dto.buyerId}" th:processCode="${map.processCds}" th:name="${map.processName}"
+                                                th:title="${dto.title}" th:gradeName="${dto.buyerGradeName}"
+                                                th:customerName="${dto.customerName}" th:salePrice="${dto.salePriceRange}" th:requestDetail="${dto.requestDetail}"
+                                                th:landAreaPy="${dto.landAreaPy}" th:totalAreaPy="${dto.totalAreaPy}" th:exclusiveAreaPy="${dto.exclusiveAreaPy}"
+                                                th:preferArea="${dto.preferArea}" th:preferSubway="${dto.preferSubway}" th:preferRoad="${dto.preferRoad}"
+                                                th:createdAt="${#temporals.format(dto.createdAt, 'YYYY-MM-dd')}"
+                                                th:style="${map.historyCnt > 0} ?
+                                                    'color: #fff; font-weight: bold; background-color: ' + ${map.colorCode} :
+                                                    'background-color: #eee;'"
+                                        >
+                                            [[${map.processName}]]
+                                        </button>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <div class="row">
+                                <div class="col-md-12 no-left-padding display-flex-column"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:replace="layouts/utilFragments::historyModal"></div>
+    <div th:replace="layouts/utilFragments::historyMapModal"></div>
+    <div th:replace="layouts/utilFragments::searchRealEstateModal"></div>
+    <div th:replace="layouts/utilFragments::realEstateListModal"></div>
+</div>
+<section layout:fragment="script">
+    <script src="/node_modules/jquery-minicolors/jquery.minicolors.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layouts/fragments :: jQuery-validation"></script>
+    <script src="/static/js/buyer/buyer_list.js" th:src="@{/js/buyer/buyer_draw.js}"></script>
+    <script src="/static/js/buyer/buyer_editor.js" th:src="@{/js/buyer/buyer_editor.js}"></script>
+</section>
+</body>
+</html>
