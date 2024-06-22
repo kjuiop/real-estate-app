@@ -436,6 +436,32 @@ let drawHistoryTable = function(histories) {
     return tag;
 }
 
+let selectWithDraw = function(e) {
+    e.preventDefault();
+
+    let buyerId = $(this).attr("buyerId");
+    let params = {
+        "managerId" : $(this).val(),
+    }
+
+    twoBtnModal("담당자를 이관하시겠습니까??", function () {
+        $.ajax({
+            url: "/buyer/" + buyerId + "/manager-change",
+            method: 'post',
+            type: "json",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (result) {
+                location.reload();
+            },
+            error:function(error){
+                ajaxErrorFieldByText(error);
+            }
+        });
+    });
+
+}
+
 
 $(document).ready(onReady)
     .on('click', '#btnReset', reset)
@@ -451,4 +477,5 @@ $(document).ready(onReady)
     .on('click', '.btnSearch', searchRealEstate)
     .on('click', '.btnApply', applyRealEstate)
     .on('click', '.btnRealEstateList', initRealEstateModal)
+    .on('change', '.btnWithdraw', selectWithDraw)
 ;

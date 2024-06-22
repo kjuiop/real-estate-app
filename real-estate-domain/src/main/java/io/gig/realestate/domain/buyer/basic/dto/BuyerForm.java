@@ -64,4 +64,6 @@ public class BuyerForm {
     private String requestDetail;
 
     private List<Long> managerIds;
+
+    private Long managerId;
 }

@@ -20,4 +20,6 @@ public class SchedulerSearchDto {
     private String priorityOrderCds;
 
     private String processCds;
+
+    private boolean isWithdraw = false;
 }

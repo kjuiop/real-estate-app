@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.AdministratorRole;
+import io.gig.realestate.domain.admin.types.AdminStatus;
 import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerDetailDto;
 import io.gig.realestate.domain.buyer.basic.dto.BuyerListDto;
@@ -44,6 +45,7 @@ public class BuyerQueryRepository {
 
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(adminStatusWithdraw(condition.isWithDraw()));
         where.and(ownManager(loginUser));
         where.and(likeTitle(condition.getTitle()));
         where.and(likePreferArea(condition.getPreferArea()));
@@ -197,7 +199,7 @@ public class BuyerQueryRepository {
     }
 
     private BooleanExpression likeManagerName(String managerName) {
-        return StringUtils.hasText(managerName) ? buyer.updatedBy.name.like("%" + managerName + "%") : null;
+        return StringUtils.hasText(managerName) ? buyer.managerBy.name.like("%" + managerName + "%") : null;
     }
 
     private BooleanExpression betweenSuccessPercent(Integer minSuccessPercent, Integer maxSuccessPercent) {
@@ -290,5 +292,17 @@ public class BuyerQueryRepository {
     private BooleanExpression afterTwoWeeksUpdated() {
         LocalDateTime twoWeeksAgo = LocalDateTime.now().minusWeeks(2);
         return buyer.updatedAt.before(twoWeeksAgo);
+    }
+
+    private BooleanExpression adminStatusWithdraw(boolean isWithdraw) {
+        if (isWithdraw) {
+            return buyer.managerBy.status.eq(AdminStatus.WITHDRAW)
+                    .and(buyer.managerBy.deleteYn.eq(YnType.N))
+                    ;
+        }
+
+        return buyer.managerBy.status.ne(AdminStatus.WITHDRAW)
+                .and(buyer.managerBy.deleteYn.eq(YnType.N))
+                ;
     }
 }

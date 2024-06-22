@@ -68,6 +68,10 @@ public class Scheduler extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator managerBy;
+
     @Builder.Default
     @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<SchedulerManager> managers = new ArrayList<>();
@@ -88,6 +92,7 @@ public class Scheduler extends BaseTimeEntity {
                 .colorCode(colorCode)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
+                .managerBy(loginUser)
                 .build();
     }
 
