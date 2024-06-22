@@ -116,6 +116,11 @@ public class AdministratorQueryImpl implements AdministratorReader {
     }
 
     @Override
+    public List<Long> getSuperAdminIds() {
+        return queryRepository.getSuperAdminIds();
+    }
+
+    @Override
     public Administrator getAdminById(Long adminId) {
         Optional<Administrator> findAdministrator = queryRepository.getAdminById(adminId);
         if (findAdministrator.isEmpty()) {
