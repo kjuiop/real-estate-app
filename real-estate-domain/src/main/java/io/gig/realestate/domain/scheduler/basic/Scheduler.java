@@ -6,6 +6,7 @@ import io.gig.realestate.domain.buyer.basic.Buyer;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
+import io.gig.realestate.domain.scheduler.comment.SchedulerComment;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -75,6 +76,10 @@ public class Scheduler extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<SchedulerManager> managers = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<SchedulerComment> comments = new ArrayList<>();
 
     public void addManager(SchedulerManager manager) {
         this.managers.add(manager);
