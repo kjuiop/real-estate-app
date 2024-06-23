@@ -261,7 +261,7 @@
                                     <th:block th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
                                         <tr>
                                             <td class="moveEditor" th:id="${item.buyerId}" th:style="${status.index == 0 ? 'border-top:0;' : ''}">
-                                                <div class="row margin-bottom-5">
+                                                <div class="row margin-bottom-10">
                                                     <div class="col-md-7 display-flex-row no-left-padding">
                                                         <span class="margin-right-5 padding-top-6" style="font-size: 12px; width: 60px; font-weight: bold;">담당자 이관</span>
                                                         <select class="form-control form-control-sm btnWithdraw" style="font-size: 12px; width: 150px;" th:buyerId="${item.buyerId}">

@@ -55,7 +55,7 @@
                                         </th:block>
                                     </select>
                                     <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="priorityOrderCds">
-                                        <option value="">우선순위</option>
+                                        <option value="">업무순서</option>
                                         <th:block th:each="code, status : ${priorityOrderCds}">
                                             <option th:value="${code.code}" th:selected="${condition.priorityOrderCds eq code.code}">[[${code.name}]]</option>
                                         </th:block>
@@ -132,7 +132,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                            <label class="col-md-2 control-label padding-top-6 text-center">우선 순위</label>
+                            <label class="col-md-2 control-label padding-top-6 text-center">업무순서</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
@@ -218,7 +218,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">업무순서</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
