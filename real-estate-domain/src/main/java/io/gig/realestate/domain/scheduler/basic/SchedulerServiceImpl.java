@@ -12,6 +12,8 @@ import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerSearchDto;
+import io.gig.realestate.domain.scheduler.comment.SchedulerCommentService;
+import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentDto;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManagerService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,8 @@ public class SchedulerServiceImpl implements SchedulerService {
     private final SchedulerReader schedulerReader;
     private final SchedulerStore schedulerStore;
 
+    private final SchedulerCommentService commentService;
+
     @Override
     @Transactional(readOnly = true)
     public List<SchedulerListDto> getSchedulers(SchedulerSearchDto condition, LoginUser loginUser) {
@@ -50,7 +54,16 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     @Transactional(readOnly = true)
     public SchedulerDetailDto getSchedulerById(Long schedulerId, LoginUser loginUser) {
-        return schedulerReader.getSchedulerById(schedulerId);
+        SchedulerDetailDto detail = schedulerReader.getSchedulerById(schedulerId);
+        List<SchedulerCommentDto> comments = commentService.getSchedulerComments(schedulerId);
+        detail.setComments(comments);
+        return detail;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Scheduler getSchedulerEntityById(Long schedulerId) {
+        return schedulerReader.getSchedulerEntity(schedulerId);
     }
 
     @Override

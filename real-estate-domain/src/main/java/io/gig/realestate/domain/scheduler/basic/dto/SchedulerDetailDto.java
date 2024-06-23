@@ -2,6 +2,8 @@ package io.gig.realestate.domain.scheduler.basic.dto;
 
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.scheduler.basic.Scheduler;
+import io.gig.realestate.domain.scheduler.comment.SchedulerComment;
+import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentDto;
 import io.gig.realestate.domain.scheduler.manager.SchedulerManager;
 import io.gig.realestate.domain.scheduler.manager.dto.SchedulerManagerDto;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,9 @@ public class SchedulerDetailDto extends SchedulerDto {
     @Builder.Default
     private boolean empty = false;
 
+    @Builder.Default
+    public List<SchedulerCommentDto> comments = new ArrayList<>();
+
     static {
         EMPTY = SchedulerDetailDto.builder()
                 .empty(true)
@@ -52,5 +57,9 @@ public class SchedulerDetailDto extends SchedulerDto {
             }
         }
         this.managers = list;
+    }
+
+    public void setComments(List<SchedulerCommentDto> comments) {
+        this.comments = comments;
     }
 }

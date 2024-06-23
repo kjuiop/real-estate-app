@@ -7,6 +7,9 @@ import io.gig.realestate.domain.scheduler.basic.SchedulerService;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
+import io.gig.realestate.domain.scheduler.comment.SchedulerCommentService;
+import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentDto;
+import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentForm;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ import java.util.List;
 public class SchedulerController {
 
     private final SchedulerService schedulerService;
+    private final SchedulerCommentService commentService;
 
     @GetMapping("{schedulerId}")
     @ResponseBody
@@ -60,5 +64,14 @@ public class SchedulerController {
                                               @CurrentUser LoginUser loginUser) {
         Long schedulerId = schedulerService.update(updateForm, loginUser);
         return new ResponseEntity<>(ApiResponse.OK(schedulerId), HttpStatus.OK);
+    }
+
+    @PostMapping("{schedulerId}/comment")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> commentCreate(@PathVariable(name = "schedulerId") Long schedulerId,
+                                                     @Valid @RequestBody SchedulerCommentForm createForm,
+                                              @CurrentUser LoginUser loginUser) {
+        List<SchedulerCommentDto> comments = commentService.create(schedulerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(comments), HttpStatus.OK);
     }
 }
