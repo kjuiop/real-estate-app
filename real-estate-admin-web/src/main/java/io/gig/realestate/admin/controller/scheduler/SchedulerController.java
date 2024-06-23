@@ -71,7 +71,7 @@ public class SchedulerController {
     public ResponseEntity<ApiResponse> commentCreate(@PathVariable(name = "schedulerId") Long schedulerId,
                                                      @Valid @RequestBody SchedulerCommentForm createForm,
                                               @CurrentUser LoginUser loginUser) {
-        SchedulerCommentDto comment = commentService.create(schedulerId, createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(comment), HttpStatus.OK);
+        List<SchedulerCommentDto> comments = commentService.create(schedulerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(comments), HttpStatus.OK);
     }
 }

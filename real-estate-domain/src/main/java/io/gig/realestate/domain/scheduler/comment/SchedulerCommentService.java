@@ -11,7 +11,7 @@ import java.util.List;
  * @date : 2024/06/23
  */
 public interface SchedulerCommentService {
-    SchedulerCommentDto create(Long schedulerId, SchedulerCommentForm createForm, LoginUser loginUser);
+    List<SchedulerCommentDto> create(Long schedulerId, SchedulerCommentForm createForm, LoginUser loginUser);
 
     List<SchedulerCommentDto> getSchedulerComments(Long schedulerId);
 }

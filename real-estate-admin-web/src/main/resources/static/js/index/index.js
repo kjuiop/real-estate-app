@@ -367,10 +367,12 @@ let addComment = function(e) {
         data: JSON.stringify(params),
         success: function (result) {
             $modal.find('input[name="comment"]').val('');
-
-            let comment = result.data;
-            let tag = drawComment(comment);
-            $modal.find('tbody').append(tag);
+            let comments = result.data;
+            let tag = "";
+            $.each(comments, function(idx, item) {
+                tag += drawComment(item);
+            })
+            $modal.find('tbody').html(tag);
         },
         error:function(error){
             ajaxErrorFieldByText(error);
@@ -385,7 +387,7 @@ let drawComment = function(comment) {
 
     let tag = "";
     tag += '<tr>';
-    tag += '    <td class="display-flex-column"';
+    tag += '    <td class="display-flex-column margin-bottom-5"';
     tag += '        style="background-color: #f8f9fa; border-top: 0; padding: 0 10px 10px; border-radius: 10px;">';
     tag += '        <div class="row margin-bottom-5">';
     tag += '            <div class="col-md-8">';

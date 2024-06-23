@@ -31,12 +31,12 @@ public class SchedulerCommentServiceImpl implements SchedulerCommentService {
 
     @Override
     @Transactional
-    public SchedulerCommentDto create(Long schedulerId, SchedulerCommentForm createForm, LoginUser loginUser) {
+    public List<SchedulerCommentDto> create(Long schedulerId, SchedulerCommentForm createForm, LoginUser loginUser) {
         Scheduler scheduler = schedulerReader.getSchedulerEntity(schedulerId);
         Administrator loginAdmin = loginUser.getLoginUser();
         SchedulerComment comment = SchedulerComment.create(createForm, scheduler, loginAdmin);
-        SchedulerComment savedComment = commentStore.store(comment);
-        return new SchedulerCommentDto(savedComment);
+        commentStore.store(comment);
+        return commentReader.getSchedulerComments(schedulerId);
     }
 
     @Override
