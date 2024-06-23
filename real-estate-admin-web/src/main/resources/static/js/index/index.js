@@ -358,12 +358,48 @@ let addComment = function(e) {
         contentType: "application/json",
         data: JSON.stringify(params),
         success: function (result) {
+            $modal.find('input[name="comment"]').val('');
 
+            let comment = result.data;
+            let tag = drawComment(comment);
+            $modal.find('tbody').append(tag);
         },
         error:function(error){
             ajaxErrorFieldByText(error);
         }
     });
+}
+
+let drawComment = function(comment) {
+    if (!checkNullOrEmptyValue(comment)) {
+        return;
+    }
+
+    let tag = "";
+    tag += '<tr>';
+    tag += '    <td class="display-flex-column"';
+    tag += '        style="background-color: #f8f9fa; border-top: 0; padding: 0 10px 10px; border-radius: 10px;">';
+    tag += '        <div class="row margin-bottom-5">';
+    tag += '            <div class="col-md-8">';
+    tag += '                <label class="control-label padding-top-6 font-size-14">';
+    tag += comment.createdName;
+    tag += '                </label>';
+    tag += '            </div>';
+    tag += '            <div class="col-md-4">';
+    tag += '                <label class="padding-top-6 font-weight-normal pull-right">';
+    tag += moment(comment.createdAt).format('YYYY-MM-DD');
+    tag += '                </label>';
+    tag += '            </div>';
+    tag += '        </div>';
+    tag += '        <div class="row">';
+    tag += '            <div class="col-md-12">';
+    tag += comment.comment;
+    tag += '            </div>';
+    tag += '        </div>';
+    tag += '    </td>';
+    tag += '</tr>';
+
+    return tag;
 }
 
 

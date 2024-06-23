@@ -8,6 +8,7 @@ import io.gig.realestate.domain.scheduler.basic.dto.SchedulerDetailDto;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerForm;
 import io.gig.realestate.domain.scheduler.basic.dto.SchedulerListDto;
 import io.gig.realestate.domain.scheduler.comment.SchedulerCommentService;
+import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentDto;
 import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentForm;
 import io.gig.realestate.domain.team.TeamService;
 import io.gig.realestate.domain.utils.CurrentUser;
@@ -70,7 +71,7 @@ public class SchedulerController {
     public ResponseEntity<ApiResponse> commentCreate(@PathVariable(name = "schedulerId") Long schedulerId,
                                                      @Valid @RequestBody SchedulerCommentForm createForm,
                                               @CurrentUser LoginUser loginUser) {
-        Long commentId = commentService.create(schedulerId, createForm, loginUser);
-        return new ResponseEntity<>(ApiResponse.OK(commentId), HttpStatus.OK);
+        SchedulerCommentDto comment = commentService.create(schedulerId, createForm, loginUser);
+        return new ResponseEntity<>(ApiResponse.OK(comment), HttpStatus.OK);
     }
 }
