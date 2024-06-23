@@ -3,6 +3,7 @@ package io.gig.realestate.domain.scheduler.comment;
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.scheduler.basic.Scheduler;
+import io.gig.realestate.domain.scheduler.basic.SchedulerReader;
 import io.gig.realestate.domain.scheduler.basic.SchedulerService;
 import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentDto;
 import io.gig.realestate.domain.scheduler.comment.dto.SchedulerCommentForm;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -20,16 +23,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SchedulerCommentServiceImpl implements SchedulerCommentService {
 
-    private final SchedulerService schedulerService;
+    private final SchedulerReader schedulerReader;
+
+    private final SchedulerCommentReader commentReader;
+
     private final SchedulerCommentStore commentStore;
 
     @Override
     @Transactional
     public SchedulerCommentDto create(Long schedulerId, SchedulerCommentForm createForm, LoginUser loginUser) {
-        Scheduler scheduler = schedulerService.getSchedulerEntityById(schedulerId);
+        Scheduler scheduler = schedulerReader.getSchedulerEntity(schedulerId);
         Administrator loginAdmin = loginUser.getLoginUser();
         SchedulerComment comment = SchedulerComment.create(createForm, scheduler, loginAdmin);
         SchedulerComment savedComment = commentStore.store(comment);
         return new SchedulerCommentDto(savedComment);
+    }
+
+    @Override
+    @Transactional
+    public List<SchedulerCommentDto> getSchedulerComments(Long schedulerId) {
+        return commentReader.getSchedulerComments(schedulerId);
     }
 }

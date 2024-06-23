@@ -209,7 +209,7 @@ let getScheduleModal = function(args) {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("result", result);
+            console.log("schedule result", result);
             let scheduler = result.data;
             showSchedulerEditModal(args, scheduler);
         },
@@ -255,6 +255,14 @@ let showSchedulerEditModal = function(args, scheduler) {
             tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px; margin-top:3px;">' + item.name + '</button>';
         });
         $modal.find('.managerSection').html(tag);
+    }
+
+    if (checkNullOrEmptyValue(scheduler.comments) && scheduler.comments.length > 0) {
+        let tag = "";
+        $.each(scheduler.comments, function(idx, item) {
+            tag += drawComment(item);
+        })
+        $modal.find('tbody').html(tag);
     }
 
 
