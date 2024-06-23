@@ -27,21 +27,23 @@
                         <span class="notiBannerCnt">[[${notiCnt}]]</span> 개의 읽지 않은 알림
                     </span>
                     <div class="dropdown-divider"></div>
-                    <th:block th:each="noti : ${notifications}">
-                        <a class="dropdown-item noti-move" th:returnUrl="${noti.returnUrl}" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
-                            <div class="col-md-1 no-left-padding">
-                                <input type="checkbox" class="checkElement checkNotiRead" th:checked="${noti.readYn.key eq 'Y'}" style="margin-top: 2px;" th:notiId="${noti.notificationId}"/>
-                            </div>
-                            <div class="col-md-9 font-size-12" style="width: 190px; word-break: break-all; padding-left: 10px; display: table;">
-                                <div style="display: table-cell; vertical-align: middle;">
-                                    [[${noti.message}]]
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <th:block th:each="noti : ${notifications}">
+                            <a class="dropdown-item noti-move" th:returnUrl="${noti.returnUrl}" style="white-space: normal; display: flex; padding: 12px 5px 12px 10px;">
+                                <div class="col-md-1 no-left-padding">
+                                    <input type="checkbox" class="checkElement checkNotiRead" th:checked="${noti.readYn.key eq 'Y'}" style="margin-top: 2px;" th:notiId="${noti.notificationId}"/>
                                 </div>
-                            </div>
-                            <div class="col-md-2 float-right text-muted" style="padding: 5px 0 0;font-size: 12px !important;">
-                                [[${noti.afterPass}]]
-                            </div>
-                        </a>
-                    </th:block>
+                                <div class="col-md-9 font-size-12" style="width: 190px; word-break: break-all; padding-left: 10px; display: table;">
+                                    <div style="display: table-cell; vertical-align: middle;">
+                                        [[${noti.message}]]
+                                    </div>
+                                </div>
+                                <div class="col-md-2 float-right text-muted" style="padding: 5px 0 0;font-size: 12px !important;">
+                                    [[${noti.afterPass}]]
+                                </div>
+                            </a>
+                        </th:block>
+                    </div>
                     <div class="dropdown-divider"></div>
                     <!--
                     <a href="#" class="dropdown-item">
