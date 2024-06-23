@@ -33,7 +33,7 @@ public class SlackServiceImpl implements SlackService {
     @Override
     @Transactional
     public void sendMessage(String message) {
-        SlackApi slackApi = new SlackApi(slackProperties.getUrl());
+        SlackApi slackApi = new SlackApi(slackProperties.getMonitoring());
         slackApi.call(new SlackMessage("[" + domain + "] " + "An error occurred : " + message));
     }
 
@@ -86,7 +86,7 @@ public class SlackServiceImpl implements SlackService {
         JSONObject jsonObject = new JSONObject(responseEntity.getBody());
         boolean isOk = jsonObject.getBoolean("ok");
         if (!isOk) {
-            SlackApi slackApi = new SlackApi(slackProperties.getUrl());
+            SlackApi slackApi = new SlackApi(slackProperties.getMonitoring());
             slackApi.call(new SlackMessage("[" + domain + "] " + "not register slack user : " + email + ", json str : " + jsonObject));
             return "";
         }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "slack")
 @PropertySource(value="classpath:/application-credentials.yml", factory = YamlPropertySourceFactory.class)
 public class SlackProperties {
-    String url;
     String chatApi;
     String token;
+    String monitoring;
 }
