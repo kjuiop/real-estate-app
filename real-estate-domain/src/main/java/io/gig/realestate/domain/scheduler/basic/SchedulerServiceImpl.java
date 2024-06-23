@@ -54,6 +54,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Scheduler getSchedulerEntityById(Long schedulerId) {
+        return schedulerReader.getSchedulerEntity(schedulerId);
+    }
+
+    @Override
     @Transactional
     public Long deleteById(Long schedulerId, LoginUser loginUser) {
         Scheduler scheduler = schedulerReader.getSchedulerEntity(schedulerId);

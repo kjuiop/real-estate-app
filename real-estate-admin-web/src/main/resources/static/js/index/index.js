@@ -338,6 +338,34 @@ let removeSchedule = function(e) {
     });
 }
 
+let addComment = function(e) {
+    if (e.keyCode !== 13) {
+        return;
+    }
+
+    let $modal = $('#scheduleEditModal'),
+        schedulerId = $modal.find('input[name="schedulerId"]').val(),
+        comment = $(this).val();
+
+    let params = {
+        "comment": comment,
+    }
+
+    $.ajax({
+        url: "/scheduler/" + schedulerId + "/comment",
+        method: 'post',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
 
 /**
  events: [
@@ -401,4 +429,5 @@ $(document).ready(onReady)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
     .on('click', '.btnEditSchedule', updateScheduleCalendar)
     .on('click', '.btnRemove', removeSchedule)
+    .on('keydown', 'input[name="comment"]', addComment)
 ;
