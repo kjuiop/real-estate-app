@@ -209,7 +209,7 @@ let getScheduleModal = function(args) {
         type: "json",
         contentType: "application/json",
         success: function(result) {
-            console.log("result", result);
+            console.log("schedule result", result);
             let scheduler = result.data;
             showSchedulerEditModal(args, scheduler);
         },
@@ -255,6 +255,14 @@ let showSchedulerEditModal = function(args, scheduler) {
             tag += '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + item.adminId + '" username="' + item.username + '" adminName="' + item.name + '" style="margin-right: 5px; margin-top:3px;">' + item.name + '</button>';
         });
         $modal.find('.managerSection').html(tag);
+    }
+
+    if (checkNullOrEmptyValue(scheduler.comments) && scheduler.comments.length > 0) {
+        let tag = "";
+        $.each(scheduler.comments, function(idx, item) {
+            tag += drawComment(item);
+        })
+        $modal.find('tbody').html(tag);
     }
 
 
@@ -338,6 +346,72 @@ let removeSchedule = function(e) {
     });
 }
 
+let addComment = function(e) {
+    if (e.keyCode !== 13) {
+        return;
+    }
+
+    let $modal = $('#scheduleEditModal'),
+        schedulerId = $modal.find('input[name="schedulerId"]').val(),
+        comment = $(this).val();
+
+    let params = {
+        "comment": comment,
+    }
+
+    $.ajax({
+        url: "/scheduler/" + schedulerId + "/comment",
+        method: 'post',
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (result) {
+            $modal.find('input[name="comment"]').val('');
+            let comments = result.data;
+            let tag = "";
+            $.each(comments, function(idx, item) {
+                tag += drawComment(item);
+            })
+            $modal.find('tbody').html(tag);
+        },
+        error:function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
+
+let drawComment = function(comment) {
+    if (!checkNullOrEmptyValue(comment)) {
+        return;
+    }
+
+    let tag = "";
+    tag += '<tr>';
+    tag += '    <td class="display-flex-column margin-bottom-5"';
+    tag += '        style="background-color: #f8f9fa; border-top: 0; padding: 0 10px 10px; border-radius: 10px;">';
+    tag += '        <div class="row margin-bottom-5">';
+    tag += '            <div class="col-md-8">';
+    tag += '                <label class="control-label padding-top-6 font-size-14">';
+    tag += comment.createdName;
+    tag += '                </label>';
+    tag += '            </div>';
+    tag += '            <div class="col-md-4">';
+    tag += '                <label class="padding-top-6 font-weight-normal pull-right">';
+    tag += moment(comment.createdAt).format('YYYY-MM-DD');
+    tag += '                </label>';
+    tag += '            </div>';
+    tag += '        </div>';
+    tag += '        <div class="row">';
+    tag += '            <div class="col-md-12">';
+    tag += comment.comment;
+    tag += '            </div>';
+    tag += '        </div>';
+    tag += '    </td>';
+    tag += '</tr>';
+
+    return tag;
+}
+
 
 /**
  events: [
@@ -401,4 +475,5 @@ $(document).ready(onReady)
     .on('click', '.btnAddSchedule', addScheduleCalendar)
     .on('click', '.btnEditSchedule', updateScheduleCalendar)
     .on('click', '.btnRemove', removeSchedule)
+    .on('keydown', 'input[name="comment"]', addComment)
 ;

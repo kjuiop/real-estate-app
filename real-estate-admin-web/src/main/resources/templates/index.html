@@ -55,7 +55,7 @@
                                         </th:block>
                                     </select>
                                     <select class="form-control form-control-sm col-md-12 margin-bottom-5" name="priorityOrderCds">
-                                        <option value="">우선순위</option>
+                                        <option value="">업무순서</option>
                                         <th:block th:each="code, status : ${priorityOrderCds}">
                                             <option th:value="${code.code}" th:selected="${condition.priorityOrderCds eq code.code}">[[${code.name}]]</option>
                                         </th:block>
@@ -132,7 +132,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                            <label class="col-md-2 control-label padding-top-6 text-center">우선 순위</label>
+                            <label class="col-md-2 control-label padding-top-6 text-center">업무순서</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
@@ -162,7 +162,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleEditModal" style="max-height: 650px; overflow-y: auto;">
+    <div class="modal fade margin-top-100 modal-box" tabindex="-1" role="dialog" id="scheduleEditModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 700px;">
                 <div class="modal-header">
@@ -218,7 +218,7 @@
                                     </th:block>
                                 </select>
                             </div>
-                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">우선 순위</label>
+                            <label class="col-md-2 control-label padding-top-6" style="padding-left: 45px;">업무순서</label>
                             <div class="col-md-4">
                                 <select class="form-control form-control-sm priorityOrderCds" style="font-size: 12px;">
                                     <option value="">선택해주세요.</option>
@@ -237,6 +237,26 @@
                         <div class="form-horizontal line">
                             <button type="button" class="btn btn-sm btn-primary btnEditSchedule pull-right margin-right-8">수정</button>
                             <button type="button" class="btn btn-sm btn-danger btnRemove pull-right margin-right-8">삭제</button>
+                        </div>
+                    </div>
+                    <div class="line margin-top-15" style="padding: 3px; border-top: 1px solid #eeeeee;"></div>
+                    <div class="line display-flex-column margin-top-20">
+                        <div class="row line">
+                            <div class="col-md-2 control-label padding-top-6" style="font-weight: bold; padding-left: 12px;">
+                                댓 글
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="댓글을 입력해주세요" name="comment" />
+                            </div>
+                        </div>
+                        <div class="row" style="max-height: 300px; overflow-y: auto;">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <table class="table projects commentTable">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

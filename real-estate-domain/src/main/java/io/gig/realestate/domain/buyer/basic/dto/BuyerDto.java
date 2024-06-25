@@ -69,6 +69,8 @@ public class BuyerDto {
 
     private String managerName;
 
+    private String createdName;
+
     private Long managerById;
 
     private LocalDateTime createdAt;
@@ -107,6 +109,10 @@ public class BuyerDto {
         this.updatedAt = b.getUpdatedAt();
         if (b.getManagerBy() != null) {
             this.managerById = b.getManagerBy().getId();
+            this.managerName = b.getManagerBy().getName();
+        }
+        if (b.getCreatedBy() != null) {
+            this.createdName = b.getCreatedBy().getName();
         }
     }
 }

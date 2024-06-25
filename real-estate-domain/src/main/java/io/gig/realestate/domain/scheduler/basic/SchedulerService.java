@@ -23,4 +23,6 @@ public interface SchedulerService {
     Long update(SchedulerForm updateForm, LoginUser loginUser);
 
     Long deleteById(Long schedulerId, LoginUser loginUser);
+
+    Scheduler getSchedulerEntityById(Long schedulerId);
 }
