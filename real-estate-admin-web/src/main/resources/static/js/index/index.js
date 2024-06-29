@@ -391,7 +391,7 @@ let drawComment = function(comment) {
     tag += '        style="background-color: #f8f9fa; border-top: 0; padding: 0 10px 10px; border-radius: 10px;">';
     tag += '        <div class="row margin-bottom-5">';
     tag += '            <div class="col-md-8">';
-    tag += '                <label class="control-label padding-top-6 font-size-14">';
+    tag += '                <label class="control-label padding-top-6" style="font-size: 14px !important;">';
     tag += comment.createdName;
     tag += '                </label>';
     tag += '            </div>';
@@ -402,7 +402,7 @@ let drawComment = function(comment) {
     tag += '            </div>';
     tag += '        </div>';
     tag += '        <div class="row">';
-    tag += '            <div class="col-md-12">';
+    tag += '            <div class="col-md-12 padding-left-10">';
     tag += comment.comment;
     tag += '            </div>';
     tag += '        </div>';
