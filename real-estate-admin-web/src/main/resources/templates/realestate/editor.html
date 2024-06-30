@@ -61,22 +61,27 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label col-md-3 no-left-padding">진행구분</label>
-                                    <div class="col-md-9 display-flex-row justify-content-end">
-                                        <div class="selected-button-radio-section exclusiveSection">
-                                            <th:block th:each="code : ${exclusiveCds}">
-                                                <button type="button" class="btn btn-xs margin-top-8 btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.exclusiveCds) && #strings.contains(dto.exclusiveCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
-                                            </th:block>
-                                        </div>
+                                <div class="col-md-12 display-flex-row margin-bottom-8">
+                                    <label class="text-label col-md-3 no-left-padding padding-top-6">진행구분</label>
+                                    <div class="col-md-9 display-flex-row justify-content-end" style="padding-right: 0;">
+                                        <label class="control-label margin-right-10 margin-top-5 pull-right" style="font-weight: normal; font-size: 12px;">
+                                            <input type="checkbox" class="checkElement" name="banAdvertisingYn" th:checked="${dto.banAdvertisingYn eq YnType.Y}" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;광고금지여부
+                                        </label> &nbsp;
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
+                                <div class="display-flex-row">
+                                    <div class="col-md-6" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
                                         <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
                                         <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
                                         <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
                                         <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="selected-button-radio-section exclusiveSection justify-content-end display-flex-row">
+                                            <th:block th:each="code : ${exclusiveCds}">
+                                                <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.exclusiveCds) && #strings.contains(dto.exclusiveCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                            </th:block>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -110,22 +115,21 @@
                                     <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
                                 </div>
                                 <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">최종 수정일</label>
-                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? '' : #temporals.format(dto.updatedAt, 'YYYY-MM-dd')}" readonly />
+                                    <label class="text-label">매물유형</label>
+                                    <select class="form-control propertyCds form-control-sm valid-ignore custom-select margin-right-4" name="propertyType">
+                                        <th:block th:each="code, status : ${propertyCds.child}">
+                                            <option th:value="${code.id}" th:selected="${isModify ? (isModify && dto.propertyCdId != null && dto.propertyCdId eq code.id) : status.index eq 0}">[[${code.name}]]</option>
+                                        </th:block>
+                                    </select>
                                 </div>
-                                <div class="col-md-4"></div>
+                                <div class="col-md-4 display-flex-column">
+                                    <label class="text-label">최종 수정일</label>
+                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.updatedAt, 'YYYY-MM-dd')}" readonly />
+                                </div>
                             </div>
 
                             <div class="form-group col-md-12 line">
                                 <div class="display-flex-row">
-                                    <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">매물유형</label>
-                                        <select class="form-control propertyCds form-control-sm valid-ignore custom-select margin-right-4" name="propertyType">
-                                            <th:block th:each="code, status : ${propertyCds.child}">
-                                                <option th:value="${code.id}" th:selected="${isModify ? (isModify && dto.propertyCdId != null && dto.propertyCdId eq code.id) : status.index eq 0}">[[${code.name}]]</option>
-                                            </th:block>
-                                        </select>
-                                    </div>
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">소유 부동산</label>
                                         <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" />
@@ -133,6 +137,9 @@
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">거래일</label>
                                         <input type="text" class="form-control form-control-sm" name="tradingAt" th:value="${dto.tradingAt}" />
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">&nbsp;</label>
                                     </div>
                                 </div>
                             </div>

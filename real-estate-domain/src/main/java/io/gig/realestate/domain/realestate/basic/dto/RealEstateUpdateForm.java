@@ -57,6 +57,8 @@ public class RealEstateUpdateForm {
 
     private YnType abYn;
 
+    private YnType banAdvertisingYn;
+
     private String characterInfo;
 
     private String agentName;

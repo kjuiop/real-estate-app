@@ -60,6 +60,8 @@ public class RealEstateDto {
 
     private String tradingAt;
 
+    private YnType banAdvertisingYn;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -88,6 +90,7 @@ public class RealEstateDto {
         this.rYn = r.getRYn();
         this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
+        this.banAdvertisingYn = r.getBanAdvertisingYn();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }

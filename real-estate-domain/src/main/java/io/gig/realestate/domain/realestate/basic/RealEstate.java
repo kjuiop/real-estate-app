@@ -85,6 +85,11 @@ public class RealEstate extends BaseTimeEntity {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType banAdvertisingYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
     private ProcessType processType = ProcessType.Working;
 
@@ -219,6 +224,7 @@ public class RealEstate extends BaseTimeEntity {
                 .characterInfo(createForm.getCharacterInfo())
                 .agentName(createForm.getAgentName())
                 .tradingAt(createForm.getTradingAt())
+                .banAdvertisingYn(createForm.getBanAdvertisingYn())
                 .managerBy(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -251,6 +257,7 @@ public class RealEstate extends BaseTimeEntity {
         this.characterInfo = updateForm.getCharacterInfo();
         this.tradingAt = updateForm.getTradingAt();
         this.imgUrl = updateForm.getImgUrl();
+        this.banAdvertisingYn = updateForm.getBanAdvertisingYn();
         this.managerBy = manager;
         this.updatedBy = loginUser;
     }

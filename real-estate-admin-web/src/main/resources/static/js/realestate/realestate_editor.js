@@ -25,6 +25,7 @@ let realEstateSave = function(e) {
         params = serializeObject({form:$frmBasic[0]}).json();
 
     params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
+    params["banAdvertisingYn"] = $frmBasic.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
     params["managerIds"] = getManagerIds();
@@ -109,6 +110,7 @@ let realEstateUpdate = function(e) {
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["propertyTypeId"] = $basicFrm.find('select[name="propertyType"] option:selected').val();
+    params["banAdvertisingYn"] = $basicFrm.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
     params["managerIds"] = getManagerIds();

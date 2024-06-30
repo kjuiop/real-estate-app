@@ -57,6 +57,8 @@ public class RealEstateCreateForm {
 
     private String agentName;
 
+    private YnType banAdvertisingYn;
+
     private String tradingAt;
 
     private List<Long> managerIds;

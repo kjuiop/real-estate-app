@@ -503,7 +503,7 @@
                                     <tr>
                                         <td class="col-md-12" colspan="12">
                                             <label class="text-label no-left-padding">매물용도</label>
-                                            <select class="form-control" name="usageCd">
+                                            <select class="form-control" name="usageCd" style="height: 30px; font-size: 12px;">
                                                 <option value="">선택</option>
                                                 <th:block th:each="code : ${usageCds}">
                                                     <option th:value="${code.id}">[[${code.name}]]</option>
