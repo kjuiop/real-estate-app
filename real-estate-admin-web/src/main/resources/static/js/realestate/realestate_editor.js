@@ -615,4 +615,5 @@ $(document).ready(onReady)
     .on('blur', '.calAreaPyung', calculateAreaPyung)
     .on('blur', '.calAreaBcRate', calculateAreaBcRate)
     .on('blur', '.calculateAreaVlRate', calculateAreaVlRate)
+    .on('ifToggled', '.checkNotiRead', checkNotiRead)
 ;

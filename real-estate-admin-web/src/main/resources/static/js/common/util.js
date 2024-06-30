@@ -374,3 +374,43 @@ let onButton = function($this) {
     $this.addClass('btn-primary');
     $this.removeClass('btn-default');
 }
+
+let checkNotiRead = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        notiId = $this.attr('notiId'),
+        checked = $this.prop('checked'),
+        $block = $this.parents('.noti-move');
+
+    let params = {
+        "readYn" : checked ? "Y" : "N"
+    }
+
+    $.ajax({
+        url: "/notifications/" + notiId + "/read",
+        method: "post",
+        type: "json",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function(result) {
+            console.log("result", result);
+
+            let notiCnt = result.data,
+                $notiCnt = $('.notiCnt');
+
+            if (notiCnt === 0) {
+                $notiCnt.addClass('hidden')
+            } else {
+                $notiCnt.removeClass('hidden');
+            }
+            $notiCnt.html(notiCnt);
+
+            $block.remove();
+            $('.notiBannerCnt').html(notiCnt);
+        },
+        error: function(error){
+            ajaxErrorFieldByText(error);
+        }
+    });
+}
