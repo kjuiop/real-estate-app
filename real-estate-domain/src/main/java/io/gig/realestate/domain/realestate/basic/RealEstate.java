@@ -87,7 +87,7 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private ProcessType processType = ProcessType.Prepare;
+    private ProcessType processType = ProcessType.Working;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")

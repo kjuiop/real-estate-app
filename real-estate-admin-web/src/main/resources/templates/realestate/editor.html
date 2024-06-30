@@ -62,7 +62,7 @@
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 display-flex-row">
-                                    <label class="text-label col-md-3 no-left-padding">진행구분</label>
+                                    <label class="text-label col-md-3 no-left-padding" th:text="${isModify ? '진행구분' : ''}">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <div class="selected-button-radio-section exclusiveSection">
                                             <th:block th:each="code : ${exclusiveCds}">
@@ -74,27 +74,10 @@
                                 <div class="col-md-12">
                                     <th:block th:if="${isModify}">
                                         <div th:if="${dto.processType != null}">
-                                            <!--
-                                            <button class="btn btn-sm btnProcessType margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare" th:if="${dto.processType.type eq 'prepare' || dto.processType.level eq 1 || dto.processType.type eq 'notAssign'}">준비</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working" th:if="${dto.processType.type eq 'working' || dto.processType.level < 3 && dto.processType.type ne 'notAssign'}">작업중</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'notAssign' ? 'btn-primary' : 'btn-default'}" processType="NotAssign" th:if="${dto.processType.type eq 'notAssign' || dto.processType.level < 5}">미지정</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete" th:if="${dto.processType.type eq 'complete' || dto.processType.level > 1 && dto.processType.level < 5 && dto.processType.type ne 'notAssign'}">작업완료</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible" th:if="${dto.processType.type eq 'impossible' || dto.processType.level < 2 && dto.processType.level < 6 && dto.processType.type ne 'notAssign'}">작업불가</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending" th:if="${dto.processType.type eq 'pending' || dto.processType.level > 2 && dto.processType.level < 5}">매각보류</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell" th:if="${dto.processType.type eq 'sell' || dto.processType.level > 2 && dto.processType.type ne 'impossible'}">매각</button>
-                                            <button type="button" class="btn btn-sm btnR text-right margin-right-5 pull-right" th:rStatus="${dto.rYn.key eq 'Y' ? 'N' : 'Y'}" th:classappend="${dto.rYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">R</button>
-                                            <button type="button" class="btn btn-sm btnAB text-right margin-right-5 pull-right" th:abStatus="${dto.abYn.key eq 'Y'  ? 'N' : 'Y'}" th:classappend="${dto.abYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">A-B</button>
-                                            -->
-
-                                            <button class="btn btn-sm btnProcessType margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
                                             <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'notAssign' ? 'btn-primary' : 'btn-default'}" processType="NotAssign">미지정</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">작업완료</button>
                                             <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">매각보류</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
                                             <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                            <button type="button" class="btn btn-sm btnR text-right margin-right-5 pull-right" th:rStatus="${dto.rYn.key eq 'Y' ? 'N' : 'Y'}" th:classappend="${dto.rYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">R</button>
-                                            <button type="button" class="btn btn-sm btnAB text-right margin-right-5 pull-right" th:abStatus="${dto.abYn.key eq 'Y'  ? 'N' : 'Y'}" th:classappend="${dto.abYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">A-B</button>
                                         </div>
                                     </th:block>
                                 </div>
