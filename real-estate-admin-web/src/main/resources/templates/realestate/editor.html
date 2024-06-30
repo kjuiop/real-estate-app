@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-<div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
+<div layout:fragment="content" th:with="YnType=${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content" th:with="isModify = ${dto.realEstateId != null}">
         <div class="container-fluid">
             <div class="row">
@@ -62,7 +62,7 @@
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 display-flex-row">
-                                    <label class="text-label col-md-3 no-left-padding" th:text="${isModify ? '진행구분' : ''}">진행구분</label>
+                                    <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <div class="selected-button-radio-section exclusiveSection">
                                             <th:block th:each="code : ${exclusiveCds}">
@@ -72,14 +72,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <th:block th:if="${isModify}">
-                                        <div th:if="${dto.processType != null}">
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                        </div>
-                                    </th:block>
+                                    <div th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 display-flex-row line">
@@ -88,10 +86,22 @@
                                     <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
                                         <option value="">선택</option>
                                         <th:block th:each="admin : ${admins}">
-                                            <option th:value="${admin.username}" th:selected="${admin.adminId eq dto.managerId}">[[${admin.name}]]</option>
+                                            <option th:value="${admin.username}">[[${admin.name}]]</option>
                                         </th:block>
                                     </select>
                                 </div>
+                                <div class="col-md-4 display-flex-column managerSection">
+                                    <label class="text-label">&nbsp;</label>
+                                    <div>
+                                        <th:block th:if="${!isModify}">
+                                            <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 managerSection"></div>
+                            </div>
+
+                            <div class="form-group col-md-12 display-flex-row line">
                                 <div class="col-md-4 display-flex-column">
                                     <label class="text-label">건물명</label>
                                     <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
@@ -100,6 +110,7 @@
                                     <label class="text-label">최종 수정일</label>
                                     <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.updatedAt, 'YYYY-MM-dd')}" readonly />
                                 </div>
+                                <div class="col-md-4"></div>
                             </div>
 
                             <div class="form-group col-md-12 line">

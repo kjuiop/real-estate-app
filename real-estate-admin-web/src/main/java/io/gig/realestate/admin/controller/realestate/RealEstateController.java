@@ -95,16 +95,16 @@ public class RealEstateController {
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
-        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
 
         model.addAttribute("dto", dto);
-        model.addAttribute("admins", admins);
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("sidoList", sidoList);
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
     }
