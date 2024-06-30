@@ -61,7 +61,7 @@
                         </div>
                         <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row margin-bottom-10">
+                                <div class="col-md-12 display-flex-row">
                                     <label class="text-label col-md-3 no-left-padding">진행구분</label>
                                     <div class="col-md-9 display-flex-row justify-content-end">
                                         <div class="selected-button-radio-section exclusiveSection">
@@ -114,8 +114,8 @@
                                     <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
                                 </div>
                                 <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">날짜</label>
-                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.createdAt, 'YYYY-MM-dd')}" readonly />
+                                    <label class="text-label">최종 수정일</label>
+                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.updatedAt, 'YYYY-MM-dd')}" readonly />
                                 </div>
                             </div>
 
