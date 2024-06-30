@@ -269,14 +269,14 @@ public class RealEstateQueryRepository {
         if (!StringUtils.hasText(manager)) {
             return null;
         }
-        return realEstate.manager.name.like("%" + manager + "%");
+        return realEstate.managerBy.name.like("%" + manager + "%");
     }
 
     private BooleanExpression likeTeamName(String teamName) {
         if (!StringUtils.hasText(teamName)) {
             return null;
         }
-        return realEstate.manager.team.name.like("%" + teamName + "%");
+        return realEstate.managerBy.team.name.like("%" + teamName + "%");
     }
 
     private BooleanExpression betweenSalePrice(Integer minSalePrice, Integer maxSalePrice) {

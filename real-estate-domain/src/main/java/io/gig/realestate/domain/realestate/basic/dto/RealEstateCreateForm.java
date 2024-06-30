@@ -59,6 +59,8 @@ public class RealEstateCreateForm {
 
     private String tradingAt;
 
+    private List<Long> managerIds;
+
     private LandUsageCreateForm landUsageInfo;
 
     private PriceCreateForm priceInfo;

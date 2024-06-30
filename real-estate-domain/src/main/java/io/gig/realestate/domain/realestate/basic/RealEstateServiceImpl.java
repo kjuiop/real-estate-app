@@ -34,6 +34,8 @@ import io.gig.realestate.domain.realestate.landprice.LandPriceService;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceCreateForm;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
 import io.gig.realestate.domain.realestate.landusage.LandUsageService;
+import io.gig.realestate.domain.realestate.manager.RealEstateManager;
+import io.gig.realestate.domain.realestate.manager.RealEstateManagerService;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -83,6 +85,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     private final CustomerService customerService;
     private final ImageService imageService;
 
+    private final RealEstateManagerService realEstateManagerService;
+
     private final ExcelRealEstateService excelRealEstateService;
 
     @Override
@@ -127,8 +131,18 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public Long create(RealEstateCreateForm createForm, LoginUser loginUser) {
-        Administrator manager = administratorService.getAdminEntityByUsername(createForm.getManagerUsername());
-        RealEstate newRealEstate = RealEstate.create(createForm, manager, loginUser.getLoginUser());
+        Administrator loginAdmin = loginUser.getLoginUser();
+        RealEstate newRealEstate = RealEstate.create(createForm, loginAdmin, loginUser.getLoginUser());
+
+        if (createForm.getManagerIds() != null && !createForm.getManagerIds().contains(loginAdmin.getId())) {
+            createForm.getManagerIds().add(loginAdmin.getId());
+        }
+
+        for (Long adminId : createForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            RealEstateManager realEstateManager = RealEstateManager.create(newRealEstate, manager, loginAdmin);
+            newRealEstate.addManager(realEstateManager);
+        }
 
         if (createForm.getUsageTypeId() != null) {
             Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
@@ -217,9 +231,33 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Override
     @Transactional
     public Long update(RealEstateUpdateForm updateForm, LoginUser loginUser) {
-        Administrator manager = administratorService.getAdminEntityByUsername(updateForm.getManagerUsername());
+        Administrator loginAdmin = loginUser.getLoginUser();
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
-        realEstate.update(updateForm, manager, loginUser.getLoginUser());
+        realEstate.update(updateForm, loginAdmin, loginUser.getLoginUser());
+
+        if (updateForm.getManagerIds() != null && !updateForm.getManagerIds().contains(loginAdmin.getId())) {
+            updateForm.getManagerIds().add(loginAdmin.getId());
+        }
+
+        for (RealEstateManager rm : realEstate.getManagers()) {
+            boolean existsInManager = updateForm.getManagerIds().stream().anyMatch(id -> id.equals(rm.getAdmin().getId()));
+            if (!existsInManager) {
+                rm.delete();
+            }
+        }
+
+        for (Long adminId : updateForm.getManagerIds()) {
+            Administrator manager = administratorService.getAdminById(adminId);
+            Optional<RealEstateManager> findRealEstateManager = realEstateManagerService.getRealEstateManager(realEstate, manager);
+            RealEstateManager realEstateManager;
+            if (findRealEstateManager.isPresent()) {
+                realEstateManager = findRealEstateManager.get();
+                realEstateManager.update(realEstate, manager, loginAdmin);
+            } else {
+                realEstateManager = RealEstateManager.create(realEstate, manager, loginUser.getLoginUser());
+                realEstate.getManagers().add(realEstateManager);
+            }
+        }
 
         if (updateForm.getUsageTypeId() != null) {
             Category usageType = categoryService.getCategoryById(updateForm.getUsageTypeId());

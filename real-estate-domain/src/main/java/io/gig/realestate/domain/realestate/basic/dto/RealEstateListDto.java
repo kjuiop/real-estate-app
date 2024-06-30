@@ -27,8 +27,8 @@ public class RealEstateListDto extends RealEstateDto {
 
     public RealEstateListDto(RealEstate r) {
         super(r);
-        if (r.getManager() != null) {
-            this.managerName = r.getManager().getName();
+        if (r.getManagerBy() != null) {
+            this.managerName = r.getManagerBy().getName();
         }
         if (r.getPriceInfoList().size() > 0) {
             this.salePrice = r.getPriceInfoList().get(0).getSalePrice();

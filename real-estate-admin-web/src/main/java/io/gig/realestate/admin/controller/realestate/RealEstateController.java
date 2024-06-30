@@ -118,17 +118,18 @@ public class RealEstateController {
         RealEstateDetailDto dto = realEstateService.getDetail(session.getId(), realEstateId);
         dto.checkIsOwnUser(loginUser);
         dto.checkIsSuperAdmin(loginUser);
-        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
         CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         model.addAttribute("dto", dto);
-        model.addAttribute("admins", admins);
+
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("sidoList", sidoList);
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
+        model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
     }

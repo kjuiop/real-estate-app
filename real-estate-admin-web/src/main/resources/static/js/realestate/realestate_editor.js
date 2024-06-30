@@ -27,12 +27,7 @@ let realEstateSave = function(e) {
     params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
     params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
-
-    if (!checkNullOrEmptyValue(params.managerUsername)) {
-        twoBtnModal("담당자를 선택해주세요.");
-        return;
-    }
-
+    params["managerIds"] = getManagerIds();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
 
     let subImages = [];
@@ -116,12 +111,7 @@ let realEstateUpdate = function(e) {
     params["propertyTypeId"] = $basicFrm.find('select[name="propertyType"] option:selected').val();
     params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
     params.imgUrl = $frmPrice.find('.main-section img').attr('src');
-
-    if (!checkNullOrEmptyValue(params.managerUsername)) {
-        twoBtnModal("담당자를 선택해주세요.");
-        return;
-    }
-
+    params["managerIds"] = getManagerIds();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
 
     let subImages = [];
@@ -563,6 +553,58 @@ let extractCodeId = function(section) {
     return extractCds;
 }
 
+let drawManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        username = $this.val(),
+        name = $this.find('option:selected').attr('adminName'),
+        adminId = parseInt($this.find('option:selected').attr('adminId'))
+    ;
+
+    if (!checkNullOrEmptyValue(adminId) || isNaN(adminId)) {
+        return;
+    }
+
+    let isExist = false;
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        if (id === adminId) {
+            isExist = true;
+            return;
+        }
+    });
+    if (isExist) {
+        return;
+    }
+
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    $('.managerSection').append(tag);
+}
+
+let getManagerIds = function() {
+    let managerIds = [];
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        managerIds.push(id);
+    });
+    return managerIds;
+}
+
+let removeManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        adminId = parseInt($this.attr('adminId')),
+        createdById = parseInt(dto.createdById)
+    ;
+    if (adminId === createdById) {
+        return;
+    }
+    twoBtnModal("담당자를 해제하시겠습니까?", function () {
+        $this.remove();
+    });
+}
 
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
@@ -616,4 +658,6 @@ $(document).ready(onReady)
     .on('blur', '.calAreaBcRate', calculateAreaBcRate)
     .on('blur', '.calculateAreaVlRate', calculateAreaVlRate)
     .on('ifToggled', '.checkNotiRead', checkNotiRead)
+    .on('change', '.managerList', drawManager)
+    .on('click', '.btnManagerRemove', removeManager)
 ;

@@ -2,7 +2,6 @@ package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.category.Category;
-import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
@@ -15,6 +14,7 @@ import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
+import io.gig.realestate.domain.realestate.manager.RealEstateManager;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -24,7 +24,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,10 +96,6 @@ public class RealEstate extends BaseTimeEntity {
     @JoinColumn(name = "property_type_id")
     private Category propertyType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_by_id")
-    private Administrator manager;
-
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<LandInfo> landInfoList = new ArrayList<>();
@@ -149,6 +144,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<CurlTrafficLight> curlTrafficInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<RealEstateManager> managers = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -156,6 +155,10 @@ public class RealEstate extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator managerBy;
 
     public void addLandInfo(LandInfo landInfo) {
         this.landInfoList.add(landInfo);
@@ -216,7 +219,7 @@ public class RealEstate extends BaseTimeEntity {
                 .characterInfo(createForm.getCharacterInfo())
                 .agentName(createForm.getAgentName())
                 .tradingAt(createForm.getTradingAt())
-                .manager(manager)
+                .managerBy(manager)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
@@ -235,7 +238,7 @@ public class RealEstate extends BaseTimeEntity {
                 .usageType(usageType)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
-                .manager(loginUser)
+                .managerBy(loginUser)
                 .build();
     }
 
@@ -248,7 +251,7 @@ public class RealEstate extends BaseTimeEntity {
         this.characterInfo = updateForm.getCharacterInfo();
         this.tradingAt = updateForm.getTradingAt();
         this.imgUrl = updateForm.getImgUrl();
-        this.manager = manager;
+        this.managerBy = manager;
         this.updatedBy = loginUser;
     }
 
@@ -285,5 +288,9 @@ public class RealEstate extends BaseTimeEntity {
 
     public void updateImageFullPath(String imageUrl) {
         this.imgUrl = imageUrl;
+    }
+
+    public void addManager(RealEstateManager realEstateManager) {
+        this.managers.add(realEstateManager);
     }
 }
