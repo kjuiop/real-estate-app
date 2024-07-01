@@ -95,15 +95,15 @@ public class RealEstateController {
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
-        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
 
         model.addAttribute("dto", dto);
         model.addAttribute("propertyCds", propertyCds);
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("sidoList", sidoList);
         model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
         model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
@@ -118,17 +118,16 @@ public class RealEstateController {
         RealEstateDetailDto dto = realEstateService.getDetail(session.getId(), realEstateId);
         dto.checkIsOwnUser(loginUser);
         dto.checkIsSuperAdmin(loginUser);
-        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         model.addAttribute("dto", dto);
-
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("sidoList", sidoList);
-        model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
         model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
+        model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
         model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";

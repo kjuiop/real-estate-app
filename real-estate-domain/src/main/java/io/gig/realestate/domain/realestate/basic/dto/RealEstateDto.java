@@ -22,6 +22,10 @@ public class RealEstateDto {
     
     private String exclusiveCds;
 
+    private String realEstateGradeCds;
+
+    private String usageCds;
+
     private String buildingName;
 
     private String surroundInfo;
@@ -90,6 +94,7 @@ public class RealEstateDto {
         this.rYn = r.getRYn();
         this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
+        this.realEstateGradeCds = r.getRealEstateGradeCds();
         this.banAdvertisingYn = r.getBanAdvertisingYn();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
