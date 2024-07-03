@@ -144,11 +144,6 @@ public class RealEstateServiceImpl implements RealEstateService {
             newRealEstate.addManager(realEstateManager);
         }
 
-        if (createForm.getUsageTypeId() != null) {
-            Category usageType = categoryService.getCategoryById(createForm.getUsageTypeId());
-            newRealEstate.setUsageType(usageType);
-        }
-
         if (createForm.getPropertyTypeId() != null) {
             Category propertyType = categoryService.getCategoryById(createForm.getPropertyTypeId());
             newRealEstate.setPropertyType(propertyType);

@@ -24,6 +24,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +67,18 @@ public class RealEstate extends BaseTimeEntity {
 
     private String tradingAt;
 
+    private String acquiredAt;
+
+    @Lob
     private String exclusiveCds;
 
+    @Lob
     private String realEstateGradeCds;
 
+    @Lob
+    private String buildingTypeCds;
+
+    @Lob
     private String usageCds;
 
     @Builder.Default
@@ -215,6 +224,9 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
         return RealEstate.builder()
+                .buildingTypeCds(createForm.getBuildingTypeCds())
+                .realEstateGradeCds(createForm.getRealEstateGradeCds())
+                .usageCds(createForm.getUsageCds())
                 .exclusiveCds(createForm.getExclusiveCds())
                 .buildingName(createForm.getBuildingName())
                 .surroundInfo(createForm.getSurroundInfo())
@@ -227,9 +239,9 @@ public class RealEstate extends BaseTimeEntity {
                 .addressDetail(createForm.getAddressDetail())
                 .characterInfo(createForm.getCharacterInfo())
                 .agentName(createForm.getAgentName())
-                .tradingAt(createForm.getTradingAt())
                 .banAdvertisingYn(createForm.getBanAdvertisingYn())
                 .managerBy(manager)
+                .acquiredAt(createForm.getAcquiredAt())
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
@@ -259,7 +271,7 @@ public class RealEstate extends BaseTimeEntity {
         this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
         this.characterInfo = updateForm.getCharacterInfo();
-        this.tradingAt = updateForm.getTradingAt();
+        this.acquiredAt = updateForm.getAcquiredAt();
         this.imgUrl = updateForm.getImgUrl();
         this.banAdvertisingYn = updateForm.getBanAdvertisingYn();
         this.managerBy = manager;

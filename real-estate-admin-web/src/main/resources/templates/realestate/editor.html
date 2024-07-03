@@ -132,11 +132,16 @@
                                 <div class="display-flex-row">
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">건물종류</label>
-                                        <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" />
+                                        <select class="form-control form-control-sm valid-ignore custom-select margin-right-4 buildingTypeCds">
+                                            <option value="">선택</option>
+                                            <th:block th:each="code, status : ${buildingTypeCds}">
+                                                <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buildingTypeCds) && #strings.contains(dto.buildingTypeCds, code.code)}">[[${code.name}]]</option>
+                                            </th:block>
+                                        </select>
                                     </div>
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">취득일</label>
-                                        <input type="text" class="form-control form-control-sm" name="tradingAt" th:value="${dto.tradingAt}" />
+                                        <input type="text" class="form-control form-control-sm" name="acquiredAt" th:value="${dto.acquiredAt}" />
                                     </div>
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">&nbsp;</label>
@@ -158,7 +163,7 @@
                             <div class="form-group col-md-12 display-flex-column line">
                                 <div class="col-md-12 margin-bottom-8 display-flex-column">
                                     <label class="text-label col-md-3 no-left-padding padding-top-6">구분</label>
-                                    <div class="selected-button-checkbox-section realEstateGradeSection display-flex-row">
+                                    <div class="selected-button-checkbox-section usageTypeSection display-flex-row">
                                         <div>
                                             <th:block th:each="code, status : ${usageCds}">
                                                 <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.usageCds) && #strings.contains(dto.usageCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}">[[${code.name}]]</button>

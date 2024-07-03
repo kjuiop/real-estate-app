@@ -104,6 +104,7 @@ public class RealEstateController {
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
         model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("buildingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUILDING_TYPE"));
         model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
@@ -128,6 +129,7 @@ public class RealEstateController {
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
         model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("buildingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUILDING_TYPE"));
         model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";

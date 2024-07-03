@@ -24,12 +24,14 @@ let realEstateSave = function(e) {
         $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$frmBasic[0]}).json();
 
-    params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
     params["banAdvertisingYn"] = $frmBasic.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
-    params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
+    params["imgUrl"] = $frmPrice.find('.main-section img').attr('src');
     params["managerIds"] = getManagerIds();
+    params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
+    params["buildingTypeCds"] = $frmBasic.find('.buildingTypeCds option:selected').val();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
+    params["realEstateGradeCds"] = extractCodeId($('.realEstateGradeSection'));
+    params["usageCds"] = extractCodeId($('.usageTypeSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');
@@ -110,11 +112,13 @@ let realEstateUpdate = function(e) {
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["propertyTypeId"] = $basicFrm.find('select[name="propertyType"] option:selected').val();
+    params["buildingTypeCds"] = $frmBasic.find('select[name="buildingType"] option:selected').val();
     params["banAdvertisingYn"] = $basicFrm.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
-    params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
+    params["imgUrl"] = $frmPrice.find('.main-section img').attr('src');
     params["managerIds"] = getManagerIds();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
+    params["realEstateGradeCds"] = extractCodeId($('.realEstateGradeSection'));
+    params["usageCds"] = extractCodeId($('.usageTypeSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');

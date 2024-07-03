@@ -24,6 +24,8 @@ public class RealEstateDto {
 
     private String realEstateGradeCds;
 
+    private String buildingTypeCds;
+
     private String usageCds;
 
     private String buildingName;
@@ -64,6 +66,8 @@ public class RealEstateDto {
 
     private String tradingAt;
 
+    private String acquiredAt;
+
     private YnType banAdvertisingYn;
 
     private LocalDateTime createdAt;
@@ -90,11 +94,14 @@ public class RealEstateDto {
         this.imgUrl = r.getImgUrl();
         this.agentName = r.getAgentName();
         this.tradingAt = r.getTradingAt();
+        this.acquiredAt = r.getAcquiredAt();
         this.processType = r.getProcessType();
         this.rYn = r.getRYn();
         this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
         this.realEstateGradeCds = r.getRealEstateGradeCds();
+        this.buildingTypeCds = r.getBuildingTypeCds();
+        this.usageCds = r.getUsageCds();
         this.banAdvertisingYn = r.getBanAdvertisingYn();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();

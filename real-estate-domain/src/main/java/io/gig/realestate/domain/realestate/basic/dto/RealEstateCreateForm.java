@@ -31,6 +31,12 @@ public class RealEstateCreateForm {
 
     private String exclusiveCds;
 
+    private String buildingTypeCds;
+
+    private String realEstateGradeCds;
+
+    private String usageCds;
+
     private String legalCode;
 
     private String landType;
@@ -42,8 +48,6 @@ public class RealEstateCreateForm {
     private String buildingName;
 
     private String surroundInfo;
-
-    private Long usageTypeId;
 
     private Long propertyTypeId;
 
@@ -59,7 +63,7 @@ public class RealEstateCreateForm {
 
     private YnType banAdvertisingYn;
 
-    private String tradingAt;
+    private String acquiredAt;
 
     private List<Long> managerIds;
 

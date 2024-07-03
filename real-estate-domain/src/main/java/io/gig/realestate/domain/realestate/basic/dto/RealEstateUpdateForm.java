@@ -35,6 +35,12 @@ public class RealEstateUpdateForm {
 
     private String exclusiveCds;
 
+    private String buildingTypeCds;
+
+    private String realEstateGradeCds;
+
+    private String usageCds;
+
     private String imgUrl;
 
     private String address;
@@ -64,6 +70,8 @@ public class RealEstateUpdateForm {
     private String agentName;
 
     private String tradingAt;
+
+    private String acquiredAt;
 
     private List<Long> managerIds;
 
