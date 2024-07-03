@@ -27,7 +27,7 @@ public class RealEstateCreateForm {
 
     private Long realEstateId;
 
-    private String managerUsername;
+    private String buildingName;
 
     private String exclusiveCds;
 
@@ -44,8 +44,6 @@ public class RealEstateCreateForm {
     private String bun;
 
     private String ji;
-
-    private String buildingName;
 
     private String surroundInfo;
 

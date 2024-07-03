@@ -31,8 +31,6 @@ public class RealEstateUpdateForm {
 
     private String buildingName;
 
-    private String surroundInfo;
-
     private String exclusiveCds;
 
     private String buildingTypeCds;
@@ -40,6 +38,8 @@ public class RealEstateUpdateForm {
     private String realEstateGradeCds;
 
     private String usageCds;
+
+    private String surroundInfo;
 
     private String imgUrl;
 

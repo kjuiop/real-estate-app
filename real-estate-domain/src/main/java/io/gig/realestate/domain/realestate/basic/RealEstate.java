@@ -238,7 +238,6 @@ public class RealEstate extends BaseTimeEntity {
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
                 .characterInfo(createForm.getCharacterInfo())
-                .agentName(createForm.getAgentName())
                 .banAdvertisingYn(createForm.getBanAdvertisingYn())
                 .managerBy(manager)
                 .acquiredAt(createForm.getAcquiredAt())
@@ -265,9 +264,11 @@ public class RealEstate extends BaseTimeEntity {
     }
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Administrator loginUser) {
+        this.buildingTypeCds = updateForm.getBuildingTypeCds();
+        this.realEstateGradeCds = updateForm.getRealEstateGradeCds();
+        this.usageCds = updateForm.getUsageCds();
         this.exclusiveCds = updateForm.getExclusiveCds();
         this.buildingName = updateForm.getBuildingName();
-        this.agentName = updateForm.getAgentName();
         this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
         this.characterInfo = updateForm.getCharacterInfo();
