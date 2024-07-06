@@ -56,6 +56,14 @@ let realEstateSave = function(e) {
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
     params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
+    params.priceInfo.landUnitPrice = removeComma($frmPrice.find('input[name="landUnitPrice"]').val());
+    params.priceInfo.totalAreaUnitPrice = removeComma($frmPrice.find('input[name="totalAreaUnitPrice"]').val());
+    params.priceInfo.salePrice = removeComma($frmPrice.find('input[name="salePrice"]').val());
+    params.priceInfo.priceAdjuster = removeComma($frmPrice.find('input[name="priceAdjuster"]').val());
+    params.priceInfo.guaranteePrice = removeComma($frmPrice.find('input[name="guaranteePrice"]').val());
+    params.priceInfo.rentMonth = removeComma($frmPrice.find('input[name="rentMonth"]').val());
+    params.priceInfo.management = removeComma($frmPrice.find('input[name="management"]').val());
+    params.priceInfo.managementExpense = removeComma($frmPrice.find('input[name="managementExpense"]').val());
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -144,6 +152,16 @@ let realEstateUpdate = function(e) {
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
     params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
+    params.priceInfo.landUnitPrice = removeComma($frmPrice.find('input[name="landUnitPrice"]').val());
+    params.priceInfo.totalAreaUnitPrice = removeComma($frmPrice.find('input[name="totalAreaUnitPrice"]').val());
+    params.priceInfo.salePrice = removeComma($frmPrice.find('input[name="salePrice"]').val());
+    params.priceInfo.priceAdjuster = removeComma($frmPrice.find('input[name="priceAdjuster"]').val());
+    params.priceInfo.guaranteePrice = removeComma($frmPrice.find('input[name="guaranteePrice"]').val());
+    params.priceInfo.rentMonth = removeComma($frmPrice.find('input[name="rentMonth"]').val());
+    params.priceInfo.management = removeComma($frmPrice.find('input[name="management"]').val());
+    params.priceInfo.managementExpense = removeComma($frmPrice.find('input[name="managementExpense"]').val());
+
+
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;

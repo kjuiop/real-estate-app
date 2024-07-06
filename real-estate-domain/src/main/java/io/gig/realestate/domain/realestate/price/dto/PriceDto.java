@@ -20,7 +20,11 @@ public class PriceDto {
 
     private double salePrice;
 
-    private double depositPrice;
+    private double priceAdjuster;
+
+    private double landUnitPrice;
+
+    private double totalAreaUnitPrice;
 
     private double revenueRate;
 
@@ -44,7 +48,9 @@ public class PriceDto {
             this.realEstateId = p.getRealEstate().getId();
         }
         this.salePrice = p.getSalePrice();
-        this.depositPrice = p.getDepositPrice();
+        this.priceAdjuster = p.getPriceAdjuster();
+        this.landUnitPrice = p.getLandUnitPrice();
+        this.totalAreaUnitPrice = p.getTotalAreaUnitPrice();
         this.revenueRate = p.getRevenueRate();
         this.averageUnitPrice = p.getAverageUnitPrice();
         this.guaranteePrice = p.getGuaranteePrice();

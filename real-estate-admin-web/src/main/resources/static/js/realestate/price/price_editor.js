@@ -19,14 +19,14 @@ let loadPriceInfo = function() {
                 priceInfo = priceList[0];
             let $frm = $('form[name="frmPriceRegister"]');
             $frm.find('input[name="priceId"]').val(priceInfo.priceId)
-            $frm.find('.salePrice').val(priceInfo.salePrice);
-            $frm.find('.depositPrice').val(priceInfo.depositPrice);
-            $frm.find('.revenueRate').val(priceInfo.revenueRate);
-            $frm.find('.averageUnitPrice').val(priceInfo.averageUnitPrice);
-            $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice);
-            $frm.find('.rentMonth').val(priceInfo.rentMonth);
-            $frm.find('.management').val(priceInfo.management);
-            $frm.find('.managementExpense').val(priceInfo.managementExpense);
+            $frm.find('.salePrice').val(priceInfo.salePrice.toLocaleString());
+            $frm.find('.priceAdjuster').val(priceInfo.priceAdjuster.toLocaleString());
+            $frm.find('.landUnitPrice').val(priceInfo.landUnitPrice.toLocaleString());
+            $frm.find('.totalAreaUnitPrice').val(priceInfo.totalAreaUnitPrice.toLocaleString());
+            $frm.find('.guaranteePrice').val(priceInfo.guaranteePrice.toLocaleString());
+            $frm.find('.rentMonth').val(priceInfo.rentMonth.toLocaleString());
+            $frm.find('.management').val(priceInfo.management.toLocaleString());
+            $frm.find('.managementExpense').val(priceInfo.managementExpense.toLocaleString());
 
             calculateRevenueRateRate();
         },
@@ -81,28 +81,38 @@ let calculateManagementExpense = function() {
 
 let calculateAveragePrice = function() {
     // 매매가 / 전체 평
-    let lndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val(),
-        salePrice = $('input[name="salePrice"]').val();
+
+    let $frmLand = $('form[name="frmLandRegister"]'),
+        lndpclArByPyung = removeComma($frmLand.find('input[name="totalLndpclArByPyung"]').val()),
+        $frmConstruct = $('form[name="frmConstructRegister"]'),
+        totAreaByPyung = removeComma($frmConstruct.find('input[name="totAreaByPyung"]').val()),
+        $frmPrice = $('form[name="frmPriceRegister"]'),
+        salePrice = removeComma($frmPrice.find('input[name="salePrice"]').val());
 
     if (lndpclArByPyung === 0 || salePrice === 0) {
         return;
     }
 
-    console.log("lndpclArByPyung", lndpclArByPyung);
-    console.log("salePrice", salePrice);
-
-    lndpclArByPyung = Number(lndpclArByPyung);
     salePrice = Number(salePrice) * 100000000;
+    lndpclArByPyung = Number(lndpclArByPyung);
 
-    let averageUnitPrice = salePrice / lndpclArByPyung;
+    let landUnitPrice = salePrice / lndpclArByPyung;
+    landUnitPrice = landUnitPrice / 10000;
+    landUnitPrice = Math.round(landUnitPrice);
 
-    console.log("averageUnitPrice", averageUnitPrice);
+    $frmPrice.find('input[name="landUnitPrice"]').val(landUnitPrice.toLocaleString());
 
-    averageUnitPrice = averageUnitPrice / 10000;
-    averageUnitPrice = Math.round(averageUnitPrice);
+    if (totAreaByPyung === 0 || salePrice === 0) {
+        return;
+    }
 
-    let $frm = $('form[name="frmPriceRegister"]');
-    $frm.find('input[name="averageUnitPrice"]').val(averageUnitPrice);
+    totAreaByPyung = Number(totAreaByPyung);
+
+    let totalAreaUnitPrice = salePrice / totAreaByPyung;
+    totalAreaUnitPrice = totalAreaUnitPrice / 10000;
+    totalAreaUnitPrice = Math.round(totalAreaUnitPrice);
+
+    $frmPrice.find('input[name="totalAreaUnitPrice"]').val(totalAreaUnitPrice.toLocaleString());
 
     calculateRevenueRateRate()
 }
