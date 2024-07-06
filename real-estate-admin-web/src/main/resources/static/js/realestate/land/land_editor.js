@@ -322,12 +322,15 @@ let drawLandTable = function($table, landList) {
     $table.find('tfoot').removeClass('hidden');
 }
 
+// pblndfPclndByPyung
 let settingLandInfo = function(landInfo) {
+
     let $frm = $('form[name="frmLandRegister"]');
     $frm.find('input[name="landId"]').val(landInfo.landId);
     $frm.find('.lndpclAr').val(landInfo.lndpclAr);
     $frm.find('.lndpclArByPyung').val(landInfo.lndpclArByPyung);
     $frm.find('.pblntfPclnd').val(addCommasToNumber(landInfo.pblntfPclnd));
+    $frm.find('.pblntfPclndByPyung').val(addCommasToNumber(landInfo.pblntfPclndByPyung));
     $frm.find('.totalPblntfPclnd').val(addCommasToNumber(landInfo.totalPblntfPclnd));
     $frm.find('input[name="totalPblntfPclndByPyung"]').val(landInfo.totalPblntfPclndByPyung);
     $frm.find('.lndcgrCodeNm').val(landInfo.lndcgrCodeNm);
@@ -492,6 +495,8 @@ let loadLandInfoById = function(e) {
 
 let assembleLandParams = function() {
 
+    // pblntfPclndByPyung
+
     let landInfoList = [];
 
     let $frmLand = $('form[name="frmLandRegister"]'),
@@ -504,7 +509,6 @@ let assembleLandParams = function() {
         twoBtnModal('저장하려는 토지 정보를 추가해주세요.');
         return landInfoList;
     }
-
 
     $frmLand.find('.btnLandSection .btnLandLoad').each(function (idx, item) {
         let landData = $(item).data('land-data');
@@ -519,6 +523,9 @@ let assembleLandParams = function() {
         }
         if (typeof landData.totalPblntfPclnd === 'string') {
             landData.totalPblntfPclnd = landData.totalPblntfPclnd.replaceAll(',', '');
+        }
+        if (typeof landData.pblntfPclndByPyung === 'string') {
+            landData.pblntfPclndByPyung = landData.pblntfPclndByPyung.replaceAll(',', '');
         }
         landData.realEstateId = dto.realEstateId;
         landData.commercialYn = commercialYn;
