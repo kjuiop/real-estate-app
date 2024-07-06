@@ -70,6 +70,8 @@ public class LandDto {
 
     private Double pblndfPclndByPyung;
 
+    private Double pblntfPclndByPyung;
+
     /** 토지면적당 공시지가 합계 **/
     // 대한민국의 건설교통부가 토지의 가격을 조사, 감정을 해 공시함. 개별토지에한 공시 가격(원/㎡)
     private Double totalPblntfPclnd;
@@ -111,6 +113,7 @@ public class LandDto {
         this.roadSideCodeNm = l.getRoadSideCodeNm();
         this.pblntfPclnd = l.getPblntfPclnd();
         this.pblndfPclndByPyung = l.getPblndfPclndByPyung();
+        this.pblntfPclndByPyung = l.getPblntfPclndByPyung();
         this.totalPblntfPclnd = l.getTotalPblntfPclnd();
         this.totalPblntfPclndByPyung = l.getTotalPblntfPclndByPyung();
         this.ladUseSittnNm = l.getLadUseSittnNm();

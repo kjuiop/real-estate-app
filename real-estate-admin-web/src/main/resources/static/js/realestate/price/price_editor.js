@@ -82,8 +82,10 @@ let calculateManagementExpense = function() {
 let calculateAveragePrice = function() {
     // 매매가 / 전체 평
 
-    let $frmLand = $('form[name="frmLandRegister"]'),
+    let $frmBasic = $('form[name="frmBasicRegister"]'),
+        $frmLand = $('form[name="frmLandRegister"]'),
         lndpclArByPyung = removeComma($frmLand.find('input[name="totalLndpclArByPyung"]').val()),
+        pblntfPclndByPyung = removeComma($frmLand.find('input[name="pblntfPclndByPyung"]').val()),
         $frmConstruct = $('form[name="frmConstructRegister"]'),
         totAreaByPyung = removeComma($frmConstruct.find('input[name="totAreaByPyung"]').val()),
         $frmPrice = $('form[name="frmPriceRegister"]'),
@@ -101,6 +103,14 @@ let calculateAveragePrice = function() {
     landUnitPrice = Math.round(landUnitPrice);
 
     $frmPrice.find('input[name="landUnitPrice"]').val(landUnitPrice.toLocaleString());
+
+    if (pblntfPclndByPyung > 0) {
+        console.log("pblntfPclndByPyung", pblntfPclndByPyung);
+        let landPriceDiff = landUnitPrice / (pblntfPclndByPyung / 10000);
+        landPriceDiff = Number(landPriceDiff).toFixed(1);
+        console.log("landPriceDiff", landPriceDiff);
+        $frmBasic.find('input[name="landPriceDiff"]').val(landPriceDiff);
+    }
 
     if (totAreaByPyung === 0 || salePrice === 0) {
         return;

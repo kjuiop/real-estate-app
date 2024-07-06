@@ -43,6 +43,8 @@ public class LandInfo extends BaseTimeEntity {
 
     private double pblndfPclndByPyung;
 
+    private double pblntfPclndByPyung;
+
     private double totalPblntfPclnd;
 
     private double totalPblntfPclndByPyung;
@@ -117,7 +119,7 @@ public class LandInfo extends BaseTimeEntity {
 
         if (StringUtils.hasText(dto.getPblntfPclnd())) {
             double pblntfPclnd = Double.parseDouble(dto.getPblntfPclnd());
-            landInfo.pblndfPclndByPyung = Math.floor(pblntfPclnd * 3.305785);
+            landInfo.pblntfPclndByPyung = Math.floor(pblntfPclnd * 3.305785);
         }
 
         return landInfo;
@@ -131,7 +133,7 @@ public class LandInfo extends BaseTimeEntity {
         this.lndpclAr = StringUtils.hasText(dto.getLndpclAr()) ? Double.parseDouble(dto.getLndpclAr()) : 0;
         this.lndpclArByPyung = calculateAreaByPy(dto.getLndpclArByPyung(), dto.getLndpclAr());
         this.pblntfPclnd = replaceAreaValue(dto.getPblntfPclnd(), dto.getLndpclAr());
-        this.pblndfPclndByPyung = calculateAreaByPy("", dto.getPblntfPclnd());
+        this.pblntfPclndByPyung = calculateAreaByPy("", dto.getPblntfPclnd());
         this.totalPblntfPclnd = StringUtils.hasText(dto.getTotalPblntfPclnd()) ? Double.parseDouble(dto.getTotalPblntfPclnd()) : 0;
         this.totalPblntfPclndByPyung = calculateAreaByPy(dto.getTotalPblntfPclndByPyung(), dto.getTotalPblntfPclnd());
         this.prposArea1Nm = dto.getPrposArea1Nm();
