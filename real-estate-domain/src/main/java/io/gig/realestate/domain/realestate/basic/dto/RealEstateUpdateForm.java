@@ -73,6 +73,8 @@ public class RealEstateUpdateForm {
 
     private String acquiredAt;
 
+    private Double landPriceDiff;
+
     private List<Long> managerIds;
 
     private PriceCreateForm priceInfo;

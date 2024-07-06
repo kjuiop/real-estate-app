@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 public class RealEstateDto {
 
     private Long realEstateId;
+
+    private Double landPriceDiff;
     
     private String exclusiveCds;
 
@@ -103,6 +105,7 @@ public class RealEstateDto {
         this.buildingTypeCds = r.getBuildingTypeCds();
         this.usageCds = r.getUsageCds();
         this.banAdvertisingYn = r.getBanAdvertisingYn();
+        this.landPriceDiff = r.getLandPriceDiff();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
     }
