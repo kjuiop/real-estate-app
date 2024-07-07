@@ -246,8 +246,8 @@ public class RealEstateQueryRepository {
         return StringUtils.hasText(ji) ? realEstate.ji.eq(ji) : null;
     }
 
-    private BooleanExpression eqUsageTypeId(Long usageTypeId) {
-        return usageTypeId != null ? realEstate.usageType.id.eq(usageTypeId) : null;
+    private BooleanExpression likeUsageCds(String usageCds) {
+        return StringUtils.hasText(usageCds) ? realEstate.usageCds.like("%" + usageCds + "%") : null;
     }
 
     private BooleanExpression likeBuildingName(String buildingName) {
@@ -480,7 +480,6 @@ public class RealEstateQueryRepository {
         where.and(defaultCondition());
         where.and(eqRYn(searchDto.getRYn()));
         where.and(eqABYn(searchDto.getAbYn()));
-        where.and(eqUsageTypeId(searchDto.getUsageCd()));
         where.and(eqProcessType(searchDto.getProcessType()));
         where.and(eqSido(searchDto.getSido()));
         where.and(eqGungu(searchDto.getGungu()));
@@ -488,6 +487,7 @@ public class RealEstateQueryRepository {
         where.and(eqLandType(searchDto.getLandType()));
         where.and(eqBun(searchDto.getBun()));
         where.and(eqJi(searchDto.getJi()));
+        where.and(likeUsageCds(searchDto.getUsageCds()));
         where.and(likeBuildingName(searchDto.getBuildingName()));
         where.and(eqRealEstateId(searchDto.getRealEstateId()));
         where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));

@@ -40,7 +40,7 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Long realEstateId;
 
-    private Long usageCd;
+    private String usageCds;
 
     private String manager;
 

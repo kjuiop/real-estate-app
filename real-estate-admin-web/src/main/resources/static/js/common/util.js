@@ -414,3 +414,18 @@ let checkNotiRead = function(e) {
         }
     });
 }
+
+let toggleCheckboxSelectButton = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $this.parents('.selected-button-checkbox-section'),
+        $allButton = $section.find('.btnAllSelect');
+
+    if ($this.hasClass('selected')) {
+        offButton($this);
+    } else {
+        onButton($this);
+        offButton($allButton)
+    }
+}

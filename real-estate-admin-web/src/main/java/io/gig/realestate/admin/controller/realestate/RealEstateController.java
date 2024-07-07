@@ -67,11 +67,9 @@ public class RealEstateController {
             model.addAttribute("dongList", dongList);
         }
 
-        List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
-
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
         if (pages != null) {
             model.addAttribute("pages", pages);
             model.addAttribute("totalCount", pages.getTotalElements());

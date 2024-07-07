@@ -27,8 +27,6 @@
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processType" />
-                            <input type="hidden" name="rYn" />
-                            <input type="hidden" name="abYn" />
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -46,20 +44,18 @@
                                     <tbody>
                                         <tr>
                                             <td colspan="9" class="search-title no-left-padding" style="width: 100%;">
-                                                <div class="processUnitSection" style="display: inline-block;">
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'notAssign' ? 'btn-primary' : 'btn-default'}" processType="NotAssign">미지정</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">완료</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.processType != null && condition.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.rYn != null && condition.rYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="r">R</button>
-                                                    <button type="button" class="btn text-right btnProcessType" th:classappend="${condition.abYn != null && condition.abYn eq YnType.Y ? 'btn-primary' : 'btn-default'}" processType="ab">A-B</button>
+                                                <div class="processUnitSection selected-button-checkbox-section" style="display: inline-block;" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnAllSelect" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
                                                 </div>
-                                                <div class="pull-right">
-                                                    <button type="button" class="btn btn-default btnShowExcelModal">엑셀 업로드</button>
+                                                <div class="pull-right selected-button-checkbox-section">
+                                                    <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.usageCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
+                                                    <th:block th:each="code, status : ${usageCds}">
+                                                        <button type="button" class="btn btn-sm btnCode" th:classappend="${(not #strings.isEmpty(condition.usageCds) && #strings.contains(condition.usageCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}">[[${code.name}]]</button>
+                                                    </th:block>
                                                 </div>
                                             </td>
                                         </tr>
@@ -339,9 +335,9 @@
                                             No
                                         </th>
                                         <th style="width: 5%;">사진</th>
-                                        <th style="width: 20%;">주소</th>
+                                        <th style="width: 15%;">주소</th>
                                         <th style="width: 5%;">진행단계</th>
-                                        <th style="width: 5%;">용도</th>
+                                        <th style="width: 10%;">용도</th>
                                         <th class="text-center" style="width: 15%;">금액</th>
                                         <th style="width: 5%;">수익</th>
                                         <th style="width: 15%;">면적</th>
