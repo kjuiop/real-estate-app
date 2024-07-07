@@ -455,20 +455,11 @@ public class RealEstateQueryRepository {
         return realEstate.legalCode.eq(legalCode);
     }
 
-    private BooleanExpression eqRYn(YnType rYn) {
-        if (rYn == null) {
+    private BooleanExpression likeProcessTypeCds(List<ProcessType> processTypeCds) {
+        if (processTypeCds.isEmpty()) {
             return null;
         }
-
-        return rYn == YnType.Y ? realEstate.rYn.eq(YnType.Y) : realEstate.rYn.eq(YnType.N) ;
-    }
-
-    private BooleanExpression eqABYn(YnType abYn) {
-        if (abYn == null) {
-            return null;
-        }
-
-        return abYn == YnType.Y ? realEstate.abYn.eq(YnType.Y) : realEstate.abYn.eq(YnType.N) ;
+        return realEstate.processType.in(processTypeCds);
     }
 
     private BooleanExpression likeAddress(String address) {
@@ -478,9 +469,7 @@ public class RealEstateQueryRepository {
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(eqRYn(searchDto.getRYn()));
-        where.and(eqABYn(searchDto.getAbYn()));
-        where.and(eqProcessType(searchDto.getProcessType()));
+        where.and(likeProcessTypeCds(searchDto.getProcessTypeCds()));
         where.and(eqSido(searchDto.getSido()));
         where.and(eqGungu(searchDto.getGungu()));
         where.and(eqDong(searchDto.getDong()));

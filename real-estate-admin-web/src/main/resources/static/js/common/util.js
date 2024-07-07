@@ -429,3 +429,48 @@ let toggleCheckboxSelectButton = function(e) {
         offButton($allButton)
     }
 }
+
+let extractCodeIdForSearch = function(section) {
+    let extractCds = '';
+    $(section).find('.btnCode').each(function(idx, item) {
+        if ($(item).hasClass('selected')) {
+            extractCds += $(item).attr('code');
+            extractCds += ',';
+        }
+    });
+
+    if (extractCds.endsWith(',')) {
+        extractCds = extractCds.slice(0, -1);
+    }
+    return extractCds;
+}
+
+let extractCodeArray = function(section) {
+    let codes = [];
+    $(section).find('.btnCode').each(function(idx, item) {
+        if ($(item).hasClass('selected')) {
+            codes.push($(item).attr('code'))
+        }
+    });
+    return codes;
+}
+
+let selectAllButtonForSearch = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        $section = $this.parents('.selected-button-checkbox-section');
+
+    if ($this.hasClass('selected')) {
+        offButton($this);
+        $section.find('.btnCode').each(function(idx, item) {
+            offButton($(item));
+        });
+    } else {
+        onButton($this);
+        $section.find('.btnCode').each(function(idx, item) {
+            offButton($(item));
+        });
+    }
+
+}

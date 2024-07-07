@@ -70,11 +70,11 @@
                                     </div>
                                 </div>
                                 <div class="display-flex-row">
-                                    <div class="col-md-6" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
-                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
-                                        <button class="btn btn-sm btnProcessType text-right margin-right-5" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                    <div class="col-md-6 processTypeSection" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                        <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="selected-button-radio-section exclusiveSection justify-content-end display-flex-row">

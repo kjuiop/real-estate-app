@@ -9,6 +9,9 @@ import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/04/14
@@ -19,6 +22,8 @@ import org.springframework.data.domain.Sort;
 public class RealEstateSearchDto extends BaseSearchDto {
 
     private ProcessType processType;
+
+    private List<ProcessType> processTypeCds = new ArrayList<>();
 
     private String address;
 

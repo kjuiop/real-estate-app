@@ -26,7 +26,7 @@
                         <form name="frmSearch">
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
-                            <input type="hidden" name="processType" />
+                            <input type="hidden" name="processTypeCds" />
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -45,11 +45,11 @@
                                         <tr>
                                             <td colspan="9" class="search-title no-left-padding" style="width: 100%;">
                                                 <div class="processUnitSection selected-button-checkbox-section" style="display: inline-block;" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
-                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnAllSelect" th:classappend="${condition.processType == null ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
-                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
-                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${condition.processType != null && condition.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnAllSelect" th:classappend="${#lists.isEmpty(condition.processTypeCds) ? 'btn-primary' : 'btn-default'}" processType="">전체</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Working) ? 'btn-primary selected' : 'btn-default'}" code="Working">작업중</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Impossible) ? 'btn-primary selected' : 'btn-default'}" code="Impossible">작업불가</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Pending) ? 'btn-primary selected' : 'btn-default'}" code="Pending">보류</button>
+                                                    <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Sell) ? 'btn-primary selected' : 'btn-default'}" code="Sell">매각</button>
                                                 </div>
                                                 <div class="pull-right selected-button-checkbox-section">
                                                     <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.usageCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
@@ -301,7 +301,7 @@
                                 <div class="col-md-8"></div>
                                 <div class="col-md-4">
                                     <div class="col-md-12">
-                                        <button type="submit" id="btnSearch" class="btn btn-default float-right">
+                                        <button type="button" id="btnSearch" class="btn btn-default float-right">
                                             <i class="fa fa-search"></i> 검색
                                         </button>
                                         <button type="button" id="btnReset" class="btn btn-success float-right margin-right-5"><i class="fa fa-refresh"></i>

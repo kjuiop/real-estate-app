@@ -12,19 +12,7 @@ let search = function(e) {
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
-
-    let processType = $(this).attr('processType');
-    if (checkNullOrEmptyValue(processType)) {
-
-        if (processType === 'r') {
-            $frm.find('input[name="rYn"]').val("Y");
-        } else if (processType === 'ab') {
-            $frm.find('input[name="abYn"]').val("Y");
-        } else {
-            $frm.find('input[name="processType"]').val(processType);
-        }
-    }
-    console.log("process Type : ", processType)
+    $frm.find('input[name="processTypeCds"]').val(extractCodeArray($('.processUnitSection')));
     $frm.submit();
 };
 
@@ -430,7 +418,9 @@ $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
     .on('change', '#limit', search)
+    .on('click', '#btnSearch', search)
     .on('click', '#btnMoveRegister', moveRegister)
+    .on('click', '.btnAllSelect', selectAllButtonForSearch)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
