@@ -109,6 +109,10 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer maxRoadWidth;
 
+    private Double minLandPriceDiff;
+
+    private Double maxLandPriceDiff;
+
     private YnType rYn;
 
     private YnType abYn;

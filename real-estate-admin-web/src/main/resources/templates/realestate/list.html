@@ -262,16 +262,16 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="minRoadWidth" class="top-label">
-                                                            <div class="search-text">도로너비</div>
+                                                        <label for="minLandPriceDiff" class="top-label">
+                                                            <div class="search-text">평당금액 / 공시지가</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minRoadWidth" name="minRoadWidth" class="form-control search-input center-align" th:value="${condition.minRoadWidth > 0 ? condition.minRoadWidth : ''}">
+                                                    <input type="text" id="minLandPriceDiff" name="minLandPriceDiff" class="form-control search-input center-align" th:value="${condition.minLandPriceDiff > 0 ? condition.minLandPriceDiff : ''}">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxRoadWidth" name="maxRoadWidth" class="form-control search-input center-align" th:value="${condition.maxRoadWidth > 0 ? condition.maxRoadWidth : ''}">
+                                                    <input type="text" id="maxLandPriceDiff" name="maxLandPriceDiff" class="form-control search-input center-align" th:value="${condition.maxLandPriceDiff > 0 ? condition.maxLandPriceDiff : ''}">
                                                     <div class="input-label">
-                                                        <label for="maxRoadWidth" class="bottom-label">
-                                                            <div class="search-bottom-text">m</div>
+                                                        <label for="maxLandPriceDiff" class="bottom-label">
+                                                            <div class="search-bottom-text">배</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -338,11 +338,11 @@
                                         <th style="width: 5%;">사진</th>
                                         <th style="width: 15%;">주소</th>
                                         <th style="width: 5%;">진행단계</th>
+                                        <th style="width: 5%;">평당금액&nbsp;/<br/>공시지가</th>
                                         <th style="width: 15%;">용도</th>
-                                        <th class="text-center" style="width: 15%;">금액</th>
+                                        <th style="width: 15%;">금액</th>
                                         <th style="width: 5%;">수익</th>
-                                        <th style="width: 15%;">면적</th>
-<!--                                        <th style="width: 5%;">도로너비</th>-->
+                                        <th style="width: 10%;">면적</th>
                                         <th style="width: 10%;">담당자</th>
                                         <th style="width: 10%;">등록일</th>
                                     </tr>
@@ -379,8 +379,13 @@
                                             </th:block>
                                         </td>
                                         <td>
+                                            <th:block th:if="${item.landPriceDiff > 0}">
+                                                [[${item.landPriceDiff}]] 배
+                                            </th:block>
+                                        </td>
+                                        <td>
                                             <th:block th:if="${not #lists.isEmpty(item.usageCdNames)}" th:each="usageName, status : ${item.usageCdNames}">
-                                                <button type="button" class="btn btn-xs btn-default">[[${usageName}]]</button>
+                                                <button type="button" class="btn btn-xs btn-default margin-top-3">[[${usageName}]]</button>
                                             </th:block>
                                         </td>
                                         <td>

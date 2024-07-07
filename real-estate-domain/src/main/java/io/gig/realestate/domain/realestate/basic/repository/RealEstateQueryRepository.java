@@ -423,6 +423,14 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenLandPriceDiff(Double minLandPriceDiff, Double maxLandPriceDiff) {
+        if (minLandPriceDiff == null || maxLandPriceDiff == null || minLandPriceDiff < 0 || maxLandPriceDiff <= 0 || maxLandPriceDiff < minLandPriceDiff) {
+            return null;
+        }
+
+        return realEstate.landPriceDiff.between(minLandPriceDiff, maxLandPriceDiff);
+    }
+
 
     private BooleanExpression likeCustomerName(String customer) {
         if (!StringUtils.hasText(customer)) {
@@ -513,7 +521,8 @@ public class RealEstateQueryRepository {
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
-        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
+        where.and(betweenLandPriceDiff(searchDto.getMinLandPriceDiff(), searchDto.getMaxLandPriceDiff()));
+//        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
         return where;
     }
 }
