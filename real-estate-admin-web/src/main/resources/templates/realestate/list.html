@@ -116,11 +116,16 @@
                                             </td>
                                             <td colspan="2">
                                                 <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">용도지역</div>
+                                                    <label for="prposArea1Nm" class="top-label">
+                                                        <div class="search-text">전속</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" name="prposArea1Nm" class="form-control search-input" th:value="${condition.prposArea1Nm}">
+                                                <select id="exclusiveCds" class="form-control form-control-sm custom-select margin-top-35 border-none search-input" name="exclusiveCds">
+                                                    <option value="">선택</option>
+                                                    <th:block th:if="${not #lists.isEmpty(exclusiveCds)}" th:each="code: ${exclusiveCds}">
+                                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(condition.exclusiveCds) && #strings.contains(condition.exclusiveCds, code.code)}" th:text="${code.name}"></option>
+                                                    </th:block>
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
@@ -142,11 +147,11 @@
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
-                                                    <label for="team" class="top-label">
-                                                        <div class="search-text">팀</div>
+                                                    <label for="prposArea1Nm" class="top-label">
+                                                        <div class="search-text">용도지역</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="team" name="team" class="form-control search-input" th:value="${condition.team}">
+                                                <input type="text" id="prposArea1Nm" name="prposArea1Nm" class="form-control search-input" th:value="${condition.prposArea1Nm}">
                                             </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
@@ -254,23 +259,6 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="minGrossFloorArea" class="top-label">
-                                                            <div class="search-text">&nbsp;</div>
-                                                        </label>
-                                                    </div>
-                                                    <input type="text" class="form-control search-input center-align">
-                                                    <div class="input-div"><span>~</span></div>
-                                                    <input type="text" class="form-control search-input center-align">
-                                                    <div class="input-label">
-                                                        <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-bottom-text">평</div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td colspan="2" class="search-double-group">
-                                                <div class="display-flex-row search-double-field">
-                                                    <div class="input-label">
                                                         <label for="minLandPriceDiff" class="top-label">
                                                             <div class="search-text">평당금액 / 공시지가</div>
                                                         </label>
@@ -281,6 +269,23 @@
                                                     <div class="input-label">
                                                         <label for="maxLandPriceDiff" class="bottom-label">
                                                             <div class="search-bottom-text">배</div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minGrossFloorArea" class="top-label">
+                                                            <div class="search-text">&nbsp;</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" class="form-control search-input center-align">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" class="form-control search-input center-align">
+                                                    <div class="input-label">
+                                                        <label for="maxGrossFloorArea" class="bottom-label">
+                                                            <div class="search-bottom-text">평</div>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -484,7 +489,7 @@
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
-                                        <td class="text-center" colspan="11">등록된 매물이 없습니다.</td>
+                                        <td class="text-center" colspan="12">등록된 매물이 없습니다.</td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -30,6 +30,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private String realEstateGradeCds;
 
+    private String exclusiveCds;
+
     private String address;
 
     private String name;

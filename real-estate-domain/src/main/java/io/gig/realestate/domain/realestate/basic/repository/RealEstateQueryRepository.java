@@ -269,6 +269,10 @@ public class RealEstateQueryRepository {
         return StringUtils.hasText(realEstateGradeCds) ? realEstate.realEstateGradeCds.eq(realEstateGradeCds) : null;
     }
 
+    private BooleanExpression eqExclusiveCds(String exclusiveCds) {
+        return StringUtils.hasText(exclusiveCds) ? realEstate.exclusiveCds.eq(exclusiveCds) : null;
+    }
+
     private BooleanExpression likeBuildingName(String buildingName) {
         return StringUtils.hasText(buildingName) ? realEstate.buildingName.like("%" + buildingName + "%") : null;
     }
@@ -544,6 +548,7 @@ public class RealEstateQueryRepository {
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
         where.and(eqRealEstateGradeCds(searchDto.getRealEstateGradeCds()));
+        where.and(eqExclusiveCds(searchDto.getExclusiveCds()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
         where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
         where.and(betweenGuaranteePrice(searchDto.getMinGuaranteePrice(), searchDto.getMaxGuaranteePrice()));
@@ -561,6 +566,8 @@ public class RealEstateQueryRepository {
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
         where.and(betweenLandPriceDiff(searchDto.getMinLandPriceDiff(), searchDto.getMaxLandPriceDiff()));
+
+        // exclusiveCds
 //        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
         return where;
     }
