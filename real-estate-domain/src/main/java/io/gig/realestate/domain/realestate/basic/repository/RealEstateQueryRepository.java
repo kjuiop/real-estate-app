@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -445,6 +446,22 @@ public class RealEstateQueryRepository {
         return realEstate.landPriceDiff.between(minLandPriceDiff, maxLandPriceDiff);
     }
 
+    private BooleanExpression betweenYearBuiltAt(LocalDate minYearBuiltAt, LocalDate maxYearBuiltAt) {
+        if (minYearBuiltAt == null || maxYearBuiltAt == null) {
+            return null;
+        }
+
+        return realEstate.yearBuiltAt.between(minYearBuiltAt, maxYearBuiltAt);
+    }
+
+    private BooleanExpression betweenRemodelingAt(LocalDate minRemodelingAt, LocalDate maxRemodelingAt) {
+        if (minRemodelingAt == null || maxRemodelingAt == null) {
+            return null;
+        }
+
+        return realEstate.remodelingAt.between(minRemodelingAt, maxRemodelingAt);
+    }
+
 
     private BooleanExpression likeCustomerName(String customer) {
         if (!StringUtils.hasText(customer)) {
@@ -533,6 +550,9 @@ public class RealEstateQueryRepository {
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
         where.and(betweenTotAreaByPyung(searchDto.getMinTotAreaByPyung(), searchDto.getMaxTotAreaByPyung()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
+        where.and(betweenYearBuiltAt(searchDto.getMinYearBuiltAt(), searchDto.getMaxYearBuiltAt()));
+        where.and(betweenRemodelingAt(searchDto.getMinRemodelingAt(), searchDto.getMaxRemodelingAt()));
+
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
         where.and(betweenLandPriceDiff(searchDto.getMinLandPriceDiff(), searchDto.getMaxLandPriceDiff()));

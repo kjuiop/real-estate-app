@@ -75,6 +75,132 @@ function singleDateRangePickerInit(options) {
     });
 }
 
+function multiDateRangePickerInit(options) {
+    if (typeof (options) != "object") {
+        return false;
+    }
+
+    var target;
+    if (typeof (options.targetId) === "string") {
+        target = $("#" + options.targetId);
+    } else if (typeof (options.target) === "object") {
+        target = options.target;
+    } else {
+        return false;
+    }
+
+    var st_dt;
+    var en_dt;
+    if (typeof (options.startName) === "string") {
+        st_dt = $("input[name='" + options.startName + "']");
+    } else if (typeof (options.startTarget) === "object") {
+        st_dt = options.startTarget;
+    } else {
+        return false;
+    }
+
+    if (typeof (options.endName) === "string") {
+        en_dt = $("input[name='" + options.endName + "']");
+    } else if (typeof (options.endTarget) === "object") {
+        en_dt = options.endTarget;
+    } else {
+        return false;
+    }
+
+    var yearCheck = false;
+    var now = moment();
+    if (typeof (options.year) === "string") {
+        yearCheck = true;
+        now = moment().set('year', options.year);
+    }
+
+    //Date range picker init
+    target.daterangepicker({
+        startDate: now,
+        endDate: now,
+        timePicker12Hour: false,
+        format: 'YYYY-MM-DD',
+        showDropdowns: true,
+        showWeekNumbers: false,
+        opens: 'right',
+        locale: {
+            applyLabel: 'Save',
+            cancelLabel: 'Reset',
+            fromLabel: 'From',
+            toLabel: 'To',
+            daysOfWeek: ['일', '월', '화', '수', '목', '금', '토'],
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            firstDay: 1
+        },
+        autoUpdateInput: true
+    });
+
+    /** ORIGINAL.
+     var setShowDateRange = function () {
+		var startDate = target.data('daterangepicker').startDate.format('DD/MM/YYYY');
+		var endDate = target.data('daterangepicker').endDate.format('DD/MM/YYYY');
+		var startDateTime = target.data('daterangepicker').startDate.format('YYYY-MM-DDT00:00:00');
+		var endDateTime = target.data('daterangepicker').endDate.format('YYYY-MM-DDT23:59:59');
+		target.val(startDate + " ~ " + endDate);
+		st_dt.val(startDateTime);
+		en_dt.val(endDateTime);
+	};
+     **/
+
+    //init search date start / end
+    /** ORIGINAL
+     if (st_dt.val().length > 0 && en_dt.val().length > 0) {
+		if (yearCheck) {
+			target.data("daterangepicker").setStartDate(moment(st_dt.val(), "DD/MM/YYYY").set('year', options.year));
+			target.data("daterangepicker").setEndDate(moment(en_dt.val(), "DD/MM/YYYY").set('year', options.year));
+		} else {
+			target.data("daterangepicker").setStartDate(moment(st_dt.val(), "DD/MM/YYYY"));
+			target.data("daterangepicker").setEndDate(moment(en_dt.val(), "DD/MM/YYYY"));
+		}
+
+		setShowDateRange();
+	} else {
+		target.val('');
+	}
+     **/
+
+    var setShowDateRange = function () {
+        var startDate = target.data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var endDate = target.data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var startDateTime = target.data('daterangepicker').startDate.format('YYYY-MM-DDT00:00:00');
+        var endDateTime = target.data('daterangepicker').endDate.format('YYYY-MM-DDT23:59:59');
+        target.val(startDate + " ~ " + endDate);
+        st_dt.val(startDate);
+        en_dt.val(endDate);
+    };
+
+    if (st_dt.val().length > 0 && en_dt.val().length > 0) {
+        target.data("daterangepicker").setStartDate(moment(st_dt.val(), "YYYY-MM-DD"));
+        target.data("daterangepicker").setEndDate(moment(en_dt.val(), "YYYY-MM-DD"));
+
+        setShowDateRange();
+    } else {
+        target.val('');
+    }
+
+    //date range picker apply event
+    target.on('apply.daterangepicker', function (e, picker) {
+        setShowDateRange();
+    });
+
+    //date range picker cancel event
+    target.on('cancel.daterangepicker', function (e, picker) {
+        $(this).val('');
+        st_dt.val('');
+        en_dt.val('');
+    });
+
+    target.on('hide.daterangepicker', function (e, picker) {
+        setShowDateRange();
+    });
+};
+
+
 function singleDateRangePickerWithTimeInit(options) {
     if (typeof (options) != "object") {
         return false;

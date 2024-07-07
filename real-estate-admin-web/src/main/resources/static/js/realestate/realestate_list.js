@@ -2,12 +2,26 @@ let preventDoubleEnter = false;
 
 let onReady = function() {
     console.log("condition", condition);
+    initDate();
 };
+
+let initDate = function() {
+
+    multiDateRangePickerInit({
+        targetId: 'targetYearBuiltAt',
+        startName: 'minYearBuiltAt',
+        endName: 'maxYearBuiltAt'
+    });
+
+    multiDateRangePickerInit({
+        targetId: 'targetRemodelingAt',
+        startName: 'minRemodelingAt',
+        endName: 'maxRemodelingAt'
+    });
+}
 
 let search = function(e) {
     e.preventDefault();
-
-    console.log("preventDoubleEnter", preventDoubleEnter);
 
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());

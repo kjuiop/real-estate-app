@@ -203,19 +203,23 @@
                                         <tr>
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
-                                                    <label for="realEstateId" class="top-label">
+                                                    <label for="targetYearBuiltAt" class="top-label">
                                                         <div class="search-text">신축년도</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="realEstateId" name="realEstateId" class="form-control" th:value="${condition.realEstateId}">
+                                                <input type="text" id="targetYearBuiltAt" class="form-control" autocomplete="off">
+                                                <input type="hidden" name="minYearBuiltAt" th:value="${condition.minYearBuiltAt}"/>
+                                                <input type="hidden" name="maxYearBuiltAt" th:value="${condition.maxYearBuiltAt}"/>
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
-                                                    <label for="owner" class="top-label">
+                                                    <label for="targetRemodelingAt" class="top-label">
                                                         <div class="search-text">리모델링년도</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="owner" name="customer" class="form-control" th:value="${condition.customer}">
+                                                <input type="text" id="targetRemodelingAt" class="form-control" autocomplete="off">
+                                                <input type="hidden" name="minRemodelingAt" th:value="${condition.minRemodelingAt}"/>
+                                                <input type="hidden" name="maxRemodelingAt" th:value="${condition.maxRemodelingAt}"/>
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">

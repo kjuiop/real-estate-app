@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.basic;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.gig.realestate.domain.common.BaseSearchDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
@@ -8,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +119,22 @@ public class RealEstateSearchDto extends BaseSearchDto {
     private YnType rYn;
 
     private YnType abYn;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate minYearBuiltAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate maxYearBuiltAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate minRemodelingAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate maxRemodelingAt;
 
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
