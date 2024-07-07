@@ -94,7 +94,12 @@ public class RealEstateServiceImpl implements RealEstateService {
     public Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto) {
         List<Long> searchIds = realEstateReader.getRealEstateIdsBySearch(searchDto);
         searchIdsMap.put(sessionId, searchIds);
-        return realEstateReader.getRealEstatePageListBySearch(searchDto);
+
+        Page<RealEstateListDto> content = realEstateReader.getRealEstatePageListBySearch(searchDto);
+        for (RealEstateListDto dto : content) {
+            dto.setUsageCds(convertCdToNames(dto.getUsageCds()));
+        }
+        return content;
     }
 
     @Override
@@ -812,6 +817,18 @@ public class RealEstateServiceImpl implements RealEstateService {
             return false;  // 숫자로 변환할 수 없는 경우
         }
         return true;
+    }
+
+    private List<String> convertCdToNames(String code) {
+        if (!StringUtils.hasText(code)) {
+            return new ArrayList<>();
+        }
+        List<String> names = new ArrayList<>();
+        String[] arrays = code.split(",");
+        for (String str : arrays) {
+            names.add(categoryService.getCategoryNameByCode(str));
+        }
+        return names;
     }
 
 }

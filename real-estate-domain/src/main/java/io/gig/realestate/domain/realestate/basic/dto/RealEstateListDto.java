@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/09/20
@@ -24,6 +26,8 @@ public class RealEstateListDto extends RealEstateDto {
     public double totAreaByPyung;
     public double archAreaByPyung;
     public Long realEstateId;
+
+    public List<String> usageCdNames;
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -65,5 +69,9 @@ public class RealEstateListDto extends RealEstateDto {
             this.lndpclAr = lndpclAr;
             this.lndpclArByPyung = lndpclArPy;
         }
+    }
+
+    public void setUsageCds(List<String> usageCdNames) {
+        this.usageCdNames = usageCdNames;
     }
 }

@@ -27,6 +27,7 @@
                             <input type="hidden" name="page" th:value="${condition.page}" />
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processTypeCds" />
+                            <input type="hidden" name="usageCds" />
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -51,7 +52,7 @@
                                                     <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Pending) ? 'btn-primary selected' : 'btn-default'}" code="Pending">보류</button>
                                                     <button type="button" class="btn btn-sm text-right btnProcessType btnCode" th:classappend="${#arrays.contains(condition.processTypeCds, ProcessType.Sell) ? 'btn-primary selected' : 'btn-default'}" code="Sell">매각</button>
                                                 </div>
-                                                <div class="pull-right selected-button-checkbox-section">
+                                                <div class="pull-right selected-button-checkbox-section usageUnitSection">
                                                     <button type="button" class="btn btn-sm text-right purposeCds text-center btnAllSelect selected" th:classappend="${#strings.isEmpty(condition.usageCds) ? 'btn-primary' : 'btn-default'}" style="width: 50px;">전체</button>
                                                     <th:block th:each="code, status : ${usageCds}">
                                                         <button type="button" class="btn btn-sm btnCode" th:classappend="${(not #strings.isEmpty(condition.usageCds) && #strings.contains(condition.usageCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}">[[${code.name}]]</button>
@@ -337,11 +338,11 @@
                                         <th style="width: 5%;">사진</th>
                                         <th style="width: 15%;">주소</th>
                                         <th style="width: 5%;">진행단계</th>
-                                        <th style="width: 10%;">용도</th>
+                                        <th style="width: 15%;">용도</th>
                                         <th class="text-center" style="width: 15%;">금액</th>
                                         <th style="width: 5%;">수익</th>
                                         <th style="width: 15%;">면적</th>
-                                        <th style="width: 5%;">도로너비</th>
+<!--                                        <th style="width: 5%;">도로너비</th>-->
                                         <th style="width: 10%;">담당자</th>
                                         <th style="width: 10%;">등록일</th>
                                     </tr>
@@ -377,7 +378,11 @@
                                                 [[${item.processType.description}]]
                                             </th:block>
                                         </td>
-                                        <td th:text="${item.usageType != null ? item.usageType.name : ''}"></td>
+                                        <td>
+                                            <th:block th:if="${not #lists.isEmpty(item.usageCdNames)}" th:each="usageName, status : ${item.usageCdNames}">
+                                                <button type="button" class="btn btn-xs btn-default">[[${usageName}]]</button>
+                                            </th:block>
+                                        </td>
                                         <td>
                                             <th:block th:if="${item.salePrice > 0}">
                                                 <div class="row" th:if="${item.salePrice > 0}">
@@ -454,7 +459,7 @@
                                                 </th:block>
                                             </th:block>
                                         </td>
-                                        <td class="text-alien-center" th:text="${item.roadWidth > 0 ? item.roadWidth + 'm' : ''}"></td>
+<!--                                        <td class="text-alien-center" th:text="${item.roadWidth > 0 ? item.roadWidth + 'm' : ''}"></td>-->
                                         <td th:text="${item.managerName}"></td>
                                         <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>

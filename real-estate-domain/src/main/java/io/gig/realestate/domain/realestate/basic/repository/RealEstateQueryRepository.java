@@ -462,6 +462,24 @@ public class RealEstateQueryRepository {
         return realEstate.processType.in(processTypeCds);
     }
 
+//    private BooleanExpression likeUsageCds(String usageCds) {
+//        if (!StringUtils.hasText(usageCds)) {
+//            return null;
+//        }
+//
+//        BooleanExpression predicate = null;
+//        String[] array = usageCds.split(",");
+//        for (String str : array) {
+//            if (predicate == null) {
+//                predicate = realEstate.usageCds.like("%" + str + "%");
+//            } else {
+//                predicate = predicate.or(realEstate.usageCds.like("%" + str + "%"));
+//            }
+//        }
+//
+//        return predicate;
+//    }
+
     private BooleanExpression likeAddress(String address) {
         return StringUtils.hasText(address) ? realEstate.address.like("%" + address + "%") : null;
     }
