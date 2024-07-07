@@ -97,7 +97,8 @@ public class RealEstateServiceImpl implements RealEstateService {
 
         Page<RealEstateListDto> content = realEstateReader.getRealEstatePageListBySearch(searchDto);
         for (RealEstateListDto dto : content) {
-            dto.setUsageCds(convertCdToNames(dto.getUsageCds()));
+            dto.setUsageCdNames(convertCdToNames(dto.getUsageCds()));
+            dto.setRealEstateGradeName(convertCdToName(dto.getRealEstateGradeCds()));
         }
         return content;
     }
@@ -829,6 +830,13 @@ public class RealEstateServiceImpl implements RealEstateService {
             names.add(categoryService.getCategoryNameByCode(str));
         }
         return names;
+    }
+
+    private String convertCdToName(String code) {
+        if (!StringUtils.hasText(code)) {
+            return "";
+        }
+        return categoryService.getCategoryNameByCode(code);
     }
 
 }

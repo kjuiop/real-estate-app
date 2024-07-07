@@ -28,6 +28,7 @@ public class RealEstateListDto extends RealEstateDto {
     public Long realEstateId;
 
     public List<String> usageCdNames;
+    public String realEstateGradeName;
 
     public RealEstateListDto(RealEstate r) {
         super(r);
@@ -71,7 +72,11 @@ public class RealEstateListDto extends RealEstateDto {
         }
     }
 
-    public void setUsageCds(List<String> usageCdNames) {
+    public void setUsageCdNames(List<String> usageCdNames) {
         this.usageCdNames = usageCdNames;
+    }
+
+    public void setRealEstateGradeName(String realEstateGradeName) {
+        this.realEstateGradeName = realEstateGradeName;
     }
 }
