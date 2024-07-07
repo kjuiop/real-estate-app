@@ -223,11 +223,16 @@
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
-                                                    <label for="phone" class="top-label">
+                                                    <label for="realEstateGradeCds" class="top-label">
                                                         <div class="search-text">매물등급</div>
                                                     </label>
                                                 </div>
-                                                <input type="text" id="phone" name="phone" class="form-control" th:value="${condition.phone}">
+                                                <select id="realEstateGradeCds" class="form-control form-control-sm custom-select margin-top-35 border-none" name="realEstateGradeCds">
+                                                    <option value="">선택</option>
+                                                    <th:block th:if="${not #lists.isEmpty(realEstateGradeCds)}" th:each="code: ${realEstateGradeCds}">
+                                                        <option th:value="${code.code}" th:selected="${not #strings.isEmpty(condition.realEstateGradeCds) && #strings.contains(condition.realEstateGradeCds, code.code)}" th:text="${code.name}"></option>
+                                                    </th:block>
+                                                </select>
                                             </td>
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">

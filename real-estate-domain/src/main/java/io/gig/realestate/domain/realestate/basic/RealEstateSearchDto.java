@@ -28,6 +28,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private List<ProcessType> processTypeCds = new ArrayList<>();
 
+    private String realEstateGradeCds;
+
     private String address;
 
     private String name;

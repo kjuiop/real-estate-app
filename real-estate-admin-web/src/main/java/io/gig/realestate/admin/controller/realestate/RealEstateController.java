@@ -70,6 +70,7 @@ public class RealEstateController {
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
         model.addAttribute("condition", searchDto);
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
         if (pages != null) {
             model.addAttribute("pages", pages);
             model.addAttribute("totalCount", pages.getTotalElements());

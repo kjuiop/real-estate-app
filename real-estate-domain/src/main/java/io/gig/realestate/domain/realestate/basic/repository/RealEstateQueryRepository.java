@@ -265,6 +265,10 @@ public class RealEstateQueryRepository {
         return predicate;
     }
 
+    private BooleanExpression eqRealEstateGradeCds(String realEstateGradeCds) {
+        return StringUtils.hasText(realEstateGradeCds) ? realEstate.realEstateGradeCds.eq(realEstateGradeCds) : null;
+    }
+
     private BooleanExpression likeBuildingName(String buildingName) {
         return StringUtils.hasText(buildingName) ? realEstate.buildingName.like("%" + buildingName + "%") : null;
     }
@@ -539,6 +543,7 @@ public class RealEstateQueryRepository {
         where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
+        where.and(eqRealEstateGradeCds(searchDto.getRealEstateGradeCds()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
         where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
         where.and(betweenGuaranteePrice(searchDto.getMinGuaranteePrice(), searchDto.getMaxGuaranteePrice()));
