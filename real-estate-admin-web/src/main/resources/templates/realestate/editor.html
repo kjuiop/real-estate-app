@@ -140,12 +140,46 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">취득일</label>
-                                        <input type="text" class="form-control form-control-sm" name="acquiredAt" th:value="${dto.acquiredAt}" />
-                                    </div>
-                                    <div class="col-md-4 display-flex-column">
                                         <label class="text-label">토지평당금액/토지공시지가</label>
                                         <input type="text" class="form-control form-control-sm" name="landPriceDiff" th:value="${dto.landPriceDiff}" />
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">&nbsp;</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12 line">
+                                <div class="display-flex-row">
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">신축년도</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                            <input type="hidden" class="form-control" name="yearBuiltAt" th:value="${dto.yearBuiltAt != null} ? ${dto.yearBuiltAt} : ''">
+                                            <input type="text" class="form-control" id="targetYearBuiltAt" maxlength="50" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">리모델링년도</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                            <input type="hidden" class="form-control" name="remodelingAt" th:value="${dto.remodelingAt != null} ? ${dto.remodelingAt} : ''">
+                                            <input type="text" class="form-control" id="targetRemodelingAt" maxlength="50" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">취득일</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                            <input type="hidden" class="form-control" name="acquiredAt" th:value="${dto.acquiredAt != null} ? ${dto.acquiredAt} : ''">
+                                            <input type="text" class="form-control" id="targetAcquiredAt" maxlength="50" autocomplete="off" readonly>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

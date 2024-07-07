@@ -127,7 +127,7 @@
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
                                                     <label for="buildingName" class="top-label">
-                                                        <div class="search-text">물건명</div>
+                                                        <div class="search-text">건물명</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" id="buildingName" name="buildingName" class="form-control search-input" th:value="${condition.buildingName}">
@@ -168,25 +168,8 @@
                                             <td colspan="2" class="search-double-group">
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
-                                                        <label for="minArchAreaByPyung" class="top-label">
-                                                            <div class="search-text">건축면적</div>
-                                                        </label>
-                                                    </div>
-                                                    <input type="text" id="minArchAreaByPyung" name="minArchAreaByPyung" class="form-control search-input center-align" th:value="${condition.minArchAreaByPyung > 0 ? condition.minArchAreaByPyung : ''}">
-                                                    <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxArchAreaByPyung" name="maxArchAreaByPyung" class="form-control search-input center-align" th:value="${condition.maxArchAreaByPyung > 0 ? condition.maxArchAreaByPyung : ''}">
-                                                    <div class="input-label">
-                                                        <label for="maxArchAreaByPyung" class="bottom-label">
-                                                            <div class="search-bottom-text">평</div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td colspan="2" class="search-double-group">
-                                                <div class="display-flex-row search-double-field">
-                                                    <div class="input-label">
                                                         <label for="minSiteArea" class="top-label">
-                                                            <div class="search-text">대지</div>
+                                                            <div class="search-text">대지면적</div>
                                                         </label>
                                                     </div>
                                                     <input type="text" id="minSiteArea" name="minLndpclArByPyung" class="form-control search-input center-align" th:value="${condition.minLndpclArByPyung > 0 ? condition.minLndpclArByPyung : ''}">
@@ -199,12 +182,29 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td colspan="2" class="search-double-group">
+                                                <div class="display-flex-row search-double-field">
+                                                    <div class="input-label">
+                                                        <label for="minGrossFloorArea" class="top-label">
+                                                            <div class="search-text">연면적</div>
+                                                        </label>
+                                                    </div>
+                                                    <input type="text" id="minGrossFloorArea" name="minTotAreaByPyung" class="form-control search-input center-align" th:value="${condition.minTotAreaByPyung > 0 ? condition.minTotAreaByPyung : ''}">
+                                                    <div class="input-div"><span>~</span></div>
+                                                    <input type="text" id="maxGrossFloorArea" name="maxTotAreaByPyung" class="form-control search-input center-align" th:value="${condition.maxTotAreaByPyung > 0 ? condition.maxTotAreaByPyung : ''}">
+                                                    <div class="input-label">
+                                                        <label for="maxGrossFloorArea" class="bottom-label">
+                                                            <div class="search-bottom-text">평</div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="1" style="position: relative;">
                                                 <div class="input-label">
                                                     <label for="realEstateId" class="top-label">
-                                                        <div class="search-text">물건번호</div>
+                                                        <div class="search-text">신축년도</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" id="realEstateId" name="realEstateId" class="form-control" th:value="${condition.realEstateId}">
@@ -212,7 +212,7 @@
                                             <td colspan="1">
                                                 <div class="input-label">
                                                     <label for="owner" class="top-label">
-                                                        <div class="search-text">소유자</div>
+                                                        <div class="search-text">리모델링년도</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" id="owner" name="customer" class="form-control" th:value="${condition.customer}">
@@ -220,7 +220,7 @@
                                             <td colspan="1">
                                                 <div class="input-label">
                                                     <label for="phone" class="top-label">
-                                                        <div class="search-text">연락처</div>
+                                                        <div class="search-text">매물등급</div>
                                                     </label>
                                                 </div>
                                                 <input type="text" id="phone" name="phone" class="form-control" th:value="${condition.phone}">
@@ -246,12 +246,12 @@
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
                                                         <label for="minGrossFloorArea" class="top-label">
-                                                            <div class="search-text">연면적</div>
+                                                            <div class="search-text">&nbsp;</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" id="minGrossFloorArea" name="minTotAreaByPyung" class="form-control search-input center-align" th:value="${condition.minTotAreaByPyung > 0 ? condition.minTotAreaByPyung : ''}">
+                                                    <input type="text" class="form-control search-input center-align">
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" id="maxGrossFloorArea" name="maxTotAreaByPyung" class="form-control search-input center-align" th:value="${condition.maxTotAreaByPyung > 0 ? condition.maxTotAreaByPyung : ''}">
+                                                    <input type="text" class="form-control search-input center-align">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
                                                             <div class="search-bottom-text">평</div>

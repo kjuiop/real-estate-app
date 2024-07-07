@@ -24,6 +24,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,11 @@ public class RealEstate extends BaseTimeEntity {
 
     private String tradingAt;
 
-    private String acquiredAt;
+    private LocalDate acquiredAt;
+
+    private LocalDate yearBuiltAt;
+
+    private LocalDate remodelingAt;
 
     private Double landPriceDiff;
 
@@ -244,6 +249,8 @@ public class RealEstate extends BaseTimeEntity {
                 .banAdvertisingYn(createForm.getBanAdvertisingYn())
                 .managerBy(manager)
                 .acquiredAt(createForm.getAcquiredAt())
+                .yearBuiltAt(createForm.getYearBuiltAt())
+                .remodelingAt(createForm.getRemodelingAt())
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
@@ -276,6 +283,8 @@ public class RealEstate extends BaseTimeEntity {
         this.addressDetail = updateForm.getAddressDetail();
         this.characterInfo = updateForm.getCharacterInfo();
         this.acquiredAt = updateForm.getAcquiredAt();
+        this.yearBuiltAt = updateForm.getYearBuiltAt();
+        this.remodelingAt = updateForm.getRemodelingAt();
         this.imgUrl = updateForm.getImgUrl();
         this.banAdvertisingYn = updateForm.getBanAdvertisingYn();
         this.landPriceDiff = updateForm.getLandPriceDiff();

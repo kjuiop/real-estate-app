@@ -13,6 +13,25 @@ let onReady = function() {
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     loadPrintInfo();
     onlyNumberKeyEvent({className: "only-number"});
+
+    initDate();
+}
+
+let initDate = function() {
+    singleDateRangePickerInit({
+        targetId: 'targetYearBuiltAt',
+        startName: 'yearBuiltAt'
+    });
+
+    singleDateRangePickerInit({
+        targetId: 'targetRemodelingAt',
+        startName: 'remodelingAt'
+    });
+
+    singleDateRangePickerInit({
+        targetId: 'targetAcquiredAt',
+        startName: 'acquiredAt'
+    });
 }
 
 let realEstateSave = function(e) {
