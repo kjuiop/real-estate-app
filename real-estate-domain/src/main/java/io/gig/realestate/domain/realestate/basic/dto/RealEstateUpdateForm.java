@@ -63,10 +63,6 @@ public class RealEstateUpdateForm {
 
     private ProcessType processType;
 
-    private YnType rYn;
-
-    private YnType abYn;
-
     private YnType banAdvertisingYn;
 
     private String characterInfo;

@@ -478,7 +478,6 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public Long updateRStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
-        realEstate.updateRStatus(updateForm.getRYn());
         String status = YnType.Y == updateForm.getRYn() ? "활성화" : "비활성화";
         String memo = "R 상태를 " + status + "하였습니다.";
         MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());
@@ -491,7 +490,6 @@ public class RealEstateServiceImpl implements RealEstateService {
     @Transactional
     public Long updateABStatus(StatusUpdateForm updateForm, LoginUser loginUser) {
         RealEstate realEstate = realEstateReader.getRealEstateById(updateForm.getRealEstateId());
-        realEstate.updateABStatus(updateForm.getAbYn());
         String status = YnType.Y == updateForm.getAbYn() ? "활성화" : "비활성화";
         String memo = "A-B 상태를 " + status + "하였습니다.";
         MemoInfo newMemo = MemoInfo.create(memo, realEstate, loginUser.getLoginUser());

@@ -91,16 +91,6 @@ public class RealEstate extends BaseTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType rYn = YnType.N;
-
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType abYn = YnType.N;
-
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
     private YnType deleteYn = YnType.N;
 
     @Builder.Default
@@ -313,14 +303,6 @@ public class RealEstate extends BaseTimeEntity {
 
     public void setPropertyType(Category propertyType) {
         this.propertyType = propertyType;
-    }
-
-    public void updateRStatus(YnType rYn) {
-        this.rYn = rYn;
-    }
-
-    public void updateABStatus(YnType abYn) {
-        this.abYn = abYn;
     }
 
     public void updateImageFullPath(String imageUrl) {

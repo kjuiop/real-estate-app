@@ -102,8 +102,6 @@ public class RealEstateDto {
         this.tradingAt = r.getTradingAt();
         this.acquiredAt = r.getAcquiredAt();
         this.processType = r.getProcessType();
-        this.rYn = r.getRYn();
-        this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
         this.realEstateGradeCds = r.getRealEstateGradeCds();
         this.buildingTypeCds = r.getBuildingTypeCds();
