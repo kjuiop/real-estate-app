@@ -63,7 +63,7 @@
                                         <tr>
                                             <td colspan="3">
                                                 <div class="input-label">
-                                                    <label for="team" class="top-label">
+                                                    <label class="top-label">
                                                         <div class="search-text">위치</div>
                                                     </label>
                                                 </div>
@@ -278,9 +278,11 @@
                                                             <div class="search-text">최종수정일</div>
                                                         </label>
                                                     </div>
-                                                    <input type="text" class="form-control search-input center-align">
+                                                    <input type="text" id="targetBeforeUpdatedAt" class="form-control search-input center-align">
+                                                    <input type="hidden" name="beforeUpdatedAt" th:value="${condition.beforeUpdatedAt}"/>
                                                     <div class="input-div"><span>~</span></div>
-                                                    <input type="text" class="form-control search-input center-align">
+                                                    <input type="text" id="targetAfterUpdatedAt" class="form-control search-input center-align">
+                                                    <input type="hidden" name="afterUpdatedAt" th:value="${condition.afterUpdatedAt}"/>
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
                                                             <div class="search-bottom-text">&nbsp;</div>
@@ -357,7 +359,7 @@
                                         <th style="width: 5%;">수익</th>
                                         <th style="width: 10%;">면적</th>
                                         <th style="width: 5%;">담당자</th>
-                                        <th style="width: 10%;">등록일</th>
+                                        <th style="width: 10%;">최종수정일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -484,7 +486,7 @@
                                         </td>
 <!--                                        <td class="text-alien-center" th:text="${item.roadWidth > 0 ? item.roadWidth + 'm' : ''}"></td>-->
                                         <td th:text="${item.managerName}"></td>
-                                        <td th:text="${#temporals.format(item.createdAt, 'YYYY-MM-dd HH:mm')}"></td>
+                                        <td th:text="${#temporals.format(item.updatedAt, 'YYYY-MM-dd HH:mm')}"></td>
                                     </tr>
                                     <tr th:unless="${not #lists.isEmpty(pages.content)}">
                                         <td class="text-center" colspan="12">등록된 매물이 없습니다.</td>

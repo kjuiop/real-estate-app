@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -470,6 +471,14 @@ public class RealEstateQueryRepository {
         return realEstate.remodelingAt.after(afterRemodelingAt);
     }
 
+    private BooleanExpression betweenUpdatedAt(LocalDateTime beforeUpdatedAt, LocalDateTime afterUpdatedAt) {
+        if (beforeUpdatedAt == null || afterUpdatedAt == null) {
+            return null;
+        }
+
+        return realEstate.updatedAt.between(beforeUpdatedAt, afterUpdatedAt);
+    }
+
 
     private BooleanExpression likeCustomerName(String customer) {
         if (!StringUtils.hasText(customer)) {
@@ -562,6 +571,7 @@ public class RealEstateQueryRepository {
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
         where.and(betweenYearBuiltAt(searchDto.getAfterYearBuiltAt()));
         where.and(betweenRemodelingAt(searchDto.getAfterRemodelingAt()));
+        where.and(betweenUpdatedAt(searchDto.getBeforeUpdatedAt(), searchDto.getAfterUpdatedAt()));
 
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));

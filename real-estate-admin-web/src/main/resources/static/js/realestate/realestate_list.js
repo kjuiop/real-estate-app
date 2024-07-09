@@ -16,6 +16,16 @@ let initDate = function() {
         targetId: 'targetRemodelingAt',
         startName: 'afterRemodelingAt'
     });
+
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetBeforeUpdatedAt',
+        startName: 'beforeUpdatedAt'
+    });
+
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetAfterUpdatedAt',
+        startName: 'afterUpdatedAt'
+    });
 }
 
 let search = function(e) {
