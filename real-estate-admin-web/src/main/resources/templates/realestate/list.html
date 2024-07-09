@@ -213,8 +213,7 @@
                                                     </label>
                                                 </div>
                                                 <input type="text" id="targetYearBuiltAt" class="form-control" autocomplete="off">
-                                                <input type="hidden" name="minYearBuiltAt" th:value="${condition.minYearBuiltAt}"/>
-                                                <input type="hidden" name="maxYearBuiltAt" th:value="${condition.maxYearBuiltAt}"/>
+                                                <input type="hidden" name="afterYearBuiltAt" th:value="${condition.afterYearBuiltAt}"/>
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -223,8 +222,7 @@
                                                     </label>
                                                 </div>
                                                 <input type="text" id="targetRemodelingAt" class="form-control" autocomplete="off">
-                                                <input type="hidden" name="minRemodelingAt" th:value="${condition.minRemodelingAt}"/>
-                                                <input type="hidden" name="maxRemodelingAt" th:value="${condition.maxRemodelingAt}"/>
+                                                <input type="hidden" name="afterRemodelingAt" th:value="${condition.afterRemodelingAt}"/>
                                             </td>
                                             <td colspan="1">
                                                 <div class="input-label">
@@ -277,7 +275,7 @@
                                                 <div class="display-flex-row search-double-field">
                                                     <div class="input-label">
                                                         <label for="minGrossFloorArea" class="top-label">
-                                                            <div class="search-text">&nbsp;</div>
+                                                            <div class="search-text">최종수정일</div>
                                                         </label>
                                                     </div>
                                                     <input type="text" class="form-control search-input center-align">
@@ -285,7 +283,7 @@
                                                     <input type="text" class="form-control search-input center-align">
                                                     <div class="input-label">
                                                         <label for="maxGrossFloorArea" class="bottom-label">
-                                                            <div class="search-bottom-text">평</div>
+                                                            <div class="search-bottom-text">&nbsp;</div>
                                                         </label>
                                                     </div>
                                                 </div>

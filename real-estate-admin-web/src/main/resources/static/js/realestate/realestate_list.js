@@ -7,16 +7,14 @@ let onReady = function() {
 
 let initDate = function() {
 
-    multiDateRangePickerInit({
+    singleDateRangePickerInit({
         targetId: 'targetYearBuiltAt',
-        startName: 'minYearBuiltAt',
-        endName: 'maxYearBuiltAt'
+        startName: 'afterYearBuiltAt'
     });
 
-    multiDateRangePickerInit({
+    singleDateRangePickerInit({
         targetId: 'targetRemodelingAt',
-        startName: 'minRemodelingAt',
-        endName: 'maxRemodelingAt'
+        startName: 'afterRemodelingAt'
     });
 }
 

@@ -454,20 +454,20 @@ public class RealEstateQueryRepository {
         return realEstate.landPriceDiff.between(minLandPriceDiff, maxLandPriceDiff);
     }
 
-    private BooleanExpression betweenYearBuiltAt(LocalDate minYearBuiltAt, LocalDate maxYearBuiltAt) {
-        if (minYearBuiltAt == null || maxYearBuiltAt == null) {
+    private BooleanExpression betweenYearBuiltAt(LocalDate afterYearBuiltAt) {
+        if (afterYearBuiltAt == null) {
             return null;
         }
 
-        return realEstate.yearBuiltAt.between(minYearBuiltAt, maxYearBuiltAt);
+        return realEstate.yearBuiltAt.after(afterYearBuiltAt);
     }
 
-    private BooleanExpression betweenRemodelingAt(LocalDate minRemodelingAt, LocalDate maxRemodelingAt) {
-        if (minRemodelingAt == null || maxRemodelingAt == null) {
+    private BooleanExpression betweenRemodelingAt(LocalDate afterRemodelingAt) {
+        if (afterRemodelingAt == null) {
             return null;
         }
 
-        return realEstate.remodelingAt.between(minRemodelingAt, maxRemodelingAt);
+        return realEstate.remodelingAt.after(afterRemodelingAt);
     }
 
 
@@ -560,8 +560,8 @@ public class RealEstateQueryRepository {
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
         where.and(betweenTotAreaByPyung(searchDto.getMinTotAreaByPyung(), searchDto.getMaxTotAreaByPyung()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
-        where.and(betweenYearBuiltAt(searchDto.getMinYearBuiltAt(), searchDto.getMaxYearBuiltAt()));
-        where.and(betweenRemodelingAt(searchDto.getMinRemodelingAt(), searchDto.getMaxRemodelingAt()));
+        where.and(betweenYearBuiltAt(searchDto.getAfterYearBuiltAt()));
+        where.and(betweenRemodelingAt(searchDto.getAfterRemodelingAt()));
 
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
