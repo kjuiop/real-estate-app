@@ -1,7 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -9,13 +8,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
-import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
-import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
-import io.gig.realestate.domain.realestate.land.QLandInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,8 +22,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static io.gig.realestate.domain.admin.QAdministrator.administrator;
-import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.category.QCategory.category;
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;

@@ -1,4 +1,4 @@
-package io.gig.realestate.domain.realestate.basic;
+package io.gig.realestate.domain.realestate.basic.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.gig.realestate.domain.common.BaseSearchDto;
