@@ -1,12 +1,17 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.ComparablePath;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
+import io.gig.realestate.domain.realestate.basic.QRealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
@@ -19,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +56,7 @@ public class RealEstateQueryRepository {
                 ))
                 .from(realEstate)
                 .where(where)
-                .orderBy(realEstate.createdAt.desc())
+                .orderBy(createOrderSpecifier(searchDto.getSortField()))
                 .limit(searchDto.getPageableWithSort().getPageSize())
                 .offset(searchDto.getPageableWithSort().getOffset());
 
@@ -572,5 +578,26 @@ public class RealEstateQueryRepository {
         // exclusiveCds
 //        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
         return where;
+    }
+
+    private OrderSpecifier createOrderSpecifier(String sortField) {
+
+        if (!StringUtils.hasText(sortField)) {
+            return new OrderSpecifier(Order.DESC, realEstate.createdAt);
+        }
+
+        if (sortField.equals("createdAt")) {
+            return new OrderSpecifier(Order.DESC, realEstate.createdAt);
+        }
+
+        if (sortField.equals("updatedAt")) {
+            return new OrderSpecifier(Order.DESC, realEstate.updatedAt);
+        }
+
+        if (sortField.equals("salePrice")) {
+            return new OrderSpecifier(Order.DESC, realEstate.salePrice);
+        }
+
+        return null;
     }
 }

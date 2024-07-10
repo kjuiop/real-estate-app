@@ -36,6 +36,7 @@ let search = function(e) {
     $frm.find("input[name='page']").val(0);
     $frm.find('input[name="processTypeCds"]').val(extractCodeArray($('.processUnitSection')));
     $frm.find('input[name="usageCds"]').val(extractCodeIdForSearch($('.usageUnitSection')));
+    $frm.find('input[name="sortField"]').val($('#sortField').val());
     $frm.submit();
 };
 
@@ -441,6 +442,7 @@ $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
     .on('change', '#limit', search)
+    .on('change', '#sortField', search)
     .on('click', '#btnSearch', search)
     .on('click', '#btnMoveRegister', moveRegister)
     .on('click', '.btnAllSelect', selectAllButtonForSearch)

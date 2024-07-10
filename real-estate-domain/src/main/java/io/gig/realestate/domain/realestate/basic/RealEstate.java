@@ -76,6 +76,8 @@ public class RealEstate extends BaseTimeEntity {
 
     private Double landPriceDiff;
 
+    private double salePrice;
+
     @Lob
     private String exclusiveCds;
 
@@ -241,6 +243,7 @@ public class RealEstate extends BaseTimeEntity {
                 .acquiredAt(createForm.getAcquiredAt())
                 .yearBuiltAt(createForm.getYearBuiltAt())
                 .remodelingAt(createForm.getRemodelingAt())
+                .salePrice(createForm.getPriceInfo() != null ? createForm.getPriceInfo().getSalePrice() : 0)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
@@ -278,6 +281,7 @@ public class RealEstate extends BaseTimeEntity {
         this.imgUrl = updateForm.getImgUrl();
         this.banAdvertisingYn = updateForm.getBanAdvertisingYn();
         this.landPriceDiff = updateForm.getLandPriceDiff();
+        this.salePrice = updateForm.getPriceInfo() != null ? updateForm.getPriceInfo().getSalePrice() : 0;
         this.managerBy = manager;
         this.updatedBy = loginUser;
     }
