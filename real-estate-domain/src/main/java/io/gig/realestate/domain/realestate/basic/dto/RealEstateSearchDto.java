@@ -121,6 +121,8 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Double maxLandPriceDiff;
 
+    private String sortField;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate afterYearBuiltAt;

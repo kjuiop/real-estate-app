@@ -28,6 +28,7 @@
                             <input type="hidden" name="size" th:value="${condition.size}" />
                             <input type="hidden" name="processTypeCds" />
                             <input type="hidden" name="usageCds" />
+                            <input type="hidden" name="sortField" />
                             <div class="row col-md-12" style="margin-bottom: 25px;">
                                 <h5 class="col-md-9 no-left-padding" style="font-size: 18px;"><i class="fa fa-building"></i> 매물관리</h5>
                                 <div class="col-md-3 pull-right">
@@ -330,7 +331,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">총</h4>(&nbsp;<span th:text="${totalCount}"></span>개&nbsp;)
-                            <div class="card-tools float-right">
+                            <div class="card-tools float-right display-flex-row">
+                                <select id="sortField" class="form-control margin-right-5 width-110">
+                                    <option value="createdAt" th:selected="${condition.sortField == 'createdAt'}">최신등록순</option>
+                                    <option value="updatedAt" th:selected="${condition.sortField == 'updatedAt'}">최신수정순</option>
+                                    <option value="salePrice" th:selected="${condition.sortField == 'salePrice'}">매매금액순</option>
+                                </select>
+
                                 <select class="form-control" id="limit">
                                     <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
                                     <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
