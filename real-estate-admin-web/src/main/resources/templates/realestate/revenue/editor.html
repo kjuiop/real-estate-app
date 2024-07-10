@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/realestate/revenue}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/node_modules/jquery-minicolors/jquery.minicolors.css" />
+    <style>
+        .container-fluid input {
+            height: 30px !important;
+            font-size: 12px;
+        }
+
+        .content * {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form class="form-horizontal" name="frmAdminRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">수익률정보 - 단순 수익률 (브리핑용_매매호가_비용제외)</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">이메일</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input type="text" id="username" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
+                                               required>
+                                        <div class="checkEmailSection"></div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form name="frmAdminRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">수익률정보 - 단순 수익률 (내부용_실제조정가_비용제외)</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">이메일</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
+                                               required>
+                                        <div class="checkEmailSection"></div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form class="form-horizontal" name="frmAdminRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">수익률정보 - 실제 수익률 (내부용_실제조정가_비용 및 이자, 수입 반영)</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">이메일</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
+                                               required>
+                                        <div class="checkEmailSection"></div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <form class="form-horizontal" name="frmAdminRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">매각가치 (실제수익률 및 향후 매년 % 기대수익으로 엑시트 이득 계산)</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">이메일</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
+                                               required>
+                                        <div class="checkEmailSection"></div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+    </script>
+</section>
+</body>
+</html>
