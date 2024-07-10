@@ -40,7 +40,7 @@
                     <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${isModify}">
-                    <a th:href="|/real-estate/${dto.realEstateId}/edit|" class="nav-link basicLink">매물기본정보</a>
+                    <a th:href="|/real-estate/${dto.realEstateId}/edit|" class="nav-link basicLink" style="font-weight: bold;">매물기본정보</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${isModify}">
                     <a th:href="|/real-estate/revenue/${dto.realEstateId}/edit|" class="nav-link revenueLink">수익률</a>

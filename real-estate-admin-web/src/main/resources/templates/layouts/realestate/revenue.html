@@ -43,7 +43,7 @@
                     <a th:href="|/real-estate/${dto.realEstateId}/edit|" class="nav-link basicLink">매물기본정보</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${isModify}">
-                    <a th:href="|/real-estate/revenue/${dto.realEstateId}/edit|" class="nav-link revenueLink">수익률</a>
+                    <a th:href="|/real-estate/revenue/${dto.realEstateId}/edit|" class="nav-link revenueLink" style="font-weight: bold;">수익률</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -74,6 +74,7 @@
                                 </a>
                             </th:block>
                         </div>
+                        <button type="button" class="btn btn-primary text-right margin-right-5 btnSave" th:if="${isModify}">일괄저장</button>
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>

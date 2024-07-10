@@ -609,3 +609,11 @@
 .word-box {
     white-space: normal;
 }
+
+.color-red {
+    color: red;
+}
+
+.color-blue {
+    color: blue;
+}

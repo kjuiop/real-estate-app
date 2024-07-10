@@ -27,23 +27,150 @@
                     <div class="card" style="margin-top: 10px;">
                         <form class="form-horizontal" name="frmAdminRegister" method="post">
                             <div class="card-header">
-                                <h3 class="card-title">수익률정보 - 단순 수익률 (브리핑용_매매호가_비용제외)</h3>
+                                <h3 class="card-title" style="font-weight: bold;">수익률정보 - 단순 수익률 (브리핑용_매매호가_비용제외)</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fa fa-minus"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
-                                    <div class="col-2">
-                                        <label for="username">이메일</label>
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-red">매매호가 (금액)</label>
                                     </div>
-                                    <div class="col-6 display-flex-column">
-                                        <input type="text" id="username" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
-                                               required>
-                                        <div class="checkEmailSection"></div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
                                     </div>
-                                    <div class="col-md-4"></div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">실제조정가 (금액)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">자기자본 (출자액)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-blue">단순 취득시 대출액 (B-D-E)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-red">보증금 (금액)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">중개수수료 (0.9%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">취득세 (4.6%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">법무사비+잡비 (0.2%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10">신축시 건물보존등기취득세 (3.16%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">대출금리</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-blue">단순1년대출이자</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-blue">단순1개월대출이자 (M/12)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-red">명도예상비</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">신축비 연면적평당 (1000만원)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">리모델링비 연면적평당 (600만원)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">철거비_연면적평당 (100만원)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">1년임대료 (T*12)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">1개월 임대료</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-blue">1년관리비(v*12)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20 color-red">1개월관리비</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary btn-sm btnSave float-right"><i class="fa fa-plus"></i> 저장</button>
                                 </div>
                             </div>
                         </form>
@@ -56,24 +183,13 @@
                     <div class="card" style="margin-top: 10px;">
                         <form name="frmAdminRegister" method="post">
                             <div class="card-header">
-                                <h3 class="card-title">수익률정보 - 단순 수익률 (내부용_실제조정가_비용제외)</h3>
+                                <h3 class="card-title" style="font-weight: bold;">수익률정보 - 단순 수익률 (내부용_실제조정가_비용제외)</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fa fa-minus"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
-                                    <div class="col-2">
-                                        <label for="username">이메일</label>
-                                    </div>
-                                    <div class="col-6 display-flex-column">
-                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
-                                               required>
-                                        <div class="checkEmailSection"></div>
-                                    </div>
-                                    <div class="col-md-4"></div>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -85,24 +201,13 @@
                     <div class="card" style="margin-top: 10px;">
                         <form class="form-horizontal" name="frmAdminRegister" method="post">
                             <div class="card-header">
-                                <h3 class="card-title">수익률정보 - 실제 수익률 (내부용_실제조정가_비용 및 이자, 수입 반영)</h3>
+                                <h3 class="card-title" style="font-weight: bold;">수익률정보 - 실제 수익률 (내부용_실제조정가_비용 및 이자, 수입 반영)</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fa fa-minus"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
-                                    <div class="col-2">
-                                        <label for="username">이메일</label>
-                                    </div>
-                                    <div class="col-6 display-flex-column">
-                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
-                                               required>
-                                        <div class="checkEmailSection"></div>
-                                    </div>
-                                    <div class="col-md-4"></div>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -114,23 +219,147 @@
                     <div class="card" style="margin-top: 10px;">
                         <form class="form-horizontal" name="frmAdminRegister" method="post">
                             <div class="card-header">
-                                <h3 class="card-title">매각가치 (실제수익률 및 향후 매년 % 기대수익으로 엑시트 이득 계산)</h3>
+                                <h3 class="card-title" style="font-weight: bold;">매각가치 (실제수익률 및 향후 매년 % 기대수익으로 엑시트 이득 계산)</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fa fa-minus"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="form-group col-md-12 display-flex-row checkDuplicate">
-                                    <div class="col-2">
-                                        <label for="username">이메일</label>
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">1년관리비수익(30%수익)(V*30%)</label>
                                     </div>
-                                    <div class="col-6 display-flex-column">
-                                        <input type="text" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
-                                               required>
-                                        <div class="checkEmailSection"></div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
                                     </div>
-                                    <div class="col-md-4"></div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 매년(1~5년차) 대출이자</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 1개월 대출이자</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 1년 예상 수입</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">신축 또는 수선시 1개월 예상 수입</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 매월 예상 수입</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 매년 임대 예상 수익금</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 임대 예상 수익률</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">1년후 부동산 예상 상승률(%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">2년 후 부동산 예상 상승률(%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">3년 후 부동산 예상 상승률(%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">4년 후 부동산 예상 상승률(%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">5년후 부동산 예상 상승률(%)</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">미래부동산 예상가격</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">미래부동산 예상가격 - 기재된 비용</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">미래부동산 예상가격 - 실제들어간 비용_매년비교된 금액 및 비율</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-1">
+                                        <label class="padding-left-10 color-blue">엑시트되었을 때의 매매금액 - 실제금액에서의 이득차액과 수익률</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">엑시트되었을 때의 매매금액 - 실제금액에서의 이득차액과 수익률_실제투자된 금액 기준</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">1~5년 후 예상 대출 금리</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="padding-left-20">신축 또는 수선시 예상연면적</label>
+                                    </div>
+                                    <div class="col-md-2 display-flex-column">
+                                        <input type="text" class="form-control valid-fields" />
+                                    </div>
                                 </div>
                             </div>
                         </form>
