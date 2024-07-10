@@ -2,7 +2,6 @@ package io.gig.realestate.domain.realestate.basic;
 
 import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.category.Category;
-import io.gig.realestate.domain.category.dto.CategoryDto;
 import io.gig.realestate.domain.common.BaseTimeEntity;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateCreateForm;
@@ -15,6 +14,7 @@ import io.gig.realestate.domain.realestate.image.ImageInfo;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 import io.gig.realestate.domain.realestate.landprice.LandPriceInfo;
 import io.gig.realestate.domain.realestate.landusage.LandUsageInfo;
+import io.gig.realestate.domain.realestate.manager.RealEstateManager;
 import io.gig.realestate.domain.realestate.memo.MemoInfo;
 import io.gig.realestate.domain.realestate.price.FloorPriceInfo;
 import io.gig.realestate.domain.realestate.price.PriceInfo;
@@ -24,6 +24,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,17 +68,25 @@ public class RealEstate extends BaseTimeEntity {
 
     private String tradingAt;
 
+    private LocalDate acquiredAt;
+
+    private LocalDate yearBuiltAt;
+
+    private LocalDate remodelingAt;
+
+    private Double landPriceDiff;
+
+    @Lob
     private String exclusiveCds;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType rYn = YnType.N;
+    @Lob
+    private String realEstateGradeCds;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    @Column(length = 2, columnDefinition = "char(1) default 'N'")
-    private YnType abYn = YnType.N;
+    @Lob
+    private String buildingTypeCds;
+
+    @Lob
+    private String usageCds;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -86,8 +95,13 @@ public class RealEstate extends BaseTimeEntity {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
+    @Column(length = 2, columnDefinition = "char(1) default 'N'")
+    private YnType banAdvertisingYn = YnType.N;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private ProcessType processType = ProcessType.Prepare;
+    private ProcessType processType = ProcessType.Working;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usage_type_id")
@@ -96,10 +110,6 @@ public class RealEstate extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_type_id")
     private Category propertyType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_by_id")
-    private Administrator manager;
 
     @Builder.Default
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -149,6 +159,10 @@ public class RealEstate extends BaseTimeEntity {
     @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<CurlTrafficLight> curlTrafficInfoList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "realEstate", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<RealEstateManager> managers = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id")
     private Administrator createdBy;
@@ -156,6 +170,10 @@ public class RealEstate extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private Administrator updatedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_by_id")
+    private Administrator managerBy;
 
     public void addLandInfo(LandInfo landInfo) {
         this.landInfoList.add(landInfo);
@@ -203,6 +221,9 @@ public class RealEstate extends BaseTimeEntity {
 
     public static RealEstate create(RealEstateCreateForm createForm, Administrator manager, Administrator createdBy) {
         return RealEstate.builder()
+                .buildingTypeCds(createForm.getBuildingTypeCds())
+                .realEstateGradeCds(createForm.getRealEstateGradeCds())
+                .usageCds(createForm.getUsageCds())
                 .exclusiveCds(createForm.getExclusiveCds())
                 .buildingName(createForm.getBuildingName())
                 .surroundInfo(createForm.getSurroundInfo())
@@ -214,9 +235,12 @@ public class RealEstate extends BaseTimeEntity {
                 .address(createForm.getAddress())
                 .addressDetail(createForm.getAddressDetail())
                 .characterInfo(createForm.getCharacterInfo())
-                .agentName(createForm.getAgentName())
-                .tradingAt(createForm.getTradingAt())
-                .manager(manager)
+                .landPriceDiff(createForm.getLandPriceDiff())
+                .banAdvertisingYn(createForm.getBanAdvertisingYn())
+                .managerBy(manager)
+                .acquiredAt(createForm.getAcquiredAt())
+                .yearBuiltAt(createForm.getYearBuiltAt())
+                .remodelingAt(createForm.getRemodelingAt())
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
                 .build();
@@ -235,20 +259,26 @@ public class RealEstate extends BaseTimeEntity {
                 .usageType(usageType)
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
-                .manager(loginUser)
+                .managerBy(loginUser)
                 .build();
     }
 
     public void update(RealEstateUpdateForm updateForm, Administrator manager, Administrator loginUser) {
+        this.buildingTypeCds = updateForm.getBuildingTypeCds();
+        this.realEstateGradeCds = updateForm.getRealEstateGradeCds();
+        this.usageCds = updateForm.getUsageCds();
         this.exclusiveCds = updateForm.getExclusiveCds();
         this.buildingName = updateForm.getBuildingName();
-        this.agentName = updateForm.getAgentName();
         this.surroundInfo = updateForm.getSurroundInfo();
         this.addressDetail = updateForm.getAddressDetail();
         this.characterInfo = updateForm.getCharacterInfo();
-        this.tradingAt = updateForm.getTradingAt();
+        this.acquiredAt = updateForm.getAcquiredAt();
+        this.yearBuiltAt = updateForm.getYearBuiltAt();
+        this.remodelingAt = updateForm.getRemodelingAt();
         this.imgUrl = updateForm.getImgUrl();
-        this.manager = manager;
+        this.banAdvertisingYn = updateForm.getBanAdvertisingYn();
+        this.landPriceDiff = updateForm.getLandPriceDiff();
+        this.managerBy = manager;
         this.updatedBy = loginUser;
     }
 
@@ -275,15 +305,11 @@ public class RealEstate extends BaseTimeEntity {
         this.propertyType = propertyType;
     }
 
-    public void updateRStatus(YnType rYn) {
-        this.rYn = rYn;
-    }
-
-    public void updateABStatus(YnType abYn) {
-        this.abYn = abYn;
-    }
-
     public void updateImageFullPath(String imageUrl) {
         this.imgUrl = imageUrl;
+    }
+
+    public void addManager(RealEstateManager realEstateManager) {
+        this.managers.add(realEstateManager);
     }
 }

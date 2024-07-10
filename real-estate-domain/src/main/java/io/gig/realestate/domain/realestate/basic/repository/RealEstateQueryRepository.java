@@ -1,7 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -9,13 +8,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
-import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
-import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailAllDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateDetailDto;
-import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
+import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
-import io.gig.realestate.domain.realestate.land.QLandInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,11 +17,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static io.gig.realestate.domain.admin.QAdministrator.administrator;
-import static io.gig.realestate.domain.admin.QAdministratorRole.administratorRole;
 import static io.gig.realestate.domain.category.QCategory.category;
 import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
@@ -246,8 +240,30 @@ public class RealEstateQueryRepository {
         return StringUtils.hasText(ji) ? realEstate.ji.eq(ji) : null;
     }
 
-    private BooleanExpression eqUsageTypeId(Long usageTypeId) {
-        return usageTypeId != null ? realEstate.usageType.id.eq(usageTypeId) : null;
+    private BooleanExpression likeUsageCds(String usageCds) {
+        if (!StringUtils.hasText(usageCds)) {
+            return null;
+        }
+
+        BooleanExpression predicate = null;
+        String[] array = usageCds.split(",");
+        for (String str : array) {
+            if (predicate == null) {
+                predicate = realEstate.usageCds.like("%" + str + "%");
+            } else {
+                predicate = predicate.or(realEstate.usageCds.like("%" + str + "%"));
+            }
+        }
+
+        return predicate;
+    }
+
+    private BooleanExpression eqRealEstateGradeCds(String realEstateGradeCds) {
+        return StringUtils.hasText(realEstateGradeCds) ? realEstate.realEstateGradeCds.eq(realEstateGradeCds) : null;
+    }
+
+    private BooleanExpression eqExclusiveCds(String exclusiveCds) {
+        return StringUtils.hasText(exclusiveCds) ? realEstate.exclusiveCds.eq(exclusiveCds) : null;
     }
 
     private BooleanExpression likeBuildingName(String buildingName) {
@@ -269,14 +285,14 @@ public class RealEstateQueryRepository {
         if (!StringUtils.hasText(manager)) {
             return null;
         }
-        return realEstate.manager.name.like("%" + manager + "%");
+        return realEstate.managerBy.name.like("%" + manager + "%");
     }
 
     private BooleanExpression likeTeamName(String teamName) {
         if (!StringUtils.hasText(teamName)) {
             return null;
         }
-        return realEstate.manager.team.name.like("%" + teamName + "%");
+        return realEstate.managerBy.team.name.like("%" + teamName + "%");
     }
 
     private BooleanExpression betweenSalePrice(Integer minSalePrice, Integer maxSalePrice) {
@@ -423,6 +439,38 @@ public class RealEstateQueryRepository {
         );
     }
 
+    private BooleanExpression betweenLandPriceDiff(Double minLandPriceDiff, Double maxLandPriceDiff) {
+        if (minLandPriceDiff == null || maxLandPriceDiff == null || minLandPriceDiff < 0 || maxLandPriceDiff <= 0 || maxLandPriceDiff < minLandPriceDiff) {
+            return null;
+        }
+
+        return realEstate.landPriceDiff.between(minLandPriceDiff, maxLandPriceDiff);
+    }
+
+    private BooleanExpression betweenYearBuiltAt(LocalDate afterYearBuiltAt) {
+        if (afterYearBuiltAt == null) {
+            return null;
+        }
+
+        return realEstate.yearBuiltAt.after(afterYearBuiltAt);
+    }
+
+    private BooleanExpression betweenRemodelingAt(LocalDate afterRemodelingAt) {
+        if (afterRemodelingAt == null) {
+            return null;
+        }
+
+        return realEstate.remodelingAt.after(afterRemodelingAt);
+    }
+
+    private BooleanExpression betweenUpdatedAt(LocalDateTime beforeUpdatedAt, LocalDateTime afterUpdatedAt) {
+        if (beforeUpdatedAt == null || afterUpdatedAt == null) {
+            return null;
+        }
+
+        return realEstate.updatedAt.between(beforeUpdatedAt, afterUpdatedAt);
+    }
+
 
     private BooleanExpression likeCustomerName(String customer) {
         if (!StringUtils.hasText(customer)) {
@@ -455,21 +503,30 @@ public class RealEstateQueryRepository {
         return realEstate.legalCode.eq(legalCode);
     }
 
-    private BooleanExpression eqRYn(YnType rYn) {
-        if (rYn == null) {
+    private BooleanExpression likeProcessTypeCds(List<ProcessType> processTypeCds) {
+        if (processTypeCds.isEmpty()) {
             return null;
         }
-
-        return rYn == YnType.Y ? realEstate.rYn.eq(YnType.Y) : realEstate.rYn.eq(YnType.N) ;
+        return realEstate.processType.in(processTypeCds);
     }
 
-    private BooleanExpression eqABYn(YnType abYn) {
-        if (abYn == null) {
-            return null;
-        }
-
-        return abYn == YnType.Y ? realEstate.abYn.eq(YnType.Y) : realEstate.abYn.eq(YnType.N) ;
-    }
+//    private BooleanExpression likeUsageCds(String usageCds) {
+//        if (!StringUtils.hasText(usageCds)) {
+//            return null;
+//        }
+//
+//        BooleanExpression predicate = null;
+//        String[] array = usageCds.split(",");
+//        for (String str : array) {
+//            if (predicate == null) {
+//                predicate = realEstate.usageCds.like("%" + str + "%");
+//            } else {
+//                predicate = predicate.or(realEstate.usageCds.like("%" + str + "%"));
+//            }
+//        }
+//
+//        return predicate;
+//    }
 
     private BooleanExpression likeAddress(String address) {
         return StringUtils.hasText(address) ? realEstate.address.like("%" + address + "%") : null;
@@ -478,21 +535,21 @@ public class RealEstateQueryRepository {
     private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
-        where.and(eqRYn(searchDto.getRYn()));
-        where.and(eqABYn(searchDto.getAbYn()));
-        where.and(eqUsageTypeId(searchDto.getUsageCd()));
-        where.and(eqProcessType(searchDto.getProcessType()));
+        where.and(likeProcessTypeCds(searchDto.getProcessTypeCds()));
         where.and(eqSido(searchDto.getSido()));
         where.and(eqGungu(searchDto.getGungu()));
         where.and(eqDong(searchDto.getDong()));
         where.and(eqLandType(searchDto.getLandType()));
         where.and(eqBun(searchDto.getBun()));
         where.and(eqJi(searchDto.getJi()));
+        where.and(likeUsageCds(searchDto.getUsageCds()));
         where.and(likeBuildingName(searchDto.getBuildingName()));
         where.and(eqRealEstateId(searchDto.getRealEstateId()));
         where.and(likePrposArea1Nm(searchDto.getPrposArea1Nm()));
         where.and(likeManagerName(searchDto.getManager()));
         where.and(likeTeamName(searchDto.getTeam()));
+        where.and(eqRealEstateGradeCds(searchDto.getRealEstateGradeCds()));
+        where.and(eqExclusiveCds(searchDto.getExclusiveCds()));
         where.and(betweenSalePrice(searchDto.getMinSalePrice(), searchDto.getMaxSalePrice()));
         where.and(betweenDepositPrice(searchDto.getMinDepositPrice(), searchDto.getMaxDepositPrice()));
         where.and(betweenGuaranteePrice(searchDto.getMinGuaranteePrice(), searchDto.getMaxGuaranteePrice()));
@@ -504,9 +561,16 @@ public class RealEstateQueryRepository {
         where.and(betweenTotArea(searchDto.getMinTotArea(), searchDto.getMaxTotArea()));
         where.and(betweenTotAreaByPyung(searchDto.getMinTotAreaByPyung(), searchDto.getMaxTotAreaByPyung()));
         where.and(betweenRevenueRate(searchDto.getMinRevenueRate(), searchDto.getMaxRevenueRate()));
+        where.and(betweenYearBuiltAt(searchDto.getAfterYearBuiltAt()));
+        where.and(betweenRemodelingAt(searchDto.getAfterRemodelingAt()));
+        where.and(betweenUpdatedAt(searchDto.getBeforeUpdatedAt(), searchDto.getAfterUpdatedAt()));
+
         where.and(likeCustomerName(searchDto.getCustomer()));
         where.and(eqPhone(searchDto.getPhone()));
-        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
+        where.and(betweenLandPriceDiff(searchDto.getMinLandPriceDiff(), searchDto.getMaxLandPriceDiff()));
+
+        // exclusiveCds
+//        where.and(betweenRoadWidth(searchDto.getMinRoadWidth(), searchDto.getMaxRoadWidth()));
         return where;
     }
 }

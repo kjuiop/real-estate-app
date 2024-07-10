@@ -30,7 +30,13 @@ public class PriceInfo extends BaseTimeEntity {
 
     private double depositPrice;
 
+    private double priceAdjuster;
+
     private double revenueRate;
+
+    private double landUnitPrice;
+
+    private double totalAreaUnitPrice;
 
     private double averageUnitPrice;
 
@@ -42,10 +48,16 @@ public class PriceInfo extends BaseTimeEntity {
 
     private double managementExpense;
 
+    /**
+     *  토지평단가
+     */
     @Builder.Default
     @Column(columnDefinition = "int default '0'")
     private double landPyungUnitPrice = 0;
 
+    /**
+     *  연면적 평단가
+     */
     @Builder.Default
     @Column(columnDefinition = "int default '0'")
     private double buildingPyungUnitPrice = 0;
@@ -63,9 +75,10 @@ public class PriceInfo extends BaseTimeEntity {
         PriceInfo priceInfo = PriceInfo.builder()
                 .id(createForm.getPriceId())
                 .salePrice(createForm.getSalePrice())
-                .depositPrice(createForm.getDepositPrice())
+                .priceAdjuster(createForm.getPriceAdjuster())
+                .landUnitPrice(createForm.getLandUnitPrice())
+                .totalAreaUnitPrice(createForm.getTotalAreaUnitPrice())
                 .revenueRate(createForm.getRevenueRate())
-                .averageUnitPrice(createForm.getAverageUnitPrice())
                 .guaranteePrice(createForm.getGuaranteePrice())
                 .rentMonth(createForm.getRentMonth())
                 .management(createForm.getManagement())
@@ -81,7 +94,9 @@ public class PriceInfo extends BaseTimeEntity {
 
     public void update(PriceCreateForm dto, Administrator loginUser) {
         this.salePrice = dto.getSalePrice();
-        this.depositPrice = dto.getDepositPrice();
+        this.priceAdjuster = dto.getPriceAdjuster();
+        this.landUnitPrice = dto.getLandUnitPrice();
+        this.totalAreaUnitPrice = dto.getTotalAreaUnitPrice();
         this.revenueRate = dto.getRevenueRate();
         this.guaranteePrice = dto.getGuaranteePrice();
         this.rentMonth = dto.getRentMonth();

@@ -3,6 +3,8 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.land.LandInfo;
 
+import java.util.List;
+
 /**
  * @author : JAKE
  * @date : 2023/09/20
@@ -25,10 +27,13 @@ public class RealEstateListDto extends RealEstateDto {
     public double archAreaByPyung;
     public Long realEstateId;
 
+    public List<String> usageCdNames;
+    public String realEstateGradeName;
+
     public RealEstateListDto(RealEstate r) {
         super(r);
-        if (r.getManager() != null) {
-            this.managerName = r.getManager().getName();
+        if (r.getManagerBy() != null) {
+            this.managerName = r.getManagerBy().getName();
         }
         if (r.getPriceInfoList().size() > 0) {
             this.salePrice = r.getPriceInfoList().get(0).getSalePrice();
@@ -65,5 +70,13 @@ public class RealEstateListDto extends RealEstateDto {
             this.lndpclAr = lndpclAr;
             this.lndpclArByPyung = lndpclArPy;
         }
+    }
+
+    public void setUsageCdNames(List<String> usageCdNames) {
+        this.usageCdNames = usageCdNames;
+    }
+
+    public void setRealEstateGradeName(String realEstateGradeName) {
+        this.realEstateGradeName = realEstateGradeName;
     }
 }

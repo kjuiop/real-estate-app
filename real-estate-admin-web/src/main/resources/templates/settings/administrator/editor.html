@@ -85,7 +85,7 @@
                                         <label for="name">소속</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <select class="form-control" name="teamId">
+                                        <select class="form-control" name="teamId" style="height: 30px !important;">
                                             <th:block th:each="team : ${teams}">
                                                 <option th:value="${team.teamId}" th:text="${team.name}" th:selected="${dto.teamId eq team.teamId}"></option>
                                             </th:block>

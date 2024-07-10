@@ -5,9 +5,9 @@ import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +19,16 @@ import java.time.LocalDateTime;
 public class RealEstateDto {
 
     private Long realEstateId;
+
+    private Double landPriceDiff;
     
     private String exclusiveCds;
+
+    private String realEstateGradeCds;
+
+    private String buildingTypeCds;
+
+    private String usageCds;
 
     private String buildingName;
 
@@ -60,6 +68,14 @@ public class RealEstateDto {
 
     private String tradingAt;
 
+    private LocalDate acquiredAt;
+
+    private LocalDate yearBuiltAt;
+
+    private LocalDate remodelingAt;
+
+    private YnType banAdvertisingYn;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -84,11 +100,17 @@ public class RealEstateDto {
         this.imgUrl = r.getImgUrl();
         this.agentName = r.getAgentName();
         this.tradingAt = r.getTradingAt();
+        this.acquiredAt = r.getAcquiredAt();
         this.processType = r.getProcessType();
-        this.rYn = r.getRYn();
-        this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
+        this.realEstateGradeCds = r.getRealEstateGradeCds();
+        this.buildingTypeCds = r.getBuildingTypeCds();
+        this.usageCds = r.getUsageCds();
+        this.banAdvertisingYn = r.getBanAdvertisingYn();
+        this.landPriceDiff = r.getLandPriceDiff();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
+        this.yearBuiltAt = r.getYearBuiltAt();
+        this.remodelingAt = r.getRemodelingAt();
     }
 }

@@ -15,7 +15,11 @@ public class PriceCreateForm {
 
     private double salePrice;
 
-    private double depositPrice;
+    private double priceAdjuster;
+
+    private double landUnitPrice;
+
+    private double totalAreaUnitPrice;
 
     private double revenueRate;
 

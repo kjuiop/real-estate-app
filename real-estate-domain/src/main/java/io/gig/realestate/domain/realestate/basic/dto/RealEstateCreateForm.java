@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.gig.realestate.domain.realestate.image.dto.ImageCreateForm;
 import io.gig.realestate.domain.realestate.image.dto.ImageDto;
 import io.gig.realestate.domain.common.YnType;
@@ -13,7 +14,10 @@ import io.gig.realestate.domain.realestate.price.dto.PriceCreateForm;
 import io.gig.realestate.domain.realestate.print.dto.PrintCreateForm;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +31,15 @@ public class RealEstateCreateForm {
 
     private Long realEstateId;
 
-    private String managerUsername;
+    private String buildingName;
 
     private String exclusiveCds;
+
+    private String buildingTypeCds;
+
+    private String realEstateGradeCds;
+
+    private String usageCds;
 
     private String legalCode;
 
@@ -39,11 +49,7 @@ public class RealEstateCreateForm {
 
     private String ji;
 
-    private String buildingName;
-
     private String surroundInfo;
-
-    private Long usageTypeId;
 
     private Long propertyTypeId;
 
@@ -57,7 +63,23 @@ public class RealEstateCreateForm {
 
     private String agentName;
 
-    private String tradingAt;
+    private YnType banAdvertisingYn;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate acquiredAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate yearBuiltAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate remodelingAt;
+
+    private Double landPriceDiff;
+
+    private List<Long> managerIds;
 
     private LandUsageCreateForm landUsageInfo;
 

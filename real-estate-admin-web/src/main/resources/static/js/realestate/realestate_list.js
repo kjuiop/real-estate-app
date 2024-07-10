@@ -2,29 +2,40 @@ let preventDoubleEnter = false;
 
 let onReady = function() {
     console.log("condition", condition);
+    initDate();
 };
+
+let initDate = function() {
+
+    singleDateRangePickerInit({
+        targetId: 'targetYearBuiltAt',
+        startName: 'afterYearBuiltAt'
+    });
+
+    singleDateRangePickerInit({
+        targetId: 'targetRemodelingAt',
+        startName: 'afterRemodelingAt'
+    });
+
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetBeforeUpdatedAt',
+        startName: 'beforeUpdatedAt'
+    });
+
+    singleDateRangePickerWithTimeInit({
+        targetId: 'targetAfterUpdatedAt',
+        startName: 'afterUpdatedAt'
+    });
+}
 
 let search = function(e) {
     e.preventDefault();
 
-    console.log("preventDoubleEnter", preventDoubleEnter);
-
     let $frm = $("form[name='frmSearch']");
     $frm.find("input[name='size']").val($("#limit :selected").val());
     $frm.find("input[name='page']").val(0);
-
-    let processType = $(this).attr('processType');
-    if (checkNullOrEmptyValue(processType)) {
-
-        if (processType === 'r') {
-            $frm.find('input[name="rYn"]').val("Y");
-        } else if (processType === 'ab') {
-            $frm.find('input[name="abYn"]').val("Y");
-        } else {
-            $frm.find('input[name="processType"]').val(processType);
-        }
-    }
-    console.log("process Type : ", processType)
+    $frm.find('input[name="processTypeCds"]').val(extractCodeArray($('.processUnitSection')));
+    $frm.find('input[name="usageCds"]').val(extractCodeIdForSearch($('.usageUnitSection')));
     $frm.submit();
 };
 
@@ -429,10 +440,10 @@ let drawExcelUploadData = function(excelList) {
 $(document).ready(onReady)
     .on('click', '.btnAddress', searchAddress)
     .on('click', '#btnReset', reset)
-    .on('click', '#btnSearch, .btnProcessType', search)
-    // .on('submit', 'form[name="frmSearch"]', search)
     .on('change', '#limit', search)
+    .on('click', '#btnSearch', search)
     .on('click', '#btnMoveRegister', moveRegister)
+    .on('click', '.btnAllSelect', selectAllButtonForSearch)
     .on('ifToggled', '.chkAll', selectedChkAll)
     .on('ifToggled', 'input[name=numbers]', selectedChkBox)
     .on('click', '#btnRealEstateModal', realEstateModal)
@@ -442,4 +453,5 @@ $(document).ready(onReady)
     .on('click', '#btnSearchFile', fileSearch)
     .on('change', '#file', applyFilename)
     .on('click', '.btnExcelUpload', excelUpload)
+    .on('click', '.selected-button-checkbox-section .btnCode', toggleCheckboxSelectButton)
 ;

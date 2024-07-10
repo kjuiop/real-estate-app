@@ -117,7 +117,9 @@ public class LandDataApiDto {
         BigDecimal lndpclArByPyung = new BigDecimal(areaInPyung).setScale(2, RoundingMode.HALF_UP);
 
         double pblntfPclndByPyung = pblntfPclnd * 3.305785;
-        double totalPblntfPclndByPyung = pblntfPclndByPyung * lndpclArByPyung.doubleValue();
+        BigDecimal pblntfPclndPy = new BigDecimal(pblntfPclndByPyung).setScale(0, RoundingMode.HALF_UP);
+
+        double totalPblntfPclndByPyung = pblntfPclndPy.doubleValue() * lndpclArByPyung.doubleValue();
 
         long pnu = sop.optLong("sop:pnu");
         String pnuStr = String.valueOf(pnu);
@@ -135,7 +137,7 @@ public class LandDataApiDto {
                 .roadSideCodeNm(sop.has("sop:road_side_code_nm") ? sop.getString("sop:road_side_code_nm") : null)
                 .pblntfPclnd(pblntfPclnd)
                 .totalPblntfPclnd(totalPblntfPclnd)
-                .pblntfPclndByPyung(pblntfPclndByPyung)
+                .pblntfPclndByPyung(pblntfPclndPy.doubleValue())
                 .totalPblntfPclndByPyung(totalPblntfPclndByPyung)
                 .lnmLndcgrSmbol(sop.has("sop:lnm_lndcgr_smbol") ? sop.getString("sop:lnm_lndcgr_smbol") : null)
                 .stdrYear(sop.has("sop:stdr_year") ? sop.getInt("sop:stdr_year") : null)
