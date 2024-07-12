@@ -58,12 +58,6 @@ let moveRegister = function(e) {
         params = serializeObject({form:$frm[0]}).json(),
         dongCode = $frm.find('select[name="dong"] option:selected').val();
 
-    let usageCdId = $('select[name="usageCd"] option:selected').val();
-    if (!checkNullOrEmptyValue(usageCdId)) {
-        twoBtnModal("매물 용도를 선택해주세요.");
-        return;
-    }
-
     if (!checkNullOrEmptyValue(params.bun)) {
         twoBtnModal("지번을 입력해주세요.");
         return;
@@ -94,7 +88,6 @@ let moveRegister = function(e) {
         + "&bun=" + params.bun
         + "&ji=" + params.ji
         + "&address=" + encodeURIComponent(params.address)
-        + "&usageCdId=" + usageCdId
         + "&dongCode=" + dongCode
     ;
 

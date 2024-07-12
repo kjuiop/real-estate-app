@@ -83,18 +83,15 @@ public class RealEstateController {
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
-            @RequestParam(name = "usageCdId") Long usageCdId,
             @RequestParam(name = "dongCode") String dongCode,
             Model model,
             @CurrentUser LoginUser loginUser) {
 
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
-        CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
-
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, dongCode);
         model.addAttribute("dto", dto);
-        model.addAttribute("propertyCds", propertyCds);
+        model.addAttribute("propertyCds", categoryService.getCategoryDtoWithChildrenByName("매물유형"));
         model.addAttribute("sidoList", sidoList);
         model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
