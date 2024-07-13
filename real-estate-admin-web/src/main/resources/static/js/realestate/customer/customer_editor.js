@@ -99,7 +99,7 @@ let drawCustomerInfo = function(item) {
     tag +=         '<div class="col-md-6">';
     tag +=             '<div class="display-flex-row">';
     tag +=                 '<div class="col-md-6 no-left-padding">';
-    tag +=                     '<label class="text-label">고객명</label>';
+    tag +=                     '<label class="text-label">매도인</label>';
     tag +=                 '</div>';
     tag +=                 '<div class="col-md-6">';
     tag +=                     '<label class="text-label pull-right">';
