@@ -27,7 +27,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping("{realEstateId}")
-    public ResponseEntity<ApiResponse> getPriceData(
+    public ResponseEntity<ApiResponse> getCustomerData(
             @PathVariable(name = "realEstateId") Long realEstateId) {
         List<CustomerDto> customerList = customerService.getCustomerListInfoByRealEstateId(realEstateId);
         return new ResponseEntity<>(ApiResponse.OK(customerList), HttpStatus.OK);

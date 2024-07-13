@@ -54,6 +54,8 @@ public class CustomerInfo extends BaseTimeEntity {
 
     private String representPhone;
 
+    private String saleReason;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
@@ -85,6 +87,7 @@ public class CustomerInfo extends BaseTimeEntity {
                 .companyPhone(dto.getCompanyPhone())
                 .representName(dto.getRepresentName())
                 .representPhone(dto.getRepresentPhone())
+                .saleReason(dto.getSaleReason())
                 .createdBy(loginUser)
                 .updatedBy(loginUser)
                 .realEstate(realEstate)
@@ -104,6 +107,7 @@ public class CustomerInfo extends BaseTimeEntity {
         this.companyPhone = dto.getCompanyPhone();
         this.representName =dto.getRepresentName();
         this.representPhone = dto.getRepresentPhone();
+        this.saleReason = dto.getSaleReason();
         this.updatedBy = loginUser;
     }
 

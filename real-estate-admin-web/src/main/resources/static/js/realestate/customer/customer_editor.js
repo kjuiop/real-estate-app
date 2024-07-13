@@ -141,7 +141,7 @@ let drawCustomerInfo = function(item) {
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
-    tag +=             '<label class="text-label">휴대전화</label>';
+    tag +=             '<label class="text-label">전화번호</label>';
     if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="phone" value="' +  item.phone + '"/>';
     } else {
@@ -150,13 +150,8 @@ let drawCustomerInfo = function(item) {
 
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
-    tag +=             '<label class="text-label">기타전화</label>';
-    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
-        tag +=             '<input type="text" class="form-control form-control-sm" name="etcPhone" value="' +  item.etcPhone + '"/>';
-    } else {
-        tag +=             '<input type="password" class="form-control form-control-sm" name="etcPhone" value="**********"/>';
-    }
-
+    tag +=             '<label class="text-label">매각사유</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="saleReason" value="' +  convertNullOrEmptyValue(item.saleReason) + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line" style="padding-right: 0;">';
@@ -212,7 +207,7 @@ let drawCompanyInfo = function(item) {
     tag +=     '</div>';
     tag +=     '<div class="row display-flex-row">';
     tag +=         '<div class="col-md-6">';
-    tag +=             '<label class="text-label">법인전화</label>';
+    tag +=             '<label class="text-label">전화번호</label>';
     if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
         tag +=             '<input type="text" class="form-control form-control-sm" name="companyPhone" value="' +  item.companyPhone + '"/>';
     } else {
@@ -222,13 +217,8 @@ let drawCompanyInfo = function(item) {
 
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
-    tag +=             '<label class="text-label">휴대전화</label>';
-    if (dto.ownUser || !checkNullOrEmptyValue(dto.realEstateId)) {
-        tag +=             '<input type="text" class="form-control form-control-sm" name="representPhone" value="' +  item.representPhone + '"/>';
-    } else {
-        tag +=             '<input type="password" class="form-control form-control-sm" name="representPhone" value="**********"/>';
-    }
-
+    tag +=             '<label class="text-label">매각사유</label>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="saleReason" value="' +  item.saleReason + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line" style="padding-right: 0;">';
@@ -255,6 +245,7 @@ let assembleCustomerParam = function() {
                 "phone" : $(item).find('input[name="phone"]').val(),
                 "etcPhone" : $(item).find('input[name="etcPhone"]').val(),
                 "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
+                "saleReason" : $(item).find('input[name="saleReason"]').val(),
             }
         } else if (type === 'COMPANY') {
             param = {
@@ -265,6 +256,7 @@ let assembleCustomerParam = function() {
                 "companyPhone" : $(item).find('input[name="companyPhone"]').val(),
                 "representPhone" : $(item).find('input[name="representPhone"]').val(),
                 "etcInfo" : $(item).find('input[name="etcInfo"]').val(),
+                "saleReason" : $(item).find('input[name="saleReason"]').val(),
             }
         }
 
