@@ -3,16 +3,13 @@ package io.gig.realestate.admin.controller.realestate;
 import io.gig.realestate.admin.util.ApiResponse;
 import io.gig.realestate.domain.admin.AdministratorService;
 import io.gig.realestate.domain.admin.LoginUser;
-import io.gig.realestate.domain.admin.dto.AdministratorListDto;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
 import io.gig.realestate.domain.category.dto.CategoryDto;
-import io.gig.realestate.domain.realestate.basic.RealEstateSearchDto;
 import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.*;
 import io.gig.realestate.domain.realestate.excel.ExcelRealEstateService;
-import io.gig.realestate.domain.realestate.excel.dto.ExcelRealEstateDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadCheckDto;
 import io.gig.realestate.domain.realestate.excel.dto.ExcelUploadDto;
 import io.gig.realestate.domain.realestate.landprice.dto.LandPriceListDto;
@@ -31,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,11 +63,11 @@ public class RealEstateController {
             model.addAttribute("dongList", dongList);
         }
 
-        List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
-
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
+        model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
         if (pages != null) {
             model.addAttribute("pages", pages);
             model.addAttribute("totalCount", pages.getTotalElements());
@@ -87,24 +83,26 @@ public class RealEstateController {
             @RequestParam(name = "bun") String bun,
             @RequestParam(name = "ji") String ji,
             @RequestParam(name = "address") String address,
-            @RequestParam(name = "usageCdId") Long usageCdId,
             @RequestParam(name = "dongCode") String dongCode,
             Model model,
             @CurrentUser LoginUser loginUser) {
 
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
-        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, usageCdId, dongCode);
-        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
-        CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
-
+        RealEstateDetailDto dto = RealEstateDetailDto.initDetailDto(legalCode, landType, bun, ji, address, dongCode);
         model.addAttribute("dto", dto);
-        model.addAttribute("admins", admins);
-        model.addAttribute("propertyCds", propertyCds);
-        model.addAttribute("usageCds", usageCds);
+        model.addAttribute("propertyCds", categoryService.getCategoryDtoWithChildrenByName("매물유형"));
         model.addAttribute("sidoList", sidoList);
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("buildingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUILDING_TYPE"));
+        model.addAttribute("changeBrightnessCds", categoryService.getChildrenCategoryDtosByCode("CD_CHANGE_BRIGHTNESS"));
+        model.addAttribute("ownBrightnessCds", categoryService.getChildrenCategoryDtosByCode("CD_OWN_BRIGHTNESS"));
+        model.addAttribute("heatingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_HEATING_TYPE"));
+        model.addAttribute("heatingCoolingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_HEATING_COOLING_TYPE"));
+        model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
     }
@@ -118,17 +116,22 @@ public class RealEstateController {
         RealEstateDetailDto dto = realEstateService.getDetail(session.getId(), realEstateId);
         dto.checkIsOwnUser(loginUser);
         dto.checkIsSuperAdmin(loginUser);
-        List<AdministratorListDto> admins = administratorService.getAdminListMyMembers(loginUser);
-        CategoryDto usageCds = categoryService.getCategoryDtoWithChildrenByName("매물용도");
         CategoryDto propertyCds = categoryService.getCategoryDtoWithChildrenByName("매물유형");
         List<AreaListDto> sidoList = areaService.getParentAreaList();
 
         model.addAttribute("dto", dto);
-        model.addAttribute("admins", admins);
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("propertyCds", propertyCds);
         model.addAttribute("sidoList", sidoList);
+        model.addAttribute("admins", administratorService.getTeamAdminListByLoginUser(loginUser));
         model.addAttribute("exclusiveCds", categoryService.getChildrenCategoryDtosByCode("CD_EXCLUSIVE"));
+        model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));
+        model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
+        model.addAttribute("buildingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_BUILDING_TYPE"));
+        model.addAttribute("changeBrightnessCds", categoryService.getChildrenCategoryDtosByCode("CD_CHANGE_BRIGHTNESS"));
+        model.addAttribute("ownBrightnessCds", categoryService.getChildrenCategoryDtosByCode("CD_OWN_BRIGHTNESS"));
+        model.addAttribute("heatingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_HEATING_TYPE"));
+        model.addAttribute("heatingCoolingTypeCds", categoryService.getChildrenCategoryDtosByCode("CD_HEATING_COOLING_TYPE"));
+        model.addAttribute("loginUser", loginUser);
 
         return "realestate/editor";
     }

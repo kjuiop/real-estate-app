@@ -28,6 +28,8 @@ public class LandInfoDto {
 
     private String pblntfPclnd;
 
+    private String pblntfPclndByPyung;
+
     private String totalPblntfPclnd;
 
     private String totalPblntfPclndByPyung;

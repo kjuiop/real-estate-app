@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-<div layout:fragment="content" th:with="YnType = ${T(io.gig.realestate.domain.common.YnType)}">
+<div layout:fragment="content" th:with="YnType=${T(io.gig.realestate.domain.common.YnType)}">
     <section class="content" th:with="isModify = ${dto.realEstateId != null}">
         <div class="container-fluid">
             <div class="row">
@@ -54,73 +54,66 @@
                         <input type="hidden" name="landType" th:value="${dto.landType}" />
                         <input type="hidden" name="bun" th:value="${dto.bun}" />
                         <input type="hidden" name="ji" th:value="${dto.ji}" />
-                    <div class="card" style="margin-top: 10px;">
-                        <div class="card-header">
-                            <h3 class="card-title">기본정보</h3>
-                            <div class="card-tools"></div>
-                        </div>
-                        <div class="card-body" style="padding: 10px;">
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row margin-bottom-10">
-                                    <label class="text-label col-md-3 no-left-padding">진행구분</label>
-                                    <div class="col-md-9 display-flex-row justify-content-end">
-                                        <div class="selected-button-radio-section exclusiveSection">
-                                            <th:block th:each="code : ${exclusiveCds}">
-                                                <button type="button" class="btn btn-xs margin-top-8 btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.exclusiveCds) && #strings.contains(dto.exclusiveCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
-                                            </th:block>
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                <h3 class="card-title">기본정보</h3>
+                                <div class="card-tools"></div>
+                            </div>
+                            <div class="card-body" style="padding: 10px;">
+                                <div class="form-group col-md-12 display-flex-column line">
+                                    <div class="col-md-12 display-flex-row margin-bottom-8">
+                                        <label class="text-label col-md-3 no-left-padding padding-top-6">진행구분</label>
+                                        <div class="col-md-9 display-flex-row justify-content-end" style="padding-right: 0;">
+                                            <label class="control-label margin-right-10 margin-top-5 pull-right" style="font-weight: normal; font-size: 12px;">
+                                                <input type="checkbox" class="checkElement" name="banAdvertisingYn" th:checked="${dto.banAdvertisingYn eq YnType.Y}" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;광고금지여부
+                                            </label> &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="display-flex-row">
+                                        <div class="col-md-6 processTypeSection" th:with="ProcessType=${T(io.gig.realestate.domain.realestate.basic.types.ProcessType)}">
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Working ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Impossible ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Pending ? 'btn-primary' : 'btn-default'}" processType="Pending">보류</button>
+                                            <button class="btn btn-sm btnProcessType text-right margin-right-5 btnCodeCd" th:disabled="${!isModify}" th:classappend="${dto.processType eq ProcessType.Sell ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="selected-button-radio-section exclusiveSection justify-content-end display-flex-row">
+                                                <th:block th:each="code : ${exclusiveCds}">
+                                                    <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.exclusiveCds) && #strings.contains(dto.exclusiveCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 5px;">[[${code.name}]]</button>
+                                                </th:block>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <th:block th:if="${isModify}">
-                                        <div th:if="${dto.processType != null}">
-                                            <!--
-                                            <button class="btn btn-sm btnProcessType margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare" th:if="${dto.processType.type eq 'prepare' || dto.processType.level eq 1 || dto.processType.type eq 'notAssign'}">준비</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working" th:if="${dto.processType.type eq 'working' || dto.processType.level < 3 && dto.processType.type ne 'notAssign'}">작업중</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'notAssign' ? 'btn-primary' : 'btn-default'}" processType="NotAssign" th:if="${dto.processType.type eq 'notAssign' || dto.processType.level < 5}">미지정</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete" th:if="${dto.processType.type eq 'complete' || dto.processType.level > 1 && dto.processType.level < 5 && dto.processType.type ne 'notAssign'}">작업완료</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible" th:if="${dto.processType.type eq 'impossible' || dto.processType.level < 2 && dto.processType.level < 6 && dto.processType.type ne 'notAssign'}">작업불가</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending" th:if="${dto.processType.type eq 'pending' || dto.processType.level > 2 && dto.processType.level < 5}">매각보류</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell" th:if="${dto.processType.type eq 'sell' || dto.processType.level > 2 && dto.processType.type ne 'impossible'}">매각</button>
-                                            <button type="button" class="btn btn-sm btnR text-right margin-right-5 pull-right" th:rStatus="${dto.rYn.key eq 'Y' ? 'N' : 'Y'}" th:classappend="${dto.rYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">R</button>
-                                            <button type="button" class="btn btn-sm btnAB text-right margin-right-5 pull-right" th:abStatus="${dto.abYn.key eq 'Y'  ? 'N' : 'Y'}" th:classappend="${dto.abYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">A-B</button>
-                                            -->
-
-                                            <button class="btn btn-sm btnProcessType margin-right-5" th:classappend="${dto.processType.type eq 'prepare' ? 'btn-primary' : 'btn-default'}" processType="Prepare">준비</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'working' ? 'btn-primary' : 'btn-default'}" processType="Working">작업중</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'notAssign' ? 'btn-primary' : 'btn-default'}" processType="NotAssign">미지정</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'complete' ? 'btn-primary' : 'btn-default'}" processType="Complete">작업완료</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'impossible' ? 'btn-primary' : 'btn-default'}" processType="Impossible">작업불가</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'pending' ? 'btn-primary' : 'btn-default'}" processType="Pending">매각보류</button>
-                                            <button class="btn btn-sm btnProcessType text-right margin-right-5" th:classappend="${dto.processType.type eq 'sell' ? 'btn-primary' : 'btn-default'}" processType="Sell">매각</button>
-                                            <button type="button" class="btn btn-sm btnR text-right margin-right-5 pull-right" th:rStatus="${dto.rYn.key eq 'Y' ? 'N' : 'Y'}" th:classappend="${dto.rYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">R</button>
-                                            <button type="button" class="btn btn-sm btnAB text-right margin-right-5 pull-right" th:abStatus="${dto.abYn.key eq 'Y'  ? 'N' : 'Y'}" th:classappend="${dto.abYn.key eq 'Y'  ? 'btn-primary' : 'btn-default'}" th:if="${dto.processType.level > 1}">A-B</button>
+                                <div class="form-group col-md-12 display-flex-row line">
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">담당자 선택</label>
+                                        <select class="form-control form-control-sm valid-ignore custom-select margin-right-4 managerList">
+                                            <option value="">선택</option>
+                                            <th:block th:each="admin : ${admins}">
+                                                <option th:value="${admin.username}" th:adminId="${admin.adminId}" th:adminName="${admin.name}" th:if="${loginUser.id ne admin.adminId}">[[${admin.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">&nbsp;</label>
+                                        <div class="managerSection">
+                                            <th:block th:if="${!isModify}">
+                                                <button type="button" class="btn btn-xs btn-default btnManager" th:adminId="${loginUser.id}" th:username="${loginUser.username}" style="margin-right: 5px;">[[${loginUser.adminName}]]</button>
+                                            </th:block>
+                                            <th:block th:each="admin : ${dto.managers}" th:if="${isModify}">
+                                                <button type="button" class="btn btn-xs btn-default btnManager" th:classappend="${loginUser.id != admin.adminId ? 'btnManagerRemove' : ''}" th:adminId="${admin.adminId}" th:username="${admin.username}" style="margin-right: 5px;">[[${admin.name}]]</button>
+                                            </th:block>
                                         </div>
-                                    </th:block>
+                                    </div>
+                                    <div class="col-md-4"></div>
                                 </div>
-                            </div>
-                            <div class="form-group col-md-12 display-flex-row line">
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">담당자 선택</label>
-                                    <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="managerUsername">
-                                        <option value="">선택</option>
-                                        <th:block th:each="admin : ${admins}">
-                                            <option th:value="${admin.username}" th:selected="${admin.adminId eq dto.managerId}">[[${admin.name}]]</option>
-                                        </th:block>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">건물명</label>
-                                    <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
-                                </div>
-                                <div class="col-md-4 display-flex-column">
-                                    <label class="text-label">날짜</label>
-                                    <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.createdAt, 'YYYY-MM-dd')}" readonly />
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-12 line">
-                                <div class="display-flex-row">
+                                <div class="form-group col-md-12 display-flex-row line">
+                                    <div class="col-md-4 display-flex-column">
+                                        <label class="text-label">건물명</label>
+                                        <input type="text" class="form-control form-control-sm" name="buildingName" th:value="${dto.buildingName}" />
+                                    </div>
                                     <div class="col-md-4 display-flex-column">
                                         <label class="text-label">매물유형</label>
                                         <select class="form-control propertyCds form-control-sm valid-ignore custom-select margin-right-4" name="propertyType">
@@ -130,59 +123,621 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">소유 부동산</label>
-                                        <input type="text" class="form-control form-control-sm" name="agentName" th:value="${dto.agentName}" />
-                                    </div>
-                                    <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">거래일</label>
-                                        <input type="text" class="form-control form-control-sm" name="tradingAt" th:value="${dto.tradingAt}" />
+                                        <label class="text-label">최종 수정일</label>
+                                        <input type="text" class="form-control form-control-sm" th:value="${!isModify ? #dates.format(#dates.createNow(), 'yyyy-MM-dd') : #temporals.format(dto.updatedAt, 'YYYY-MM-dd')}" readonly />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-md-12 line">
-                                <div class="display-flex-row">
-                                    <div class="col-md-4 display-flex-column">
-                                        <label class="text-label">대분류</label>
-                                        <select class="form-control usageCode form-control-sm valid-ignore custom-select margin-right-4">
-                                            <th:block th:each="code : ${usageCds.child}">
-                                                <option th:value="${code.id}" th:selected="${isModify && dto.usageType != null ? dto.usageType.parentId eq code.id : ''}">[[${code.name}]]</option>
+
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">건물종류</label>
+                                            <select class="form-control form-control-sm valid-ignore custom-select margin-right-4 buildingTypeCds">
+                                                <option value="">선택</option>
+                                                <th:block th:each="code, status : ${buildingTypeCds}">
+                                                    <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.buildingTypeCds) && #strings.contains(dto.buildingTypeCds, code.code)}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">토지평당금액/토지공시지가</label>
+                                            <input type="text" class="form-control form-control-sm" name="landPriceDiff" th:value="${dto.landPriceDiff}" />
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">취득일</label>
+                                            <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                                <input type="hidden" class="form-control" name="acquiredAt" th:value="${dto.acquiredAt != null} ? ${dto.acquiredAt} : ''">
+                                                <input type="text" class="form-control" id="targetAcquiredAt" maxlength="50" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 display-flex-column line">
+                                    <div class="col-md-12 margin-bottom-8 display-flex-column">
+                                        <label class="text-label col-md-3 no-left-padding padding-top-6">등급</label>
+                                        <div class="selected-button-radio-section realEstateGradeSection display-flex-row">
+                                            <th:block th:each="code, status : ${realEstateGradeCds}">
+                                                <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.realEstateGradeCds) && #strings.contains(dto.realEstateGradeCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}" style="margin-right: 3px;">[[${code.name}]]</button>
                                             </th:block>
-                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 display-flex-column line">
+                                    <div class="col-md-12 margin-bottom-8 display-flex-column">
+                                        <label class="text-label col-md-3 no-left-padding padding-top-6">구분</label>
+                                        <div class="selected-button-checkbox-section usageTypeSection display-flex-row">
+                                            <div>
+                                                <th:block th:each="code, status : ${usageCds}">
+                                                    <button type="button" class="btn btn-xs btnCodeCd" th:classappend="${(not #strings.isEmpty(dto.usageCds) && #strings.contains(dto.usageCds, code.code)) ? 'selected btn-primary' : 'btn-default'}" th:id="${code.id}" th:code="${code.code}">[[${code.name}]]</button>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 display-flex-column line">
+                                    <div class="col-md-12 display-flex-row">
+                                        <label class="text-label">매물 특징</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <textarea class="form-control form-control-sm" name="characterInfo" style="height: 80px;">[[${dto.characterInfo}]]</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-column">
+                                    <div class="col-md-12">
+                                        <label class="text-label">주소</label>
+                                    </div>
+                                    <div class="col-md-12 display-flex-row">
+                                        <input type="text" class="form-control form-control-sm col-sm-12" name="address" th:value="${dto.address}" readonly />
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: 5px;">
+                                        <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: 10px;">
+                                        <div id="map" class="col-md-12" style="height:300px;"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">소분류</label>
-                                </div>
-                                <div class="col-md-12 display-flex-row usageCdsSection"></div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                <h3 class="card-title margin-right-4" style="padding-top: 5px;">히스토리정보</h3>
+                                <div class="card-tools"></div>
                             </div>
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <div class="col-md-12 display-flex-row">
-                                    <label class="text-label">매물 특징</label>
+                            <div class="card-body" style="padding: 10px;">
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">용도변경</label>
+                                            <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="changeBrightnessCds">
+                                                <option value="">선택</option>
+                                                <th:block th:each="code, status : ${changeBrightnessCds}">
+                                                    <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.changeBrightnessCds) && #strings.contains(dto.changeBrightnessCds, code.code)}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">명도책임</label>
+                                            <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="ownBrightnessCds">
+                                                <option value="">선택</option>
+                                                <th:block th:each="code, status : ${ownBrightnessCds}">
+                                                    <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.ownBrightnessCds) && #strings.contains(dto.ownBrightnessCds, code.code)}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">명도대상/예상기간</label>
+                                            <input type="text" class="form-control form-control-sm" name="brightnessPeriod" th:value="${dto.brightnessPeriod}"/>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <textarea class="form-control form-control-sm" name="characterInfo" style="height: 80px;">[[${dto.characterInfo}]]</textarea>
+
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">예상명도비</label>
+                                            <input type="text" class="form-control form-control-sm" name="expectedBrightnessPrice" th:value="${dto.expectedBrightnessPrice}" />
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">건물 개선점</label>
+                                            <input type="text" class="form-control form-control-sm" name="buildingImprovePoint" th:value="${dto.buildingImprovePoint}"/>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">누수</label>
+                                            <input type="text" class="form-control form-control-sm" name="waterLeak" th:value="${dto.waterLeak}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">접한도로</label>
+                                            <input type="text" class="form-control form-control-sm" name="adjacentRoad" th:value="${dto.adjacentRoad}" />
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">경사도</label>
+                                            <input type="text" class="form-control form-control-sm" name="slope" th:value="${dto.slope}" />
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">조경</label>
+                                            <input type="text" class="form-control form-control-sm" name="landscape" th:value="${dto.landscape}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">화장실</label>
+                                            <input type="text" class="form-control form-control-sm" name="restroom" th:value="${dto.restroom}"/>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">난방</label>
+                                            <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="heatingTypeCds">
+                                                <option value="">선택</option>
+                                                <th:block th:each="code, status : ${heatingTypeCds}">
+                                                    <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.heatingTypeCds) && #strings.contains(dto.heatingTypeCds, code.code)}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">냉난방</label>
+                                            <select class="form-control form-control-sm valid-ignore custom-select margin-right-4" name="heatingCoolingTypeCds" >
+                                                <option value="">선택</option>
+                                                <th:block th:each="code, status : ${heatingCoolingTypeCds}">
+                                                    <option th:value="${code.code}" th:selected="${not #strings.isEmpty(dto.heatingCoolingTypeCds) && #strings.contains(dto.heatingCoolingTypeCds, code.code)}">[[${code.name}]]</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 line">
+                                    <div class="display-flex-row">
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">신축년도</label>
+                                            <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                                <input type="hidden" class="form-control" name="yearBuiltAt" th:value="${dto.yearBuiltAt != null} ? ${dto.yearBuiltAt} : ''">
+                                                <input type="text" class="form-control" id="targetYearBuiltAt" maxlength="50" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">리모델링년도</label>
+                                            <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                                <input type="hidden" class="form-control" name="remodelingAt" th:value="${dto.remodelingAt != null} ? ${dto.remodelingAt} : ''">
+                                                <input type="text" class="form-control" id="targetRemodelingAt" maxlength="50" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 display-flex-column line">
+                                    <div class="col-md-12 display-flex-row">
+                                        <label class="text-label">주변 호재 뉴스</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <textarea class="form-control form-control-sm" name="goodNewsInfo" style="height: 80px;">[[${dto.goodNewsInfo}]]</textarea>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <!-- /.card -->
+                    </form>
+
+                    <div class="card" style="margin-top: 5px;">
+                        <form class="form-horizontal" name="frmConstructRegister" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title" style="padding-top: 5px;">건축물 대장 정보</h3>
+                                <div class="card-tools">
+                                    <input type="hidden" name="constructId" />
+                                    <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
+                                    <input type="hidden" value="" name="heit" />
+                                    <input type="hidden" value="" name="archAreaByPyung" />
+                                    <input type="hidden" value="" name="responseCode" />
+                                    <input type="hidden" value="" name="lastCurlApiAt" />
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-sm btn-success btnConstructReload">조회</button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="padding: 10px;">
+                                <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
+                                    <div class="col-md-6 no-left-padding">
+                                        <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
+                                            <input type="checkbox" class="checkElement" name="illegalConstructYn" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;위반건축물여부
+                                        </label> &nbsp;
+                                    </div>
+                                    <div class="col-md-6 right-align"></div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-6 display-flex-column no-left-padding">
+                                        <div class="display-flex-row">
+                                            <label class="text-label">주용도</label>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm mainPurpsCdNm" name="mainPurpsCdNm" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-column no-left-padding">
+                                        <div class="display-flex-row">
+                                            <label class="text-label">구조</label>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm strctCdNm" name="strctCdNm" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-6 display-flex-column no-left-padding">
+                                        <div class="display-flex-row">
+                                            <label class="text-label">사용승인일</label>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm useAprDate" name="useAprDate" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-column no-left-padding">
+                                        <div class="display-flex-row">
+                                            <label class="text-label">호수/가구수/세대수</label>
+                                        </div>
+                                        <div class="display-flex-row">
+                                            <input type="text" class="form-control form-control-sm houseHoldName" name="houseHoldName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
+                                            <label class="text-label">대지면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platArea calAreaPyung" name="platArea" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm platAreaByPyung" name="platAreaByPyung" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;평&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
+                                            <label class="text-label">연면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm totArea calAreaPyung" name="totArea" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm totAreaByPyung" name="totAreaByPyung" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;평&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 display-flex-row line">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
+                                            <label class="text-label">건축면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm archArea calAreaBcRate" name="archArea" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 display-flex-column">
+                                            <label class="text-label">건폐율</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm bcRat" name="bcRat" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;%&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
+                                            <label class="text-label">지상면적</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm vlRatEstmTotArea calculateAreaVlRate" name="vlRatEstmTotArea" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 display-flex-column">
+                                            <label class="text-label">용적율</label>
+                                            <div class="display-flex-row">
+                                                <input type="text" class="form-control form-control-sm vlRat" name="vlRat" />
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;%&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12 display-flex-row line">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column margin-right-4">
+                                            <label class="text-label">규모(층수)</label>
+                                            <!--                                            <label class="text-label">규모(층수, 지상/지하)</label>-->
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지상</div>
+                                                <input type="text" class="form-control form-control-sm grndFlrCnt" name="grndFlrCnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;층&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">지하</div>
+                                                <input type="text" class="form-control form-control-sm ugrndFlrCnt" name="ugrndFlrCnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;층&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column no-left-padding margin-right-4">
+                                            <label class="text-label">엘레베이터</label>
+                                            <!--                                            <label class="text-label">엘레베이터(승용/긴급)</label>-->
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">승용</div>
+                                                <input type="text" class="form-control form-control-sm rideUseElvtCnt" name="rideUseElvtCnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">비상용</div>
+                                                <input type="text" class="form-control form-control-sm emgenUseElvtCnt" name="emgenUseElvtCnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px; height:30px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-md-12 display-flex-row line">
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column margin-right-4">
+                                            <!--                                            <label class="text-label">주차(자주식, 옥내/옥외)</label>-->
+                                            <label class="text-label">주차(자주식)</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
+                                                <input type="text" class="form-control form-control-sm indrAutoUtcnt" name="indrAutoUtcnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm oudrAutoUtcnt" name="oudrAutoUtcnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 display-flex-row no-left-padding">
+                                        <div class="display-flex-column no-left-padding margin-right-4">
+                                            <!--                                            <label class="text-label">주차(기계식, 옥내/옥외)</label>-->
+                                            <label class="text-label">주차(기계식)</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
+                                                <input type="text" class="form-control form-control-sm indrMechUtcnt" name="indrMechUtcnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex-column">
+                                            <label class="text-label">&nbsp;</label>
+                                            <div class="display-flex-row">
+                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
+                                                <input type="text" class="form-control form-control-sm oudrMechUtcnt" name="oudrMechUtcnt"/>
+                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                    <!-- /.card -->
+                    <div class="card" style="margin-top: 10px;" th:if="${isModify}">
+                        <div class="card-header">
+                            <h3 class="card-title margin-right-4" style="padding-top: 5px;">고객정보</h3>
+                            <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
+                            <label class="text-label">총 <span id="customerCnt">1</span>명</label>
+                            <div class="card-tools"></div>
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
                             <div class="form-group col-md-12 display-flex-column">
-                                <div class="col-md-12">
-                                    <label class="text-label">주소</label>
-                                </div>
-                                <div class="col-md-12 display-flex-row">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" name="address" th:value="${dto.address}" readonly />
-                                </div>
-                                <div class="col-md-12" style="margin-top: 5px;">
-                                    <input type="text" class="form-control form-control-sm col-sm-12" name="addressDetail" th:value="${dto.addressDetail}" />
-                                </div>
-                                <div class="col-md-12" style="margin-top: 10px;">
-                                    <div id="map" class="col-md-12" style="height:350px;"></div>
+                                <form name="frmCustomerRegister">
+                                    <div id="customerInfoSection"></div>
+                                </form>
+                                <div>
+                                    <div class="col-md-12 no-left-padding margin-top-5" style="padding-right: 0;">
+                                        <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
+                                        <button type="button" class="btn btn-sm btn-warning btnShowDelMemo" style="margin-right: 5px;" th:if="${dto.isSuperAdmin}"> 삭제항목 보이기</button>
+                                        <button type="button" class="btn btn-sm btn-danger pull-right btnRemoveAllMemo"> 삭제</button>
+                                    </div>
+                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5" style="padding-right: 0;">
+                                        <input type="text" id="memoInput" class="form-control form-control-sm" placeholder="내용을 입력하세요." />
+                                    </div>
+                                    <div class="col-md-12 display-flex-column margin-top-5">
+                                        <div class="row horizontal-scroll">
+                                            <table class="table table-sm customer-info">
+                                                <tbody class="memoInfo"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
-                    </form>
+                </div>
+                <div class="col-md-6 col-sm-6 display-flex-column">
+                    <div class="card" style="margin-top: 10px;">
+                        <div class="card-header">
+                            <h3 class="card-title">금액정보</h3>
+                            <div class="card-tools"></div>
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <div class="form-group col-md-12 display-flex-column line">
+                                <form class="form-horizontal" name="frmPriceRegister" method="post">
+                                    <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
+                                    <input type="hidden" name="priceId" />
+                                    <div class="col-md-12 display-flex-row no-left-padding">
+                                        <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
+                                            <label class="text-label">대표이미지</label>
+                                            <div class="image-section main-section" style="width:100%; height:auto;">
+                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo"/>
+                                            </div>
+                                            <div class="margin-top-5" style="overflow-x: auto;">
+                                                <div style="white-space: nowrap;">
+                                                    <div class="btnMultiImgUpload thumbnailInfo text-center margin-right-5" style="display: inline-block; cursor: pointer; width: 40px; height: 40px; font-size: 25px; color: #fff; background-color: #dadada; border-radius: 5px;">
+                                                        <i class="fa fa-upload" style="font-size: 20px;"></i>
+                                                    </div>
+                                                    <div class="image-sub-section display-inline-block sortable-section"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 display-flex-column" style="padding-top: 25px;">
+                                            <div class="display-flex-row no-right-padding">
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">매도호가</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm salePrice" name="salePrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;억원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">조정가</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm priceAdjuster" name="priceAdjuster" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;억원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="display-flex-row no-right-padding margin-top-5">
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">토지 평단가</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm landUnitPrice" name="landUnitPrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">연면적 평단가</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm totalAreaUnitPrice" name="totalAreaUnitPrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="display-flex-row no-right-padding margin-top-5">
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">보증금</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm guaranteePrice" name="guaranteePrice" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">월 임대료</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm rentMonth" name="rentMonth" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="display-flex-row no-right-padding margin-top-5">
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">관리비</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm management" name="management" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 display-flex-column no-right-padding">
+                                                    <label class="text-label">관리비지출</label>
+                                                    <div class="com-md-12 no-left-padding display-flex-row">
+                                                        <input type="text" class="form-control form-control-sm managementExpense" name="managementExpense" value="0"/>
+                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="col-md-12 display-flex-column" style="margin-top: 20px;">
+                                    <div class="row margin-bottom-10" style="position: relative;">
+                                        <label class="control-label" style="padding-top: 3px;">층별 임대차 현황 정보</label>
+                                        <div style="padding-left: 10px;">
+                                            <button class="btn btn-sm btn-default btnRowAdd">행 추가</button>
+                                        </div>
+                                        <div class="pull-right" style="position: absolute; right: 0;">
+                                            <button class="btn btn-sm btn-success btnConstructFloorReload">조회</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="overflow-x: auto;">
+                                        <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th class="center-text" scope="col" style="min-width: 90px;">층수</th>
+                                                <th class="center-text" scope="col" style="min-width: 90px;">호실</th>
+                                                <th class="center-text" scope="col" style="min-width: 200px;">용도</th>
+                                                <th class="center-text" scope="col" style="min-width: 150px;">입점업체</th>
+                                                <th class="center-text" scope="col" style="min-width: 100px;">대장상 면적</th>
+                                                <th class="center-text" scope="col" colspan="2" style="min-width: 140px;">임대 면적</th>
+                                                <th class="center-text" scope="col" style="min-width: 100px;">보증금</th>
+                                                <th class="center-text" scope="col" style="min-width: 100px;">임대료</th>
+                                                <th class="center-text" scope="col" style="min-width: 100px;">관리비</th>
+                                                <th class="center-text" scope="col" style="min-width: 200px;">계약기간</th>
+                                                <th class="center-text" scope="col" style="min-width: 100px;">비고</th>
+                                                <th class="center-text" scope="col" style="min-width: 50px;"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot class="hidden">
+                                            <tr>
+                                                <td colspan="4" style="text-align: left; padding-left: 10px;">합계</td>
+                                                <td class="right-align totalArea"></td>
+                                                <td class="right-align totalLndpclAr"></td>
+                                                <td class="right-align totalLndpclArByPyung"></td>
+                                                <td class="right-align totalSubGuaranteePrice"></td>
+                                                <td class="right-align totalSubRent"></td>
+                                                <td class="right-align totalManagement"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
                     <!-- /.card -->
                     <div class="card" style="margin-top: 5px;">
                         <div class="card-header">
@@ -194,6 +749,7 @@
                                 <input type="hidden" name="landId" value="" />
                                 <input type="hidden" name="totalLndpclArByPyung" value="0" />
                                 <input type="hidden" name="totalLndpclAr" value="0" />
+                                <input type="hidden" name="totalPblntfPclnd" value="0" />
                                 <input type="hidden" name="totalPblntfPclndByPyung" value="0" />
                                 <input type="hidden" name="responseCode" value="" />
                                 <input type="hidden" name="lastCurlApiAt" value="" />
@@ -255,13 +811,26 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 display-flex-column">
-                                        <label class="text-label">개별공시지가(합계)</label>
+                                        <label class="text-label">개별공시지가(평)</label>
                                         <div class="com-md-12 no-left-padding display-flex-row">
-                                            <input type="text" class="form-control form-control-sm totalPblntfPclnd" name="totalPblntfPclnd" />
+                                            <input type="text" class="form-control form-control-sm pblntfPclndByPyung" name="pblntfPclndByPyung" />
                                             <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>
                                         </div>
                                     </div>
                                 </div>
+                                <!--                                <div class="form-group col-md-12 display-flex-row margin-bottom-5">-->
+                                <!--                                    <div class="col-md-6 display-flex-column no-left-padding">-->
+                                <!--                                        <label class="text-label">개별공시지가(합계)</label>-->
+                                <!--                                        <div class="com-md-12 no-left-padding display-flex-row">-->
+                                <!--                                            <input type="text" class="form-control form-control-sm totalPblntfPclnd" />-->
+                                <!--                                            <button type="button" class="btn btn-xs btn-default" disabled> &nbsp;원&nbsp;&nbsp;</button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="col-md-6 display-flex-column">-->
+                                <!--                                        <label class="text-label">&nbsp;</label>-->
+                                <!--                                        <div class="com-md-12 no-left-padding display-flex-row"></div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
                                 <div class="form-group col-md-12 display-flex-row margin-bottom-5">
                                     <div class="col-md-6 display-flex-column no-left-padding">
                                         <label class="text-label">지목</label>
@@ -399,403 +968,6 @@
                             </form>
                         </div>
                         <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                    <div class="card" style="margin-top: 10px;" th:if="${isModify}">
-                        <div class="card-header">
-                            <h3 class="card-title margin-right-4" style="padding-top: 5px;">고객정보</h3>
-                            <button type="button" class="btn btn-xs btn-default btnCustomerAdd margin-right-5 margin-left-5"> 추가</button>
-                            <label class="text-label">총 <span id="customerCnt">1</span>명</label>
-                            <div class="card-tools"></div>
-                        </div>
-                        <div class="card-body" style="padding: 10px;">
-                            <div class="form-group col-md-12 display-flex-column">
-                                <form name="frmCustomerRegister">
-                                    <div id="customerInfoSection"></div>
-                                </form>
-                                <div>
-                                    <div class="col-md-12 no-left-padding margin-top-5" style="padding-right: 0;">
-                                        <button type="button" class="btn btn-sm btn-default" style="margin-right: 5px;"> 업무일지</button>
-                                        <button type="button" class="btn btn-sm btn-warning btnShowDelMemo" style="margin-right: 5px;" th:if="${dto.isSuperAdmin}"> 삭제항목 보이기</button>
-                                        <button type="button" class="btn btn-sm btn-danger pull-right btnRemoveAllMemo"> 삭제</button>
-                                    </div>
-                                    <div class="col-md-12 display-flex-row no-left-padding margin-top-5" style="padding-right: 0;">
-                                        <input type="text" id="memoInput" class="form-control form-control-sm" placeholder="내용을 입력하세요." />
-                                    </div>
-                                    <div class="col-md-12 display-flex-column margin-top-5">
-                                        <div class="row horizontal-scroll">
-                                            <table class="table table-sm customer-info">
-                                                <tbody class="memoInfo"></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </div>
-                <div class="col-md-6 col-sm-6 display-flex-column">
-                    <div class="card" style="margin-top: 10px;">
-                        <div class="card-header">
-                            <h3 class="card-title">금액정보</h3>
-                            <div class="card-tools"></div>
-                        </div>
-                        <div class="card-body" style="padding: 10px;">
-                            <div class="form-group col-md-12 display-flex-column line">
-                                <form class="form-horizontal" name="frmPriceRegister" method="post">
-                                    <input type="hidden" name="realEstateId" th:value="${dto.realEstateId}" />
-                                    <input type="hidden" name="priceId" />
-                                    <div class="col-md-12 display-flex-row no-left-padding">
-                                        <div class="col-md-6 display-flex-column no-left-padding" style="height: auto; min-width: 220px;">
-                                            <label class="text-label">대표이미지</label>
-                                            <div class="image-section main-section" style="width:100%; height:auto;">
-                                                <img id="mainImg" th:src="@{/images/no-image-found.jpeg}" class="col-sm-12 no-left-padding thumbnailInfo"/>
-                                            </div>
-                                            <div class="margin-top-5" style="overflow-x: auto;">
-                                                <div style="white-space: nowrap;">
-                                                    <div class="btnMultiImgUpload thumbnailInfo text-center margin-right-5" style="display: inline-block; cursor: pointer; width: 40px; height: 40px; font-size: 25px; color: #fff; background-color: #dadada; border-radius: 5px;">
-                                                        <i class="fa fa-upload" style="font-size: 20px;"></i>
-                                                    </div>
-                                                    <div class="image-sub-section display-inline-block sortable-section"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 display-flex-column" style="padding-top: 25px;">
-                                            <div class="display-flex-row no-right-padding">
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">매매가</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm salePrice" name="salePrice" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;억원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">입금가</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm depositPrice" name="depositPrice" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;억원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="display-flex-row no-right-padding margin-top-5">
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">수익률</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm revenueRate" name="revenueRate" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;%&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">토지 평단가</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm averageUnitPrice" name="averageUnitPrice" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="display-flex-row no-right-padding margin-top-5">
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">보증금</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm guaranteePrice" name="guaranteePrice" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">월 임대료</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm rentMonth" name="rentMonth" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="display-flex-row no-right-padding margin-top-5">
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">관리비</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm management" name="management" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 display-flex-column no-right-padding">
-                                                    <label class="text-label">관리비지출</label>
-                                                    <div class="com-md-12 no-left-padding display-flex-row">
-                                                        <input type="number" class="form-control form-control-sm managementExpense" name="managementExpense" value="0"/>
-                                                        <button type="button" class="btn btn-xs btn-default min-width-50px" disabled> &nbsp;만원&nbsp;&nbsp;</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="col-md-12 display-flex-column" style="margin-top: 20px;">
-                                    <div class="row margin-bottom-10" style="position: relative;">
-                                        <label class="control-label" style="padding-top: 3px;">층별 임대차 현황 정보</label>
-                                        <div style="padding-left: 10px;">
-                                            <button class="btn btn-sm btn-default btnRowAdd">행 추가</button>
-                                        </div>
-                                        <div class="pull-right" style="position: absolute; right: 0;">
-                                            <button class="btn btn-sm btn-success btnConstructFloorReload">조회</button>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="overflow-x: auto;">
-                                        <table class="table table-sm table-bordered construct-floor-table" style="white-space: nowrap;">
-                                            <thead class="thead-light">
-                                            <tr>
-                                                <th class="center-text" scope="col" style="min-width: 90px;">층수</th>
-                                                <th class="center-text" scope="col" style="min-width: 90px;">호실</th>
-                                                <th class="center-text" scope="col" style="min-width: 200px;">용도</th>
-                                                <th class="center-text" scope="col" style="min-width: 150px;">입점업체</th>
-                                                <th class="center-text" scope="col" style="min-width: 100px;">대장상 면적</th>
-                                                <th class="center-text" scope="col" colspan="2" style="min-width: 140px;">임대 면적</th>
-                                                <th class="center-text" scope="col" style="min-width: 100px;">보증금</th>
-                                                <th class="center-text" scope="col" style="min-width: 100px;">임대료</th>
-                                                <th class="center-text" scope="col" style="min-width: 100px;">관리비</th>
-                                                <th class="center-text" scope="col" style="min-width: 200px;">계약기간</th>
-                                                <th class="center-text" scope="col" style="min-width: 100px;">비고</th>
-                                                <th class="center-text" scope="col" style="min-width: 50px;"></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                            <tfoot class="hidden">
-                                            <tr>
-                                                <td colspan="4" style="text-align: left; padding-left: 10px;">합계</td>
-                                                <td class="right-align totalArea"></td>
-                                                <td class="right-align totalLndpclAr"></td>
-                                                <td class="right-align totalLndpclArByPyung"></td>
-                                                <td class="right-align totalSubGuaranteePrice"></td>
-                                                <td class="right-align totalSubRent"></td>
-                                                <td class="right-align totalManagement"></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-                    <div class="card" style="margin-top: 5px;">
-                        <form class="form-horizontal" name="frmConstructRegister" method="post">
-                            <div class="card-header">
-                                <h3 class="card-title" style="padding-top: 5px;">건축물 대장 정보</h3>
-                                <div class="card-tools">
-                                    <input type="hidden" name="constructId" />
-                                    <input type="hidden" value="" name="vlRatEstmTotAreaByPyung" />
-                                    <input type="hidden" value="" name="heit" />
-                                    <input type="hidden" value="" name="archAreaByPyung" />
-                                    <input type="hidden" value="" name="responseCode" />
-                                    <input type="hidden" value="" name="lastCurlApiAt" />
-                                </div>
-                                <div class="pull-right">
-                                    <button class="btn btn-sm btn-success btnConstructReload">조회</button>
-                                </div>
-                            </div>
-                            <div class="card-body" style="padding: 10px;">
-                                <div class="form-group col-md-12 display-flex-row line" style="border-bottom: 1px solid #eeeeee">
-                                    <div class="col-md-6 no-left-padding">
-                                        <label class="control-label margin-right-10 margin-top-5" style="font-weight: normal; font-size: 12px;">
-                                            <input type="checkbox" class="checkElement" name="illegalConstructYn" style="font-size: 14px;">&nbsp;&nbsp;&nbsp;위반건축물여부
-                                        </label> &nbsp;
-                                    </div>
-                                    <div class="col-md-6 right-align"></div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
-                                            <label class="text-label">주용도</label>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm mainPurpsCdNm" name="mainPurpsCdNm" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
-                                            <label class="text-label">구조</label>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm strctCdNm" name="strctCdNm" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
-                                            <label class="text-label">사용승인일</label>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm useAprDate" name="useAprDate" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-column no-left-padding">
-                                        <div class="display-flex-row">
-                                            <label class="text-label">호수/가구수/세대수</label>
-                                        </div>
-                                        <div class="display-flex-row">
-                                            <input type="text" class="form-control form-control-sm houseHoldName" name="houseHoldName" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row">
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
-                                            <label class="text-label">대지면적</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm platArea calAreaPyung" name="platArea" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm platAreaByPyung" name="platAreaByPyung" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;평&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
-                                            <label class="text-label">연면적</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm totArea calAreaPyung" name="totArea" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm totAreaByPyung" name="totAreaByPyung" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;평&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12 display-flex-row line">
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="col-sm-6 no-left-padding display-flex-column margin-right-4">
-                                            <label class="text-label">건축면적</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm archArea calAreaBcRate" name="archArea" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 display-flex-column">
-                                            <label class="text-label">건폐율</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm bcRat" name="bcRat" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;%&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="col-sm-6 no-left-padding display-flex-column no-left-padding margin-right-4">
-                                            <label class="text-label">지상면적</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm vlRatEstmTotArea calculateAreaVlRate" name="vlRatEstmTotArea" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;㎡&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 display-flex-column">
-                                            <label class="text-label">용적율</label>
-                                            <div class="display-flex-row">
-                                                <input type="text" class="form-control form-control-sm vlRat" name="vlRat" />
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;%&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-12 display-flex-row line">
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column margin-right-4">
-                                            <label class="text-label">규모(층수)</label>
-<!--                                            <label class="text-label">규모(층수, 지상/지하)</label>-->
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">지상</div>
-                                                <input type="text" class="form-control form-control-sm grndFlrCnt" name="grndFlrCnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;층&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">지하</div>
-                                                <input type="text" class="form-control form-control-sm ugrndFlrCnt" name="ugrndFlrCnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;층&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column no-left-padding margin-right-4">
-                                            <label class="text-label">엘레베이터</label>
-<!--                                            <label class="text-label">엘레베이터(승용/긴급)</label>-->
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">승용</div>
-                                                <input type="text" class="form-control form-control-sm rideUseElvtCnt" name="rideUseElvtCnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">비상용</div>
-                                                <input type="text" class="form-control form-control-sm emgenUseElvtCnt" name="emgenUseElvtCnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px; height:30px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-md-12 display-flex-row line">
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column margin-right-4">
-<!--                                            <label class="text-label">주차(자주식, 옥내/옥외)</label>-->
-                                            <label class="text-label">주차(자주식)</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
-                                                <input type="text" class="form-control form-control-sm indrAutoUtcnt" name="indrAutoUtcnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
-                                                <input type="text" class="form-control form-control-sm oudrAutoUtcnt" name="oudrAutoUtcnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 display-flex-row no-left-padding">
-                                        <div class="display-flex-column no-left-padding margin-right-4">
-<!--                                            <label class="text-label">주차(기계식, 옥내/옥외)</label>-->
-                                            <label class="text-label">주차(기계식)</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 3px; min-width: 50px;">옥내</div>
-                                                <input type="text" class="form-control form-control-sm indrMechUtcnt" name="indrMechUtcnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2 margin-right-4" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                        <div class="display-flex-column">
-                                            <label class="text-label">&nbsp;</label>
-                                            <div class="display-flex-row">
-                                                <div class="col-md-4 vertical-center" style="font-size: 13px; padding-top: 7px; padding-left: 12px; min-width: 50px;">옥외</div>
-                                                <input type="text" class="form-control form-control-sm oudrMechUtcnt" name="oudrMechUtcnt"/>
-                                                <button type="button" class="btn btn-xs btn-default col-md-2" disabled style="min-width: 38px;">&nbsp;대&nbsp;&nbsp;</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                     <!-- /.card -->
                 </div>

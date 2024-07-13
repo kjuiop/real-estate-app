@@ -13,6 +13,25 @@ let onReady = function() {
     $('#customerInfoSection').html(drawUnitCustomerInfo("CUSTOMER", null));
     loadPrintInfo();
     onlyNumberKeyEvent({className: "only-number"});
+
+    initDate();
+}
+
+let initDate = function() {
+    singleDateRangePickerInit({
+        targetId: 'targetYearBuiltAt',
+        startName: 'yearBuiltAt'
+    });
+
+    singleDateRangePickerInit({
+        targetId: 'targetRemodelingAt',
+        startName: 'remodelingAt'
+    });
+
+    singleDateRangePickerInit({
+        targetId: 'targetAcquiredAt',
+        startName: 'acquiredAt'
+    });
 }
 
 let realEstateSave = function(e) {
@@ -24,16 +43,14 @@ let realEstateSave = function(e) {
         $frmLandUsage = $('form[name="frmLandUsageRegister"]'),
         params = serializeObject({form:$frmBasic[0]}).json();
 
+    params["banAdvertisingYn"] = $frmBasic.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
+    params["imgUrl"] = $frmPrice.find('.main-section img').attr('src');
+    params["managerIds"] = getManagerIds();
     params["propertyTypeId"] = $frmBasic.find('select[name="propertyType"] option:selected').val();
-    params["usageTypeId"] = $frmBasic.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
-
-    if (!checkNullOrEmptyValue(params.managerUsername)) {
-        twoBtnModal("담당자를 선택해주세요.");
-        return;
-    }
-
+    params["buildingTypeCds"] = $frmBasic.find('.buildingTypeCds option:selected').val();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
+    params["realEstateGradeCds"] = extractCodeId($('.realEstateGradeSection'));
+    params["usageCds"] = extractCodeId($('.usageTypeSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');
@@ -58,6 +75,14 @@ let realEstateSave = function(e) {
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
     params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
+    params.priceInfo.landUnitPrice = removeComma($frmPrice.find('input[name="landUnitPrice"]').val());
+    params.priceInfo.totalAreaUnitPrice = removeComma($frmPrice.find('input[name="totalAreaUnitPrice"]').val());
+    params.priceInfo.salePrice = removeComma($frmPrice.find('input[name="salePrice"]').val());
+    params.priceInfo.priceAdjuster = removeComma($frmPrice.find('input[name="priceAdjuster"]').val());
+    params.priceInfo.guaranteePrice = removeComma($frmPrice.find('input[name="guaranteePrice"]').val());
+    params.priceInfo.rentMonth = removeComma($frmPrice.find('input[name="rentMonth"]').val());
+    params.priceInfo.management = removeComma($frmPrice.find('input[name="management"]').val());
+    params.priceInfo.managementExpense = removeComma($frmPrice.find('input[name="managementExpense"]').val());
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -114,15 +139,14 @@ let realEstateUpdate = function(e) {
         params = serializeObject({form:$basicFrm[0]}).json();
 
     params["propertyTypeId"] = $basicFrm.find('select[name="propertyType"] option:selected').val();
-    params["usageTypeId"] = $basicFrm.find('.btnUsageCode.selected').attr("usageTypeId");
-    params.imgUrl = $frmPrice.find('.main-section img').attr('src');
 
-    if (!checkNullOrEmptyValue(params.managerUsername)) {
-        twoBtnModal("담당자를 선택해주세요.");
-        return;
-    }
-
+    params["banAdvertisingYn"] = $basicFrm.find('input[name="banAdvertisingYn"]').is(":checked") ? "Y" : "N";
+    params["imgUrl"] = $frmPrice.find('.main-section img').attr('src');
+    params["managerIds"] = getManagerIds();
     params["exclusiveCds"] = extractCodeId($('.exclusiveSection'));
+    params["realEstateGradeCds"] = extractCodeId($('.realEstateGradeSection'));
+    params["buildingTypeCds"] = $basicFrm.find('.buildingTypeCds option:selected').val();
+    params["usageCds"] = extractCodeId($('.usageTypeSection'));
 
     let subImages = [];
     let $imgSubImgSection = $('.image-sub-section');
@@ -147,6 +171,16 @@ let realEstateUpdate = function(e) {
     params.priceInfo.totalLndpclArByPyung = $('input[name="totalLndpclArByPyung"]').val();
     params.priceInfo.totArea = $('input[name="totArea"]').val();
     params.priceInfo.totAreaByPyung = $frmConstruct.find('input[name="totAreaByPyung"]').val();
+    params.priceInfo.landUnitPrice = removeComma($frmPrice.find('input[name="landUnitPrice"]').val());
+    params.priceInfo.totalAreaUnitPrice = removeComma($frmPrice.find('input[name="totalAreaUnitPrice"]').val());
+    params.priceInfo.salePrice = removeComma($frmPrice.find('input[name="salePrice"]').val());
+    params.priceInfo.priceAdjuster = removeComma($frmPrice.find('input[name="priceAdjuster"]').val());
+    params.priceInfo.guaranteePrice = removeComma($frmPrice.find('input[name="guaranteePrice"]').val());
+    params.priceInfo.rentMonth = removeComma($frmPrice.find('input[name="rentMonth"]').val());
+    params.priceInfo.management = removeComma($frmPrice.find('input[name="management"]').val());
+    params.priceInfo.managementExpense = removeComma($frmPrice.find('input[name="managementExpense"]').val());
+
+
 
     let floorInfoList = assembleFloorParams();
     params.floorInfoList = floorInfoList;
@@ -563,6 +597,58 @@ let extractCodeId = function(section) {
     return extractCds;
 }
 
+let drawManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        username = $this.val(),
+        name = $this.find('option:selected').attr('adminName'),
+        adminId = parseInt($this.find('option:selected').attr('adminId'))
+    ;
+
+    if (!checkNullOrEmptyValue(adminId) || isNaN(adminId)) {
+        return;
+    }
+
+    let isExist = false;
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        if (id === adminId) {
+            isExist = true;
+            return;
+        }
+    });
+    if (isExist) {
+        return;
+    }
+
+    let tag = '<button type="button" class="btn btn-xs btn-default btnManager btnManagerRemove" adminId="' + adminId + '" username="' + username + '" adminName="' + name + '" style="margin-right: 5px;">' + name + '</button>';
+    $('.managerSection').append(tag);
+}
+
+let getManagerIds = function() {
+    let managerIds = [];
+    $('.managerSection').find('.btnManager').each(function(idx, item) {
+        let id = parseInt($(item).attr('adminId'));
+        managerIds.push(id);
+    });
+    return managerIds;
+}
+
+let removeManager = function(e) {
+    e.preventDefault();
+
+    let $this = $(this),
+        adminId = parseInt($this.attr('adminId')),
+        createdById = parseInt(dto.createdById)
+    ;
+    if (adminId === createdById) {
+        return;
+    }
+    twoBtnModal("담당자를 해제하시겠습니까?", function () {
+        $this.remove();
+    });
+}
 
 $(document).ready(onReady)
     .on('click', '.btnSave', realEstateSave)
@@ -603,8 +689,7 @@ $(document).ready(onReady)
     .on('blur', '.subRent', calculateRentPrice)
     .on('blur', '.subManagement', calculateManagementPrice)
     .on('blur', '.managementExpense', calculateManagementExpense)
-    .on('blur', '.salePrice', calculateAveragePrice)
-    .on('blur', '.depositPrice, .guaranteePrice, .rentMonth, .management', calculateAveragePrice)
+    .on('blur', '.salePrice, .depositPrice, .guaranteePrice, .rentMonth, .management', calculateAveragePrice)
     .on('click', '.btnOpenPrintPop', openPrintPop)
     .on('blur', '.calSumField', calculateSumField)
     .on('click', '.btnRowAdd', floorInfoRowAdd)
@@ -615,4 +700,7 @@ $(document).ready(onReady)
     .on('blur', '.calAreaPyung', calculateAreaPyung)
     .on('blur', '.calAreaBcRate', calculateAreaBcRate)
     .on('blur', '.calculateAreaVlRate', calculateAreaVlRate)
+    .on('ifToggled', '.checkNotiRead', checkNotiRead)
+    .on('change', '.managerList', drawManager)
+    .on('click', '.btnManagerRemove', removeManager)
 ;

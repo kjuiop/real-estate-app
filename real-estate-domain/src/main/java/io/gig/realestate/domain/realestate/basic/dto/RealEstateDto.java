@@ -5,9 +5,10 @@ import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Lob;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +20,16 @@ import java.time.LocalDateTime;
 public class RealEstateDto {
 
     private Long realEstateId;
+
+    private Double landPriceDiff;
     
     private String exclusiveCds;
+
+    private String realEstateGradeCds;
+
+    private String buildingTypeCds;
+
+    private String usageCds;
 
     private String buildingName;
 
@@ -60,9 +69,43 @@ public class RealEstateDto {
 
     private String tradingAt;
 
+    private LocalDate acquiredAt;
+
+    private LocalDate yearBuiltAt;
+
+    private LocalDate remodelingAt;
+
+    private YnType banAdvertisingYn;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private String changeBrightnessCds;
+
+    private String ownBrightnessCds;
+
+    private String brightnessPeriod;
+
+    private String expectedBrightnessPrice;
+
+    private String buildingImprovePoint;
+
+    private String waterLeak;
+
+    private String adjacentRoad;
+
+    private String slope;
+
+    private String landscape;
+
+    private String restroom;
+
+    private String heatingTypeCds;
+
+    private String heatingCoolingTypeCds;
+
+    private String goodNewsInfo;
 
     public RealEstateDto(RealEstate r) {
         this.realEstateId = r.getId();
@@ -84,11 +127,30 @@ public class RealEstateDto {
         this.imgUrl = r.getImgUrl();
         this.agentName = r.getAgentName();
         this.tradingAt = r.getTradingAt();
+        this.acquiredAt = r.getAcquiredAt();
         this.processType = r.getProcessType();
-        this.rYn = r.getRYn();
-        this.abYn = r.getAbYn();
         this.exclusiveCds = r.getExclusiveCds();
+        this.realEstateGradeCds = r.getRealEstateGradeCds();
+        this.buildingTypeCds = r.getBuildingTypeCds();
+        this.usageCds = r.getUsageCds();
+        this.banAdvertisingYn = r.getBanAdvertisingYn();
+        this.landPriceDiff = r.getLandPriceDiff();
         this.createdAt = r.getCreatedAt();
         this.updatedAt = r.getUpdatedAt();
+        this.yearBuiltAt = r.getYearBuiltAt();
+        this.remodelingAt = r.getRemodelingAt();
+        this.changeBrightnessCds = r.getChangeBrightnessCds();
+        this.ownBrightnessCds = r.getOwnBrightnessCds();
+        this.brightnessPeriod = r.getBrightnessPeriod();
+        this.expectedBrightnessPrice = r.getExpectedBrightnessPrice();
+        this.buildingImprovePoint = r.getBuildingImprovePoint();
+        this.waterLeak = r.getWaterLeak();
+        this.adjacentRoad = r.getAdjacentRoad();
+        this.slope = r.getSlope();
+        this.landscape = r.getLandscape();
+        this.restroom = r.getRestroom();
+        this.heatingTypeCds = r.getHeatingTypeCds();
+        this.heatingCoolingTypeCds = r.getHeatingCoolingTypeCds();
+        this.goodNewsInfo = r.getGoodNewsInfo();
     }
 }

@@ -3,20 +3,18 @@ package io.gig.realestate.domain.realestate.basic.dto;
 import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
+import io.gig.realestate.domain.realestate.manager.RealEstateManager;
+import io.gig.realestate.domain.realestate.manager.dto.RealEstateManagerDto;
 import io.gig.realestate.domain.realestate.print.dto.PrintDto;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author : JAKE
@@ -43,6 +41,9 @@ public class RealEstateDetailDto extends RealEstateDto {
     private Long nextId;
 
     private PrintDto printInfo;
+
+    @Builder.Default
+    public List<RealEstateManagerDto> managers = new ArrayList<>();
 
     @Builder.Default
     private boolean isOwnUser = false;
@@ -110,9 +111,9 @@ public class RealEstateDetailDto extends RealEstateDto {
             this.propertyCdId = r.getPropertyType().getId();
         }
 
-        if (r.getManager() != null) {
-            this.managerId = r.getManager().getId();
-            this.managerTeamId = r.getManager().getTeam().getId();
+        if (r.getManagerBy() != null) {
+            this.managerId = r.getManagerBy().getId();
+            this.managerTeamId = r.getManagerBy().getTeam().getId();
         }
 
         if (r.getCreatedBy() != null) {
@@ -122,9 +123,19 @@ public class RealEstateDetailDto extends RealEstateDto {
         if (r.getPrintInfoList().size() > 0) {
             this.printInfo = new PrintDto(r.getPrintInfoList().get(0));
         }
+
+        if (r.getManagers().size() > 0) {
+            List<RealEstateManagerDto> list = new ArrayList<>();
+            for (RealEstateManager rm : r.getManagers()) {
+                if (rm.getDeleteYn() == YnType.N && rm.getAdmin().isNormal()) {
+                    list.add(new RealEstateManagerDto(rm));
+                }
+            }
+            this.managers = list;
+        }
     }
 
-    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId, String dongCode) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, String dongCode) {
 
         if (!StringUtils.hasText(legalCode)) {
             legalCode = dongCode;
@@ -136,7 +147,6 @@ public class RealEstateDetailDto extends RealEstateDto {
                 .bun(bun)
                 .ji(ji)
                 .address(address)
-                .usageCdId(usageCdId)
                 .exclusiveCds("CD_EXCLUSIVE_01")
                 .build();
     }

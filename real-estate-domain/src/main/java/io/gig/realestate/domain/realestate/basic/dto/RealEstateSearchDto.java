@@ -1,5 +1,6 @@
-package io.gig.realestate.domain.realestate.basic;
+package io.gig.realestate.domain.realestate.basic.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.gig.realestate.domain.common.BaseSearchDto;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.types.ProcessType;
@@ -8,6 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : JAKE
@@ -19,6 +26,12 @@ import org.springframework.data.domain.Sort;
 public class RealEstateSearchDto extends BaseSearchDto {
 
     private ProcessType processType;
+
+    private List<ProcessType> processTypeCds = new ArrayList<>();
+
+    private String realEstateGradeCds;
+
+    private String exclusiveCds;
 
     private String address;
 
@@ -40,7 +53,7 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Long realEstateId;
 
-    private Long usageCd;
+    private String usageCds;
 
     private String manager;
 
@@ -104,9 +117,27 @@ public class RealEstateSearchDto extends BaseSearchDto {
 
     private Integer maxRoadWidth;
 
-    private YnType rYn;
+    private Double minLandPriceDiff;
 
-    private YnType abYn;
+    private Double maxLandPriceDiff;
+
+    private String sortField;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate afterYearBuiltAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate afterRemodelingAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime beforeUpdatedAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime afterUpdatedAt;
 
     public PageRequest getPageableWithSort() {
         return PageRequest.of(getPage(), getSize(), Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));

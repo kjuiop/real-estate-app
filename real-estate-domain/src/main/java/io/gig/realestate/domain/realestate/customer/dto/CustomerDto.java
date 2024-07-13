@@ -40,6 +40,8 @@ public class CustomerDto {
 
     private String representPhone;
 
+    private String saleReason;
+
     public CustomerDto(CustomerInfo c) {
         this.customerId = c.getId();
         this.type = c.getType();
@@ -53,5 +55,6 @@ public class CustomerDto {
         this.companyPhone = c.getCompanyPhone();
         this.representName = c.getRepresentName();
         this.representPhone = c.getRepresentPhone();
+        this.saleReason = c.getSaleReason();
     }
 }
