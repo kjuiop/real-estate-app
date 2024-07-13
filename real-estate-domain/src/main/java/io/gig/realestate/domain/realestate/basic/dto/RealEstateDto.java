@@ -7,6 +7,7 @@ import io.gig.realestate.domain.realestate.basic.types.ProcessType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Lob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -80,6 +81,32 @@ public class RealEstateDto {
 
     private LocalDateTime updatedAt;
 
+    private String changeBrightnessCds;
+
+    private String ownBrightnessCds;
+
+    private String brightnessPeriod;
+
+    private String expectedBrightnessPrice;
+
+    private String buildingImprovePoint;
+
+    private String waterLeak;
+
+    private String adjacentRoad;
+
+    private String slope;
+
+    private String landscape;
+
+    private String restroom;
+
+    private String heatingTypeCds;
+
+    private String heatingCoolingTypeCds;
+
+    private String goodNewsInfo;
+
     public RealEstateDto(RealEstate r) {
         this.realEstateId = r.getId();
         this.legalCode = r.getLegalCode();
@@ -112,5 +139,18 @@ public class RealEstateDto {
         this.updatedAt = r.getUpdatedAt();
         this.yearBuiltAt = r.getYearBuiltAt();
         this.remodelingAt = r.getRemodelingAt();
+        this.changeBrightnessCds = r.getChangeBrightnessCds();
+        this.ownBrightnessCds = r.getOwnBrightnessCds();
+        this.brightnessPeriod = r.getBrightnessPeriod();
+        this.expectedBrightnessPrice = r.getExpectedBrightnessPrice();
+        this.buildingImprovePoint = r.getBuildingImprovePoint();
+        this.waterLeak = r.getWaterLeak();
+        this.adjacentRoad = r.getAdjacentRoad();
+        this.slope = r.getSlope();
+        this.landscape = r.getLandscape();
+        this.restroom = r.getRestroom();
+        this.heatingTypeCds = r.getHeatingTypeCds();
+        this.heatingCoolingTypeCds = r.getHeatingCoolingTypeCds();
+        this.goodNewsInfo = r.getGoodNewsInfo();
     }
 }

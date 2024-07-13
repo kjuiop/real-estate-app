@@ -90,6 +90,37 @@ public class RealEstate extends BaseTimeEntity {
     @Lob
     private String usageCds;
 
+    @Lob
+    private String changeBrightnessCds;
+
+    @Lob
+    private String ownBrightnessCds;
+
+    private String brightnessPeriod;
+
+    private String expectedBrightnessPrice;
+
+    private String buildingImprovePoint;
+
+    private String waterLeak;
+
+    private String adjacentRoad;
+
+    private String slope;
+
+    private String landscape;
+
+    private String restroom;
+
+    @Lob
+    private String heatingTypeCds;
+
+    @Lob
+    private String heatingCoolingTypeCds;
+
+    @Lob
+    private String goodNewsInfo;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 2, columnDefinition = "char(1) default 'N'")
