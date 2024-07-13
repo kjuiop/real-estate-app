@@ -13,6 +13,14 @@
         .container-fluid select {
             height: 30px;
         }
+
+        .modal-body * {
+            font-size: 12px;
+        }
+
+        .modal-body select {
+            height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -362,11 +370,11 @@
                                         <th style="width: 5%;">진행단계</th>
                                         <th style="width: 8%;">평당금액&nbsp;/<br/>공시지가</th>
                                         <th style="width: 15%;">용도</th>
-                                        <th style="width: 15%; padding-left: 55px;">금액</th>
+                                        <th style="width: 12%; padding-left: 55px;">금액</th>
                                         <th style="width: 5%;">수익</th>
                                         <th style="width: 10%;">면적</th>
                                         <th style="width: 5%;">담당자</th>
-                                        <th style="width: 10%;">최종수정일</th>
+                                        <th style="width: 13%;">최종수정일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -534,17 +542,6 @@
                                 <table class="table table-borderless" style="height: 225px;">
                                     <tbody>
                                     <tr>
-                                        <td class="col-md-12" colspan="12">
-                                            <label class="text-label no-left-padding">매물용도</label>
-                                            <select class="form-control" name="usageCd" style="height: 30px; font-size: 12px;">
-                                                <option value="">선택</option>
-                                                <th:block th:each="code : ${usageCds}">
-                                                    <option th:value="${code.id}">[[${code.name}]]</option>
-                                                </th:block>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td class="col-md-12 no-left-padding" colspan="12">
                                             <div>
                                                 <label class="radio-label" style="font-weight: normal;">
@@ -565,38 +562,38 @@
                                                     <button type="button" class="btn btn-sm btn-default col-sm-3 btnAddress" style="margin-left: 5px;"> 주소검색</button>
                                                 </div>
                                             </div>
-                                            <div class="direct-section hidden">
-                                                <div class="col-md-12 no-left-padding">
+                                            <div class="direct-section padding-left-10 hidden">
+                                                <div class="row">
                                                     <label class="text-label">주소 입력</label>
                                                 </div>
-                                                <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
-                                                    <select class="form-control custom-select margin-right-5" name="sido">
+                                                <div class="row margin-top-8">
+                                                    <select class="form-control form-control-sm custom-select margin-right-5" name="sido" style="width: 150px;">
                                                         <option value="">시도 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(sidoList)}" th:each="area: ${sidoList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
-                                                    <select class="form-control form-control-sm custom-select select-box margin-right-5" name="gungu">
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-5" name="gungu" style="width: 150px;">
                                                         <option value="">구군 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(gunguList)}" th:each="area: ${gunguList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
 
-                                                    <select class="form-control form-control-sm custom-select select-box margin-right-4" name="dong">
+                                                    <select class="form-control form-control-sm custom-select select-box margin-right-4" name="dong" style="width: 150px;">
                                                         <option value="">동 선택</option>
                                                         <th:block th:if="${not #lists.isEmpty(dongList)}" th:each="area: ${dongList}">
                                                             <option th:id="${area.areaId}" th:value="${area.legalAddressCode}" th:areaId="${area.areaId}" th:name="${area.name}" th:text="${area.name}"></option>
                                                         </th:block>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-12 display-flex-row no-left-padding margin-top-8">
-                                                    <select class="form-control col-md-4 margin-right-4" name="landType">
+                                                <div class="row margin-top-8">
+                                                    <select class="form-control custom-select select-box margin-right-4" name="landType" style="width: 150px;">
                                                         <option value="general">일반</option>
                                                         <option value="mountain">산</option>
                                                     </select>
-                                                    <input type="text" class="form-control col-md-4 margin-right-4" name="bun" placeholder="번" />
-                                                    <input type="text" class="form-control col-md-4" name="ji" placeholder="지" />
+                                                    <input type="text" class="form-control margin-right-4" name="bun" placeholder="번" style="width: 151px; height: 30px;" />
+                                                    <input type="text" class="form-control" name="ji" placeholder="지" style="width: 150px; height: 30px;" />
                                                 </div>
                                             </div>
                                         </td>

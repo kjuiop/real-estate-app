@@ -38,4 +38,6 @@ public class CustomerCreateForm {
     private String representName;
 
     private String representPhone;
+
+    private String saleReason;
 }

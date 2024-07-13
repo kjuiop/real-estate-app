@@ -135,7 +135,7 @@ public class RealEstateDetailDto extends RealEstateDto {
         }
     }
 
-    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, Long usageCdId, String dongCode) {
+    public static RealEstateDetailDto initDetailDto(String legalCode, String landType, String bun, String ji, String address, String dongCode) {
 
         if (!StringUtils.hasText(legalCode)) {
             legalCode = dongCode;
@@ -147,7 +147,6 @@ public class RealEstateDetailDto extends RealEstateDto {
                 .bun(bun)
                 .ji(ji)
                 .address(address)
-                .usageCdId(usageCdId)
                 .exclusiveCds("CD_EXCLUSIVE_01")
                 .build();
     }

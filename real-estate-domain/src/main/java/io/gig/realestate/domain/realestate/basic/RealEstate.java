@@ -25,7 +25,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +88,37 @@ public class RealEstate extends BaseTimeEntity {
 
     @Lob
     private String usageCds;
+
+    @Lob
+    private String changeBrightnessCds;
+
+    @Lob
+    private String ownBrightnessCds;
+
+    private String brightnessPeriod;
+
+    private String expectedBrightnessPrice;
+
+    private String buildingImprovePoint;
+
+    private String waterLeak;
+
+    private String adjacentRoad;
+
+    private String slope;
+
+    private String landscape;
+
+    private String restroom;
+
+    @Lob
+    private String heatingTypeCds;
+
+    @Lob
+    private String heatingCoolingTypeCds;
+
+    @Lob
+    private String goodNewsInfo;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -243,6 +273,19 @@ public class RealEstate extends BaseTimeEntity {
                 .acquiredAt(createForm.getAcquiredAt())
                 .yearBuiltAt(createForm.getYearBuiltAt())
                 .remodelingAt(createForm.getRemodelingAt())
+                .changeBrightnessCds(createForm.getChangeBrightnessCds())
+                .ownBrightnessCds(createForm.getOwnBrightnessCds())
+                .brightnessPeriod(createForm.getBrightnessPeriod())
+                .expectedBrightnessPrice(createForm.getExpectedBrightnessPrice())
+                .buildingImprovePoint(createForm.getBuildingImprovePoint())
+                .waterLeak(createForm.getWaterLeak())
+                .adjacentRoad(createForm.getAdjacentRoad())
+                .slope(createForm.getSlope())
+                .landscape(createForm.getLandscape())
+                .restroom(createForm.getRestroom())
+                .heatingTypeCds(createForm.getHeatingTypeCds())
+                .heatingCoolingTypeCds(createForm.getHeatingCoolingTypeCds())
+                .goodNewsInfo(createForm.getGoodNewsInfo())
                 .salePrice(createForm.getPriceInfo() != null ? createForm.getPriceInfo().getSalePrice() : 0)
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
@@ -284,6 +327,19 @@ public class RealEstate extends BaseTimeEntity {
         this.salePrice = updateForm.getPriceInfo() != null ? updateForm.getPriceInfo().getSalePrice() : 0;
         this.managerBy = manager;
         this.updatedBy = loginUser;
+        this.changeBrightnessCds = updateForm.getChangeBrightnessCds();
+        this.ownBrightnessCds = updateForm.getOwnBrightnessCds();
+        this.brightnessPeriod = updateForm.getBrightnessPeriod();
+        this.expectedBrightnessPrice = updateForm.getExpectedBrightnessPrice();
+        this.buildingImprovePoint = updateForm.getBuildingImprovePoint();
+        this.waterLeak = updateForm.getWaterLeak();
+        this.adjacentRoad = updateForm.getAdjacentRoad();
+        this.slope = updateForm.getSlope();
+        this.landscape = updateForm.getLandscape();
+        this.restroom = updateForm.getRestroom();
+        this.heatingTypeCds = updateForm.getHeatingTypeCds();
+        this.heatingCoolingTypeCds = updateForm.getHeatingCoolingTypeCds();
+        this.goodNewsInfo = updateForm.getGoodNewsInfo();
     }
 
     public static RealEstate initialInfo(String legalCode, String address, String landType, String bun, String ji) {
