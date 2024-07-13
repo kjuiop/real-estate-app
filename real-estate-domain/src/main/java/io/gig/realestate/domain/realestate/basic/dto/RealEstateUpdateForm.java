@@ -71,6 +71,32 @@ public class RealEstateUpdateForm {
 
     private String tradingAt;
 
+    private String changeBrightnessCds;
+
+    private String ownBrightnessCds;
+
+    private String brightnessPeriod;
+
+    private String expectedBrightnessPrice;
+
+    private String buildingImprovePoint;
+
+    private String waterLeak;
+
+    private String adjacentRoad;
+
+    private String slope;
+
+    private String landscape;
+
+    private String restroom;
+
+    private String heatingTypeCds;
+
+    private String heatingCoolingTypeCds;
+
+    private String goodNewsInfo;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate acquiredAt;
