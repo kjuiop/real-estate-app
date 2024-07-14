@@ -9,6 +9,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateSearchDto;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -33,13 +34,12 @@ public class MapController {
 
     private final RealEstateService realEstateService;
     private final AreaService areaService;
-    private final CategoryService categoryService;
 
     @GetMapping
     public String map(HttpServletRequest request,
                       RealEstateSearchDto searchDto,
                       Model model,
-                      LoginUser loginUser) {
+                      @CurrentUser LoginUser loginUser) {
 
         HttpSession session = request.getSession();
 
@@ -57,10 +57,8 @@ public class MapController {
         }
 
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
-        List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
         List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto, loginUser);
 
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
         model.addAttribute("coordinateList", coordinateList);
         if (pages != null) {
@@ -76,7 +74,7 @@ public class MapController {
             HttpServletRequest request,
             RealEstateSearchDto searchDto,
             Model model,
-            LoginUser loginUser) {
+            @CurrentUser LoginUser loginUser) {
 
         HttpSession session = request.getSession();
         Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
