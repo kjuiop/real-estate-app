@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface RealEstateService {
 
-    Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto);
+    Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto, LoginUser loginUser);
 
     RealEstateDetailDto getDetail(String sessionId, Long realEstateId);
 
@@ -43,7 +43,7 @@ public interface RealEstateService {
 
     void createByExcelUpload(ExcelRealEstate data) throws IOException;
 
-    List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition);
+    List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition, LoginUser loginUser);
 
     List<RealEstateListDto> getRealEstateByAddress(String address, LoginUser loginUser);
 

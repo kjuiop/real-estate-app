@@ -10,6 +10,9 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.gig.realestate.domain.admin.Administrator;
+import io.gig.realestate.domain.admin.AdministratorRole;
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.common.YnType;
 import io.gig.realestate.domain.realestate.basic.QRealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
@@ -33,6 +36,7 @@ import static io.gig.realestate.domain.realestate.basic.QRealEstate.realEstate;
 import static io.gig.realestate.domain.realestate.construct.QConstructInfo.constructInfo;
 import static io.gig.realestate.domain.realestate.customer.QCustomerInfo.customerInfo;
 import static io.gig.realestate.domain.realestate.land.QLandInfo.landInfo;
+import static io.gig.realestate.domain.realestate.manager.QRealEstateManager.realEstateManager;
 import static io.gig.realestate.domain.realestate.price.QPriceInfo.priceInfo;
 
 /**
@@ -46,9 +50,9 @@ public class RealEstateQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
+    public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto, Administrator loginUser) {
 
-        BooleanBuilder where = getSearchCondition(searchDto);
+        BooleanBuilder where = getSearchCondition(searchDto, loginUser);
 
         JPAQuery<RealEstateListDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(RealEstateListDto.class,
@@ -87,9 +91,9 @@ public class RealEstateQueryRepository {
                 ;
     }
 
-    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
+    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto, Administrator loginUser) {
 
-        BooleanBuilder where = getSearchCondition(searchDto);
+        BooleanBuilder where = getSearchCondition(searchDto, loginUser);
 
         return this.queryFactory
                 .select(realEstate.id)
@@ -186,8 +190,8 @@ public class RealEstateQueryRepository {
         return fetch;
     }
 
-    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
-        BooleanBuilder where = getSearchCondition(condition);
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition, Administrator loginUser) {
+        BooleanBuilder where = getSearchCondition(condition, loginUser);
 
         return this.queryFactory
                 .select(Projections.constructor(CoordinateDto.class, realEstate))
@@ -538,9 +542,25 @@ public class RealEstateQueryRepository {
         return StringUtils.hasText(address) ? realEstate.address.like("%" + address + "%") : null;
     }
 
-    private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto) {
+    private BooleanExpression ownManager(Administrator loginUser) {
+        for (AdministratorRole adminRole : loginUser.getAdministratorRoles()) {
+            if (adminRole.getRole().getName().equals("ROLE_SUPER_ADMIN")) {
+                return null;
+            }
+        }
+
+        return realEstate.id.in(
+                JPAExpressions.selectDistinct(realEstateManager.realEstate.id)
+                        .from(realEstateManager)
+                        .where(realEstateManager.realEstate.eq(realEstate))
+                        .where(realEstateManager.admin.id.eq(loginUser.getId()))
+                        .where(realEstateManager.deleteYn.eq(YnType.N)));
+    }
+
+    private BooleanBuilder getSearchCondition(RealEstateSearchDto searchDto, Administrator loginUser) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(defaultCondition());
+        where.and(ownManager(loginUser));
         where.and(likeProcessTypeCds(searchDto.getProcessTypeCds()));
         where.and(eqSido(searchDto.getSido()));
         where.and(eqGungu(searchDto.getGungu()));
