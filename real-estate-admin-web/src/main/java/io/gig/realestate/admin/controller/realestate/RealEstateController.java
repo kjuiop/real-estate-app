@@ -47,7 +47,8 @@ public class RealEstateController {
     private final ExcelRealEstateService excelRealEstateService;
 
     @GetMapping
-    public String index(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+    public String index(HttpServletRequest request, RealEstateSearchDto searchDto, Model model,
+                        @CurrentUser LoginUser loginUser) {
 
         HttpSession session = request.getSession();
         List<AreaListDto> sidoList = areaService.getParentAreaList();
@@ -63,7 +64,7 @@ public class RealEstateController {
             model.addAttribute("dongList", dongList);
         }
 
-        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
         model.addAttribute("condition", searchDto);
         model.addAttribute("usageCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_TYPE"));
         model.addAttribute("realEstateGradeCds", categoryService.getChildrenCategoryDtosByCode("CD_REAL_ESTATE_GRADE"));

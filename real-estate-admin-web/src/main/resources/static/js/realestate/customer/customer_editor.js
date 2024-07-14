@@ -218,7 +218,7 @@ let drawCompanyInfo = function(item) {
     tag +=         '</div>';
     tag +=         '<div class="col-md-6">';
     tag +=             '<label class="text-label">매각사유</label>';
-    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="saleReason" value="' +  item.saleReason + '"/>';
+    tag +=             '<input type="text" class="form-control form-control-sm input-height-36" name="saleReason" value="' +  convertNullOrEmptyValue(item.saleReason) + '"/>';
     tag +=         '</div>';
     tag +=     '</div>';
     tag +=     '<div class="col-md-12 display-flex-row no-left-padding margin-top-5 line" style="padding-right: 0;">';

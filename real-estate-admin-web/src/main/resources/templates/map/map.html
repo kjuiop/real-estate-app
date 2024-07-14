@@ -106,9 +106,6 @@
 
                     <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none select-height-33" name="usageCd">
                         <option value="">매물용도</option>
-                        <th:block th:each="code : ${usageCds}">
-                            <option th:value="${code.id}" th:selected="${condition.usageCd eq code.id}">[[${code.name}]]</option>
-                        </th:block>
                     </select>
 
                     <select class="form-control col-md-1 col-sm-2 select-box margin-right-15 border-none select-height-33" name="processType">
@@ -215,7 +212,7 @@
                                         </th:block>
                                     </div>
                                     <div class="col-md-6 display-flex-column padding-20">
-                                        <label class="text-label margin-bottom-3 font-weight-normal" th:text="${item.usageType != null ? item.usageType.name + ' 매매' : ''}"></label>
+                                        <label class="text-label margin-bottom-3 font-weight-normal" th:text="${'매매'}"></label>
                                         <div class="display-inline-block margin-bottom-3">
                                             <label class="text-label margin-bottom-3" style="color: red;" th:if="${item.salePrice}">
                                                 <th:block th:if="${item.salePrice > 0 && item.salePrice % 1 > 0}">

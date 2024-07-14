@@ -1,5 +1,6 @@
 package io.gig.realestate.admin.controller.map;
 
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
@@ -8,6 +9,7 @@ import io.gig.realestate.domain.realestate.basic.RealEstateService;
 import io.gig.realestate.domain.realestate.basic.dto.CoordinateDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateListDto;
 import io.gig.realestate.domain.realestate.basic.dto.RealEstateSearchDto;
+import io.gig.realestate.domain.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -32,10 +34,12 @@ public class MapController {
 
     private final RealEstateService realEstateService;
     private final AreaService areaService;
-    private final CategoryService categoryService;
 
     @GetMapping
-    public String map(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+    public String map(HttpServletRequest request,
+                      RealEstateSearchDto searchDto,
+                      Model model,
+                      @CurrentUser LoginUser loginUser) {
 
         HttpSession session = request.getSession();
 
@@ -52,11 +56,9 @@ public class MapController {
             model.addAttribute("dongList", dongList);
         }
 
-        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
-        List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
-        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto);
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
+        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto, loginUser);
 
-        model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
         model.addAttribute("coordinateList", coordinateList);
         if (pages != null) {
@@ -68,10 +70,14 @@ public class MapController {
     }
 
     @PostMapping("/real-estate")
-    public String getAjaxData(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+    public String getAjaxData(
+            HttpServletRequest request,
+            RealEstateSearchDto searchDto,
+            Model model,
+            @CurrentUser LoginUser loginUser) {
 
         HttpSession session = request.getSession();
-        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
         model.addAttribute("condition", searchDto);
         if (pages != null) {
             model.addAttribute("pages", pages);
