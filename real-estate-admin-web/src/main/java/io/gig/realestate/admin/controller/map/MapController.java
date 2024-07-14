@@ -1,5 +1,6 @@
 package io.gig.realestate.admin.controller.map;
 
+import io.gig.realestate.domain.admin.LoginUser;
 import io.gig.realestate.domain.area.AreaService;
 import io.gig.realestate.domain.area.dto.AreaListDto;
 import io.gig.realestate.domain.category.CategoryService;
@@ -35,7 +36,10 @@ public class MapController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String map(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+    public String map(HttpServletRequest request,
+                      RealEstateSearchDto searchDto,
+                      Model model,
+                      LoginUser loginUser) {
 
         HttpSession session = request.getSession();
 
@@ -52,9 +56,9 @@ public class MapController {
             model.addAttribute("dongList", dongList);
         }
 
-        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
         List<CategoryDto> usageCds = categoryService.getChildrenCategoryDtosByName("용도변경-멸실가능");
-        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto);
+        List<CoordinateDto> coordinateList = realEstateService.getCoordinateList(searchDto, loginUser);
 
         model.addAttribute("usageCds", usageCds);
         model.addAttribute("condition", searchDto);
@@ -68,10 +72,14 @@ public class MapController {
     }
 
     @PostMapping("/real-estate")
-    public String getAjaxData(HttpServletRequest request, RealEstateSearchDto searchDto, Model model) {
+    public String getAjaxData(
+            HttpServletRequest request,
+            RealEstateSearchDto searchDto,
+            Model model,
+            LoginUser loginUser) {
 
         HttpSession session = request.getSession();
-        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto);
+        Page<RealEstateListDto> pages = realEstateService.getRealEstatePageListBySearch(session.getId(), searchDto, loginUser);
         model.addAttribute("condition", searchDto);
         if (pages != null) {
             model.addAttribute("pages", pages);

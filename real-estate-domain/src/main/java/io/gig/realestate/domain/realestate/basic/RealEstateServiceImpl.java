@@ -91,11 +91,11 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto) {
-        List<Long> searchIds = realEstateReader.getRealEstateIdsBySearch(searchDto);
+    public Page<RealEstateListDto> getRealEstatePageListBySearch(String sessionId, RealEstateSearchDto searchDto, LoginUser loginUser) {
+        List<Long> searchIds = realEstateReader.getRealEstateIdsBySearch(searchDto, loginUser.getLoginUser());
         searchIdsMap.put(sessionId, searchIds);
 
-        Page<RealEstateListDto> content = realEstateReader.getRealEstatePageListBySearch(searchDto);
+        Page<RealEstateListDto> content = realEstateReader.getRealEstatePageListBySearch(searchDto, loginUser.getLoginUser());
         for (RealEstateListDto dto : content) {
             dto.setUsageCdNames(convertCdToNames(dto.getUsageCds()));
             dto.setRealEstateGradeName(convertCdToName(dto.getRealEstateGradeCds()));
@@ -794,8 +794,8 @@ public class RealEstateServiceImpl implements RealEstateService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
-        return realEstateReader.getCoordinateList(condition);
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition, LoginUser loginUser) {
+        return realEstateReader.getCoordinateList(condition, loginUser.getLoginUser());
     }
 
     @Override

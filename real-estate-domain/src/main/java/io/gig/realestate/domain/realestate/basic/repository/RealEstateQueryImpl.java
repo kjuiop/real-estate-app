@@ -1,5 +1,6 @@
 package io.gig.realestate.domain.realestate.basic.repository;
 
+import io.gig.realestate.domain.admin.Administrator;
 import io.gig.realestate.domain.exception.NotFoundException;
 import io.gig.realestate.domain.realestate.basic.RealEstate;
 import io.gig.realestate.domain.realestate.basic.RealEstateReader;
@@ -40,8 +41,8 @@ public class RealEstateQueryImpl implements RealEstateReader {
     }
 
     @Override
-    public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto) {
-        return queryRepository.getRealEstatePageListBySearch(searchDto);
+    public Page<RealEstateListDto> getRealEstatePageListBySearch(RealEstateSearchDto searchDto, Administrator loginUser) {
+        return queryRepository.getRealEstatePageListBySearch(searchDto, loginUser);
     }
 
     @Override
@@ -82,8 +83,8 @@ public class RealEstateQueryImpl implements RealEstateReader {
     }
 
     @Override
-    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto) {
-        return queryRepository.getRealEstateIdsBySearch(searchDto);
+    public List<Long> getRealEstateIdsBySearch(RealEstateSearchDto searchDto, Administrator loginUser) {
+        return queryRepository.getRealEstateIdsBySearch(searchDto, loginUser);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class RealEstateQueryImpl implements RealEstateReader {
     }
 
     @Override
-    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition) {
-        return queryRepository.getCoordinateList(condition);
+    public List<CoordinateDto> getCoordinateList(RealEstateSearchDto condition, Administrator loginUser) {
+        return queryRepository.getCoordinateList(condition, loginUser);
     }
 }
